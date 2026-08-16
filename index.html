@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>عالم الألوان مع جنان</title>
+<meta name="description" content="تطبيق تلوين مرح وآمن للأطفال بعمر 3 سنوات — صفحات تلوين مدمجة، تعبئة بلمسة واحدة، فرشاة قوس قزح، طوابع، وأصوات مبهجة">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2EC4B6">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+  /* ---------- الخط: مستضاف محليًا ليعمل التطبيق دون إنترنت ---------- */
+  @font-face{
+    font-family:'Baloo Bhaijaan 2'; font-style:normal; font-weight:400 900; font-display:swap;
+    src:url('fonts/baloo-arabic.woff2') format('woff2');
+    unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFC,U+200C-200E,U+2010-2011;
+  }
+  @font-face{
+    font-family:'Baloo Bhaijaan 2'; font-style:normal; font-weight:400 900; font-display:swap;
+    src:url('fonts/baloo-latin.woff2') format('woff2');
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122;
+  }
+
+  :root{
+    --paper:#FFF8EE; --ink:#4A3B36; --card:#FFFFFF; --line:#F1E4D3;
+    --red:#FF6B6B; --orange:#FF9F43; --yellow:#FFC93D; --green:#7ED957;
+    --teal:#2EC4B6; --blue:#4FC3F7; --purple:#9B8CF6; --pink:#FF8FB1;
+    --shadow:0 8px 24px rgba(74,59,54,.13);
+    --radius:26px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;}
+  input{user-select:text; -webkit-user-select:text;}
+  html,body{margin:0; padding:0; height:100%;}
+  body{
+    font-family:'Baloo Bhaijaan 2','Segoe UI',Tahoma,sans-serif;
+    background:var(--paper); color:var(--ink); font-size:18px;
+    overscroll-behavior:none; touch-action:manipulation;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(circle at 6% 10%, rgba(255,201,61,.20) 0 100px, transparent 101px),
+      radial-gradient(circle at 94% 16%, rgba(46,196,182,.16) 0 120px, transparent 121px),
+      radial-gradient(circle at 12% 90%, rgba(255,143,177,.18) 0 110px, transparent 111px),
+      radial-gradient(circle at 90% 88%, rgba(155,140,246,.15) 0 130px, transparent 131px),
+      radial-gradient(circle at 50% 45%, rgba(126,217,89,.07) 0 160px, transparent 161px);
+  }
+  #fxCanvas{position:fixed; inset:0; z-index:200; pointer-events:none;}
+
+  .view{display:none; position:relative; z-index:1; min-height:100dvh;}
+  .view.active{display:block;}
+  #editorView{flex-direction:column; height:100dvh; overflow:hidden;}
+  #editorView.active{display:flex;}
+
+  /* ================= الصفحة الرئيسية ================= */
+  .home-top{display:flex; justify-content:space-between; align-items:center; padding:14px 16px 0;}
+  .round-btn{
+    width:54px; height:54px; border-radius:50%; border:none; background:#fff; color:var(--ink);
+    box-shadow:var(--shadow); font-size:24px; cursor:pointer; flex:none;
+    display:flex; align-items:center; justify-content:center; transition:transform .1s;
+  }
+  .round-btn:active{transform:scale(.92);}
+  header.app{padding:4px 20px 6px; text-align:center; position:relative;}
+  .logo{font-size:clamp(30px,7.5vw,46px); font-weight:800; line-height:1.2; margin:0; letter-spacing:.5px;}
+  .logo .w1{color:var(--red);} .logo .w2{color:var(--teal);} .logo .w3{color:var(--purple);}
+  .rainbow{
+    width:min(320px,72%); height:10px; margin:8px auto 0; border-radius:10px;
+    background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green),var(--teal),var(--purple),var(--pink));
+    transform:rotate(-1.2deg);
+  }
+  .greet{margin:10px 0 0; font-size:21px; font-weight:700; color:#8a6f5e;}
+  .floaty{position:absolute; font-size:28px; opacity:.9; animation:bob 3.4s ease-in-out infinite; pointer-events:none;}
+  .floaty.f1{bottom:4px; inset-inline-start:6%; animation-delay:0s;}
+  .floaty.f2{bottom:0; inset-inline-end:6%; animation-delay:1.1s;}
+  .floaty.f3{display:none; top:14px; inset-inline-start:20%; font-size:22px; animation-delay:.6s;}
+  @media (min-width:640px){ .floaty.f3{display:block;} }
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg);}50%{transform:translateY(-10px) rotate(6deg);}}
+
+  .home-wrap{max-width:860px; margin:0 auto; padding:8px 18px calc(46px + env(safe-area-inset-bottom));}
+
+  /* بطاقة الكتاب الرئيسي */
+  .hero{
+    background:var(--card); border-radius:32px; box-shadow:var(--shadow);
+    border:4px solid var(--yellow); padding:22px 20px 24px; margin:18px 0 20px;
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::after{
+    content:""; position:absolute; inset-inline-end:-40px; top:-40px; width:130px; height:130px;
+    border-radius:50%; background:rgba(255,201,61,.25);
+  }
+  .hero .previews{display:flex; justify-content:center; gap:14px; margin-bottom:14px;}
+  .hero .previews img{
+    width:96px; aspect-ratio:3/4; object-fit:cover; background:#fff;
+    border-radius:16px; border:3px solid var(--line); box-shadow:0 5px 14px rgba(74,59,54,.14);
+  }
+  .hero .previews img:nth-child(1){transform:rotate(-5deg) translateY(4px);}
+  .hero .previews img:nth-child(3){transform:rotate(5deg) translateY(4px);}
+  .hero h2{margin:0 0 2px; font-size:26px; font-weight:800;}
+  .hero .sub{margin:0 0 16px; font-size:16px; color:#9a8272; font-weight:600;}
+  .btn{
+    font-family:inherit; font-weight:800; font-size:22px; border:none; cursor:pointer;
+    border-radius:22px; padding:16px 34px; color:#fff; background:var(--teal);
+    box-shadow:0 6px 0 rgba(0,0,0,.16); transition:transform .08s, box-shadow .08s;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,.16);}
+  .btn.red{background:var(--red);} .btn.purple{background:var(--purple);} .btn.pink{background:var(--pink);}
+  .btn.ghost{background:#fff; color:var(--ink); border:3px dashed #dcc9b4; box-shadow:none; font-size:18px; padding:12px 22px;}
+  .btn.big{font-size:24px; padding:18px 40px;}
+  .btn:focus-visible,.round-btn:focus-visible{outline:4px solid var(--purple); outline-offset:2px;}
+
+  /* صف الاسم + المعرض */
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;}
+  @media (max-width:560px){.row-2{grid-template-columns:1fr;}}
+  .mini-card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:16px 18px; display:flex; align-items:center; gap:12px; border:3px solid transparent;
+  }
+  .mini-card.clickable{cursor:pointer; transition:transform .12s;}
+  .mini-card.clickable:active{transform:scale(.97);}
+  .mini-card.gal{border-color:var(--pink); justify-content:center; font-size:21px; font-weight:800; color:var(--ink);}
+  .mini-card .emoji{font-size:34px;}
+  .name-row label{font-size:17px; font-weight:800; color:var(--purple); white-space:nowrap;}
+  .name-row input{
+    border:none; outline:none; font-family:inherit; font-size:20px; font-weight:700;
+    width:100%; min-width:0; background:#FFF4E0; border-radius:14px; padding:10px 14px; color:var(--ink); text-align:center;
+  }
+
+  /* كتب PDF المضافة */
+  .lib-title{font-size:22px; font-weight:800; margin:8px 0 12px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:16px;}
+  .book-card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    overflow:hidden; cursor:pointer; position:relative; transition:transform .15s;
+    border:3px solid transparent;
+  }
+  .book-card:active{transform:scale(.97);}
+  .book-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#fff;}
+  .book-card .bname{padding:10px; font-weight:800; font-size:16px; text-align:center;}
+  .book-card .pages-badge{
+    position:absolute; top:10px; inset-inline-start:10px; background:var(--yellow); color:var(--ink);
+    font-size:13px; font-weight:800; padding:3px 12px; border-radius:20px;
+  }
+
+  /* ================= شبكات الصفحات والمعرض ================= */
+  .topbar{
+    display:flex; align-items:center; gap:12px; padding:14px 16px; position:sticky; top:0; z-index:5;
+    background:rgba(255,248,238,.93); backdrop-filter:blur(8px);
+  }
+  .back{
+    width:56px; height:56px; border-radius:50%; border:none; background:#fff; box-shadow:var(--shadow);
+    font-size:26px; cursor:pointer; flex:none; color:var(--ink);
+    display:flex; align-items:center; justify-content:center; transition:transform .1s;
+  }
+  .back:active{transform:scale(.9);}
+  .topbar h2{font-size:23px; font-weight:800; margin:0; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .pages-grid{
+    max-width:900px; margin:0 auto; padding:6px 18px calc(50px + env(safe-area-inset-bottom));
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:16px;
+  }
+  .page-card{
+    background:#fff; border-radius:22px; box-shadow:var(--shadow); overflow:hidden; cursor:pointer;
+    position:relative; transition:transform .12s; border:3px solid transparent;
+  }
+  .page-card:active{transform:scale(.95);}
+  .page-card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#fff;}
+  .page-card .pname{
+    padding:8px 6px 10px; text-align:center; font-weight:800; font-size:15.5px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .page-card .done{
+    position:absolute; top:8px; inset-inline-end:8px; background:var(--green); color:#fff;
+    font-size:15px; font-weight:800; width:32px; height:32px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,.18);
+  }
+  .empty-note{text-align:center; color:#9a8272; margin:44px 16px; font-size:18px; font-weight:600; line-height:1.9;}
+
+  /* ================= المرسم ================= */
+  .ed-top{
+    display:flex; align-items:center; gap:8px; padding:8px 10px; background:#fff;
+    box-shadow:0 2px 12px rgba(0,0,0,.07); z-index:6;
+    padding-top:calc(8px + env(safe-area-inset-top));
+  }
+  .ed-top .title{
+    flex:1; font-weight:800; font-size:17px; overflow:hidden; white-space:nowrap;
+    text-overflow:ellipsis; text-align:center; color:#8a6f5e;
+  }
+  .icon-btn{
+    width:52px; height:52px; border-radius:16px; border:3px solid #f0e3d2; background:#fff;
+    font-size:23px; cursor:pointer; flex:none; display:flex; align-items:center; justify-content:center;
+    color:var(--ink); transition:transform .1s, background .15s;
+  }
+  .icon-btn:active{transform:scale(.9);}
+  .icon-btn:disabled{opacity:.3; cursor:default;}
+  .icon-btn.save{background:var(--teal); color:#fff; border-color:var(--teal);}
+  .canvas-area{
+    flex:1; position:relative; overflow:hidden;
+    background:repeating-conic-gradient(#f4ecdf 0 25%, #fbf5ea 0 50%) 0 0/30px 30px;
+    touch-action:none;
+  }
+  #stage{position:absolute; top:0; left:0; transform-origin:0 0;}
+  #stage canvas{position:absolute; top:0; left:0; display:block;}
+  .toolbar{
+    background:#fff; box-shadow:0 -4px 16px rgba(0,0,0,.08);
+    padding:10px 10px calc(10px + env(safe-area-inset-bottom)); z-index:6; position:relative;
+  }
+  .tools-row{display:flex; align-items:stretch; gap:8px; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; padding-bottom:2px;}
+  .tools-row::-webkit-scrollbar{display:none;}
+  /* توسيط آمن مع إمكانية التمرير عند ضيق الشاشة */
+  .tools-row::before, .tools-row::after,
+  .palette::before, .palette::after{content:""; margin:auto; flex:none;}
+  .tool{
+    min-width:64px; padding:6px 4px 4px; border-radius:18px; border:3px solid #f0e3d2; background:#fff;
+    cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+    color:var(--ink); font-family:inherit; transition:transform .1s;
+  }
+  .tool .ic{font-size:27px; line-height:1.2;}
+  .tool .lb{font-size:12px; font-weight:800; color:#9a8272;}
+  .tool.active{background:var(--yellow); border-color:var(--ink); box-shadow:0 4px 0 var(--ink); transform:translateY(-3px);}
+  .tool.active .lb{color:var(--ink);}
+  .sizes{display:flex; align-items:center; gap:6px; border-inline-start:3px solid #f0e3d2; padding-inline-start:10px; margin-inline-start:2px;}
+  .size-btn{
+    width:52px; height:64px; border-radius:16px; border:3px solid #f0e3d2; background:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; flex:none; transition:transform .1s;
+  }
+  .size-btn i{display:block; border-radius:50%; background:var(--ink);}
+  .size-btn[data-s="0"] i{width:9px; height:9px;}
+  .size-btn[data-s="1"] i{width:18px; height:18px;}
+  .size-btn[data-s="2"] i{width:30px; height:30px;}
+  .size-btn.active{background:#EFE9FF; border-color:var(--purple); box-shadow:0 3px 0 var(--purple); transform:translateY(-2px);}
+  .palette{
+    display:flex; gap:9px; overflow-x:auto; padding:12px 6px 4px; scrollbar-width:none; align-items:center;
+  }
+  .palette::-webkit-scrollbar{display:none;}
+  .swatch{
+    width:52px; height:52px; flex:none; border-radius:50% 50% 50% 14px; cursor:pointer;
+    border:3px solid rgba(0,0,0,.10); transition:transform .12s; position:relative; padding:0;
+  }
+  .swatch.sel{transform:scale(1.22); border-color:var(--ink); box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--ink); animation:pickpop .3s;}
+  @keyframes pickpop{0%{transform:scale(.8);}60%{transform:scale(1.35);}100%{transform:scale(1.22);}}
+  .stamp-row{display:none;}
+  .stamp-row.show{display:flex;}
+  .palette.hide{display:none;}
+  .stamp-btn{
+    width:56px; height:56px; flex:none; border-radius:18px; border:3px solid #f0e3d2; background:#fff;
+    font-size:30px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .12s;
+  }
+  .stamp-btn.sel{background:#FFF1D6; border-color:var(--orange); transform:scale(1.12); box-shadow:0 3px 0 var(--orange);}
+  #colorBubble{
+    position:absolute; top:-46px; right:50%; transform:translateX(50%) scale(0);
+    background:var(--ink); color:#fff; font-weight:800; font-size:17px;
+    padding:7px 22px; border-radius:24px; pointer-events:none; transition:transform .18s; z-index:7; white-space:nowrap;
+  }
+  #colorBubble.show{transform:translateX(50%) scale(1);}
+
+  /* ================= النوافذ ================= */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(74,59,54,.5); z-index:90;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-bg.show{display:flex;}
+  .modal{
+    background:#fff; border-radius:30px; padding:26px 24px; max-width:430px; width:100%;
+    box-shadow:0 24px 70px rgba(0,0,0,.3); text-align:center; max-height:86dvh; overflow-y:auto;
+  }
+  .modal h3{margin:0 0 8px; font-size:23px; font-weight:800;}
+  .modal p{margin:0 0 18px; font-size:16px; color:#9a8272; font-weight:600; line-height:1.7;}
+  .modal input[type=text]{
+    width:100%; padding:14px 16px; border-radius:16px; border:3px solid #f0e3d2;
+    font-family:inherit; font-size:19px; font-weight:700; text-align:center; margin-bottom:16px; outline-color:var(--teal);
+  }
+  .modal .row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+  .hold-btn{position:relative; overflow:hidden;}
+  .hold-btn .fill{
+    position:absolute; inset-inline-start:0; top:0; bottom:0; width:var(--p,0%);
+    background:rgba(255,255,255,.35); pointer-events:none; transition:width .05s linear;
+  }
+  .parent-list{margin:6px 0 14px; text-align:start;}
+  .parent-item{
+    display:flex; align-items:center; gap:10px; background:#FFF6E8; border-radius:16px;
+    padding:10px 14px; margin-bottom:8px; font-weight:700; font-size:16px;
+  }
+  .parent-item .nm{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .parent-item button{
+    border:none; background:var(--red); color:#fff; border-radius:12px; padding:7px 14px;
+    font-family:inherit; font-weight:800; font-size:14px; cursor:pointer;
+  }
+  .switch-row{display:flex; align-items:center; justify-content:space-between; background:#FFF6E8; border-radius:16px; padding:12px 16px; margin-bottom:10px; font-weight:800;}
+  .progress-bar{height:14px; border-radius:10px; background:#f4ecdf; overflow:hidden; margin:14px 0;}
+  .progress-bar i{display:block; height:100%; width:0%; border-radius:10px;
+    background:linear-gradient(90deg,var(--teal),var(--purple)); transition:width .2s;}
+  #toast{
+    position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(90px);
+    background:var(--ink); color:#fff; padding:12px 26px; border-radius:32px; font-weight:800;
+    font-size:16px; z-index:210; transition:transform .3s; pointer-events:none; max-width:92vw; text-align:center;
+  }
+  #toast.show{transform:translateX(-50%) translateY(0);}
+
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important;} }
+  @media (max-width:420px){
+    .tool{min-width:58px;} .tool .ic{font-size:24px;}
+    .swatch{width:48px; height:48px;}
+    .icon-btn{width:48px; height:48px; font-size:21px;}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fxCanvas"></canvas>
+
+<!-- ================= الرئيسية ================= -->
+<div class="view active" id="homeView">
+  <div class="home-top">
+    <button class="round-btn" id="soundBtnHome" aria-label="الصوت">🔊</button>
+    <button class="round-btn" id="parentBtn" aria-label="منطقة الوالدين">⚙️</button>
+  </div>
+  <header class="app">
+    <span class="floaty f1">🎈</span><span class="floaty f2">🦋</span><span class="floaty f3">⭐</span>
+    <h1 class="logo"><span class="w1">عالم</span> <span class="w2">الألوان</span> <span class="w3">مع جنان</span> 🎨</h1>
+    <div class="rainbow"></div>
+    <p class="greet" id="greet">أهلًا بفنانتنا الصغيرة! 🌸</p>
+  </header>
+
+  <div class="home-wrap">
+    <div class="hero">
+      <div class="previews" id="heroPreviews"></div>
+      <h2>كتاب جنان الأول 📖</h2>
+      <p class="sub">12 رسمة كبيرة وسهلة — المسي اللون ثم المسي الرسمة!</p>
+      <button class="btn red big" id="startBtn">🖍️ ابدئي التلوين</button>
+    </div>
+
+    <div class="row-2">
+      <div class="mini-card name-row">
+        <span class="emoji">👧</span>
+        <label for="childName">اسمي:</label>
+        <input type="text" id="childName" placeholder="جنان" maxlength="20">
+      </div>
+      <div class="mini-card gal clickable" id="galleryBtn">
+        <span class="emoji">🖼️</span> معرض أعمالي
+      </div>
+    </div>
+
+    <div id="userBooksSec" style="display:none">
+      <h3 class="lib-title">📚 كتبي الإضافية</h3>
+      <div class="grid" id="booksGrid"></div>
+    </div>
+  </div>
+  <input type="file" id="pdfInput" accept="application/pdf" hidden>
+</div>
+
+<!-- ================= صفحات الكتاب ================= -->
+<div class="view" id="bookView">
+  <div class="topbar">
+    <button class="back" id="backToHome" aria-label="رجوع">→</button>
+    <h2 id="bookTitle"></h2>
+  </div>
+  <div class="pages-grid" id="pagesGrid"></div>
+</div>
+
+<!-- ================= المعرض ================= -->
+<div class="view" id="galleryView">
+  <div class="topbar">
+    <button class="back" id="backFromGallery" aria-label="رجوع">→</button>
+    <h2>🖼️ معرض أعمالي</h2>
+  </div>
+  <div class="pages-grid" id="galleryGrid"></div>
+  <p class="empty-note" id="galleryEmpty" style="display:none">
+    المعرض فارغ 🎨<br>لوّني أول رسمة وستظهر هنا!
+  </p>
+</div>
+
+<!-- ================= المرسم ================= -->
+<div class="view" id="editorView">
+  <div class="ed-top">
+    <button class="icon-btn" id="backToBook" aria-label="رجوع">→</button>
+    <div class="title" id="edTitle"></div>
+    <button class="icon-btn" id="undoBtn" aria-label="تراجع">↩️</button>
+    <button class="icon-btn" id="redoBtn" aria-label="إعادة">↪️</button>
+    <button class="icon-btn" id="resetBtn" aria-label="مسح الكل">🗑️</button>
+    <button class="icon-btn save" id="saveBtn" aria-label="حفظ اللوحة">💾</button>
+  </div>
+  <div class="canvas-area" id="canvasArea">
+    <div id="stage">
+      <canvas id="paintCanvas"></canvas>
+      <canvas id="lineCanvas"></canvas>
+    </div>
+  </div>
+  <div class="toolbar">
+    <div id="colorBubble"></div>
+    <div class="tools-row">
+      <button class="tool active" data-tool="fill"><span class="ic">🪣</span><span class="lb">تعبئة</span></button>
+      <button class="tool" data-tool="brush"><span class="ic">🖌️</span><span class="lb">فرشاة</span></button>
+      <button class="tool" data-tool="rainbow"><span class="ic">🌈</span><span class="lb">قوس قزح</span></button>
+      <button class="tool" data-tool="stamp"><span class="ic">⭐</span><span class="lb">طوابع</span></button>
+      <button class="tool" data-tool="eraser"><span class="ic">🧽</span><span class="lb">ممحاة</span></button>
+      <div class="sizes">
+        <button class="size-btn" data-s="0" aria-label="حجم صغير"><i></i></button>
+        <button class="size-btn active" data-s="1" aria-label="حجم وسط"><i></i></button>
+        <button class="size-btn" data-s="2" aria-label="حجم كبير"><i></i></button>
+      </div>
+    </div>
+    <div class="palette" id="palette"></div>
+    <div class="palette stamp-row" id="stampRow"></div>
+  </div>
+</div>
+
+<!-- ================= النوافذ ================= -->
+<div class="modal-bg" id="parentGate">
+  <div class="modal">
+    <h3>🔒 منطقة الوالدين</h3>
+    <p>هذه المنطقة للكبار فقط.<br>اضغطي على الزر <b>باستمرار لمدة 3 ثوانٍ</b> للدخول.</p>
+    <div class="row">
+      <button class="btn purple hold-btn" id="gateBtn">اضغطي مطوّلًا هنا<span class="fill"></span></button>
+      <button class="btn ghost" id="gateCancel">رجوع</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="parentPanel">
+  <div class="modal">
+    <h3>⚙️ لوحة الوالدين</h3>
+    <div class="switch-row"><span>🔊 الأصوات والتشجيع</span><button class="btn" id="soundToggle" style="font-size:16px;padding:8px 18px">مفعّل</button></div>
+    <div class="switch-row"><span>📖 إضافة كتاب تلوين PDF</span><button class="btn pink" id="addPdfBtn" style="font-size:16px;padding:8px 18px">رفع ملف</button></div>
+    <div class="parent-list" id="parentBooks"></div>
+    <div class="row">
+      <button class="btn red hold-btn" id="wipeArtBtn" style="font-size:16px;padding:10px 18px">🧹 مسح كل التلوينات (مطوّلًا)<span class="fill"></span></button>
+      <button class="btn ghost" id="parentClose">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="uploadModal">
+  <div class="modal">
+    <h3>📖 جارٍ تجهيز الكتاب...</h3>
+    <p id="uploadStatus">قراءة الملف</p>
+    <div class="progress-bar"><i id="uploadProg"></i></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="nameModal">
+  <div class="modal">
+    <h3>👧 ما اسم الفنانة الصغيرة؟</h3>
+    <p>سيُكتب الاسم على اللوحة المحفوظة</p>
+    <input type="text" id="nameModalInput" placeholder="مثال: جنان" maxlength="20">
+    <div class="row">
+      <button class="btn" id="nameModalOk">حفظ اللوحة 💾</button>
+      <button class="btn ghost" id="nameModalCancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">تأكيد</h3>
+    <p id="confirmMsg"></p>
+    <div class="row">
+      <button class="btn red hold-btn" id="confirmYes">نعم — مطوّلًا<span class="fill"></span></button>
+      <button class="btn ghost" id="confirmNo">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================================================================
+   عالم الألوان مع جنان — تطبيق تلوين لعمر 3 سنوات
+================================================================ */
+const APP_NAME = 'عالم الألوان مع جنان';
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* ---------------- التخزين: IndexedDB ثم localStorage ثم الذاكرة ---------------- */
+const mem = new Map();
+let db = null;
+function idbOpen(){
+  return new Promise(res=>{
+    try{
+      const r = indexedDB.open('jinan-colors', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => res(null);
+      r.onblocked = () => res(null);
+    }catch(e){ res(null); }
+  });
+}
+const store = {
+  async get(k){
+    if(db){
+      try{
+        return await new Promise((res,rej)=>{
+          const t = db.transaction('kv','readonly').objectStore('kv').get(k);
+          t.onsuccess = () => res(t.result === undefined ? null : t.result);
+          t.onerror = () => rej(t.error);
+        });
+      }catch(e){}
+    }
+    try{ const v = localStorage.getItem('jinan:'+k); if(v!==null) return v; }catch(e){}
+    return mem.get(k) ?? null;
+  },
+  async set(k,v){
+    if(db){
+      try{
+        await new Promise((res,rej)=>{
+          const t = db.transaction('kv','readwrite');
+          t.objectStore('kv').put(v,k);
+          t.oncomplete = res; t.onerror = () => rej(t.error);
+        });
+        return;
+      }catch(e){}
+    }
+    try{ localStorage.setItem('jinan:'+k, v); return; }catch(e){}
+    mem.set(k,v);
+  },
+  async del(k){
+    if(db){
+      try{
+        await new Promise((res,rej)=>{
+          const t = db.transaction('kv','readwrite');
+          t.objectStore('kv').delete(k);
+          t.oncomplete = res; t.onerror = () => rej(t.error);
+        });
+        return;
+      }catch(e){}
+    }
+    try{ localStorage.removeItem('jinan:'+k); }catch(e){}
+    mem.delete(k);
+  }
+};
+
+/* ---------------- الأصوات (WebAudio — بلا ملفات) ---------------- */
+const SFX = {
+  ctx:null, on:true,
+  init(){
+    if(this.ctx) return;
+    try{ this.ctx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  },
+  tone(f, dur=0.12, type='sine', vol=0.16, delay=0){
+    if(!this.on || !this.ctx) return;
+    try{
+      const t0 = this.ctx.currentTime + delay;
+      const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+      o.type = type; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol, t0+0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(t0); o.stop(t0+dur+0.05);
+    }catch(e){}
+  },
+  pop(){ this.tone(620,0.09,'triangle',0.18); },
+  pick(){ this.tone(520,0.08,'sine'); this.tone(780,0.1,'sine',0.14,0.06); },
+  fill(){ this.tone(523,0.1,'triangle'); this.tone(659,0.1,'triangle',0.15,0.07); this.tone(784,0.14,'triangle',0.15,0.14); },
+  tada(){ [523,659,784,1046].forEach((f,i)=>this.tone(f,0.22,'triangle',0.17,i*0.09)); },
+  swish(){ this.tone(300,0.08,'sine',0.08); }
+};
+function speak(txt){
+  if(!SFX.on) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = 'ar-SA'; u.rate = 0.9; u.pitch = 1.25;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+document.addEventListener('pointerdown', ()=>{ SFX.init(); if(SFX.ctx && SFX.ctx.state==='suspended') SFX.ctx.resume(); }, {capture:true});
+
+async function setSound(on, save=true){
+  SFX.on = on;
+  $('#soundBtnHome').textContent = on ? '🔊' : '🔇';
+  $('#soundToggle').textContent = on ? 'مفعّل' : 'مغلق';
+  $('#soundToggle').style.background = on ? 'var(--teal)' : '#b7a595';
+  if(save) await store.set('settings:sound', on ? '1' : '0');
+}
+$('#soundBtnHome').onclick = ()=>{ setSound(!SFX.on); if(SFX.on) SFX.pop(); };
+$('#soundToggle').onclick = ()=>{ setSound(!SFX.on); if(SFX.on) SFX.pop(); };
+
+/* ---------------- القصاصات الاحتفالية ---------------- */
+const fx = {
+  cv: $('#fxCanvas'), ctx:null, parts:[], running:false,
+  colors:['#FF6B6B','#FF9F43','#FFC93D','#7ED957','#2EC4B6','#4FC3F7','#9B8CF6','#FF8FB1'],
+  burst(n=130){
+    this.cv.width = innerWidth; this.cv.height = innerHeight;
+    this.ctx = this.cv.getContext('2d');
+    for(let i=0;i<n;i++){
+      this.parts.push({
+        x: Math.random()*innerWidth, y: -30 - Math.random()*innerHeight*0.4,
+        vx:(Math.random()-0.5)*3.2, vy: 2.4+Math.random()*3.6,
+        s: 6+Math.random()*9, rot: Math.random()*Math.PI, vr:(Math.random()-0.5)*0.25,
+        c: this.colors[(Math.random()*this.colors.length)|0],
+        shape: Math.random()<0.35 ? 'circle':'rect'
+      });
+    }
+    if(!this.running){ this.running = true; requestAnimationFrame(()=>this.loop()); }
+  },
+  loop(){
+    const c = this.ctx; c.clearRect(0,0,this.cv.width,this.cv.height);
+    this.parts = this.parts.filter(p=>p.y < this.cv.height+40);
+    for(const p of this.parts){
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.vy+=0.045;
+      c.save(); c.translate(p.x,p.y); c.rotate(p.rot); c.fillStyle=p.c;
+      if(p.shape==='circle'){ c.beginPath(); c.arc(0,0,p.s/2,0,7); c.fill(); }
+      else c.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.62);
+      c.restore();
+    }
+    if(this.parts.length){ requestAnimationFrame(()=>this.loop()); }
+    else { this.running=false; c.clearRect(0,0,this.cv.width,this.cv.height); }
+  }
+};
+function celebrate(msg){
+  fx.burst(); SFX.tada();
+  if(msg) toast(msg);
+}
+
+/* ---------------- تنبيهات وحوارات ---------------- */
+let toastT;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+/* زر «الضغط المطوّل» — حماية من لمسات الأطفال العشوائية */
+function holdButton(btn, ms, onDone){
+  let timer=null, raf=null, start=0, done=false;
+  const fill = btn.querySelector('.fill');
+  const tick = ()=>{
+    const p = Math.min(1,(performance.now()-start)/ms);
+    if(fill) fill.style.width = (p*100)+'%';
+    if(p<1) raf = requestAnimationFrame(tick);
+  };
+  const begin = e=>{
+    e.preventDefault(); done=false;
+    start = performance.now(); tick();
+    timer = setTimeout(()=>{ done=true; cancel(); onDone(); }, ms);
+  };
+  const cancel = ()=>{
+    clearTimeout(timer); timer=null;
+    cancelAnimationFrame(raf);
+    if(fill) fill.style.width='0%';
+  };
+  btn.addEventListener('pointerdown', begin);
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>btn.addEventListener(ev, ()=>{ if(!done) cancel(); }));
+}
+let confirmResolve = null;
+function confirmDlg(title,msg){
+  return new Promise(res=>{
+    confirmResolve = res;
+    $('#confirmTitle').textContent = title; $('#confirmMsg').textContent = msg;
+    $('#confirmModal').classList.add('show');
+  });
+}
+holdButton($('#confirmYes'), 1200, ()=>{
+  $('#confirmModal').classList.remove('show');
+  if(confirmResolve){ confirmResolve(true); confirmResolve=null; }
+});
+$('#confirmNo').onclick = ()=>{
+  $('#confirmModal').classList.remove('show');
+  if(confirmResolve){ confirmResolve(false); confirmResolve=null; }
+};
+
+/* ================================================================
+   صفحات التلوين المدمجة (SVG بخطوط سميكة تناسب عمر 3 سنوات)
+================================================================ */
+function pg(name, inner){
+  return { name, svg:
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200"><rect width="900" height="1200" fill="#ffffff"/><g fill="#ffffff" stroke="#262626" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">${inner}</g></svg>` };
+}
+const PAGES = [
+pg('السمكة السعيدة', `
+<path d="M 690 560 L 830 430 L 830 690 Z"/>
+<ellipse cx="430" cy="560" rx="265" ry="175"/>
+<path d="M 350 400 Q 430 300 515 405" fill="none"/>
+<path d="M 530 465 Q 585 560 530 655" fill="none"/>
+<circle cx="320" cy="505" r="30"/>
+<circle cx="320" cy="505" r="10" fill="#262626" stroke="none"/>
+<path d="M 205 610 Q 240 645 280 625" fill="none"/>
+<circle cx="150" cy="330" r="24"/>
+<circle cx="105" cy="245" r="17"/>
+<circle cx="165" cy="175" r="12"/>
+<path d="M 90 1130 Q 130 1010 85 900" fill="none"/>
+<path d="M 810 1130 Q 770 1020 820 915" fill="none"/>
+<path d="M 40 1130 Q 450 1070 860 1130" fill="none"/>`),
+pg('القطة اللطيفة', `
+<path d="M 700 960 Q 860 920 830 770" fill="none"/>
+<ellipse cx="450" cy="880" rx="255" ry="225"/>
+<path d="M 305 285 L 255 115 L 425 205 Z"/>
+<path d="M 595 285 L 645 115 L 475 205 Z"/>
+<circle cx="450" cy="430" r="215"/>
+<circle cx="372" cy="400" r="16" fill="#262626" stroke="none"/>
+<circle cx="528" cy="400" r="16" fill="#262626" stroke="none"/>
+<path d="M 424 472 L 476 472 L 450 508 Z" fill="#262626" stroke="none"/>
+<path d="M 450 508 Q 450 545 405 550 M 450 508 Q 450 545 495 550" fill="none"/>
+<path d="M 245 445 L 125 425 M 245 485 L 125 505 M 655 445 L 775 425 M 655 485 L 775 505" fill="none"/>
+<ellipse cx="360" cy="1075" rx="75" ry="42"/>
+<ellipse cx="540" cy="1075" rx="75" ry="42"/>`),
+pg('الفراشة الجميلة', `
+<path d="M 425 345 Q 380 245 325 230 M 475 345 Q 520 245 575 230" fill="none"/>
+<circle cx="325" cy="230" r="16"/>
+<circle cx="575" cy="230" r="16"/>
+<ellipse cx="255" cy="490" rx="175" ry="155"/>
+<ellipse cx="645" cy="490" rx="175" ry="155"/>
+<ellipse cx="285" cy="775" rx="145" ry="130"/>
+<ellipse cx="615" cy="775" rx="145" ry="130"/>
+<circle cx="255" cy="490" r="55"/>
+<circle cx="645" cy="490" r="55"/>
+<circle cx="285" cy="775" r="40"/>
+<circle cx="615" cy="775" r="40"/>
+<ellipse cx="450" cy="640" rx="60" ry="210"/>
+<circle cx="450" cy="385" r="60"/>
+<circle cx="428" cy="372" r="9" fill="#262626" stroke="none"/>
+<circle cx="472" cy="372" r="9" fill="#262626" stroke="none"/>
+<path d="M 425 405 Q 450 428 475 405" fill="none"/>`),
+pg('الزهرة المبتسمة', `
+<path d="M 450 590 L 450 1060" fill="none"/>
+<ellipse cx="345" cy="840" rx="115" ry="52" transform="rotate(-28 345 840)"/>
+<ellipse cx="558" cy="935" rx="115" ry="52" transform="rotate(28 558 935)"/>
+<ellipse cx="450" cy="262" rx="95" ry="150"/>
+<ellipse cx="450" cy="262" rx="95" ry="150" transform="rotate(60 450 430)"/>
+<ellipse cx="450" cy="262" rx="95" ry="150" transform="rotate(120 450 430)"/>
+<ellipse cx="450" cy="262" rx="95" ry="150" transform="rotate(180 450 430)"/>
+<ellipse cx="450" cy="262" rx="95" ry="150" transform="rotate(240 450 430)"/>
+<ellipse cx="450" cy="262" rx="95" ry="150" transform="rotate(300 450 430)"/>
+<circle cx="450" cy="430" r="100"/>
+<circle cx="418" cy="415" r="10" fill="#262626" stroke="none"/>
+<circle cx="482" cy="415" r="10" fill="#262626" stroke="none"/>
+<path d="M 415 455 Q 450 485 485 455" fill="none"/>
+<path d="M 30 1110 Q 450 1055 870 1110" fill="none"/>`),
+pg('الشمس المشرقة', `
+<path d="M 695 480 L 770 480 M 662 602 L 727 640 M 572 692 L 610 757 M 450 725 L 450 800 M 328 692 L 290 757 M 238 602 L 173 640 M 205 480 L 130 480 M 238 358 L 173 320 M 328 268 L 290 203 M 450 235 L 450 160 M 572 268 L 610 203 M 662 358 L 727 320" fill="none"/>
+<circle cx="450" cy="480" r="240"/>
+<circle cx="378" cy="440" r="16" fill="#262626" stroke="none"/>
+<circle cx="522" cy="440" r="16" fill="#262626" stroke="none"/>
+<path d="M 360 540 Q 450 620 540 540" fill="none"/>
+<circle cx="220" cy="1000" r="72"/>
+<circle cx="420" cy="1000" r="72"/>
+<circle cx="320" cy="960" r="92"/>
+<path d="M 640 940 q 35 -35 70 0 q 35 -35 70 0" fill="none"/>`),
+pg('البيت الصغير', `
+<path d="M 205 150 L 235 150 M 180 210 L 201 231 M 120 235 L 120 265 M 60 210 L 39 231 M 35 150 L 5 150 M 60 90 L 39 69 M 120 65 L 120 35 M 180 90 L 201 69" fill="none"/>
+<circle cx="120" cy="150" r="70"/>
+<rect x="520" y="340" width="70" height="130"/>
+<rect x="250" y="560" width="400" height="390"/>
+<path d="M 195 560 L 450 320 L 705 560 Z"/>
+<rect x="392" y="745" width="116" height="205" rx="10"/>
+<circle cx="418" cy="850" r="9" fill="#262626" stroke="none"/>
+<circle cx="330" cy="665" r="50"/>
+<path d="M 330 615 L 330 715 M 280 665 L 380 665" fill="none"/>
+<circle cx="570" cy="665" r="50"/>
+<path d="M 570 615 L 570 715 M 520 665 L 620 665" fill="none"/>
+<path d="M 30 1090 Q 450 1030 870 1090" fill="none"/>
+<path d="M 150 1050 L 150 985 M 750 1050 L 750 985" fill="none"/>
+<circle cx="150" cy="955" r="28"/>
+<circle cx="750" cy="955" r="28"/>`),
+pg('السيارة السريعة', `
+<circle cx="700" cy="220" r="48"/>
+<circle cx="820" cy="220" r="48"/>
+<circle cx="760" cy="185" r="60"/>
+<path d="M 110 240 q 35 -35 70 0 q 35 -35 70 0" fill="none"/>
+<path d="M 60 905 L 840 905" fill="none"/>
+<path d="M 130 770 L 130 665 Q 130 620 180 620 L 255 620 L 335 500 Q 355 468 395 468 L 555 468 Q 598 468 620 500 L 700 620 L 755 620 Q 800 620 800 665 L 800 770 Q 800 800 765 800 L 165 800 Q 130 800 130 770 Z"/>
+<path d="M 372 512 L 310 612 L 448 612 L 448 512 Z"/>
+<path d="M 490 512 L 490 612 L 628 612 L 566 512 Z"/>
+<circle cx="270" cy="805" r="78"/>
+<circle cx="270" cy="805" r="30"/>
+<circle cx="655" cy="805" r="78"/>
+<circle cx="655" cy="805" r="30"/>
+<circle cx="152" cy="700" r="20"/>`),
+pg('البالونات الملوّنة', `
+<path d="M 440 470 Q 425 720 450 960 M 272 645 Q 330 820 450 960 M 628 645 Q 570 820 450 960" fill="none"/>
+<ellipse cx="440" cy="315" rx="128" ry="158"/>
+<path d="M 440 473 L 415 505 L 465 505 Z"/>
+<ellipse cx="272" cy="490" rx="122" ry="150"/>
+<path d="M 272 640 L 247 672 L 297 672 Z"/>
+<ellipse cx="628" cy="490" rx="122" ry="150"/>
+<path d="M 628 640 L 603 672 L 653 672 Z"/>
+<path d="M 450 960 L 375 1012 L 375 912 Z M 450 960 L 525 1012 L 525 912 Z"/>
+<circle cx="450" cy="960" r="18"/>
+<path d="M 130 220 C 90 185 80 150 100 132 C 118 117 130 132 130 145 C 130 132 142 117 160 132 C 180 150 170 185 130 220 Z"/>
+<path d="M 780 350 C 740 315 730 280 750 262 C 768 247 780 262 780 275 C 780 262 792 247 810 262 C 830 280 820 315 780 350 Z"/>`),
+pg('الأرنب النطّاط', `
+<ellipse cx="380" cy="235" rx="58" ry="165"/>
+<ellipse cx="520" cy="235" rx="58" ry="165"/>
+<ellipse cx="380" cy="255" rx="24" ry="105" fill="none"/>
+<ellipse cx="520" cy="255" rx="24" ry="105" fill="none"/>
+<ellipse cx="450" cy="880" rx="205" ry="215"/>
+<circle cx="450" cy="490" r="165"/>
+<circle cx="390" cy="460" r="14" fill="#262626" stroke="none"/>
+<circle cx="510" cy="460" r="14" fill="#262626" stroke="none"/>
+<path d="M 436 515 L 464 515 L 450 535 Z" fill="#262626" stroke="none"/>
+<rect x="430" y="568" width="40" height="40" rx="8"/>
+<path d="M 450 535 Q 450 565 420 570 M 450 535 Q 450 565 480 570" fill="none"/>
+<path d="M 285 500 L 180 480 M 285 530 L 180 550 M 615 500 L 720 480 M 615 530 L 720 550" fill="none"/>
+<ellipse cx="340" cy="1075" rx="95" ry="45"/>
+<ellipse cx="560" cy="1075" rx="95" ry="45"/>
+<path d="M 760 1010 L 715 860 L 805 860 Z"/>
+<path d="M 735 850 Q 720 790 690 770 M 760 850 Q 760 785 760 755 M 785 850 Q 800 790 830 770" fill="none"/>`),
+pg('الآيس كريم اللذيذ', `
+<circle cx="450" cy="545" r="155"/>
+<circle cx="450" cy="345" r="120"/>
+<path d="M 450 228 Q 460 185 495 168" fill="none"/>
+<circle cx="505" cy="150" r="32"/>
+<path d="M 318 625 L 582 625 L 450 1060 Z"/>
+<path d="M 355 705 L 545 705 M 390 800 L 512 800 M 418 890 L 483 890" fill="none"/>`),
+pg('التفاحة الحلوة', `
+<path d="M 450 375 C 330 270 155 375 175 600 C 190 800 320 965 450 940 C 580 965 710 800 725 600 C 745 375 570 270 450 375 Z"/>
+<path d="M 450 372 Q 448 300 478 252" fill="none"/>
+<ellipse cx="555" cy="285" rx="85" ry="42" transform="rotate(-24 555 285)"/>
+<circle cx="380" cy="580" r="15" fill="#262626" stroke="none"/>
+<circle cx="520" cy="580" r="15" fill="#262626" stroke="none"/>
+<path d="M 380 665 Q 450 730 520 665" fill="none"/>`),
+pg('نجمة الليل', `
+<path d="M 240 180 A 150 150 0 0 0 240 480 A 187 187 0 0 1 240 180 Z"/>
+<path d="M 450 360 L 512 535 L 697 540 L 550 652 L 603 830 L 450 725 L 297 830 L 350 652 L 203 540 L 388 535 Z"/>
+<path d="M 385 595 Q 405 615 425 595 M 475 595 Q 495 615 515 595" fill="none"/>
+<path d="M 420 665 Q 450 692 480 665" fill="none"/>
+<path d="M 0 -55 L 12 -12 L 55 0 L 12 12 L 0 55 L -12 12 L -55 0 L -12 -12 Z" transform="translate(730 250)"/>
+<path d="M 0 -55 L 12 -12 L 55 0 L 12 12 L 0 55 L -12 12 L -55 0 L -12 -12 Z" transform="translate(170 700) scale(0.8)"/>
+<path d="M 0 -55 L 12 -12 L 55 0 L 12 12 L 0 55 L -12 12 L -55 0 L -12 -12 Z" transform="translate(660 1010) scale(0.7)"/>`)
+];
+const BUILTIN = { id:'jinan1', name:'كتاب جنان الأول', pages:PAGES.length, builtin:true };
+function pageURI(i){ return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(PAGES[i].svg); }
+
+/* ================================================================
+   الرئيسية والمكتبة
+================================================================ */
+let books = [];   // كتب PDF المضافة من الوالدين
+let currentBook = null;
+
+async function loadSettings(){
+  const idx = await store.get('books:index');
+  books = idx ? JSON.parse(idx) : [];
+  const name = await store.get('settings:childName');
+  if(name){ $('#childName').value = name; }
+  updateGreet();
+  const snd = await store.get('settings:sound');
+  await setSound(snd === null ? true : snd === '1', false);
+}
+function updateGreet(){
+  const n = $('#childName').value.trim();
+  $('#greet').textContent = n ? `أهلًا يا ${n}! 🌸 هيا نلوّن معًا` : 'أهلًا بفنانتنا الصغيرة! 🌸';
+}
+$('#childName').addEventListener('input', updateGreet);
+$('#childName').addEventListener('change', e=> store.set('settings:childName', e.target.value.trim()));
+
+function renderHome(){
+  // معاينات الكتاب المدمج
+  const pv = $('#heroPreviews'); pv.innerHTML = '';
+  [1,4,2].forEach(i=>{
+    const im = document.createElement('img');
+    im.src = pageURI(i); im.alt = PAGES[i].name;
+    pv.appendChild(im);
+  });
+  // كتب PDF
+  const sec = $('#userBooksSec'), g = $('#booksGrid');
+  g.innerHTML = '';
+  sec.style.display = books.length ? 'block' : 'none';
+  books.forEach(b=>{
+    const c = document.createElement('div'); c.className = 'book-card';
+    c.innerHTML = `<span class="pages-badge">${b.pages} صفحة</span><img alt="${b.name}"><div class="bname">${b.name}</div>`;
+    store.get(`book:${b.id}:page:0`).then(d=>{ if(d) c.querySelector('img').src = d; });
+    c.onclick = ()=>{ SFX.pop(); openBook(b); };
+    g.appendChild(c);
+  });
+}
+$('#startBtn').onclick = ()=>{ SFX.pop(); openBook(BUILTIN); };
+$('#galleryBtn').onclick = ()=>{ SFX.pop(); openGallery(); };
+
+function switchView(id){
+  $$('.view').forEach(v=>v.classList.remove('active'));
+  $('#'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ================================================================
+   عرض صفحات الكتاب
+================================================================ */
+async function openBook(b){
+  currentBook = b;
+  $('#bookTitle').textContent = '📖 ' + b.name;
+  switchView('bookView');
+  const g = $('#pagesGrid'); g.innerHTML = '';
+  for(let i=0;i<b.pages;i++){
+    const c = document.createElement('div'); c.className = 'page-card';
+    const label = b.builtin ? PAGES[i].name : `صفحة ${i+1}`;
+    c.innerHTML = `<img alt="${label}"><div class="pname">${label}</div>`;
+    (async ()=>{
+      const art = await store.get(`art:${b.id}:${i}`);
+      if(art){
+        c.querySelector('img').src = art;
+        c.insertAdjacentHTML('beforeend','<span class="done">✓</span>');
+      } else if(b.builtin){
+        c.querySelector('img').src = pageURI(i);
+      } else {
+        const d = await store.get(`book:${b.id}:page:${i}`);
+        if(d) c.querySelector('img').src = d;
+      }
+    })();
+    c.onclick = ()=>{ SFX.pop(); openEditor(i); };
+    g.appendChild(c);
+  }
+}
+$('#backToHome').onclick = ()=>{ SFX.swish(); switchView('homeView'); renderHome(); };
+
+/* ================================================================
+   المعرض
+================================================================ */
+async function openGallery(){
+  switchView('galleryView');
+  const g = $('#galleryGrid'); g.innerHTML = '';
+  let count = 0;
+  const all = [BUILTIN, ...books];
+  for(const b of all){
+    for(let i=0;i<b.pages;i++){
+      const art = await store.get(`art:${b.id}:${i}`);
+      if(!art) continue;
+      count++;
+      const c = document.createElement('div'); c.className = 'page-card';
+      const label = b.builtin ? PAGES[i].name : `${b.name} — ${i+1}`;
+      c.innerHTML = `<img src="${art}" alt="${label}"><div class="pname">${label}</div><span class="done">★</span>`;
+      c.onclick = ()=>{ SFX.pop(); currentBook = b; openEditor(i); };
+      g.appendChild(c);
+    }
+  }
+  $('#galleryEmpty').style.display = count ? 'none' : 'block';
+}
+$('#backFromGallery').onclick = ()=>{ SFX.swish(); switchView('homeView'); };
+
+/* ================================================================
+   منطقة الوالدين (بوابة الضغط المطوّل)
+================================================================ */
+$('#parentBtn').onclick = ()=> $('#parentGate').classList.add('show');
+$('#gateCancel').onclick = ()=> $('#parentGate').classList.remove('show');
+holdButton($('#gateBtn'), 3000, ()=>{
+  $('#parentGate').classList.remove('show');
+  renderParentPanel();
+  $('#parentPanel').classList.add('show');
+  SFX.pick();
+});
+$('#parentClose').onclick = ()=> $('#parentPanel').classList.remove('show');
+$('#addPdfBtn').onclick = ()=> $('#pdfInput').click();
+
+function renderParentPanel(){
+  const list = $('#parentBooks'); list.innerHTML = '';
+  if(!books.length){
+    list.innerHTML = '<p style="text-align:center;color:#9a8272;font-size:15px;margin:4px 0 10px">لا توجد كتب PDF مضافة بعد — يمكنك رفع أي كتاب تلوين PDF وسيتحوّل لصفحات قابلة للتلوين.</p>';
+    return;
+  }
+  books.forEach(b=>{
+    const it = document.createElement('div'); it.className = 'parent-item';
+    it.innerHTML = `<span>📕</span><span class="nm">${b.name} (${b.pages} صفحة)</span><button>حذف</button>`;
+    it.querySelector('button').onclick = async ()=>{
+      if(await confirmDlg('حذف الكتاب', `سيُحذف كتاب «${b.name}» وكل تلويناته نهائيًا.`)){
+        for(let i=0;i<b.pages;i++){
+          await store.del(`book:${b.id}:page:${i}`);
+          await store.del(`art:${b.id}:${i}`);
+          await store.del(`artpaint:${b.id}:${i}`);
+        }
+        books = books.filter(x=>x.id!==b.id);
+        await store.set('books:index', JSON.stringify(books));
+        renderParentPanel(); renderHome(); toast('تم حذف الكتاب');
+      }
+    };
+    list.appendChild(it);
+  });
+}
+holdButton($('#wipeArtBtn'), 2000, async ()=>{
+  $('#parentPanel').classList.remove('show');
+  if(await confirmDlg('مسح كل التلوينات', 'ستُمسح جميع تلوينات الطفلة من كل الكتب. الرسومات الأصلية ستبقى.')){
+    const all = [BUILTIN, ...books];
+    for(const b of all){
+      for(let i=0;i<b.pages;i++){
+        await store.del(`art:${b.id}:${i}`);
+        await store.del(`artpaint:${b.id}:${i}`);
+      }
+    }
+    toast('تم مسح جميع التلوينات'); renderHome();
+  }
+});
+
+/* ---------------- رفع كتاب PDF (مكتبة pdf.js مضمّنة محليًا — تُحمَّل عند الحاجة فقط) ---------------- */
+let pdfjsReady = null;
+function loadPdfjs(){
+  if(window.pdfjsLib) return Promise.resolve();
+  if(pdfjsReady) return pdfjsReady;
+  pdfjsReady = new Promise((res,rej)=>{
+    const s = document.createElement('script');
+    s.src = 'vendor/pdf.min.js';
+    s.onload = ()=>{
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js';
+      res();
+    };
+    s.onerror = ()=>{ pdfjsReady = null; rej(new Error('offline')); };
+    document.head.appendChild(s);
+  });
+  return pdfjsReady;
+}
+$('#pdfInput').addEventListener('change', async e=>{
+  const file = e.target.files[0]; e.target.value = '';
+  if(!file) return;
+  $('#parentPanel').classList.remove('show');
+  const bg = $('#uploadModal'); bg.classList.add('show');
+  const prog = $('#uploadProg'), status = $('#uploadStatus');
+  try{
+    status.textContent = 'تحميل قارئ PDF...';
+    await loadPdfjs();
+    status.textContent = 'قراءة الملف...';
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+    const id = 'b'+Date.now();
+    const total = pdf.numPages;
+    for(let i=1;i<=total;i++){
+      status.textContent = `تجهيز الصفحة ${i} من ${total}...`;
+      const page = await pdf.getPage(i);
+      let vp = page.getViewport({scale:1});
+      const scale = Math.min(1200/Math.max(vp.width,vp.height), 3);
+      vp = page.getViewport({scale});
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(vp.width); cv.height = Math.round(vp.height);
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cv.width,cv.height);
+      await page.render({canvasContext:ctx, viewport:vp}).promise;
+      await store.set(`book:${id}:page:${i-1}`, cv.toDataURL('image/jpeg', 0.82));
+      prog.style.width = Math.round(i/total*100)+'%';
+    }
+    const name = file.name.replace(/\.pdf$/i,'').replace(/[_-]+/g,' ').trim() || 'كتاب تلوين';
+    books.push({id, name, pages: total});
+    await store.set('books:index', JSON.stringify(books));
+    renderHome();
+    celebrate('🎉 تمت إضافة الكتاب إلى المكتبة!');
+  }catch(err){
+    console.error(err);
+    toast(err.message === 'offline'
+      ? 'تعذّر تحميل قارئ PDF — أعيدي المحاولة'
+      : 'تعذّرت قراءة الملف — تأكدي أنه ملف PDF صالح');
+  }finally{
+    bg.classList.remove('show'); prog.style.width = '0%';
+  }
+});
+
+/* ================================================================
+   المرسم
+================================================================ */
+const PALETTE = [
+  ['#FF3B30','أحمر'],['#FF9500','برتقالي'],['#FFD60A','أصفر'],['#7ED957','أخضر فاتح'],
+  ['#2E9E4F','أخضر'],['#2EC4B6','فيروزي'],['#5AC8FA','سماوي'],['#0A84FF','أزرق'],
+  ['#7B61FF','بنفسجي'],['#C969E6','أرجواني'],['#FF6FA5','وردي'],['#F8BBD0','وردي فاتح'],
+  ['#8D6E63','بني'],['#F5D0A9','بيج'],['#9E9E9E','رمادي'],['#3B3B3B','أسود'],['#FFFFFF','أبيض']
+];
+const STAMPS = ['⭐','❤️','🌸','🦋','🎈','☀️','🌈','🍓','🐟','👑'];
+const SIZES = [14, 28, 48];
+
+let tool = 'fill', color = PALETTE[0][0], colorName = PALETTE[0][1];
+let sizeIdx = 1, stamp = STAMPS[0], rainbowHue = 0;
+let curPage = -1, W = 0, H = 0;
+const paintCv = $('#paintCanvas'), lineCv = $('#lineCanvas');
+const pctx = paintCv.getContext('2d', {willReadFrequently:true});
+const lctx = lineCv.getContext('2d', {willReadFrequently:true});
+let lineMask = null;
+let undoStack = [], redoStack = [];
+const MAX_UNDO = 8;
+
+/* لوحة الألوان */
+(function buildPalette(){
+  const p = $('#palette');
+  PALETTE.forEach(([c,n],i)=>{
+    const s = document.createElement('button');
+    s.className = 'swatch'+(i===0?' sel':'');
+    s.style.background = c;
+    if(c==='#FFFFFF') s.style.borderColor = '#d9c9b6';
+    s.setAttribute('aria-label', n);
+    s.onclick = ()=>{
+      color = c; colorName = n;
+      $$('.swatch').forEach(x=>x.classList.remove('sel')); s.classList.add('sel');
+      if(tool==='eraser' || tool==='rainbow' || tool==='stamp') setTool('brush');
+      showColorBubble(n); SFX.pick(); speak(n);
+    };
+    p.appendChild(s);
+  });
+})();
+(function buildStamps(){
+  const r = $('#stampRow');
+  STAMPS.forEach((e,i)=>{
+    const b = document.createElement('button');
+    b.className = 'stamp-btn'+(i===0?' sel':''); b.textContent = e;
+    b.onclick = ()=>{
+      stamp = e;
+      $$('.stamp-btn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+      SFX.pick();
+    };
+    r.appendChild(b);
+  });
+})();
+let bubbleT;
+function showColorBubble(n){
+  const b = $('#colorBubble');
+  b.textContent = n; b.style.background = color === '#FFFFFF' ? '#b7a595' : color;
+  b.classList.add('show');
+  clearTimeout(bubbleT); bubbleT = setTimeout(()=>b.classList.remove('show'), 1400);
+}
+function setTool(t){
+  tool = t;
+  $$('.tool').forEach(b=>b.classList.toggle('active', b.dataset.tool===t));
+  $('#stampRow').classList.toggle('show', t==='stamp');
+  $('#palette').classList.toggle('hide', t==='stamp');
+}
+$$('.tool').forEach(b=> b.onclick = ()=>{ setTool(b.dataset.tool); SFX.pop(); });
+$$('.size-btn').forEach(b=> b.onclick = ()=>{
+  sizeIdx = +b.dataset.s;
+  $$('.size-btn').forEach(x=>x.classList.toggle('active', x===b));
+  SFX.pop();
+});
+
+/* ---------------- فتح صفحة ---------------- */
+async function openEditor(pageIdx){
+  curPage = pageIdx;
+  const label = currentBook.builtin ? PAGES[pageIdx].name : `${currentBook.name} — صفحة ${pageIdx+1}`;
+  $('#edTitle').textContent = label;
+  switchView('editorView');
+  undoStack = []; redoStack = []; updateUndoBtns();
+  const src = currentBook.builtin
+    ? pageURI(pageIdx)
+    : await store.get(`book:${currentBook.id}:page:${pageIdx}`);
+  if(!src){ toast('تعذّر تحميل الصفحة'); return; }
+  const img = new Image();
+  img.onload = async ()=>{
+    W = img.naturalWidth; H = img.naturalHeight;
+    paintCv.width = lineCv.width = W; paintCv.height = lineCv.height = H;
+    lctx.clearRect(0,0,W,H);
+    lctx.drawImage(img,0,0,W,H);
+    buildLineLayer();
+    pctx.fillStyle = '#fff'; pctx.fillRect(0,0,W,H);
+    const savedPaint = await store.get(`artpaint:${currentBook.id}:${pageIdx}`);
+    if(savedPaint){
+      await new Promise(res=>{
+        const pi = new Image();
+        pi.onload = ()=>{ pctx.drawImage(pi,0,0,W,H); res(); };
+        pi.onerror = res; pi.src = savedPaint;
+      });
+    }
+    fitStage();
+  };
+  img.src = src;
+}
+
+/* تحويل الصفحة إلى: قناع حدود + طبقة خطوط شفافة */
+function buildLineLayer(){
+  const id = lctx.getImageData(0,0,W,H);
+  const d = id.data;
+  lineMask = new Uint8Array(W*H);
+  for(let i=0,p=0;i<d.length;i+=4,p++){
+    const lum = 0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+    if(lum < 128){
+      lineMask[p] = 1;
+      d[i]=d[i+1]=d[i+2]=38;
+      d[i+3] = lum < 70 ? 255 : Math.max(0,Math.min(255, 255-(lum-70)*3.2));
+    } else if(lum < 190){
+      d[i]=d[i+1]=d[i+2]=60;
+      d[i+3] = Math.round((190-lum)/190*150);
+    } else {
+      d[i+3] = 0;
+    }
+  }
+  lctx.putImageData(id,0,0);
+}
+
+/* ---------------- تكبير وتحريك ---------------- */
+const area = $('#canvasArea'), stage = $('#stage');
+let view = {x:0, y:0, s:1};
+function applyView(){ stage.style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`; }
+function fitStage(){
+  const r = area.getBoundingClientRect();
+  const s = Math.min(r.width/W, r.height/H)*0.97;
+  view.s = s; view.x = (r.width - W*s)/2; view.y = (r.height - H*s)/2;
+  stage.style.width = W+'px'; stage.style.height = H+'px';
+  applyView();
+}
+window.addEventListener('resize', ()=>{ if($('#editorView').classList.contains('active') && W) fitStage(); });
+area.addEventListener('dblclick', ()=> fitStage());
+area.addEventListener('contextmenu', e=> e.preventDefault());
+function zoomAt(cx,cy,f){
+  const ns = Math.max(0.15, Math.min(8, view.s*f));
+  const k = ns/view.s;
+  view.x = cx-(cx-view.x)*k; view.y = cy-(cy-view.y)*k; view.s = ns;
+  applyView();
+}
+area.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const rect = area.getBoundingClientRect();
+  zoomAt(e.clientX-rect.left, e.clientY-rect.top, e.deltaY<0 ? 1.12 : 1/1.12);
+},{passive:false});
+
+/* إصبع واحد = أداة، إصبعان = تحريك وتكبير */
+const pointers = new Map();
+let drawing = false, lastPt = null, pinchStart = null;
+
+area.addEventListener('pointerdown', e=>{
+  area.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if(pointers.size===2){
+    drawing = false; lastPt = null;
+    const [a,b] = [...pointers.values()];
+    pinchStart = { d:Math.hypot(a.x-b.x,a.y-b.y), cx:(a.x+b.x)/2, cy:(a.y+b.y)/2, view:{...view} };
+  } else if(pointers.size===1){
+    const pt = toCanvas(e);
+    if(!pt) return;
+    if(tool==='fill'){
+      pushUndo();
+      floodFill(Math.round(pt.x), Math.round(pt.y), color);
+      SFX.fill(); scheduleAutosave();
+    } else if(tool==='stamp'){
+      pushUndo(); drawStamp(pt);
+      SFX.pop(); scheduleAutosave();
+    } else {
+      pushUndo(); drawing = true; lastPt = pt;
+      drawDot(pt);
+    }
+  }
+});
+area.addEventListener('pointermove', e=>{
+  if(!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if(pointers.size===2 && pinchStart){
+    const [a,b] = [...pointers.values()];
+    const d = Math.hypot(a.x-b.x,a.y-b.y), cx=(a.x+b.x)/2, cy=(a.y+b.y)/2;
+    const ns = Math.max(0.15, Math.min(8, pinchStart.view.s * d/pinchStart.d));
+    const rect = area.getBoundingClientRect();
+    const px = pinchStart.cx-rect.left, py = pinchStart.cy-rect.top;
+    const k = ns/pinchStart.view.s;
+    view.s = ns;
+    view.x = (cx-rect.left) - (px - pinchStart.view.x)*k;
+    view.y = (cy-rect.top)  - (py - pinchStart.view.y)*k;
+    applyView();
+  } else if(drawing && pointers.size===1){
+    const pt = toCanvas(e);
+    if(pt && lastPt){ drawLine(lastPt, pt); lastPt = pt; }
+    else if(pt){ lastPt = pt; }
+  }
+});
+function endPointer(e){
+  pointers.delete(e.pointerId);
+  if(pointers.size<2) pinchStart = null;
+  if(pointers.size===0 && drawing){ drawing = false; lastPt = null; scheduleAutosave(); }
+}
+area.addEventListener('pointerup', endPointer);
+area.addEventListener('pointercancel', endPointer);
+
+function toCanvas(e){
+  const rect = area.getBoundingClientRect();
+  const x = (e.clientX-rect.left - view.x)/view.s;
+  const y = (e.clientY-rect.top - view.y)/view.s;
+  if(x<0||y<0||x>=W||y>=H) return null;
+  return {x,y};
+}
+
+/* ---------------- أدوات الرسم ---------------- */
+function strokeColor(){
+  if(tool==='eraser') return '#ffffff';
+  if(tool==='rainbow'){ rainbowHue = (rainbowHue+7)%360; return `hsl(${rainbowHue},95%,55%)`; }
+  return color;
+}
+function strokeWidth(){
+  const s = SIZES[sizeIdx];
+  return tool==='eraser' ? s*1.6 : s;
+}
+function drawDot(pt){
+  pctx.fillStyle = strokeColor();
+  pctx.beginPath(); pctx.arc(pt.x, pt.y, strokeWidth()/2, 0, Math.PI*2); pctx.fill();
+}
+function drawLine(a,b){
+  pctx.strokeStyle = strokeColor();
+  pctx.lineWidth = strokeWidth();
+  pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+  pctx.beginPath(); pctx.moveTo(a.x,a.y); pctx.lineTo(b.x,b.y); pctx.stroke();
+}
+function drawStamp(pt){
+  const fs = SIZES[sizeIdx]*3.4 + 34;
+  pctx.font = `${fs}px 'Segoe UI Emoji','Noto Color Emoji',serif`;
+  pctx.textAlign = 'center'; pctx.textBaseline = 'middle';
+  pctx.fillText(stamp, pt.x, pt.y);
+}
+
+/* ---------------- تعبئة بالفيضان (محدودة بقناع الخطوط) ---------------- */
+function floodFill(sx,sy,hex){
+  if(sx<0||sy<0||sx>=W||sy>=H) return;
+  if(lineMask[sy*W+sx]===1) return;
+  const id = pctx.getImageData(0,0,W,H);
+  const d = id.data;
+  const target = getPx(d,sx,sy);
+  const fill = hexToRgb(hex);
+  if(target[0]===fill.r && target[1]===fill.g && target[2]===fill.b) return;
+  const filled = new Uint8Array(W*H);
+  const stack = [[sx,sy]];
+  const match = (x,y)=>{
+    const p = y*W+x;
+    if(filled[p]||lineMask[p]) return false;
+    const i = p*4;
+    return Math.abs(d[i]-target[0])<32 && Math.abs(d[i+1]-target[1])<32 && Math.abs(d[i+2]-target[2])<32;
+  };
+  while(stack.length){
+    let [x,y] = stack.pop();
+    while(x>=0 && match(x,y)) x--;
+    x++;
+    let up=false, down=false;
+    while(x<W && match(x,y)){
+      const p = y*W+x, i = p*4;
+      d[i]=fill.r; d[i+1]=fill.g; d[i+2]=fill.b; d[i+3]=255;
+      filled[p]=1;
+      if(y>0){ const m=match(x,y-1); if(m&&!up){stack.push([x,y-1]);up=true;} if(!m)up=false; }
+      if(y<H-1){ const m=match(x,y+1); if(m&&!down){stack.push([x,y+1]);down=true;} if(!m)down=false; }
+      x++;
+    }
+  }
+  /* توسعة اللون تحت الخطوط لمنع الهالات البيضاء */
+  for(let pass=0; pass<2; pass++){
+    const grow = [];
+    for(let y=0;y<H;y++){
+      const row = y*W;
+      for(let x=0;x<W;x++){
+        const p = row+x;
+        if(filled[p]) continue;
+        if((x>0&&filled[p-1])||(x<W-1&&filled[p+1])||(y>0&&filled[p-W])||(y<H-1&&filled[p+W])) grow.push(p);
+      }
+    }
+    for(const p of grow){
+      filled[p]=1; const i=p*4;
+      d[i]=fill.r; d[i+1]=fill.g; d[i+2]=fill.b; d[i+3]=255;
+    }
+  }
+  pctx.putImageData(id,0,0);
+}
+function getPx(d,x,y){ const i=(y*W+x)*4; return [d[i],d[i+1],d[i+2]]; }
+function hexToRgb(h){
+  h = h.replace('#','');
+  if(h.length===3) h = h.split('').map(c=>c+c).join('');
+  return {r:parseInt(h.slice(0,2),16), g:parseInt(h.slice(2,4),16), b:parseInt(h.slice(4,6),16)};
+}
+
+/* ---------------- تراجع / إعادة / مسح ---------------- */
+function pushUndo(){
+  try{
+    undoStack.push(pctx.getImageData(0,0,W,H));
+    if(undoStack.length>MAX_UNDO) undoStack.shift();
+    redoStack.length = 0; updateUndoBtns();
+  }catch(e){}
+}
+$('#undoBtn').onclick = ()=>{
+  if(!undoStack.length) return;
+  redoStack.push(pctx.getImageData(0,0,W,H));
+  pctx.putImageData(undoStack.pop(),0,0);
+  updateUndoBtns(); scheduleAutosave(); SFX.swish();
+};
+$('#redoBtn').onclick = ()=>{
+  if(!redoStack.length) return;
+  undoStack.push(pctx.getImageData(0,0,W,H));
+  pctx.putImageData(redoStack.pop(),0,0);
+  updateUndoBtns(); scheduleAutosave(); SFX.swish();
+};
+function updateUndoBtns(){
+  $('#undoBtn').disabled = !undoStack.length;
+  $('#redoBtn').disabled = !redoStack.length;
+}
+$('#resetBtn').onclick = async ()=>{
+  if(await confirmDlg('مسح التلوين', 'هل تريدين مسح كل الألوان والبدء من جديد؟')){
+    pushUndo();
+    pctx.fillStyle = '#fff'; pctx.fillRect(0,0,W,H);
+    scheduleAutosave(); toast('صفحة جديدة نظيفة! 🧼');
+  }
+};
+
+/* ---------------- حفظ تلقائي ---------------- */
+let saveT = null;
+function scheduleAutosave(){
+  clearTimeout(saveT);
+  saveT = setTimeout(saveProgress, 900);
+}
+async function saveProgress(){
+  if(curPage<0 || !currentBook || !W) return;
+  try{
+    await store.set(`artpaint:${currentBook.id}:${curPage}`, paintCv.toDataURL('image/jpeg',0.75));
+    const th = document.createElement('canvas');
+    const ts = 420/Math.max(W,H);
+    th.width = Math.round(W*ts); th.height = Math.round(H*ts);
+    const tc = th.getContext('2d');
+    tc.drawImage(paintCv,0,0,th.width,th.height);
+    tc.drawImage(lineCv,0,0,th.width,th.height);
+    await store.set(`art:${currentBook.id}:${curPage}`, th.toDataURL('image/jpeg',0.8));
+  }catch(e){}
+}
+$('#backToBook').onclick = async ()=>{ SFX.swish(); await saveProgress(); openBook(currentBook); };
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden) saveProgress(); });
+window.addEventListener('pagehide', ()=> saveProgress());
+
+/* ---------------- حفظ اللوحة على الجهاز ---------------- */
+$('#saveBtn').onclick = async ()=>{
+  const saved = await store.get('settings:childName');
+  $('#nameModalInput').value = ($('#childName').value || saved || '').trim();
+  $('#nameModal').classList.add('show');
+};
+$('#nameModalCancel').onclick = ()=> $('#nameModal').classList.remove('show');
+$('#nameModalOk').onclick = ()=>{
+  const name = $('#nameModalInput').value.trim();
+  $('#nameModal').classList.remove('show');
+  if(name){ $('#childName').value = name; updateGreet(); store.set('settings:childName', name); }
+  exportImage(name);
+};
+
+function exportImage(childName){
+  const band = Math.round(H*0.075);
+  const out = document.createElement('canvas');
+  out.width = W; out.height = H+band;
+  const c = out.getContext('2d');
+  c.fillStyle = '#fff'; c.fillRect(0,0,out.width,out.height);
+  c.drawImage(paintCv,0,0);
+  c.drawImage(lineCv,0,0);
+  const stripe = Math.max(4, Math.round(band*0.09));
+  const g = c.createLinearGradient(0,H,W,H);
+  ['#FF6B6B','#FF9F43','#FFC93D','#7ED957','#2EC4B6','#9B8CF6'].forEach((col,i,arr)=>g.addColorStop(i/(arr.length-1),col));
+  c.fillStyle = g; c.fillRect(0,H,W,stripe);
+  c.fillStyle = '#FFF8EE'; c.fillRect(0,H+stripe,W,band);
+  const fs = Math.round(band*0.42);
+  c.textBaseline = 'middle';
+  c.font = `700 ${fs}px 'Baloo Bhaijaan 2',Tahoma,sans-serif`;
+  c.fillStyle = '#4A3B36';
+  if(childName){
+    c.textAlign = 'right';
+    c.fillText('🖍️ فنانة اللوحة: '+childName, W-Math.round(W*0.03), H+band*0.58);
+  }
+  c.textAlign = 'left';
+  c.fillStyle = '#9B8CF6';
+  c.font = `600 ${Math.round(fs*0.85)}px 'Baloo Bhaijaan 2',Tahoma,sans-serif`;
+  c.fillText('✿ '+APP_NAME+' ✿', Math.round(W*0.03), H+band*0.58);
+
+  const pageLabel = currentBook.builtin ? PAGES[curPage].name : `صفحة ${curPage+1}`;
+  const fname = `${APP_NAME} - ${childName||'لوحة'} - ${pageLabel}.png`;
+  out.toBlob(async blob=>{
+    celebrate('🎉 أحسنتِ! لوحة رائعة!');
+    speak('أحسنتِ! لوحة رائعة');
+    try{
+      const file = new File([blob], fname, {type:'image/png'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file], title:APP_NAME});
+        return;
+      }
+    }catch(err){ if(err && err.name==='AbortError') return; }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = fname;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    toast('💾 تم حفظ اللوحة في التنزيلات / الصور');
+  },'image/png');
+}
+
+/* ---------------- بدء التشغيل ---------------- */
+(async function init(){
+  db = await idbOpen();
+  await loadSettings();
+  renderHome();
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  }
+})();
+</script>
+</body>
+</html>
