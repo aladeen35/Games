@@ -1,0 +1,19 @@
+{
+  "name": "تحدّي الجرس الثنائي — Ding Dong Dash",
+  "short_name": "تحدّي الجرس",
+  "description": "لعبة مسابقات عربية للاعبَين على شاشة واحدة: جرس، عدّاد 5 ثوانٍ، 4 مراحل و105 أسئلة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#FBF5E6",
+  "theme_color": "#FBF5E6",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

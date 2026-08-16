@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="theme-color" content="#FBF5E6">
 <title>تحدّي الجرس الثنائي</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="تحدّي الجرس">
+<script>
+/* تسجيل Service Worker — فقط عند التشغيل من خادم (PWA)، ويُتجاهل عند فتح الملف مباشرة */
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+}
+</script>
 <style>
 /* ====== الخطوط (مضمّنة — تعمل دون إنترنت) ====== */
 @font-face{font-family:'Cairo';font-style:normal;font-weight:200 1000;font-display:swap;
