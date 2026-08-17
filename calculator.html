@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة الحمل والتبويض — حاسبة حملي</title>
+  <meta name="description" content="احسبي موعد ولادتك المتوقع وأسبوع حملك الحالي من تاريخ آخر دورة شهرية، أو احسبي أيام التبويض ونافذة الخصوبة.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">🤰</span> حاسبة حملي</a>
+    <button class="nav-toggle" aria-label="القائمة">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="calculator.html" class="active">حاسبة الحمل</a>
+      <a href="weeks.html">متابعة أسبوعية</a>
+      <a href="community.html">المجتمع</a>
+      <a href="health.html">الصحة النسائية</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-emoji">📅</div>
+    <h1>حاسبة <span class="accent">الحمل والتبويض</span></h1>
+    <p>أدخلي تاريخ أول يوم من آخر دورة شهرية، ودعينا نحسب لك الباقي</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <div class="calc-tabs">
+      <button class="calc-tab active" data-panel="panel-pregnancy">🤰 حاسبة الحمل</button>
+      <button class="calc-tab" data-panel="panel-ovulation" id="ovulation">🌸 حاسبة التبويض</button>
+    </div>
+
+    <div class="calc-panel active" id="panel-pregnancy">
+      <div class="calc-box">
+        <label for="lmp-date">تاريخ أول يوم من آخر دورة شهرية</label>
+        <input type="date" id="lmp-date">
+        <button class="btn btn-primary" id="btn-pregnancy" style="width:100%;">احسبي حملي 💙</button>
+
+        <div class="calc-result" id="pregnancy-result">
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="value" id="res-week">—</div>
+              <div class="label">عمر الحمل الحالي</div>
+            </div>
+            <div class="result-item">
+              <div class="value" id="res-due">—</div>
+              <div class="label">موعد الولادة المتوقع</div>
+            </div>
+            <div class="result-item">
+              <div class="value" id="res-trimester">—</div>
+              <div class="label">مرحلة الحمل</div>
+            </div>
+            <div class="result-item">
+              <div class="value" id="res-remaining">—</div>
+              <div class="label">المتبقي على الولادة</div>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            <div class="progress-label" id="progress-label"></div>
+          </div>
+          <div style="text-align:center; margin-top:20px;">
+            <a href="weeks.html" id="res-week-link" class="btn btn-secondary">تابعي تطور جنينك ←</a>
+          </div>
+        </div>
+
+        <p class="calc-note">تُحسب النتائج وفق قاعدة نايجل الطبية: موعد الولادة = آخر دورة شهرية + 280 يوماً (40 أسبوعاً). النتيجة تقديرية وقد يعدلها السونار.</p>
+      </div>
+    </div>
+
+    <div class="calc-panel" id="panel-ovulation">
+      <div class="calc-box">
+        <label for="ov-date">تاريخ أول يوم من آخر دورة شهرية</label>
+        <input type="date" id="ov-date">
+        <label for="ov-cycle">متوسط طول الدورة الشهرية (بالأيام)</label>
+        <input type="number" id="ov-cycle" min="21" max="45" value="28">
+        <button class="btn btn-primary" id="btn-ovulation" style="width:100%;">احسبي أيام التبويض 🌸</button>
+
+        <div class="calc-result" id="ovulation-result">
+          <div class="result-grid" style="grid-template-columns:1fr;">
+            <div class="result-item">
+              <div class="value" id="ov-day">—</div>
+              <div class="label">يوم التبويض المتوقع</div>
+            </div>
+            <div class="result-item">
+              <div class="value" id="ov-window" style="font-size:1.05rem;">—</div>
+              <div class="label">نافذة الخصوبة (أفضل أيام حدوث الحمل)</div>
+            </div>
+            <div class="result-item">
+              <div class="value" id="ov-next">—</div>
+              <div class="label">موعد الدورة القادمة المتوقع</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="calc-note">يُقدّر يوم التبويض بطرح 14 يوماً من موعد الدورة القادمة. الحساب تقريبي ويختلف من امرأة لأخرى.</p>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚕️ هذه الحاسبات لأغراض توعوية فقط ولا تغني عن استشارة الطبيب المختص لتحديد عمر الحمل وموعد الولادة بدقة.</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h4>🤰 حاسبة حملي</h4>
+        <p>منصة عربية شاملة لمتابعة الحمل والصحة النسائية، صممت لتكون رفيقة كل أم في رحلتها من التخطيط للحمل وحتى احتضان مولودها.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="calculator.html">حاسبة الحمل</a>
+        <a href="weeks.html">متابعة أسبوعية</a>
+        <a href="community.html">المجتمع</a>
+        <a href="health.html">الصحة النسائية</a>
+      </div>
+      <div>
+        <h4>مراحل الحمل</h4>
+        <a href="community.html#t1">المرحلة الأولى</a>
+        <a href="community.html#t2">المرحلة الثانية</a>
+        <a href="community.html#t3">المرحلة الثالثة</a>
+        <a href="community.html#birth">مرحلة الولادة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 © حاسبة حملي — جميع الحقوق محفوظة 💙🩷</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  if (location.hash === "#ovulation") {
+    document.getElementById("ovulation").click();
+  }
+</script>
+</body>
+</html>

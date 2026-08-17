@@ -1,0 +1,494 @@
+/* ===== حاسبة حملي — التنسيق العام ===== */
+:root {
+  --pink: #e75a8b;
+  --pink-dark: #c9436f;
+  --pink-light: #fdeef4;
+  --blue: #4a90d9;
+  --blue-dark: #33699f;
+  --blue-light: #eaf3fc;
+  --ink: #2d2a32;
+  --muted: #7a7580;
+  --bg: #ffffff;
+  --bg-soft: #faf7f9;
+  --border: #f0e4ea;
+  --radius: 16px;
+  --shadow: 0 6px 24px rgba(231, 90, 139, 0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Tajawal", "Segoe UI", Tahoma, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.7;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+
+/* ===== الترويسة ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--pink);
+}
+
+.logo .logo-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--blue));
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.main-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.main-nav a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.main-nav a:hover { color: var(--pink); background: var(--pink-light); }
+.main-nav a.active { color: #fff; background: var(--pink); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--pink);
+  cursor: pointer;
+}
+
+/* ===== قسم البطل ===== */
+.hero {
+  background: linear-gradient(160deg, var(--pink-light) 0%, var(--blue-light) 100%);
+  padding: 64px 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.hero h1 .accent { color: var(--pink); }
+
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 640px;
+  margin: 0 auto 28px;
+}
+
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.hero-emoji { font-size: 2.4rem; margin-bottom: 10px; }
+
+/* ===== الأزرار ===== */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary { background: var(--pink); color: #fff; box-shadow: var(--shadow); }
+.btn-primary:hover { background: var(--pink-dark); transform: translateY(-2px); }
+
+.btn-secondary { background: #fff; color: var(--blue); border: 2px solid var(--blue); }
+.btn-secondary:hover { background: var(--blue); color: #fff; }
+
+/* ===== الأقسام ===== */
+.section { padding: 56px 0; }
+.section.soft { background: var(--bg-soft); }
+
+.section-head { text-align: center; margin-bottom: 36px; }
+
+.section-head h2 { font-size: 1.7rem; font-weight: 800; }
+.section-head h2 span { color: var(--pink); }
+.section-head p { color: var(--muted); margin-top: 6px; }
+
+/* ===== البطاقات ===== */
+.grid { display: grid; gap: 20px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+.card .card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+}
+
+.icon-pink { background: var(--pink-light); }
+.icon-blue { background: var(--blue-light); }
+
+.card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: 0.95rem; }
+
+.card .card-meta {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+/* ===== مراحل الحمل ===== */
+.stage-card { display: flex; align-items: center; gap: 16px; }
+.stage-card .stage-num {
+  min-width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--blue));
+  color: #fff;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+.stage-card h3 { font-size: 1.05rem; margin-bottom: 2px; }
+.stage-card .topics-count { color: var(--muted); font-size: 0.85rem; }
+
+/* ===== الحاسبة ===== */
+.calc-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.calc-box label { display: block; font-weight: 700; margin-bottom: 8px; }
+
+.calc-box input[type="date"],
+.calc-box input[type="number"],
+.calc-box select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.calc-box input:focus, .calc-box select:focus {
+  outline: none;
+  border-color: var(--pink);
+}
+
+.calc-result {
+  display: none;
+  margin-top: 24px;
+  border-top: 2px dashed var(--border);
+  padding-top: 24px;
+}
+
+.calc-result.show { display: block; }
+
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
+
+.result-item {
+  background: var(--pink-light);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.result-item:nth-child(even) { background: var(--blue-light); }
+
+.result-item .value { font-size: 1.3rem; font-weight: 800; color: var(--pink); }
+.result-item:nth-child(even) .value { color: var(--blue); }
+.result-item .label { font-size: 0.85rem; color: var(--muted); }
+
+.progress-wrap { margin-top: 8px; }
+.progress-bar {
+  height: 14px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--pink), var(--blue));
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+.progress-label { text-align: center; font-size: 0.9rem; color: var(--muted); margin-top: 6px; }
+
+.calc-note { font-size: 0.85rem; color: var(--muted); margin-top: 16px; text-align: center; }
+
+/* ===== تبويبات الحاسبة ===== */
+.calc-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+
+.calc-tab {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calc-tab.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+.calc-panel { display: none; }
+.calc-panel.active { display: block; }
+
+/* ===== متابعة الأسابيع ===== */
+.week-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.week-chip {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.week-chip:hover { border-color: var(--pink); color: var(--pink); }
+.week-chip.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+.week-detail {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.week-detail .week-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.week-detail .week-fruit { font-size: 3rem; }
+.week-detail h3 { font-size: 1.4rem; }
+.week-detail .trimester-tag {
+  display: inline-block;
+  background: var(--blue-light);
+  color: var(--blue);
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.week-stats { display: flex; gap: 14px; margin: 18px 0; flex-wrap: wrap; }
+
+.week-stat {
+  flex: 1;
+  min-width: 140px;
+  background: var(--pink-light);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+}
+.week-stat:nth-child(2) { background: var(--blue-light); }
+.week-stat .v { font-weight: 800; font-size: 1.1rem; }
+.week-stat .l { font-size: 0.8rem; color: var(--muted); }
+
+.week-detail .tip {
+  background: var(--bg-soft);
+  border-right: 4px solid var(--pink);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: 0.95rem;
+}
+
+/* ===== المجتمع ===== */
+.topic-list { display: flex; flex-direction: column; gap: 12px; }
+
+.topic-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+}
+
+.topic-item:hover { box-shadow: var(--shadow); }
+
+.topic-avatar {
+  min-width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink-light), var(--blue-light));
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+.topic-body h3 { font-size: 1.05rem; margin-bottom: 4px; }
+.topic-body p { color: var(--muted); font-size: 0.9rem; }
+
+.topic-meta {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.topic-meta .tag {
+  background: var(--pink-light);
+  color: var(--pink);
+  padding: 1px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* ===== المقالات ===== */
+.article-card .article-cover {
+  height: 140px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--pink-light), var(--blue-light));
+}
+
+/* ===== التذييل ===== */
+.site-footer {
+  background: var(--ink);
+  color: #d8d3dc;
+  padding: 48px 0 24px;
+  margin-top: 40px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.site-footer h4 { color: #fff; margin-bottom: 14px; font-size: 1.05rem; }
+.site-footer a { display: block; color: #b8b2be; margin-bottom: 8px; font-size: 0.92rem; }
+.site-footer a:hover { color: var(--pink); }
+.site-footer .footer-about p { font-size: 0.92rem; color: #b8b2be; }
+
+.footer-bottom {
+  border-top: 1px solid #453f4d;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #9a93a1;
+}
+
+.disclaimer {
+  background: var(--blue-light);
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 0.85rem;
+  color: var(--blue-dark);
+  text-align: center;
+  margin-top: 32px;
+}
+
+/* ===== التجاوب ===== */
+@media (max-width: 860px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .grid-3, .grid-2, .result-grid { grid-template-columns: 1fr; }
+
+  .nav-toggle { display: block; }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .main-nav.open { display: flex; }
+}
