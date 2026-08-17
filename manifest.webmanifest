@@ -1,0 +1,36 @@
+{
+  "name": "حاسبة حملي — دفتر متابعة الحمل",
+  "short_name": "حاسبة حملي",
+  "description": "دفتر عائلي كرتوني لمتابعة الحمل والصحة النسائية: شجرة العائلة، حاسبة الحمل، متابعة أسبوعية، يوميات الأم، وعداد الركلات — يعمل دون إنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#ffe08a",
+  "background_color": "#fdfbf2",
+  "categories": ["health", "lifestyle", "medical"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "حاسبة الحمل",
+      "url": "./calculator.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "عداد الركلات",
+      "url": "./tools.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "متابعة أسبوعية",
+      "url": "./weeks.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

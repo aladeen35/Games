@@ -1,5 +1,31 @@
 /* ===== حاسبة حملي — السلوك العام ===== */
 
+/* ===== PWA: تسجيل عامل الخدمة وزر التثبيت ===== */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+}
+
+let installPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  installPrompt = e;
+  const btn = document.getElementById("install-btn");
+  if (btn) btn.style.display = "";
+});
+
+document.getElementById("install-btn")?.addEventListener("click", async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt = null;
+  document.getElementById("install-btn").style.display = "none";
+});
+
+window.addEventListener("appinstalled", () => {
+  const btn = document.getElementById("install-btn");
+  if (btn) btn.style.display = "none";
+});
+
 /* قائمة الجوال */
 document.querySelector(".nav-toggle")?.addEventListener("click", () => {
   document.querySelector(".main-nav").classList.toggle("open");
