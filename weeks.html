@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>متابعة الحمل أسبوعاً بأسبوع — حاسبة حملي</title>
+  <meta name="description" content="تابعي تطور جنينك في كل أسبوع من أسابيع الحمل الأربعين: حجمه مقارنة بالفواكه، طوله ووزنه، مع نصيحة عملية لكل أسبوع.">
+  <meta name="theme-color" content="#ffe08a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="حاسبة حملي">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">🤰</span> حاسبة حملي</a>
+    <button class="btn btn-mint" id="install-btn" style="display:none; padding:6px 16px; font-size:0.85rem;">📲 ثبتي التطبيق</button>
+    <button class="nav-toggle" aria-label="القائمة">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="calculator.html">الحاسبة</a>
+      <a href="weeks.html" class="active">متابعة أسبوعية</a>
+      <a href="tools.html">أدوات الأم</a>
+      <a href="health.html">المقالات</a>
+      <a href="community.html">المجتمع</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-emoji">🍍👶</div>
+    <h1>تطور جنينك <span class="accent">أسبوعاً بأسبوع</span></h1>
+    <p>اختاري أسبوعك لتعرفي حجم برعمك الصغير مقارنة بالفواكه. لا تعرفين أسبوعك؟ <a href="calculator.html" style="color:var(--crayon-pink-deep); font-weight:800;">احسبيه من هنا</a>.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px;">
+  <div class="container">
+    <div class="week-selector" id="week-selector"></div>
+
+    <div class="week-detail tape">
+      <div class="week-title">
+        <div class="week-fruit" id="wk-fruit">🍋</div>
+        <div>
+          <h3 id="wk-title">—</h3>
+          <span class="trimester-tag" id="wk-trimester">—</span>
+        </div>
+      </div>
+      <div class="week-stats">
+        <div class="week-stat"><div class="v" id="wk-len">—</div><div class="l">الطول التقريبي</div></div>
+        <div class="week-stat"><div class="v" id="wk-wt">—</div><div class="l">الوزن التقريبي</div></div>
+      </div>
+      <p id="wk-desc">—</p>
+      <div class="tip">💡 <strong>نصيحة الأسبوع:</strong> <span id="wk-tip">—</span></div>
+    </div>
+
+    <div class="disclaimer">⚕️ الأطوال والأوزان متوسطات تقريبية، وكل جنين ينمو بوتيرته الخاصة. راجعي طبيبتك لتقييم نمو جنينك بدقة.</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h4>🤰 حاسبة حملي</h4>
+        <p>دفتر عائلي كرتوني لمتابعة الحمل والصحة النسائية — من شجرة العائلة وحتى عدّ ركلات برعمكم الصغير.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="calculator.html">حاسبة الحمل</a>
+        <a href="weeks.html">متابعة أسبوعية</a>
+        <a href="tools.html">أدوات الأم</a>
+        <a href="health.html">المقالات</a>
+      </div>
+      <div>
+        <h4>المجتمع</h4>
+        <a href="community.html">مجتمع الأمهات</a>
+        <a href="community.html#t1">المرحلة الأولى</a>
+        <a href="community.html#t3">المرحلة الثالثة</a>
+        <a href="community.html#birth">مرحلة الولادة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 © حاسبة حملي — جميع الحقوق محفوظة ✏️💙🩷</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/weeks.js"></script>
+</body>
+</html>

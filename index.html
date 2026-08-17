@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة حملي — دفتر متابعة الحمل والصحة النسائية</title>
+  <meta name="description" content="دفتر عائلي كرتوني لمتابعة الحمل: شجرة العائلة، حاسبة الحمل بالأسبوع والشهر، متابعة أسبوعية، يوميات الأم، ومقالات صحية متجددة.">
+  <meta name="theme-color" content="#ffe08a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="حاسبة حملي">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">🤰</span> حاسبة حملي</a>
+    <button class="btn btn-mint" id="install-btn" style="display:none; padding:6px 16px; font-size:0.85rem;">📲 ثبتي التطبيق</button>
+    <button class="nav-toggle" aria-label="القائمة">☰</button>
+    <nav class="main-nav">
+      <a href="index.html" class="active">الرئيسية</a>
+      <a href="calculator.html">الحاسبة</a>
+      <a href="weeks.html">متابعة أسبوعية</a>
+      <a href="tools.html">أدوات الأم</a>
+      <a href="health.html">المقالات</a>
+      <a href="community.html">المجتمع</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ملصق حالة الحمل -->
+<div class="container">
+  <div class="sticker-bar" id="sticker-bar">
+    <div class="sticker-grid" id="sticker-data" style="display:none;">
+      <div class="sticker-item"><div class="v" id="st-week">—</div><div class="l">عمر الحمل</div></div>
+      <div class="sticker-item"><div class="v" id="st-month">—</div><div class="l">الشهر الحالي</div></div>
+      <div class="sticker-item"><div class="v" id="st-due">—</div><div class="l">موعد الولادة</div></div>
+      <div class="sticker-item"><div class="v" id="st-remaining">—</div><div class="l">المتبقي</div></div>
+    </div>
+    <div class="sticker-empty" id="sticker-empty">
+      ✏️ لم تحسبي حملك بعد — <a href="calculator.html">افتحي الحاسبة</a> وسيظهر ملصق حالتك هنا تلقائياً
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-emoji">🌳💙🩷</div>
+    <h1>دفتر <span class="accent">عائلتنا الصغيرة</span></h1>
+    <p>شجرة عائلتك الكرتونية — انقري على أي اسم لتعديله، وسيبقى محفوظاً في دفترك</p>
+  </div>
+</section>
+
+<!-- شجرة العائلة الكرتونية -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="family-tree-wrap">
+      <svg class="family-tree-svg" viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- الجذع بقلم خشبي بني -->
+        <path d="M418 512 C 424 430, 408 380, 422 320 C 432 275, 426 250, 430 225"
+              fill="none" stroke="#9c6b45" stroke-width="26" stroke-linecap="round"/>
+        <path d="M424 350 C 380 320, 350 310, 320 300 M428 300 C 470 270, 505 262, 540 255"
+              fill="none" stroke="#9c6b45" stroke-width="14" stroke-linecap="round"/>
+        <!-- أوراق الشجرة بألوان شمعية -->
+        <ellipse cx="430" cy="170" rx="215" ry="125" fill="#b8e6c9" stroke="#4a4440" stroke-width="3" stroke-dasharray="14 5"/>
+        <ellipse cx="255" cy="230" rx="120" ry="85" fill="#cdeecb" stroke="#4a4440" stroke-width="3" stroke-dasharray="12 5"/>
+        <ellipse cx="610" cy="225" rx="120" ry="85" fill="#cdeecb" stroke="#4a4440" stroke-width="3" stroke-dasharray="12 5"/>
+        <!-- ثمار صغيرة -->
+        <circle cx="300" cy="150" r="14" fill="#ffc4d6" stroke="#4a4440" stroke-width="2.5"/>
+        <circle cx="560" cy="140" r="14" fill="#ffe08a" stroke="#4a4440" stroke-width="2.5"/>
+        <circle cx="480" cy="95"  r="12" fill="#a8d8f0" stroke="#4a4440" stroke-width="2.5"/>
+        <!-- عشب -->
+        <path d="M40 512 q 20 -25 40 0 M120 512 q 18 -22 36 0 M700 512 q 20 -25 40 0 M780 512 q 18 -22 36 0"
+              fill="none" stroke="#4da372" stroke-width="4" stroke-linecap="round"/>
+        <!-- شمس وغيمة -->
+        <circle cx="70" cy="70" r="34" fill="#ffe08a" stroke="#4a4440" stroke-width="3"/>
+        <path d="M700 60 q 15 -25 40 -15 q 10 -20 35 -10 q 25 -8 30 15 q 20 5 12 25 q -5 15 -30 12 l -75 0 q -20 -5 -12 -27"
+              fill="#fff" stroke="#4a4440" stroke-width="3"/>
+      </svg>
+
+      <div class="family-members">
+        <div class="member m-dad">
+          <div class="m-emoji">🌥️</div>
+          <div class="m-name" data-field="dad">اسم الأب</div>
+          <div class="m-role">الأب — الشجرة الساندة</div>
+        </div>
+        <div class="member m-mom">
+          <div class="m-emoji">💗</div>
+          <div class="m-name" data-field="mom">اسم الأم</div>
+          <div class="m-role">الأم — قلب العائلة</div>
+        </div>
+        <div class="member m-baby">
+          <div class="m-emoji">🌱</div>
+          <div class="m-name" data-field="baby">اسم الجنين</div>
+          <div class="m-role">برعمنا الصغير القادم</div>
+        </div>
+        <div class="member m-sib1">
+          <div class="m-emoji">🍎</div>
+          <div class="m-name" data-field="sib1">الأخ/الأخت الأول</div>
+          <div class="m-role" data-field="sib1age">4 سنوات</div>
+        </div>
+        <div class="member m-sib2">
+          <div class="m-emoji">🍐</div>
+          <div class="m-name" data-field="sib2">الأخ/الأخت الثاني</div>
+          <div class="m-role" data-field="sib2age">سنتان</div>
+        </div>
+      </div>
+    </div>
+    <p class="family-hint">✏️ انقري على أي اسم أو عمر لتعديله — يُحفظ تلقائياً في جهازك</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>صفحات <span>دفترنا</span></h2>
+      <p>كل ما تحتاجينه في رحلة الحمل، مرسوم بأقلامنا الملونة</p>
+    </div>
+    <div class="grid grid-3">
+      <a href="calculator.html" class="card">
+        <div class="card-icon icon-pink">📅</div>
+        <h3>حاسبة الحمل</h3>
+        <p>بطريقتين: تاريخ آخر دورة أو موعد الولادة المتوقع — تعرض الأسبوع والشهر والأيام.</p>
+        <div class="card-meta">افتحي الحاسبة ←</div>
+      </a>
+      <a href="weeks.html" class="card">
+        <div class="card-icon icon-yellow">🍍</div>
+        <h3>متابعة أسبوعية</h3>
+        <p>حجم جنينك مقارنة بالفواكه في كل أسبوع من الأسابيع الأربعين، مع نصيحة عملية.</p>
+        <div class="card-meta">تابعي جنينك ←</div>
+      </a>
+      <a href="tools.html" class="card">
+        <div class="card-icon icon-mint">🦶</div>
+        <h3>أدوات الأم</h3>
+        <p>يوميات بخط يدك، حقيبة المستشفى بقائمة تعليم، وعداد ركلات جنينك اليومي.</p>
+        <div class="card-meta">افتحي أدواتك ←</div>
+      </a>
+      <a href="health.html" class="card">
+        <div class="card-icon icon-blue">📰</div>
+        <h3>مقالات متجددة</h3>
+        <p>قصاصات مجلات طبية تتجدد تلقائياً كل 24 ساعة من مصادر صحية موثوقة.</p>
+        <div class="card-meta">اقرئي الجديد ←</div>
+      </a>
+      <a href="community.html" class="card">
+        <div class="card-icon icon-pink">💬</div>
+        <h3>مجتمع الأمهات</h3>
+        <p>شاركي تجربتك واسألي أمهات في نفس مرحلتك، في بيئة نسائية داعمة.</p>
+        <div class="card-meta">انضمي للمجتمع ←</div>
+      </a>
+      <a href="calculator.html#ovulation" class="card">
+        <div class="card-icon icon-yellow">🌸</div>
+        <h3>حاسبة التبويض</h3>
+        <p>تخططين لبرعم جديد في الشجرة؟ احسبي أيام التبويض ونافذة الخصوبة.</p>
+        <div class="card-meta">احسبي التبويض ←</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h4>🤰 حاسبة حملي</h4>
+        <p>دفتر عائلي كرتوني لمتابعة الحمل والصحة النسائية — من شجرة العائلة وحتى عدّ ركلات برعمكم الصغير.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="calculator.html">حاسبة الحمل</a>
+        <a href="weeks.html">متابعة أسبوعية</a>
+        <a href="tools.html">أدوات الأم</a>
+        <a href="health.html">المقالات</a>
+      </div>
+      <div>
+        <h4>المجتمع</h4>
+        <a href="community.html">مجتمع الأمهات</a>
+        <a href="community.html#t1">المرحلة الأولى</a>
+        <a href="community.html#t3">المرحلة الثالثة</a>
+        <a href="community.html#birth">مرحلة الولادة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 © حاسبة حملي — جميع الحقوق محفوظة ✏️💙🩷</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/family.js"></script>
+</body>
+</html>

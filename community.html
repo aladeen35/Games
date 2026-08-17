@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مجتمع الأمهات — حاسبة حملي</title>
+  <meta name="description" content="مجتمع نسائي داعم لمشاركة تجارب الحمل والولادة: اسألي وشاركي مع أمهات في نفس مرحلتك، من التخطيط للحمل وحتى العناية بالمولود.">
+  <meta name="theme-color" content="#ffe08a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="حاسبة حملي">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">🤰</span> حاسبة حملي</a>
+    <button class="btn btn-mint" id="install-btn" style="display:none; padding:6px 16px; font-size:0.85rem;">📲 ثبتي التطبيق</button>
+    <button class="nav-toggle" aria-label="القائمة">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="calculator.html">الحاسبة</a>
+      <a href="weeks.html">متابعة أسبوعية</a>
+      <a href="tools.html">أدوات الأم</a>
+      <a href="health.html">المقالات</a>
+      <a href="community.html" class="active">المجتمع</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-emoji">💬</div>
+    <h1>مجتمع <span class="accent">الأمهات</span></h1>
+    <p>آلاف الأمهات يتشاركن الأسئلة والتجارب كل يوم. اختاري مرحلتك وانضمي للحديث في بيئة نسائية داعمة وآمنة.</p>
+  </div>
+</section>
+
+<section class="section" id="pre">
+  <div class="container">
+    <div class="section-head">
+      <h2>أقسام <span>المجتمع</span></h2>
+      <p>ستة أقسام تغطي رحلتك كاملة من التخطيط للحمل وحتى العناية بمولودك</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card stage-card" id="t1">
+        <span class="stage-num">١</span>
+        <div>
+          <h3>ما قبل الحمل</h3>
+          <div class="topics-count">1,146,957 موضوعاً — التخطيط للحمل والتبويض وتأخر الإنجاب</div>
+        </div>
+      </div>
+      <div class="card stage-card" id="t2">
+        <span class="stage-num">٢</span>
+        <div>
+          <h3>المرحلة الأولى (أول 3 أشهر)</h3>
+          <div class="topics-count">218,450 موضوعاً — أعراض الحمل والوحام والفحوصات الأولى</div>
+        </div>
+      </div>
+      <div class="card stage-card" id="t3">
+        <span class="stage-num">٣</span>
+        <div>
+          <h3>المرحلة الثانية (الأشهر 4، 5، 6)</h3>
+          <div class="topics-count">154,451 موضوعاً — حركة الجنين ومعرفة الجنس</div>
+        </div>
+      </div>
+      <div class="card stage-card" id="birth">
+        <span class="stage-num">٤</span>
+        <div>
+          <h3>المرحلة الثالثة (الأشهر 7، 8، 9)</h3>
+          <div class="topics-count">177,293 موضوعاً — الاستعداد للولادة وحقيبة المستشفى</div>
+        </div>
+      </div>
+      <div class="card stage-card" id="newborn">
+        <span class="stage-num">٥</span>
+        <div>
+          <h3>مرحلة الولادة</h3>
+          <div class="topics-count">47,210 مواضيع — علامات المخاض والولادة الطبيعية والقيصرية</div>
+        </div>
+      </div>
+      <div class="card stage-card">
+        <span class="stage-num">٦</span>
+        <div>
+          <h3>حديثو الولادة وما بعد الولادة</h3>
+          <div class="topics-count">50,908 مواضيع — الرضاعة والنفاس والعناية بالمولود</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="container">
+    <div class="section-head">
+      <h2>أحدث <span>المواضيع</span></h2>
+      <p>نماذج من نقاشات المجتمع — سجلي حسابك لتشاركي وتعلقي</p>
+    </div>
+    <div class="topic-list">
+      <div class="topic-item">
+        <div class="topic-avatar">🌷</div>
+        <div class="topic-body">
+          <h3>أنا في الأسبوع 12 ومو حاسة بأي أعراض.. طبيعي؟</h3>
+          <p>صار لي أسبوعين الغثيان اختفى فجأة وقلقت، مين مرت بنفس التجربة وطمنوها الدكتورة؟</p>
+          <div class="topic-meta"><span class="tag">المرحلة الأولى</span><span>💬 34 تعليقاً</span><span>قبل 5 دقائق</span></div>
+        </div>
+      </div>
+      <div class="topic-item">
+        <div class="topic-avatar">🌸</div>
+        <div class="topic-body">
+          <h3>حركة البيبي قلّت اليوم.. متى أروح الطوارئ؟</h3>
+          <p>أنا بالأسبوع 32 وحاسة إن الحركة أخف من العادة من الصبح، جربت أشرب بارد وأستلقي على جنبي...</p>
+          <div class="topic-meta"><span class="tag">المرحلة الثالثة</span><span>💬 58 تعليقاً</span><span>قبل 22 دقيقة</span></div>
+        </div>
+      </div>
+      <div class="topic-item">
+        <div class="topic-avatar">🦋</div>
+        <div class="topic-body">
+          <h3>تجربتي مع الولادة الطبيعية بعد قيصريتين</h3>
+          <p>حبيت أشارككم قصتي كاملة من أول ما قررت وكيف اخترت الدكتورة، عشان أشجع كل وحدة خايفة...</p>
+          <div class="topic-meta"><span class="tag">مرحلة الولادة</span><span>💬 112 تعليقاً</span><span>قبل ساعة</span></div>
+        </div>
+      </div>
+      <div class="topic-item">
+        <div class="topic-avatar">🌼</div>
+        <div class="topic-body">
+          <h3>وش أفضل فيتامينات قبل الحمل؟</h3>
+          <p>أنا وزوجي قررنا نبدأ نخطط للحمل، وأبغى أعرف وش الفيتامينات اللي لازم آخذها من الآن؟</p>
+          <div class="topic-meta"><span class="tag">ما قبل الحمل</span><span>💬 27 تعليقاً</span><span>قبل ساعتين</span></div>
+        </div>
+      </div>
+      <div class="topic-item">
+        <div class="topic-avatar">🌺</div>
+        <div class="topic-body">
+          <h3>سونار الأسبوع 20 بكرة وأنا متوترة!</h3>
+          <p>بكرة موعد السونار المفصل وأول مرة بنعرف الجنس، ادعوا لي كل شيء يطلع تمام 🥹</p>
+          <div class="topic-meta"><span class="tag">المرحلة الثانية</span><span>💬 45 تعليقاً</span><span>قبل 3 ساعات</span></div>
+        </div>
+      </div>
+      <div class="topic-item">
+        <div class="topic-avatar">🍼</div>
+        <div class="topic-body">
+          <h3>بنتي عمرها أسبوعين وترضع كل ساعة.. طبيعي؟</h3>
+          <p>أول تجربة رضاعة لي وحاسة إنها ترضع كثير مرة، هل هذا معناه حليبي ما يكفيها؟</p>
+          <div class="topic-meta"><span class="tag">حديثو الولادة</span><span>💬 63 تعليقاً</span><span>قبل 4 ساعات</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer">💜 تجارب العضوات لا تغني عن الاستشارة الطبية. في الحالات الطارئة توجهي للمستشفى مباشرة.</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h4>🤰 حاسبة حملي</h4>
+        <p>دفتر عائلي كرتوني لمتابعة الحمل والصحة النسائية — من شجرة العائلة وحتى عدّ ركلات برعمكم الصغير.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="calculator.html">حاسبة الحمل</a>
+        <a href="weeks.html">متابعة أسبوعية</a>
+        <a href="tools.html">أدوات الأم</a>
+        <a href="health.html">المقالات</a>
+      </div>
+      <div>
+        <h4>المجتمع</h4>
+        <a href="community.html">مجتمع الأمهات</a>
+        <a href="community.html#t1">المرحلة الأولى</a>
+        <a href="community.html#t3">المرحلة الثالثة</a>
+        <a href="community.html#birth">مرحلة الولادة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 © حاسبة حملي — جميع الحقوق محفوظة ✏️💙🩷</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

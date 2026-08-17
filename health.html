@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المقالات — حاسبة حملي</title>
+  <meta name="description" content="قصاصات مقالات صحية عن الحمل وصحة الطفل تتجدد تلقائياً كل 24 ساعة من مصادر طبية، إلى جانب مقالاتنا المختارة في الصحة النسائية.">
+  <meta name="theme-color" content="#ffe08a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="حاسبة حملي">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">🤰</span> حاسبة حملي</a>
+    <button class="btn btn-mint" id="install-btn" style="display:none; padding:6px 16px; font-size:0.85rem;">📲 ثبتي التطبيق</button>
+    <button class="nav-toggle" aria-label="القائمة">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">الرئيسية</a>
+      <a href="calculator.html">الحاسبة</a>
+      <a href="weeks.html">متابعة أسبوعية</a>
+      <a href="tools.html">أدوات الأم</a>
+      <a href="health.html" class="active">المقالات</a>
+      <a href="community.html">المجتمع</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-emoji">📰📌</div>
+    <h1>قصاصات <span class="accent">المجلة الصحية</span></h1>
+    <p>مقالات متجددة تلقائياً كل 24 ساعة من مصادر طبية عالمية، مثبتة بدبابيسنا الكرتونية</p>
+  </div>
+</section>
+
+<!-- المقالات الحية (RSS / NewsAPI) -->
+<section class="section" style="padding-top:10px;">
+  <div class="container">
+    <div class="live-status" id="live-status">⏳ نجلب لك أحدث المقالات الآن...</div>
+    <div class="grid grid-2" id="live-articles"></div>
+  </div>
+</section>
+
+<!-- مقالات مختارة محلية -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>مقالاتنا <span>المختارة</span></h2>
+      <p>محتوى توعوي ثابت في الصحة النسائية كتبناه بأقلامنا الملونة</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="clipping">
+        <h3>🌙 فهم الدورة الشهرية ومراحلها</h3>
+        <p>المراحل الأربع للدورة، ما هو الطبيعي وما يستدعي زيارة الطبيبة، وكيف تتبعين دورتك بذكاء.</p>
+        <div class="clip-source">✂️ الدورة الشهرية</div>
+      </div>
+      <div class="clipping">
+        <h3>🌸 الخصوبة: كيف تزيدين فرص الحمل؟</h3>
+        <p>نافذة الخصوبة، علامات التبويض، والعادات الغذائية والحياتية التي تدعم خصوبتك أنتِ وزوجك.</p>
+        <div class="clip-source">✂️ الخصوبة والتخطيط</div>
+      </div>
+      <div class="clipping">
+        <h3>🥗 تغذية الحامل: ماذا تأكلين وماذا تتجنبين؟</h3>
+        <p>العناصر الأساسية في الحمل: حمض الفوليك، الحديد، الكالسيوم، وقائمة الأطعمة الممنوعة.</p>
+        <div class="clip-source">✂️ تغذية الحمل</div>
+      </div>
+      <div class="clipping">
+        <h3>🧘‍♀️ الرياضة الآمنة أثناء الحمل</h3>
+        <p>تمارين آمنة لكل ثلث من الحمل، ومتى يجب التوقف فوراً، وفوائد الحركة لولادة أسهل.</p>
+        <div class="clip-source">✂️ لياقة الحامل</div>
+      </div>
+      <div class="clipping">
+        <h3>💜 اكتئاب ما بعد الولادة: لستِ وحدك</h3>
+        <p>الفرق بين كآبة النفاس واكتئاب ما بعد الولادة، علامات التحذير، ومتى تطلبين المساعدة.</p>
+        <div class="clip-source">✂️ الصحة النفسية</div>
+      </div>
+      <div class="clipping">
+        <h3>🍼 الرضاعة الطبيعية: دليل البداية</h3>
+        <p>وضعيات الرضاعة الصحيحة، علامات شبع الرضيع، وحلول لأشهر صعوبات الأسابيع الأولى.</p>
+        <div class="clip-source">✂️ ما بعد الولادة</div>
+      </div>
+      <div class="clipping">
+        <h3>🩸 فقر الدم عند النساء: الأعراض والعلاج</h3>
+        <p>لماذا النساء أكثر عرضة لفقر الدم؟ الأعراض التي لا يجب تجاهلها ومصادر الحديد الغذائية.</p>
+        <div class="clip-source">✂️ صحة عامة</div>
+      </div>
+      <div class="clipping">
+        <h3>🔬 الفحوصات الدورية لكل امرأة</h3>
+        <p>جدول الفحوصات الوقائية حسب العمر: عنق الرحم، الثدي، العظام، والغدة الدرقية.</p>
+        <div class="clip-source">✂️ الوقاية والفحص</div>
+      </div>
+      <div class="clipping">
+        <h3>😴 النوم أثناء الحمل: وضعيات وحلول</h3>
+        <p>لماذا يُنصح بالنوم على الجانب الأيسر؟ وحلول عملية للأرق وتقلصات الساقين الليلية.</p>
+        <div class="clip-source">✂️ راحة الحامل</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚕️ المحتوى الصحي لأغراض توعوية عامة ولا يغني عن استشارة الطبيب المختص. المقالات الخارجية بلغتها الأصلية ومسؤولية مصادرها.</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h4>🤰 حاسبة حملي</h4>
+        <p>دفتر عائلي كرتوني لمتابعة الحمل والصحة النسائية — من شجرة العائلة وحتى عدّ ركلات برعمكم الصغير.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <a href="calculator.html">حاسبة الحمل</a>
+        <a href="weeks.html">متابعة أسبوعية</a>
+        <a href="tools.html">أدوات الأم</a>
+        <a href="health.html">المقالات</a>
+      </div>
+      <div>
+        <h4>المجتمع</h4>
+        <a href="community.html">مجتمع الأمهات</a>
+        <a href="community.html#t1">المرحلة الأولى</a>
+        <a href="community.html#t3">المرحلة الثالثة</a>
+        <a href="community.html#birth">مرحلة الولادة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 © حاسبة حملي — جميع الحقوق محفوظة ✏️💙🩷</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/articles.js"></script>
+</body>
+</html>
