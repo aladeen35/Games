@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>الخرطوم — عالم مفتوح 🇸🇩</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#1a120a; touch-action:none; overscroll-behavior:none; }
+  body { font-family:"Segoe UI", Tahoma, "Noto Kufi Arabic", "Droid Arabic Kufi", sans-serif; user-select:none; -webkit-user-select:none; }
+  #game { position:fixed; inset:0; display:block; }
+
+  /* ===== شاشة البداية (بألوان غروب الخرطوم كما في الصورة المرجعية) ===== */
+  #startOverlay {
+    position:fixed; inset:0; z-index:50; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:56px 24px;
+    background:linear-gradient(180deg,#f7a83c 0%,#ef8f26 40%,#d9731d 75%,#b85a18 100%);
+    color:#fff; overflow-y:auto;
+  }
+  /* إطار هندسي سوداني (مثلثات ومعينات) أعلى وأسفل الشاشة */
+  #startOverlay::before, #startOverlay::after {
+    content:""; position:absolute; left:0; right:0; height:34px; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='68' height='34'%3E%3Crect width='68' height='34' fill='%232f2a24'/%3E%3Cpath d='M0 34 L17 6 L34 34 Z' fill='%23d8a03a'/%3E%3Cpath d='M34 34 L51 6 L68 34 Z' fill='%23b9803a'/%3E%3Cpath d='M17 0 L25 13 L17 26 L9 13 Z' fill='%23e8cf9a'/%3E%3Cpath d='M51 0 L59 13 L51 26 L43 13 Z' fill='%23e8cf9a'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;
+  }
+  #startOverlay::before { top:0; transform:scaleY(-1); }
+  #startOverlay::after { bottom:0; }
+  #logo {
+    width:min(58vw,300px); height:auto; border-radius:18px;
+    box-shadow:0 10px 34px rgba(60,25,0,.5); border:3px solid rgba(255,235,190,.55);
+    margin-bottom:14px;
+  }
+  #startOverlay .flag { font-size:40px; line-height:1; margin-bottom:6px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
+  #startOverlay h1 { font-size:min(9vw,50px); font-weight:800; letter-spacing:1px; text-shadow:0 3px 14px rgba(90,40,0,.6); }
+  #startOverlay h2 { font-size:min(4.5vw,21px); font-weight:400; margin-top:8px; color:#fff3dd; text-shadow:0 2px 8px rgba(90,40,0,.5); }
+  #startOverlay .desc {
+    margin-top:18px; max-width:560px; font-size:min(4vw,16px); line-height:1.9; color:#f5e9d8;
+    background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px 18px;
+  }
+  #startBtn {
+    margin-top:26px; padding:14px 58px; font-size:min(5.5vw,24px); font-weight:700; color:#3a2410;
+    font-family:inherit; background:linear-gradient(180deg,#ffd98a,#e8a94e); border:none; border-radius:40px;
+    box-shadow:0 6px 22px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.6); cursor:pointer;
+  }
+  #startBtn:active { transform:scale(.96); }
+  #startOverlay .ctrls { margin-top:20px; font-size:min(3.6vw,14px); color:#e8d8be; line-height:1.9; }
+  #startOverlay .ctrls b { color:#ffd98a; }
+
+  /* ===== واجهة اللعب ===== */
+  .hud { position:fixed; z-index:20; pointer-events:none; }
+  #mission {
+    top:calc(env(safe-area-inset-top,0px) + 14px); right:14px;
+    background:rgba(22,15,8,.85); color:#ffcf5e; padding:9px 20px; border-radius:14px;
+    font-size:min(4.4vw,18px); font-weight:800; border:1.5px solid rgba(255,205,110,.55);
+    box-shadow:0 4px 16px rgba(0,0,0,.4); white-space:nowrap;
+  }
+  #locToast {
+    top:calc(env(safe-area-inset-top,0px) + 66px); left:50%; transform:translateX(-50%) translateY(-140px);
+    background:rgba(20,14,8,.82); color:#ffe4b0; padding:10px 26px; border-radius:30px;
+    font-size:min(4.5vw,19px); font-weight:700; border:1px solid rgba(255,215,140,.45);
+    transition:transform .45s cubic-bezier(.2,.9,.3,1.2); white-space:nowrap; box-shadow:0 4px 18px rgba(0,0,0,.4);
+  }
+  #locToast.show { transform:translateX(-50%) translateY(0); }
+  #counter {
+    top:calc(env(safe-area-inset-top,0px) + 62px); right:14px;
+    background:rgba(20,14,8,.72); color:#ffe4b0; padding:6px 14px; border-radius:12px;
+    font-size:min(3.8vw,14px); font-weight:700; border:1px solid rgba(255,215,140,.3);
+  }
+  #minimap {
+    top:calc(env(safe-area-inset-top,0px) + 12px); left:14px;
+    border-radius:50%; border:3px solid rgba(255,225,165,.75); box-shadow:0 4px 14px rgba(0,0,0,.45);
+    width:132px; height:132px; opacity:.94; background:#d9bd8e;
+  }
+  #hint {
+    bottom:calc(env(safe-area-inset-bottom,0px) + 10px); left:50%; transform:translateX(-50%);
+    color:rgba(255,240,215,.85); font-size:min(3.4vw,13px); text-shadow:0 1px 4px #000;
+    background:rgba(20,14,8,.45); padding:5px 14px; border-radius:20px; white-space:nowrap;
+  }
+  #soundBtn {
+    top:calc(env(safe-area-inset-top,0px) + 158px); left:14px; pointer-events:auto;
+    width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,215,140,.4);
+    background:rgba(20,14,8,.72); color:#ffe4b0; font-size:20px; cursor:pointer;
+  }
+
+  /* ===== تحكم اللمس ===== */
+  #joyBase {
+    position:fixed; z-index:30; width:120px; height:120px; border-radius:50%;
+    background:rgba(255,255,255,.10); border:2px solid rgba(255,255,255,.35);
+    display:none; pointer-events:none;
+  }
+  #joyStick {
+    position:absolute; width:52px; height:52px; left:34px; top:34px; border-radius:50%;
+    background:rgba(255,225,160,.85); box-shadow:0 2px 10px rgba(0,0,0,.4);
+  }
+  #runBtn {
+    position:fixed; z-index:30; bottom:calc(env(safe-area-inset-bottom,0px) + 118px); right:26px;
+    width:70px; height:70px; border-radius:50%; border:2px solid rgba(255,215,140,.5);
+    background:rgba(20,14,8,.6); color:#ffe4b0; font-size:14px; font-weight:800; font-family:inherit;
+    display:none; align-items:center; justify-content:center;
+  }
+  #runBtn.on { background:rgba(200,120,30,.75); color:#fff; }
+  body.touch #runBtn { display:flex; }
+
+  /* لوحة مناطق اللمس السفلية (شفافة كما في الصورة المرجعية) */
+  #touchZones {
+    position:fixed; z-index:15; left:10px; right:10px;
+    bottom:calc(env(safe-area-inset-bottom,0px) + 8px); height:120px;
+    display:none; pointer-events:none; gap:8px;
+  }
+  body.touch #touchZones { display:flex; }
+  #touchZones .zone {
+    flex:1; border-radius:16px; background:rgba(255,244,224,.08);
+    border:1px solid rgba(255,240,210,.22);
+    display:flex; align-items:center; justify-content:center;
+  }
+  #touchZones .zone .ring {
+    width:84px; height:84px; border-radius:50%;
+    border:2px solid rgba(255,240,210,.3); background:rgba(255,244,224,.07);
+  }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<!-- شاشة البداية -->
+<div id="startOverlay">
+  <img id="logo" src="assets/logo.png" alt="شعار اللعبة"
+       onerror="this.onerror=null; this.src='assets/logo.svg';">
+  <div class="flag">🇸🇩</div>
+  <h1>الخرطوم — عالم مفتوح</h1>
+  <h2>جولة في مدينة الخرطوم بشخصية «علاء الدين»</h2>
+  <div class="desc">
+    تجوّل بحرية بين <b>المقرن</b> حيث يلتقي النيلان، و<b>جزيرة توتي</b>، و<b>برج الفاتح</b>،
+    وعبر الكباري إلى <b>أم درمان</b> و<b>بحري</b>. اكتشف المعالم الاثني عشر، وسلّم على ست الشاي،
+    وشاهد الركشات والمراكب الشراعية على النيل.
+  </div>
+  <button id="startBtn">ابدأ الجولة</button>
+  <div class="ctrls" id="ctrlsDesktop">
+    <b>الحاسوب:</b> الأسهم أو WASD للحركة — <b>Shift</b> للجري — اسحب بالفأرة لتدوير الكاميرا
+  </div>
+  <div class="ctrls" id="ctrlsTouch" style="display:none">
+    <b>الهاتف:</b> المس النصف الأيسر للحركة (عصا افتراضية) — اسحب النصف الأيمن لتدوير الكاميرا — زر «جري» للركض
+  </div>
+</div>
+
+<!-- واجهة اللعب -->
+<div id="mission" class="hud">مهمة: إلى النيل</div>
+<div id="locToast" class="hud"></div>
+<div id="counter" class="hud">المعالم: 0/12</div>
+<canvas id="minimap" class="hud" width="264" height="264"></canvas>
+<button id="soundBtn" class="hud" title="الصوت">🔇</button>
+<div id="hint" class="hud"></div>
+
+<!-- مناطق اللمس -->
+<div id="touchZones">
+  <div class="zone"><div class="ring"></div></div>
+  <div class="zone"><div class="ring"></div></div>
+</div>
+<div id="joyBase"><div id="joyStick"></div></div>
+<button id="runBtn">جري 🏃</button>
+
+<script src="lib/three.min.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
