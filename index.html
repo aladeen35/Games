@@ -103,6 +103,13 @@
   }
   #runBtn.on { background:rgba(200,120,30,.75); color:#fff; }
   body.touch #runBtn { display:flex; }
+  #rideBtn {
+    position:fixed; z-index:30; bottom:calc(env(safe-area-inset-bottom,0px) + 200px); right:26px;
+    width:70px; height:70px; border-radius:50%; border:2px solid rgba(255,215,80,.7);
+    background:rgba(160,110,10,.75); color:#fff; font-size:14px; font-weight:800; font-family:inherit;
+    display:none; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.4);
+  }
 
   /* لوحة مناطق اللمس السفلية (شفافة كما في الصورة المرجعية) */
   #touchZones {
@@ -134,15 +141,16 @@
   <h2>جولة في مدينة الخرطوم بشخصية «علاء الدين»</h2>
   <div class="desc">
     تجوّل بحرية بين <b>المقرن</b> حيث يلتقي النيلان، و<b>جزيرة توتي</b>، و<b>برج الفاتح</b>،
-    وعبر الكباري إلى <b>أم درمان</b> و<b>بحري</b>. اكتشف المعالم الاثني عشر، وسلّم على ست الشاي،
-    وشاهد الركشات والمراكب الشراعية على النيل.
+    وعبر الكباري إلى <b>أم درمان</b> و<b>بحري</b>. اكتشف المعالم الاثني عشر، واركب
+    <b>التاكسي الأصفر</b> لتقطع المدينة بسرعة، وسلّم على ست الشاي وشاهد الركشات
+    والمراكب الشراعية على النيل.
   </div>
   <button id="startBtn">ابدأ الجولة</button>
   <div class="ctrls" id="ctrlsDesktop">
-    <b>الحاسوب:</b> الأسهم أو WASD للحركة — <b>Shift</b> للجري — اسحب بالفأرة لتدوير الكاميرا
+    <b>الحاسوب:</b> الأسهم أو WASD للحركة — <b>Shift</b> للجري — <b>E</b> لركوب التاكسي — اسحب بالفأرة للكاميرا
   </div>
   <div class="ctrls" id="ctrlsTouch" style="display:none">
-    <b>الهاتف:</b> المس النصف الأيسر للحركة (عصا افتراضية) — اسحب النصف الأيمن لتدوير الكاميرا — زر «جري» للركض
+    <b>الهاتف:</b> المس النصف الأيسر للحركة — اسحب الأيمن للكاميرا — «جري» للركض — «ركوب» قرب التاكسي الأصفر
   </div>
 </div>
 
@@ -161,6 +169,7 @@
 </div>
 <div id="joyBase"><div id="joyStick"></div></div>
 <button id="runBtn">جري 🏃</button>
+<button id="rideBtn">🚕 ركوب</button>
 
 <script src="lib/three.min.js"></script>
 <script src="js/game.js"></script>

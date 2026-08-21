@@ -34,6 +34,8 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.08;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xefcb9c, 140, 950);
@@ -45,8 +47,43 @@
   scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xffe3b3, 1.5);
   sun.position.set(220, 300, 140);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.camera.left = -150; sun.shadow.camera.right = 150;
+  sun.shadow.camera.top = 150; sun.shadow.camera.bottom = -150;
+  sun.shadow.camera.near = 30; sun.shadow.camera.far = 800;
+  sun.shadow.bias = -0.0004;
+  sun.shadow.normalBias = 0.6;
   scene.add(sun);
+  scene.add(sun.target);
   scene.add(new THREE.AmbientLight(0x6a5238, 0.5));
+
+  // رياح مشتركة لتحريك الماء وأوراق الشجر (عبر إزاحة رؤوس في الـ GPU)
+  const windU = { value: 0 };
+  function addWaterWind(mat, amp) {
+    mat.onBeforeCompile = sh => {
+      sh.uniforms.uT = windU;
+      sh.vertexShader = 'uniform float uT;\n' + sh.vertexShader.replace(
+        '#include <begin_vertex>',
+        '#include <begin_vertex>\n' +
+        // إزاحة موجبة فقط حتى لا يهبط الماء تحت مستوى الأرض
+        'transformed.z += (sin(uT*1.4 + position.x*0.12 + position.y*0.2) + sin(uT*2.3 + position.y*0.31) + 2.0) * ' + amp + ';'
+      );
+    };
+  }
+  function addLeafWind(mat, amp, weightExpr) {
+    mat.onBeforeCompile = sh => {
+      sh.uniforms.uT = windU;
+      sh.vertexShader = 'uniform float uT;\n' + sh.vertexShader.replace(
+        '#include <begin_vertex>',
+        '#include <begin_vertex>\n' +
+        'vec4 iw = instanceMatrix * vec4(position, 1.0);\n' +
+        'float wamt = ' + weightExpr + ';\n' +
+        'transformed.x += sin(uT*1.8 + iw.x*0.2 + iw.z*0.17) * ' + amp + ' * wamt;\n' +
+        'transformed.z += cos(uT*1.5 + iw.x*0.15 + iw.z*0.11) * ' + amp + ' * 0.7 * wamt;'
+      );
+    };
+  }
 
   // قبة السماء المتدرجة
   (function makeSky() {
@@ -139,6 +176,21 @@
     return new THREE.MeshStandardMaterial({ color, map: t, roughness: 0.35, metalness: 0.08 });
   }
 
+  // نسيج قماش الجلابية (خيوط رأسية دقيقة وحبيبات)
+  const clothTex = canvasTex(256, 256, (g, w, h) => {
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h);
+    for (let x = 0; x < w; x += 3) {
+      g.strokeStyle = 'rgba(120,110,100,' + (0.05 + rng() * 0.06) + ')';
+      g.beginPath(); g.moveTo(x + rng() * 2, 0); g.lineTo(x + rng() * 2, h); g.stroke();
+    }
+    for (let i = 0; i < 900; i++) {
+      g.fillStyle = 'rgba(90,80,70,' + (rng() * 0.07) + ')';
+      g.fillRect(rng() * w, rng() * h, 1.6, 1.6);
+    }
+  });
+  clothTex.wrapS = clothTex.wrapT = THREE.RepeatWrapping;
+  clothTex.repeat.set(2.5, 2.5);
+
   // نوافذ المباني
   const buildingTexCache = {};
   function buildingTex(base, cols, rows, lit) {
@@ -210,12 +262,16 @@
   const BRIDGES = [
     { x1: -205, x2: -95, z1: 92, z2: 108, name: 'كبري النيل الأبيض' },
     { x1: 92, x2: 108, z1: -205, z2: -95, name: 'كبري المك نمر' },
-    { x1: -158, x2: -142, z1: -112, z2: -55, name: 'كبري توتي' },
     { x1: -405, x2: -195, z1: -308, z2: -292, name: 'كبري شمبات' }
   ];
   const TUTI = { x: -150, z: -150, r: 52 };
+  // كبري توتي: قطري من الجزيرة إلى ضفة الخرطوم عند المقرن
+  // المعادلة: نطاق (x+z) على طول الجسر، و|x−z| نصف عرضه
+  const TUTI_BR = { sMin: -242, sMax: -158, dMax: 10 };
 
   function onBridge(x, z) {
+    const s = x + z, d = Math.abs(x - z);
+    if (s >= TUTI_BR.sMin && s <= TUTI_BR.sMax && d <= TUTI_BR.dMax) return true;
     for (let i = 0; i < BRIDGES.length; i++) {
       const b = BRIDGES[i];
       if (x >= b.x1 && x <= b.x2 && z >= b.z1 && z <= b.z2) return true;
@@ -236,15 +292,19 @@
   const blueNile = waterMat(0x3d88b0, 24, 3);
   const whiteNile = waterMat(0x84a5b0, 3, 24);
   const mainNile = waterMat(0x5b93af, 20, 4);
+  // موجات خفيفة على سطح النيل
+  addWaterWind(whiteNile, 0.035);
+  addWaterWind(blueNile, 0.035);
+  addWaterWind(mainNile, 0.035);
   (function buildWater() {
     // الماء أعلى من الأرض بقليل (طبقات مرتبة لتفادي التذبذب البصري)
-    let m = new THREE.Mesh(new THREE.PlaneGeometry(90, 900), whiteNile);
+    let m = new THREE.Mesh(new THREE.PlaneGeometry(90, 900, 5, 50), whiteNile);
     m.rotation.x = -Math.PI / 2; m.position.set(-150, 0.03, 255); scene.add(m);
-    m = new THREE.Mesh(new THREE.PlaneGeometry(900, 90), blueNile);
+    m = new THREE.Mesh(new THREE.PlaneGeometry(900, 90, 50, 5), blueNile);
     m.rotation.x = -Math.PI / 2; m.position.set(255, 0.032, -150); scene.add(m);
-    m = new THREE.Mesh(new THREE.CircleGeometry(85, 40), mainNile);
+    m = new THREE.Mesh(new THREE.CircleGeometry(85, 48), mainNile);
     m.rotation.x = -Math.PI / 2; m.position.set(-150, 0.045, -150); scene.add(m);
-    m = new THREE.Mesh(new THREE.PlaneGeometry(128, 800), mainNile);
+    m = new THREE.Mesh(new THREE.PlaneGeometry(128, 800, 7, 45), mainNile);
     m.rotation.x = -Math.PI / 2; m.rotation.z = Math.PI / 4;
     m.position.set(-425, 0.02, -425); scene.add(m);
   })();
@@ -367,6 +427,39 @@
         scene.add(pier);
       }
     });
+
+    // ---- كبري توتي القطري (معلّق نحو ضفة الخرطوم) ----
+    const cX = (TUTI_BR.sMin + TUTI_BR.sMax) / 4; // مركز الجسر عند x=z=-100
+    const tLen = (TUTI_BR.sMax - TUTI_BR.sMin) / Math.SQRT2 + 6;
+    const dirX = Math.SQRT1_2, dirZ = Math.SQRT1_2;       // اتجاه الجسر
+    const perpX = Math.SQRT1_2, perpZ = -Math.SQRT1_2;    // العمودي عليه
+    const tDeck = new THREE.Mesh(new THREE.BoxGeometry(14, 0.6, tLen), deckMat);
+    tDeck.rotation.y = Math.PI / 4;
+    tDeck.position.set(cX, 0.05, cX);
+    scene.add(tDeck);
+    for (const s of [-1, 1]) {
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.5, tLen), railMat);
+      rail.rotation.y = Math.PI / 4;
+      rail.position.set(cX + s * perpX * 6.6, 0.95, cX + s * perpZ * 6.6);
+      scene.add(rail);
+      // برج كوابل في المنتصف
+      const pylon = new THREE.Mesh(new THREE.BoxGeometry(0.8, 19, 0.8),
+        new THREE.MeshStandardMaterial({ color: 0xd8d8d8, metalness: 0.5, roughness: 0.4 }));
+      pylon.position.set(cX + s * perpX * 7.3, 9.5, cX + s * perpZ * 7.3);
+      scene.add(pylon);
+      const cableMat2 = new THREE.MeshStandardMaterial({ color: 0xeeeeee, metalness: 0.4, roughness: 0.4 });
+      for (let i = 1; i <= 3; i++) {
+        for (const dd of [-1, 1]) {
+          const ax = cX + s * perpX * 7.3, az = cX + s * perpZ * 7.3;
+          const bx = ax + dd * dirX * i * 9, bz = az + dd * dirZ * i * 9;
+          const a = new THREE.Vector3(ax, 18.2, az), b = new THREE.Vector3(bx, 1.1, bz);
+          const cl = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, a.distanceTo(b), 4), cableMat2);
+          cl.position.copy(a).add(b).multiplyScalar(0.5);
+          cl.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+          scene.add(cl);
+        }
+      }
+    }
   })();
 
   // ================= لافتات المعالم =================
@@ -792,6 +885,7 @@
       return g;
     })();
     const frondMat = new THREE.MeshStandardMaterial({ color: 0x4a8a3c, roughness: 1, side: THREE.DoubleSide });
+    addLeafWind(frondMat, 0.14, 'max(0.0, position.y + 1.2)'); // السعف يتمايل مع الهواء
     const fronds = new THREE.InstancedMesh(frondGeo, frondMat, valid.length);
     const M = new THREE.Matrix4(), P = new THREE.Vector3(), Q = new THREE.Quaternion(), S = new THREE.Vector3(1, 1, 1);
     valid.forEach((p, i) => {
@@ -817,8 +911,9 @@
     }
     const neemTrunk = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.34, 3, 5),
       trunkMat, neemSpots.length);
-    const neemTop = new THREE.InstancedMesh(new THREE.SphereGeometry(2.4, 8, 6),
-      new THREE.MeshStandardMaterial({ color: 0x4c8a3f, roughness: 1 }), neemSpots.length);
+    const neemTopMat = new THREE.MeshStandardMaterial({ color: 0x4c8a3f, roughness: 1 });
+    addLeafWind(neemTopMat, 0.1, '(position.y * 0.2 + 0.7)'); // تمايل تاج النيم
+    const neemTop = new THREE.InstancedMesh(new THREE.SphereGeometry(2.4, 10, 8), neemTopMat, neemSpots.length);
     neemSpots.forEach((p, i) => {
       const s = 0.8 + rng() * 0.7;
       S.set(s, s, s); Q.identity();
@@ -848,21 +943,26 @@
   // نظارة، لحية سوداء، ساعة يد سوداء، صندل جلد.
   function buildCharacter(opts) {
     opts = opts || {};
-    const skin = new THREE.MeshStandardMaterial({ color: opts.skin || 0x6f4530, roughness: 0.75 });
-    const cloth = new THREE.MeshStandardMaterial({ color: opts.cloth || 0xb9b0a8, roughness: 0.92 });
-    const dark = new THREE.MeshStandardMaterial({ color: 0x17120e, roughness: 0.6 });
+    const hd = !!opts.hd; // دقة عالية للشخصية الرئيسية
+    const seg = hd ? 24 : 12;
+    const skin = new THREE.MeshStandardMaterial({ color: opts.skin || 0x6f4530, roughness: hd ? 0.62 : 0.75 });
+    const cloth = new THREE.MeshStandardMaterial({
+      color: opts.cloth || 0xb9b0a8, roughness: 0.9,
+      map: hd ? clothTex : null
+    });
+    const dark = new THREE.MeshStandardMaterial({ color: 0x17120e, roughness: 0.55 });
 
     const root = new THREE.Group();
     const parts = { root };
 
     // تنورة الجلابية (تتسع للأسفل قليلاً)
-    const skirt = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.44, 1.06, 12), cloth);
+    const skirt = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.44, 1.06, seg), cloth);
     skirt.position.y = 0.56;
     root.add(skirt);
     parts.skirt = skirt;
 
     // الجذع
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.35, 0.58, 12), cloth);
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.35, 0.58, seg), cloth);
     torso.position.y = 1.33;
     root.add(torso);
 
@@ -889,26 +989,67 @@
     head.position.y = 1.8;
     root.add(head);
     parts.head = head;
-    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.205, 16, 14), skin);
+    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.205, hd ? 30 : 16, hd ? 24 : 14), skin);
     skull.scale.set(0.94, 1.06, 0.96);
     head.add(skull);
-    const nose = new THREE.Mesh(new THREE.SphereGeometry(0.035, 6, 5), skin);
-    nose.position.set(0, -0.03, 0.2);
-    head.add(nose);
-    const ear1 = new THREE.Mesh(new THREE.SphereGeometry(0.035, 6, 5), skin);
+    if (hd) {
+      // أنف مجسّم
+      const noseB = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.06, 0.035), skin);
+      noseB.position.set(0, -0.015, 0.195);
+      noseB.rotation.x = 0.18;
+      head.add(noseB);
+      const noseTip = new THREE.Mesh(new THREE.SphereGeometry(0.024, 10, 8), skin);
+      noseTip.position.set(0, -0.045, 0.207);
+      head.add(noseTip);
+      // العينان: بياض + قزحية بنية داكنة
+      for (const s of [-1, 1]) {
+        const white = new THREE.Mesh(new THREE.SphereGeometry(0.026, 10, 8),
+          new THREE.MeshStandardMaterial({ color: 0xf2ede2, roughness: 0.25 }));
+        white.scale.set(1.25, 0.85, 0.5);
+        white.position.set(s * 0.075, 0.035, 0.183);
+        head.add(white);
+        const iris = new THREE.Mesh(new THREE.SphereGeometry(0.013, 8, 6),
+          new THREE.MeshStandardMaterial({ color: 0x241408, roughness: 0.15 }));
+        iris.position.set(s * 0.075, 0.033, 0.196);
+        head.add(iris);
+        // حاجب
+        const brow = new THREE.Mesh(new THREE.BoxGeometry(0.062, 0.014, 0.012), dark);
+        brow.position.set(s * 0.078, 0.095, 0.188);
+        brow.rotation.z = s * -0.12;
+        head.add(brow);
+      }
+    } else {
+      const nose = new THREE.Mesh(new THREE.SphereGeometry(0.035, 6, 5), skin);
+      nose.position.set(0, -0.03, 0.2);
+      head.add(nose);
+    }
+    const ear1 = new THREE.Mesh(new THREE.SphereGeometry(0.035, hd ? 10 : 6, hd ? 8 : 5), skin);
     ear1.position.set(0.19, -0.01, 0); head.add(ear1);
     const ear2 = ear1.clone(); ear2.position.x = -0.19; head.add(ear2);
 
     // اللحية (نصف كرة سفلي أسود) + شارب
     if (opts.beard !== false) {
+      // لحية على الفك والذقن فقط (لا تغطي الخدود)
       const beard = new THREE.Mesh(
-        new THREE.SphereGeometry(0.215, 14, 10, 0, Math.PI * 2, Math.PI * 0.52, Math.PI * 0.48), dark);
-      beard.scale.set(0.92, 1.05, 0.95);
-      beard.position.set(0, -0.02, 0.015);
+        new THREE.SphereGeometry(0.212, hd ? 26 : 14, hd ? 16 : 10, 0, Math.PI * 2, Math.PI * 0.62, Math.PI * 0.38), dark);
+      beard.scale.set(0.9, 1.0, 0.94);
+      beard.position.set(0, -0.025, 0.02);
       head.add(beard);
-      const mus = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.03, 0.03), dark);
-      mus.position.set(0, -0.075, 0.185);
+      const mus = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.026, 0.028), dark);
+      mus.position.set(0, -0.082, 0.188);
       head.add(mus);
+      if (hd) {
+        // ذقن ممتلئة وسوالف رفيعة
+        const chin = new THREE.Mesh(new THREE.SphereGeometry(0.075, 14, 10), dark);
+        chin.scale.set(1.1, 0.85, 0.75);
+        chin.position.set(0, -0.185, 0.1);
+        head.add(chin);
+        for (const s of [-1, 1]) {
+          const sideburn = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.09, 0.045), dark);
+          sideburn.position.set(s * 0.172, 0.02, 0.06);
+          head.add(sideburn);
+        }
+      }
     }
 
     // النظارة
@@ -978,18 +1119,32 @@
       const armPivot = new THREE.Group();
       armPivot.position.set(s * 0.33, 1.56, 0);
       root.add(armPivot);
-      const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.115, 0.52, 8), cloth);
+      const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.115, 0.52, hd ? 14 : 8), cloth);
       sleeve.position.y = -0.26;
       armPivot.add(sleeve);
-      const hand = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 6), skin);
-      hand.position.y = -0.56;
+      if (hd) {
+        // سوار الكم (كما في لوحة التصميم)
+        const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.105, 0.018, 8, 16), cloth);
+        cuff.rotation.x = Math.PI / 2;
+        cuff.position.y = -0.5;
+        armPivot.add(cuff);
+      }
+      const hand = new THREE.Mesh(new THREE.SphereGeometry(0.07, hd ? 12 : 8, hd ? 10 : 6), skin);
+      if (hd) hand.scale.set(1, 0.82, 1.18);
+      hand.position.y = -0.57;
       armPivot.add(hand);
-      // ساعة اليد اليسرى
+      // ساعة اليد اليسرى: سير أسود وميناء
       if (opts.watch && s === -1) {
-        const watch = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.05, 0.09),
-          new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.6, roughness: 0.3 }));
-        watch.position.y = -0.5;
-        armPivot.add(watch);
+        const band = new THREE.Mesh(new THREE.TorusGeometry(0.095, 0.02, 8, 18),
+          new THREE.MeshStandardMaterial({ color: 0x181410, roughness: 0.45 }));
+        band.rotation.x = Math.PI / 2;
+        band.position.y = -0.485;
+        armPivot.add(band);
+        const face = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.018, 14),
+          new THREE.MeshStandardMaterial({ color: 0x0d0d0d, metalness: 0.55, roughness: 0.25 }));
+        face.rotation.z = Math.PI / 2;
+        face.position.set(-0.1, -0.485, 0);
+        armPivot.add(face);
       }
       parts.arms.push(armPivot);
     }
@@ -1006,12 +1161,22 @@
       const toes = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.05, 0.2), skin);
       toes.position.set(0, 0.05, 0.02);
       foot.add(toes);
+      if (hd) {
+        // سيور الصندل الجلدية
+        const strap = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.028, 0.035), soleMat);
+        strap.position.set(0, 0.075, 0.07);
+        foot.add(strap);
+        const strap2 = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.028, 0.03), soleMat);
+        strap2.position.set(0, 0.075, -0.05);
+        strap2.rotation.x = 0.3;
+        foot.add(strap2);
+      }
       parts.feet.push(foot);
     }
 
-    // ظل دائري
+    // ظل دائري خفيف (الظل الحقيقي من الشمس)
     const blob = new THREE.Mesh(new THREE.CircleGeometry(0.55, 14),
-      new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28 }));
+      new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.13 }));
     blob.rotation.x = -Math.PI / 2;
     blob.position.y = 0.015;
     root.add(blob);
@@ -1042,10 +1207,18 @@
 
   // اللاعب: علاء الدين
   const player = buildCharacter({
-    skin: 0x6f4530, cloth: 0xafa69c,
+    skin: 0x6f4530, cloth: 0xafa69c, hd: true,
     headwear: 'taqiyah', glasses: true, watch: true, beard: true
   });
-  player.root.position.set(60, 0, 60);
+  // نقطة بداية آمنة (خالية من المباني والماء)
+  (function safeSpawn() {
+    let x = 60, z = 60, t = 0;
+    while ((collideCircle(x, z, 1.0) || isWater(x, z)) && ++t < 80) {
+      x = 60 + (rng() - 0.5) * 70;
+      z = 60 + (rng() - 0.5) * 70;
+    }
+    player.root.position.set(x, 0, z);
+  })();
   scene.add(player.root);
   const playerState = { yaw: 0, walkTime: 0, moveAmt: 0, heading: 0 };
 
@@ -1060,7 +1233,7 @@
   (function spawnNpcs() {
     const menCloth = [0xf2ede2, 0xe8e2d2, 0xdcd5c2, 0xf5f2ea];
     const womenCloth = [0xc23a6f, 0xd2703a, 0x2f8f8f, 0x8f4fa0, 0xe2b13a];
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 26; i++) {
       const isWoman = rng() < 0.4;
       const ch = buildCharacter({
         skin: [0x6f4530, 0x5a3524, 0x7c4f36][(rng() * 3) | 0],
@@ -1081,7 +1254,7 @@
       npcs.push({ ch, area, target: null, wait: rng() * 3, t: rng() * 10, speed: 1.4 + rng() * 0.8 });
     }
     // سكان توتي
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const ch = buildCharacter({
         skin: 0x6f4530, cloth: 0xf2ede2, headwear: 'turban',
         glasses: false, watch: false, beard: rng() < 0.5, details: false
@@ -1156,9 +1329,108 @@
         const vx = dx / d * this.speed * dt, vz = dz / d * this.speed * dt;
         this.g.position.x += vx; this.g.position.z += vz;
         this.g.rotation.y = lerpAngle(this.g.rotation.y, Math.atan2(dx, dz), 0.12);
+        if (this.g.userData.wheels) {
+          for (const w of this.g.userData.wheels) w.rotation.x += this.speed * dt / 0.38;
+        }
       }
     };
   }
+
+  // ---- سيارة (سيدان) — للمرور وللركوب ----
+  function buildCar(color, isTaxi) {
+    const g = new THREE.Group();
+    const paint = new THREE.MeshStandardMaterial({ color, metalness: 0.35, roughness: 0.35 });
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.55, 4.2), paint);
+    body.position.y = 0.72;
+    g.add(body);
+    const hood = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.18, 4.15), paint);
+    hood.position.y = 1.05;
+    g.add(hood);
+    const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.68, 0.55, 2.15),
+      new THREE.MeshStandardMaterial({ color: 0x35485a, metalness: 0.3, roughness: 0.18 }));
+    cabin.position.set(0, 1.4, -0.25);
+    g.add(cabin);
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.08, 2.2), paint);
+    roof.position.set(0, 1.7, -0.25);
+    g.add(roof);
+    // مصابيح
+    const lampF = new THREE.MeshStandardMaterial({ color: 0xfff2cc, emissive: 0x776633, roughness: 0.3 });
+    const lampR = new THREE.MeshStandardMaterial({ color: 0xaa2222, emissive: 0x551111, roughness: 0.3 });
+    for (const s of [-1, 1]) {
+      const lf = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.14, 0.06), lampF);
+      lf.position.set(s * 0.65, 0.85, 2.11); g.add(lf);
+      const lr = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.14, 0.06), lampR);
+      lr.position.set(s * 0.65, 0.85, -2.11); g.add(lr);
+    }
+    // عجلات
+    const wheels = [];
+    const wGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.26, 12);
+    const wMat = new THREE.MeshStandardMaterial({ color: 0x181818, roughness: 0.9 });
+    for (const [sx, sz] of [[-1, 1.35], [1, 1.35], [-1, -1.35], [1, -1.35]]) {
+      const w = new THREE.Mesh(wGeo, wMat);
+      w.rotation.z = Math.PI / 2;
+      w.position.set(sx * 0.88, 0.38, sz);
+      g.add(w);
+      wheels.push(w);
+    }
+    g.userData.wheels = wheels;
+    if (isTaxi) {
+      // لافتة تاكسي على السقف
+      const sign = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.22, 0.3),
+        new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.5 }));
+      sign.position.set(0, 1.86, -0.25);
+      g.add(sign);
+      // حزام مربعات أسود على الجانبين
+      const checker = canvasTex(128, 32, (cg, w, h) => {
+        cg.fillStyle = '#f5c518'; cg.fillRect(0, 0, w, h);
+        for (let i = 0; i < w / 8; i++) for (let j = 0; j < 2; j++) {
+          if ((i + j) % 2 === 0) { cg.fillStyle = '#111111'; cg.fillRect(i * 8, j * 16, 8, 16); }
+        }
+      });
+      checker.wrapS = THREE.RepeatWrapping; checker.repeat.set(3, 1);
+      for (const s of [-1, 1]) {
+        const band = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.22),
+          new THREE.MeshBasicMaterial({ map: checker }));
+        band.position.set(s * 0.96, 0.95, 0);
+        band.rotation.y = s * Math.PI / 2;
+        g.add(band);
+      }
+    }
+    scene.add(g);
+    return g;
+  }
+
+  // سيارات مرور تجوب الطرق
+  function trafficCar(color, waypoints, speed) {
+    const g = buildCar(color, false);
+    g.position.set(waypoints[0][0], 0, waypoints[0][1]);
+    vehicles.push(follower(g, waypoints, speed));
+  }
+  trafficCar(0xe8e4da, [[3, 97], [297, 97], [297, 303], [3, 303]], 13);
+  trafficCar(0x8f1f1f, [[103, 3], [397, 3], [397, 203], [103, 203]], 12);
+  trafficCar(0x3f6f4f, [[203, 103], [397, 103], [397, 397], [203, 397]], 11);
+  trafficCar(0xb8b8c0, [[-236, 97], [-627, 97], [-627, 3], [-236, 3]], 12);
+  trafficCar(0x4a4a52, [[97, -297], [497, -297], [497, -303], [97, -303]], 14);
+
+  // ---- تاكسيات صفراء قابلة للركوب ----
+  const rideables = [];
+  function parkedTaxi(x, z, ry) {
+    // إزاحة الموقف إن صادف مبنى أو ماء
+    let px = x, pz = z, tries = 0;
+    while ((collideCircle(px, pz, 1.8) || isWater(px, pz)) && ++tries < 24) {
+      px = x + (rng() - 0.5) * 28;
+      pz = z + (rng() - 0.5) * 28;
+    }
+    const g = buildCar(0xf5c518, true);
+    g.position.set(px, 0, pz);
+    g.rotation.y = ry;
+    rideables.push({ g, vel: 0, heading: ry });
+  }
+  parkedTaxi(70, 12, Math.PI / 2);      // وسط الخرطوم
+  parkedTaxi(252, -90, Math.PI / 2);    // شارع النيل
+  parkedTaxi(-330, -25, Math.PI / 2);   // أم درمان قرب قبة المهدي
+  parkedTaxi(112, -288, 0);             // بحري
+  let driving = null;
 
   // ركشة (توك توك سوداني)
   function rickshaw(color, waypoints, speed) {
@@ -1441,9 +1713,53 @@
   const keys = {};
   window.addEventListener('keydown', e => {
     keys[e.code] = true;
+    if (e.code === 'KeyE' && !e.repeat) toggleRide();
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
   });
   window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+  // ---- ركوب التاكسي والنزول منه ----
+  const rideBtn = document.getElementById('rideBtn');
+  function nearestTaxi() {
+    const p = player.root.position;
+    let best = null, bd = 4.5;
+    for (const r of rideables) {
+      const d = Math.hypot(r.g.position.x - p.x, r.g.position.z - p.z);
+      if (d < bd) { bd = d; best = r; }
+    }
+    return best;
+  }
+  function toggleRide() {
+    if (driving) {
+      // النزول: ابحث عن موضع فارغ بجانب السيارة
+      const g = driving.g;
+      for (const [ox, oz] of [[2.6, 0], [-2.6, 0], [0, 3.4], [0, -3.4]]) {
+        const wx = g.position.x + Math.cos(g.rotation.y) * ox + Math.sin(g.rotation.y) * oz;
+        const wz = g.position.z - Math.sin(g.rotation.y) * ox + Math.cos(g.rotation.y) * oz;
+        if (!isWater(wx, wz) && !collideCircle(wx, wz, 0.5)) {
+          player.root.position.set(wx, 0, wz);
+          break;
+        }
+      }
+      player.root.visible = true;
+      driving = null;
+      showToast('🚶 نزلت من التاكسي');
+    } else {
+      const t = nearestTaxi();
+      if (!t) return;
+      driving = t;
+      driving.vel = 0;
+      driving.heading = t.g.rotation.y;
+      player.root.visible = false;
+      showToast('🚕 انطلق! التاكسي أسرع بكثير');
+    }
+    rideBtn.textContent = driving ? '🚶 نزول' : '🚕 ركوب';
+  }
+  rideBtn.addEventListener('touchstart', e => {
+    e.preventDefault(); e.stopPropagation();
+    toggleRide();
+  }, { passive: false });
+  rideBtn.addEventListener('click', () => { if (!IS_TOUCH) toggleRide(); });
 
   const cam = { yaw: Math.PI * 0.25, pitch: 0.42, dist: 8.5 };
 
@@ -1579,6 +1895,12 @@
     // الكباري
     g.fillStyle = '#c9c0b0';
     BRIDGES.forEach(b => g.fillRect(X(b.x1), Z(b.z1), (b.x2 - b.x1) * s, (b.z2 - b.z1) * s));
+    // كبري توتي القطري
+    g.save();
+    g.translate(X(-100), Z(-100));
+    g.rotate(-Math.PI / 4);
+    g.fillRect(-7 * s, -32 * s, 14 * s, 64 * s);
+    g.restore();
     // طرق رئيسية
     g.strokeStyle = 'rgba(80,76,70,0.75)'; g.lineWidth = 1.4;
     for (let i = 0; i <= 4; i++) {
@@ -1733,8 +2055,8 @@
   document.getElementById('startBtn').addEventListener('click', () => {
     document.getElementById('startOverlay').style.display = 'none';
     hintEl.textContent = IS_TOUCH
-      ? 'المس يسار الشاشة للحركة — واسحب يمينها لتدوير الكاميرا'
-      : 'الأسهم/WASD للحركة — Shift للجري — اسحب بالفأرة للكاميرا';
+      ? 'المس يسار الشاشة للحركة — اسحب يمينها للكاميرا — «ركوب» قرب التاكسي'
+      : 'الأسهم/WASD للحركة — Shift للجري — E لركوب التاكسي — الفأرة للكاميرا';
     setTimeout(() => { hintEl.style.opacity = '0'; hintEl.style.transition = 'opacity 2s'; }, 9000);
     if (IS_TOUCH && document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -1750,8 +2072,24 @@
   const clock = new THREE.Clock();
   let elapsed = 0;
 
+  // ---- تفعيل الظلال على المشهد كله ----
+  // المجسمات الصلبة تُلقي ظلالاً وتستقبلها؛ الأسطح المستوية تستقبل فقط،
+  // والمواد الأساسية (سماء/غيوم/توهجات) خارج نظام الظلال
+  scene.traverse(o => {
+    if (!(o.isMesh || o.isInstancedMesh)) return;
+    const m = Array.isArray(o.material) ? o.material[0] : o.material;
+    if (m.isMeshBasicMaterial || m.isShaderMaterial) {
+      o.castShadow = false; o.receiveShadow = false;
+      return;
+    }
+    const gt = (o.geometry && o.geometry.type) || '';
+    o.castShadow = !/Plane|Circle|Ring/.test(gt);
+    o.receiveShadow = true;
+  });
+  wpDiamond.castShadow = false;
+
   // نقطة وصول للتصحيح والاختبار
-  window.__khartoum = { player: player.root, cam };
+  window.__khartoum = { player: player.root, cam, rideables };
 
   function animate() {
     requestAnimationFrame(animate);
@@ -1777,7 +2115,24 @@
     const mvz = fz * iy + rz * ix;
     const mvLen = Math.hypot(mvx, mvz);
 
-    if (mvLen > 0.01) {
+    if (driving) {
+      // قيادة التاكسي: أسرع مع دوران سلس
+      const carTop = 26;
+      const targetVel = mvLen > 0.01 ? carTop : 0;
+      driving.vel = lerp(driving.vel, targetVel, dt * (targetVel ? 1.15 : 3.2));
+      if (mvLen > 0.01) {
+        driving.heading = lerpAngle(driving.heading, Math.atan2(mvx, mvz), 0.06);
+      }
+      if (driving.vel > 0.3) {
+        const hx = Math.sin(driving.heading), hz = Math.cos(driving.heading);
+        tryMove(driving.g.position, hx * driving.vel * dt, hz * driving.vel * dt, 1.15);
+        for (const w of driving.g.userData.wheels) w.rotation.x += driving.vel * dt / 0.38;
+      }
+      driving.g.rotation.y = driving.heading;
+      player.root.position.copy(driving.g.position);
+      playerState.heading = driving.heading;
+      playerState.moveAmt = lerp(playerState.moveAmt, 0, 0.2);
+    } else if (mvLen > 0.01) {
       tryMove(player.root.position, mvx / mvLen * speed * dt, mvz / mvLen * speed * dt, 0.5);
       playerState.heading = lerpAngle(playerState.heading, Math.atan2(mvx, mvz), 0.18);
       player.root.rotation.y = playerState.heading;
@@ -1787,11 +2142,14 @@
       playerState.moveAmt = lerp(playerState.moveAmt, 0, 0.15);
       playerState.walkTime += dt * 0.3;
     }
-    player.animate(playerState.walkTime, playerState.moveAmt);
+    if (!driving) player.animate(playerState.walkTime, playerState.moveAmt);
+
+    // إظهار زر الركوب عند القرب من تاكسي
+    rideBtn.style.display = (driving || nearestTaxi()) ? 'flex' : 'none';
 
     // ---- الكاميرا (مع تقريبها إن اعترض مبنى) ----
     const p = player.root.position;
-    const cd = cam.dist;
+    const cd = cam.dist + (driving ? 4.5 : 0);
     const cy = Math.sin(cam.pitch) * cd + 1.6;
     const ch = Math.cos(cam.pitch) * cd;
     const ox = Math.sin(cam.yaw) * ch, oz = Math.cos(cam.yaw) * ch;
@@ -1804,7 +2162,12 @@
       p.y + 1.6 + (cy - 1.6) * camT,
       p.z + oz * camT
     );
-    camera.lookAt(p.x, p.y + 1.7, p.z);
+    camera.lookAt(p.x, p.y + (driving ? 2.3 : 1.7), p.z);
+
+    // الشمس تتبع اللاعب (لظلال حادة حوله دائماً) والرياح تتقدم
+    windU.value = elapsed;
+    sun.position.set(p.x + 180, 260, p.z + 120);
+    sun.target.position.set(p.x, 0, p.z);
 
     // ---- السكان ----
     for (const n of npcs) {
