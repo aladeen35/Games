@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>نط الكلب — لعبة سودانية شعبية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand-1:#d9b984;
+  --sand-2:#c9a468;
+  --sand-3:#b8935a;
+  --pit:#a07c45;
+  --pit-dark:#8a6838;
+  --green:#1e8a4c;
+  --green-dark:#136338;
+  --blue:#1d5fbf;
+  --blue-dark:#134587;
+  --ink:#3a2c17;
+  --paper:#fff8ec;
+  --accent:#c0392b;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'Cairo','Segoe UI',Tahoma,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 50% -100px, #e8cd9c 0%, transparent 60%),
+    linear-gradient(160deg, var(--sand-1) 0%, var(--sand-2) 55%, var(--sand-3) 100%);
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+/* grain over the whole page so it feels like sand */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+main{position:relative;z-index:1;width:100%;max-width:640px;padding:14px 12px 40px;display:flex;flex-direction:column;align-items:center}
+
+/* ---------- header ---------- */
+header{display:flex;align-items:center;gap:12px;margin:6px 0 4px}
+#logoBox{width:64px;height:64px;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%, #f7e3b5, #caa261);box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 0 0 3px rgba(255,255,255,.35)}
+#logoBox img{width:100%;height:100%;object-fit:cover;display:none}
+#logoBox .fallback{font-size:34px;line-height:1}
+h1{font-size:32px;font-weight:900;text-shadow:0 2px 0 rgba(255,255,255,.4)}
+.subtitle{font-size:14px;font-weight:600;opacity:.75;margin-top:-6px}
+
+/* ---------- screens ---------- */
+.screen{display:none;width:100%;flex-direction:column;align-items:center}
+.screen.active{display:flex}
+
+/* ---------- menu ---------- */
+.card{
+  width:100%;background:var(--paper);border-radius:20px;padding:20px 18px;margin-top:14px;
+  box-shadow:0 8px 24px rgba(58,44,23,.25), inset 0 0 0 1px rgba(58,44,23,.08);
+}
+.bigbtn{
+  display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;margin:10px 0;border:none;border-radius:16px;
+  font-family:inherit;font-size:20px;font-weight:700;color:#fff;cursor:pointer;text-align:right;
+  box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .08s, box-shadow .08s;
+}
+.bigbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.bigbtn .ic{font-size:28px}
+.bigbtn small{display:block;font-size:13px;font-weight:600;opacity:.85}
+.btn-local{background:linear-gradient(160deg,var(--green),var(--green-dark))}
+.btn-online{background:linear-gradient(160deg,var(--blue),var(--blue-dark))}
+.btn-rules{background:linear-gradient(160deg,#8a6838,#6d5129)}
+
+.btn{
+  padding:10px 22px;border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;color:#fff;
+  background:linear-gradient(160deg,#8a6838,#6d5129);box-shadow:0 3px 0 rgba(0,0,0,.25);transition:transform .08s;
+}
+.btn:active{transform:translateY(2px)}
+.btn.green{background:linear-gradient(160deg,var(--green),var(--green-dark))}
+.btn.blue{background:linear-gradient(160deg,var(--blue),var(--blue-dark))}
+.btn.red{background:linear-gradient(160deg,#c0392b,#8f2a20)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px rgba(58,44,23,.35)}
+
+/* ---------- rules ---------- */
+#rulesCard ol{padding-right:22px;line-height:2;font-size:15.5px}
+#rulesCard li::marker{font-weight:900;color:var(--green-dark)}
+
+/* ---------- online setup ---------- */
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:8px 0}
+input[type=text]{
+  font-family:inherit;font-size:22px;font-weight:700;letter-spacing:4px;text-align:center;direction:ltr;
+  width:180px;padding:10px;border-radius:12px;border:2px solid rgba(58,44,23,.3);background:#fff;
+}
+#roomCode{font-size:34px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fff;border-radius:14px;padding:8px 18px;
+  box-shadow:inset 0 0 0 2px rgba(58,44,23,.2);user-select:all}
+.hint{font-size:14px;opacity:.75;text-align:center;margin-top:6px}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid rgba(58,44,23,.2);border-top-color:var(--ink);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------- game HUD ---------- */
+#hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:8px 0}
+.playerBadge{
+  flex:1;display:flex;align-items:center;gap:10px;background:var(--paper);border-radius:14px;padding:8px 12px;
+  box-shadow:0 3px 10px rgba(58,44,23,.2);opacity:.55;transition:opacity .2s, box-shadow .2s;border:3px solid transparent;
+}
+.playerBadge.turn{opacity:1;border-color:currentColor;box-shadow:0 3px 14px rgba(58,44,23,.35)}
+.playerBadge .mini{width:30px;height:30px;flex:none}
+.playerBadge .info{display:flex;flex-direction:column;line-height:1.25}
+.playerBadge .name{font-weight:900;font-size:15px}
+.playerBadge .count{font-size:13px;font-weight:600;opacity:.8}
+#badgeG{color:var(--green-dark)} #badgeB{color:var(--blue-dark)}
+
+#turnBanner{
+  min-height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;
+  padding:4px 18px;border-radius:999px;background:rgba(255,248,236,.85);box-shadow:0 2px 8px rgba(58,44,23,.2);margin-bottom:8px;
+}
+
+/* ---------- board ---------- */
+#boardWrap{
+  position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:22px;padding:4.5%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,235,190,.5), transparent 55%),
+    linear-gradient(150deg,#d3af74,#b98f52 70%,#a97e44);
+  box-shadow:0 10px 30px rgba(58,44,23,.4), inset 0 0 0 3px rgba(255,255,255,.18), inset 0 0 60px rgba(120,85,40,.35);
+  background-size:cover;background-position:center;
+}
+#boardWrap.customBg{background-image:var(--custom-bg) !important;background-size:cover}
+#boardWrap::before{ /* sand grain on the board */
+  content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;opacity:.22;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+#board{
+  position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:3.5%;
+}
+.cell{
+  position:relative;border-radius:50%;cursor:pointer;
+  background:radial-gradient(circle at 42% 36%, var(--pit) 0%, var(--pit-dark) 78%);
+  box-shadow:inset 0 5px 10px rgba(60,40,15,.55), inset 0 -3px 6px rgba(255,230,180,.25), 0 1px 0 rgba(255,240,205,.35);
+}
+.cell.moveTarget::after{
+  content:"";position:absolute;inset:32%;border-radius:50%;background:rgba(255,248,220,.85);
+  box-shadow:0 0 10px rgba(255,240,200,.9);animation:pulse 1s ease-in-out infinite;
+}
+.cell.jumpTarget::after{
+  content:"";position:absolute;inset:18%;border-radius:50%;border:4px dashed var(--accent);
+  animation:pulse 1s ease-in-out infinite;
+}
+.cell.lastMove{box-shadow:inset 0 5px 10px rgba(60,40,15,.55), 0 0 0 3px rgba(255,215,120,.8)}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:.6}}
+
+/* ---------- pieces (bottle-cap "dogs") ---------- */
+.piece{
+  position:absolute;inset:8%;border-radius:50%;cursor:pointer;z-index:2;
+  transition:transform .15s;
+  filter:drop-shadow(0 4px 4px rgba(40,25,8,.5));
+}
+.piece .cap{
+  position:absolute;inset:0;border-radius:50%;
+}
+.piece.G .cap{
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 34%),
+    repeating-conic-gradient(var(--green) 0deg 9deg, var(--green-dark) 9deg 18deg);
+}
+.piece.B .cap{
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 34%),
+    repeating-conic-gradient(var(--blue) 0deg 9deg, var(--blue-dark) 9deg 18deg);
+}
+.piece .cap::after{ /* flat inner top of the cap */
+  content:"";position:absolute;inset:14%;border-radius:50%;
+}
+.piece.G .cap::after{background:radial-gradient(circle at 38% 30%, #35b26c, var(--green) 55%, var(--green-dark));box-shadow:inset 0 -3px 6px rgba(0,0,0,.35), inset 0 3px 5px rgba(255,255,255,.35)}
+.piece.B .cap::after{background:radial-gradient(circle at 38% 30%, #4b86e8, var(--blue) 55%, var(--blue-dark));box-shadow:inset 0 -3px 6px rgba(0,0,0,.35), inset 0 3px 5px rgba(255,255,255,.35)}
+.piece img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:none;border-radius:50%}
+.piece.hasImg .cap{display:none}
+.piece.hasImg img{display:block}
+.piece.selected{transform:scale(1.18);z-index:3;filter:drop-shadow(0 6px 8px rgba(40,25,8,.6)) drop-shadow(0 0 10px rgba(255,235,150,.95))}
+.piece.captured{animation:poof .4s forwards}
+@keyframes poof{to{transform:scale(0) rotate(120deg);opacity:0}}
+
+/* mini cap used in HUD */
+.mini{position:relative;width:30px;height:30px;border-radius:50%}
+.mini.G{background:repeating-conic-gradient(var(--green) 0deg 12deg, var(--green-dark) 12deg 24deg)}
+.mini.B{background:repeating-conic-gradient(var(--blue) 0deg 12deg, var(--blue-dark) 12deg 24deg)}
+.mini::after{content:"";position:absolute;inset:16%;border-radius:50%}
+.mini.G::after{background:var(--green)}
+.mini.B::after{background:var(--blue)}
+
+/* ---------- game controls ---------- */
+#controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+#endChainBtn{display:none}
+#endChainBtn.show{display:inline-block;animation:pulse 1s ease-in-out infinite}
+
+/* ---------- overlay (win / messages) ---------- */
+#overlay{
+  position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(40,28,10,.55);backdrop-filter:blur(3px);
+}
+#overlay.show{display:flex}
+#overlayCard{background:var(--paper);border-radius:22px;padding:28px 26px;max-width:420px;width:calc(100% - 40px);text-align:center;
+  box-shadow:0 16px 50px rgba(0,0,0,.5)}
+#overlayCard h2{font-size:26px;font-weight:900;margin-bottom:8px}
+#overlayCard p{font-size:16px;margin-bottom:18px;line-height:1.8}
+
+#toast{
+  position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:60;background:var(--ink);color:#fff;
+  padding:10px 22px;border-radius:999px;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+#toast.show{opacity:1}
+
+footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
+@media (max-width:420px){
+  h1{font-size:26px}
+  .playerBadge .name{font-size:13px}
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div id="logoBox"><img id="logoImg" alt="اللوقو"><span class="fallback">🐕</span></div>
+    <div>
+      <h1>نُط الكلب</h1>
+      <div class="subtitle">لعبة سودانية شعبية — ذكاء وتكتيك</div>
+    </div>
+  </header>
+
+  <!-- ===================== main menu ===================== -->
+  <section id="menuScreen" class="screen active">
+    <div class="card">
+      <button class="bigbtn btn-local" id="localBtn">
+        <span class="ic">👥</span>
+        <span>لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
+      </button>
+      <button class="bigbtn btn-online" id="onlineBtn">
+        <span class="ic">🌐</span>
+        <span>اللعب أونلاين<small>أنشئ غرفة وشارك الرمز مع خصمك</small></span>
+      </button>
+      <button class="bigbtn btn-rules" id="rulesBtn">
+        <span class="ic">📜</span>
+        <span>قوانين اللعبة<small>طريقة اللعب والنط والفوز</small></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== rules ===================== -->
+  <section id="rulesScreen" class="screen">
+    <div class="card" id="rulesCard">
+      <ol>
+        <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بلونه، ويبدأ مربع الوسط فارغاً.</li>
+        <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى أي مربع مجاور فارغ في الاتجاهات المتاحة.</li>
+        <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
+        <li><b>الضربات المتعددة:</b> إن توفرت مسافات فارغة مناسبة يمكنك نط كلبين أو ثلاثة في حركة واحدة متتالية بنفس الكلب، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
+        <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
+      </ol>
+      <div class="row" style="margin-top:14px">
+        <button class="btn ghost" data-back>رجوع ←</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== online setup ===================== -->
+  <section id="onlineScreen" class="screen">
+    <div class="card" id="onlineMenu">
+      <div class="row">
+        <button class="btn green" id="createRoomBtn">🏠 إنشاء غرفة جديدة</button>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <input type="text" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off">
+        <button class="btn blue" id="joinRoomBtn">🚪 انضمام</button>
+      </div>
+      <p class="hint">أنشئ غرفة وأرسل الرمز لخصمك، أو أدخل رمز غرفة خصمك وانضم.</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back>رجوع ←</button>
+      </div>
+    </div>
+    <div class="card" id="waitingCard" style="display:none;text-align:center">
+      <p style="font-size:17px;font-weight:700;margin-bottom:10px">رمز الغرفة — أرسله لخصمك:</p>
+      <div class="row"><span id="roomCode">····</span></div>
+      <div class="row"><button class="btn" id="copyCodeBtn">📋 نسخ الرمز</button></div>
+      <p class="hint" id="waitingMsg">في انتظار انضمام الخصم <span class="spin"></span></p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="cancelRoomBtn">إلغاء ←</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== game ===================== -->
+  <section id="gameScreen" class="screen">
+    <div id="hud">
+      <div class="playerBadge" id="badgeG">
+        <div class="mini G"></div>
+        <div class="info"><span class="name" id="nameG">الأخضر</span><span class="count" id="countG"></span></div>
+      </div>
+      <div class="playerBadge" id="badgeB">
+        <div class="mini B"></div>
+        <div class="info"><span class="name" id="nameB">الأزرق</span><span class="count" id="countB"></span></div>
+      </div>
+    </div>
+    <div id="turnBanner"></div>
+    <div id="boardWrap"><div id="board"></div></div>
+    <div id="controls">
+      <button class="btn red" id="endChainBtn">✋ إنهاء الدور</button>
+      <button class="btn" id="restartBtn">🔄 جولة جديدة</button>
+      <button class="btn ghost" id="quitBtn">خروج ←</button>
+    </div>
+  </section>
+
+  <footer>نُط الكلب • تراث سوداني 🇸🇩</footer>
+</main>
+
+<div id="overlay">
+  <div id="overlayCard">
+    <h2 id="overlayTitle"></h2>
+    <p id="overlayMsg"></p>
+    <div class="row">
+      <button class="btn green" id="overlayRestart">🔄 جولة جديدة</button>
+      <button class="btn ghost" id="overlayQuit">القائمة الرئيسية</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+"use strict";
+/* =====================================================================
+   نط الكلب — Sudanese "Dog Jump" board game
+   5x5 board, 12 pieces each, step to adjacent empty cell,
+   jump over adjacent enemy piece to capture it, chain jumps allowed.
+===================================================================== */
+
+const SIZE = 5;
+const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+
+/* ---------- optional custom assets (drop files in assets/ to replace visuals) ---------- */
+const ASSETS = {
+  logo : 'assets/logo.png',       // شعار اللعبة
+  board: 'assets/board.jpg',      // صورة الأرضية الرملية
+  dogG : 'assets/dog-green.png',  // كلب اللاعب الأخضر
+  dogB : 'assets/dog-blue.png',   // كلب اللاعب الأزرق
+};
+const assetOk = { dogG:false, dogB:false };
+function tryAsset(src, onOk){ const im = new Image(); im.onload = () => onOk(src); im.src = src; }
+tryAsset(ASSETS.logo,  src => { const el = document.getElementById('logoImg');
+  el.src = src; el.style.display = 'block'; el.nextElementSibling.style.display = 'none'; });
+tryAsset(ASSETS.board, src => { const w = document.getElementById('boardWrap');
+  w.style.setProperty('--custom-bg', `url("${src}")`); w.classList.add('customBg'); });
+tryAsset(ASSETS.dogG,  () => { assetOk.dogG = true; renderBoard(); });
+tryAsset(ASSETS.dogB,  () => { assetOk.dogB = true; renderBoard(); });
+
+/* ---------- tiny sounds (WebAudio, no files needed) ---------- */
+let audioCtx = null;
+function beep(freq, dur=0.09, type='triangle', vol=0.25){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + dur);
+  }catch(e){}
+}
+const sndMove    = () => beep(420, .08);
+const sndJump    = () => { beep(300,.07); setTimeout(()=>beep(520,.1),70); };
+const sndWin     = () => { [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine',.3), i*140)); };
+const sndLose    = () => { [400,330,262].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sine',.25), i*160)); };
+
+/* ---------- game state ---------- */
+let board = [];          // board[r][c] = null | 'G' | 'B'
+let turn = 'G';          // green always starts
+let selected = null;     // [r,c]
+let chainPiece = null;   // [r,c] piece that must continue jumping (or end turn)
+let lastMove = [];       // cells to highlight
+let gameOver = false;
+
+let mode = 'local';      // 'local' | 'online'
+let myColor = null;      // in online mode: 'G' (host) or 'B' (guest)
+
+function newGame(){
+  board = Array.from({length:SIZE}, () => Array(SIZE).fill(null));
+  // 12 pieces each, middle cell empty: green fills first 12 cells, blue the last 12
+  for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++){
+    const i = r*SIZE + c;
+    if(i < 12) board[r][c] = 'G';
+    else if(i > 12) board[r][c] = 'B';
+  }
+  turn = 'G'; selected = null; chainPiece = null; lastMove = []; gameOver = false;
+  hideOverlay();
+  renderBoard(); updateHud();
+}
+
+const inside = (r,c) => r>=0 && r<SIZE && c>=0 && c<SIZE;
+const enemy  = p => p === 'G' ? 'B' : 'G';
+
+function stepsFor(r,c){
+  const out = [];
+  for(const [dr,dc] of DIRS){
+    const nr=r+dr, nc=c+dc;
+    if(inside(nr,nc) && board[nr][nc]===null) out.push([nr,nc]);
+  }
+  return out;
+}
+function jumpsFor(r,c){
+  const me = board[r][c]; if(!me) return [];
+  const out = [];
+  for(const [dr,dc] of DIRS){
+    const mr=r+dr, mc=c+dc, tr=r+2*dr, tc=c+2*dc;
+    if(inside(tr,tc) && board[mr][mc]===enemy(me) && board[tr][tc]===null) out.push([tr,tc]);
+  }
+  return out;
+}
+function playerHasAnyMove(p){
+  for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++)
+    if(board[r][c]===p && (stepsFor(r,c).length || jumpsFor(r,c).length)) return true;
+  return false;
+}
+function countPieces(p){
+  let n=0; for(const row of board) for(const v of row) if(v===p) n++;
+  return n;
+}
+
+/* ---------- move application (used for local AND remote moves) ---------- */
+function applyMove(fr, fc, tr, tc){
+  const isJump = Math.abs(tr-fr)===2 || Math.abs(tc-fc)===2;
+  const piece = board[fr][fc];
+  board[tr][tc] = piece; board[fr][fc] = null;
+  lastMove = [[fr,fc],[tr,tc]];
+  if(isJump){
+    const mr=(fr+tr)/2, mc=(fc+tc)/2;
+    board[mr][mc] = null;
+    sndJump();
+    // chain: same piece may keep jumping
+    if(jumpsFor(tr,tc).length){
+      chainPiece = [tr,tc];
+      selected = (mode==='local' || piece===myColor) ? [tr,tc] : null;
+      renderBoard(); updateHud();
+      checkEnd();
+      return;
+    }
+  } else {
+    sndMove();
+  }
+  chainPiece = null; selected = null;
+  turn = enemy(turn);
+  renderBoard(); updateHud();
+  checkEnd();
+}
+
+function endChain(){        // voluntarily stop a multi-jump
+  if(!chainPiece) return;
+  chainPiece = null; selected = null;
+  turn = enemy(turn);
+  renderBoard(); updateHud();
+  checkEnd();
+}
+
+function checkEnd(){
+  if(gameOver) return;
+  const g = countPieces('G'), b = countPieces('B');
+  let winner = null, why = '';
+  if(g===0){ winner='B'; why='نُطّت جميع كلاب الأخضر!'; }
+  else if(b===0){ winner='G'; why='نُطّت جميع كلاب الأزرق!'; }
+  else if(!chainPiece && !playerHasAnyMove(turn)){
+    winner = enemy(turn);
+    why = (turn==='G' ? 'الأخضر' : 'الأزرق') + ' لا يملك أي حركة قانونية.';
+  }
+  if(winner){
+    gameOver = true;
+    const wName = winner==='G' ? nameOf('G') : nameOf('B');
+    const iWon = (mode==='local') || (winner===myColor);
+    setTimeout(()=>{
+      iWon ? sndWin() : sndLose();
+      showOverlay('🏆 ' + wName + ' فاز بالجولة!', why + ' — الكلاب المتبقية: ' + Math.max(g,b));
+    }, 350);
+  }
+}
+
+/* ---------- rendering ---------- */
+const boardEl = document.getElementById('board');
+function nameOf(p){
+  if(mode==='online') return p===myColor ? (p==='G'?'أنت (الأخضر)':'أنت (الأزرق)') : (p==='G'?'الخصم (الأخضر)':'الخصم (الأزرق)');
+  return p==='G' ? 'الأخضر' : 'الأزرق';
+}
+function renderBoard(){
+  if(!board.length) return;
+  boardEl.innerHTML = '';
+  const sel = selected;
+  let steps = [], jumps = [];
+  if(sel){
+    if(chainPiece){ jumps = jumpsFor(sel[0],sel[1]); }
+    else { steps = stepsFor(sel[0],sel[1]); jumps = jumpsFor(sel[0],sel[1]); }
+  }
+  const has = (list,r,c) => list.some(m => m[0]===r && m[1]===c);
+  for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++){
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    if(lastMove.some(m=>m[0]===r&&m[1]===c)) cell.classList.add('lastMove');
+    if(has(steps,r,c)) cell.classList.add('moveTarget');
+    if(has(jumps,r,c)) cell.classList.add('jumpTarget');
+    cell.addEventListener('click', () => onCellTap(r,c));
+    const p = board[r][c];
+    if(p){
+      const el = document.createElement('div');
+      el.className = 'piece ' + p;
+      const cap = document.createElement('div'); cap.className='cap'; el.appendChild(cap);
+      const img = document.createElement('img');
+      if(p==='G' && assetOk.dogG){ img.src = ASSETS.dogG; el.classList.add('hasImg'); }
+      if(p==='B' && assetOk.dogB){ img.src = ASSETS.dogB; el.classList.add('hasImg'); }
+      el.appendChild(img);
+      if(sel && sel[0]===r && sel[1]===c) el.classList.add('selected');
+      cell.appendChild(el);
+    }
+    boardEl.appendChild(cell);
+  }
+  document.getElementById('endChainBtn').classList.toggle('show',
+    !!chainPiece && !gameOver && (mode==='local' || turn===myColor));
+}
+function updateHud(){
+  document.getElementById('countG').textContent = 'الكلاب: ' + countPieces('G') + ' / 12';
+  document.getElementById('countB').textContent = 'الكلاب: ' + countPieces('B') + ' / 12';
+  document.getElementById('nameG').textContent = nameOf('G');
+  document.getElementById('nameB').textContent = nameOf('B');
+  document.getElementById('badgeG').classList.toggle('turn', turn==='G' && !gameOver);
+  document.getElementById('badgeB').classList.toggle('turn', turn==='B' && !gameOver);
+  const banner = document.getElementById('turnBanner');
+  if(gameOver){ banner.textContent = 'انتهت الجولة'; return; }
+  if(chainPiece){
+    banner.textContent = (mode==='local' || turn===myColor)
+      ? '🔥 نطّة متسلسلة! واصل النط أو أنهِ دورك'
+      : '🔥 الخصم يواصل النط...';
+  } else if(mode==='online'){
+    banner.textContent = turn===myColor ? '🎯 دورك — حرّك أو نُط' : '⏳ دور الخصم...';
+  } else {
+    banner.textContent = '🎯 دور ' + (turn==='G' ? 'الأخضر' : 'الأزرق');
+  }
+}
+
+/* ---------- input ---------- */
+function onCellTap(r,c){
+  if(gameOver) return;
+  if(mode==='online' && turn!==myColor) return;      // not my turn
+  const p = board[r][c];
+
+  // during a chain, only the chaining piece can act
+  if(chainPiece){
+    const [cr,cc] = chainPiece;
+    if(p===turn && r===cr && c===cc){ selected=[r,c]; renderBoard(); return; }
+    if(selected && jumpsFor(cr,cc).some(m=>m[0]===r&&m[1]===c)){
+      sendMove(cr,cc,r,c); applyMove(cr,cc,r,c);
+    }
+    return;
+  }
+
+  if(p===turn){ // select / reselect own piece
+    selected = (selected && selected[0]===r && selected[1]===c) ? null : [r,c];
+    renderBoard(); return;
+  }
+  if(selected && p===null){
+    const [sr,sc] = selected;
+    const legalStep = stepsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
+    const legalJump = jumpsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
+    if(legalStep || legalJump){
+      sendMove(sr,sc,r,c); applyMove(sr,sc,r,c);
+    }
+  }
+}
+
+/* ---------- online (PeerJS) ---------- */
+let peer=null, conn=null, isHost=false, roomCode='';
+const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const peerId = code => 'nut-alkalb-sd-' + code.toLowerCase();
+
+function makeCode(){ let s=''; for(let i=0;i<4;i++) s+=CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
+
+function peerAvailable(){
+  if(typeof Peer === 'undefined'){
+    toast('تعذّر تحميل خدمة الاتصال — تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة');
+    return false;
+  }
+  return true;
+}
+function destroyPeer(){
+  try{ if(conn) conn.close(); }catch(e){}
+  try{ if(peer) peer.destroy(); }catch(e){}
+  peer=null; conn=null;
+}
+function createRoom(){
+  if(!peerAvailable()) return;
+  destroyPeer();
+  isHost = true; roomCode = makeCode();
+  document.getElementById('onlineMenu').style.display='none';
+  document.getElementById('waitingCard').style.display='block';
+  document.getElementById('roomCode').textContent = roomCode;
+  document.getElementById('waitingMsg').innerHTML = 'في انتظار انضمام الخصم <span class="spin"></span>';
+  peer = new Peer(peerId(roomCode));
+  peer.on('error', err => {
+    if(err.type==='unavailable-id'){ createRoom(); return; }  // rare collision → new code
+    toast('خطأ في الاتصال: ' + err.type);
+  });
+  peer.on('connection', c => {
+    if(conn){ c.close(); return; } // room is full
+    conn = c;
+    wireConn();
+    conn.on('open', () => { send({t:'start'}); startOnlineGame('G'); });
+  });
+}
+function joinRoom(){
+  if(!peerAvailable()) return;
+  const code = document.getElementById('joinInput').value.trim().toUpperCase();
+  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  destroyPeer();
+  isHost = false; roomCode = code;
+  toast('جارٍ الاتصال بالغرفة...');
+  peer = new Peer();
+  peer.on('error', err => toast('خطأ في الاتصال: ' + err.type));
+  peer.on('open', () => {
+    conn = peer.connect(peerId(code), {reliable:true});
+    wireConn();
+    const failTimer = setTimeout(()=>{ if(!conn || !conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز'); }, 8000);
+    conn.on('open', () => clearTimeout(failTimer));
+  });
+}
+function wireConn(){
+  conn.on('data', onData);
+  conn.on('close', () => {
+    if(mode==='online' && !gameOver){
+      showOverlay('انقطع الاتصال', 'غادر الخصم اللعبة أو انقطع اتصاله بالإنترنت.');
+    }
+  });
+}
+function send(obj){ if(conn && conn.open) conn.send(obj); }
+function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv', m:[fr,fc,tr,tc]}); }
+function onData(d){
+  if(!d || typeof d!=='object') return;
+  switch(d.t){
+    case 'start':   startOnlineGame('B'); break;
+    case 'mv':      if(mode==='online'){ const [a,b,c,e]=d.m; applyMove(a,b,c,e); } break;
+    case 'end':     if(mode==='online') endChain(); break;
+    case 'restart': newGame(); toast('بدأ الخصم جولة جديدة'); break;
+  }
+}
+function startOnlineGame(color){
+  mode='online'; myColor=color;
+  showScreen('gameScreen');
+  newGame();
+  toast(color==='G' ? 'انضم الخصم! أنت الأخضر وتبدأ أولاً' : 'تم الاتصال! أنت الأزرق — الخصم يبدأ');
+}
+
+/* ---------- screens / UI ---------- */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function showOverlay(title,msg){
+  document.getElementById('overlayTitle').textContent = title;
+  document.getElementById('overlayMsg').textContent = msg;
+  document.getElementById('overlay').classList.add('show');
+}
+function hideOverlay(){ document.getElementById('overlay').classList.remove('show'); }
+let toastTimer=null;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+document.getElementById('localBtn').onclick = () => { mode='local'; myColor=null; destroyPeer(); showScreen('gameScreen'); newGame(); };
+document.getElementById('onlineBtn').onclick = () => {
+  document.getElementById('onlineMenu').style.display='block';
+  document.getElementById('waitingCard').style.display='none';
+  showScreen('onlineScreen');
+};
+document.getElementById('rulesBtn').onclick = () => showScreen('rulesScreen');
+document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => { destroyPeer(); showScreen('menuScreen'); });
+document.getElementById('createRoomBtn').onclick = createRoom;
+document.getElementById('joinRoomBtn').onclick = joinRoom;
+document.getElementById('joinInput').addEventListener('keydown', e => { if(e.key==='Enter') joinRoom(); });
+document.getElementById('cancelRoomBtn').onclick = () => {
+  destroyPeer();
+  document.getElementById('onlineMenu').style.display='block';
+  document.getElementById('waitingCard').style.display='none';
+};
+document.getElementById('copyCodeBtn').onclick = () => {
+  navigator.clipboard?.writeText(roomCode).then(()=>toast('تم نسخ الرمز ✔')).catch(()=>{});
+};
+document.getElementById('endChainBtn').onclick = () => {
+  if(mode==='online') send({t:'end'});
+  endChain();
+};
+document.getElementById('restartBtn').onclick = () => {
+  if(mode==='online') send({t:'restart'});
+  newGame();
+};
+document.getElementById('overlayRestart').onclick = () => {
+  if(mode==='online') send({t:'restart'});
+  newGame();
+};
+document.getElementById('quitBtn').onclick = document.getElementById('overlayQuit').onclick = () => {
+  destroyPeer(); hideOverlay(); mode='local'; myColor=null;
+  showScreen('menuScreen');
+};
+</script>
+</body>
+</html>
