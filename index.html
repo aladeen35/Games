@@ -420,7 +420,7 @@ footer .credit{
         <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بشكله المميز، ويبدأ مربع الوسط فارغاً.</li>
         <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى مربع مجاور فارغ: <b>أماماً أو خلفاً أو يميناً أو يساراً</b> فقط — لا حركة قطرية.</li>
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
-        <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك <b>في نفس الاتجاه</b>: إن وُجد كلب خصم آخر أمامه وخلفه مربع فارغ نطّه وأكمل، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
+        <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك النط <b>للأمام أو يميناً أو يساراً</b> — دون العودة للخلف — ما دام أمامه كلب خصم وخلفه مربع فارغ، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
       </ol>
       <div class="row" style="margin-top:14px">
@@ -782,13 +782,12 @@ function jumpsFor(r,c){
   }
   return out;
 }
-/* during a chain, the only legal continuation is the next jump in the SAME direction */
+/* during a chain, the dog may keep jumping forward or to either side —
+   the only forbidden continuation is reversing back the way it came */
 function chainJumpTargets(r,c){
   if(!chainDir) return [];
-  const [dr,dc]=chainDir, mr=r+dr, mc=c+dc, tr=r+2*dr, tc=c+2*dc;
-  const me=board[r][c];
-  if(me && inside(tr,tc) && board[mr][mc]===enemy(me) && board[tr][tc]===null) return [[tr,tc]];
-  return [];
+  const [bdr,bdc] = [-chainDir[0], -chainDir[1]];   // backward direction
+  return jumpsFor(r,c).filter(([tr,tc]) => (tr-r)/2!==bdr || (tc-c)/2!==bdc);
 }
 function playerHasAnyMove(p){
   for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++)
