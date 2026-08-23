@@ -2,17 +2,22 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>نط الكلب — لعبة سودانية تراثية</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#3d2412">
+<meta name="theme-color" content="#2b1a0e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="نط الكلب">
 <style>
+/* =====================================================================
+   NUT ALKALB DESIGN SYSTEM — skeuomorphic heritage (ui-ux-pro-max)
+   Materials: carved clay, tooled leather, aged brass. Multi-layer
+   shadows, 8+ stop gradients, grain overlays, tactile 300-500ms motion.
+===================================================================== */
 @font-face{
   font-family:'Noto Kufi Arabic';
   src:url('assets/font-kufi.ttf') format('truetype');
@@ -20,233 +25,361 @@
   font-display:swap;
 }
 :root{
-  /* terracotta clay palette taken from the reference artwork */
-  --sand-1:#d99a52;
-  --sand-2:#c37f3c;
-  --sand-3:#a8642c;
-  --clay-line:rgba(97,54,18,.4);
-  --panel:#3d2412;
-  --panel-2:#2b1a0e;
-  --panel-edge:#c98d4e;
-  --gold:#f2b544;
-  --cream:#f7e6c9;
-  --ink:#3a2410;
-  --accent:#e74c3c;
+  /* clay */
+  --clay-hi:#e0a866; --clay-mid:#c37f3c; --clay-lo:#8f5423;
+  --clay-line:rgba(88,46,12,.5);
+  /* leather */
+  --leather-hi:#5a3315; --leather-mid:#3d2412; --leather-lo:#241207;
+  --stitch:rgba(242,197,110,.4);
+  /* brass */
+  --brass-hi:#ffd98a; --brass:#e3a83c; --brass-lo:#8a5c14;
+  --cream:#f7e6c9; --cream-dim:#dbc39c;
+  --ink:#33200c;
+  --danger:#c93f2c;
+  /* elevation recipes (3-layer realistic shadows) */
+  --shadow-rest:0 1px 2px rgba(30,14,2,.45), 0 4px 10px rgba(30,14,2,.35), 0 14px 30px rgba(30,14,2,.3);
+  --shadow-lift:0 2px 3px rgba(30,14,2,.4), 0 10px 22px rgba(30,14,2,.4), 0 26px 48px rgba(30,14,2,.38);
+  --shadow-press:0 1px 1px rgba(30,14,2,.5), 0 2px 5px rgba(30,14,2,.35);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
   font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,sans-serif;
   color:var(--ink);
-  background:
-    radial-gradient(1400px 700px at 50% -150px, rgba(255,210,140,.55) 0%, transparent 60%),
-    linear-gradient(165deg, var(--sand-1) 0%, var(--sand-2) 55%, var(--sand-3) 100%);
+  background:#79441c url('assets/backdrop.jpg') center/cover fixed no-repeat;
   min-height:100%;
   display:flex;flex-direction:column;align-items:center;
 }
-body::before{ /* sand grain */
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;z-index:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+/* sunlit vignette + film grain over the photographic backdrop */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(130% 90% at 50% 8%, rgba(255,214,150,.28) 0%, rgba(120,60,15,0) 45%),
+    radial-gradient(160% 120% at 50% 55%, rgba(0,0,0,0) 40%, rgba(30,12,0,.55) 100%);
 }
-main{position:relative;z-index:1;width:100%;max-width:640px;padding:12px 12px 36px;display:flex;flex-direction:column;align-items:center}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+main{position:relative;z-index:1;width:100%;max-width:640px;padding:14px 12px calc(30px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center}
+
+button{cursor:pointer;font-family:inherit}
+button:focus-visible, input:focus-visible{outline:3px solid var(--brass-hi);outline-offset:2px}
 
 /* ---------- header ---------- */
-header{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:4px 0 2px}
-#logoTop{height:88px;border-radius:18px;box-shadow:0 6px 18px rgba(50,25,5,.45), 0 0 0 3px rgba(255,220,160,.25);display:block}
-.sndToggles{display:flex;flex-direction:column;gap:6px}
-.tog{width:42px;height:42px;border:none;border-radius:12px;font-size:20px;cursor:pointer;
-  background:linear-gradient(160deg,var(--panel),var(--panel-2));color:var(--gold);
-  box-shadow:0 3px 0 rgba(0,0,0,.35), inset 0 0 0 1.5px rgba(201,141,78,.5);}
+header{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin:2px 0 4px}
+#logoTop{
+  height:92px;border-radius:20px;display:block;
+  box-shadow:var(--shadow-rest), 0 0 0 3px rgba(255,220,160,.28), 0 0 26px rgba(255,190,90,.25);
+}
+.sndToggles{display:flex;flex-direction:column;gap:8px}
+.tog{
+  width:46px;height:46px;border:none;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--brass-hi);
+  background:
+    linear-gradient(165deg, #6b3f1c 0%, #573113 18%, #4a2810 45%, #3a1f0b 78%, #2e180a 100%);
+  box-shadow:var(--shadow-rest), inset 0 1px 0 rgba(255,220,160,.28), inset 0 0 0 1.5px rgba(201,141,78,.45);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
+}
+.tog:hover{transform:translateY(-1px)}
+.tog:active{transform:translateY(2px) scale(.96);box-shadow:var(--shadow-press), inset 0 1px 0 rgba(255,220,160,.28)}
 .tog.off{opacity:.45;filter:grayscale(1)}
-.tog:active{transform:translateY(2px)}
+.tog svg{width:22px;height:22px}
 
 /* ---------- screens ---------- */
 .screen{display:none;width:100%;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 
-/* ---------- leather panel (like the reference side panel) ---------- */
+/* ---------- tooled leather panel with stitching ---------- */
 .panel{
-  width:100%;margin-top:12px;padding:20px 16px;border-radius:26px;position:relative;
+  width:100%;margin-top:14px;padding:22px 18px;border-radius:28px;position:relative;overflow:hidden;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(120,70,30,.35), transparent 60%),
-    linear-gradient(170deg,var(--panel) 0%, var(--panel-2) 100%);
-  box-shadow:0 10px 30px rgba(40,18,2,.5), inset 0 0 0 2px var(--panel-edge), inset 0 0 0 5px rgba(0,0,0,.35), inset 0 0 40px rgba(0,0,0,.4);
+    radial-gradient(130% 100% at 50% 0%, rgba(150,90,40,.4) 0%, rgba(150,90,40,0) 55%),
+    linear-gradient(168deg, var(--leather-hi) 0%, #4a2b12 22%, var(--leather-mid) 48%, #331d0d 76%, var(--leather-lo) 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,215,150,.15), inset 0 0 60px rgba(0,0,0,.45);
   color:var(--cream);
 }
-.panel h2{text-align:center;color:var(--gold);font-size:22px;font-weight:900;margin-bottom:14px;text-shadow:0 2px 4px rgba(0,0,0,.6)}
-
-.bigbtn{
-  display:flex;align-items:center;gap:14px;width:100%;padding:14px 18px;margin:9px 0;border:none;border-radius:16px;
-  font-family:inherit;font-size:19px;font-weight:800;color:var(--cream);cursor:pointer;text-align:right;
-  background:linear-gradient(165deg,#8a5427,#5d3414);
-  box-shadow:0 4px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4), inset 0 1px 0 rgba(255,230,180,.25);
-  transition:transform .08s, box-shadow .08s;
+.panel::before{ /* leather grain */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23l)'/></svg>");
 }
-.bigbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4)}
-.bigbtn .ic{font-size:26px}
+.panel::after{ /* stitched seam */
+  content:"";position:absolute;inset:9px;pointer-events:none;border-radius:20px;
+  border:2px dashed var(--stitch);
+  opacity:.75;
+}
+.panel > *{position:relative;z-index:1}
+.panel h2{
+  text-align:center;color:var(--brass-hi);font-size:22px;font-weight:900;margin-bottom:14px;
+  text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28), 0 3px 8px rgba(0,0,0,.5); /* embossed */
+}
+
+/* ---------- carved-wood buttons ---------- */
+.bigbtn{
+  display:flex;align-items:center;gap:14px;width:100%;padding:15px 18px;margin:9px 0;border:none;border-radius:18px;
+  font-size:19px;font-weight:800;color:var(--cream);text-align:right;
+  background:
+    linear-gradient(168deg, #9a6130 0%, #8a5427 16%, #7a4820 38%, #6a3d1a 62%, #5d3414 82%, #512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.35);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
+}
+.bigbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.5)}
+.bigbtn:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press), inset 0 2px 8px rgba(30,12,0,.5)}
+.bigbtn .ic{
+  flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd 0%, #f4cf8d 35%, #dfae62 70%, #c8944c 100%);
+  box-shadow:inset 0 -3px 6px rgba(120,70,20,.55), inset 0 2px 3px rgba(255,245,215,.8), 0 3px 6px rgba(30,12,0,.4);
+}
+.bigbtn .ic svg{width:24px;height:24px}
 .bigbtn small{display:block;font-size:12.5px;font-weight:600;opacity:.8}
 
 .btn{
-  padding:10px 22px;border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;color:var(--cream);
-  background:linear-gradient(165deg,#8a5427,#5d3414);
-  box-shadow:0 3px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4);transition:transform .08s;
+  display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 22px;border:none;border-radius:14px;
+  font-size:16px;font-weight:800;color:var(--cream);
+  background:linear-gradient(168deg,#9a6130 0%,#7a4820 45%,#5d3414 85%,#512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.3), inset 0 -3px 5px rgba(30,12,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.35);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
 }
-.btn:active{transform:translateY(2px)}
-.btn.gold{background:linear-gradient(165deg,#d99a2b,#a06a12);color:#fff}
-.btn.red{background:linear-gradient(165deg,#b5432f,#7d2417)}
-.btn.ghost{background:transparent;box-shadow:inset 0 0 0 2px rgba(242,181,68,.5)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(2px) scale(.98);box-shadow:var(--shadow-press), inset 0 2px 6px rgba(30,12,0,.5)}
+.btn svg{width:19px;height:19px;flex:none}
+.btn.gold{background:linear-gradient(168deg,#f4c766 0%,#e3a83c 40%,#c1832a 75%,#a06a12 100%);color:#3a2408;
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,245,210,.7), inset 0 -3px 5px rgba(120,70,10,.45)}
+.btn.red{background:linear-gradient(168deg,#d4553f 0%,#b5432f 45%,#8f2f1e 85%,#7d2417 100%)}
+.btn.ghost{background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 2px rgba(242,181,68,.5)}
 
-/* badges row (لاعبان / ذكاء وتكتيك / نط واقفز) */
-.badges{display:flex;gap:10px;justify-content:center;margin-top:16px;width:100%}
+/* badges row */
+.badges{display:flex;gap:10px;justify-content:center;margin-top:18px;width:100%}
 .badge{
-  flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px 8px;
-  border-radius:14px 14px 18px 18px;background:linear-gradient(170deg,#6b3f1c,#4a2810);
-  box-shadow:0 4px 10px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(242,181,68,.45);
+  flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 6px 9px;
+  border-radius:16px 16px 20px 20px;
+  background:linear-gradient(170deg,#7a4820 0%,#63381a 40%,#4a2810 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.3), inset 0 0 0 1.5px rgba(242,181,68,.4);
   color:var(--cream);font-weight:800;font-size:14px;
 }
-.badge .bic{width:44px;height:44px;border-radius:50% 50% 40% 40%;display:flex;align-items:center;justify-content:center;font-size:24px;
-  background:radial-gradient(circle at 40% 30%, #f9e7c4, #d8ab6d);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
+.badge .bic{
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 70%, #c8944c);
+  box-shadow:inset 0 -3px 6px rgba(120,70,20,.55), inset 0 2px 3px rgba(255,245,215,.8), 0 3px 6px rgba(30,12,0,.4);
+}
+.badge .bic svg{width:24px;height:24px}
 
 /* ---------- rules ---------- */
 #rulesCard ol{padding-right:20px;line-height:2;font-size:15px}
-#rulesCard li::marker{font-weight:900;color:var(--gold)}
-#rulesCard b{color:var(--gold)}
+#rulesCard li::marker{font-weight:900;color:var(--brass-hi)}
+#rulesCard b{color:var(--brass-hi)}
 
-/* ---------- shape picker (اختر شكل كلبك) ---------- */
+/* ---------- shape picker ---------- */
 #shapeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .shapeCard{
-  position:relative;border:none;border-radius:16px;padding:12px 6px 8px;cursor:pointer;font-family:inherit;
-  background:linear-gradient(170deg, rgba(120,72,32,.55), rgba(60,33,14,.75));
-  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.55), 0 3px 8px rgba(0,0,0,.35);
+  position:relative;border:none;border-radius:18px;padding:13px 6px 9px;min-height:120px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(190,120,55,.5) 0%, rgba(190,120,55,0) 60%),
+    linear-gradient(170deg, rgba(130,78,35,.75), rgba(58,32,14,.9));
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.25), inset 0 0 0 1.5px rgba(201,141,78,.5);
   display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--cream);
-  transition:transform .1s, box-shadow .1s;
+  transition:transform .25s var(--ease-spring), box-shadow .25s;
 }
-.shapeCard img{width:70px;height:70px;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(0,0,0,.45))}
+.shapeCard img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 6px 6px rgba(20,8,0,.55));transition:transform .25s var(--ease-spring)}
 .shapeCard .nm{font-size:14px;font-weight:800}
-.shapeCard:not(.taken):hover{transform:translateY(-3px)}
-.shapeCard.picked{box-shadow:inset 0 0 0 3px var(--gold), 0 0 16px rgba(242,181,68,.7);transform:scale(1.04)}
+.shapeCard:not(.taken):hover{transform:translateY(-4px)}
+.shapeCard:not(.taken):hover img{transform:scale(1.08) rotate(-4deg)}
+.shapeCard:not(.taken):active{transform:translateY(1px) scale(.97)}
+.shapeCard.picked{box-shadow:var(--shadow-lift), inset 0 0 0 3px var(--brass), 0 0 18px rgba(242,181,68,.7);transform:scale(1.04)}
 .shapeCard.taken{opacity:.35;cursor:not-allowed}
-.shapeCard.taken::after{content:"✓ محجوز";position:absolute;inset:auto 0 34px 0;text-align:center;font-size:12px;font-weight:900;color:var(--gold)}
-#shapeTitle{transition:color .2s}
-#shapeHint{text-align:center;font-size:14px;opacity:.85;margin-top:12px;color:var(--gold);font-weight:700}
+.shapeCard.taken::after{content:"محجوز";position:absolute;inset:auto 0 36px 0;text-align:center;font-size:12px;font-weight:900;color:var(--brass-hi)}
+#shapeHint{text-align:center;font-size:14px;opacity:.9;margin-top:12px;color:var(--brass-hi);font-weight:700}
 
 /* ---------- online setup ---------- */
 .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:8px 0}
 input[type=text]{
   font-family:inherit;font-size:22px;font-weight:700;letter-spacing:4px;text-align:center;direction:ltr;
-  width:170px;padding:10px;border-radius:12px;border:2px solid rgba(242,181,68,.55);background:#fdf3e0;color:var(--ink);
+  width:170px;min-height:48px;padding:10px;border-radius:14px;border:none;color:var(--ink);
+  background:linear-gradient(180deg,#fdf3e0,#f2e2c4);
+  box-shadow:inset 0 2px 6px rgba(90,50,15,.4), inset 0 -1px 0 rgba(255,255,255,.7), 0 1px 0 rgba(255,230,180,.25);
 }
-#roomCode{font-size:34px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;color:var(--ink);border-radius:14px;padding:8px 18px;
-  box-shadow:inset 0 0 0 2px rgba(120,70,20,.35);user-select:all}
-.hint{font-size:13.5px;opacity:.8;text-align:center;margin-top:6px}
-.spin{display:inline-block;width:16px;height:16px;border:3px solid rgba(247,230,201,.25);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
+#roomCode{
+  font-size:34px;font-weight:900;letter-spacing:8px;direction:ltr;color:var(--ink);border-radius:16px;padding:8px 20px;user-select:all;
+  background:linear-gradient(180deg,#fdf3e0,#eeddbc);
+  box-shadow:inset 0 3px 8px rgba(90,50,15,.4), inset 0 -1px 0 rgba(255,255,255,.7), 0 2px 4px rgba(30,12,0,.35);
+}
+.hint{font-size:13.5px;opacity:.85;text-align:center;margin-top:6px}
+.spin{display:inline-block;width:16px;height:16px;border:3px solid rgba(247,230,201,.25);border-top-color:var(--brass-hi);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ---------- game HUD ---------- */
-#hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:10px 0 6px}
+/* ---------- HUD: brass-plated wooden plaques ---------- */
+#hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:12px 0 6px}
 .playerBadge{
-  flex:1;display:flex;align-items:center;gap:9px;border-radius:14px;padding:7px 11px;
-  background:linear-gradient(170deg,var(--panel),var(--panel-2));color:var(--cream);
-  box-shadow:0 3px 10px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(201,141,78,.4);
-  opacity:.5;transition:opacity .2s, box-shadow .2s;
+  flex:1;display:flex;align-items:center;gap:9px;border-radius:16px;padding:8px 12px;position:relative;
+  background:linear-gradient(168deg,var(--leather-hi) 0%,#48290f 45%,var(--leather-lo) 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.2), inset 0 0 0 1.5px rgba(201,141,78,.4);
+  color:var(--cream);opacity:.55;transition:opacity .3s, box-shadow .3s, transform .3s var(--ease-out);
 }
-.playerBadge.turn{opacity:1;box-shadow:0 3px 14px rgba(40,18,2,.55), inset 0 0 0 2.5px var(--gold)}
-.playerBadge img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.5))}
+.playerBadge.turn{
+  opacity:1;transform:translateY(-2px);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2.5px var(--brass), 0 0 16px rgba(242,181,68,.45);
+}
+.playerBadge img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.55))}
+.playerBadge.turn img{animation:idleBob 2.4s ease-in-out infinite}
+@keyframes idleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .playerBadge .info{display:flex;flex-direction:column;line-height:1.3}
 .playerBadge .name{font-weight:900;font-size:14px}
-.playerBadge .count{font-size:12px;font-weight:600;opacity:.85;color:var(--gold)}
+.playerBadge .count{font-size:12px;font-weight:600;opacity:.9;color:var(--brass-hi)}
 
 #turnBanner{
-  min-height:34px;display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:900;color:var(--cream);
-  padding:4px 20px;border-radius:999px;background:linear-gradient(170deg,var(--panel),var(--panel-2));
-  box-shadow:0 3px 8px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(201,141,78,.45);margin-bottom:10px;
+  min-height:38px;display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:900;color:var(--cream);
+  padding:5px 22px;border-radius:999px;
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.2), inset 0 0 0 1.5px rgba(201,141,78,.45);
+  margin-bottom:12px;
 }
 
-/* ---------- board: clay ground with scratched grid ---------- */
+/* ---------- the clay board ---------- */
 #boardWrap{
-  position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:20px;padding:4%;
-  background:url('assets/sand.jpg') center/cover, linear-gradient(150deg,#cf8f4b,#aa6a2e);
-  box-shadow:0 12px 34px rgba(45,20,2,.55), inset 0 0 0 3px rgba(97,54,18,.5), inset 0 0 50px rgba(97,54,18,.45);
+  position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:22px;padding:4%;
+  background:url('assets/sand.jpg') center/cover;
+  box-shadow:
+    0 2px 4px rgba(30,12,0,.5), 0 14px 30px rgba(30,12,0,.5), 0 34px 70px rgba(30,12,0,.45),
+    inset 0 0 0 3px rgba(88,46,12,.55), inset 0 3px 3px rgba(255,225,175,.3), inset 0 0 60px rgba(88,46,12,.5);
 }
-#boardWrap::before{ /* warm tint + grain so the photo blends with UI */
-  content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
-  background:linear-gradient(160deg, rgba(210,140,60,.28), rgba(140,80,25,.34));
+#boardWrap::before{ /* sunlight pass: warm top-left, shaded bottom-right */
+  content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(255,215,150,.28) 0%, rgba(210,140,60,.06) 38%, rgba(90,45,12,.3) 100%),
+    linear-gradient(160deg, rgba(210,140,60,.22), rgba(140,80,25,.28));
   mix-blend-mode:multiply;
 }
-#board{position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr)}
+#boardWrap::after{ /* clay grain */
+  content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;opacity:.15;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23c)'/></svg>");
+}
+#board{position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);z-index:1}
 .cell{
-  position:relative;cursor:pointer;border-radius:14%;
-  /* scratched furrow lines like lines drawn in wet clay */
+  position:relative;cursor:pointer;border-radius:16%;
+  /* furrows carved into wet clay: dark cut + lit ridge */
   box-shadow:
     inset 0 0 0 2px var(--clay-line),
-    inset 3px 3px 6px rgba(255,225,175,.16),
-    inset -3px -3px 7px rgba(97,54,18,.22);
+    inset 2.5px 2.5px 5px rgba(255,228,180,.22),
+    inset -3px -3px 7px rgba(88,46,12,.3),
+    inset 0 0 14px rgba(88,46,12,.12);
 }
-.cell.empty::after{ /* small divot so holes read like the reference */
-  content:"";position:absolute;inset:34%;border-radius:50%;
-  background:radial-gradient(circle at 45% 38%, rgba(97,54,18,.34), rgba(60,30,8,.5));
-  box-shadow:inset 0 3px 5px rgba(50,24,4,.55), 0 1px 0 rgba(255,225,175,.25);
+.cell.empty::after{
+  content:"";position:absolute;inset:33%;border-radius:50%;
+  background:radial-gradient(circle at 42% 35%, rgba(110,62,20,.42), rgba(58,28,6,.6));
+  box-shadow:inset 0 4px 6px rgba(45,20,3,.6), inset 0 -1px 2px rgba(255,225,175,.2), 0 1px 0 rgba(255,225,175,.3);
 }
 .cell.moveTarget::after{
   content:"";position:absolute;inset:30%;border-radius:50%;
   background:radial-gradient(circle at 45% 38%, rgba(255,240,200,.95), rgba(242,181,68,.85));
-  box-shadow:0 0 12px rgba(255,215,130,.95);animation:pulse 1s ease-in-out infinite;
+  box-shadow:0 0 14px rgba(255,215,130,.95), inset 0 -2px 4px rgba(160,100,20,.5);
+  animation:pulse 1.1s var(--ease-out) infinite;
 }
 .cell.jumpTarget::after{
-  content:"";position:absolute;inset:16%;border-radius:50%;border:4px dashed var(--accent);background:rgba(231,76,60,.12);
-  animation:pulse 1s ease-in-out infinite;
+  content:"";position:absolute;inset:15%;border-radius:50%;border:4px dashed var(--danger);
+  background:radial-gradient(circle, rgba(201,63,44,.16), rgba(201,63,44,.05));
+  animation:pulse 1.1s var(--ease-out) infinite;
 }
-.cell.lastMove{box-shadow:inset 0 0 0 3px rgba(242,181,68,.85), inset 3px 3px 6px rgba(255,225,175,.16), inset -3px -3px 7px rgba(97,54,18,.22)}
+.cell.lastMove{box-shadow:inset 0 0 0 3px rgba(242,181,68,.9), inset 2.5px 2.5px 5px rgba(255,228,180,.22), inset -3px -3px 7px rgba(88,46,12,.3)}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.1);opacity:.6}}
 
-/* ---------- pieces ---------- */
-.piece{position:absolute;inset:9%;cursor:pointer;z-index:2;transition:transform .15s}
-.piece img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(45,20,2,.55))}
-.piece.selected{transform:scale(1.2);z-index:3}
-.piece.selected img{filter:drop-shadow(0 7px 8px rgba(45,20,2,.6)) drop-shadow(0 0 12px rgba(255,225,130,1))}
-.piece.captured{animation:poof .45s forwards}
-@keyframes poof{40%{transform:scale(1.25) rotate(20deg)}100%{transform:scale(0) rotate(140deg);opacity:0}}
+/* ---------- pieces: photographic clay stones w/ separate contact shadow ---------- */
+.piece{position:absolute;inset:8%;z-index:2;cursor:pointer}
+.piece .pShadow{
+  position:absolute;left:10%;right:10%;bottom:2%;height:22%;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(25,10,0,.5) 0%, rgba(25,10,0,0) 70%);
+  transition:transform .2s, opacity .2s;
+}
+.piece img{
+  position:relative;width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(0 3px 3px rgba(30,12,0,.35));
+  transition:transform .2s var(--ease-out);
+}
+.piece.selected{z-index:4}
+.piece.selected img{transform:translateY(-9%) scale(1.16);filter:drop-shadow(0 10px 8px rgba(30,12,0,.45)) drop-shadow(0 0 12px rgba(255,225,130,.95))}
+.piece.selected .pShadow{transform:scale(1.25);opacity:.55}
+.piece.captured img{animation:poof .45s var(--ease-out) forwards}
+.piece.captured .pShadow{animation:shFade .45s forwards}
+@keyframes poof{35%{transform:translateY(-30%) scale(1.15) rotate(15deg)}100%{transform:translateY(-10%) scale(0) rotate(120deg);opacity:0}}
+@keyframes shFade{to{opacity:0;transform:scale(.3)}}
 
-/* ---------- game controls ---------- */
-#controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+/* travelling piece (animation layer) */
+.flyer{position:absolute;z-index:9;pointer-events:none}
+.flyer img{width:100%;height:100%;object-fit:contain}
+/* dust motes kicked up on landing/capture */
+.dust{position:absolute;z-index:8;width:9px;height:9px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 40% 35%, #ecc98f, #b98a4d)}
+
+/* ---------- controls ---------- */
+#controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
-#endChainBtn.show{display:inline-block;animation:pulse 1s ease-in-out infinite}
+#endChainBtn.show{display:inline-flex;animation:pulse 1.1s var(--ease-out) infinite}
 
 /* ---------- overlay ---------- */
-#overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(30,15,2,.6);backdrop-filter:blur(3px)}
+#overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(22,10,0,.65);backdrop-filter:blur(4px)}
 #overlay.show{display:flex}
 #overlayCard{
-  background:linear-gradient(170deg,var(--panel),var(--panel-2));color:var(--cream);border-radius:24px;padding:28px 26px;
-  max-width:420px;width:calc(100% - 40px);text-align:center;
-  box-shadow:0 16px 50px rgba(0,0,0,.6), inset 0 0 0 2px var(--panel-edge), inset 0 0 0 5px rgba(0,0,0,.35);
+  background:
+    radial-gradient(130% 100% at 50% 0%, rgba(150,90,40,.4) 0%, rgba(150,90,40,0) 55%),
+    linear-gradient(168deg,var(--leather-hi),var(--leather-mid) 50%,var(--leather-lo));
+  color:var(--cream);border-radius:26px;padding:30px 26px;max-width:420px;width:calc(100% - 40px);text-align:center;
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,215,150,.15);
+  animation:cardIn .45s var(--ease-spring);
 }
-#overlayCard h2{font-size:25px;font-weight:900;margin-bottom:8px;color:var(--gold)}
+@keyframes cardIn{from{transform:translateY(30px) scale(.92);opacity:0}}
+#overlayCard h2{font-size:25px;font-weight:900;margin-bottom:8px;color:var(--brass-hi);
+  text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28)}
 #overlayCard p{font-size:15.5px;margin-bottom:18px;line-height:1.8}
-#overlayCard img{width:64px;height:64px;object-fit:contain;margin-bottom:6px;filter:drop-shadow(0 5px 6px rgba(0,0,0,.5))}
+#overlayCard img{width:72px;height:72px;object-fit:contain;margin-bottom:6px;
+  filter:drop-shadow(0 8px 8px rgba(0,0,0,.55));animation:winBounce 1.4s var(--ease-spring) infinite}
+@keyframes winBounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px) rotate(-5deg)}60%{transform:translateY(-8px) rotate(3deg)}}
 
 #toast{
-  position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:60;background:var(--panel-2);color:var(--cream);
-  padding:10px 22px;border-radius:999px;font-weight:700;font-size:14.5px;opacity:0;pointer-events:none;transition:opacity .3s;
-  box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(201,141,78,.5);
+  position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));right:50%;transform:translateX(50%);z-index:60;
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));color:var(--cream);
+  padding:11px 24px;border-radius:999px;font-weight:700;font-size:14.5px;opacity:0;pointer-events:none;transition:opacity .3s;
+  box-shadow:var(--shadow-lift), inset 0 0 0 1.5px rgba(201,141,78,.5);
 }
 #toast.show{opacity:1}
 
-footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:700}
+footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:700;color:#ffe9c2;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
 @media (max-width:420px){
-  #logoTop{height:70px}
-  .shapeCard img{width:56px;height:56px}
+  #logoTop{height:72px}
+  .shapeCard img{width:58px;height:58px}
   .playerBadge .name{font-size:12.5px}
   .badge{font-size:12.5px}
 }
 </style>
 </head>
 <body>
+<!-- SVG icon sprite (no emoji icons — ui-ux-pro-max checklist) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-users" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 22V12h6v10"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2zM5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M18 8a2 2 0 0 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 0 1 15-6.7L21 8M21 12a9 9 0 0 1-15 6.7L3 16"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 3v5h-5M3 21v-5h5"/></symbol>
+  <symbol id="i-exit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2" fill="currentColor"/><circle cx="18" cy="8" r="2" fill="currentColor"/><circle cx="4" cy="8" r="2" fill="currentColor"/><circle cx="20" cy="16" r="2" fill="currentColor"/><path fill="currentColor" d="M9 10a5 5 0 0 0-5 5c0 2.2 1.8 4 4 4 .8 0 1.5-.2 2.2-.5a4 4 0 0 1 3.6 0c.7.3 1.4.5 2.2.5a4 4 0 0 0 1.9-7.5A5 5 0 0 0 9 10z" transform="translate(2 -1) scale(.85)"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21 1.18.54 2.03 2.03 2.03 3.79M18 2H6v7a6 6 0 0 0 12 0V2z"/></symbol>
+</svg>
+
 <main>
   <header>
     <img id="logoTop" src="assets/logo.png" alt="نط الكلب — لعبة سودانية تراثية">
     <div class="sndToggles">
-      <button class="tog" id="musicTog" title="الموسيقى">🎵</button>
-      <button class="tog" id="sfxTog" title="المؤثرات">🔊</button>
+      <button class="tog" id="musicTog" aria-label="تشغيل أو كتم الموسيقى"><svg><use href="#i-music"/></svg></button>
+      <button class="tog" id="sfxTog" aria-label="تشغيل أو كتم المؤثرات الصوتية"><svg><use href="#i-sound"/></svg></button>
     </div>
   </header>
 
@@ -254,22 +387,22 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
   <section id="menuScreen" class="screen active">
     <div class="panel">
       <button class="bigbtn" id="localBtn">
-        <span class="ic">👥</span>
+        <span class="ic"><svg><use href="#i-users"/></svg></span>
         <span>لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
       </button>
       <button class="bigbtn" id="onlineBtn">
-        <span class="ic">🌐</span>
+        <span class="ic"><svg><use href="#i-globe"/></svg></span>
         <span>اللعب أونلاين<small>أنشئ غرفة وشارك الرمز مع خصمك</small></span>
       </button>
       <button class="bigbtn" id="rulesBtn">
-        <span class="ic">📜</span>
+        <span class="ic"><svg><use href="#i-scroll"/></svg></span>
         <span>قوانين اللعبة<small>طريقة اللعب والنط والفوز</small></span>
       </button>
     </div>
     <div class="badges">
-      <div class="badge"><div class="bic">👥</div>لاعبان</div>
-      <div class="badge"><div class="bic">🧠</div>ذكاء وتكتيك</div>
-      <div class="badge"><div class="bic">🐕</div>نط واقفز</div>
+      <div class="badge"><div class="bic"><svg><use href="#i-users"/></svg></div>لاعبان</div>
+      <div class="badge"><div class="bic"><svg><use href="#i-bulb"/></svg></div>ذكاء وتكتيك</div>
+      <div class="badge"><div class="bic"><svg><use href="#i-paw"/></svg></div>نط واقفز</div>
     </div>
   </section>
 
@@ -285,7 +418,7 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
       </ol>
       <div class="row" style="margin-top:14px">
-        <button class="btn ghost" data-back>رجوع ←</button>
+        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -297,7 +430,7 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
       <div id="shapeGrid"></div>
       <p id="shapeHint">اختر الشكل واللون وابدأ اللعب!</p>
       <div class="row" style="margin-top:12px">
-        <button class="btn ghost" data-back>رجوع ←</button>
+        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -307,25 +440,25 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
     <div class="panel" id="onlineMenu">
       <h2>اللعب أونلاين</h2>
       <div class="row">
-        <button class="btn gold" id="createRoomBtn">🏠 إنشاء غرفة جديدة</button>
+        <button class="btn gold" id="createRoomBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button>
       </div>
       <div class="row" style="margin-top:14px">
-        <input type="text" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off">
-        <button class="btn" id="joinRoomBtn">🚪 انضمام</button>
+        <input type="text" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <button class="btn" id="joinRoomBtn"><svg><use href="#i-door"/></svg>انضمام</button>
       </div>
       <p class="hint">أنشئ غرفة وأرسل الرمز لخصمك، أو أدخل رمز غرفة خصمك وانضم.</p>
       <div class="row" style="margin-top:10px">
-        <button class="btn ghost" data-back>رجوع ←</button>
+        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
     <div class="panel" id="waitingCard" style="display:none;text-align:center">
       <h2>رمز الغرفة</h2>
       <p style="font-size:15px;margin-bottom:10px">أرسله لخصمك لينضم إليك:</p>
       <div class="row"><span id="roomCode">····</span></div>
-      <div class="row"><button class="btn" id="copyCodeBtn">📋 نسخ الرمز</button></div>
+      <div class="row"><button class="btn" id="copyCodeBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
       <p class="hint" id="waitingMsg">في انتظار انضمام الخصم <span class="spin"></span></p>
       <div class="row" style="margin-top:10px">
-        <button class="btn ghost" id="cancelRoomBtn">إلغاء ←</button>
+        <button class="btn ghost" id="cancelRoomBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
       </div>
     </div>
   </section>
@@ -342,12 +475,12 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
         <div class="info"><span class="name" id="nameB"></span><span class="count" id="countB"></span></div>
       </div>
     </div>
-    <div id="turnBanner"></div>
+    <div id="turnBanner" aria-live="polite"></div>
     <div id="boardWrap"><div id="board"></div></div>
     <div id="controls">
-      <button class="btn red" id="endChainBtn">✋ إنهاء الدور</button>
-      <button class="btn" id="restartBtn">🔄 جولة جديدة</button>
-      <button class="btn ghost" id="quitBtn">خروج ←</button>
+      <button class="btn red" id="endChainBtn"><svg><use href="#i-hand"/></svg>إنهاء الدور</button>
+      <button class="btn" id="restartBtn"><svg><use href="#i-refresh"/></svg>جولة جديدة</button>
+      <button class="btn ghost" id="quitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
     </div>
   </section>
 
@@ -360,12 +493,12 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
     <h2 id="overlayTitle"></h2>
     <p id="overlayMsg"></p>
     <div class="row">
-      <button class="btn gold" id="overlayRestart">🔄 جولة جديدة</button>
-      <button class="btn ghost" id="overlayQuit">القائمة الرئيسية</button>
+      <button class="btn gold" id="overlayRestart"><svg><use href="#i-refresh"/></svg>جولة جديدة</button>
+      <button class="btn ghost" id="overlayQuit"><svg><use href="#i-home"/></svg>القائمة الرئيسية</button>
     </div>
   </div>
 </div>
-<div id="toast"></div>
+<div id="toast" role="status"></div>
 
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
@@ -378,8 +511,9 @@ footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:
 
 const SIZE = 5;
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- the six dog designs (اختر شكل كلبك) ---------- */
+/* ---------- the six dog designs ---------- */
 const SHAPES = [
   {key:'star',    name:'النجمة',  img:'assets/dog-star.png'},
   {key:'spiral',  name:'الحلزون', img:'assets/dog-spiral.png'},
@@ -389,10 +523,10 @@ const SHAPES = [
   {key:'square',  name:'المربع',  img:'assets/dog-square.png'},
 ];
 const shapeByKey = k => SHAPES.find(s => s.key===k) || SHAPES[0];
-SHAPES.forEach(s => { const im=new Image(); im.src=s.img; }); // preload
+SHAPES.forEach(s => { const im=new Image(); im.src=s.img; });
 
 /* =====================================================================
-   AUDIO — all synthesized with WebAudio (no sound files needed)
+   AUDIO
 ===================================================================== */
 let AC = null, sfxOn = true, musicOn = true, musicTimer = null;
 try{ sfxOn  = localStorage.getItem('na_sfx')   !== '0'; }catch(e){}
@@ -404,7 +538,7 @@ function ctx(){
   return AC;
 }
 
-/* --- a light natural bark: "هَو" — for a normal step --- */
+/* light natural bark — normal step */
 function sndBark(){
   const c = ctx(); if(!c || !sfxOn) return;
   const t = c.currentTime;
@@ -420,11 +554,10 @@ function sndBark(){
   o.start(t); o.stop(t+0.18);
 }
 
-/* --- pained dog yelp: sharp "يِيب" then a falling whine — when a dog is jumped --- */
+/* pained yelp — a dog gets jumped */
 function sndYelp(){
   const c = ctx(); if(!c || !sfxOn) return;
   const t = c.currentTime;
-  // part 1: sharp yip
   const o1 = c.createOscillator(); o1.type='sawtooth';
   o1.frequency.setValueAtTime(700, t);
   o1.frequency.exponentialRampToValueAtTime(1500, t+0.06);
@@ -435,7 +568,6 @@ function sndYelp(){
   const f1 = c.createBiquadFilter(); f1.type='bandpass'; f1.frequency.value=1400; f1.Q.value=2;
   o1.connect(f1).connect(g1).connect(c.destination);
   o1.start(t); o1.stop(t+0.1);
-  // part 2: falling pained whine with vibrato
   const t2 = t+0.1;
   const o2 = c.createOscillator(); o2.type='sawtooth';
   o2.frequency.setValueAtTime(1300, t2);
@@ -453,7 +585,7 @@ function sndYelp(){
   o2.start(t2); o2.stop(t2+0.5); vib.start(t2); vib.stop(t2+0.5);
 }
 
-function jingle(freqs, up=true){
+function jingle(freqs){
   const c = ctx(); if(!c || !sfxOn) return;
   freqs.forEach((f,i)=>{
     const t = c.currentTime + i*0.15;
@@ -467,14 +599,10 @@ function jingle(freqs, up=true){
 const sndWin  = () => jingle([523,659,784,1047]);
 const sndLose = () => jingle([440,349,262]);
 
-/* --- background music: a light Sudanese-flavored loop ---------------
-   A steady dallūka-like drum cycle + a soft pentatonic plucked melody,
-   repeating in a regular pattern at low volume.                      */
+/* synthesized dallūka loop — fallback when the mp3 can't load */
 const MUSIC = {
   bpm: 92,
-  // one bar = 8 eighth-notes. D = deep drum (dum), t = light tap (tak)
   drums: ['D','','t','D','','D','t',''],
-  // pentatonic melody (D minor pentatonic), two bars, 0 = rest
   notes: [294,0,349,392,0,440,0,392,  294,0,262,294,0,220,0,0],
   step: 0, nextTime: 0,
 };
@@ -526,8 +654,7 @@ function startSynth(){
 }
 function stopSynth(){ clearInterval(musicTimer); musicTimer = null; }
 
-/* --- real background track (woven sands) — loops at low volume;
-       falls back to the synthesized loop if the file can't load --- */
+/* real background track (woven sands) — loops at low volume */
 const bgm = new Audio('assets/music.mp3');
 bgm.loop = true; bgm.volume = 0.25; bgm.preload = 'auto';
 let bgmFailed = false;
@@ -537,8 +664,6 @@ function startMusic(){
   if(!musicOn) return;
   if(bgmFailed){ startSynth(); return; }
   bgm.play().then(() => stopSynth()).catch(() => {
-    // autoplay blocked before the first tap — the pointerdown hook retries;
-    // a real load failure switches us to the synth loop
     if(bgmFailed) startSynth();
   });
 }
@@ -561,22 +686,22 @@ document.getElementById('sfxTog').onclick = () => {
   if(sfxOn) sndBark();
 };
 refreshTogs();
-// browsers require a user gesture before audio — start on the first tap anywhere
-document.addEventListener('pointerdown', function boot(){ ctx(); startMusic(); document.removeEventListener('pointerdown', boot); }, {once:false});
+document.addEventListener('pointerdown', function boot(){ ctx(); startMusic(); }, {once:true});
 
 /* =====================================================================
    GAME STATE
 ===================================================================== */
-let board = [];          // board[r][c] = null | 'G' | 'B'   (G = player 1, starts)
+let board = [];
 let turn = 'G';
 let selected = null;
 let chainPiece = null;
 let lastMove = [];
 let gameOver = false;
+let animating = false;
 
-let mode = 'local';      // 'local' | 'online'
-let myColor = null;      // online: 'G' host | 'B' guest
-let shapeSel = { G:'star', B:'spiral' };   // chosen dog design per player
+let mode = 'local';
+let myColor = null;
+let shapeSel = { G:'star', B:'spiral' };
 
 function newGame(){
   board = Array.from({length:SIZE}, () => Array(SIZE).fill(null));
@@ -585,9 +710,10 @@ function newGame(){
     if(i < 12) board[r][c] = 'G';
     else if(i > 12) board[r][c] = 'B';
   }
-  turn='G'; selected=null; chainPiece=null; lastMove=[]; gameOver=false;
+  turn='G'; selected=null; chainPiece=null; lastMove=[]; gameOver=false; animating=false;
   hideOverlay();
   renderBoard(); updateHud();
+  dealInAnimation();
 }
 
 const inside = (r,c) => r>=0 && r<SIZE && c>=0 && c<SIZE;
@@ -620,27 +746,121 @@ function countPieces(p){
   return n;
 }
 
+/* ---------- move application: travel animation, then commit ---------- */
 function applyMove(fr,fc,tr,tc){
   const isJump = Math.abs(tr-fr)===2 || Math.abs(tc-fc)===2;
-  const piece = board[fr][fc];
-  board[tr][tc]=piece; board[fr][fc]=null;
-  lastMove=[[fr,fc],[tr,tc]];
-  if(isJump){
-    const mr=(fr+tr)/2, mc=(fc+tc)/2;
-    board[mr][mc]=null;
-    sndYelp();                       // the jumped dog cries
-    if(jumpsFor(tr,tc).length){      // chain continues
-      chainPiece=[tr,tc];
-      selected=(mode==='local' || piece===myColor) ? [tr,tc] : null;
-      renderBoard(); updateHud(); checkEnd();
-      return;
+  const commit = () => {
+    const piece = board[fr][fc];
+    board[tr][tc]=piece; board[fr][fc]=null;
+    lastMove=[[fr,fc],[tr,tc]];
+    if(isJump){
+      board[(fr+tr)/2][(fc+tc)/2]=null;
+      if(jumpsFor(tr,tc).length){
+        chainPiece=[tr,tc];
+        selected=(mode==='local' || piece===myColor) ? [tr,tc] : null;
+        animating=false;
+        renderBoard(); updateHud(); checkEnd();
+        return;
+      }
     }
-  } else {
-    sndBark();                       // a light bark on a normal step
+    chainPiece=null; selected=null;
+    turn=enemy(turn);
+    animating=false;
+    renderBoard(); updateHud(); checkEnd();
+  };
+  if(REDUCED){
+    if(isJump) sndYelp(); else sndBark();
+    commit();
+    return;
   }
-  chainPiece=null; selected=null;
-  turn=enemy(turn);
-  renderBoard(); updateHud(); checkEnd();
+  animating=true;
+  animateMove(fr,fc,tr,tc,isJump,commit);
+}
+
+/* travel animation: glide for a step, rising arc + dust + victim poof for a jump */
+function animateMove(fr,fc,tr,tc,isJump,done){
+  const cells = boardEl.children;
+  const src = cells[fr*SIZE+fc], dst = cells[tr*SIZE+tc];
+  const pieceEl = src && src.querySelector('.piece');
+  if(!pieceEl){ done(); return; }
+  const wrap = document.getElementById('boardWrap');
+  const wr = wrap.getBoundingClientRect();
+  const a = src.getBoundingClientRect(), b = dst.getBoundingClientRect();
+
+  const flyer = document.createElement('div');
+  flyer.className='flyer';
+  flyer.style.left=(a.left-wr.left)+'px';
+  flyer.style.top =(a.top -wr.top )+'px';
+  flyer.style.width=a.width+'px';
+  flyer.style.height=a.height+'px';
+  const fim=document.createElement('img');
+  fim.src=shapeByKey(shapeSel[board[fr][fc]]).img;
+  fim.style.padding='8%';
+  fim.style.filter='drop-shadow(0 5px 5px rgba(30,12,0,.5))';
+  flyer.appendChild(fim);
+  wrap.appendChild(flyer);
+  pieceEl.style.visibility='hidden';
+
+  const dx=b.left-a.left, dy=b.top-a.top;
+  const dur = isJump ? 460 : 300;
+
+  if(isJump){
+    sndBark();
+    const victim = cells[((fr+tr)/2)*SIZE+((fc+tc)/2)].querySelector('.piece');
+    setTimeout(()=>{
+      sndYelp();
+      if(victim){ victim.classList.add('captured'); dustAt(wrap, (a.left+b.left)/2-wr.left+a.width/2, (a.top+b.top)/2-wr.top+a.height/2); }
+    }, dur*0.42);
+    fim.animate([
+      {transform:'translateY(0) scale(1)', filter:'drop-shadow(0 5px 5px rgba(30,12,0,.5))'},
+      {transform:'translateY(-46%) scale(1.28)', filter:'drop-shadow(0 26px 16px rgba(30,12,0,.35))', offset:.5},
+      {transform:'translateY(0) scale(1)', filter:'drop-shadow(0 5px 5px rgba(30,12,0,.5))'}
+    ], {duration:dur, easing:'cubic-bezier(.45,.05,.55,.95)'});
+  } else {
+    sndBark();
+    fim.animate([
+      {transform:'translateY(0) scale(1)'},
+      {transform:'translateY(-14%) scale(1.08)', offset:.45},
+      {transform:'translateY(0) scale(1)'}
+    ], {duration:dur, easing:'cubic-bezier(.3,.1,.35,1)'});
+  }
+  const travel = flyer.animate(
+    [{transform:'translate(0,0)'},{transform:`translate(${dx}px,${dy}px)`}],
+    {duration:dur, easing: isJump?'cubic-bezier(.4,.08,.45,.95)':'cubic-bezier(.22,1,.36,1)', fill:'forwards'}
+  );
+  travel.onfinish = () => {
+    dustAt(wrap, b.left-wr.left+b.width/2, b.top-wr.top+b.height*0.8, isJump?7:4);
+    flyer.remove();
+    done();
+  };
+}
+
+/* small sand motes kicked up at (x,y) inside the board */
+function dustAt(wrap, x, y, n=6){
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');
+    d.className='dust';
+    d.style.left=(x-4)+'px'; d.style.top=(y-4)+'px';
+    wrap.appendChild(d);
+    const ang=Math.random()*Math.PI*2, dist=14+Math.random()*26;
+    d.animate([
+      {transform:'translate(0,0) scale(1)', opacity:.85},
+      {transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist-10}px) scale(.25)`, opacity:0}
+    ], {duration:420+Math.random()*180, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards'})
+    .onfinish=()=>d.remove();
+  }
+}
+
+/* opening: pieces settle onto the board in a soft wave */
+function dealInAnimation(){
+  if(REDUCED) return;
+  const pieces=boardEl.querySelectorAll('.piece');
+  pieces.forEach((p,i)=>{
+    p.animate([
+      {transform:'translateY(-26px) scale(.6)', opacity:0},
+      {transform:'translateY(0) scale(1)', opacity:1}
+    ], {duration:380, delay:i*24, easing:'cubic-bezier(.34,1.56,.64,1)', fill:'backwards'});
+  });
 }
 
 function endChain(){
@@ -668,7 +888,7 @@ function checkEnd(){
       const im = document.getElementById('overlayImg');
       im.src = shapeByKey(shapeSel[winner]).img; im.style.display='inline-block';
       showOverlay('🏆 ' + nameOf(winner) + ' فاز بالجولة!', why + ' — الكلاب المتبقية: ' + Math.max(g,b));
-    }, 400);
+    }, 450);
   }
 }
 
@@ -703,6 +923,7 @@ function renderBoard(){
     if(p){
       const el=document.createElement('div');
       el.className='piece';
+      const sh=document.createElement('div'); sh.className='pShadow'; el.appendChild(sh);
       const img=document.createElement('img');
       img.src=shapeByKey(shapeSel[p]).img;
       img.alt=nameOf(p);
@@ -728,12 +949,12 @@ function updateHud(){
   if(gameOver){ banner.textContent='انتهت الجولة'; return; }
   if(chainPiece){
     banner.textContent=(mode==='local'||turn===myColor)
-      ? '🔥 نطّة متسلسلة! واصل النط أو أنهِ دورك'
-      : '🔥 الخصم يواصل النط...';
+      ? 'نطّة متسلسلة! واصل النط أو أنهِ دورك'
+      : 'الخصم يواصل النط...';
   } else if(mode==='online'){
-    banner.textContent = turn===myColor ? '🎯 دورك — حرّك أو نُط' : '⏳ دور الخصم...';
+    banner.textContent = turn===myColor ? 'دورك — حرّك أو نُط' : 'دور الخصم...';
   } else {
-    banner.textContent='🎯 دور '+nameOf(turn);
+    banner.textContent='دور '+nameOf(turn);
   }
 }
 
@@ -741,7 +962,7 @@ function updateHud(){
    INPUT
 ===================================================================== */
 function onCellTap(r,c){
-  if(gameOver) return;
+  if(gameOver || animating) return;
   if(mode==='online' && turn!==myColor) return;
   const p=board[r][c];
   if(chainPiece){
@@ -765,10 +986,9 @@ function onCellTap(r,c){
 }
 
 /* =====================================================================
-   SHAPE PICKER (اختر شكل كلبك)
+   SHAPE PICKER
 ===================================================================== */
-let pickPhase = null;   // 'local1' | 'local2' | 'online'
-let pendingAfterPick = null;
+let pickPhase = null;
 function openShapeScreen(phase){
   pickPhase = phase;
   const grid=document.getElementById('shapeGrid');
@@ -793,7 +1013,7 @@ function openShapeScreen(phase){
         shapeSel.B=s.key;
         mode='local'; myColor=null; destroyPeer();
         showScreen('gameScreen'); newGame(); startMusic();
-      } else { // online: pick mine then go to room menu
+      } else {
         myShape=s.key;
         showScreen('onlineScreen');
         document.getElementById('onlineMenu').style.display='block';
@@ -874,7 +1094,7 @@ function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv',m:[fr,fc,tr,tc]
 function onData(d){
   if(!d||typeof d!=='object') return;
   switch(d.t){
-    case 'hello': { // I am the guest; host told me its shape
+    case 'hello': {
       const hostShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'star';
       if(myShape===hostShape) myShape = SHAPES.find(s=>s.key!==hostShape).key;
       send({t:'hello2', shape:myShape});
@@ -882,7 +1102,7 @@ function onData(d){
       startOnlineGame('B');
       break;
     }
-    case 'hello2': { // I am the host; guest confirmed its shape
+    case 'hello2': {
       const guestShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'spiral';
       shapeSel.G=myShape; shapeSel.B=guestShape;
       startOnlineGame('G');
