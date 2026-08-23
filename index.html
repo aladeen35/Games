@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>نط الكلب — لعبة سودانية شعبية</title>
+<title>نط الكلب — لعبة سودانية تراثية</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sand-1:#d9b984;
-  --sand-2:#c9a468;
-  --sand-3:#b8935a;
-  --pit:#a07c45;
-  --pit-dark:#8a6838;
-  --green:#1e8a4c;
-  --green-dark:#136338;
-  --blue:#1d5fbf;
-  --blue-dark:#134587;
-  --ink:#3a2c17;
-  --paper:#fff8ec;
-  --accent:#c0392b;
+  /* terracotta clay palette taken from the reference artwork */
+  --sand-1:#d99a52;
+  --sand-2:#c37f3c;
+  --sand-3:#a8642c;
+  --clay-line:rgba(97,54,18,.4);
+  --panel:#3d2412;
+  --panel-2:#2b1a0e;
+  --panel-edge:#c98d4e;
+  --gold:#f2b544;
+  --cream:#f7e6c9;
+  --ink:#3a2410;
+  --accent:#e74c3c;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -27,227 +29,246 @@ body{
   font-family:'Cairo','Segoe UI',Tahoma,sans-serif;
   color:var(--ink);
   background:
-    radial-gradient(1200px 600px at 50% -100px, #e8cd9c 0%, transparent 60%),
-    linear-gradient(160deg, var(--sand-1) 0%, var(--sand-2) 55%, var(--sand-3) 100%);
+    radial-gradient(1400px 700px at 50% -150px, rgba(255,210,140,.55) 0%, transparent 60%),
+    linear-gradient(165deg, var(--sand-1) 0%, var(--sand-2) 55%, var(--sand-3) 100%);
   min-height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  display:flex;flex-direction:column;align-items:center;
 }
-/* grain over the whole page so it feels like sand */
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;z-index:0;
+body::before{ /* sand grain */
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;z-index:0;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
-main{position:relative;z-index:1;width:100%;max-width:640px;padding:14px 12px 40px;display:flex;flex-direction:column;align-items:center}
+main{position:relative;z-index:1;width:100%;max-width:640px;padding:12px 12px 36px;display:flex;flex-direction:column;align-items:center}
 
 /* ---------- header ---------- */
-header{display:flex;align-items:center;gap:12px;margin:6px 0 4px}
-#logoBox{width:64px;height:64px;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 35% 30%, #f7e3b5, #caa261);box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 0 0 3px rgba(255,255,255,.35)}
-#logoBox img{width:100%;height:100%;object-fit:cover;display:none}
-#logoBox .fallback{font-size:34px;line-height:1}
-h1{font-size:32px;font-weight:900;text-shadow:0 2px 0 rgba(255,255,255,.4)}
-.subtitle{font-size:14px;font-weight:600;opacity:.75;margin-top:-6px}
+header{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:4px 0 2px}
+#logoTop{height:88px;border-radius:18px;box-shadow:0 6px 18px rgba(50,25,5,.45), 0 0 0 3px rgba(255,220,160,.25);display:block}
+.sndToggles{display:flex;flex-direction:column;gap:6px}
+.tog{width:42px;height:42px;border:none;border-radius:12px;font-size:20px;cursor:pointer;
+  background:linear-gradient(160deg,var(--panel),var(--panel-2));color:var(--gold);
+  box-shadow:0 3px 0 rgba(0,0,0,.35), inset 0 0 0 1.5px rgba(201,141,78,.5);}
+.tog.off{opacity:.45;filter:grayscale(1)}
+.tog:active{transform:translateY(2px)}
 
 /* ---------- screens ---------- */
 .screen{display:none;width:100%;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 
-/* ---------- menu ---------- */
-.card{
-  width:100%;background:var(--paper);border-radius:20px;padding:20px 18px;margin-top:14px;
-  box-shadow:0 8px 24px rgba(58,44,23,.25), inset 0 0 0 1px rgba(58,44,23,.08);
+/* ---------- leather panel (like the reference side panel) ---------- */
+.panel{
+  width:100%;margin-top:12px;padding:20px 16px;border-radius:26px;position:relative;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(120,70,30,.35), transparent 60%),
+    linear-gradient(170deg,var(--panel) 0%, var(--panel-2) 100%);
+  box-shadow:0 10px 30px rgba(40,18,2,.5), inset 0 0 0 2px var(--panel-edge), inset 0 0 0 5px rgba(0,0,0,.35), inset 0 0 40px rgba(0,0,0,.4);
+  color:var(--cream);
 }
+.panel h2{text-align:center;color:var(--gold);font-size:22px;font-weight:900;margin-bottom:14px;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+
 .bigbtn{
-  display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;margin:10px 0;border:none;border-radius:16px;
-  font-family:inherit;font-size:20px;font-weight:700;color:#fff;cursor:pointer;text-align:right;
-  box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .08s, box-shadow .08s;
+  display:flex;align-items:center;gap:14px;width:100%;padding:14px 18px;margin:9px 0;border:none;border-radius:16px;
+  font-family:inherit;font-size:19px;font-weight:800;color:var(--cream);cursor:pointer;text-align:right;
+  background:linear-gradient(165deg,#8a5427,#5d3414);
+  box-shadow:0 4px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4), inset 0 1px 0 rgba(255,230,180,.25);
+  transition:transform .08s, box-shadow .08s;
 }
-.bigbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
-.bigbtn .ic{font-size:28px}
-.bigbtn small{display:block;font-size:13px;font-weight:600;opacity:.85}
-.btn-local{background:linear-gradient(160deg,var(--green),var(--green-dark))}
-.btn-online{background:linear-gradient(160deg,var(--blue),var(--blue-dark))}
-.btn-rules{background:linear-gradient(160deg,#8a6838,#6d5129)}
+.bigbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4)}
+.bigbtn .ic{font-size:26px}
+.bigbtn small{display:block;font-size:12.5px;font-weight:600;opacity:.8}
 
 .btn{
-  padding:10px 22px;border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;color:#fff;
-  background:linear-gradient(160deg,#8a6838,#6d5129);box-shadow:0 3px 0 rgba(0,0,0,.25);transition:transform .08s;
+  padding:10px 22px;border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;color:var(--cream);
+  background:linear-gradient(165deg,#8a5427,#5d3414);
+  box-shadow:0 3px 0 rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(242,181,68,.4);transition:transform .08s;
 }
 .btn:active{transform:translateY(2px)}
-.btn.green{background:linear-gradient(160deg,var(--green),var(--green-dark))}
-.btn.blue{background:linear-gradient(160deg,var(--blue),var(--blue-dark))}
-.btn.red{background:linear-gradient(160deg,#c0392b,#8f2a20)}
-.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px rgba(58,44,23,.35)}
+.btn.gold{background:linear-gradient(165deg,#d99a2b,#a06a12);color:#fff}
+.btn.red{background:linear-gradient(165deg,#b5432f,#7d2417)}
+.btn.ghost{background:transparent;box-shadow:inset 0 0 0 2px rgba(242,181,68,.5)}
+
+/* badges row (لاعبان / ذكاء وتكتيك / نط واقفز) */
+.badges{display:flex;gap:10px;justify-content:center;margin-top:16px;width:100%}
+.badge{
+  flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px 8px;
+  border-radius:14px 14px 18px 18px;background:linear-gradient(170deg,#6b3f1c,#4a2810);
+  box-shadow:0 4px 10px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(242,181,68,.45);
+  color:var(--cream);font-weight:800;font-size:14px;
+}
+.badge .bic{width:44px;height:44px;border-radius:50% 50% 40% 40%;display:flex;align-items:center;justify-content:center;font-size:24px;
+  background:radial-gradient(circle at 40% 30%, #f9e7c4, #d8ab6d);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
 
 /* ---------- rules ---------- */
-#rulesCard ol{padding-right:22px;line-height:2;font-size:15.5px}
-#rulesCard li::marker{font-weight:900;color:var(--green-dark)}
+#rulesCard ol{padding-right:20px;line-height:2;font-size:15px}
+#rulesCard li::marker{font-weight:900;color:var(--gold)}
+#rulesCard b{color:var(--gold)}
+
+/* ---------- shape picker (اختر شكل كلبك) ---------- */
+#shapeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.shapeCard{
+  position:relative;border:none;border-radius:16px;padding:12px 6px 8px;cursor:pointer;font-family:inherit;
+  background:linear-gradient(170deg, rgba(120,72,32,.55), rgba(60,33,14,.75));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.55), 0 3px 8px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--cream);
+  transition:transform .1s, box-shadow .1s;
+}
+.shapeCard img{width:70px;height:70px;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(0,0,0,.45))}
+.shapeCard .nm{font-size:14px;font-weight:800}
+.shapeCard:not(.taken):hover{transform:translateY(-3px)}
+.shapeCard.picked{box-shadow:inset 0 0 0 3px var(--gold), 0 0 16px rgba(242,181,68,.7);transform:scale(1.04)}
+.shapeCard.taken{opacity:.35;cursor:not-allowed}
+.shapeCard.taken::after{content:"✓ محجوز";position:absolute;inset:auto 0 34px 0;text-align:center;font-size:12px;font-weight:900;color:var(--gold)}
+#shapeTitle{transition:color .2s}
+#shapeHint{text-align:center;font-size:14px;opacity:.85;margin-top:12px;color:var(--gold);font-weight:700}
 
 /* ---------- online setup ---------- */
 .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:8px 0}
 input[type=text]{
   font-family:inherit;font-size:22px;font-weight:700;letter-spacing:4px;text-align:center;direction:ltr;
-  width:180px;padding:10px;border-radius:12px;border:2px solid rgba(58,44,23,.3);background:#fff;
+  width:170px;padding:10px;border-radius:12px;border:2px solid rgba(242,181,68,.55);background:#fdf3e0;color:var(--ink);
 }
-#roomCode{font-size:34px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fff;border-radius:14px;padding:8px 18px;
-  box-shadow:inset 0 0 0 2px rgba(58,44,23,.2);user-select:all}
-.hint{font-size:14px;opacity:.75;text-align:center;margin-top:6px}
-.spin{display:inline-block;width:18px;height:18px;border:3px solid rgba(58,44,23,.2);border-top-color:var(--ink);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
+#roomCode{font-size:34px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;color:var(--ink);border-radius:14px;padding:8px 18px;
+  box-shadow:inset 0 0 0 2px rgba(120,70,20,.35);user-select:all}
+.hint{font-size:13.5px;opacity:.8;text-align:center;margin-top:6px}
+.spin{display:inline-block;width:16px;height:16px;border:3px solid rgba(247,230,201,.25);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
 /* ---------- game HUD ---------- */
-#hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:8px 0}
+#hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:10px 0 6px}
 .playerBadge{
-  flex:1;display:flex;align-items:center;gap:10px;background:var(--paper);border-radius:14px;padding:8px 12px;
-  box-shadow:0 3px 10px rgba(58,44,23,.2);opacity:.55;transition:opacity .2s, box-shadow .2s;border:3px solid transparent;
+  flex:1;display:flex;align-items:center;gap:9px;border-radius:14px;padding:7px 11px;
+  background:linear-gradient(170deg,var(--panel),var(--panel-2));color:var(--cream);
+  box-shadow:0 3px 10px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(201,141,78,.4);
+  opacity:.5;transition:opacity .2s, box-shadow .2s;
 }
-.playerBadge.turn{opacity:1;border-color:currentColor;box-shadow:0 3px 14px rgba(58,44,23,.35)}
-.playerBadge .mini{width:30px;height:30px;flex:none}
-.playerBadge .info{display:flex;flex-direction:column;line-height:1.25}
-.playerBadge .name{font-weight:900;font-size:15px}
-.playerBadge .count{font-size:13px;font-weight:600;opacity:.8}
-#badgeG{color:var(--green-dark)} #badgeB{color:var(--blue-dark)}
+.playerBadge.turn{opacity:1;box-shadow:0 3px 14px rgba(40,18,2,.55), inset 0 0 0 2.5px var(--gold)}
+.playerBadge img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.5))}
+.playerBadge .info{display:flex;flex-direction:column;line-height:1.3}
+.playerBadge .name{font-weight:900;font-size:14px}
+.playerBadge .count{font-size:12px;font-weight:600;opacity:.85;color:var(--gold)}
 
 #turnBanner{
-  min-height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;
-  padding:4px 18px;border-radius:999px;background:rgba(255,248,236,.85);box-shadow:0 2px 8px rgba(58,44,23,.2);margin-bottom:8px;
+  min-height:34px;display:flex;align-items:center;justify-content:center;font-size:15.5px;font-weight:900;color:var(--cream);
+  padding:4px 20px;border-radius:999px;background:linear-gradient(170deg,var(--panel),var(--panel-2));
+  box-shadow:0 3px 8px rgba(40,18,2,.4), inset 0 0 0 1.5px rgba(201,141,78,.45);margin-bottom:10px;
 }
 
-/* ---------- board ---------- */
+/* ---------- board: clay ground with scratched grid ---------- */
 #boardWrap{
-  position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:22px;padding:4.5%;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255,235,190,.5), transparent 55%),
-    linear-gradient(150deg,#d3af74,#b98f52 70%,#a97e44);
-  box-shadow:0 10px 30px rgba(58,44,23,.4), inset 0 0 0 3px rgba(255,255,255,.18), inset 0 0 60px rgba(120,85,40,.35);
-  background-size:cover;background-position:center;
+  position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:20px;padding:4%;
+  background:url('assets/sand.jpg') center/cover, linear-gradient(150deg,#cf8f4b,#aa6a2e);
+  box-shadow:0 12px 34px rgba(45,20,2,.55), inset 0 0 0 3px rgba(97,54,18,.5), inset 0 0 50px rgba(97,54,18,.45);
 }
-#boardWrap.customBg{background-image:var(--custom-bg) !important;background-size:cover}
-#boardWrap::before{ /* sand grain on the board */
-  content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;opacity:.22;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+#boardWrap::before{ /* warm tint + grain so the photo blends with UI */
+  content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
+  background:linear-gradient(160deg, rgba(210,140,60,.28), rgba(140,80,25,.34));
+  mix-blend-mode:multiply;
 }
-#board{
-  position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:3.5%;
-}
+#board{position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr)}
 .cell{
-  position:relative;border-radius:50%;cursor:pointer;
-  background:radial-gradient(circle at 42% 36%, var(--pit) 0%, var(--pit-dark) 78%);
-  box-shadow:inset 0 5px 10px rgba(60,40,15,.55), inset 0 -3px 6px rgba(255,230,180,.25), 0 1px 0 rgba(255,240,205,.35);
+  position:relative;cursor:pointer;border-radius:14%;
+  /* scratched furrow lines like lines drawn in wet clay */
+  box-shadow:
+    inset 0 0 0 2px var(--clay-line),
+    inset 3px 3px 6px rgba(255,225,175,.16),
+    inset -3px -3px 7px rgba(97,54,18,.22);
+}
+.cell.empty::after{ /* small divot so holes read like the reference */
+  content:"";position:absolute;inset:34%;border-radius:50%;
+  background:radial-gradient(circle at 45% 38%, rgba(97,54,18,.34), rgba(60,30,8,.5));
+  box-shadow:inset 0 3px 5px rgba(50,24,4,.55), 0 1px 0 rgba(255,225,175,.25);
 }
 .cell.moveTarget::after{
-  content:"";position:absolute;inset:32%;border-radius:50%;background:rgba(255,248,220,.85);
-  box-shadow:0 0 10px rgba(255,240,200,.9);animation:pulse 1s ease-in-out infinite;
+  content:"";position:absolute;inset:30%;border-radius:50%;
+  background:radial-gradient(circle at 45% 38%, rgba(255,240,200,.95), rgba(242,181,68,.85));
+  box-shadow:0 0 12px rgba(255,215,130,.95);animation:pulse 1s ease-in-out infinite;
 }
 .cell.jumpTarget::after{
-  content:"";position:absolute;inset:18%;border-radius:50%;border:4px dashed var(--accent);
+  content:"";position:absolute;inset:16%;border-radius:50%;border:4px dashed var(--accent);background:rgba(231,76,60,.12);
   animation:pulse 1s ease-in-out infinite;
 }
-.cell.lastMove{box-shadow:inset 0 5px 10px rgba(60,40,15,.55), 0 0 0 3px rgba(255,215,120,.8)}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:.6}}
+.cell.lastMove{box-shadow:inset 0 0 0 3px rgba(242,181,68,.85), inset 3px 3px 6px rgba(255,225,175,.16), inset -3px -3px 7px rgba(97,54,18,.22)}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.1);opacity:.6}}
 
-/* ---------- pieces (bottle-cap "dogs") ---------- */
-.piece{
-  position:absolute;inset:8%;border-radius:50%;cursor:pointer;z-index:2;
-  transition:transform .15s;
-  filter:drop-shadow(0 4px 4px rgba(40,25,8,.5));
-}
-.piece .cap{
-  position:absolute;inset:0;border-radius:50%;
-}
-.piece.G .cap{
-  background:
-    radial-gradient(circle at 35% 28%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 34%),
-    repeating-conic-gradient(var(--green) 0deg 9deg, var(--green-dark) 9deg 18deg);
-}
-.piece.B .cap{
-  background:
-    radial-gradient(circle at 35% 28%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 34%),
-    repeating-conic-gradient(var(--blue) 0deg 9deg, var(--blue-dark) 9deg 18deg);
-}
-.piece .cap::after{ /* flat inner top of the cap */
-  content:"";position:absolute;inset:14%;border-radius:50%;
-}
-.piece.G .cap::after{background:radial-gradient(circle at 38% 30%, #35b26c, var(--green) 55%, var(--green-dark));box-shadow:inset 0 -3px 6px rgba(0,0,0,.35), inset 0 3px 5px rgba(255,255,255,.35)}
-.piece.B .cap::after{background:radial-gradient(circle at 38% 30%, #4b86e8, var(--blue) 55%, var(--blue-dark));box-shadow:inset 0 -3px 6px rgba(0,0,0,.35), inset 0 3px 5px rgba(255,255,255,.35)}
-.piece img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:none;border-radius:50%}
-.piece.hasImg .cap{display:none}
-.piece.hasImg img{display:block}
-.piece.selected{transform:scale(1.18);z-index:3;filter:drop-shadow(0 6px 8px rgba(40,25,8,.6)) drop-shadow(0 0 10px rgba(255,235,150,.95))}
-.piece.captured{animation:poof .4s forwards}
-@keyframes poof{to{transform:scale(0) rotate(120deg);opacity:0}}
-
-/* mini cap used in HUD */
-.mini{position:relative;width:30px;height:30px;border-radius:50%}
-.mini.G{background:repeating-conic-gradient(var(--green) 0deg 12deg, var(--green-dark) 12deg 24deg)}
-.mini.B{background:repeating-conic-gradient(var(--blue) 0deg 12deg, var(--blue-dark) 12deg 24deg)}
-.mini::after{content:"";position:absolute;inset:16%;border-radius:50%}
-.mini.G::after{background:var(--green)}
-.mini.B::after{background:var(--blue)}
+/* ---------- pieces ---------- */
+.piece{position:absolute;inset:9%;cursor:pointer;z-index:2;transition:transform .15s}
+.piece img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(45,20,2,.55))}
+.piece.selected{transform:scale(1.2);z-index:3}
+.piece.selected img{filter:drop-shadow(0 7px 8px rgba(45,20,2,.6)) drop-shadow(0 0 12px rgba(255,225,130,1))}
+.piece.captured{animation:poof .45s forwards}
+@keyframes poof{40%{transform:scale(1.25) rotate(20deg)}100%{transform:scale(0) rotate(140deg);opacity:0}}
 
 /* ---------- game controls ---------- */
 #controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
 #endChainBtn.show{display:inline-block;animation:pulse 1s ease-in-out infinite}
 
-/* ---------- overlay (win / messages) ---------- */
-#overlay{
-  position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(40,28,10,.55);backdrop-filter:blur(3px);
-}
+/* ---------- overlay ---------- */
+#overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(30,15,2,.6);backdrop-filter:blur(3px)}
 #overlay.show{display:flex}
-#overlayCard{background:var(--paper);border-radius:22px;padding:28px 26px;max-width:420px;width:calc(100% - 40px);text-align:center;
-  box-shadow:0 16px 50px rgba(0,0,0,.5)}
-#overlayCard h2{font-size:26px;font-weight:900;margin-bottom:8px}
-#overlayCard p{font-size:16px;margin-bottom:18px;line-height:1.8}
+#overlayCard{
+  background:linear-gradient(170deg,var(--panel),var(--panel-2));color:var(--cream);border-radius:24px;padding:28px 26px;
+  max-width:420px;width:calc(100% - 40px);text-align:center;
+  box-shadow:0 16px 50px rgba(0,0,0,.6), inset 0 0 0 2px var(--panel-edge), inset 0 0 0 5px rgba(0,0,0,.35);
+}
+#overlayCard h2{font-size:25px;font-weight:900;margin-bottom:8px;color:var(--gold)}
+#overlayCard p{font-size:15.5px;margin-bottom:18px;line-height:1.8}
+#overlayCard img{width:64px;height:64px;object-fit:contain;margin-bottom:6px;filter:drop-shadow(0 5px 6px rgba(0,0,0,.5))}
 
 #toast{
-  position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:60;background:var(--ink);color:#fff;
-  padding:10px 22px;border-radius:999px;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:opacity .3s;
+  position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:60;background:var(--panel-2);color:var(--cream);
+  padding:10px 22px;border-radius:999px;font-weight:700;font-size:14.5px;opacity:0;pointer-events:none;transition:opacity .3s;
+  box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(201,141,78,.5);
 }
 #toast.show{opacity:1}
 
-footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
+footer{margin-top:16px;font-size:13px;opacity:.65;text-align:center;font-weight:700}
 @media (max-width:420px){
-  h1{font-size:26px}
-  .playerBadge .name{font-size:13px}
+  #logoTop{height:70px}
+  .shapeCard img{width:56px;height:56px}
+  .playerBadge .name{font-size:12.5px}
+  .badge{font-size:12.5px}
 }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <div id="logoBox"><img id="logoImg" alt="اللوقو"><span class="fallback">🐕</span></div>
-    <div>
-      <h1>نُط الكلب</h1>
-      <div class="subtitle">لعبة سودانية شعبية — ذكاء وتكتيك</div>
+    <img id="logoTop" src="assets/logo.png" alt="نط الكلب — لعبة سودانية تراثية">
+    <div class="sndToggles">
+      <button class="tog" id="musicTog" title="الموسيقى">🎵</button>
+      <button class="tog" id="sfxTog" title="المؤثرات">🔊</button>
     </div>
   </header>
 
   <!-- ===================== main menu ===================== -->
   <section id="menuScreen" class="screen active">
-    <div class="card">
-      <button class="bigbtn btn-local" id="localBtn">
+    <div class="panel">
+      <button class="bigbtn" id="localBtn">
         <span class="ic">👥</span>
         <span>لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
       </button>
-      <button class="bigbtn btn-online" id="onlineBtn">
+      <button class="bigbtn" id="onlineBtn">
         <span class="ic">🌐</span>
         <span>اللعب أونلاين<small>أنشئ غرفة وشارك الرمز مع خصمك</small></span>
       </button>
-      <button class="bigbtn btn-rules" id="rulesBtn">
+      <button class="bigbtn" id="rulesBtn">
         <span class="ic">📜</span>
         <span>قوانين اللعبة<small>طريقة اللعب والنط والفوز</small></span>
       </button>
+    </div>
+    <div class="badges">
+      <div class="badge"><div class="bic">👥</div>لاعبان</div>
+      <div class="badge"><div class="bic">🧠</div>ذكاء وتكتيك</div>
+      <div class="badge"><div class="bic">🐕</div>نط واقفز</div>
     </div>
   </section>
 
   <!-- ===================== rules ===================== -->
   <section id="rulesScreen" class="screen">
-    <div class="card" id="rulesCard">
+    <div class="panel" id="rulesCard">
+      <h2>قوانين اللعبة</h2>
       <ol>
-        <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بلونه، ويبدأ مربع الوسط فارغاً.</li>
+        <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بشكله المميز، ويبدأ مربع الوسط فارغاً.</li>
         <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى أي مربع مجاور فارغ في الاتجاهات المتاحة.</li>
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
         <li><b>الضربات المتعددة:</b> إن توفرت مسافات فارغة مناسبة يمكنك نط كلبين أو ثلاثة في حركة واحدة متتالية بنفس الكلب، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
@@ -259,23 +280,37 @@ footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
     </div>
   </section>
 
+  <!-- ===================== shape picker ===================== -->
+  <section id="shapeScreen" class="screen">
+    <div class="panel">
+      <h2 id="shapeTitle">اختر شكل كلبك</h2>
+      <div id="shapeGrid"></div>
+      <p id="shapeHint">اختر الشكل واللون وابدأ اللعب!</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn ghost" data-back>رجوع ←</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== online setup ===================== -->
   <section id="onlineScreen" class="screen">
-    <div class="card" id="onlineMenu">
+    <div class="panel" id="onlineMenu">
+      <h2>اللعب أونلاين</h2>
       <div class="row">
-        <button class="btn green" id="createRoomBtn">🏠 إنشاء غرفة جديدة</button>
+        <button class="btn gold" id="createRoomBtn">🏠 إنشاء غرفة جديدة</button>
       </div>
       <div class="row" style="margin-top:14px">
         <input type="text" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off">
-        <button class="btn blue" id="joinRoomBtn">🚪 انضمام</button>
+        <button class="btn" id="joinRoomBtn">🚪 انضمام</button>
       </div>
       <p class="hint">أنشئ غرفة وأرسل الرمز لخصمك، أو أدخل رمز غرفة خصمك وانضم.</p>
       <div class="row" style="margin-top:10px">
         <button class="btn ghost" data-back>رجوع ←</button>
       </div>
     </div>
-    <div class="card" id="waitingCard" style="display:none;text-align:center">
-      <p style="font-size:17px;font-weight:700;margin-bottom:10px">رمز الغرفة — أرسله لخصمك:</p>
+    <div class="panel" id="waitingCard" style="display:none;text-align:center">
+      <h2>رمز الغرفة</h2>
+      <p style="font-size:15px;margin-bottom:10px">أرسله لخصمك لينضم إليك:</p>
       <div class="row"><span id="roomCode">····</span></div>
       <div class="row"><button class="btn" id="copyCodeBtn">📋 نسخ الرمز</button></div>
       <p class="hint" id="waitingMsg">في انتظار انضمام الخصم <span class="spin"></span></p>
@@ -289,12 +324,12 @@ footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
   <section id="gameScreen" class="screen">
     <div id="hud">
       <div class="playerBadge" id="badgeG">
-        <div class="mini G"></div>
-        <div class="info"><span class="name" id="nameG">الأخضر</span><span class="count" id="countG"></span></div>
+        <img id="imgG" src="" alt="">
+        <div class="info"><span class="name" id="nameG"></span><span class="count" id="countG"></span></div>
       </div>
       <div class="playerBadge" id="badgeB">
-        <div class="mini B"></div>
-        <div class="info"><span class="name" id="nameB">الأزرق</span><span class="count" id="countB"></span></div>
+        <img id="imgB" src="" alt="">
+        <div class="info"><span class="name" id="nameB"></span><span class="count" id="countB"></span></div>
       </div>
     </div>
     <div id="turnBanner"></div>
@@ -306,15 +341,16 @@ footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
     </div>
   </section>
 
-  <footer>نُط الكلب • تراث سوداني 🇸🇩</footer>
+  <footer>نُط الكلب • لعبة سودانية تراثية 🇸🇩</footer>
 </main>
 
 <div id="overlay">
   <div id="overlayCard">
+    <img id="overlayImg" src="" alt="" style="display:none">
     <h2 id="overlayTitle"></h2>
     <p id="overlayMsg"></p>
     <div class="row">
-      <button class="btn green" id="overlayRestart">🔄 جولة جديدة</button>
+      <button class="btn gold" id="overlayRestart">🔄 جولة جديدة</button>
       <button class="btn ghost" id="overlayQuit">القائمة الرئيسية</button>
     </div>
   </div>
@@ -333,69 +369,204 @@ footer{margin-top:18px;font-size:13px;opacity:.6;text-align:center}
 const SIZE = 5;
 const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
-/* ---------- optional custom assets (drop files in assets/ to replace visuals) ---------- */
-const ASSETS = {
-  logo : 'assets/logo.png',       // شعار اللعبة
-  board: 'assets/board.jpg',      // صورة الأرضية الرملية
-  dogG : 'assets/dog-green.png',  // كلب اللاعب الأخضر
-  dogB : 'assets/dog-blue.png',   // كلب اللاعب الأزرق
-};
-const assetOk = { dogG:false, dogB:false };
-function tryAsset(src, onOk){ const im = new Image(); im.onload = () => onOk(src); im.src = src; }
-tryAsset(ASSETS.logo,  src => { const el = document.getElementById('logoImg');
-  el.src = src; el.style.display = 'block'; el.nextElementSibling.style.display = 'none'; });
-tryAsset(ASSETS.board, src => { const w = document.getElementById('boardWrap');
-  w.style.setProperty('--custom-bg', `url("${src}")`); w.classList.add('customBg'); });
-tryAsset(ASSETS.dogG,  () => { assetOk.dogG = true; renderBoard(); });
-tryAsset(ASSETS.dogB,  () => { assetOk.dogB = true; renderBoard(); });
+/* ---------- the six dog designs (اختر شكل كلبك) ---------- */
+const SHAPES = [
+  {key:'star',    name:'النجمة',  img:'assets/dog-star.png'},
+  {key:'spiral',  name:'الحلزون', img:'assets/dog-spiral.png'},
+  {key:'diamond', name:'المعين',  img:'assets/dog-diamond.png'},
+  {key:'circle',  name:'الدائرة', img:'assets/dog-circle.png'},
+  {key:'wave',    name:'الموجة',  img:'assets/dog-wave.png'},
+  {key:'square',  name:'المربع',  img:'assets/dog-square.png'},
+];
+const shapeByKey = k => SHAPES.find(s => s.key===k) || SHAPES[0];
+SHAPES.forEach(s => { const im=new Image(); im.src=s.img; }); // preload
 
-/* ---------- tiny sounds (WebAudio, no files needed) ---------- */
-let audioCtx = null;
-function beep(freq, dur=0.09, type='triangle', vol=0.25){
-  try{
-    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-    o.connect(g).connect(audioCtx.destination);
-    o.start(); o.stop(audioCtx.currentTime + dur);
-  }catch(e){}
+/* =====================================================================
+   AUDIO — all synthesized with WebAudio (no sound files needed)
+===================================================================== */
+let AC = null, sfxOn = true, musicOn = true, musicTimer = null;
+try{ sfxOn  = localStorage.getItem('na_sfx')   !== '0'; }catch(e){}
+try{ musicOn= localStorage.getItem('na_music') !== '0'; }catch(e){}
+
+function ctx(){
+  if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  if(AC && AC.state==='suspended') AC.resume();
+  return AC;
 }
-const sndMove    = () => beep(420, .08);
-const sndJump    = () => { beep(300,.07); setTimeout(()=>beep(520,.1),70); };
-const sndWin     = () => { [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine',.3), i*140)); };
-const sndLose    = () => { [400,330,262].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sine',.25), i*160)); };
 
-/* ---------- game state ---------- */
-let board = [];          // board[r][c] = null | 'G' | 'B'
-let turn = 'G';          // green always starts
-let selected = null;     // [r,c]
-let chainPiece = null;   // [r,c] piece that must continue jumping (or end turn)
-let lastMove = [];       // cells to highlight
+/* --- a light natural bark: "هَو" — for a normal step --- */
+function sndBark(){
+  const c = ctx(); if(!c || !sfxOn) return;
+  const t = c.currentTime;
+  const o = c.createOscillator(); o.type='sawtooth';
+  o.frequency.setValueAtTime(520, t);
+  o.frequency.exponentialRampToValueAtTime(130, t+0.13);
+  const f = c.createBiquadFilter(); f.type='lowpass'; f.frequency.setValueAtTime(1100,t); f.Q.value=4;
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.5, t+0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+0.16);
+  o.connect(f).connect(g).connect(c.destination);
+  o.start(t); o.stop(t+0.18);
+}
+
+/* --- pained dog yelp: sharp "يِيب" then a falling whine — when a dog is jumped --- */
+function sndYelp(){
+  const c = ctx(); if(!c || !sfxOn) return;
+  const t = c.currentTime;
+  // part 1: sharp yip
+  const o1 = c.createOscillator(); o1.type='sawtooth';
+  o1.frequency.setValueAtTime(700, t);
+  o1.frequency.exponentialRampToValueAtTime(1500, t+0.06);
+  const g1 = c.createGain();
+  g1.gain.setValueAtTime(0.0001,t);
+  g1.gain.exponentialRampToValueAtTime(0.45,t+0.02);
+  g1.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
+  const f1 = c.createBiquadFilter(); f1.type='bandpass'; f1.frequency.value=1400; f1.Q.value=2;
+  o1.connect(f1).connect(g1).connect(c.destination);
+  o1.start(t); o1.stop(t+0.1);
+  // part 2: falling pained whine with vibrato
+  const t2 = t+0.1;
+  const o2 = c.createOscillator(); o2.type='sawtooth';
+  o2.frequency.setValueAtTime(1300, t2);
+  o2.frequency.exponentialRampToValueAtTime(320, t2+0.42);
+  const vib = c.createOscillator(); vib.frequency.value=23;
+  const vibG = c.createGain(); vibG.gain.value=55;
+  vib.connect(vibG).connect(o2.frequency);
+  const f2 = c.createBiquadFilter(); f2.type='bandpass'; f2.frequency.setValueAtTime(1100,t2);
+  f2.frequency.exponentialRampToValueAtTime(500, t2+0.42); f2.Q.value=1.6;
+  const g2 = c.createGain();
+  g2.gain.setValueAtTime(0.0001,t2);
+  g2.gain.exponentialRampToValueAtTime(0.4,t2+0.03);
+  g2.gain.exponentialRampToValueAtTime(0.0001,t2+0.45);
+  o2.connect(f2).connect(g2).connect(c.destination);
+  o2.start(t2); o2.stop(t2+0.5); vib.start(t2); vib.stop(t2+0.5);
+}
+
+function jingle(freqs, up=true){
+  const c = ctx(); if(!c || !sfxOn) return;
+  freqs.forEach((f,i)=>{
+    const t = c.currentTime + i*0.15;
+    const o = c.createOscillator(); o.type='sine'; o.frequency.value=f;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.3,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.35);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t+0.4);
+  });
+}
+const sndWin  = () => jingle([523,659,784,1047]);
+const sndLose = () => jingle([440,349,262]);
+
+/* --- background music: a light Sudanese-flavored loop ---------------
+   A steady dallūka-like drum cycle + a soft pentatonic plucked melody,
+   repeating in a regular pattern at low volume.                      */
+const MUSIC = {
+  bpm: 92,
+  // one bar = 8 eighth-notes. D = deep drum (dum), t = light tap (tak)
+  drums: ['D','','t','D','','D','t',''],
+  // pentatonic melody (D minor pentatonic), two bars, 0 = rest
+  notes: [294,0,349,392,0,440,0,392,  294,0,262,294,0,220,0,0],
+  step: 0, nextTime: 0,
+};
+function drumDum(c,t){
+  const o=c.createOscillator(); o.type='sine';
+  o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(55,t+0.12);
+  const g=c.createGain();
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.17,t+0.008);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+0.22);
+  o.connect(g).connect(c.destination); o.start(t); o.stop(t+0.25);
+}
+function drumTak(c,t){
+  const o=c.createOscillator(); o.type='triangle';
+  o.frequency.setValueAtTime(420,t); o.frequency.exponentialRampToValueAtTime(230,t+0.05);
+  const g=c.createGain();
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.07,t+0.005);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
+  o.connect(g).connect(c.destination); o.start(t); o.stop(t+0.1);
+}
+function pluck(c,t,f){
+  const o=c.createOscillator(); o.type='triangle'; o.frequency.value=f;
+  const o2=c.createOscillator(); o2.type='sine'; o2.frequency.value=f*2.01;
+  const g=c.createGain();
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.055,t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+0.5);
+  const g2=c.createGain(); g2.gain.value=0.35;
+  o.connect(g); o2.connect(g2).connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t+0.55); o2.start(t); o2.stop(t+0.55);
+}
+function musicTick(){
+  const c = AC; if(!c || !musicOn) return;
+  const eighth = 60 / MUSIC.bpm / 2;
+  while(MUSIC.nextTime < c.currentTime + 0.35){
+    const t = Math.max(MUSIC.nextTime, c.currentTime + 0.02);
+    const d = MUSIC.drums[MUSIC.step % 8];
+    if(d==='D') drumDum(c,t);
+    else if(d==='t') drumTak(c,t);
+    const n = MUSIC.notes[MUSIC.step % 16];
+    if(n) pluck(c,t,n);
+    MUSIC.step++; MUSIC.nextTime += eighth;
+  }
+}
+function startMusic(){
+  if(!musicOn) return;
+  const c = ctx(); if(!c) return;
+  if(musicTimer) return;
+  MUSIC.step = 0; MUSIC.nextTime = c.currentTime + 0.1;
+  musicTimer = setInterval(musicTick, 120);
+}
+function stopMusic(){ clearInterval(musicTimer); musicTimer = null; }
+
+function refreshTogs(){
+  document.getElementById('musicTog').classList.toggle('off', !musicOn);
+  document.getElementById('sfxTog').classList.toggle('off', !sfxOn);
+}
+document.getElementById('musicTog').onclick = () => {
+  musicOn = !musicOn;
+  try{ localStorage.setItem('na_music', musicOn?'1':'0'); }catch(e){}
+  musicOn ? startMusic() : stopMusic();
+  refreshTogs();
+};
+document.getElementById('sfxTog').onclick = () => {
+  sfxOn = !sfxOn;
+  try{ localStorage.setItem('na_sfx', sfxOn?'1':'0'); }catch(e){}
+  refreshTogs();
+  if(sfxOn) sndBark();
+};
+refreshTogs();
+// browsers require a user gesture before audio — start on the first tap anywhere
+document.addEventListener('pointerdown', function boot(){ ctx(); startMusic(); document.removeEventListener('pointerdown', boot); }, {once:false});
+
+/* =====================================================================
+   GAME STATE
+===================================================================== */
+let board = [];          // board[r][c] = null | 'G' | 'B'   (G = player 1, starts)
+let turn = 'G';
+let selected = null;
+let chainPiece = null;
+let lastMove = [];
 let gameOver = false;
 
 let mode = 'local';      // 'local' | 'online'
-let myColor = null;      // in online mode: 'G' (host) or 'B' (guest)
+let myColor = null;      // online: 'G' host | 'B' guest
+let shapeSel = { G:'star', B:'spiral' };   // chosen dog design per player
 
 function newGame(){
   board = Array.from({length:SIZE}, () => Array(SIZE).fill(null));
-  // 12 pieces each, middle cell empty: green fills first 12 cells, blue the last 12
   for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++){
     const i = r*SIZE + c;
     if(i < 12) board[r][c] = 'G';
     else if(i > 12) board[r][c] = 'B';
   }
-  turn = 'G'; selected = null; chainPiece = null; lastMove = []; gameOver = false;
+  turn='G'; selected=null; chainPiece=null; lastMove=[]; gameOver=false;
   hideOverlay();
   renderBoard(); updateHud();
 }
 
 const inside = (r,c) => r>=0 && r<SIZE && c>=0 && c<SIZE;
-const enemy  = p => p === 'G' ? 'B' : 'G';
+const enemy  = p => p==='G' ? 'B' : 'G';
 
 function stepsFor(r,c){
-  const out = [];
+  const out=[];
   for(const [dr,dc] of DIRS){
     const nr=r+dr, nc=c+dc;
     if(inside(nr,nc) && board[nr][nc]===null) out.push([nr,nc]);
@@ -403,8 +574,8 @@ function stepsFor(r,c){
   return out;
 }
 function jumpsFor(r,c){
-  const me = board[r][c]; if(!me) return [];
-  const out = [];
+  const me=board[r][c]; if(!me) return [];
+  const out=[];
   for(const [dr,dc] of DIRS){
     const mr=r+dr, mc=c+dc, tr=r+2*dr, tc=c+2*dc;
     if(inside(tr,tc) && board[mr][mc]===enemy(me) && board[tr][tc]===null) out.push([tr,tc]);
@@ -421,93 +592,92 @@ function countPieces(p){
   return n;
 }
 
-/* ---------- move application (used for local AND remote moves) ---------- */
-function applyMove(fr, fc, tr, tc){
+function applyMove(fr,fc,tr,tc){
   const isJump = Math.abs(tr-fr)===2 || Math.abs(tc-fc)===2;
   const piece = board[fr][fc];
-  board[tr][tc] = piece; board[fr][fc] = null;
-  lastMove = [[fr,fc],[tr,tc]];
+  board[tr][tc]=piece; board[fr][fc]=null;
+  lastMove=[[fr,fc],[tr,tc]];
   if(isJump){
     const mr=(fr+tr)/2, mc=(fc+tc)/2;
-    board[mr][mc] = null;
-    sndJump();
-    // chain: same piece may keep jumping
-    if(jumpsFor(tr,tc).length){
-      chainPiece = [tr,tc];
-      selected = (mode==='local' || piece===myColor) ? [tr,tc] : null;
-      renderBoard(); updateHud();
-      checkEnd();
+    board[mr][mc]=null;
+    sndYelp();                       // the jumped dog cries
+    if(jumpsFor(tr,tc).length){      // chain continues
+      chainPiece=[tr,tc];
+      selected=(mode==='local' || piece===myColor) ? [tr,tc] : null;
+      renderBoard(); updateHud(); checkEnd();
       return;
     }
   } else {
-    sndMove();
+    sndBark();                       // a light bark on a normal step
   }
-  chainPiece = null; selected = null;
-  turn = enemy(turn);
-  renderBoard(); updateHud();
-  checkEnd();
+  chainPiece=null; selected=null;
+  turn=enemy(turn);
+  renderBoard(); updateHud(); checkEnd();
 }
 
-function endChain(){        // voluntarily stop a multi-jump
+function endChain(){
   if(!chainPiece) return;
-  chainPiece = null; selected = null;
-  turn = enemy(turn);
-  renderBoard(); updateHud();
-  checkEnd();
+  chainPiece=null; selected=null;
+  turn=enemy(turn);
+  renderBoard(); updateHud(); checkEnd();
 }
 
 function checkEnd(){
   if(gameOver) return;
-  const g = countPieces('G'), b = countPieces('B');
-  let winner = null, why = '';
-  if(g===0){ winner='B'; why='نُطّت جميع كلاب الأخضر!'; }
-  else if(b===0){ winner='G'; why='نُطّت جميع كلاب الأزرق!'; }
+  const g=countPieces('G'), b=countPieces('B');
+  let winner=null, why='';
+  if(g===0){ winner='B'; why='نُطّت جميع كلاب ' + nameOf('G') + '!'; }
+  else if(b===0){ winner='G'; why='نُطّت جميع كلاب ' + nameOf('B') + '!'; }
   else if(!chainPiece && !playerHasAnyMove(turn)){
-    winner = enemy(turn);
-    why = (turn==='G' ? 'الأخضر' : 'الأزرق') + ' لا يملك أي حركة قانونية.';
+    winner=enemy(turn);
+    why=nameOf(turn) + ' لا يملك أي حركة قانونية.';
   }
   if(winner){
-    gameOver = true;
-    const wName = winner==='G' ? nameOf('G') : nameOf('B');
+    gameOver=true;
     const iWon = (mode==='local') || (winner===myColor);
     setTimeout(()=>{
       iWon ? sndWin() : sndLose();
-      showOverlay('🏆 ' + wName + ' فاز بالجولة!', why + ' — الكلاب المتبقية: ' + Math.max(g,b));
-    }, 350);
+      const im = document.getElementById('overlayImg');
+      im.src = shapeByKey(shapeSel[winner]).img; im.style.display='inline-block';
+      showOverlay('🏆 ' + nameOf(winner) + ' فاز بالجولة!', why + ' — الكلاب المتبقية: ' + Math.max(g,b));
+    }, 400);
   }
 }
 
-/* ---------- rendering ---------- */
+/* =====================================================================
+   RENDERING
+===================================================================== */
 const boardEl = document.getElementById('board');
 function nameOf(p){
-  if(mode==='online') return p===myColor ? (p==='G'?'أنت (الأخضر)':'أنت (الأزرق)') : (p==='G'?'الخصم (الأخضر)':'الخصم (الأزرق)');
-  return p==='G' ? 'الأخضر' : 'الأزرق';
+  const sh = shapeByKey(shapeSel[p]).name;
+  if(mode==='online') return (p===myColor ? 'أنت' : 'الخصم') + ' • ' + sh;
+  return (p==='G' ? 'اللاعب الأول' : 'اللاعب الثاني') + ' • ' + sh;
 }
 function renderBoard(){
   if(!board.length) return;
-  boardEl.innerHTML = '';
-  const sel = selected;
-  let steps = [], jumps = [];
+  boardEl.innerHTML='';
+  const sel=selected;
+  let steps=[], jumps=[];
   if(sel){
-    if(chainPiece){ jumps = jumpsFor(sel[0],sel[1]); }
-    else { steps = stepsFor(sel[0],sel[1]); jumps = jumpsFor(sel[0],sel[1]); }
+    if(chainPiece){ jumps=jumpsFor(sel[0],sel[1]); }
+    else { steps=stepsFor(sel[0],sel[1]); jumps=jumpsFor(sel[0],sel[1]); }
   }
-  const has = (list,r,c) => list.some(m => m[0]===r && m[1]===c);
+  const has=(list,r,c)=>list.some(m=>m[0]===r&&m[1]===c);
   for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++){
-    const cell = document.createElement('div');
-    cell.className = 'cell';
+    const cell=document.createElement('div');
+    cell.className='cell';
+    const p=board[r][c];
+    if(!p) cell.classList.add('empty');
     if(lastMove.some(m=>m[0]===r&&m[1]===c)) cell.classList.add('lastMove');
-    if(has(steps,r,c)) cell.classList.add('moveTarget');
-    if(has(jumps,r,c)) cell.classList.add('jumpTarget');
-    cell.addEventListener('click', () => onCellTap(r,c));
-    const p = board[r][c];
+    if(has(steps,r,c)){ cell.classList.add('moveTarget'); cell.classList.remove('empty'); }
+    if(has(jumps,r,c)){ cell.classList.add('jumpTarget'); cell.classList.remove('empty'); }
+    cell.addEventListener('click',()=>onCellTap(r,c));
     if(p){
-      const el = document.createElement('div');
-      el.className = 'piece ' + p;
-      const cap = document.createElement('div'); cap.className='cap'; el.appendChild(cap);
-      const img = document.createElement('img');
-      if(p==='G' && assetOk.dogG){ img.src = ASSETS.dogG; el.classList.add('hasImg'); }
-      if(p==='B' && assetOk.dogB){ img.src = ASSETS.dogB; el.classList.add('hasImg'); }
+      const el=document.createElement('div');
+      el.className='piece';
+      const img=document.createElement('img');
+      img.src=shapeByKey(shapeSel[p]).img;
+      img.alt=nameOf(p);
       el.appendChild(img);
       if(sel && sel[0]===r && sel[1]===c) el.classList.add('selected');
       cell.appendChild(el);
@@ -518,64 +688,105 @@ function renderBoard(){
     !!chainPiece && !gameOver && (mode==='local' || turn===myColor));
 }
 function updateHud(){
-  document.getElementById('countG').textContent = 'الكلاب: ' + countPieces('G') + ' / 12';
-  document.getElementById('countB').textContent = 'الكلاب: ' + countPieces('B') + ' / 12';
-  document.getElementById('nameG').textContent = nameOf('G');
-  document.getElementById('nameB').textContent = nameOf('B');
+  document.getElementById('countG').textContent='الكلاب: '+countPieces('G')+' / 12';
+  document.getElementById('countB').textContent='الكلاب: '+countPieces('B')+' / 12';
+  document.getElementById('nameG').textContent=nameOf('G');
+  document.getElementById('nameB').textContent=nameOf('B');
+  document.getElementById('imgG').src=shapeByKey(shapeSel.G).img;
+  document.getElementById('imgB').src=shapeByKey(shapeSel.B).img;
   document.getElementById('badgeG').classList.toggle('turn', turn==='G' && !gameOver);
   document.getElementById('badgeB').classList.toggle('turn', turn==='B' && !gameOver);
-  const banner = document.getElementById('turnBanner');
-  if(gameOver){ banner.textContent = 'انتهت الجولة'; return; }
+  const banner=document.getElementById('turnBanner');
+  if(gameOver){ banner.textContent='انتهت الجولة'; return; }
   if(chainPiece){
-    banner.textContent = (mode==='local' || turn===myColor)
+    banner.textContent=(mode==='local'||turn===myColor)
       ? '🔥 نطّة متسلسلة! واصل النط أو أنهِ دورك'
       : '🔥 الخصم يواصل النط...';
   } else if(mode==='online'){
     banner.textContent = turn===myColor ? '🎯 دورك — حرّك أو نُط' : '⏳ دور الخصم...';
   } else {
-    banner.textContent = '🎯 دور ' + (turn==='G' ? 'الأخضر' : 'الأزرق');
+    banner.textContent='🎯 دور '+nameOf(turn);
   }
 }
 
-/* ---------- input ---------- */
+/* =====================================================================
+   INPUT
+===================================================================== */
 function onCellTap(r,c){
   if(gameOver) return;
-  if(mode==='online' && turn!==myColor) return;      // not my turn
-  const p = board[r][c];
-
-  // during a chain, only the chaining piece can act
+  if(mode==='online' && turn!==myColor) return;
+  const p=board[r][c];
   if(chainPiece){
-    const [cr,cc] = chainPiece;
+    const [cr,cc]=chainPiece;
     if(p===turn && r===cr && c===cc){ selected=[r,c]; renderBoard(); return; }
     if(selected && jumpsFor(cr,cc).some(m=>m[0]===r&&m[1]===c)){
       sendMove(cr,cc,r,c); applyMove(cr,cc,r,c);
     }
     return;
   }
-
-  if(p===turn){ // select / reselect own piece
-    selected = (selected && selected[0]===r && selected[1]===c) ? null : [r,c];
+  if(p===turn){
+    selected=(selected && selected[0]===r && selected[1]===c) ? null : [r,c];
     renderBoard(); return;
   }
   if(selected && p===null){
-    const [sr,sc] = selected;
-    const legalStep = stepsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
-    const legalJump = jumpsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
-    if(legalStep || legalJump){
-      sendMove(sr,sc,r,c); applyMove(sr,sc,r,c);
-    }
+    const [sr,sc]=selected;
+    const legalStep=stepsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
+    const legalJump=jumpsFor(sr,sc).some(m=>m[0]===r&&m[1]===c);
+    if(legalStep||legalJump){ sendMove(sr,sc,r,c); applyMove(sr,sc,r,c); }
   }
 }
 
-/* ---------- online (PeerJS) ---------- */
-let peer=null, conn=null, isHost=false, roomCode='';
-const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-const peerId = code => 'nut-alkalb-sd-' + code.toLowerCase();
+/* =====================================================================
+   SHAPE PICKER (اختر شكل كلبك)
+===================================================================== */
+let pickPhase = null;   // 'local1' | 'local2' | 'online'
+let pendingAfterPick = null;
+function openShapeScreen(phase){
+  pickPhase = phase;
+  const grid=document.getElementById('shapeGrid');
+  const title=document.getElementById('shapeTitle');
+  grid.innerHTML='';
+  if(phase==='local1') title.textContent='اللاعب الأول — اختر شكل كلبك';
+  else if(phase==='local2') title.textContent='اللاعب الثاني — اختر شكل كلبك';
+  else title.textContent='اختر شكل كلبك';
+  SHAPES.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='shapeCard';
+    const taken = (phase==='local2' && s.key===shapeSel.G);
+    if(taken) b.classList.add('taken');
+    b.innerHTML=`<img src="${s.img}" alt="${s.name}"><span class="nm">${i+1}. ${s.name}</span>`;
+    b.onclick=()=>{
+      if(taken) return;
+      sndBark();
+      if(phase==='local1'){
+        shapeSel.G=s.key;
+        openShapeScreen('local2');
+      } else if(phase==='local2'){
+        shapeSel.B=s.key;
+        mode='local'; myColor=null; destroyPeer();
+        showScreen('gameScreen'); newGame(); startMusic();
+      } else { // online: pick mine then go to room menu
+        myShape=s.key;
+        showScreen('onlineScreen');
+        document.getElementById('onlineMenu').style.display='block';
+        document.getElementById('waitingCard').style.display='none';
+      }
+    };
+    grid.appendChild(b);
+  });
+  showScreen('shapeScreen');
+}
 
+/* =====================================================================
+   ONLINE (PeerJS)
+===================================================================== */
+let peer=null, conn=null, isHost=false, roomCode='', myShape='star';
+const CODE_CHARS='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const peerId=code=>'nut-alkalb-sd-'+code.toLowerCase();
 function makeCode(){ let s=''; for(let i=0;i<4;i++) s+=CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
 
 function peerAvailable(){
-  if(typeof Peer === 'undefined'){
+  if(typeof Peer==='undefined'){
     toast('تعذّر تحميل خدمة الاتصال — تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة');
     return false;
   }
@@ -589,53 +800,66 @@ function destroyPeer(){
 function createRoom(){
   if(!peerAvailable()) return;
   destroyPeer();
-  isHost = true; roomCode = makeCode();
+  isHost=true; roomCode=makeCode();
   document.getElementById('onlineMenu').style.display='none';
   document.getElementById('waitingCard').style.display='block';
-  document.getElementById('roomCode').textContent = roomCode;
-  document.getElementById('waitingMsg').innerHTML = 'في انتظار انضمام الخصم <span class="spin"></span>';
-  peer = new Peer(peerId(roomCode));
-  peer.on('error', err => {
-    if(err.type==='unavailable-id'){ createRoom(); return; }  // rare collision → new code
-    toast('خطأ في الاتصال: ' + err.type);
+  document.getElementById('roomCode').textContent=roomCode;
+  document.getElementById('waitingMsg').innerHTML='في انتظار انضمام الخصم <span class="spin"></span>';
+  peer=new Peer(peerId(roomCode));
+  peer.on('error',err=>{
+    if(err.type==='unavailable-id'){ createRoom(); return; }
+    toast('خطأ في الاتصال: '+err.type);
   });
-  peer.on('connection', c => {
-    if(conn){ c.close(); return; } // room is full
-    conn = c;
-    wireConn();
-    conn.on('open', () => { send({t:'start'}); startOnlineGame('G'); });
+  peer.on('connection',c=>{
+    if(conn){ c.close(); return; }
+    conn=c; wireConn();
+    conn.on('open',()=>send({t:'hello', shape:myShape}));
   });
 }
 function joinRoom(){
   if(!peerAvailable()) return;
-  const code = document.getElementById('joinInput').value.trim().toUpperCase();
+  const code=document.getElementById('joinInput').value.trim().toUpperCase();
   if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
   destroyPeer();
-  isHost = false; roomCode = code;
+  isHost=false; roomCode=code;
   toast('جارٍ الاتصال بالغرفة...');
-  peer = new Peer();
-  peer.on('error', err => toast('خطأ في الاتصال: ' + err.type));
-  peer.on('open', () => {
-    conn = peer.connect(peerId(code), {reliable:true});
+  peer=new Peer();
+  peer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
+  peer.on('open',()=>{
+    conn=peer.connect(peerId(code),{reliable:true});
     wireConn();
-    const failTimer = setTimeout(()=>{ if(!conn || !conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز'); }, 8000);
-    conn.on('open', () => clearTimeout(failTimer));
+    const failTimer=setTimeout(()=>{ if(!conn||!conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز'); },8000);
+    conn.on('open',()=>clearTimeout(failTimer));
   });
 }
 function wireConn(){
-  conn.on('data', onData);
-  conn.on('close', () => {
+  conn.on('data',onData);
+  conn.on('close',()=>{
     if(mode==='online' && !gameOver){
-      showOverlay('انقطع الاتصال', 'غادر الخصم اللعبة أو انقطع اتصاله بالإنترنت.');
+      document.getElementById('overlayImg').style.display='none';
+      showOverlay('انقطع الاتصال','غادر الخصم اللعبة أو انقطع اتصاله بالإنترنت.');
     }
   });
 }
-function send(obj){ if(conn && conn.open) conn.send(obj); }
-function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv', m:[fr,fc,tr,tc]}); }
+function send(obj){ if(conn&&conn.open) conn.send(obj); }
+function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv',m:[fr,fc,tr,tc]}); }
 function onData(d){
-  if(!d || typeof d!=='object') return;
+  if(!d||typeof d!=='object') return;
   switch(d.t){
-    case 'start':   startOnlineGame('B'); break;
+    case 'hello': { // I am the guest; host told me its shape
+      const hostShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'star';
+      if(myShape===hostShape) myShape = SHAPES.find(s=>s.key!==hostShape).key;
+      send({t:'hello2', shape:myShape});
+      shapeSel.G=hostShape; shapeSel.B=myShape;
+      startOnlineGame('B');
+      break;
+    }
+    case 'hello2': { // I am the host; guest confirmed its shape
+      const guestShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'spiral';
+      shapeSel.G=myShape; shapeSel.B=guestShape;
+      startOnlineGame('G');
+      break;
+    }
     case 'mv':      if(mode==='online'){ const [a,b,c,e]=d.m; applyMove(a,b,c,e); } break;
     case 'end':     if(mode==='online') endChain(); break;
     case 'restart': newGame(); toast('بدأ الخصم جولة جديدة'); break;
@@ -644,60 +868,58 @@ function onData(d){
 function startOnlineGame(color){
   mode='online'; myColor=color;
   showScreen('gameScreen');
-  newGame();
-  toast(color==='G' ? 'انضم الخصم! أنت الأخضر وتبدأ أولاً' : 'تم الاتصال! أنت الأزرق — الخصم يبدأ');
+  newGame(); startMusic();
+  toast(color==='G' ? 'انضم الخصم! أنت تبدأ أولاً' : 'تم الاتصال! الخصم يبدأ أولاً');
 }
 
-/* ---------- screens / UI ---------- */
+/* =====================================================================
+   SCREENS / UI
+===================================================================== */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 function showOverlay(title,msg){
-  document.getElementById('overlayTitle').textContent = title;
-  document.getElementById('overlayMsg').textContent = msg;
+  document.getElementById('overlayTitle').textContent=title;
+  document.getElementById('overlayMsg').textContent=msg;
   document.getElementById('overlay').classList.add('show');
 }
 function hideOverlay(){ document.getElementById('overlay').classList.remove('show'); }
 let toastTimer=null;
 function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3200);
 }
 
-document.getElementById('localBtn').onclick = () => { mode='local'; myColor=null; destroyPeer(); showScreen('gameScreen'); newGame(); };
-document.getElementById('onlineBtn').onclick = () => {
-  document.getElementById('onlineMenu').style.display='block';
-  document.getElementById('waitingCard').style.display='none';
-  showScreen('onlineScreen');
-};
-document.getElementById('rulesBtn').onclick = () => showScreen('rulesScreen');
-document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => { destroyPeer(); showScreen('menuScreen'); });
-document.getElementById('createRoomBtn').onclick = createRoom;
-document.getElementById('joinRoomBtn').onclick = joinRoom;
-document.getElementById('joinInput').addEventListener('keydown', e => { if(e.key==='Enter') joinRoom(); });
-document.getElementById('cancelRoomBtn').onclick = () => {
+document.getElementById('localBtn').onclick =()=> openShapeScreen('local1');
+document.getElementById('onlineBtn').onclick=()=> openShapeScreen('online');
+document.getElementById('rulesBtn').onclick =()=> showScreen('rulesScreen');
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{ destroyPeer(); showScreen('menuScreen'); });
+document.getElementById('createRoomBtn').onclick=createRoom;
+document.getElementById('joinRoomBtn').onclick=joinRoom;
+document.getElementById('joinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') joinRoom(); });
+document.getElementById('cancelRoomBtn').onclick=()=>{
   destroyPeer();
   document.getElementById('onlineMenu').style.display='block';
   document.getElementById('waitingCard').style.display='none';
 };
-document.getElementById('copyCodeBtn').onclick = () => {
+document.getElementById('copyCodeBtn').onclick=()=>{
   navigator.clipboard?.writeText(roomCode).then(()=>toast('تم نسخ الرمز ✔')).catch(()=>{});
 };
-document.getElementById('endChainBtn').onclick = () => {
+document.getElementById('endChainBtn').onclick=()=>{
   if(mode==='online') send({t:'end'});
   endChain();
 };
-document.getElementById('restartBtn').onclick = () => {
+document.getElementById('restartBtn').onclick=()=>{
   if(mode==='online') send({t:'restart'});
   newGame();
 };
-document.getElementById('overlayRestart').onclick = () => {
+document.getElementById('overlayRestart').onclick=()=>{
   if(mode==='online') send({t:'restart'});
   newGame();
 };
-document.getElementById('quitBtn').onclick = document.getElementById('overlayQuit').onclick = () => {
+document.getElementById('quitBtn').onclick=document.getElementById('overlayQuit').onclick=()=>{
   destroyPeer(); hideOverlay(); mode='local'; myColor=null;
   showScreen('menuScreen');
 };
