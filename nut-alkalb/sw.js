@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'nut-alkalb-v2';
+const CACHE = 'nut-alkalb-v3';
 const PRECACHE = [
   './',
   'index.html',
@@ -19,6 +19,13 @@ const PRECACHE = [
   'assets/dog-circle.png',
   'assets/dog-wave.png',
   'assets/dog-square.png',
+  'assets/snd/p1.wav',
+  'assets/snd/p2.wav',
+  'assets/snd/p3.wav',
+  'assets/snd/o1.wav',
+  'assets/snd/o2.wav',
+  'assets/snd/o3.wav',
+  'assets/snd/die.wav',
 ];
 
 self.addEventListener('install', e => {

@@ -68,13 +68,13 @@ main{position:relative;z-index:1;width:100%;max-width:640px;padding:14px 12px ca
 button{cursor:pointer;font-family:inherit}
 button:focus-visible, input:focus-visible{outline:3px solid var(--brass-hi);outline-offset:2px}
 
-/* ---------- header ---------- */
-header{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin:2px 0 4px}
+/* ---------- header: bare oversized logo, no frame ---------- */
+header{position:relative;display:flex;align-items:center;justify-content:center;width:100%;margin:0 0 2px}
 #logoTop{
-  height:92px;border-radius:20px;display:block;
-  box-shadow:var(--shadow-rest), 0 0 0 3px rgba(255,220,160,.28), 0 0 26px rgba(255,190,90,.25);
+  height:200px;max-width:94%;object-fit:contain;display:block;
+  filter:drop-shadow(0 12px 24px rgba(20,8,0,.6)) drop-shadow(0 0 34px rgba(255,190,90,.3));
 }
-.sndToggles{display:flex;flex-direction:column;gap:8px}
+.sndToggles{position:absolute;top:2px;inset-inline-start:0;display:flex;flex-direction:column;gap:8px}
 .tog{
   width:46px;height:46px;border:none;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--brass-hi);
   background:
@@ -348,7 +348,7 @@ footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:7
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
 }
 @media (max-width:420px){
-  #logoTop{height:72px}
+  #logoTop{height:152px}
   .shapeCard img{width:58px;height:58px}
   .playerBadge .name{font-size:12.5px}
   .badge{font-size:12.5px}
@@ -412,9 +412,9 @@ footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:7
       <h2>قوانين اللعبة</h2>
       <ol>
         <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بشكله المميز، ويبدأ مربع الوسط فارغاً.</li>
-        <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى أي مربع مجاور فارغ في الاتجاهات المتاحة.</li>
+        <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى مربع مجاور فارغ: <b>أماماً أو خلفاً أو يميناً أو يساراً</b> فقط — لا حركة قطرية.</li>
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
-        <li><b>الضربات المتعددة:</b> إن توفرت مسافات فارغة مناسبة يمكنك نط كلبين أو ثلاثة في حركة واحدة متتالية بنفس الكلب، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
+        <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك <b>في نفس الاتجاه</b>: إن وُجد كلب خصم آخر أمامه وخلفه مربع فارغ نطّه وأكمل، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
       </ol>
       <div class="row" style="margin-top:14px">
@@ -510,7 +510,8 @@ footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:7
 ===================================================================== */
 
 const SIZE = 5;
-const DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+/* movement is orthogonal only: أمام/خلف/يمين/يسار — no diagonals */
+const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- the six dog designs ---------- */
@@ -538,7 +539,45 @@ function ctx(){
   return AC;
 }
 
-/* light natural bark — normal step */
+/* ---------- real bark clips (0.5s each, cut at the bark onset) ----------
+   Three groups: player's dogs (random of 3), opponent's dogs (random of 3),
+   and one fixed death sound when a dog is jumped. Synth is the fallback. */
+const SFX = {
+  mine:['assets/snd/p1.wav','assets/snd/p2.wav','assets/snd/p3.wav'],
+  opp :['assets/snd/o1.wav','assets/snd/o2.wav','assets/snd/o3.wav'],
+  die : 'assets/snd/die.wav',
+};
+const sfxBuf = {};
+let sfxLoaded = false;
+function loadSfx(){
+  const c = ctx(); if(!c || sfxLoaded) return;
+  sfxLoaded = true;
+  [...SFX.mine, ...SFX.opp, SFX.die].forEach(url=>{
+    fetch(url).then(r=>r.arrayBuffer()).then(b=>c.decodeAudioData(b))
+      .then(buf=>{ sfxBuf[url]=buf; }).catch(()=>{});
+  });
+}
+function playClip(url, vol=0.85){
+  const c = ctx(); if(!c || !sfxOn) return false;
+  const b = sfxBuf[url]; if(!b) return false;
+  const s = c.createBufferSource(); s.buffer=b;
+  const g = c.createGain(); g.gain.value=vol;
+  s.connect(g).connect(c.destination); s.start();
+  return true;
+}
+/* random bark for whichever side just moved */
+function sndMoveFor(color){
+  const mine = (mode==='online') ? color===myColor : color==='G';
+  const set = mine ? SFX.mine : SFX.opp;
+  const url = set[Math.floor(Math.random()*set.length)];
+  if(!playClip(url)) sndBark();
+}
+/* fixed death sound for every captured dog, either side */
+function sndDeath(){
+  if(!playClip(SFX.die, 0.95)) sndYelp();
+}
+
+/* light natural bark — synth fallback */
 function sndBark(){
   const c = ctx(); if(!c || !sfxOn) return;
   const t = c.currentTime;
@@ -686,7 +725,7 @@ document.getElementById('sfxTog').onclick = () => {
   if(sfxOn) sndBark();
 };
 refreshTogs();
-document.addEventListener('pointerdown', function boot(){ ctx(); startMusic(); }, {once:true});
+document.addEventListener('pointerdown', function boot(){ ctx(); loadSfx(); startMusic(); }, {once:true});
 
 /* =====================================================================
    GAME STATE
@@ -695,6 +734,7 @@ let board = [];
 let turn = 'G';
 let selected = null;
 let chainPiece = null;
+let chainDir = null;   // بعد أول نطّة، يواصل الكلب في نفس الاتجاه فقط
 let lastMove = [];
 let gameOver = false;
 let animating = false;
@@ -710,7 +750,7 @@ function newGame(){
     if(i < 12) board[r][c] = 'G';
     else if(i > 12) board[r][c] = 'B';
   }
-  turn='G'; selected=null; chainPiece=null; lastMove=[]; gameOver=false; animating=false;
+  turn='G'; selected=null; chainPiece=null; chainDir=null; lastMove=[]; gameOver=false; animating=false;
   hideOverlay();
   renderBoard(); updateHud();
   dealInAnimation();
@@ -736,6 +776,14 @@ function jumpsFor(r,c){
   }
   return out;
 }
+/* during a chain, the only legal continuation is the next jump in the SAME direction */
+function chainJumpTargets(r,c){
+  if(!chainDir) return [];
+  const [dr,dc]=chainDir, mr=r+dr, mc=c+dc, tr=r+2*dr, tc=c+2*dc;
+  const me=board[r][c];
+  if(me && inside(tr,tc) && board[mr][mc]===enemy(me) && board[tr][tc]===null) return [[tr,tc]];
+  return [];
+}
 function playerHasAnyMove(p){
   for(let r=0;r<SIZE;r++) for(let c=0;c<SIZE;c++)
     if(board[r][c]===p && (stepsFor(r,c).length || jumpsFor(r,c).length)) return true;
@@ -755,7 +803,8 @@ function applyMove(fr,fc,tr,tc){
     lastMove=[[fr,fc],[tr,tc]];
     if(isJump){
       board[(fr+tr)/2][(fc+tc)/2]=null;
-      if(jumpsFor(tr,tc).length){
+      chainDir=[(tr-fr)/2,(tc-fc)/2];
+      if(chainJumpTargets(tr,tc).length){   // straight-line continuation only
         chainPiece=[tr,tc];
         selected=(mode==='local' || piece===myColor) ? [tr,tc] : null;
         animating=false;
@@ -763,13 +812,14 @@ function applyMove(fr,fc,tr,tc){
         return;
       }
     }
-    chainPiece=null; selected=null;
+    chainPiece=null; chainDir=null; selected=null;
     turn=enemy(turn);
     animating=false;
     renderBoard(); updateHud(); checkEnd();
   };
   if(REDUCED){
-    if(isJump) sndYelp(); else sndBark();
+    sndMoveFor(board[fr][fc]);
+    if(isJump) sndDeath();
     commit();
     return;
   }
@@ -805,10 +855,10 @@ function animateMove(fr,fc,tr,tc,isJump,done){
   const dur = isJump ? 460 : 300;
 
   if(isJump){
-    sndBark();
+    sndMoveFor(board[fr][fc]);
     const victim = cells[((fr+tr)/2)*SIZE+((fc+tc)/2)].querySelector('.piece');
     setTimeout(()=>{
-      sndYelp();
+      sndDeath();
       if(victim){ victim.classList.add('captured'); dustAt(wrap, (a.left+b.left)/2-wr.left+a.width/2, (a.top+b.top)/2-wr.top+a.height/2); }
     }, dur*0.42);
     fim.animate([
@@ -817,7 +867,7 @@ function animateMove(fr,fc,tr,tc,isJump,done){
       {transform:'translateY(0) scale(1)', filter:'drop-shadow(0 5px 5px rgba(30,12,0,.5))'}
     ], {duration:dur, easing:'cubic-bezier(.45,.05,.55,.95)'});
   } else {
-    sndBark();
+    sndMoveFor(board[fr][fc]);
     fim.animate([
       {transform:'translateY(0) scale(1)'},
       {transform:'translateY(-14%) scale(1.08)', offset:.45},
@@ -865,7 +915,7 @@ function dealInAnimation(){
 
 function endChain(){
   if(!chainPiece) return;
-  chainPiece=null; selected=null;
+  chainPiece=null; chainDir=null; selected=null;
   turn=enemy(turn);
   renderBoard(); updateHud(); checkEnd();
 }
@@ -907,7 +957,7 @@ function renderBoard(){
   const sel=selected;
   let steps=[], jumps=[];
   if(sel){
-    if(chainPiece){ jumps=jumpsFor(sel[0],sel[1]); }
+    if(chainPiece){ jumps=chainJumpTargets(sel[0],sel[1]); }
     else { steps=stepsFor(sel[0],sel[1]); jumps=jumpsFor(sel[0],sel[1]); }
   }
   const has=(list,r,c)=>list.some(m=>m[0]===r&&m[1]===c);
@@ -968,7 +1018,7 @@ function onCellTap(r,c){
   if(chainPiece){
     const [cr,cc]=chainPiece;
     if(p===turn && r===cr && c===cc){ selected=[r,c]; renderBoard(); return; }
-    if(selected && jumpsFor(cr,cc).some(m=>m[0]===r&&m[1]===c)){
+    if(selected && chainJumpTargets(cr,cc).some(m=>m[0]===r&&m[1]===c)){
       sendMove(cr,cc,r,c); applyMove(cr,cc,r,c);
     }
     return;
@@ -1005,7 +1055,7 @@ function openShapeScreen(phase){
     b.innerHTML=`<img src="${s.img}" alt="${s.name}"><span class="nm">${i+1}. ${s.name}</span>`;
     b.onclick=()=>{
       if(taken) return;
-      sndBark();
+      if(!playClip(SFX.mine[Math.floor(Math.random()*SFX.mine.length)])) sndBark();
       if(phase==='local1'){
         shapeSel.G=s.key;
         openShapeScreen('local2');
