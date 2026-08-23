@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>نط الكلب — لعبة سودانية تراثية</title>
+<title>ألعاب سودانية تراثية — نط الكلب وصفرجت</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -14,9 +14,7 @@
 <meta name="apple-mobile-web-app-title" content="نط الكلب">
 <style>
 /* =====================================================================
-   NUT ALKALB DESIGN SYSTEM — skeuomorphic heritage (ui-ux-pro-max)
-   Materials: carved clay, tooled leather, aged brass. Multi-layer
-   shadows, 8+ stop gradients, grain overlays, tactile 300-500ms motion.
+   Sudanese heritage games hub — skeuomorphic design system
 ===================================================================== */
 @font-face{
   font-family:'Noto Kufi Arabic';
@@ -25,18 +23,17 @@
   font-display:swap;
 }
 :root{
-  /* clay */
   --clay-hi:#e0a866; --clay-mid:#c37f3c; --clay-lo:#8f5423;
   --clay-line:rgba(88,46,12,.5);
-  /* leather */
   --leather-hi:#5a3315; --leather-mid:#3d2412; --leather-lo:#241207;
   --stitch:rgba(242,197,110,.4);
-  /* brass */
   --brass-hi:#ffd98a; --brass:#e3a83c; --brass-lo:#8a5c14;
   --cream:#f7e6c9; --cream-dim:#dbc39c;
   --ink:#33200c;
-  --danger:#c93f2c;
-  /* elevation recipes (3-layer realistic shadows) */
+  --danger:#e74c3c;
+  /* sufraget sandstone */
+  --stone-hi:#e9d9b4; --stone-mid:#d6bd8d; --stone-lo:#b99a67;
+  --stone-line:rgba(110,80,40,.55);
   --shadow-rest:0 1px 2px rgba(30,14,2,.45), 0 4px 10px rgba(30,14,2,.35), 0 14px 30px rgba(30,14,2,.3);
   --shadow-lift:0 2px 3px rgba(30,14,2,.4), 0 10px 22px rgba(30,14,2,.4), 0 26px 48px rgba(30,14,2,.38);
   --shadow-press:0 1px 1px rgba(30,14,2,.5), 0 2px 5px rgba(30,14,2,.35);
@@ -52,7 +49,6 @@ body{
   min-height:100%;
   display:flex;flex-direction:column;align-items:center;
 }
-/* sunlit vignette + film grain over the photographic backdrop */
 body::before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
@@ -68,7 +64,7 @@ main{position:relative;z-index:1;width:100%;max-width:640px;padding:14px 12px ca
 button{cursor:pointer;font-family:inherit}
 button:focus-visible, input:focus-visible{outline:3px solid var(--brass-hi);outline-offset:2px}
 
-/* ---------- header: bare oversized logo, no frame ---------- */
+/* ---------- header ---------- */
 header{position:relative;display:flex;align-items:center;justify-content:center;width:100%;margin:0 0 2px}
 #logoTop{
   height:200px;max-width:94%;object-fit:contain;display:block;
@@ -77,8 +73,7 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 .sndToggles{position:absolute;top:2px;inset-inline-start:0;display:flex;flex-direction:column;gap:8px}
 .tog{
   width:46px;height:46px;border:none;border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--brass-hi);
-  background:
-    linear-gradient(165deg, #6b3f1c 0%, #573113 18%, #4a2810 45%, #3a1f0b 78%, #2e180a 100%);
+  background:linear-gradient(165deg, #6b3f1c 0%, #573113 18%, #4a2810 45%, #3a1f0b 78%, #2e180a 100%);
   box-shadow:var(--shadow-rest), inset 0 1px 0 rgba(255,220,160,.28), inset 0 0 0 1.5px rgba(201,141,78,.45);
   transition:transform .2s var(--ease-out), box-shadow .2s;
 }
@@ -91,7 +86,7 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 .screen{display:none;width:100%;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 
-/* ---------- tooled leather panel with stitching ---------- */
+/* ---------- leather panel ---------- */
 .panel{
   width:100%;margin-top:14px;padding:22px 18px;border-radius:28px;position:relative;overflow:hidden;
   background:
@@ -100,31 +95,45 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,215,150,.15), inset 0 0 60px rgba(0,0,0,.45);
   color:var(--cream);
 }
-.panel::before{ /* leather grain */
+.panel::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23l)'/></svg>");
 }
-.panel::after{ /* stitched seam */
+.panel::after{
   content:"";position:absolute;inset:9px;pointer-events:none;border-radius:20px;
-  border:2px dashed var(--stitch);
-  opacity:.75;
+  border:2px dashed var(--stitch);opacity:.75;
 }
 .panel > *{position:relative;z-index:1}
 .panel h2{
   text-align:center;color:var(--brass-hi);font-size:22px;font-weight:900;margin-bottom:14px;
-  text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28), 0 3px 8px rgba(0,0,0,.5); /* embossed */
+  text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28), 0 3px 8px rgba(0,0,0,.5);
 }
 
-/* ---------- carved-wood buttons ---------- */
+/* ---------- hub game cards ---------- */
+.gameCard{
+  display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;padding:14px 14px 16px;margin:9px 0;border:none;border-radius:20px;
+  color:var(--cream);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(190,120,55,.4) 0%, rgba(190,120,55,0) 60%),
+    linear-gradient(168deg,#8a5427 0%,#6a3d1a 55%,#512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.4);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
+}
+.gameCard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 0 0 1.5px rgba(242,181,68,.55)}
+.gameCard:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press)}
+.gameCard img{height:120px;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(20,8,0,.5))}
+.gameCard .gname{font-size:21px;font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28)}
+.gameCard small{font-size:13px;font-weight:600;opacity:.85}
+
+/* ---------- buttons ---------- */
 .bigbtn{
   display:flex;align-items:center;gap:14px;width:100%;padding:15px 18px;margin:9px 0;border:none;border-radius:18px;
   font-size:19px;font-weight:800;color:var(--cream);text-align:right;
-  background:
-    linear-gradient(168deg, #9a6130 0%, #8a5427 16%, #7a4820 38%, #6a3d1a 62%, #5d3414 82%, #512c10 100%);
+  background:linear-gradient(168deg, #9a6130 0%, #8a5427 16%, #7a4820 38%, #6a3d1a 62%, #5d3414 82%, #512c10 100%);
   box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.35);
   transition:transform .2s var(--ease-out), box-shadow .2s;
 }
-.bigbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.5)}
+.bigbtn:hover{transform:translateY(-2px)}
 .bigbtn:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press), inset 0 2px 8px rgba(30,12,0,.5)}
 .bigbtn .ic{
   flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
@@ -149,8 +158,8 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 .btn.red{background:linear-gradient(168deg,#d4553f 0%,#b5432f 45%,#8f2f1e 85%,#7d2417 100%)}
 .btn.ghost{background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 2px rgba(242,181,68,.5)}
 
-/* badges row */
-.badges{display:flex;gap:10px;justify-content:center;margin-top:18px;width:100%}
+/* badges */
+.badges{display:flex;gap:10px;justify-content:center;margin-top:16px;width:100%}
 .badge{
   flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 6px 9px;
   border-radius:16px 16px 20px 20px;
@@ -166,9 +175,19 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 .badge .bic svg{width:24px;height:24px}
 
 /* ---------- rules ---------- */
-#rulesCard ol{padding-right:20px;line-height:2;font-size:15px}
-#rulesCard li::marker{font-weight:900;color:var(--brass-hi)}
-#rulesCard b{color:var(--brass-hi)}
+.rulesList{padding-right:20px;line-height:2;font-size:15px}
+.rulesList li::marker{font-weight:900;color:var(--brass-hi)}
+.rulesList b{color:var(--brass-hi)}
+
+/* ---------- names ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin:10px 0;text-align:right}
+.field label{font-size:14px;font-weight:800;color:var(--brass-hi)}
+.field input{
+  font-family:inherit;font-size:17px;font-weight:700;text-align:center;
+  min-height:48px;padding:10px 14px;border-radius:14px;border:none;color:var(--ink);
+  background:linear-gradient(180deg,#fdf3e0,#f2e2c4);
+  box-shadow:inset 0 2px 6px rgba(90,50,15,.4), inset 0 -1px 0 rgba(255,255,255,.7), 0 1px 0 rgba(255,230,180,.25);
+}
 
 /* ---------- shape picker ---------- */
 #shapeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -186,14 +205,13 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 .shapeCard:not(.taken):hover{transform:translateY(-4px)}
 .shapeCard:not(.taken):hover img{transform:scale(1.08) rotate(-4deg)}
 .shapeCard:not(.taken):active{transform:translateY(1px) scale(.97)}
-.shapeCard.picked{box-shadow:var(--shadow-lift), inset 0 0 0 3px var(--brass), 0 0 18px rgba(242,181,68,.7);transform:scale(1.04)}
 .shapeCard.taken{opacity:.35;cursor:not-allowed}
 .shapeCard.taken::after{content:"محجوز";position:absolute;inset:auto 0 36px 0;text-align:center;font-size:12px;font-weight:900;color:var(--brass-hi)}
 #shapeHint{text-align:center;font-size:14px;opacity:.9;margin-top:12px;color:var(--brass-hi);font-weight:700}
 
-/* ---------- online setup ---------- */
+/* ---------- online ---------- */
 .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:8px 0}
-input[type=text]{
+input.code{
   font-family:inherit;font-size:22px;font-weight:700;letter-spacing:4px;text-align:center;direction:ltr;
   width:170px;min-height:48px;padding:10px;border-radius:14px;border:none;color:var(--ink);
   background:linear-gradient(180deg,#fdf3e0,#f2e2c4);
@@ -208,7 +226,7 @@ input[type=text]{
 .spin{display:inline-block;width:16px;height:16px;border:3px solid rgba(247,230,201,.25);border-top-color:var(--brass-hi);border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle;margin-inline-start:8px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ---------- HUD: brass-plated wooden plaques ---------- */
+/* ---------- HUD ---------- */
 #hud{display:flex;width:100%;justify-content:space-between;align-items:stretch;gap:8px;margin:12px 0 6px}
 .playerBadge{
   flex:1;display:flex;align-items:center;gap:9px;border-radius:16px;padding:8px 12px;position:relative;
@@ -235,7 +253,7 @@ input[type=text]{
   margin-bottom:12px;
 }
 
-/* ---------- the clay board ---------- */
+/* ---------- نط الكلب: clay board ---------- */
 #boardWrap{
   position:relative;width:100%;max-width:520px;aspect-ratio:1;border-radius:22px;padding:4%;
   background:url('assets/sand.jpg') center/cover;
@@ -243,21 +261,21 @@ input[type=text]{
     0 2px 4px rgba(30,12,0,.5), 0 14px 30px rgba(30,12,0,.5), 0 34px 70px rgba(30,12,0,.45),
     inset 0 0 0 3px rgba(88,46,12,.55), inset 0 3px 3px rgba(255,225,175,.3), inset 0 0 60px rgba(88,46,12,.5);
 }
-#boardWrap::before{ /* sunlight pass: warm top-left, shaded bottom-right */
+#boardWrap::before{
   content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;
   background:
     linear-gradient(135deg, rgba(255,215,150,.28) 0%, rgba(210,140,60,.06) 38%, rgba(90,45,12,.3) 100%),
     linear-gradient(160deg, rgba(210,140,60,.22), rgba(140,80,25,.28));
   mix-blend-mode:multiply;
 }
-#boardWrap::after{ /* clay grain */
+#boardWrap::after{
   content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;opacity:.15;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23c)'/></svg>");
 }
 #board{position:relative;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);z-index:1}
+#board.sijaGrid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3%}
 .cell{
   position:relative;cursor:pointer;border-radius:16%;
-  /* furrows carved into wet clay: dark cut + lit ridge */
   box-shadow:
     inset 0 0 0 2px var(--clay-line),
     inset 2.5px 2.5px 5px rgba(255,228,180,.22),
@@ -277,13 +295,53 @@ input[type=text]{
 }
 .cell.jumpTarget::after{
   content:"";position:absolute;inset:15%;border-radius:50%;border:4px dashed var(--danger);
-  background:radial-gradient(circle, rgba(201,63,44,.16), rgba(201,63,44,.05));
+  background:radial-gradient(circle, rgba(231,76,60,.16), rgba(231,76,60,.05));
   animation:pulse 1.1s var(--ease-out) infinite;
 }
 .cell.lastMove{box-shadow:inset 0 0 0 3px rgba(242,181,68,.9), inset 2.5px 2.5px 5px rgba(255,228,180,.22), inset -3px -3px 7px rgba(88,46,12,.3)}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.1);opacity:.6}}
 
-/* ---------- pieces: photographic clay stones w/ separate contact shadow ---------- */
+/* ---------- صفرجت: sandstone slab board ---------- */
+#boardWrap.stone{
+  background:
+    radial-gradient(120% 90% at 30% 15%, rgba(255,245,215,.5) 0%, transparent 55%),
+    linear-gradient(155deg, var(--stone-hi) 0%, var(--stone-mid) 55%, var(--stone-lo) 100%);
+}
+#boardWrap.stone::before{
+  background:
+    linear-gradient(135deg, rgba(255,240,205,.3) 0%, rgba(190,150,90,.05) 40%, rgba(105,70,30,.28) 100%);
+  mix-blend-mode:multiply;
+}
+.cell.stone{
+  border-radius:8%;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255,248,225,.5) 0%, rgba(255,248,225,0) 55%),
+    linear-gradient(160deg, #e2cfa4 0%, #d3b988 60%, #c2a271 100%);
+  box-shadow:
+    inset 0 0 0 2px var(--stone-line),
+    inset 0 3px 4px rgba(255,248,222,.6),
+    inset 0 -4px 7px rgba(110,80,40,.4),
+    0 3px 6px rgba(70,45,15,.35);
+}
+.cell.stone.empty::after{content:none}
+.cell.stone.placeTarget{cursor:pointer}
+.cell.stone.placeTarget::after{
+  content:"";position:absolute;inset:34%;border-radius:50%;
+  background:radial-gradient(circle at 45% 38%, rgba(120,80,35,.35), rgba(90,58,22,.45));
+  box-shadow:inset 0 3px 5px rgba(70,45,15,.5), 0 1px 0 rgba(255,245,215,.6);
+  animation:pulse 1.3s var(--ease-out) infinite;
+}
+.cell.stone.moveTarget::after{
+  background:radial-gradient(circle at 45% 38%, rgba(255,225,140,.98), rgba(216,150,40,.92));
+  box-shadow:0 0 14px rgba(230,170,60,.9), inset 0 -2px 4px rgba(140,90,20,.6);
+}
+.cell.stone.lastMove{box-shadow:inset 0 0 0 3px rgba(200,130,30,.95), inset 0 3px 4px rgba(255,248,222,.6), inset 0 -4px 7px rgba(110,80,40,.4), 0 3px 6px rgba(70,45,15,.35)}
+.cell.stone.winLine{
+  box-shadow:inset 0 0 0 4px var(--brass), inset 0 3px 4px rgba(255,248,222,.6), 0 0 18px rgba(242,181,68,.8);
+  animation:pulse 1s var(--ease-out) infinite;
+}
+
+/* ---------- pieces ---------- */
 .piece{position:absolute;inset:8%;z-index:2;cursor:pointer}
 .piece .pShadow{
   position:absolute;left:10%;right:10%;bottom:2%;height:22%;border-radius:50%;
@@ -303,19 +361,16 @@ input[type=text]{
 @keyframes poof{35%{transform:translateY(-30%) scale(1.15) rotate(15deg)}100%{transform:translateY(-10%) scale(0) rotate(120deg);opacity:0}}
 @keyframes shFade{to{opacity:0;transform:scale(.3)}}
 
-/* travelling piece (animation layer) */
 .flyer{position:absolute;z-index:9;pointer-events:none}
 .flyer img{width:100%;height:100%;object-fit:contain}
-/* dust motes kicked up on landing/capture */
 .dust{position:absolute;z-index:8;width:9px;height:9px;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle at 40% 35%, #ecc98f, #b98a4d)}
 
-/* ---------- controls ---------- */
+/* ---------- controls / overlay / toast ---------- */
 #controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
 #endChainBtn.show{display:inline-flex;animation:pulse 1.1s var(--ease-out) infinite}
 
-/* ---------- overlay ---------- */
 #overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(22,10,0,.65);backdrop-filter:blur(4px)}
 #overlay.show{display:flex}
 #overlayCard{
@@ -354,7 +409,8 @@ footer .credit{
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
 }
 @media (max-width:420px){
-  #logoTop{height:152px}
+  #logoTop{height:150px}
+  .gameCard img{height:96px}
   .shapeCard img{width:58px;height:58px}
   .playerBadge .name{font-size:12.5px}
   .badge{font-size:12.5px}
@@ -362,7 +418,6 @@ footer .credit{
 </style>
 </head>
 <body>
-<!-- SVG icon sprite (no emoji icons — ui-ux-pro-max checklist) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="i-users" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
@@ -377,21 +432,48 @@ footer .credit{
   <symbol id="i-exit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
   <symbol id="i-bulb" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></symbol>
   <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2" fill="currentColor"/><circle cx="18" cy="8" r="2" fill="currentColor"/><circle cx="4" cy="8" r="2" fill="currentColor"/><circle cx="20" cy="16" r="2" fill="currentColor"/><path fill="currentColor" d="M9 10a5 5 0 0 0-5 5c0 2.2 1.8 4 4 4 .8 0 1.5-.2 2.2-.5a4 4 0 0 1 3.6 0c.7.3 1.4.5 2.2.5a4 4 0 0 0 1.9-7.5A5 5 0 0 0 9 10z" transform="translate(2 -1) scale(.85)"/></symbol>
-  <symbol id="i-trophy" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21 1.18.54 2.03 2.03 2.03 3.79M18 2H6v7a6 6 0 0 0 12 0V2z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></symbol>
 </svg>
 
 <main>
   <header>
-    <img id="logoTop" src="assets/logo.png" alt="نط الكلب — لعبة سودانية تراثية">
+    <img id="logoTop" src="assets/logo.png" alt="ألعاب سودانية تراثية">
     <div class="sndToggles">
       <button class="tog" id="musicTog" aria-label="تشغيل أو كتم الموسيقى"><svg><use href="#i-music"/></svg></button>
       <button class="tog" id="sfxTog" aria-label="تشغيل أو كتم المؤثرات الصوتية"><svg><use href="#i-sound"/></svg></button>
     </div>
   </header>
 
-  <!-- ===================== main menu ===================== -->
-  <section id="menuScreen" class="screen active">
+  <!-- ===================== HUB ===================== -->
+  <section id="hubScreen" class="screen active">
     <div class="panel">
+      <h2>اختر لعبتك</h2>
+      <button class="gameCard" data-game="nut">
+        <img src="assets/logo.png" alt="نط الكلب">
+        <span class="gname">نط الكلب</span>
+        <small>نُط فوق كلاب خصمك وأفرغ اللوحة منها — 5×5</small>
+      </button>
+      <button class="gameCard" data-game="sija">
+        <img src="assets/sufraget-logo.png" alt="صفرجت">
+        <span class="gname">صفرجت</span>
+        <small>أنزل قطعك الثلاث وكوّن خطاً مستقيماً — 3×3</small>
+      </button>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="namesBtn"><svg><use href="#i-pen"/></svg>أسماء اللاعبين</button>
+      </div>
+    </div>
+    <div class="badges">
+      <div class="badge"><div class="bic"><svg><use href="#i-users"/></svg></div>لاعبان</div>
+      <div class="badge"><div class="bic"><svg><use href="#i-bulb"/></svg></div>ذكاء وتكتيك</div>
+      <div class="badge"><div class="bic"><svg><use href="#i-paw"/></svg></div>نط واقفز</div>
+    </div>
+  </section>
+
+  <!-- ===================== per-game menu ===================== -->
+  <section id="gameMenuScreen" class="screen">
+    <div class="panel">
+      <h2 id="gameMenuTitle">نط الكلب</h2>
       <button class="bigbtn" id="localBtn">
         <span class="ic"><svg><use href="#i-users"/></svg></span>
         <span>لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
@@ -402,29 +484,57 @@ footer .credit{
       </button>
       <button class="bigbtn" id="rulesBtn">
         <span class="ic"><svg><use href="#i-scroll"/></svg></span>
-        <span>قوانين اللعبة<small>طريقة اللعب والنط والفوز</small></span>
+        <span>قوانين اللعبة<small>طريقة اللعب والفوز</small></span>
       </button>
-    </div>
-    <div class="badges">
-      <div class="badge"><div class="bic"><svg><use href="#i-users"/></svg></div>لاعبان</div>
-      <div class="badge"><div class="bic"><svg><use href="#i-bulb"/></svg></div>ذكاء وتكتيك</div>
-      <div class="badge"><div class="bic"><svg><use href="#i-paw"/></svg></div>نط واقفز</div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back="hub"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
     </div>
   </section>
 
   <!-- ===================== rules ===================== -->
   <section id="rulesScreen" class="screen">
-    <div class="panel" id="rulesCard">
-      <h2>قوانين اللعبة</h2>
-      <ol>
+    <div class="panel">
+      <h2 id="rulesTitle">قوانين اللعبة</h2>
+      <ol class="rulesList" id="rulesNut">
         <li>اللوحة شبكة من <b>25 مربعاً</b> (5×5)، ولكل لاعب <b>12 كلباً</b> بشكله المميز، ويبدأ مربع الوسط فارغاً.</li>
         <li>يتحرك اللاعب في دوره <b>خطوة واحدة</b> إلى مربع مجاور فارغ: <b>أماماً أو خلفاً أو يميناً أو يساراً</b> فقط — لا حركة قطرية.</li>
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
         <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك النط <b>للأمام أو يميناً أو يساراً</b> — دون العودة للخلف — ما دام أمامه كلب خصم وخلفه مربع فارغ، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
       </ol>
+      <ol class="rulesList" id="rulesSija" style="display:none">
+        <li>اللوحة <b>9 خانات</b> (3×3)، ولكل لاعب <b>3 قطع</b> بشكله المميز، وتبدأ اللوحة فارغة.</li>
+        <li><b>مرحلة الإنزال:</b> يتناوب اللاعبان إنزال قطعهما واحدةً واحدة في أي خانة شاغرة حتى تستقر القطع الست وتبقى 3 خانات فارغة.</li>
+        <li><b>مرحلة التحريك:</b> حرّك قطعتك إلى خانة فارغة <b>مجاورة مباشرة</b> (أفقياً أو عمودياً أو قطرياً) — <b>ممنوع القفز</b> فوق أي قطعة.</li>
+        <li><b>صفرجت!</b> يفوز فوراً من يرتّب قطعه الثلاث في <b>خط مستقيم واحد</b>: أفقي أو عمودي أو قطري عبر المركز.</li>
+        <li><b>الحصر:</b> من حوصرت قطعه كلها فلم يجد أي خانة فارغة مجاورة يتحرك إليها يخسر الجولة.</li>
+      </ol>
       <div class="row" style="margin-top:14px">
-        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== player names ===================== -->
+  <section id="namesScreen" class="screen">
+    <div class="panel">
+      <h2>أسماء اللاعبين</h2>
+      <div class="field">
+        <label for="nameP1">اسم اللاعب الأول (نفس الجهاز)</label>
+        <input type="text" id="nameP1" maxlength="18" placeholder="اللاعب الأول">
+      </div>
+      <div class="field">
+        <label for="nameP2">اسم اللاعب الثاني (نفس الجهاز)</label>
+        <input type="text" id="nameP2" maxlength="18" placeholder="اللاعب الثاني">
+      </div>
+      <div class="field">
+        <label for="nameMe">اسمك في اللعب أونلاين (يظهر لخصمك)</label>
+        <input type="text" id="nameMe" maxlength="18" placeholder="اكتب اسمك">
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="saveNamesBtn"><svg><use href="#i-save"/></svg>حفظ</button>
+        <button class="btn ghost" data-back="hub"><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -436,7 +546,7 @@ footer .credit{
       <div id="shapeGrid"></div>
       <p id="shapeHint">اختر الشكل واللون وابدأ اللعب!</p>
       <div class="row" style="margin-top:12px">
-        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -449,12 +559,12 @@ footer .credit{
         <button class="btn gold" id="createRoomBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button>
       </div>
       <div class="row" style="margin-top:14px">
-        <input type="text" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <input type="text" class="code" id="joinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
         <button class="btn" id="joinRoomBtn"><svg><use href="#i-door"/></svg>انضمام</button>
       </div>
       <p class="hint">أنشئ غرفة وأرسل الرمز لخصمك، أو أدخل رمز غرفة خصمك وانضم.</p>
       <div class="row" style="margin-top:10px">
-        <button class="btn ghost" data-back><svg><use href="#i-exit"/></svg>رجوع</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
     <div class="panel" id="waitingCard" style="display:none;text-align:center">
@@ -490,7 +600,7 @@ footer .credit{
     </div>
   </section>
 
-  <footer>نُط الكلب • لعبة سودانية تراثية 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
+  <footer>ألعاب سودانية تراثية 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
 </main>
 
 <div id="overlay">
@@ -510,17 +620,20 @@ footer .credit{
 <script>
 "use strict";
 /* =====================================================================
-   نط الكلب — Sudanese "Dog Jump" board game
-   5x5 board, 12 pieces each, step to adjacent empty cell,
-   jump over adjacent enemy piece to capture it, chain jumps allowed.
+   منصة ألعاب سودانية تراثية:
+   1) نط الكلب — 5×5، نط واستبعاد
+   2) صفرجت  — 3×3، إنزال ثم تحريك، خط مستقيم يفوز
 ===================================================================== */
 
-const SIZE = 5;
-/* movement is orthogonal only: أمام/خلف/يمين/يسار — no diagonals */
-const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- the six dog designs ---------- */
+const GAMES = {
+  nut : {name:'نط الكلب', logo:'assets/logo.png',          shapeCount:12, peerPrefix:'nut-alkalb-sd-'},
+  sija: {name:'صفرجت',    logo:'assets/sufraget-logo.png', shapeCount:3,  peerPrefix:'sufraget-sd-'},
+};
+let currentGame = 'nut';
+
+/* ---------- the six piece designs ---------- */
 const SHAPES = [
   {key:'star',    name:'النجمة',  img:'assets/dog-star.png'},
   {key:'spiral',  name:'الحلزون', img:'assets/dog-spiral.png'},
@@ -531,6 +644,11 @@ const SHAPES = [
 ];
 const shapeByKey = k => SHAPES.find(s => s.key===k) || SHAPES[0];
 SHAPES.forEach(s => { const im=new Image(); im.src=s.img; });
+
+/* ---------- player names ---------- */
+let names = {p1:'', p2:'', me:''};
+try{ names = Object.assign(names, JSON.parse(localStorage.getItem('na_names')||'{}')); }catch(e){}
+let oppName = '';
 
 /* =====================================================================
    AUDIO
@@ -545,9 +663,7 @@ function ctx(){
   return AC;
 }
 
-/* ---------- real bark clips (0.5s each, cut at the bark onset) ----------
-   Three groups: player's dogs (random of 3), opponent's dogs (random of 3),
-   and one fixed death sound when a dog is jumped. Synth is the fallback. */
+/* real bark clips: player group (3), opponent group (3), fixed death */
 const SFX = {
   mine:['assets/snd/p1.wav','assets/snd/p2.wav','assets/snd/p3.wav'],
   opp :['assets/snd/o1.wav','assets/snd/o2.wav','assets/snd/o3.wav'],
@@ -571,19 +687,14 @@ function playClip(url, vol=0.85){
   s.connect(g).connect(c.destination); s.start();
   return true;
 }
-/* random bark for whichever side just moved */
 function sndMoveFor(color){
   const mine = (mode==='online') ? color===myColor : color==='G';
   const set = mine ? SFX.mine : SFX.opp;
-  const url = set[Math.floor(Math.random()*set.length)];
-  if(!playClip(url)) sndBark();
+  if(!playClip(set[Math.floor(Math.random()*set.length)])) sndBark();
 }
-/* fixed death sound for every captured dog, either side */
-function sndDeath(){
-  if(!playClip(SFX.die, 0.95)) sndYelp();
-}
+function sndDeath(){ if(!playClip(SFX.die, 0.95)) sndYelp(); }
 
-/* light natural bark — synth fallback */
+/* synth fallbacks */
 function sndBark(){
   const c = ctx(); if(!c || !sfxOn) return;
   const t = c.currentTime;
@@ -598,38 +709,21 @@ function sndBark(){
   o.connect(f).connect(g).connect(c.destination);
   o.start(t); o.stop(t+0.18);
 }
-
-/* pained yelp — a dog gets jumped */
 function sndYelp(){
   const c = ctx(); if(!c || !sfxOn) return;
   const t = c.currentTime;
-  const o1 = c.createOscillator(); o1.type='sawtooth';
-  o1.frequency.setValueAtTime(700, t);
-  o1.frequency.exponentialRampToValueAtTime(1500, t+0.06);
-  const g1 = c.createGain();
-  g1.gain.setValueAtTime(0.0001,t);
-  g1.gain.exponentialRampToValueAtTime(0.45,t+0.02);
-  g1.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
-  const f1 = c.createBiquadFilter(); f1.type='bandpass'; f1.frequency.value=1400; f1.Q.value=2;
-  o1.connect(f1).connect(g1).connect(c.destination);
-  o1.start(t); o1.stop(t+0.1);
-  const t2 = t+0.1;
   const o2 = c.createOscillator(); o2.type='sawtooth';
-  o2.frequency.setValueAtTime(1300, t2);
-  o2.frequency.exponentialRampToValueAtTime(320, t2+0.42);
-  const vib = c.createOscillator(); vib.frequency.value=23;
-  const vibG = c.createGain(); vibG.gain.value=55;
-  vib.connect(vibG).connect(o2.frequency);
-  const f2 = c.createBiquadFilter(); f2.type='bandpass'; f2.frequency.setValueAtTime(1100,t2);
-  f2.frequency.exponentialRampToValueAtTime(500, t2+0.42); f2.Q.value=1.6;
+  o2.frequency.setValueAtTime(1300, t);
+  o2.frequency.exponentialRampToValueAtTime(320, t+0.4);
+  const f2 = c.createBiquadFilter(); f2.type='bandpass'; f2.frequency.setValueAtTime(1100,t);
+  f2.frequency.exponentialRampToValueAtTime(500, t+0.4); f2.Q.value=1.6;
   const g2 = c.createGain();
-  g2.gain.setValueAtTime(0.0001,t2);
-  g2.gain.exponentialRampToValueAtTime(0.4,t2+0.03);
-  g2.gain.exponentialRampToValueAtTime(0.0001,t2+0.45);
+  g2.gain.setValueAtTime(0.0001,t);
+  g2.gain.exponentialRampToValueAtTime(0.4,t+0.03);
+  g2.gain.exponentialRampToValueAtTime(0.0001,t+0.42);
   o2.connect(f2).connect(g2).connect(c.destination);
-  o2.start(t2); o2.stop(t2+0.5); vib.start(t2); vib.stop(t2+0.5);
+  o2.start(t); o2.stop(t+0.45);
 }
-
 function jingle(freqs){
   const c = ctx(); if(!c || !sfxOn) return;
   freqs.forEach((f,i)=>{
@@ -644,13 +738,9 @@ function jingle(freqs){
 const sndWin  = () => jingle([523,659,784,1047]);
 const sndLose = () => jingle([440,349,262]);
 
-/* synthesized dallūka loop — fallback when the mp3 can't load */
-const MUSIC = {
-  bpm: 92,
-  drums: ['D','','t','D','','D','t',''],
-  notes: [294,0,349,392,0,440,0,392,  294,0,262,294,0,220,0,0],
-  step: 0, nextTime: 0,
-};
+/* synth dallūka loop — music fallback */
+const MUSIC = { bpm:92, drums:['D','','t','D','','D','t',''],
+  notes:[294,0,349,392,0,440,0,392, 294,0,262,294,0,220,0,0], step:0, nextTime:0 };
 function drumDum(c,t){
   const o=c.createOscillator(); o.type='sine';
   o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(55,t+0.12);
@@ -683,8 +773,7 @@ function musicTick(){
   while(MUSIC.nextTime < c.currentTime + 0.35){
     const t = Math.max(MUSIC.nextTime, c.currentTime + 0.02);
     const d = MUSIC.drums[MUSIC.step % 8];
-    if(d==='D') drumDum(c,t);
-    else if(d==='t') drumTak(c,t);
+    if(d==='D') drumDum(c,t); else if(d==='t') drumTak(c,t);
     const n = MUSIC.notes[MUSIC.step % 16];
     if(n) pluck(c,t,n);
     MUSIC.step++; MUSIC.nextTime += eighth;
@@ -692,25 +781,20 @@ function musicTick(){
 }
 function startSynth(){
   if(!musicOn) return;
-  const c = ctx(); if(!c) return;
-  if(musicTimer) return;
+  const c = ctx(); if(!c || musicTimer) return;
   MUSIC.step = 0; MUSIC.nextTime = c.currentTime + 0.1;
   musicTimer = setInterval(musicTick, 120);
 }
 function stopSynth(){ clearInterval(musicTimer); musicTimer = null; }
 
-/* real background track (woven sands) — loops at low volume */
 const bgm = new Audio('assets/music.mp3');
 bgm.loop = true; bgm.volume = 0.25; bgm.preload = 'auto';
 let bgmFailed = false;
 bgm.addEventListener('error', () => { bgmFailed = true; });
-
 function startMusic(){
   if(!musicOn) return;
   if(bgmFailed){ startSynth(); return; }
-  bgm.play().then(() => stopSynth()).catch(() => {
-    if(bgmFailed) startSynth();
-  });
+  bgm.play().then(() => stopSynth()).catch(() => { if(bgmFailed) startSynth(); });
 }
 function stopMusic(){ bgm.pause(); stopSynth(); }
 
@@ -728,26 +812,112 @@ document.getElementById('sfxTog').onclick = () => {
   sfxOn = !sfxOn;
   try{ localStorage.setItem('na_sfx', sfxOn?'1':'0'); }catch(e){}
   refreshTogs();
-  if(sfxOn) sndBark();
+  if(sfxOn) sndMoveFor('G');
 };
 refreshTogs();
 document.addEventListener('pointerdown', function boot(){ ctx(); loadSfx(); startMusic(); }, {once:true});
 
 /* =====================================================================
-   GAME STATE
+   SHARED GAME STATE
 ===================================================================== */
-let board = [];
 let turn = 'G';
-let selected = null;
-let chainPiece = null;
-let chainDir = null;   // بعد أول نطّة، يواصل الكلب في نفس الاتجاه فقط
-let lastMove = [];
 let gameOver = false;
 let animating = false;
-
 let mode = 'local';
 let myColor = null;
 let shapeSel = { G:'star', B:'spiral' };
+
+const boardEl = document.getElementById('board');
+const boardWrap = document.getElementById('boardWrap');
+
+function baseName(p){
+  if(mode==='online') return p===myColor ? (names.me.trim()||'أنت') : (oppName||'الخصم');
+  return p==='G' ? (names.p1.trim()||'اللاعب الأول') : (names.p2.trim()||'اللاعب الثاني');
+}
+function nameOf(p){ return baseName(p) + ' • ' + shapeByKey(shapeSel[p]).name; }
+const enemy = p => p==='G' ? 'B' : 'G';
+
+/* flying piece animation shared by both games (index-based) */
+function flyPiece(srcIdx, dstIdx, imgSrc, opts, done){
+  const cells = boardEl.children;
+  const src = cells[srcIdx], dst = cells[dstIdx];
+  const pieceEl = src && src.querySelector('.piece');
+  if(!pieceEl || REDUCED){ done(); return; }
+  const wr = boardWrap.getBoundingClientRect();
+  const a = src.getBoundingClientRect(), b = dst.getBoundingClientRect();
+  const flyer = document.createElement('div');
+  flyer.className='flyer';
+  flyer.style.left=(a.left-wr.left)+'px';
+  flyer.style.top =(a.top -wr.top )+'px';
+  flyer.style.width=a.width+'px';
+  flyer.style.height=a.height+'px';
+  const fim=document.createElement('img');
+  fim.src=imgSrc;
+  fim.style.padding='8%';
+  fim.style.filter='drop-shadow(0 5px 5px rgba(30,12,0,.5))';
+  flyer.appendChild(fim);
+  boardWrap.appendChild(flyer);
+  pieceEl.style.visibility='hidden';
+  const dx=b.left-a.left, dy=b.top-a.top;
+  const dur = opts.jump ? 460 : 300;
+  if(opts.jump){
+    const victim = cells[opts.victimIdx] && cells[opts.victimIdx].querySelector('.piece');
+    setTimeout(()=>{
+      sndDeath();
+      if(victim){
+        victim.classList.add('captured');
+        dustAt((a.left+b.left)/2-wr.left+a.width/2, (a.top+b.top)/2-wr.top+a.height/2);
+      }
+    }, dur*0.42);
+    fim.animate([
+      {transform:'translateY(0) scale(1)'},
+      {transform:'translateY(-46%) scale(1.28)', offset:.5},
+      {transform:'translateY(0) scale(1)'}
+    ], {duration:dur, easing:'cubic-bezier(.45,.05,.55,.95)'});
+  } else {
+    fim.animate([
+      {transform:'translateY(0) scale(1)'},
+      {transform:'translateY(-14%) scale(1.08)', offset:.45},
+      {transform:'translateY(0) scale(1)'}
+    ], {duration:dur, easing:'cubic-bezier(.3,.1,.35,1)'});
+  }
+  const travel = flyer.animate(
+    [{transform:'translate(0,0)'},{transform:`translate(${dx}px,${dy}px)`}],
+    {duration:dur, easing: opts.jump?'cubic-bezier(.4,.08,.45,.95)':'cubic-bezier(.22,1,.36,1)', fill:'forwards'}
+  );
+  travel.onfinish = () => {
+    dustAt(b.left-wr.left+b.width/2, b.top-wr.top+b.height*0.8, opts.jump?7:4);
+    flyer.remove();
+    done();
+  };
+}
+function dustAt(x, y, n=6){
+  if(REDUCED) return;
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');
+    d.className='dust';
+    d.style.left=(x-4)+'px'; d.style.top=(y-4)+'px';
+    boardWrap.appendChild(d);
+    const ang=Math.random()*Math.PI*2, dist=14+Math.random()*26;
+    d.animate([
+      {transform:'translate(0,0) scale(1)', opacity:.85},
+      {transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist-10}px) scale(.25)`, opacity:0}
+    ], {duration:420+Math.random()*180, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards'})
+    .onfinish=()=>d.remove();
+  }
+}
+
+/* =====================================================================
+   GAME 1: نط الكلب (5×5)
+===================================================================== */
+const SIZE = 5;
+const DIRS = [[-1,0],[1,0],[0,-1],[0,1]];   // orthogonal only
+
+let board = [];
+let selected = null;
+let chainPiece = null;
+let chainDir = null;
+let lastMove = [];
 
 function newGame(){
   board = Array.from({length:SIZE}, () => Array(SIZE).fill(null));
@@ -761,9 +931,7 @@ function newGame(){
   renderBoard(); updateHud();
   dealInAnimation();
 }
-
 const inside = (r,c) => r>=0 && r<SIZE && c>=0 && c<SIZE;
-const enemy  = p => p==='G' ? 'B' : 'G';
 
 function stepsFor(r,c){
   const out=[];
@@ -782,11 +950,9 @@ function jumpsFor(r,c){
   }
   return out;
 }
-/* during a chain, the dog may keep jumping forward or to either side —
-   the only forbidden continuation is reversing back the way it came */
 function chainJumpTargets(r,c){
   if(!chainDir) return [];
-  const [bdr,bdc] = [-chainDir[0], -chainDir[1]];   // backward direction
+  const [bdr,bdc] = [-chainDir[0], -chainDir[1]];
   return jumpsFor(r,c).filter(([tr,tc]) => (tr-r)/2!==bdr || (tc-c)/2!==bdc);
 }
 function playerHasAnyMove(p){
@@ -799,19 +965,18 @@ function countPieces(p){
   return n;
 }
 
-/* ---------- move application: travel animation, then commit ---------- */
 function applyMove(fr,fc,tr,tc){
   const isJump = Math.abs(tr-fr)===2 || Math.abs(tc-fc)===2;
+  const mover = board[fr][fc];
   const commit = () => {
-    const piece = board[fr][fc];
-    board[tr][tc]=piece; board[fr][fc]=null;
+    board[tr][tc]=mover; board[fr][fc]=null;
     lastMove=[[fr,fc],[tr,tc]];
     if(isJump){
       board[(fr+tr)/2][(fc+tc)/2]=null;
       chainDir=[(tr-fr)/2,(tc-fc)/2];
-      if(chainJumpTargets(tr,tc).length){   // straight-line continuation only
+      if(chainJumpTargets(tr,tc).length){
         chainPiece=[tr,tc];
-        selected=(mode==='local' || piece===myColor) ? [tr,tc] : null;
+        selected=(mode==='local' || mover===myColor) ? [tr,tc] : null;
         animating=false;
         renderBoard(); updateHud(); checkEnd();
         return;
@@ -822,95 +987,20 @@ function applyMove(fr,fc,tr,tc){
     animating=false;
     renderBoard(); updateHud(); checkEnd();
   };
+  sndMoveFor(mover);
   if(REDUCED){
-    sndMoveFor(board[fr][fc]);
     if(isJump) sndDeath();
     commit();
     return;
   }
   animating=true;
-  animateMove(fr,fc,tr,tc,isJump,commit);
+  flyPiece(fr*SIZE+fc, tr*SIZE+tc, shapeByKey(shapeSel[mover]).img,
+    {jump:isJump, victimIdx:((fr+tr)/2)*SIZE+((fc+tc)/2)}, commit);
 }
 
-/* travel animation: glide for a step, rising arc + dust + victim poof for a jump */
-function animateMove(fr,fc,tr,tc,isJump,done){
-  const cells = boardEl.children;
-  const src = cells[fr*SIZE+fc], dst = cells[tr*SIZE+tc];
-  const pieceEl = src && src.querySelector('.piece');
-  if(!pieceEl){ done(); return; }
-  const wrap = document.getElementById('boardWrap');
-  const wr = wrap.getBoundingClientRect();
-  const a = src.getBoundingClientRect(), b = dst.getBoundingClientRect();
-
-  const flyer = document.createElement('div');
-  flyer.className='flyer';
-  flyer.style.left=(a.left-wr.left)+'px';
-  flyer.style.top =(a.top -wr.top )+'px';
-  flyer.style.width=a.width+'px';
-  flyer.style.height=a.height+'px';
-  const fim=document.createElement('img');
-  fim.src=shapeByKey(shapeSel[board[fr][fc]]).img;
-  fim.style.padding='8%';
-  fim.style.filter='drop-shadow(0 5px 5px rgba(30,12,0,.5))';
-  flyer.appendChild(fim);
-  wrap.appendChild(flyer);
-  pieceEl.style.visibility='hidden';
-
-  const dx=b.left-a.left, dy=b.top-a.top;
-  const dur = isJump ? 460 : 300;
-
-  if(isJump){
-    sndMoveFor(board[fr][fc]);
-    const victim = cells[((fr+tr)/2)*SIZE+((fc+tc)/2)].querySelector('.piece');
-    setTimeout(()=>{
-      sndDeath();
-      if(victim){ victim.classList.add('captured'); dustAt(wrap, (a.left+b.left)/2-wr.left+a.width/2, (a.top+b.top)/2-wr.top+a.height/2); }
-    }, dur*0.42);
-    fim.animate([
-      {transform:'translateY(0) scale(1)', filter:'drop-shadow(0 5px 5px rgba(30,12,0,.5))'},
-      {transform:'translateY(-46%) scale(1.28)', filter:'drop-shadow(0 26px 16px rgba(30,12,0,.35))', offset:.5},
-      {transform:'translateY(0) scale(1)', filter:'drop-shadow(0 5px 5px rgba(30,12,0,.5))'}
-    ], {duration:dur, easing:'cubic-bezier(.45,.05,.55,.95)'});
-  } else {
-    sndMoveFor(board[fr][fc]);
-    fim.animate([
-      {transform:'translateY(0) scale(1)'},
-      {transform:'translateY(-14%) scale(1.08)', offset:.45},
-      {transform:'translateY(0) scale(1)'}
-    ], {duration:dur, easing:'cubic-bezier(.3,.1,.35,1)'});
-  }
-  const travel = flyer.animate(
-    [{transform:'translate(0,0)'},{transform:`translate(${dx}px,${dy}px)`}],
-    {duration:dur, easing: isJump?'cubic-bezier(.4,.08,.45,.95)':'cubic-bezier(.22,1,.36,1)', fill:'forwards'}
-  );
-  travel.onfinish = () => {
-    dustAt(wrap, b.left-wr.left+b.width/2, b.top-wr.top+b.height*0.8, isJump?7:4);
-    flyer.remove();
-    done();
-  };
-}
-
-/* small sand motes kicked up at (x,y) inside the board */
-function dustAt(wrap, x, y, n=6){
-  for(let i=0;i<n;i++){
-    const d=document.createElement('div');
-    d.className='dust';
-    d.style.left=(x-4)+'px'; d.style.top=(y-4)+'px';
-    wrap.appendChild(d);
-    const ang=Math.random()*Math.PI*2, dist=14+Math.random()*26;
-    d.animate([
-      {transform:'translate(0,0) scale(1)', opacity:.85},
-      {transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist-10}px) scale(.25)`, opacity:0}
-    ], {duration:420+Math.random()*180, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards'})
-    .onfinish=()=>d.remove();
-  }
-}
-
-/* opening: pieces settle onto the board in a soft wave */
 function dealInAnimation(){
   if(REDUCED) return;
-  const pieces=boardEl.querySelectorAll('.piece');
-  pieces.forEach((p,i)=>{
+  boardEl.querySelectorAll('.piece').forEach((p,i)=>{
     p.animate([
       {transform:'translateY(-26px) scale(.6)', opacity:0},
       {transform:'translateY(0) scale(1)', opacity:1}
@@ -929,35 +1019,18 @@ function checkEnd(){
   if(gameOver) return;
   const g=countPieces('G'), b=countPieces('B');
   let winner=null, why='';
-  if(g===0){ winner='B'; why='نُطّت جميع كلاب ' + nameOf('G') + '!'; }
-  else if(b===0){ winner='G'; why='نُطّت جميع كلاب ' + nameOf('B') + '!'; }
+  if(g===0){ winner='B'; why='نُطّت جميع كلاب ' + baseName('G') + '!'; }
+  else if(b===0){ winner='G'; why='نُطّت جميع كلاب ' + baseName('B') + '!'; }
   else if(!chainPiece && !playerHasAnyMove(turn)){
     winner=enemy(turn);
-    why=nameOf(turn) + ' لا يملك أي حركة قانونية.';
+    why=baseName(turn) + ' لا يملك أي حركة قانونية.';
   }
-  if(winner){
-    gameOver=true;
-    const iWon = (mode==='local') || (winner===myColor);
-    setTimeout(()=>{
-      iWon ? sndWin() : sndLose();
-      const im = document.getElementById('overlayImg');
-      im.src = shapeByKey(shapeSel[winner]).img; im.style.display='inline-block';
-      showOverlay('🏆 ' + nameOf(winner) + ' فاز بالجولة!', why + ' — الكلاب المتبقية: ' + Math.max(g,b));
-    }, 450);
-  }
+  if(winner) endRound(winner, why, ' — الكلاب المتبقية: ' + Math.max(g,b));
 }
 
-/* =====================================================================
-   RENDERING
-===================================================================== */
-const boardEl = document.getElementById('board');
-function nameOf(p){
-  const sh = shapeByKey(shapeSel[p]).name;
-  if(mode==='online') return (p===myColor ? 'أنت' : 'الخصم') + ' • ' + sh;
-  return (p==='G' ? 'اللاعب الأول' : 'اللاعب الثاني') + ' • ' + sh;
-}
 function renderBoard(){
   if(!board.length) return;
+  boardEl.classList.remove('sijaGrid');
   boardEl.innerHTML='';
   const sel=selected;
   let steps=[], jumps=[];
@@ -991,31 +1064,7 @@ function renderBoard(){
   document.getElementById('endChainBtn').classList.toggle('show',
     !!chainPiece && !gameOver && (mode==='local' || turn===myColor));
 }
-function updateHud(){
-  document.getElementById('countG').textContent='الكلاب: '+countPieces('G')+' / 12';
-  document.getElementById('countB').textContent='الكلاب: '+countPieces('B')+' / 12';
-  document.getElementById('nameG').textContent=nameOf('G');
-  document.getElementById('nameB').textContent=nameOf('B');
-  document.getElementById('imgG').src=shapeByKey(shapeSel.G).img;
-  document.getElementById('imgB').src=shapeByKey(shapeSel.B).img;
-  document.getElementById('badgeG').classList.toggle('turn', turn==='G' && !gameOver);
-  document.getElementById('badgeB').classList.toggle('turn', turn==='B' && !gameOver);
-  const banner=document.getElementById('turnBanner');
-  if(gameOver){ banner.textContent='انتهت الجولة'; return; }
-  if(chainPiece){
-    banner.textContent=(mode==='local'||turn===myColor)
-      ? 'نطّة متسلسلة! واصل النط أو أنهِ دورك'
-      : 'الخصم يواصل النط...';
-  } else if(mode==='online'){
-    banner.textContent = turn===myColor ? 'دورك — حرّك أو نُط' : 'دور الخصم...';
-  } else {
-    banner.textContent='دور '+nameOf(turn);
-  }
-}
 
-/* =====================================================================
-   INPUT
-===================================================================== */
 function onCellTap(r,c){
   if(gameOver || animating) return;
   if(mode==='online' && turn!==myColor) return;
@@ -1041,6 +1090,188 @@ function onCellTap(r,c){
 }
 
 /* =====================================================================
+   GAME 2: صفرجت (3×3) — إنزال ثم تحريك، خط مستقيم يفوز
+===================================================================== */
+const SJ_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+let sjBoard = [], sjPhase = 'place', sjPlaced = {G:0,B:0}, sjSel = null, sjLast = [], sjWinLine = null;
+
+function sjNew(){
+  sjBoard = Array(9).fill(null);
+  sjPhase='place'; sjPlaced={G:0,B:0}; sjSel=null; sjLast=[]; sjWinLine=null;
+  turn='G'; gameOver=false; animating=false;
+  hideOverlay();
+  sjRender(); updateHud();
+}
+function sjAdj(i,j){ // Chebyshev-1 neighbours on the 3×3 grid (أفقي/عمودي/قطري)
+  const r1=Math.floor(i/3), c1=i%3, r2=Math.floor(j/3), c2=j%3;
+  return i!==j && Math.abs(r1-r2)<=1 && Math.abs(c1-c2)<=1;
+}
+function sjMovesFor(i){
+  const out=[];
+  for(let j=0;j<9;j++) if(sjBoard[j]===null && sjAdj(i,j)) out.push(j);
+  return out;
+}
+function sjLineOf(p){
+  return SJ_LINES.find(L => L.every(i => sjBoard[i]===p)) || null;
+}
+function sjBlocked(p){
+  for(let i=0;i<9;i++) if(sjBoard[i]===p && sjMovesFor(i).length) return false;
+  return true;
+}
+
+function sjApplyPlace(i){
+  const placer = turn;
+  sjBoard[i]=placer; sjPlaced[placer]++; sjLast=[i];
+  sndMoveFor(placer);
+  if(sjPlaced.G===3 && sjPlaced.B===3) sjPhase='move';
+  sjSel=null;
+  const line = sjLineOf(placer);
+  if(line){ sjWinLine=line; sjRender(); updateHud();
+    endRound(placer, 'صفرجت! ' + baseName(placer) + ' رتّب قطعه الثلاث في خط مستقيم.', '');
+    return; }
+  turn=enemy(turn);
+  sjRender(); updateHud();
+  // drop-in animation for the newly placed piece
+  if(!REDUCED){
+    const el = boardEl.children[i].querySelector('.piece');
+    if(el){
+      el.animate([
+        {transform:'translateY(-34px) scale(1.35)', opacity:.4},
+        {transform:'translateY(0) scale(1)', opacity:1}
+      ], {duration:340, easing:'cubic-bezier(.34,1.56,.64,1)'});
+      const wr=boardWrap.getBoundingClientRect(), b=boardEl.children[i].getBoundingClientRect();
+      dustAt(b.left-wr.left+b.width/2, b.top-wr.top+b.height*0.8, 5);
+    }
+  }
+  sjCheckBlocked();
+}
+
+function sjApplyMove(a,b){
+  const mover = sjBoard[a];
+  const commit = () => {
+    sjBoard[b]=mover; sjBoard[a]=null; sjLast=[a,b]; sjSel=null;
+    animating=false;
+    const line = sjLineOf(mover);
+    if(line){ sjWinLine=line; sjRender(); updateHud();
+      endRound(mover, 'صفرجت! ' + baseName(mover) + ' رتّب قطعه الثلاث في خط مستقيم.', '');
+      return; }
+    turn=enemy(turn);
+    sjRender(); updateHud();
+    sjCheckBlocked();
+  };
+  sndMoveFor(mover);
+  if(REDUCED){ commit(); return; }
+  animating=true;
+  flyPiece(a, b, shapeByKey(shapeSel[mover]).img, {}, commit);
+}
+
+function sjCheckBlocked(){
+  if(gameOver || sjPhase!=='move') return;
+  if(sjBlocked(turn)){
+    endRound(enemy(turn), 'حُوصرت قطع ' + baseName(turn) + ' فلم يجد أي خانة يتحرك إليها.', '');
+  }
+}
+
+function sjRender(){
+  boardEl.classList.add('sijaGrid');
+  boardEl.innerHTML='';
+  let targets=[];
+  if(sjSel!==null && sjPhase==='move') targets = sjMovesFor(sjSel);
+  const myTurnNow = !gameOver && (mode==='local' || turn===myColor);
+  for(let i=0;i<9;i++){
+    const cell=document.createElement('div');
+    cell.className='cell stone';
+    const p=sjBoard[i];
+    if(!p) cell.classList.add('empty');
+    if(sjLast.includes(i)) cell.classList.add('lastMove');
+    if(sjWinLine && sjWinLine.includes(i)) cell.classList.add('winLine');
+    if(sjPhase==='place' && !p && myTurnNow) cell.classList.add('placeTarget');
+    if(targets.includes(i)) { cell.classList.add('moveTarget'); }
+    cell.addEventListener('click',()=>sjTap(i));
+    if(p){
+      const el=document.createElement('div');
+      el.className='piece';
+      const sh=document.createElement('div'); sh.className='pShadow'; el.appendChild(sh);
+      const img=document.createElement('img');
+      img.src=shapeByKey(shapeSel[p]).img;
+      img.alt=nameOf(p);
+      el.appendChild(img);
+      if(sjSel===i) el.classList.add('selected');
+      cell.appendChild(el);
+    }
+    boardEl.appendChild(cell);
+  }
+  document.getElementById('endChainBtn').classList.remove('show');
+}
+
+function sjTap(i){
+  if(gameOver || animating) return;
+  if(mode==='online' && turn!==myColor) return;
+  const p=sjBoard[i];
+  if(sjPhase==='place'){
+    if(p===null){
+      if(mode==='online') send({t:'sp', i});
+      sjApplyPlace(i);
+    }
+    return;
+  }
+  if(p===turn){
+    sjSel = (sjSel===i) ? null : i;
+    sjRender(); return;
+  }
+  if(sjSel!==null && p===null && sjMovesFor(sjSel).includes(i)){
+    if(mode==='online') send({t:'sm', a:sjSel, b:i});
+    sjApplyMove(sjSel, i);
+  }
+}
+
+/* =====================================================================
+   SHARED HUD / END
+===================================================================== */
+function updateHud(){
+  document.getElementById('nameG').textContent=nameOf('G');
+  document.getElementById('nameB').textContent=nameOf('B');
+  document.getElementById('imgG').src=shapeByKey(shapeSel.G).img;
+  document.getElementById('imgB').src=shapeByKey(shapeSel.B).img;
+  document.getElementById('badgeG').classList.toggle('turn', turn==='G' && !gameOver);
+  document.getElementById('badgeB').classList.toggle('turn', turn==='B' && !gameOver);
+  const cg=document.getElementById('countG'), cb=document.getElementById('countB');
+  const banner=document.getElementById('turnBanner');
+  if(currentGame==='nut'){
+    cg.textContent='الكلاب: '+countPieces('G')+' / 12';
+    cb.textContent='الكلاب: '+countPieces('B')+' / 12';
+    if(gameOver){ banner.textContent='انتهت الجولة'; return; }
+    if(chainPiece){
+      banner.textContent=(mode==='local'||turn===myColor)
+        ? 'نطّة متسلسلة! واصل النط أو أنهِ دورك'
+        : baseName(turn)+' يواصل النط...';
+    } else if(mode==='online'){
+      banner.textContent = turn===myColor ? 'دورك — حرّك أو نُط' : 'دور '+baseName(turn)+'...';
+    } else {
+      banner.textContent='دور '+baseName(turn);
+    }
+  } else {
+    cg.textContent = sjPhase==='place' ? 'متبقٍ للإنزال: '+(3-sjPlaced.G) : 'القطع: 3';
+    cb.textContent = sjPhase==='place' ? 'متبقٍ للإنزال: '+(3-sjPlaced.B) : 'القطع: 3';
+    if(gameOver){ banner.textContent='انتهت الجولة'; return; }
+    const act = sjPhase==='place' ? 'أنزل قطعة' : 'حرّك قطعة';
+    if(mode==='online') banner.textContent = turn===myColor ? 'دورك — '+act : 'دور '+baseName(turn)+'...';
+    else banner.textContent = 'دور '+baseName(turn)+' — '+act;
+  }
+}
+
+function endRound(winner, why, extra){
+  gameOver=true;
+  const iWon = (mode==='local') || (winner===myColor);
+  setTimeout(()=>{
+    iWon ? sndWin() : sndLose();
+    const im = document.getElementById('overlayImg');
+    im.src = shapeByKey(shapeSel[winner]).img; im.style.display='inline-block';
+    showOverlay('🏆 ' + baseName(winner) + ' فاز بالجولة!', why + extra);
+  }, 450);
+}
+
+/* =====================================================================
    SHAPE PICKER
 ===================================================================== */
 let pickPhase = null;
@@ -1049,9 +1280,10 @@ function openShapeScreen(phase){
   const grid=document.getElementById('shapeGrid');
   const title=document.getElementById('shapeTitle');
   grid.innerHTML='';
-  if(phase==='local1') title.textContent='اللاعب الأول — اختر شكل كلبك';
-  else if(phase==='local2') title.textContent='اللاعب الثاني — اختر شكل كلبك';
-  else title.textContent='اختر شكل كلبك';
+  const noun = 'اختر شكل قطعتك';
+  if(phase==='local1') title.textContent=(names.p1.trim()||'اللاعب الأول')+' — '+noun;
+  else if(phase==='local2') title.textContent=(names.p2.trim()||'اللاعب الثاني')+' — '+noun;
+  else title.textContent=noun;
   SHAPES.forEach((s,i)=>{
     const b=document.createElement('button');
     b.className='shapeCard';
@@ -1066,8 +1298,7 @@ function openShapeScreen(phase){
         openShapeScreen('local2');
       } else if(phase==='local2'){
         shapeSel.B=s.key;
-        mode='local'; myColor=null; destroyPeer();
-        showScreen('gameScreen'); newGame(); startMusic();
+        startLocalGame();
       } else {
         myShape=s.key;
         showScreen('onlineScreen');
@@ -1080,12 +1311,29 @@ function openShapeScreen(phase){
   showScreen('shapeScreen');
 }
 
+function setupBoardForGame(){
+  boardWrap.classList.toggle('stone', currentGame==='sija');
+}
+function startLocalGame(){
+  mode='local'; myColor=null; oppName=''; destroyPeer();
+  showScreen('gameScreen'); setupBoardForGame();
+  currentGame==='nut' ? newGame() : sjNew();
+  startMusic();
+}
+function startOnlineGame(color){
+  mode='online'; myColor=color;
+  showScreen('gameScreen'); setupBoardForGame();
+  currentGame==='nut' ? newGame() : sjNew();
+  startMusic();
+  toast(color==='G' ? 'انضم '+(oppName||'الخصم')+'! أنت تبدأ أولاً' : 'تم الاتصال! '+(oppName||'الخصم')+' يبدأ أولاً');
+}
+
 /* =====================================================================
    ONLINE (PeerJS)
 ===================================================================== */
 let peer=null, conn=null, isHost=false, roomCode='', myShape='star';
 const CODE_CHARS='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-const peerId=code=>'nut-alkalb-sd-'+code.toLowerCase();
+const peerId=code=>GAMES[currentGame].peerPrefix+code.toLowerCase();
 function makeCode(){ let s=''; for(let i=0;i<4;i++) s+=CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
 
 function peerAvailable(){
@@ -1116,7 +1364,7 @@ function createRoom(){
   peer.on('connection',c=>{
     if(conn){ c.close(); return; }
     conn=c; wireConn();
-    conn.on('open',()=>send({t:'hello', shape:myShape}));
+    conn.on('open',()=>send({t:'hello', shape:myShape, name:names.me.trim(), game:currentGame}));
   });
 }
 function joinRoom(){
@@ -1131,7 +1379,7 @@ function joinRoom(){
   peer.on('open',()=>{
     conn=peer.connect(peerId(code),{reliable:true});
     wireConn();
-    const failTimer=setTimeout(()=>{ if(!conn||!conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز'); },8000);
+    const failTimer=setTimeout(()=>{ if(!conn||!conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز واللعبة'); },8000);
     conn.on('open',()=>clearTimeout(failTimer));
   });
 }
@@ -1149,38 +1397,50 @@ function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv',m:[fr,fc,tr,tc]
 function onData(d){
   if(!d||typeof d!=='object') return;
   switch(d.t){
-    case 'hello': {
+    case 'hello': { // guest side
       const hostShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'star';
       if(myShape===hostShape) myShape = SHAPES.find(s=>s.key!==hostShape).key;
-      send({t:'hello2', shape:myShape});
+      oppName = String(d.name||'').slice(0,18);
+      send({t:'hello2', shape:myShape, name:names.me.trim()});
       shapeSel.G=hostShape; shapeSel.B=myShape;
       startOnlineGame('B');
       break;
     }
-    case 'hello2': {
+    case 'hello2': { // host side
       const guestShape = SHAPES.some(s=>s.key===d.shape) ? d.shape : 'spiral';
+      oppName = String(d.name||'').slice(0,18);
       shapeSel.G=myShape; shapeSel.B=guestShape;
       startOnlineGame('G');
       break;
     }
-    case 'mv':      if(mode==='online'){ const [a,b,c,e]=d.m; applyMove(a,b,c,e); } break;
-    case 'end':     if(mode==='online') endChain(); break;
-    case 'restart': newGame(); toast('بدأ الخصم جولة جديدة'); break;
+    case 'mv':  if(mode==='online' && currentGame==='nut'){ const [a,b,c,e]=d.m; applyMove(a,b,c,e); } break;
+    case 'end': if(mode==='online' && currentGame==='nut') endChain(); break;
+    case 'sp':  if(mode==='online' && currentGame==='sija' && sjBoard[d.i]===null) sjApplyPlace(d.i); break;
+    case 'sm':  if(mode==='online' && currentGame==='sija') sjApplyMove(d.a, d.b); break;
+    case 'restart':
+      currentGame==='nut' ? newGame() : sjNew();
+      toast('بدأ '+(oppName||'الخصم')+' جولة جديدة');
+      break;
   }
-}
-function startOnlineGame(color){
-  mode='online'; myColor=color;
-  showScreen('gameScreen');
-  newGame(); startMusic();
-  toast(color==='G' ? 'انضم الخصم! أنت تبدأ أولاً' : 'تم الاتصال! الخصم يبدأ أولاً');
 }
 
 /* =====================================================================
-   SCREENS / UI
+   SCREENS / NAVIGATION
 ===================================================================== */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+}
+function goHub(){
+  destroyPeer(); hideOverlay(); mode='local'; myColor=null; oppName='';
+  document.getElementById('logoTop').src='assets/logo.png';
+  showScreen('hubScreen');
+}
+function openGameMenu(game){
+  currentGame = game;
+  document.getElementById('gameMenuTitle').textContent = GAMES[game].name;
+  document.getElementById('logoTop').src = GAMES[game].logo;
+  showScreen('gameMenuScreen');
 }
 function showOverlay(title,msg){
   document.getElementById('overlayTitle').textContent=title;
@@ -1195,10 +1455,36 @@ function toast(msg){
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3200);
 }
 
+document.querySelectorAll('.gameCard').forEach(b => b.onclick = () => openGameMenu(b.dataset.game));
 document.getElementById('localBtn').onclick =()=> openShapeScreen('local1');
 document.getElementById('onlineBtn').onclick=()=> openShapeScreen('online');
-document.getElementById('rulesBtn').onclick =()=> showScreen('rulesScreen');
-document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{ destroyPeer(); showScreen('menuScreen'); });
+document.getElementById('rulesBtn').onclick =()=> {
+  document.getElementById('rulesTitle').textContent='قوانين '+GAMES[currentGame].name;
+  document.getElementById('rulesNut').style.display = currentGame==='nut'?'block':'none';
+  document.getElementById('rulesSija').style.display = currentGame==='sija'?'block':'none';
+  showScreen('rulesScreen');
+};
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{
+  destroyPeer();
+  b.dataset.back==='hub' ? goHub() : showScreen('gameMenuScreen');
+});
+
+/* names */
+document.getElementById('namesBtn').onclick = () => {
+  document.getElementById('nameP1').value=names.p1;
+  document.getElementById('nameP2').value=names.p2;
+  document.getElementById('nameMe').value=names.me;
+  showScreen('namesScreen');
+};
+document.getElementById('saveNamesBtn').onclick = () => {
+  names.p1=document.getElementById('nameP1').value.trim().slice(0,18);
+  names.p2=document.getElementById('nameP2').value.trim().slice(0,18);
+  names.me=document.getElementById('nameMe').value.trim().slice(0,18);
+  try{ localStorage.setItem('na_names', JSON.stringify(names)); }catch(e){}
+  toast('تم حفظ الأسماء ✔');
+  goHub();
+};
+
 document.getElementById('createRoomBtn').onclick=createRoom;
 document.getElementById('joinRoomBtn').onclick=joinRoom;
 document.getElementById('joinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') joinRoom(); });
@@ -1214,18 +1500,17 @@ document.getElementById('endChainBtn').onclick=()=>{
   if(mode==='online') send({t:'end'});
   endChain();
 };
-document.getElementById('restartBtn').onclick=()=>{
+function restartRound(){
   if(mode==='online') send({t:'restart'});
-  newGame();
+  currentGame==='nut' ? newGame() : sjNew();
+}
+document.getElementById('restartBtn').onclick=restartRound;
+document.getElementById('overlayRestart').onclick=restartRound;
+document.getElementById('quitBtn').onclick=()=>{
+  destroyPeer(); hideOverlay(); mode='local'; myColor=null; oppName='';
+  showScreen('gameMenuScreen');
 };
-document.getElementById('overlayRestart').onclick=()=>{
-  if(mode==='online') send({t:'restart'});
-  newGame();
-};
-document.getElementById('quitBtn').onclick=document.getElementById('overlayQuit').onclick=()=>{
-  destroyPeer(); hideOverlay(); mode='local'; myColor=null;
-  showScreen('menuScreen');
-};
+document.getElementById('overlayQuit').onclick=goHub;
 
 /* ---------- PWA ---------- */
 if('serviceWorker' in navigator){
