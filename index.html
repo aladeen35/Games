@@ -5,10 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>نط الكلب — لعبة سودانية تراثية</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3d2412">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="نط الكلب">
 <style>
+@font-face{
+  font-family:'Noto Kufi Arabic';
+  src:url('assets/font-kufi.ttf') format('truetype');
+  font-weight:100 900;
+  font-display:swap;
+}
 :root{
   /* terracotta clay palette taken from the reference artwork */
   --sand-1:#d99a52;
@@ -26,7 +36,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
-  font-family:'Cairo','Segoe UI',Tahoma,sans-serif;
+  font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,sans-serif;
   color:var(--ink);
   background:
     radial-gradient(1400px 700px at 50% -150px, rgba(255,210,140,.55) 0%, transparent 60%),
@@ -507,14 +517,32 @@ function musicTick(){
     MUSIC.step++; MUSIC.nextTime += eighth;
   }
 }
-function startMusic(){
+function startSynth(){
   if(!musicOn) return;
   const c = ctx(); if(!c) return;
   if(musicTimer) return;
   MUSIC.step = 0; MUSIC.nextTime = c.currentTime + 0.1;
   musicTimer = setInterval(musicTick, 120);
 }
-function stopMusic(){ clearInterval(musicTimer); musicTimer = null; }
+function stopSynth(){ clearInterval(musicTimer); musicTimer = null; }
+
+/* --- real background track (woven sands) — loops at low volume;
+       falls back to the synthesized loop if the file can't load --- */
+const bgm = new Audio('assets/music.mp3');
+bgm.loop = true; bgm.volume = 0.25; bgm.preload = 'auto';
+let bgmFailed = false;
+bgm.addEventListener('error', () => { bgmFailed = true; });
+
+function startMusic(){
+  if(!musicOn) return;
+  if(bgmFailed){ startSynth(); return; }
+  bgm.play().then(() => stopSynth()).catch(() => {
+    // autoplay blocked before the first tap — the pointerdown hook retries;
+    // a real load failure switches us to the synth loop
+    if(bgmFailed) startSynth();
+  });
+}
+function stopMusic(){ bgm.pause(); stopSynth(); }
 
 function refreshTogs(){
   document.getElementById('musicTog').classList.toggle('off', !musicOn);
@@ -923,6 +951,11 @@ document.getElementById('quitBtn').onclick=document.getElementById('overlayQuit'
   destroyPeer(); hideOverlay(); mode='local'; myColor=null;
   showScreen('menuScreen');
 };
+
+/* ---------- PWA ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
