@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'nut-alkalb-v4';
+const CACHE = 'nut-alkalb-v5';
 const PRECACHE = [
   './',
   'index.html',
