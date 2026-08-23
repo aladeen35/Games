@@ -342,7 +342,13 @@ input[type=text]{
 }
 #toast.show{opacity:1}
 
-footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:700;color:#ffe9c2;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:700;color:#ffe9c2;text-shadow:0 1px 3px rgba(0,0,0,.7);line-height:2}
+footer .credit{
+  display:inline-block;margin-top:4px;padding:3px 18px;border-radius:999px;font-size:14px;font-weight:900;color:var(--brass-hi);
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));
+  box-shadow:0 2px 6px rgba(30,12,0,.45), inset 0 1px 0 rgba(255,222,165,.25), inset 0 0 0 1.5px rgba(201,141,78,.5);
+  text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28);
+}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
@@ -484,7 +490,7 @@ footer{margin-top:18px;font-size:13px;opacity:.8;text-align:center;font-weight:7
     </div>
   </section>
 
-  <footer>نُط الكلب • لعبة سودانية تراثية 🇸🇩</footer>
+  <footer>نُط الكلب • لعبة سودانية تراثية 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
 </main>
 
 <div id="overlay">
