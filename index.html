@@ -421,6 +421,77 @@ input.code{
 .dust{position:absolute;z-index:8;width:9px;height:9px;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle at 40% 35%, #ecc98f, #b98a4d)}
 
+/* ---------- ولد بنت جماد نبات: school notebook theme ---------- */
+.paper{
+  width:100%;margin-top:14px;padding:20px 16px;border-radius:22px;position:relative;color:#243a63;
+  background:
+    linear-gradient(0deg, rgba(190,205,235,.0) 0%, rgba(190,205,235,.0) 100%),
+    repeating-linear-gradient(0deg, #fdf6e0 0px, #fdf6e0 30px, #c6d4ee 30px, #c6d4ee 31.5px);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px #16305e, inset 0 0 0 5px rgba(255,255,255,.5);
+}
+.paper::before{ /* red margin line (RTL: on the right) */
+  content:"";position:absolute;top:0;bottom:0;right:34px;width:2px;background:rgba(224,90,90,.55);
+}
+.paper h2{color:#16305e;text-shadow:none;margin-bottom:12px;text-align:center;font-size:22px;font-weight:900}
+.wbField{display:flex;align-items:center;gap:9px;margin:7px 0}
+.wbTag{
+  flex:none;width:74px;text-align:center;padding:7px 4px;border-radius:12px;color:#fff;font-weight:900;font-size:14.5px;
+  box-shadow:0 3px 0 rgba(0,0,0,.25), inset 0 1.5px 0 rgba(255,255,255,.4);
+}
+.wbField input{
+  flex:1;min-height:46px;font-family:inherit;font-size:17px;font-weight:700;color:#1c2c50;padding:8px 12px;
+  border:none;border-radius:12px;background:rgba(255,255,255,.75);
+  box-shadow:inset 0 2px 5px rgba(40,60,110,.25), inset 0 0 0 1.5px rgba(60,90,160,.3);
+}
+.wbLetter{
+  width:86px;height:86px;margin:4px auto 10px;border-radius:26px;display:flex;align-items:center;justify-content:center;
+  font-size:44px;font-weight:900;color:#fff;
+  background:linear-gradient(165deg,#e04f8a,#b52f68);
+  box-shadow:0 6px 0 rgba(80,10,40,.45), 0 10px 22px rgba(30,14,2,.4), inset 0 2px 0 rgba(255,255,255,.45);
+}
+.wbTimer{height:12px;border-radius:999px;background:rgba(30,50,100,.18);overflow:hidden;margin:6px 0 10px}
+.wbTimer > div{height:100%;border-radius:999px;background:linear-gradient(90deg,#5a9e34,#e0a12f 60%,#e04f8a);transition:width .25s linear}
+.stopBtn{
+  display:block;width:100%;margin-top:10px;padding:14px;border:none;border-radius:16px;
+  font-family:inherit;font-size:22px;font-weight:900;color:#fff;letter-spacing:1px;
+  background:linear-gradient(168deg,#e8574b 0%,#c0392b 55%,#8f2418 100%);
+  box-shadow:0 5px 0 rgba(90,15,5,.5), 0 10px 20px rgba(30,14,2,.4), inset 0 2px 0 rgba(255,255,255,.35);
+  transition:transform .15s var(--ease-out);
+}
+.stopBtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(90,15,5,.5)}
+.wbChips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.chip{
+  min-width:52px;padding:9px 14px;border:none;border-radius:999px;font-family:inherit;font-size:16px;font-weight:900;
+  color:#16305e;background:rgba(255,255,255,.8);box-shadow:inset 0 0 0 2px rgba(22,48,94,.35);
+}
+.chip.on{color:#fff;background:linear-gradient(165deg,#2f6fd0,#1d4fa0);box-shadow:0 3px 0 rgba(10,30,70,.4)}
+.wbRow{
+  display:flex;align-items:center;gap:8px;padding:7px 10px;margin:5px 0;border-radius:12px;cursor:pointer;
+  background:rgba(255,255,255,.72);box-shadow:inset 0 0 0 1.5px rgba(60,90,160,.25);
+  transition:transform .12s;
+}
+.wbRow:active{transform:scale(.985)}
+.wbRow .who{flex:none;width:86px;font-size:13px;font-weight:800;color:#16305e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wbRow .ans{flex:1;font-size:16px;font-weight:800;color:#1c2c50}
+.wbRow .ans.empty{opacity:.4;font-weight:600}
+.wbRow .pts{
+  flex:none;min-width:44px;text-align:center;padding:4px 8px;border-radius:999px;font-size:14px;font-weight:900;color:#fff;
+}
+.wbRow.ok10 .pts{background:#5a9e34}
+.wbRow.ok5  .pts{background:#e0a12f}
+.wbRow.bad  {background:rgba(224,90,90,.15)}
+.wbRow.bad .pts{background:#c0392b}
+.wbRow.bad .ans{text-decoration:line-through;opacity:.6}
+.wbCatHead{margin:12px 0 4px;display:flex;align-items:center;gap:8px}
+.wbScoreTable{width:100%;border-collapse:collapse;font-size:14.5px}
+.wbScoreTable th,.wbScoreTable td{padding:7px 6px;text-align:center;border-bottom:1.5px solid rgba(60,90,160,.25);font-weight:800;color:#1c2c50}
+.wbScoreTable th{color:#16305e;font-weight:900}
+.wbScoreTable tr.winner td{background:rgba(90,158,52,.18)}
+.wbPlayersList{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.wbPlayerItem{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.75);
+  box-shadow:inset 0 0 0 1.5px rgba(60,90,160,.25);font-weight:800;color:#1c2c50}
+.wbPlayerItem .dot{width:12px;height:12px;border-radius:50%;background:#5a9e34}
+
 /* ---------- controls / overlay / toast ---------- */
 #controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
@@ -519,6 +590,11 @@ footer .credit{
         <span class="gname">السيجة الكبرى</span>
         <small>الشطرنج الشعبي: رُص، حاصر، وكُل بالساندوتش — 5×5</small>
       </button>
+      <button class="gameCard" data-game="wbjn">
+        <img src="assets/wbjn-logo.png" alt="ولد بنت جماد نبات">
+        <span class="gname">ولد بنت جماد نبات</span>
+        <small>لعبة ذكاء وسرعة… كل حرف له عالم! — من 2 إلى 5 لاعبين</small>
+      </button>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="namesBtn"><svg><use href="#i-pen"/></svg>أسماء اللاعبين</button>
       </div>
@@ -562,6 +638,14 @@ footer .credit{
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
         <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك النط <b>للأمام أو يميناً أو يساراً</b> — دون العودة للخلف — ما دام أمامه كلب خصم وخلفه مربع فارغ، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
+      </ol>
+      <ol class="rulesList" id="rulesWbjn" style="display:none">
+        <li>يتنافس <b>من 2 إلى 5 لاعبين</b> في عدة جولات، وفي كل جولة حرف واحد عشوائي.</li>
+        <li>اكتب في كل فئة إجابة تبدأ بالحرف: <b>بنت، ولد، جماد، نبات، حيوان، بلاد</b>.</li>
+        <li><b>ستوب!</b> أول من يُكمل خاناته يضغط ستوب فتتوقف الجولة على الجميع فوراً (أونلاين)، أو ينتهي وقته/يسلّم الجهاز للتالي (نفس الجهاز، 60 ثانية لكل لاعب).</li>
+        <li><b>المقارنة:</b> تُعرض إجابات الجميع فئةً فئة، ويمكن رفض أي إجابة غير صحيحة بلمسها (يديرها المضيف في الأونلاين).</li>
+        <li><b>النقاط:</b> إجابة صحيحة وفريدة = <b>10</b>، صحيحة لكن مكررة مع لاعب آخر = <b>5</b>، خاطئة أو لا تبدأ بالحرف أو فارغة = <b>0</b>.</li>
+        <li>بعد كل الجولات تُجمع النقاط، وصاحب <b>أعلى مجموع</b> هو الفائز 🏆 — السرعة تنهي الجولة، لكن الدقة والتفرد يصنعان النقاط.</li>
       </ol>
       <ol class="rulesList" id="rulesSeega" style="display:none">
         <li>اللوحة <b>25 خانة</b> (5×5) ولكل لاعب <b>12 قطعة</b>، وتبدأ اللوحة فارغة.</li>
@@ -647,6 +731,94 @@ footer .credit{
     </div>
   </section>
 
+  <!-- ===================== ولد بنت جماد نبات ===================== -->
+  <section id="wbSetupScreen" class="screen">
+    <div class="paper">
+      <h2>إعداد اللعبة — نفس الجهاز</h2>
+      <p style="font-weight:900;margin:6px 0 2px">عدد اللاعبين:</p>
+      <div class="wbChips" id="wbCountChips"></div>
+      <div id="wbNameFields"></div>
+      <p style="font-weight:900;margin:10px 0 2px">عدد الجولات:</p>
+      <div class="wbChips" id="wbRoundChips"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn gold" id="wbLocalStartBtn"><svg><use href="#i-paw"/></svg>ابدأ اللعب</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="wbLobbyScreen" class="screen">
+    <div class="paper" id="wbLobbyMenu">
+      <h2>اللعب أونلاين — حتى 5 لاعبين</h2>
+      <div class="row"><button class="btn gold" id="wbCreateBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button></div>
+      <div class="row" style="margin-top:12px">
+        <input type="text" class="code" id="wbJoinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <button class="btn" id="wbJoinBtn"><svg><use href="#i-door"/></svg>انضمام</button>
+      </div>
+      <p class="hint" style="color:#243a63;opacity:.8">أنشئ غرفة وأرسل الرمز لأصدقائك (من 2 إلى 5 لاعبين)</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+    <div class="paper" id="wbWaitCard" style="display:none;text-align:center">
+      <h2>غرفة الأصدقاء</h2>
+      <div class="row" id="wbCodeRow"><span id="wbRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:rgba(255,255,255,.85);border-radius:14px;padding:6px 18px;color:#16305e">····</span></div>
+      <div class="row" id="wbCopyRow"><button class="btn" id="wbCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="wbPlayersList" id="wbPlayersList"></div>
+      <div id="wbHostOpts">
+        <p style="font-weight:900;margin:8px 0 2px">عدد الجولات:</p>
+        <div class="wbChips" id="wbRoundChipsOnline"></div>
+        <div class="row"><button class="btn gold" id="wbHostStartBtn" disabled><svg><use href="#i-paw"/></svg>ابدأ اللعبة</button></div>
+      </div>
+      <p class="hint" id="wbWaitMsg" style="color:#243a63;opacity:.8">شارك الرمز مع أصدقائك <span class="spin"></span></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="wbCancelBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="wbHandoffScreen" class="screen">
+    <div class="paper" style="text-align:center">
+      <h2 id="wbHandoffTitle"></h2>
+      <p style="font-weight:800;margin-bottom:12px">لا تدع الآخرين يرون إجاباتك! عندك 60 ثانية.</p>
+      <div class="row"><button class="btn gold" id="wbReadyBtn">أنا مستعد — ابدأ ✋</button></div>
+    </div>
+  </section>
+
+  <section id="wbPlayScreen" class="screen">
+    <div class="paper">
+      <div id="wbRoundInfo" style="text-align:center;font-weight:900;margin-bottom:2px"></div>
+      <div class="wbLetter" id="wbLetterBox">م</div>
+      <div class="wbTimer" id="wbTimerWrap"><div id="wbTimerBar" style="width:100%"></div></div>
+      <div id="wbInputs"></div>
+      <button class="stopBtn" id="wbStopBtn">✋ ستوب !</button>
+      <p class="hint" id="wbPlayHint" style="color:#243a63;opacity:.8"></p>
+    </div>
+  </section>
+
+  <section id="wbReviewScreen" class="screen">
+    <div class="paper">
+      <h2 id="wbReviewTitle">المقارنة والتصحيح</h2>
+      <p class="hint" id="wbReviewHint" style="color:#243a63;opacity:.85;margin-bottom:6px"></p>
+      <div id="wbReviewList"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="wbApproveBtn"><svg><use href="#i-save"/></svg>اعتماد النتائج</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="wbScoreScreen" class="screen">
+    <div class="paper">
+      <h2 id="wbScoreTitle">نتيجة الجولة</h2>
+      <div id="wbScoreBody" style="overflow-x:auto"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn gold" id="wbNextBtn"><svg><use href="#i-refresh"/></svg>الجولة التالية</button>
+        <button class="btn ghost" id="wbQuitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
+      </div>
+      <p class="hint" id="wbScoreHint" style="color:#243a63;opacity:.8"></p>
+    </div>
+  </section>
+
   <!-- ===================== game ===================== -->
   <section id="gameScreen" class="screen">
     <div id="hud">
@@ -685,7 +857,7 @@ footer .credit{
 </div>
 <div id="toast" role="status"></div>
 
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="assets/peerjs.min.js"></script>
 <script>
 "use strict";
 /* =====================================================================
@@ -700,7 +872,9 @@ const GAMES = {
   nut  : {name:'نط الكلب',      logo:'assets/logo.png',          peerPrefix:'nut-alkalb-sd-'},
   sija : {name:'صفرجت',         logo:'assets/sufraget-logo.png', peerPrefix:'sufraget-sd-'},
   seega: {name:'السيجة الكبرى', logo:'assets/seega-logo.png',    peerPrefix:'seega-sd-'},
+  wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
 };
+const PEER_OPTS = window.PEER_OPTS || {};   // مفيد للاختبار على خادم Peer محلي
 let currentGame = 'nut';
 
 /* ---------- the six piece designs ---------- */
@@ -1670,7 +1844,7 @@ function createRoom(){
   document.getElementById('waitingCard').style.display='block';
   document.getElementById('roomCode').textContent=roomCode;
   document.getElementById('waitingMsg').innerHTML='في انتظار انضمام الخصم <span class="spin"></span>';
-  peer=new Peer(peerId(roomCode));
+  peer=new Peer(peerId(roomCode), PEER_OPTS);
   peer.on('error',err=>{
     if(err.type==='unavailable-id'){ createRoom(); return; }
     toast('خطأ في الاتصال: '+err.type);
@@ -1688,7 +1862,7 @@ function joinRoom(){
   destroyPeer();
   isHost=false; roomCode=code;
   toast('جارٍ الاتصال بالغرفة...');
-  peer=new Peer();
+  peer=new Peer(PEER_OPTS);
   peer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
   peer.on('open',()=>{
     conn=peer.connect(peerId(code),{reliable:true});
@@ -1744,6 +1918,452 @@ function onData(d){
 }
 
 /* =====================================================================
+   GAME 4: ولد بنت جماد نبات — كلمات وسرعة، من 2 إلى 5 لاعبين
+===================================================================== */
+const WB_CATS = [
+  {key:'girl',   name:'بنت',   color:'#e04f8a'},
+  {key:'boy',    name:'ولد',   color:'#2f6fd0'},
+  {key:'obj',    name:'جماد',  color:'#8447c9'},
+  {key:'plant',  name:'نبات',  color:'#5a9e34'},
+  {key:'animal', name:'حيوان', color:'#e0a12f'},
+  {key:'country',name:'بلاد',  color:'#2a9d8f'},
+];
+const WB_LETTERS = 'ابتثجحخدرزسشصطعفقكلمنهوي'.split('');
+const WB_TURN_SECONDS = 60;
+
+const wb = {
+  online:false, isHost:false,
+  players:[],            // [{name, total}]
+  rounds:3, letters:[], round:-1, letter:'',
+  answers:[], verdicts:[], roundPts:[],
+  phase:'idle', cur:0, myIdx:0,
+  timerId:null, timeLeft:0,
+  count:2, stopBy:-1, pendingAns:0,
+};
+let wpeer=null, wconns=[], wroomCode='', wguestConn=null;
+
+const esc = s => String(s).replace(/[<>&"]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[ch]));
+const wbNorm = s => (s||'').trim().replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');
+function wbStartsOk(ans, letter){
+  const n = wbNorm(ans); if(!n) return false;
+  const L = wbNorm(letter);
+  if(n.startsWith(L)) return true;
+  if(n.startsWith('ال') && n.slice(2).startsWith(L)) return true;   // «المغرب» لحرف الميم
+  return false;
+}
+function wbPickLetters(n){
+  const pool=[...WB_LETTERS];
+  const out=[];
+  while(out.length<n && pool.length) out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  return out;
+}
+const wbEmptyAns = np => Array.from({length:np},()=>Array(WB_CATS.length).fill(''));
+
+/* ---------- setup screen (local) ---------- */
+function wbChips(el, values, current, fmt, onPick){
+  el.innerHTML='';
+  values.forEach(v=>{
+    const b=document.createElement('button');
+    b.className='chip'+(v===current?' on':'');
+    b.textContent=fmt(v);
+    b.onclick=()=>onPick(v);
+    el.appendChild(b);
+  });
+}
+function wbRenderSetup(){
+  wbChips(document.getElementById('wbCountChips'), [2,3,4,5], wb.count, v=>v+' لاعبين', v=>{ wb.count=v; wbRenderSetup(); });
+  wbChips(document.getElementById('wbRoundChips'), [3,5,7], wb.rounds, v=>v+' جولات', v=>{ wb.rounds=v; wbRenderSetup(); });
+  const nf=document.getElementById('wbNameFields');
+  const prev=[...nf.querySelectorAll('input')].map(i=>i.value);
+  nf.innerHTML='';
+  const defaults=[names.p1.trim()||'اللاعب 1', names.p2.trim()||'اللاعب 2', 'اللاعب 3', 'اللاعب 4', 'اللاعب 5'];
+  for(let i=0;i<wb.count;i++){
+    const d=document.createElement('div'); d.className='wbField';
+    const tag=document.createElement('span'); tag.className='wbTag'; tag.style.background=WB_CATS[i%6].color; tag.textContent='لاعب '+(i+1);
+    const inp=document.createElement('input'); inp.maxLength=18; inp.value=prev[i]||defaults[i];
+    d.appendChild(tag); d.appendChild(inp);
+    nf.appendChild(d);
+  }
+}
+function wbLocalStart(){
+  const inps=[...document.getElementById('wbNameFields').querySelectorAll('input')];
+  wb.online=false; wb.isHost=true; wb.myIdx=-1;
+  wb.players=inps.map((i,k)=>({name:i.value.trim()||('لاعب '+(k+1)), total:0}));
+  wb.rounds=wb.rounds||3;
+  wb.letters=wbPickLetters(wb.rounds);
+  wb.round=-1;
+  wbNextRound();
+}
+
+/* ---------- round flow ---------- */
+function wbNextRound(){
+  wb.round++;
+  if(wb.round>=wb.rounds){ wbFinish(); return; }
+  wb.letter=wb.letters[wb.round];
+  wb.answers=wbEmptyAns(wb.players.length);
+  wb.roundPts=[]; wb.stopBy=-1;
+  if(wb.online){
+    if(wb.isHost) wbBroadcast({t:'wround', idx:wb.round, letter:wb.letter});
+    wbShowPlay();
+  } else {
+    wb.cur=0;
+    wbShowHandoff();
+  }
+}
+function wbShowHandoff(){
+  document.getElementById('wbHandoffTitle').textContent='سلّم الجهاز إلى: '+wb.players[wb.cur].name;
+  showScreen('wbHandoffScreen');
+}
+function wbShowPlay(){
+  wb.phase='play';
+  document.getElementById('wbRoundInfo').textContent='الجولة '+(wb.round+1)+' من '+wb.rounds+
+    (wb.online?'':' — '+wb.players[wb.cur].name);
+  document.getElementById('wbLetterBox').textContent=wb.letter;
+  const box=document.getElementById('wbInputs');
+  box.innerHTML='';
+  WB_CATS.forEach((c)=>{
+    const d=document.createElement('div'); d.className='wbField';
+    const tag=document.createElement('span'); tag.className='wbTag'; tag.style.background=c.color; tag.textContent=c.name;
+    const inp=document.createElement('input'); inp.maxLength=24; inp.autocomplete='off';
+    inp.placeholder=c.name+' بحرف «'+wb.letter+'»';
+    d.appendChild(tag); d.appendChild(inp);
+    box.appendChild(d);
+  });
+  document.getElementById('wbTimerWrap').style.display = wb.online ? 'none' : 'block';
+  document.getElementById('wbPlayHint').textContent = wb.online
+    ? 'أول من يُكمل ويضغط ستوب يُوقف الجولة على الجميع!'
+    : 'ستوب يُنهي دورك ويسلّم للتالي';
+  showScreen('wbPlayScreen');
+  const first=box.querySelector('input'); if(first) first.focus();
+  if(!wb.online){
+    wb.timeLeft=WB_TURN_SECONDS;
+    clearInterval(wb.timerId);
+    document.getElementById('wbTimerBar').style.width='100%';
+    wb.timerId=setInterval(()=>{
+      wb.timeLeft--;
+      document.getElementById('wbTimerBar').style.width=Math.max(0,(wb.timeLeft/WB_TURN_SECONDS)*100)+'%';
+      if(wb.timeLeft<=0) wbLocalTurnEnd();
+    },1000);
+  }
+}
+function wbReadInputs(){
+  return [...document.getElementById('wbInputs').querySelectorAll('input')].map(i=>i.value.trim().slice(0,24));
+}
+function wbLocalTurnEnd(){
+  clearInterval(wb.timerId); wb.timerId=null;
+  wb.answers[wb.cur]=wbReadInputs();
+  wb.cur++;
+  if(wb.cur<wb.players.length) wbShowHandoff();
+  else wbStartReview();
+}
+function wbStopPressed(){
+  if(wb.phase!=='play') return;
+  sndMoveFor('G');
+  if(!wb.online){ wbLocalTurnEnd(); return; }
+  if(wb.isHost) wbHostStop(0);
+  else wSend({t:'wstopreq'});
+}
+
+/* ---------- review & scoring ---------- */
+function wbAutoVerdicts(){
+  wb.verdicts=wb.answers.map(row=>row.map(a=>wbStartsOk(a, wb.letter)));
+}
+function wbComputePoints(){
+  const np=wb.players.length;
+  const pts=Array.from({length:np},()=>Array(WB_CATS.length).fill(0));
+  for(let c=0;c<WB_CATS.length;c++){
+    const counts={};
+    for(let p=0;p<np;p++)
+      if(wb.verdicts[p][c]){ const k=wbNorm(wb.answers[p][c]); counts[k]=(counts[k]||0)+1; }
+    for(let p=0;p<np;p++)
+      if(wb.verdicts[p][c]) pts[p][c] = counts[wbNorm(wb.answers[p][c])]>1 ? 5 : 10;
+  }
+  return pts;
+}
+function wbStartReview(){
+  wb.phase='review';
+  wbAutoVerdicts();
+  if(wb.online && wb.isHost) wbBroadcast({t:'wtable', answers:wb.answers});
+  wbRenderReview();
+  showScreen('wbReviewScreen');
+}
+function wbRenderReview(){
+  const canJudge = !wb.online || wb.isHost;
+  document.getElementById('wbReviewTitle').textContent='المقارنة — حرف «'+wb.letter+'»';
+  document.getElementById('wbReviewHint').textContent = canJudge
+    ? 'المس أي إجابة غير صحيحة لرفضها (أو لإعادة قبولها)'
+    : 'المضيف يراجع الإجابات الآن...';
+  document.getElementById('wbApproveBtn').style.display = canJudge ? 'inline-flex' : 'none';
+  const pts=wbComputePoints();
+  const list=document.getElementById('wbReviewList');
+  list.innerHTML='';
+  WB_CATS.forEach((c,ci)=>{
+    const head=document.createElement('div'); head.className='wbCatHead';
+    const tag=document.createElement('span'); tag.className='wbTag'; tag.style.background=c.color; tag.textContent=c.name;
+    head.appendChild(tag);
+    list.appendChild(head);
+    wb.players.forEach((pl,pi)=>{
+      const row=document.createElement('div');
+      const a=wb.answers[pi][ci];
+      const ok=wb.verdicts[pi][ci];
+      row.className='wbRow '+(ok ? (pts[pi][ci]===10?'ok10':'ok5') : 'bad');
+      row.innerHTML=`<span class="who">${esc(pl.name)}</span>
+        <span class="ans${a?'':' empty'}">${a ? esc(a) : '— فارغ —'}</span>
+        <span class="pts">${ok ? pts[pi][ci] : 0}</span>`;
+      if(canJudge && a){
+        row.onclick=()=>{
+          wb.verdicts[pi][ci]=!wb.verdicts[pi][ci];
+          if(wb.online && wb.isHost) wbBroadcast({t:'wverdict', p:pi, c:ci, ok:wb.verdicts[pi][ci]});
+          wbRenderReview();
+        };
+      }
+      list.appendChild(row);
+    });
+  });
+}
+function wbApprove(){
+  if(wb.online && !wb.isHost) return;
+  wb.roundPts=wbComputePoints();
+  wb.players.forEach((pl,pi)=>{ pl.total += wb.roundPts[pi].reduce((s,x)=>s+x,0); });
+  if(wb.online && wb.isHost)
+    wbBroadcast({t:'wscores', pts:wb.roundPts, totals:wb.players.map(p=>p.total)});
+  wbShowScores();
+}
+function wbShowScores(){
+  wb.phase='score';
+  const last = wb.round >= wb.rounds-1;
+  document.getElementById('wbScoreTitle').textContent='نتيجة الجولة '+(wb.round+1)+' — حرف «'+wb.letter+'»';
+  let html='<table class="wbScoreTable"><tr><th>اللاعب</th>';
+  WB_CATS.forEach(c=>{ html+='<th>'+c.name+'</th>'; });
+  html+='<th>الجولة</th><th>المجموع</th></tr>';
+  const best=Math.max(...wb.players.map(p=>p.total));
+  wb.players.forEach((pl,pi)=>{
+    const sum=wb.roundPts[pi].reduce((s,x)=>s+x,0);
+    html+='<tr'+(last && pl.total===best?' class="winner"':'')+'><td>'+esc(pl.name)+'</td>';
+    wb.roundPts[pi].forEach(x=>{ html+='<td>'+x+'</td>'; });
+    html+='<td><b>'+sum+'</b></td><td><b>'+pl.total+'</b></td></tr>';
+  });
+  html+='</table>';
+  document.getElementById('wbScoreBody').innerHTML=html;
+  const canNext = !wb.online || wb.isHost;
+  const nextBtn=document.getElementById('wbNextBtn');
+  nextBtn.style.display = canNext ? 'inline-flex' : 'none';
+  nextBtn.innerHTML = last
+    ? '<svg><use href="#i-trophy"/></svg>النتيجة النهائية'
+    : '<svg><use href="#i-refresh"/></svg>الجولة التالية';
+  document.getElementById('wbScoreHint').textContent = canNext ? '' : 'بانتظار المضيف...';
+  showScreen('wbScoreScreen');
+  sndWin();
+}
+function wbNextPressed(){
+  if(wb.online && !wb.isHost) return;
+  if(wb.round >= wb.rounds-1){
+    if(wb.online && wb.isHost) wbBroadcast({t:'wend'});
+    wbFinish();
+  } else {
+    wbNextRound();
+  }
+}
+function wbFinish(){
+  wb.phase='end';
+  const best=Math.max(...wb.players.map(p=>p.total));
+  const winners=wb.players.filter(p=>p.total===best).map(p=>p.name);
+  const im=document.getElementById('overlayImg'); im.style.display='none';
+  showOverlay('🏆 '+(winners.length>1 ? 'تعادل: '+winners.join(' و ') : winners[0]+' فاز باللعبة!'),
+    'النتيجة النهائية: '+wb.players.map(p=>p.name+' = '+p.total).sort().join(' • '));
+  sndWin();
+}
+function wbRestart(){
+  wb.players.forEach(p=>p.total=0);
+  wb.letters=wbPickLetters(wb.rounds);
+  wb.round=-1;
+  if(wb.online && wb.isHost) wbBroadcast({t:'wrestart', letters:wb.letters});
+  if(!wb.online || wb.isHost) wbNextRound();
+}
+
+/* ---------- online: host is the hub, up to 4 guests ---------- */
+function wbBroadcast(obj){ wconns.forEach(c=>{ try{ if(c.open) c.send(obj); }catch(e){} }); }
+function wSend(obj){ try{ if(wguestConn && wguestConn.open) wguestConn.send(obj); }catch(e){} }
+function wbDestroyPeer(){
+  try{ wconns.forEach(c=>c.close()); }catch(e){}
+  try{ if(wguestConn) wguestConn.close(); }catch(e){}
+  try{ if(wpeer) wpeer.destroy(); }catch(e){}
+  wpeer=null; wconns=[]; wguestConn=null;
+}
+function wbRenderLobby(){
+  const list=document.getElementById('wbPlayersList');
+  list.innerHTML='';
+  wb.players.forEach(p=>{
+    const d=document.createElement('div'); d.className='wbPlayerItem';
+    d.innerHTML='<span class="dot"></span>'+esc(p.name);
+    list.appendChild(d);
+  });
+  document.getElementById('wbHostStartBtn').disabled = !(wb.isHost && wb.players.length>=2);
+  if(wb.isHost)
+    wbChips(document.getElementById('wbRoundChipsOnline'), [3,5,7], wb.rounds, v=>v+' جولات',
+      v=>{ wb.rounds=v; wbRenderLobby(); wbBroadcast({t:'wlobby', names:wb.players.map(p=>p.name), rounds:wb.rounds}); });
+}
+function wbCreateRoom(){
+  if(!peerAvailable()) return;
+  wbDestroyPeer();
+  wb.online=true; wb.isHost=true; wb.myIdx=0;
+  wb.players=[{name:names.me.trim()||'المضيف', total:0}];
+  wroomCode=makeCode();
+  document.getElementById('wbLobbyMenu').style.display='none';
+  document.getElementById('wbWaitCard').style.display='block';
+  document.getElementById('wbRoomCode').textContent=wroomCode;
+  document.getElementById('wbCodeRow').style.display='flex';
+  document.getElementById('wbCopyRow').style.display='flex';
+  document.getElementById('wbHostOpts').style.display='block';
+  document.getElementById('wbWaitMsg').innerHTML='شارك الرمز مع أصدقائك <span class="spin"></span>';
+  wbRenderLobby();
+  wpeer=new Peer('wbjn-sd-'+wroomCode.toLowerCase(), PEER_OPTS);
+  wpeer.on('error',err=>{
+    if(err.type==='unavailable-id'){ wbCreateRoom(); return; }
+    toast('خطأ في الاتصال: '+err.type);
+  });
+  wpeer.on('connection',c=>{
+    if(wb.players.length>=5 || wb.phase!=='idle'){ try{ c.close(); }catch(e){} return; }
+    const nm=String((c.metadata && c.metadata.name)||'').slice(0,18) || ('لاعب '+(wb.players.length+1));
+    wconns.push(c);
+    wb.players.push({name:nm, total:0});
+    const idx=wb.players.length-1;
+    c.on('open',()=>{
+      c.send({t:'wwelcome', idx, names:wb.players.map(p=>p.name), rounds:wb.rounds});
+      wbBroadcast({t:'wlobby', names:wb.players.map(p=>p.name), rounds:wb.rounds});
+      wbRenderLobby();
+      toast('انضم '+nm+' ✔');
+    });
+    c.on('data',d=>wbHostOnData(idx,d));
+    c.on('close',()=>{ toast(wb.players[idx].name+' غادر'); });
+  });
+}
+function wbJoinRoom(){
+  if(!peerAvailable()) return;
+  const code=document.getElementById('wbJoinInput').value.trim().toUpperCase();
+  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  wbDestroyPeer();
+  wb.online=true; wb.isHost=false;
+  toast('جارٍ الاتصال بالغرفة...');
+  wpeer=new Peer(PEER_OPTS);
+  wpeer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
+  wpeer.on('open',()=>{
+    wguestConn=wpeer.connect('wbjn-sd-'+code.toLowerCase(), {reliable:true, metadata:{name:names.me.trim()||'لاعب'}});
+    wguestConn.on('data',wbGuestOnData);
+    wguestConn.on('close',()=>{ if(wb.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
+    const failTimer=setTimeout(()=>{ if(!wguestConn||!wguestConn.open) toast('لم يتم العثور على الغرفة'); },8000);
+    wguestConn.on('open',()=>clearTimeout(failTimer));
+  });
+}
+function wbHostStop(byIdx){
+  if(wb.phase!=='play') return;
+  wb.phase='collect'; wb.stopBy=byIdx;
+  toast('ستوب! أوقف '+wb.players[byIdx].name+' الجولة');
+  wbBroadcast({t:'wstop', by:byIdx});
+  wb.answers[0]=wbReadInputs();          // إجابات المضيف
+  wb.pendingAns=wconns.filter(c=>c.open).length;
+  if(wb.pendingAns===0){ wbStartReview(); return; }
+  setTimeout(()=>{ if(wb.phase==='collect') wbStartReview(); }, 4000);   // مهلة أمان
+}
+function wbHostOnData(idx,d){
+  if(!d||typeof d!=='object') return;
+  switch(d.t){
+    case 'wstopreq': wbHostStop(idx); break;
+    case 'wans':
+      if(wb.phase==='collect'){
+        wb.answers[idx]=(Array.isArray(d.a)?d.a:[]).slice(0,6).map(x=>String(x||'').slice(0,24));
+        wb.pendingAns--;
+        if(wb.pendingAns<=0) wbStartReview();
+      }
+      break;
+  }
+}
+function wbGuestOnData(d){
+  if(!d||typeof d!=='object') return;
+  switch(d.t){
+    case 'wwelcome':
+      wb.myIdx=d.idx; wb.rounds=d.rounds;
+      wb.players=d.names.map(n=>({name:n,total:0}));
+      document.getElementById('wbLobbyMenu').style.display='none';
+      document.getElementById('wbWaitCard').style.display='block';
+      document.getElementById('wbRoomCode').textContent='✔';
+      document.getElementById('wbCodeRow').style.display='none';
+      document.getElementById('wbCopyRow').style.display='none';
+      document.getElementById('wbHostOpts').style.display='none';
+      document.getElementById('wbWaitMsg').innerHTML='بانتظار بدء المضيف <span class="spin"></span>';
+      wbRenderLobby();
+      break;
+    case 'wlobby':
+      wb.rounds=d.rounds;
+      wb.players=d.names.map((n,i)=>({name:n, total:(wb.players[i]&&wb.players[i].total)||0}));
+      wbRenderLobby();
+      break;
+    case 'wround':
+      wb.round=d.idx; wb.letter=d.letter;
+      wb.answers=wbEmptyAns(wb.players.length);
+      wb.phase='play';
+      wbShowPlay();
+      break;
+    case 'wstop':
+      if(wb.phase==='play'){
+        wb.phase='collect';
+        toast('ستوب! أوقف '+ (wb.players[d.by]?wb.players[d.by].name:'لاعب') +' الجولة');
+        wSend({t:'wans', a:wbReadInputs()});
+      }
+      break;
+    case 'wtable':
+      wb.answers=d.answers;
+      wb.phase='review';
+      wbAutoVerdicts();
+      wbRenderReview();
+      showScreen('wbReviewScreen');
+      break;
+    case 'wverdict':
+      if(wb.verdicts[d.p]) { wb.verdicts[d.p][d.c]=!!d.ok; wbRenderReview(); }
+      break;
+    case 'wscores':
+      wb.roundPts=d.pts;
+      wb.players.forEach((p,i)=>p.total=d.totals[i]);
+      wbShowScores();
+      break;
+    case 'wend': wbFinish(); break;
+    case 'wrestart':
+      wb.players.forEach(p=>p.total=0);
+      wb.letters=d.letters; wb.round=-1;
+      hideOverlay();
+      break;
+  }
+}
+function wbHostStartGame(){
+  if(!wb.isHost || wb.players.length<2) return;
+  wb.letters=wbPickLetters(wb.rounds);
+  wb.round=-1;
+  wb.players.forEach(p=>p.total=0);
+  wbBroadcast({t:'wlobby', names:wb.players.map(p=>p.name), rounds:wb.rounds});
+  wbNextRound();
+}
+
+/* wbjn UI wiring */
+document.getElementById('wbLocalStartBtn').onclick=wbLocalStart;
+document.getElementById('wbReadyBtn').onclick=()=>wbShowPlay();
+document.getElementById('wbStopBtn').onclick=wbStopPressed;
+document.getElementById('wbApproveBtn').onclick=wbApprove;
+document.getElementById('wbNextBtn').onclick=wbNextPressed;
+document.getElementById('wbQuitBtn').onclick=()=>{ clearInterval(wb.timerId); wbDestroyPeer(); goHub(); };
+document.getElementById('wbCreateBtn').onclick=wbCreateRoom;
+document.getElementById('wbJoinBtn').onclick=wbJoinRoom;
+document.getElementById('wbJoinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') wbJoinRoom(); });
+document.getElementById('wbCancelBtn').onclick=()=>{
+  wbDestroyPeer();
+  document.getElementById('wbLobbyMenu').style.display='block';
+  document.getElementById('wbWaitCard').style.display='none';
+};
+document.getElementById('wbCopyBtn').onclick=()=>{
+  navigator.clipboard?.writeText(wroomCode).then(()=>toast('تم نسخ الرمز ✔')).catch(()=>{});
+};
+document.getElementById('wbHostStartBtn').onclick=wbHostStartGame;
+
+/* =====================================================================
    SCREENS / NAVIGATION
 ===================================================================== */
 function showScreen(id){
@@ -1751,7 +2371,9 @@ function showScreen(id){
   document.getElementById(id).classList.add('active');
 }
 function goHub(){
-  destroyPeer(); hideOverlay(); mode='local'; myColor=null; oppName='';
+  destroyPeer(); wbDestroyPeer(); clearInterval(wb.timerId);
+  wb.phase='idle'; wb.online=false;
+  hideOverlay(); mode='local'; myColor=null; oppName='';
   document.getElementById('logoTop').src='assets/logo.png';
   showScreen('hubScreen');
 }
@@ -1775,13 +2397,24 @@ function toast(msg){
 }
 
 document.querySelectorAll('.gameCard').forEach(b => b.onclick = () => openGameMenu(b.dataset.game));
-document.getElementById('localBtn').onclick =()=> openShapeScreen('local1');
-document.getElementById('onlineBtn').onclick=()=> openShapeScreen('online');
+document.getElementById('localBtn').onclick =()=>{
+  if(currentGame==='wbjn'){ wbRenderSetup(); showScreen('wbSetupScreen'); return; }
+  openShapeScreen('local1');
+};
+document.getElementById('onlineBtn').onclick=()=>{
+  if(currentGame==='wbjn'){
+    document.getElementById('wbLobbyMenu').style.display='block';
+    document.getElementById('wbWaitCard').style.display='none';
+    showScreen('wbLobbyScreen'); return;
+  }
+  openShapeScreen('online');
+};
 document.getElementById('rulesBtn').onclick =()=> {
   document.getElementById('rulesTitle').textContent='قوانين '+GAMES[currentGame].name;
   document.getElementById('rulesNut').style.display = currentGame==='nut'?'block':'none';
   document.getElementById('rulesSija').style.display = currentGame==='sija'?'block':'none';
   document.getElementById('rulesSeega').style.display = currentGame==='seega'?'block':'none';
+  document.getElementById('rulesWbjn').style.display = currentGame==='wbjn'?'block':'none';
   showScreen('rulesScreen');
 };
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{
@@ -1831,6 +2464,10 @@ document.getElementById('resignBtn').onclick=()=>{
     b.innerHTML='<svg><use href="#i-exit"/></svg>قلع اللعبة'; },3000);
 };
 function restartRound(){
+  if(currentGame==='wbjn'){
+    if(wb.online && !wb.isHost){ toast('المضيف فقط يبدأ لعبة جديدة'); return; }
+    hideOverlay(); wbRestart(); return;
+  }
   if(mode==='online') send({t:'restart'});
   newRoundForGame();
 }
