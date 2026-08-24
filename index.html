@@ -988,7 +988,12 @@ footer .credit{
 </div>
 <div id="toast" role="status"></div>
 
-<script src="assets/peerjs.min.js"></script>
+<script type="module">
+  /* شبكة الاتصال: Trystero عبر مرحّلات Nostr العامة الموزعة —
+     لا تعتمد على خادم واحد يمكن أن يتعطل أو يُحجب */
+  import { joinRoom } from './assets/net-nostr.mjs';
+  window.trysteroJoinRoom = joinRoom;
+</script>
 <script>
 "use strict";
 /* =====================================================================
@@ -1006,7 +1011,29 @@ const GAMES = {
   wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
   kz   : {name:'كوز جوز لوز موز',   logo:'assets/kz-logo.png',   peerPrefix:'kz-sd-'},
 };
-const PEER_OPTS = window.PEER_OPTS || {};   // مفيد للاختبار على خادم Peer محلي
+/* ---------- unified P2P adapter (Trystero over Nostr; NET_IMPL override for tests) ---------- */
+const NET_APP_ID = 'abu-janan-sudani-games-v1';
+function peerAvailable(){
+  if(window.NET_IMPL || window.trysteroJoinRoom) return true;
+  toast('خدمة الاتصال لم تُحمّل بعد — تأكد من الإنترنت وأعد المحاولة');
+  return false;
+}
+function netJoin(roomId){
+  if(window.NET_IMPL) return window.NET_IMPL(roomId);
+  const room = window.trysteroJoinRoom({appId:NET_APP_ID}, roomId);
+  const action = room.makeAction('m');
+  const dataFns=[], joinFns=[], leaveFns=[];
+  action.onMessage = (d,ctx)=>dataFns.forEach(f=>f(d, ctx && ctx.peerId));
+  room.onPeerJoin  = id=>joinFns.forEach(f=>f(id));
+  room.onPeerLeave = id=>leaveFns.forEach(f=>f(id));
+  return {
+    send:(obj,id)=>{ try{ action.send(obj, id ? {target:id} : undefined); }catch(e){} },
+    onData:f=>dataFns.push(f),
+    onJoin:f=>joinFns.push(f),
+    onLeave:f=>leaveFns.push(f),
+    leave:()=>{ try{ room.leave(); }catch(e){} },
+  };
+}
 let currentGame = 'nut';
 
 /* ---------- the six piece designs ---------- */
@@ -1951,22 +1978,19 @@ function startOnlineGame(color){
 /* =====================================================================
    ONLINE (PeerJS)
 ===================================================================== */
-let peer=null, conn=null, isHost=false, roomCode='', myShape='star';
+let net=null, oppId=null, isHost=false, roomCode='', myShape='star';
 const CODE_CHARS='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-const peerId=code=>GAMES[currentGame].peerPrefix+code.toLowerCase();
 function makeCode(){ let s=''; for(let i=0;i<4;i++) s+=CODE_CHARS[Math.floor(Math.random()*CODE_CHARS.length)]; return s; }
 
-function peerAvailable(){
-  if(typeof Peer==='undefined'){
-    toast('تعذّر تحميل خدمة الاتصال — تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة');
-    return false;
-  }
-  return true;
-}
 function destroyPeer(){
-  try{ if(conn) conn.close(); }catch(e){}
-  try{ if(peer) peer.destroy(); }catch(e){}
-  peer=null; conn=null;
+  try{ if(net) net.leave(); }catch(e){}
+  net=null; oppId=null;
+}
+function oppDisconnected(){
+  if(mode==='online' && !gameOver){
+    document.getElementById('overlayImg').style.display='none';
+    showOverlay('انقطع الاتصال','غادر الخصم اللعبة أو انقطع اتصاله بالإنترنت.');
+  }
 }
 function createRoom(){
   if(!peerAvailable()) return;
@@ -1976,16 +2000,14 @@ function createRoom(){
   document.getElementById('waitingCard').style.display='block';
   document.getElementById('roomCode').textContent=roomCode;
   document.getElementById('waitingMsg').innerHTML='في انتظار انضمام الخصم <span class="spin"></span>';
-  peer=new Peer(peerId(roomCode), PEER_OPTS);
-  peer.on('error',err=>{
-    if(err.type==='unavailable-id'){ createRoom(); return; }
-    toast('خطأ في الاتصال: '+err.type);
+  net=netJoin(GAMES[currentGame].peerPrefix+roomCode.toLowerCase());
+  net.onJoin(id=>{
+    if(oppId){ net.send({t:'full'}, id); return; }
+    oppId=id;
+    net.send({t:'hello', shape:myShape, name:names.me.trim(), game:currentGame}, id);
   });
-  peer.on('connection',c=>{
-    if(conn){ c.close(); return; }
-    conn=c; wireConn();
-    conn.on('open',()=>send({t:'hello', shape:myShape, name:names.me.trim(), game:currentGame}));
-  });
+  net.onData((d,id)=>{ if(id===oppId) onData(d); });
+  net.onLeave(id=>{ if(id===oppId){ oppId=null; oppDisconnected(); } });
 }
 function joinRoom(){
   if(!peerAvailable()) return;
@@ -1994,25 +2016,17 @@ function joinRoom(){
   destroyPeer();
   isHost=false; roomCode=code;
   toast('جارٍ الاتصال بالغرفة...');
-  peer=new Peer(PEER_OPTS);
-  peer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
-  peer.on('open',()=>{
-    conn=peer.connect(peerId(code),{reliable:true});
-    wireConn();
-    const failTimer=setTimeout(()=>{ if(!conn||!conn.open) toast('لم يتم العثور على الغرفة — تأكد من الرمز واللعبة'); },8000);
-    conn.on('open',()=>clearTimeout(failTimer));
+  net=netJoin(GAMES[currentGame].peerPrefix+code.toLowerCase());
+  const failTimer=setTimeout(()=>{ if(!oppId) toast('لم يتم العثور على الغرفة — تأكد من الرمز واللعبة'); },12000);
+  net.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='hello' && !oppId){ clearTimeout(failTimer); oppId=id; onData(d); return; }
+    if(d.t==='full'){ clearTimeout(failTimer); toast('الغرفة ممتلئة بالفعل'); destroyPeer(); return; }
+    if(id===oppId) onData(d);
   });
+  net.onLeave(id=>{ if(id===oppId){ oppId=null; oppDisconnected(); } });
 }
-function wireConn(){
-  conn.on('data',onData);
-  conn.on('close',()=>{
-    if(mode==='online' && !gameOver){
-      document.getElementById('overlayImg').style.display='none';
-      showOverlay('انقطع الاتصال','غادر الخصم اللعبة أو انقطع اتصاله بالإنترنت.');
-    }
-  });
-}
-function send(obj){ if(conn&&conn.open) conn.send(obj); }
+function send(obj){ if(net && oppId) net.send(obj, oppId); }
 function sendMove(fr,fc,tr,tc){ if(mode==='online') send({t:'mv',m:[fr,fc,tr,tc]}); }
 function onData(d){
   if(!d||typeof d!=='object') return;
@@ -2072,7 +2086,7 @@ const wb = {
   timerId:null, timeLeft:0,
   count:2, stopBy:-1, pendingAns:0,
 };
-let wpeer=null, wconns=[], wroomCode='', wguestConn=null;
+let wnet=null, wHostId=null, wPeerIds=[], wroomCode='';
 
 const esc = s => String(s).replace(/[<>&"]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[ch]));
 const wbNorm = s => (s||'').trim().replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');
@@ -2314,13 +2328,11 @@ function wbRestart(){
 }
 
 /* ---------- online: host is the hub, up to 4 guests ---------- */
-function wbBroadcast(obj){ wconns.forEach(c=>{ try{ if(c.open) c.send(obj); }catch(e){} }); }
-function wSend(obj){ try{ if(wguestConn && wguestConn.open) wguestConn.send(obj); }catch(e){} }
+function wbBroadcast(obj){ if(wnet) wPeerIds.forEach(id=>wnet.send(obj,id)); }
+function wSend(obj){ if(wnet && wHostId) wnet.send(obj, wHostId); }
 function wbDestroyPeer(){
-  try{ wconns.forEach(c=>c.close()); }catch(e){}
-  try{ if(wguestConn) wguestConn.close(); }catch(e){}
-  try{ if(wpeer) wpeer.destroy(); }catch(e){}
-  wpeer=null; wconns=[]; wguestConn=null;
+  try{ if(wnet) wnet.leave(); }catch(e){}
+  wnet=null; wHostId=null; wPeerIds=[];
 }
 function wbRenderLobby(){
   const list=document.getElementById('wbPlayersList');
@@ -2349,25 +2361,27 @@ function wbCreateRoom(){
   document.getElementById('wbHostOpts').style.display='block';
   document.getElementById('wbWaitMsg').innerHTML='شارك الرمز مع أصدقائك <span class="spin"></span>';
   wbRenderLobby();
-  wpeer=new Peer('wbjn-sd-'+wroomCode.toLowerCase(), PEER_OPTS);
-  wpeer.on('error',err=>{
-    if(err.type==='unavailable-id'){ wbCreateRoom(); return; }
-    toast('خطأ في الاتصال: '+err.type);
-  });
-  wpeer.on('connection',c=>{
-    if(wb.players.length>=5 || wb.phase!=='idle'){ try{ c.close(); }catch(e){} return; }
-    const nm=String((c.metadata && c.metadata.name)||'').slice(0,18) || ('لاعب '+(wb.players.length+1));
-    wconns.push(c);
-    wb.players.push({name:nm, total:0});
-    const idx=wb.players.length-1;
-    c.on('open',()=>{
-      c.send({t:'wwelcome', idx, names:wb.players.map(p=>p.name), rounds:wb.rounds});
+  wnet=netJoin('wbjn-sd-'+wroomCode.toLowerCase());
+  wnet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='wjoin'){
+      if(wPeerIds.includes(id)) return;
+      if(wb.players.length>=5 || wb.phase!=='idle'){ wnet.send({t:'wfull'}, id); return; }
+      const nm=String(d.name||'').slice(0,18) || ('لاعب '+(wb.players.length+1));
+      wPeerIds.push(id);
+      wb.players.push({name:nm, total:0});
+      wnet.send({t:'wwelcome', idx:wb.players.length-1, names:wb.players.map(p=>p.name), rounds:wb.rounds}, id);
       wbBroadcast({t:'wlobby', names:wb.players.map(p=>p.name), rounds:wb.rounds});
       wbRenderLobby();
       toast('انضم '+nm+' ✔');
-    });
-    c.on('data',d=>wbHostOnData(idx,d));
-    c.on('close',()=>{ toast(wb.players[idx].name+' غادر'); });
+      return;
+    }
+    const idx=wPeerIds.indexOf(id)+1;
+    if(idx>0) wbHostOnData(idx,d);
+  });
+  wnet.onLeave(id=>{
+    const i=wPeerIds.indexOf(id);
+    if(i>=0 && wb.players[i+1]) toast(wb.players[i+1].name+' غادر');
   });
 }
 function wbJoinRoom(){
@@ -2377,15 +2391,20 @@ function wbJoinRoom(){
   wbDestroyPeer();
   wb.online=true; wb.isHost=false;
   toast('جارٍ الاتصال بالغرفة...');
-  wpeer=new Peer(PEER_OPTS);
-  wpeer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
-  wpeer.on('open',()=>{
-    wguestConn=wpeer.connect('wbjn-sd-'+code.toLowerCase(), {reliable:true, metadata:{name:names.me.trim()||'لاعب'}});
-    wguestConn.on('data',wbGuestOnData);
-    wguestConn.on('close',()=>{ if(wb.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
-    const failTimer=setTimeout(()=>{ if(!wguestConn||!wguestConn.open) toast('لم يتم العثور على الغرفة'); },8000);
-    wguestConn.on('open',()=>clearTimeout(failTimer));
+  wnet=netJoin('wbjn-sd-'+code.toLowerCase());
+  let welcomed=false;
+  const failTimer=setTimeout(()=>{ if(!welcomed) toast('لم يتم العثور على الغرفة'); },12000);
+  wnet.onJoin(id=>{
+    if(!wHostId){ wHostId=id; wnet.send({t:'wjoin', name:names.me.trim()||'لاعب'}, id); }
   });
+  wnet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='wfull'){ clearTimeout(failTimer); toast('الغرفة ممتلئة أو بدأت اللعبة'); wbDestroyPeer(); return; }
+    if(id!==wHostId) return;
+    if(d.t==='wwelcome'){ welcomed=true; clearTimeout(failTimer); }
+    wbGuestOnData(d);
+  });
+  wnet.onLeave(id=>{ if(id===wHostId && wb.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
 }
 function wbHostStop(byIdx){
   if(wb.phase!=='play') return;
@@ -2393,7 +2412,7 @@ function wbHostStop(byIdx){
   toast('ستوب! أوقف '+wb.players[byIdx].name+' الجولة');
   wbBroadcast({t:'wstop', by:byIdx});
   wb.answers[0]=wbReadInputs();          // إجابات المضيف
-  wb.pendingAns=wconns.filter(c=>c.open).length;
+  wb.pendingAns=wPeerIds.length;
   if(wb.pendingAns===0){ wbStartReview(); return; }
   setTimeout(()=>{ if(wb.phase==='collect') wbStartReview(); }, 4000);   // مهلة أمان
 }
@@ -2510,18 +2529,15 @@ const kz = {
   hand:[], counts:[], cur:0,
   hostHands:[], respT0:0, resp:[], respWait:0, winner:-1, winWord:'',
 };
-let kpeer=null, kconns=[], kroom='';   // host side
-let kguest=null;                        // guest side
+let knet=null, kHostId=null, kPeerIds=[], kroom='';
 
 function kzDestroyPeer(){
-  try{ kconns.forEach(c=>c.close()); }catch(e){}
-  try{ if(kguest) kguest.close(); }catch(e){}
-  try{ if(kpeer) kpeer.destroy(); }catch(e){}
-  kpeer=null; kconns=[]; kguest=null;
+  try{ if(knet) knet.leave(); }catch(e){}
+  knet=null; kHostId=null; kPeerIds=[];
 }
-function kzBroadcast(obj){ kconns.forEach(c=>{ try{ if(c.open) c.send(obj); }catch(e){} }); }
-function kzSendTo(i,obj){ const c=kconns[i-1]; try{ if(c && c.open) c.send(obj); }catch(e){} }
-function kzSend(obj){ try{ if(kguest && kguest.open) kguest.send(obj); }catch(e){} }
+function kzBroadcast(obj){ if(knet) kPeerIds.forEach(id=>knet.send(obj,id)); }
+function kzSendTo(i,obj){ if(knet && kPeerIds[i-1]) knet.send(obj, kPeerIds[i-1]); }
+function kzSend(obj){ if(knet && kHostId) knet.send(obj, kHostId); }
 
 /* ---------- lobby ---------- */
 function kzRenderLobby(){
@@ -2555,25 +2571,27 @@ function kzCreateRoom(){
   document.getElementById('kzCopyRow').style.display='flex';
   document.getElementById('kzHostOpts').style.display='block';
   kzRenderLobby();
-  kpeer=new Peer('kz-sd-'+kroom.toLowerCase(), PEER_OPTS);
-  kpeer.on('error',err=>{
-    if(err.type==='unavailable-id'){ kzCreateRoom(); return; }
-    toast('خطأ في الاتصال: '+err.type);
-  });
-  kpeer.on('connection',c=>{
-    if(kz.players.length>=4 || kz.phase!=='idle'){ try{ c.close(); }catch(e){} return; }
-    const nm=String((c.metadata&&c.metadata.name)||'').slice(0,18) || ('لاعب '+(kz.players.length+1));
-    kconns.push(c);
-    kz.players.push({name:nm}); kz.totals.push(0);
-    const idx=kz.players.length-1;
-    c.on('open',()=>{
-      c.send({t:'kwelcome', idx, names:kz.players.map(p=>p.name), rounds:kz.rounds});
+  knet=netJoin('kz-sd-'+kroom.toLowerCase());
+  knet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='kjoin'){
+      if(kPeerIds.includes(id)) return;
+      if(kz.players.length>=4 || kz.phase!=='idle'){ knet.send({t:'kfull'}, id); return; }
+      const nm=String(d.name||'').slice(0,18) || ('لاعب '+(kz.players.length+1));
+      kPeerIds.push(id);
+      kz.players.push({name:nm}); kz.totals.push(0);
+      knet.send({t:'kwelcome', idx:kz.players.length-1, names:kz.players.map(p=>p.name), rounds:kz.rounds}, id);
       kzBroadcast({t:'klobby', names:kz.players.map(p=>p.name), rounds:kz.rounds});
       kzRenderLobby();
       toast('انضم '+nm+' ✔');
-    });
-    c.on('data',d=>kzHostOnData(idx,d));
-    c.on('close',()=>kzHostPlayerLeft(idx));
+      return;
+    }
+    const idx=kPeerIds.indexOf(id)+1;
+    if(idx>0) kzHostOnData(idx,d);
+  });
+  knet.onLeave(id=>{
+    const i=kPeerIds.indexOf(id);
+    if(i>=0){ kPeerIds.splice(i,1); kzHostPlayerLeft(i+1); }
   });
 }
 function kzJoinRoom(){
@@ -2583,21 +2601,25 @@ function kzJoinRoom(){
   kzDestroyPeer();
   kz.isHost=false; kz.phase='idle';
   toast('جارٍ الاتصال بالغرفة...');
-  kpeer=new Peer(PEER_OPTS);
-  kpeer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
-  kpeer.on('open',()=>{
-    kguest=kpeer.connect('kz-sd-'+code.toLowerCase(), {reliable:true, metadata:{name:names.me.trim()||'لاعب'}});
-    kguest.on('data',kzGuestOnData);
-    kguest.on('close',()=>{ if(kz.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
-    const failTimer=setTimeout(()=>{ if(!kguest||!kguest.open) toast('لم يتم العثور على الغرفة'); },8000);
-    kguest.on('open',()=>clearTimeout(failTimer));
+  knet=netJoin('kz-sd-'+code.toLowerCase());
+  let kwelcomed=false;
+  const failTimer=setTimeout(()=>{ if(!kwelcomed) toast('لم يتم العثور على الغرفة'); },12000);
+  knet.onJoin(id=>{
+    if(!kHostId){ kHostId=id; knet.send({t:'kjoin', name:names.me.trim()||'لاعب'}, id); }
   });
+  knet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='kfull'){ clearTimeout(failTimer); toast('الغرفة ممتلئة أو بدأت المباراة'); kzDestroyPeer(); return; }
+    if(id!==kHostId) return;
+    if(d.t==='kwelcome'){ kwelcomed=true; clearTimeout(failTimer); }
+    kzGuestOnData(d);
+  });
+  knet.onLeave(id=>{ if(id===kHostId && kz.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
 }
 function kzHostPlayerLeft(idx){
   if(kz.phase==='end' || !kz.players[idx]) return;
   toast(kz.players[idx].name+' غادر الغرفة');
   kz.players.splice(idx,1); kz.totals.splice(idx,1);
-  kconns = kconns.filter(c=>c.open!==false);
   if(kz.phase!=='idle'){
     kz.phase='idle';
     kzBroadcast({t:'kabort', names:kz.players.map(p=>p.name), rounds:kz.rounds});
