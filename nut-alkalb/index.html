@@ -109,9 +109,12 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
   text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28), 0 3px 8px rgba(0,0,0,.5);
 }
 
-/* ---------- hub game cards ---------- */
+/* ---------- hub game cards (2-column grid) ---------- */
+.gamesGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gamesGrid .gameCard{margin:0}
+.gameCard.wide{grid-column:1 / -1}
 .gameCard{
-  display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;padding:14px 14px 16px;margin:9px 0;border:none;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;padding:12px 10px 13px;margin:9px 0;border:none;border-radius:20px;
   color:var(--cream);
   background:
     radial-gradient(120% 80% at 50% 0%, rgba(190,120,55,.4) 0%, rgba(190,120,55,0) 60%),
@@ -121,9 +124,11 @@ header{position:relative;display:flex;align-items:center;justify-content:center;
 }
 .gameCard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 0 0 1.5px rgba(242,181,68,.55)}
 .gameCard:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press)}
-.gameCard img{height:120px;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(20,8,0,.5))}
-.gameCard .gname{font-size:21px;font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28)}
-.gameCard small{font-size:13px;font-weight:600;opacity:.85}
+.gameCard img{height:92px;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(20,8,0,.5))}
+.gameCard.wide img{height:110px}
+.gameCard .gname{font-size:16.5px;font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.9), 0 1px 1px rgba(255,225,160,.28)}
+.gameCard.wide .gname{font-size:19px}
+.gameCard small{font-size:11.5px;font-weight:600;opacity:.85;line-height:1.5}
 
 /* ---------- buttons ---------- */
 .bigbtn{
@@ -492,6 +497,56 @@ input.code{
   box-shadow:inset 0 0 0 1.5px rgba(60,90,160,.25);font-weight:800;color:#1c2c50}
 .wbPlayerItem .dot{width:12px;height:12px;border-radius:50%;background:#5a9e34}
 
+/* ---------- كوز جوز لوز موز: cards ---------- */
+.kOpps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.kOpp{
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 10px;min-width:74px;border-radius:14px;
+  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(58,32,14,.85));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.45), 0 3px 8px rgba(0,0,0,.3);
+  color:var(--cream);font-weight:800;font-size:12.5px;opacity:.6;transition:opacity .25s, box-shadow .25s;
+}
+.kOpp.turn{opacity:1;box-shadow:inset 0 0 0 2.5px var(--brass), 0 0 14px rgba(242,181,68,.5)}
+.kOpp .kAv{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#3a2408;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 70%, #c8944c);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
+.kOpp .kCnt{font-size:11px;color:var(--brass-hi)}
+#kzStatus{
+  min-height:36px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14.5px;font-weight:900;color:var(--cream);
+  padding:5px 16px;border-radius:999px;margin:6px 0 10px;
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.45);
+}
+#kzHand{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 12px;min-height:104px}
+.kcard{
+  width:66px;height:96px;border:none;border-radius:12px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:linear-gradient(170deg,#fdf3dc 0%,#f2e2c0 70%,#e8d3a8 100%);
+  box-shadow:0 4px 8px rgba(20,8,0,.45), inset 0 0 0 2px rgba(140,90,30,.5), inset 0 2px 0 rgba(255,255,255,.7);
+  font-family:inherit;transition:transform .18s var(--ease-spring), box-shadow .18s;
+}
+.kcard .ke{font-size:30px;line-height:1}
+.kcard .kw{font-size:14px;font-weight:900}
+.kcard.sel{transform:translateY(-12px) scale(1.06);box-shadow:0 10px 16px rgba(20,8,0,.5), inset 0 0 0 3px var(--brass), 0 0 14px rgba(242,181,68,.7)}
+.kcard.dropIn{animation:kDrop .35s var(--ease-spring)}
+@keyframes kDrop{from{transform:translateY(-30px) scale(.7);opacity:0}}
+#kzWinBtn{width:100%;justify-content:center;font-size:20px;padding:14px}
+#kzResp{
+  position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+  background:rgba(22,10,0,.78);backdrop-filter:blur(4px);
+}
+#kzResp.show{display:flex}
+#kzRespMsg{color:var(--cream);font-size:19px;font-weight:900;text-align:center;padding:0 20px}
+#kzRespBtn{
+  width:min(78vw,340px);height:min(78vw,340px);border:none;border-radius:50%;font-family:inherit;font-size:34px;font-weight:900;color:#fff;
+  background:radial-gradient(circle at 38% 30%, #ff8a75, #e8574b 45%, #b0301f 100%);
+  box-shadow:0 10px 0 rgba(90,15,5,.6), 0 24px 50px rgba(0,0,0,.5), inset 0 4px 0 rgba(255,255,255,.35);
+  animation:pulse 1s var(--ease-out) infinite;
+}
+#kzRespBtn:active{transform:translateY(8px);box-shadow:0 2px 0 rgba(90,15,5,.6)}
+.kMedals{display:flex;flex-direction:column;gap:7px;margin:8px 0}
+.kMedal{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:14px;font-weight:900;color:var(--cream);
+  background:linear-gradient(170deg, rgba(130,78,35,.55), rgba(58,32,14,.85));box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.45)}
+.kMedal .rank{font-size:22px}
+.kMedal .pts{margin-inline-start:auto;color:var(--brass-hi)}
+
 /* ---------- controls / overlay / toast ---------- */
 #controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
@@ -575,26 +630,33 @@ footer .credit{
   <section id="hubScreen" class="screen active">
     <div class="panel">
       <h2>اختر لعبتك</h2>
-      <button class="gameCard" data-game="nut">
-        <img src="assets/logo.png" alt="نط الكلب">
-        <span class="gname">نط الكلب</span>
-        <small>نُط فوق كلاب خصمك وأفرغ اللوحة منها — 5×5</small>
-      </button>
-      <button class="gameCard" data-game="sija">
-        <img src="assets/sufraget-logo.png" alt="صفرجت">
-        <span class="gname">صفرجت</span>
-        <small>أنزل قطعك الثلاث وكوّن خطاً مستقيماً — 3×3</small>
-      </button>
-      <button class="gameCard" data-game="seega">
-        <img src="assets/seega-logo.png" alt="السيجة الكبرى">
-        <span class="gname">السيجة الكبرى</span>
-        <small>الشطرنج الشعبي: رُص، حاصر، وكُل بالساندوتش — 5×5</small>
-      </button>
-      <button class="gameCard" data-game="wbjn">
-        <img src="assets/wbjn-logo.png" alt="ولد بنت جماد نبات">
-        <span class="gname">ولد بنت جماد نبات</span>
-        <small>لعبة ذكاء وسرعة… كل حرف له عالم! — من 2 إلى 5 لاعبين</small>
-      </button>
+      <div class="gamesGrid">
+        <button class="gameCard" data-game="nut">
+          <img src="assets/logo.png" alt="نط الكلب">
+          <span class="gname">نط الكلب</span>
+          <small>نُط فوق كلاب خصمك — 5×5</small>
+        </button>
+        <button class="gameCard" data-game="sija">
+          <img src="assets/sufraget-logo.png" alt="صفرجت">
+          <span class="gname">صفرجت</span>
+          <small>كوّن خطاً مستقيماً — 3×3</small>
+        </button>
+        <button class="gameCard" data-game="seega">
+          <img src="assets/seega-logo.png" alt="السيجة الكبرى">
+          <span class="gname">السيجة الكبرى</span>
+          <small>حاصر وكُل بالساندوتش — 5×5</small>
+        </button>
+        <button class="gameCard" data-game="wbjn">
+          <img src="assets/wbjn-logo.png" alt="ولد بنت جماد نبات">
+          <span class="gname">ولد بنت جماد نبات</span>
+          <small>كل حرف له عالم! — 2 إلى 5</small>
+        </button>
+        <button class="gameCard wide" data-game="kz">
+          <img src="assets/kz-logo.png" alt="كوز جوز لوز موز">
+          <span class="gname">كوز جوز لوز موز</span>
+          <small>مرّر البطاقات واجمع 4 متطابقة… أو ستوب! — أونلاين 3-4 لاعبين</small>
+        </button>
+      </div>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="namesBtn"><svg><use href="#i-pen"/></svg>أسماء اللاعبين</button>
       </div>
@@ -638,6 +700,14 @@ footer .credit{
         <li><b>النط:</b> اقفز فوق كلب الخصم الملاصق لكلبك إذا كان المربع الذي خلفه فارغاً — الكلب المنطوط <b>يُخرج نهائياً</b> من اللوحة.</li>
         <li><b>الضربات المتعددة:</b> بعد النطّة الأولى يواصل كلبك النط <b>للأمام أو يميناً أو يساراً</b> — دون العودة للخلف — ما دام أمامه كلب خصم وخلفه مربع فارغ، ويمكنك التوقف متى شئت بزر «إنهاء الدور».</li>
         <li>يفوز من ينط <b>جميع كلاب خصمه</b> ويفرغ اللوحة منها. ومن لا يجد أي حركة قانونية في دوره يخسر الجولة.</li>
+      </ol>
+      <ol class="rulesList" id="rulesKz" style="display:none">
+        <li>لعبة <b>أونلاين فقط</b> لـ<b>3 أو 4 لاعبين</b> في غرفة واحدة برمز مشترك.</li>
+        <li>البطاقات: <b>كوز، جوز، لوز، موز</b> — 4 بطاقات من كل كلمة (مع 3 لاعبين تُستخدم 3 كلمات فقط)، تُخلط وتُوزّع <b>4 بطاقات سرية</b> لكل لاعب.</li>
+        <li><b>التمرير الدائري:</b> يختار اللاعب الأول بطاقة «بايظة» ويمررها للتالي، فيصبح لدى المستلم 5 بطاقات يختار أياً منها (حتى المستلمة نفسها) ويمررها — وهكذا.</li>
+        <li>ممنوع رؤية بطاقات الآخرين أو التنسيق معهم — كلٌّ يعتمد على بطاقاته وقراره.</li>
+        <li><b>🏆 أنا فزت!</b> — من جمع 4 بطاقات متطابقة يضغط الزر فتتجمد الجولة، ويظهر <b>زر الاستجابة</b> فوراً للبقية: الأسرع ضغطاً يأخذ المركز الثاني ثم الثالث ثم الرابع (يُقاس زمن الضغط على جهاز كل لاعب بدقة).</li>
+        <li><b>النقاط:</b> الأول 4، الثاني 3، الثالث 2، الرابع 1 (مع 3 لاعبين: 3/2/1) — وتتراكم عبر الجولات، وصاحب أعلى مجموع بعد كل الجولات هو الفائز.</li>
       </ol>
       <ol class="rulesList" id="rulesWbjn" style="display:none">
         <li>يتنافس <b>من 2 إلى 5 لاعبين</b> في عدة جولات، وفي كل جولة حرف واحد عشوائي.</li>
@@ -819,6 +889,63 @@ footer .credit{
     </div>
   </section>
 
+  <!-- ===================== كوز جوز لوز موز ===================== -->
+  <section id="kzLobbyScreen" class="screen">
+    <div class="panel" id="kzLobbyMenu">
+      <h2>كوز جوز لوز موز — أونلاين</h2>
+      <div class="row"><button class="btn gold" id="kzCreateBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button></div>
+      <div class="row" style="margin-top:12px">
+        <input type="text" class="code" id="kzJoinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <button class="btn" id="kzJoinBtn"><svg><use href="#i-door"/></svg>انضمام</button>
+      </div>
+      <p class="hint">تحتاج 3 أو 4 لاعبين لبدء المباراة</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+    <div class="panel" id="kzWaitCard" style="display:none;text-align:center">
+      <h2>غرفة اللعب <span id="kzCount"></span></h2>
+      <div class="row" id="kzCodeRow"><span id="kzRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;border-radius:14px;padding:6px 18px;color:#33200c">····</span></div>
+      <div class="row" id="kzCopyRow"><button class="btn" id="kzCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="kOpps" id="kzLobbyList" style="justify-content:center"></div>
+      <div id="kzHostOpts">
+        <p style="font-weight:900;margin:6px 0 2px;color:var(--brass-hi)">عدد الجولات:</p>
+        <div class="wbChips" id="kzRoundChips"></div>
+        <div class="row"><button class="btn gold" id="kzStartBtn" disabled><svg><use href="#i-paw"/></svg>ابدأ المباراة</button></div>
+      </div>
+      <p class="hint" id="kzWaitMsg">بانتظار اللاعبين <span class="spin"></span></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="kzCancelBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="kzPlayScreen" class="screen">
+    <div class="panel">
+      <div id="kzTop" style="text-align:center;font-weight:900;color:var(--brass-hi);margin-bottom:4px"></div>
+      <div class="kOpps" id="kzOpps"></div>
+      <div id="kzStatus"></div>
+      <div id="kzHand"></div>
+      <button class="btn gold" id="kzWinBtn">🏆 أنا فزت!</button>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="kzQuitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="kzScoreScreen" class="screen">
+    <div class="panel">
+      <h2 id="kzScoreTitle">نتيجة الجولة</h2>
+      <div class="kMedals" id="kzMedals"></div>
+      <div id="kzTotals" style="overflow-x:auto"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="kzNextBtn"><svg><use href="#i-refresh"/></svg>الجولة التالية</button>
+        <button class="btn ghost" id="kzQuit2Btn"><svg><use href="#i-exit"/></svg>خروج</button>
+      </div>
+      <p class="hint" id="kzScoreHint"></p>
+    </div>
+  </section>
+
   <!-- ===================== game ===================== -->
   <section id="gameScreen" class="screen">
     <div id="hud">
@@ -855,6 +982,10 @@ footer .credit{
     </div>
   </div>
 </div>
+<div id="kzResp">
+  <div id="kzRespMsg"></div>
+  <button id="kzRespBtn">✋ اضغط!</button>
+</div>
 <div id="toast" role="status"></div>
 
 <script src="assets/peerjs.min.js"></script>
@@ -873,6 +1004,7 @@ const GAMES = {
   sija : {name:'صفرجت',         logo:'assets/sufraget-logo.png', peerPrefix:'sufraget-sd-'},
   seega: {name:'السيجة الكبرى', logo:'assets/seega-logo.png',    peerPrefix:'seega-sd-'},
   wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
+  kz   : {name:'كوز جوز لوز موز',   logo:'assets/kz-logo.png',   peerPrefix:'kz-sd-'},
 };
 const PEER_OPTS = window.PEER_OPTS || {};   // مفيد للاختبار على خادم Peer محلي
 let currentGame = 'nut';
@@ -2364,6 +2496,401 @@ document.getElementById('wbCopyBtn').onclick=()=>{
 document.getElementById('wbHostStartBtn').onclick=wbHostStartGame;
 
 /* =====================================================================
+   GAME 5: كوز جوز لوز موز — تمرير بطاقات، أونلاين فقط، 3-4 لاعبين
+===================================================================== */
+const KZ_WORDS = [
+  {w:'كوز', e:'🌽', c:'#b3760f'},
+  {w:'جوز', e:'🥥', c:'#8a5427'},
+  {w:'لوز', e:'🌰', c:'#5a7a2e'},
+  {w:'موز', e:'🍌', c:'#c9971a'},
+];
+const kz = {
+  phase:'idle', isHost:false, myIdx:0,
+  players:[], totals:[], rounds:3, round:0,
+  hand:[], counts:[], cur:0,
+  hostHands:[], respT0:0, resp:[], respWait:0, winner:-1, winWord:'',
+};
+let kpeer=null, kconns=[], kroom='';   // host side
+let kguest=null;                        // guest side
+
+function kzDestroyPeer(){
+  try{ kconns.forEach(c=>c.close()); }catch(e){}
+  try{ if(kguest) kguest.close(); }catch(e){}
+  try{ if(kpeer) kpeer.destroy(); }catch(e){}
+  kpeer=null; kconns=[]; kguest=null;
+}
+function kzBroadcast(obj){ kconns.forEach(c=>{ try{ if(c.open) c.send(obj); }catch(e){} }); }
+function kzSendTo(i,obj){ const c=kconns[i-1]; try{ if(c && c.open) c.send(obj); }catch(e){} }
+function kzSend(obj){ try{ if(kguest && kguest.open) kguest.send(obj); }catch(e){} }
+
+/* ---------- lobby ---------- */
+function kzRenderLobby(){
+  document.getElementById('kzCount').textContent = wbFmtCount(kz.players.length);
+  const list=document.getElementById('kzLobbyList');
+  list.innerHTML='';
+  kz.players.forEach(p=>{
+    const d=document.createElement('div'); d.className='kOpp'; d.style.opacity=1;
+    d.innerHTML='<span class="kAv">'+esc((p.name||'؟')[0])+'</span>'+esc(p.name);
+    list.appendChild(d);
+  });
+  document.getElementById('kzStartBtn').disabled = !(kz.isHost && (kz.players.length===3 || kz.players.length===4));
+  document.getElementById('kzWaitMsg').innerHTML = kz.players.length<3
+    ? 'بانتظار اللاعبين — تحتاجون 3 على الأقل <span class="spin"></span>'
+    : (kz.isHost ? 'جاهزون! يمكنك البدء الآن' : 'بانتظار بدء المضيف <span class="spin"></span>');
+  if(kz.isHost)
+    wbChips(document.getElementById('kzRoundChips'), [3,5,10], kz.rounds, v=>v+' جولات',
+      v=>{ kz.rounds=v; kzRenderLobby(); kzBroadcast({t:'klobby', names:kz.players.map(p=>p.name), rounds:kz.rounds}); });
+}
+function wbFmtCount(n){ return '('+n+' / 4)'; }
+function kzCreateRoom(){
+  if(!peerAvailable()) return;
+  kzDestroyPeer();
+  kz.phase='idle'; kz.isHost=true; kz.myIdx=0;
+  kz.players=[{name:names.me.trim()||'المضيف'}]; kz.totals=[0];
+  kroom=makeCode();
+  document.getElementById('kzLobbyMenu').style.display='none';
+  document.getElementById('kzWaitCard').style.display='block';
+  document.getElementById('kzRoomCode').textContent=kroom;
+  document.getElementById('kzCodeRow').style.display='flex';
+  document.getElementById('kzCopyRow').style.display='flex';
+  document.getElementById('kzHostOpts').style.display='block';
+  kzRenderLobby();
+  kpeer=new Peer('kz-sd-'+kroom.toLowerCase(), PEER_OPTS);
+  kpeer.on('error',err=>{
+    if(err.type==='unavailable-id'){ kzCreateRoom(); return; }
+    toast('خطأ في الاتصال: '+err.type);
+  });
+  kpeer.on('connection',c=>{
+    if(kz.players.length>=4 || kz.phase!=='idle'){ try{ c.close(); }catch(e){} return; }
+    const nm=String((c.metadata&&c.metadata.name)||'').slice(0,18) || ('لاعب '+(kz.players.length+1));
+    kconns.push(c);
+    kz.players.push({name:nm}); kz.totals.push(0);
+    const idx=kz.players.length-1;
+    c.on('open',()=>{
+      c.send({t:'kwelcome', idx, names:kz.players.map(p=>p.name), rounds:kz.rounds});
+      kzBroadcast({t:'klobby', names:kz.players.map(p=>p.name), rounds:kz.rounds});
+      kzRenderLobby();
+      toast('انضم '+nm+' ✔');
+    });
+    c.on('data',d=>kzHostOnData(idx,d));
+    c.on('close',()=>kzHostPlayerLeft(idx));
+  });
+}
+function kzJoinRoom(){
+  if(!peerAvailable()) return;
+  const code=document.getElementById('kzJoinInput').value.trim().toUpperCase();
+  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  kzDestroyPeer();
+  kz.isHost=false; kz.phase='idle';
+  toast('جارٍ الاتصال بالغرفة...');
+  kpeer=new Peer(PEER_OPTS);
+  kpeer.on('error',err=>toast('خطأ في الاتصال: '+err.type));
+  kpeer.on('open',()=>{
+    kguest=kpeer.connect('kz-sd-'+code.toLowerCase(), {reliable:true, metadata:{name:names.me.trim()||'لاعب'}});
+    kguest.on('data',kzGuestOnData);
+    kguest.on('close',()=>{ if(kz.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
+    const failTimer=setTimeout(()=>{ if(!kguest||!kguest.open) toast('لم يتم العثور على الغرفة'); },8000);
+    kguest.on('open',()=>clearTimeout(failTimer));
+  });
+}
+function kzHostPlayerLeft(idx){
+  if(kz.phase==='end' || !kz.players[idx]) return;
+  toast(kz.players[idx].name+' غادر الغرفة');
+  kz.players.splice(idx,1); kz.totals.splice(idx,1);
+  kconns = kconns.filter(c=>c.open!==false);
+  if(kz.phase!=='idle'){
+    kz.phase='idle';
+    kzBroadcast({t:'kabort', names:kz.players.map(p=>p.name), rounds:kz.rounds});
+    document.getElementById('kzLobbyMenu').style.display='none';
+    document.getElementById('kzWaitCard').style.display='block';
+    showScreen('kzLobbyScreen');
+    document.getElementById('kzResp').classList.remove('show');
+    toast('أُلغيت الجولة — عودة إلى الغرفة');
+  } else {
+    kzBroadcast({t:'klobby', names:kz.players.map(p=>p.name), rounds:kz.rounds});
+  }
+  kzRenderLobby();
+}
+
+/* ---------- round setup (host) ---------- */
+function kzShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function kzStartMatch(){
+  if(!kz.isHost) return;
+  const n=kz.players.length;
+  if(n!==3 && n!==4) return;
+  kz.totals=kz.players.map(()=>0);
+  kz.round=0;
+  kzStartRound();
+}
+function kzStartRound(){
+  const n=kz.players.length;
+  const words=KZ_WORDS.slice(0,n);
+  const deck=kzShuffle(words.flatMap(w=>[w.w,w.w,w.w,w.w]));
+  kz.hostHands=Array.from({length:n},(_,i)=>deck.slice(i*4,i*4+4));
+  kz.cur=0; kz.phase='play'; kz.winner=-1; kz.resp=[];
+  kz.hand=kz.hostHands[0];
+  kz.counts=kz.hostHands.map(h=>h.length);
+  for(let i=1;i<n;i++) kzSendTo(i,{t:'kdeal', hand:kz.hostHands[i], round:kz.round, rounds:kz.rounds, cur:0, names:kz.players.map(p=>p.name)});
+  kzRenderPlay();
+  showScreen('kzPlayScreen');
+}
+
+/* ---------- play rendering ---------- */
+let kzSelIdx=-1;
+function kzRenderPlay(){
+  document.getElementById('kzTop').textContent='الجولة '+(kz.round+1)+' من '+kz.rounds;
+  const opps=document.getElementById('kzOpps');
+  opps.innerHTML='';
+  kz.players.forEach((p,i)=>{
+    const d=document.createElement('div');
+    d.className='kOpp'+(i===kz.cur?' turn':'');
+    d.innerHTML='<span class="kAv">'+esc((p.name||'؟')[0])+'</span>'+esc(i===kz.myIdx?'أنت':p.name)
+      +'<span class="kCnt">🂠 '+(kz.counts[i]||4)+'</span>';
+    opps.appendChild(d);
+  });
+  const myTurn = kz.cur===kz.myIdx && kz.phase==='play';
+  const nextName = kz.players[(kz.myIdx+1)%kz.players.length].name;
+  document.getElementById('kzStatus').textContent = kz.phase!=='play' ? '...' :
+    (myTurn ? 'دورك! اختر بطاقة لتمريرها إلى '+nextName
+            : 'البطاقات تدور... الدور عند '+kz.players[kz.cur].name);
+  const handEl=document.getElementById('kzHand');
+  handEl.innerHTML='';
+  kz.hand.forEach((w,i)=>{
+    const meta=KZ_WORDS.find(k=>k.w===w)||KZ_WORDS[0];
+    const b=document.createElement('button');
+    b.className='kcard'+(kzSelIdx===i?' sel':'');
+    b.innerHTML='<span class="ke">'+meta.e+'</span><span class="kw" style="color:'+meta.c+'">'+meta.w+'</span>';
+    b.onclick=()=>{
+      if(!myTurn){ return; }
+      if(kzSelIdx===i){ kzPassCard(i); }
+      else { kzSelIdx=i; kzRenderPlay(); }
+    };
+    handEl.appendChild(b);
+  });
+}
+function kzPassCard(i){
+  if(kz.phase!=='play' || kz.cur!==kz.myIdx) return;
+  const w=kz.hand[i];
+  kzSelIdx=-1;
+  sndMoveFor('G');
+  if(kz.isHost) kzHostApplyPass(0, w);
+  else kzSend({t:'kpass', w});
+}
+
+/* ---------- host: authoritative pass & claims ---------- */
+function kzHostApplyPass(p, w){
+  if(kz.phase!=='play' || kz.cur!==p) return;
+  const hand=kz.hostHands[p];
+  const at=hand.indexOf(w);
+  if(at<0) return;
+  hand.splice(at,1);
+  const nxt=(p+1)%kz.players.length;
+  kz.hostHands[nxt].push(w);
+  kz.cur=nxt;
+  kz.counts=kz.hostHands.map(h=>h.length);
+  kz.hand=kz.hostHands[0];
+  for(let i=1;i<kz.players.length;i++)
+    kzSendTo(i,{t:'khand', hand:kz.hostHands[i], cur:kz.cur, counts:kz.counts});
+  kzRenderPlay();
+  if(kz.cur===0 && !REDUCED){
+    const cards=document.getElementById('kzHand').children;
+    if(cards.length) cards[cards.length-1].classList.add('dropIn');
+  }
+}
+function kzHasFour(hand){
+  const m={};
+  for(const w of hand){ m[w]=(m[w]||0)+1; if(m[w]>=4) return w; }
+  return null;
+}
+function kzHostClaim(p){
+  if(kz.phase!=='play') return;
+  const word=kzHasFour(kz.hostHands[p]);
+  if(!word){
+    if(p===0) toast('ليس لديك 4 بطاقات متطابقة بعد!');
+    else kzSendTo(p,{t:'kbad'});
+    return;
+  }
+  kz.phase='resp'; kz.winner=p; kz.winWord=word;
+  kz.resp=[{p, d:-1}];
+  kz.respWait=kz.players.length-1;
+  kzBroadcast({t:'kstop', winner:p, word});
+  kzShowResp(p, word);
+  setTimeout(()=>{ if(kz.phase==='resp') kzHostFinishResp(); }, 7000);
+}
+function kzHostResp(p, d){
+  if(kz.phase!=='resp' || kz.resp.some(r=>r.p===p)) return;
+  kz.resp.push({p, d});
+  kz.respWait--;
+  if(kz.respWait<=0) kzHostFinishResp();
+}
+function kzHostFinishResp(){
+  if(kz.phase!=='resp') return;
+  kz.phase='score';
+  const n=kz.players.length;
+  for(let p=0;p<n;p++) if(!kz.resp.some(r=>r.p===p)) kz.resp.push({p, d:Infinity});
+  const others=kz.resp.filter(r=>r.p!==kz.winner).sort((a,b)=>a.d-b.d);
+  const order=[kz.winner, ...others.map(r=>r.p)];
+  const ptsByRank = n===4 ? [4,3,2,1] : [3,2,1];
+  const pts=Array(n).fill(0);
+  order.forEach((p,rank)=>{ pts[p]=ptsByRank[rank]||0; });
+  kz.totals=kz.totals.map((t,i)=>t+pts[i]);
+  kzBroadcast({t:'kscores', order, pts, totals:kz.totals, word:kz.winWord, round:kz.round});
+  kzShowScores(order, pts);
+}
+
+/* ---------- shared UI: response + scores ---------- */
+function kzShowResp(winner, word){
+  document.getElementById('kzResp').classList.add('show');
+  const meta=KZ_WORDS.find(k=>k.w===word)||{e:'🏆'};
+  if(kz.myIdx===winner){
+    document.getElementById('kzRespMsg').textContent='🏆 أعلنت الفوز! '+meta.e+' '+word+' ×4 — بانتظار استجابة البقية...';
+    document.getElementById('kzRespBtn').style.display='none';
+  } else {
+    document.getElementById('kzRespMsg').textContent=esc(kz.players[winner].name)+' جمع 4 بطاقات! اضغط بأسرع ما يمكن:';
+    document.getElementById('kzRespBtn').style.display='block';
+    kz.respT0=performance.now();
+  }
+  sndDeath();
+}
+document.getElementById('kzRespBtn').onclick=()=>{
+  const d=Math.round(performance.now()-kz.respT0);
+  document.getElementById('kzRespBtn').style.display='none';
+  document.getElementById('kzRespMsg').textContent='سُجّلت استجابتك ('+(d/1000).toFixed(2)+' ثانية) — بانتظار البقية...';
+  sndMoveFor('G');
+  if(kz.isHost) kzHostResp(0, d);
+  else kzSend({t:'kresp', d});
+};
+function kzShowScores(order, pts){
+  document.getElementById('kzResp').classList.remove('show');
+  const last = kz.round >= kz.rounds-1;
+  document.getElementById('kzScoreTitle').textContent='نتيجة الجولة '+(kz.round+1)+' — '+(kz.winWord?kz.winWord+' ×4':'');
+  const medals=['🥇','🥈','🥉','4️⃣'];
+  const box=document.getElementById('kzMedals');
+  box.innerHTML='';
+  order.forEach((p,rank)=>{
+    const d=document.createElement('div'); d.className='kMedal';
+    d.innerHTML='<span class="rank">'+medals[rank]+'</span>'+esc(kz.players[p].name)
+      +(rank===0?' — أعلن الفوز':'')+'<span class="pts">+'+pts[p]+'</span>';
+    box.appendChild(d);
+  });
+  let html='<table class="wbScoreTable" style="color:#f7e6c9"><tr><th style="color:#ffd98a">اللاعب</th><th style="color:#ffd98a">المجموع</th></tr>';
+  kz.players.forEach((p,i)=>{ html+='<tr><td style="color:#f7e6c9">'+esc(p.name)+'</td><td style="color:#f7e6c9"><b>'+kz.totals[i]+'</b></td></tr>'; });
+  html+='</table>';
+  document.getElementById('kzTotals').innerHTML=html;
+  const canNext = kz.isHost;
+  const nb=document.getElementById('kzNextBtn');
+  nb.style.display=canNext?'inline-flex':'none';
+  nb.innerHTML = last ? '<svg><use href="#i-trophy"/></svg>النتيجة النهائية' : '<svg><use href="#i-refresh"/></svg>الجولة التالية';
+  document.getElementById('kzScoreHint').textContent = canNext ? '' : 'بانتظار المضيف...';
+  showScreen('kzScoreScreen');
+  sndWin();
+}
+function kzNextPressed(){
+  if(!kz.isHost) return;
+  if(kz.round>=kz.rounds-1){
+    kzBroadcast({t:'kend', totals:kz.totals});
+    kzFinish();
+  } else {
+    kz.round++;
+    kzStartRound();
+  }
+}
+function kzFinish(){
+  kz.phase='end';
+  const best=Math.max(...kz.totals);
+  const winners=kz.players.filter((p,i)=>kz.totals[i]===best).map(p=>p.name);
+  const im=document.getElementById('overlayImg'); im.style.display='none';
+  showOverlay('🏆 '+(winners.length>1 ? 'تعادل: '+winners.join(' و ')+' — العبوا جولة فاصلة!' : winners[0]+' فاز بالمباراة!'),
+    'النتيجة النهائية: '+kz.players.map((p,i)=>p.name+' = '+kz.totals[i]).join(' • '));
+  sndWin();
+}
+
+/* ---------- message handlers ---------- */
+function kzHostOnData(idx,d){
+  if(!d||typeof d!=='object') return;
+  switch(d.t){
+    case 'kpass':  kzHostApplyPass(idx, String(d.w||'')); break;
+    case 'kclaim': kzHostClaim(idx); break;
+    case 'kresp':  kzHostResp(idx, Math.max(0, Number(d.d)||0)); break;
+  }
+}
+function kzGuestOnData(d){
+  if(!d||typeof d!=='object') return;
+  switch(d.t){
+    case 'kwelcome':
+      kz.myIdx=d.idx; kz.rounds=d.rounds;
+      kz.players=d.names.map(n=>({name:n})); kz.totals=kz.players.map(()=>0);
+      document.getElementById('kzLobbyMenu').style.display='none';
+      document.getElementById('kzWaitCard').style.display='block';
+      document.getElementById('kzCodeRow').style.display='none';
+      document.getElementById('kzCopyRow').style.display='none';
+      document.getElementById('kzHostOpts').style.display='none';
+      kzRenderLobby();
+      break;
+    case 'klobby':
+      kz.rounds=d.rounds;
+      kz.players=d.names.map(n=>({name:n}));
+      kzRenderLobby();
+      break;
+    case 'kabort':
+      kz.phase='idle';
+      kz.players=d.names.map(n=>({name:n})); kz.rounds=d.rounds;
+      document.getElementById('kzResp').classList.remove('show');
+      document.getElementById('kzLobbyMenu').style.display='none';
+      document.getElementById('kzWaitCard').style.display='block';
+      showScreen('kzLobbyScreen');
+      kzRenderLobby();
+      break;
+    case 'kdeal':
+      kz.phase='play'; kz.round=d.round; kz.rounds=d.rounds;
+      kz.players=d.names.map(n=>({name:n}));
+      kz.hand=d.hand; kz.cur=d.cur; kzSelIdx=-1;
+      kz.counts=kz.players.map(()=>4);
+      kzRenderPlay();
+      showScreen('kzPlayScreen');
+      break;
+    case 'khand':
+      kz.hand=d.hand; kz.cur=d.cur; kz.counts=d.counts; kzSelIdx=-1;
+      kzRenderPlay();
+      break;
+    case 'kstop':
+      kz.phase='resp'; kz.winner=d.winner; kz.winWord=d.word;
+      kzShowResp(d.winner, d.word);
+      break;
+    case 'kbad': toast('ليس لديك 4 بطاقات متطابقة بعد!'); break;
+    case 'kscores':
+      kz.phase='score'; kz.totals=d.totals; kz.round=d.round; kz.winWord=d.word;
+      kzShowScores(d.order, d.pts);
+      break;
+    case 'kend':
+      kz.totals=d.totals;
+      kzFinish();
+      break;
+  }
+}
+
+/* kz UI wiring */
+document.getElementById('kzCreateBtn').onclick=kzCreateRoom;
+document.getElementById('kzJoinBtn').onclick=kzJoinRoom;
+document.getElementById('kzJoinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') kzJoinRoom(); });
+document.getElementById('kzCopyBtn').onclick=()=>{
+  navigator.clipboard?.writeText(kroom).then(()=>toast('تم نسخ الرمز ✔')).catch(()=>{});
+};
+document.getElementById('kzCancelBtn').onclick=()=>{
+  kzDestroyPeer();
+  document.getElementById('kzLobbyMenu').style.display='block';
+  document.getElementById('kzWaitCard').style.display='none';
+};
+document.getElementById('kzStartBtn').onclick=kzStartMatch;
+document.getElementById('kzWinBtn').onclick=()=>{
+  if(kz.phase!=='play') return;
+  if(kz.isHost) kzHostClaim(0);
+  else kzSend({t:'kclaim'});
+};
+document.getElementById('kzNextBtn').onclick=kzNextPressed;
+document.getElementById('kzQuitBtn').onclick=document.getElementById('kzQuit2Btn').onclick=()=>{ kzDestroyPeer(); goHub(); };
+
+/* =====================================================================
    SCREENS / NAVIGATION
 ===================================================================== */
 function showScreen(id){
@@ -2371,8 +2898,9 @@ function showScreen(id){
   document.getElementById(id).classList.add('active');
 }
 function goHub(){
-  destroyPeer(); wbDestroyPeer(); clearInterval(wb.timerId);
-  wb.phase='idle'; wb.online=false;
+  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); clearInterval(wb.timerId);
+  wb.phase='idle'; wb.online=false; kz.phase='end';
+  document.getElementById('kzResp').classList.remove('show');
   hideOverlay(); mode='local'; myColor=null; oppName='';
   document.getElementById('logoTop').src='assets/logo.png';
   showScreen('hubScreen');
@@ -2381,6 +2909,7 @@ function openGameMenu(game){
   currentGame = game;
   document.getElementById('gameMenuTitle').textContent = GAMES[game].name;
   document.getElementById('logoTop').src = GAMES[game].logo;
+  document.getElementById('localBtn').style.display = game==='kz' ? 'none' : 'flex';   // كوز جوز: أونلاين فقط
   showScreen('gameMenuScreen');
 }
 function showOverlay(title,msg){
@@ -2407,6 +2936,11 @@ document.getElementById('onlineBtn').onclick=()=>{
     document.getElementById('wbWaitCard').style.display='none';
     showScreen('wbLobbyScreen'); return;
   }
+  if(currentGame==='kz'){
+    document.getElementById('kzLobbyMenu').style.display='block';
+    document.getElementById('kzWaitCard').style.display='none';
+    showScreen('kzLobbyScreen'); return;
+  }
   openShapeScreen('online');
 };
 document.getElementById('rulesBtn').onclick =()=> {
@@ -2415,6 +2949,7 @@ document.getElementById('rulesBtn').onclick =()=> {
   document.getElementById('rulesSija').style.display = currentGame==='sija'?'block':'none';
   document.getElementById('rulesSeega').style.display = currentGame==='seega'?'block':'none';
   document.getElementById('rulesWbjn').style.display = currentGame==='wbjn'?'block':'none';
+  document.getElementById('rulesKz').style.display = currentGame==='kz'?'block':'none';
   showScreen('rulesScreen');
 };
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{
@@ -2464,6 +2999,10 @@ document.getElementById('resignBtn').onclick=()=>{
     b.innerHTML='<svg><use href="#i-exit"/></svg>قلع اللعبة'; },3000);
 };
 function restartRound(){
+  if(currentGame==='kz'){
+    if(!kz.isHost){ toast('المضيف فقط يبدأ مباراة جديدة'); return; }
+    hideOverlay(); kzStartMatch(); return;
+  }
   if(currentGame==='wbjn'){
     if(wb.online && !wb.isHost){ toast('المضيف فقط يبدأ لعبة جديدة'); return; }
     hideOverlay(); wbRestart(); return;
