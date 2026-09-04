@@ -1,0 +1,20 @@
+{
+  "name": "ولعت — لعبة السودان الجماعية",
+  "short_name": "ولعت",
+  "description": "لعبة لوحية سودانية جماعية: حكم ولاعبان على الأقل. أسألني، أركز، يا سلكت يا فككت، وكروت الهبابة — والفائز يأخذ لقب الولّاع.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["games", "entertainment", "education"],
+  "background_color": "#3A170D",
+  "theme_color": "#4A2014",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
