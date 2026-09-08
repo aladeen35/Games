@@ -1,0 +1,17 @@
+{
+  "name": "sudani-games",
+  "version": "1.0.0",
+  "description": "ألعاب سودانية تراثية — إنتاج أبو جنان",
+  "private": true,
+  "scripts": {
+    "build:www": "bash scripts/build-www.sh",
+    "sync": "npm run build:www && npx cap sync android",
+    "apk": "npm run sync && cd android && ./gradlew assembleRelease",
+    "aab": "npm run sync && cd android && ./gradlew bundleRelease"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/cli": "^8.5.1",
+    "@capacitor/core": "^8.5.1"
+  }
+}

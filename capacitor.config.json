@@ -1,0 +1,11 @@
+{
+  "appId": "sd.abujanan.games",
+  "appName": "ألعاب سودانية",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}
