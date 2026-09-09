@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 )
 public class BluetoothLinkPlugin extends Plugin {
 
-    private static final UUID SERVICE_UUID = UUID.fromString("6a1b0c7e-3f2d-4a58-9e11-abujanan0001");
+    private static final UUID SERVICE_UUID = UUID.fromString("6a1b0c7e-3f2d-4a58-9e11-ab0c1a2e3d40");
     private static final String SERVICE_NAME = "SudaniGames";
 
     private BluetoothAdapter adapter;
@@ -70,8 +70,12 @@ public class BluetoothLinkPlugin extends Plugin {
 
     @Override
     public void load() {
-        BluetoothManager bm = (BluetoothManager) getContext().getSystemService(Context.BLUETOOTH_SERVICE);
-        adapter = bm != null ? bm.getAdapter() : BluetoothAdapter.getDefaultAdapter();
+        try {
+            BluetoothManager bm = (BluetoothManager) getContext().getSystemService(Context.BLUETOOTH_SERVICE);
+            adapter = bm != null ? bm.getAdapter() : BluetoothAdapter.getDefaultAdapter();
+        } catch (Throwable t) {
+            adapter = null;
+        }
     }
 
     /* ---------------- الأذونات ---------------- */
@@ -224,7 +228,11 @@ public class BluetoothLinkPlugin extends Plugin {
                 }
             };
             IntentFilter f = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            getContext().registerReceiver(discoveryReceiver, f);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getContext().registerReceiver(discoveryReceiver, f, Context.RECEIVER_EXPORTED);
+            } else {
+                getContext().registerReceiver(discoveryReceiver, f);
+            }
         }
         try {
             if (adapter.isDiscovering()) adapter.cancelDiscovery();

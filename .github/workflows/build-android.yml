@@ -26,6 +26,7 @@ jobs:
       - name: تثبيت الاعتماديات وتجهيز الملفات
         run: |
           npm install
+          bash scripts/check-java.sh
           npm run build:www
           npx cap sync android
 

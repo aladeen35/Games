@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "build:www": "bash scripts/build-www.sh",
-    "sync": "npm run build:www && npx cap sync android",
+    "sync": "npm run check && npm run build:www && npx cap sync android",
     "apk": "npm run sync && cd android && ./gradlew assembleRelease",
-    "aab": "npm run sync && cd android && ./gradlew bundleRelease"
+    "aab": "npm run sync && cd android && ./gradlew bundleRelease",
+    "check": "bash scripts/check-java.sh"
   },
   "devDependencies": {
     "@capacitor/android": "^8.5.1",
