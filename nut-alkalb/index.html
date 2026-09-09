@@ -547,6 +547,42 @@ input.code{
 .kMedal .rank{font-size:22px}
 .kMedal .pts{margin-inline-start:auto;color:var(--brass-hi)}
 
+/* ---------- الأذونات وغرفة البلوتوث ونافذة التأكيد ---------- */
+.permItem{display:flex;gap:12px;align-items:flex-start;padding:12px;margin:8px 0;border-radius:16px;
+  background:linear-gradient(170deg, rgba(130,78,35,.5), rgba(58,32,14,.8));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.45)}
+.permIc{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 70%, #c8944c);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
+.permIc svg{width:22px;height:22px}
+.permT{font-weight:900;font-size:16px;color:var(--brass-hi)}
+.permD{font-size:13px;opacity:.9;line-height:1.7;margin-top:2px}
+
+.btRoom{margin:6px 0 12px;padding:14px 12px;border-radius:18px;
+  background:linear-gradient(170deg, rgba(45,120,90,.35), rgba(20,60,45,.6));
+  box-shadow:inset 0 0 0 2px rgba(90,200,150,.45), 0 4px 12px rgba(0,0,0,.3)}
+.btOpenTag{text-align:center;font-weight:900;font-size:15px;color:#8ff0c0;margin-bottom:8px}
+.btLabel{text-align:center;font-size:13px;opacity:.9;margin-bottom:4px}
+.btName{
+  text-align:center;font-size:22px;font-weight:900;color:#0e2b20;padding:8px 14px;border-radius:14px;margin-bottom:10px;
+  background:linear-gradient(180deg,#c9f7e0,#8fd9bb);
+  box-shadow:inset 0 2px 5px rgba(255,255,255,.7), 0 2px 5px rgba(0,0,0,.3);word-break:break-word;
+}
+.btSteps{padding-inline-start:20px;font-size:13.5px;line-height:2;text-align:right;margin-bottom:8px}
+.btSteps li::marker{color:#8ff0c0;font-weight:900}
+.btSteps b{color:var(--brass-hi)}
+
+#confirmOverlay{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;
+  background:rgba(22,10,0,.7);backdrop-filter:blur(4px)}
+#confirmOverlay.show{display:flex}
+#confirmCard{
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-mid) 50%,var(--leather-lo));
+  color:var(--cream);border-radius:24px;padding:26px 24px;max-width:380px;width:calc(100% - 48px);text-align:center;
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.35);
+  animation:cardIn .35s var(--ease-spring);
+}
+#confirmCard h2{font-size:22px;font-weight:900;color:var(--brass-hi);margin-bottom:8px}
+#confirmCard p{font-size:15px;margin-bottom:18px;line-height:1.8}
+
 /* ---------- controls / overlay / toast ---------- */
 #controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
 #endChainBtn{display:none}
@@ -613,6 +649,9 @@ footer .credit{
   <symbol id="i-exit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
   <symbol id="i-bulb" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></symbol>
   <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2" fill="currentColor"/><circle cx="18" cy="8" r="2" fill="currentColor"/><circle cx="4" cy="8" r="2" fill="currentColor"/><circle cx="20" cy="16" r="2" fill="currentColor"/><path fill="currentColor" d="M9 10a5 5 0 0 0-5 5c0 2.2 1.8 4 4 4 .8 0 1.5-.2 2.2-.5a4 4 0 0 1 3.6 0c.7.3 1.4.5 2.2.5a4 4 0 0 0 1.9-7.5A5 5 0 0 0 9 10z" transform="translate(2 -1) scale(.85)"/></symbol>
+  <symbol id="i-bt" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m7 7 10 10-5 5V2l5 5L7 17"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11 18h2"/></symbol>
   <symbol id="i-pen" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></symbol>
   <symbol id="i-save" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></symbol>
 </svg>
@@ -680,12 +719,72 @@ footer .credit{
         <span class="ic"><svg><use href="#i-globe"/></svg></span>
         <span>اللعب أونلاين<small>أنشئ غرفة وشارك الرمز مع خصمك</small></span>
       </button>
+      <button class="bigbtn" id="btBtn" style="display:none">
+        <span class="ic"><svg><use href="#i-bt"/></svg></span>
+        <span>بلوتوث — بلا إنترنت<small>العبوا وأنتم متقاربون دون أي شبكة</small></span>
+      </button>
       <button class="bigbtn" id="rulesBtn">
         <span class="ic"><svg><use href="#i-scroll"/></svg></span>
         <span>قوانين اللعبة<small>طريقة اللعب والفوز</small></span>
       </button>
       <div class="row" style="margin-top:10px">
         <button class="btn ghost" data-back="hub"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== الأذونات ===================== -->
+  <section id="permScreen" class="screen">
+    <div class="panel">
+      <h2>قبل أن نبدأ — أذونات البلوتوث</h2>
+      <div class="permItem">
+        <div class="permIc"><svg><use href="#i-bt"/></svg></div>
+        <div>
+          <div class="permT">الأجهزة القريبة والبلوتوث</div>
+          <div class="permD">ليجد جهازك أجهزة أصدقائك ويتصل بها مباشرة</div>
+        </div>
+      </div>
+      <div class="permItem" id="permLocItem" style="display:none">
+        <div class="permIc"><svg><use href="#i-globe"/></svg></div>
+        <div>
+          <div class="permT">الموقع</div>
+          <div class="permD">يطلبه أندرويد في النسخ الأقدم للبحث عن الأجهزة فقط — اللعبة لا تعرف مكانك ولا تحفظه</div>
+        </div>
+      </div>
+      <p class="hint" id="permNote">كل اللعب يتم بين جهازيكما مباشرة، بلا إنترنت وبلا أي بيانات تُرسل لأحد.</p>
+      <div class="row" style="margin-top:14px">
+        <button class="btn gold" id="permOkBtn"><svg><use href="#i-bt"/></svg>موافق — تابع</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>ليس الآن</button>
+      </div>
+      <div id="permDenied" style="display:none;margin-top:12px">
+        <p class="hint" style="color:#ffb4a2">لم تُمنح الأذونات، فلا يمكن تشغيل البلوتوث. يمكنك منحها من إعدادات الهاتف: التطبيقات ← ألعاب سودانية ← الأذونات.</p>
+        <div class="row"><button class="btn" id="permRetryBtn"><svg><use href="#i-refresh"/></svg>حاول مرة أخرى</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== بلوتوث ===================== -->
+  <section id="btScreen" class="screen">
+    <div class="panel">
+      <h2 id="btTitle">اللعب بالبلوتوث</h2>
+      <div id="btMenu">
+        <button class="bigbtn" id="btHostBtn">
+          <span class="ic"><svg><use href="#i-home"/></svg></span>
+          <span>أنا المضيف<small>اجعل جهازك ظاهراً وانتظر انضمام الآخرين</small></span>
+        </button>
+        <button class="bigbtn" id="btScanBtn">
+          <span class="ic"><svg><use href="#i-search"/></svg></span>
+          <span>ابحث عن مضيف<small>اختر جهاز المضيف من القائمة</small></span>
+        </button>
+        <p class="hint">شغّل البلوتوث في كل الأجهزة وقرّبها من بعضها. يكفي أن يكون <b>المضيف</b> واحداً.</p>
+      </div>
+      <div id="btList" style="display:none">
+        <p class="hint" id="btScanMsg">جارٍ البحث عن الأجهزة <span class="spin"></span></p>
+        <div id="btDevices" class="wbPlayersList"></div>
+        <div class="row"><button class="btn" id="btRescanBtn"><svg><use href="#i-refresh"/></svg>إعادة البحث</button></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -790,10 +889,21 @@ footer .credit{
       </div>
     </div>
     <div class="panel" id="waitingCard" style="display:none;text-align:center">
-      <h2>رمز الغرفة</h2>
-      <p style="font-size:15px;margin-bottom:10px">أرسله لخصمك لينضم إليك:</p>
-      <div class="row"><span id="roomCode">····</span></div>
-      <div class="row"><button class="btn" id="copyCodeBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <h2 id="waitTitle">رمز الغرفة</h2>
+      <p style="font-size:15px;margin-bottom:10px" id="waitSub">أرسله لخصمك لينضم إليك:</p>
+      <div class="row" id="codeRow"><span id="roomCode">····</span></div>
+      <div class="row" id="copyRow"><button class="btn" id="copyCodeBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="btRoom" id="btRoom2p" style="display:none">
+        <div class="btOpenTag">📶 الغرفة مفتوحة عبر البلوتوث</div>
+        <p class="btLabel">اسم جهازك الظاهر للاعبين:</p>
+        <div class="btName" id="btName2p">...</div>
+        <ol class="btSteps">
+          <li>افتح اللعبة في الجهاز الآخر واختر <b>نفس اللعبة</b></li>
+          <li>اضغط <b>بلوتوث — بلا إنترنت</b> ثم <b>ابحث عن مضيف</b></li>
+          <li>اختر الاسم الظاهر أعلاه من القائمة</li>
+        </ol>
+        <div class="row"><button class="btn" onclick="btReDiscoverable()"><svg><use href="#i-refresh"/></svg>أظهر جهازي من جديد</button></div>
+      </div>
       <p class="hint" id="waitingMsg">في انتظار انضمام الخصم <span class="spin"></span></p>
       <div class="row" style="margin-top:10px">
         <button class="btn ghost" id="cancelRoomBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
@@ -834,6 +944,17 @@ footer .credit{
       <h2>غرفة الأصدقاء</h2>
       <div class="row" id="wbCodeRow"><span id="wbRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:rgba(255,255,255,.85);border-radius:14px;padding:6px 18px;color:#16305e">····</span></div>
       <div class="row" id="wbCopyRow"><button class="btn" id="wbCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="btRoom" id="btRoomwb" style="display:none">
+        <div class="btOpenTag">📶 الغرفة مفتوحة عبر البلوتوث</div>
+        <p class="btLabel">اسم جهازك الظاهر للاعبين:</p>
+        <div class="btName" id="btNamewb">...</div>
+        <ol class="btSteps">
+          <li>افتح اللعبة في الجهاز الآخر واختر <b>نفس اللعبة</b></li>
+          <li>اضغط <b>بلوتوث — بلا إنترنت</b> ثم <b>ابحث عن مضيف</b></li>
+          <li>اختر الاسم الظاهر أعلاه من القائمة</li>
+        </ol>
+        <div class="row"><button class="btn" onclick="btReDiscoverable()"><svg><use href="#i-refresh"/></svg>أظهر جهازي من جديد</button></div>
+      </div>
       <div class="wbPlayersList" id="wbPlayersList"></div>
       <div id="wbHostOpts">
         <p style="font-weight:900;margin:8px 0 2px">عدد الجولات:</p>
@@ -907,6 +1028,17 @@ footer .credit{
       <h2>غرفة اللعب <span id="kzCount"></span></h2>
       <div class="row" id="kzCodeRow"><span id="kzRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;border-radius:14px;padding:6px 18px;color:#33200c">····</span></div>
       <div class="row" id="kzCopyRow"><button class="btn" id="kzCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="btRoom" id="btRoomkz" style="display:none">
+        <div class="btOpenTag">📶 الغرفة مفتوحة عبر البلوتوث</div>
+        <p class="btLabel">اسم جهازك الظاهر للاعبين:</p>
+        <div class="btName" id="btNamekz">...</div>
+        <ol class="btSteps">
+          <li>افتح اللعبة في الجهاز الآخر واختر <b>نفس اللعبة</b></li>
+          <li>اضغط <b>بلوتوث — بلا إنترنت</b> ثم <b>ابحث عن مضيف</b></li>
+          <li>اختر الاسم الظاهر أعلاه من القائمة</li>
+        </ol>
+        <div class="row"><button class="btn" onclick="btReDiscoverable()"><svg><use href="#i-refresh"/></svg>أظهر جهازي من جديد</button></div>
+      </div>
       <div class="kOpps" id="kzLobbyList" style="justify-content:center"></div>
       <div id="kzHostOpts">
         <p style="font-weight:900;margin:6px 0 2px;color:var(--brass-hi)">عدد الجولات:</p>
@@ -986,6 +1118,16 @@ footer .credit{
   <div id="kzRespMsg"></div>
   <button id="kzRespBtn">✋ اضغط!</button>
 </div>
+<div id="confirmOverlay">
+  <div id="confirmCard">
+    <h2 id="confirmTitle"></h2>
+    <p id="confirmMsg"></p>
+    <div class="row">
+      <button class="btn red" id="confirmYes"></button>
+      <button class="btn ghost" id="confirmNo">لا، أكمل</button>
+    </div>
+  </div>
+</div>
 <div id="toast" role="status"></div>
 
 <script type="module">
@@ -1016,12 +1158,56 @@ const SB_URL = 'https://gqjoyzjejyeibbmejcoo.supabase.co';
 const SB_KEY = 'sb_publishable_cudHlqS-PCF2-z3kFrai6w_pI6h3RtU';
 let sbClient = null;
 function peerAvailable(){
+  if(NET_TRANSPORT==='bt'){
+    if(BTP()) return true;
+    toast('البلوتوث متاح في نسخة التطبيق فقط');
+    return false;
+  }
   if(window.NET_IMPL || window.sbCreateClient) return true;
   toast('خدمة الاتصال لم تُحمّل بعد — تأكد من الإنترنت وأعد المحاولة');
   return false;
 }
+/* ---------- البلوتوث: نفس واجهة netJoin لكن بلا إنترنت ---------- */
+let NET_TRANSPORT='sb', BT_ROLE='host', BT_TARGET=null;
+const BTP = () => (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.BluetoothLink) || null;
+const isNativeApp = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && BTP());
+
+function btJoin(){
+  const BT = BTP();
+  const dataFns=[], joinFns=[], leaveFns=[];
+  const handles=[];
+  const hook = (ev, fn) => { const h = BT.addListener(ev, fn); handles.push(h); };
+  hook('data', e => {
+    let d; try{ d=JSON.parse(e.msg); }catch(x){ return; }
+    dataFns.forEach(f=>f(d, e.from));
+  });
+  hook('peerJoin', e => joinFns.forEach(f=>f(e.id)));
+  hook('peerLeave', e => leaveFns.forEach(f=>f(e.id)));
+  if(BT_ROLE==='host'){
+    BT.startHost()
+      .then(r => { btDeviceName = (r && r.name) || btDeviceName; btPaintRoom(); })
+      .catch(err => { toast('تعذّر تشغيل البلوتوث: '+(err && err.message||err)); showScreen('btScreen'); });
+  } else {
+    BT.connect({id:BT_TARGET}).catch(err => {
+      toast('تعذّر الاتصال بالمضيف — تأكد من قربك منه وأعد المحاولة');
+      showScreen('btScreen');
+    });
+  }
+  return {
+    send:(obj,id)=>{ try{ BT.send({to:id||undefined, msg:JSON.stringify(obj)}); }catch(e){} },
+    onData:f=>dataFns.push(f),
+    onJoin:f=>joinFns.push(f),
+    onLeave:f=>leaveFns.push(f),
+    leave:()=>{
+      handles.forEach(h => { try{ h.then ? h.then(x=>x.remove()) : h.remove(); }catch(e){} });
+      try{ BT.stop(); }catch(e){}
+    },
+  };
+}
+
 function netJoin(roomId){
   if(window.NET_IMPL) return window.NET_IMPL(roomId);
+  if(NET_TRANSPORT==='bt') return btJoin();
   if(!sbClient) sbClient = window.sbCreateClient(SB_URL, SB_KEY);
   const myId = Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,6);
   const ch = sbClient.channel('g-'+roomId, {config:{broadcast:{self:false}, presence:{key:myId}}});
@@ -1960,6 +2146,9 @@ function openShapeScreen(phase){
       } else if(phase==='local2'){
         shapeSel.B=s.key;
         startLocalGame();
+      } else if(phase==='bt'){
+        myShape=s.key;
+        openBtScreen();
       } else {
         myShape=s.key;
         showScreen('onlineScreen');
@@ -2016,11 +2205,18 @@ function oppDisconnected(){
 function createRoom(){
   if(!peerAvailable()) return;
   destroyPeer();
-  isHost=true; roomCode=makeCode();
+  const BTM = NET_TRANSPORT==='bt';
+  isHost=true; roomCode=BTM?'BT':makeCode();
+  showScreen('onlineScreen');
   document.getElementById('onlineMenu').style.display='none';
   document.getElementById('waitingCard').style.display='block';
+  document.getElementById('waitTitle').textContent = BTM ? 'غرفة بلوتوث' : 'رمز الغرفة';
+  document.getElementById('waitSub').textContent = BTM ? 'اطلب من خصمك أن يختار «ابحث عن مضيف» ثم يختار جهازك:' : 'أرسله لخصمك لينضم إليك:';
+  document.getElementById('codeRow').style.display = BTM ? 'none' : 'flex';
+  document.getElementById('copyRow').style.display = BTM ? 'none' : 'flex';
   document.getElementById('roomCode').textContent=roomCode;
-  document.getElementById('waitingMsg').innerHTML='في انتظار انضمام الخصم <span class="spin"></span>';
+  document.getElementById('waitingMsg').innerHTML=(BTM?'جهازك ظاهر الآن — في انتظار الخصم':'في انتظار انضمام الخصم')+' <span class="spin"></span>';
+  btPaintRoom();
   net=netJoin(GAMES[currentGame].peerPrefix+roomCode.toLowerCase());
   net.onJoin(id=>{
     if(oppId){ net.send({t:'full'}, id); return; }
@@ -2032,13 +2228,17 @@ function createRoom(){
 }
 function joinRoom(){
   if(!peerAvailable()) return;
-  const code=document.getElementById('joinInput').value.trim().toUpperCase();
-  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  const BTM = NET_TRANSPORT==='bt';
+  let code='BT';
+  if(!BTM){
+    code=document.getElementById('joinInput').value.trim().toUpperCase();
+    if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  }
   destroyPeer();
   isHost=false; roomCode=code;
-  toast('جارٍ الاتصال بالغرفة...');
+  toast(BTM?'جارٍ الاتصال بالمضيف...':'جارٍ الاتصال بالغرفة...');
   net=netJoin(GAMES[currentGame].peerPrefix+code.toLowerCase());
-  const failTimer=setTimeout(()=>{ if(!oppId) toast('لم يتم العثور على الغرفة — تأكد من الرمز واللعبة'); },12000);
+  const failTimer=setTimeout(()=>{ if(!oppId) toast(BTM?'لم يستجب المضيف — أعد المحاولة':'لم يتم العثور على الغرفة — تأكد من الرمز واللعبة'); },BTM?20000:12000);
   net.onData((d,id)=>{
     if(!d || typeof d!=='object') return;
     if(d.t==='hello' && !oppId){ clearTimeout(failTimer); oppId=id; onData(d); return; }
@@ -2373,12 +2573,15 @@ function wbCreateRoom(){
   wbDestroyPeer();
   wb.online=true; wb.isHost=true; wb.myIdx=0;
   wb.players=[{name:names.me.trim()||'المضيف', total:0}];
-  wroomCode=makeCode();
+  const BTM = NET_TRANSPORT==='bt';
+  wroomCode=BTM?'BT':makeCode();
+  showScreen('wbLobbyScreen');
   document.getElementById('wbLobbyMenu').style.display='none';
   document.getElementById('wbWaitCard').style.display='block';
   document.getElementById('wbRoomCode').textContent=wroomCode;
-  document.getElementById('wbCodeRow').style.display='flex';
-  document.getElementById('wbCopyRow').style.display='flex';
+  document.getElementById('wbCodeRow').style.display=BTM?'none':'flex';
+  document.getElementById('wbCopyRow').style.display=BTM?'none':'flex';
+  btPaintRoom();
   document.getElementById('wbHostOpts').style.display='block';
   document.getElementById('wbWaitMsg').innerHTML='شارك الرمز مع أصدقائك <span class="spin"></span>';
   wbRenderLobby();
@@ -2408,9 +2611,16 @@ function wbCreateRoom(){
 }
 function wbJoinRoom(){
   if(!peerAvailable()) return;
-  const code=document.getElementById('wbJoinInput').value.trim().toUpperCase();
-  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  const BTM = NET_TRANSPORT==='bt';
+  let code='BT';
+  if(!BTM){
+    code=document.getElementById('wbJoinInput').value.trim().toUpperCase();
+    if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  }
   wbDestroyPeer();
+  showScreen('wbLobbyScreen');
+  document.getElementById('wbLobbyMenu').style.display='none';
+  document.getElementById('wbWaitCard').style.display='block';
   wb.online=true; wb.isHost=false;
   toast('جارٍ الاتصال بالغرفة...');
   wnet=netJoin('wbjn-sd-'+code.toLowerCase());
@@ -2591,12 +2801,15 @@ function kzCreateRoom(){
   kzDestroyPeer();
   kz.phase='idle'; kz.isHost=true; kz.myIdx=0;
   kz.players=[{name:names.me.trim()||'المضيف'}]; kz.totals=[0];
-  kroom=makeCode();
+  const BTM = NET_TRANSPORT==='bt';
+  kroom=BTM?'BT':makeCode();
+  showScreen('kzLobbyScreen');
   document.getElementById('kzLobbyMenu').style.display='none';
   document.getElementById('kzWaitCard').style.display='block';
   document.getElementById('kzRoomCode').textContent=kroom;
-  document.getElementById('kzCodeRow').style.display='flex';
-  document.getElementById('kzCopyRow').style.display='flex';
+  document.getElementById('kzCodeRow').style.display=BTM?'none':'flex';
+  document.getElementById('kzCopyRow').style.display=BTM?'none':'flex';
+  btPaintRoom();
   document.getElementById('kzHostOpts').style.display='block';
   kzRenderLobby();
   knet=netJoin('kz-sd-'+kroom.toLowerCase());
@@ -2625,9 +2838,16 @@ function kzCreateRoom(){
 }
 function kzJoinRoom(){
   if(!peerAvailable()) return;
-  const code=document.getElementById('kzJoinInput').value.trim().toUpperCase();
-  if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  const BTM = NET_TRANSPORT==='bt';
+  let code='BT';
+  if(!BTM){
+    code=document.getElementById('kzJoinInput').value.trim().toUpperCase();
+    if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  }
   kzDestroyPeer();
+  showScreen('kzLobbyScreen');
+  document.getElementById('kzLobbyMenu').style.display='none';
+  document.getElementById('kzWaitCard').style.display='block';
   kz.isHost=false; kz.phase='idle';
   toast('جارٍ الاتصال بالغرفة...');
   knet=netJoin('kz-sd-'+code.toLowerCase());
@@ -2948,6 +3168,215 @@ document.getElementById('kzNextBtn').onclick=kzNextPressed;
 document.getElementById('kzQuitBtn').onclick=document.getElementById('kzQuit2Btn').onclick=()=>{ kzDestroyPeer(); goHub(); };
 
 /* =====================================================================
+   غرفة البلوتوث: بطاقة واضحة تشرح كيف ينضم الآخرون
+===================================================================== */
+let btDeviceName = 'جهازي';
+function btPaintRoom(){
+  ['2p','wb','kz'].forEach(k=>{
+    const box=document.getElementById('btRoom'+k);
+    const nm=document.getElementById('btName'+k);
+    if(!box||!nm) return;
+    box.style.display = (NET_TRANSPORT==='bt') ? 'block' : 'none';
+    nm.textContent = btDeviceName;
+  });
+}
+function btReDiscoverable(){
+  const BT=BTP(); if(!BT) return;
+  BT.makeDiscoverable().then(()=>toast('جهازك ظاهر الآن لخمس دقائق')).catch(()=>{});
+}
+window.btReDiscoverable = btReDiscoverable;
+
+/* =====================================================================
+   بوابة الأذونات — شاشة بأسلوب اللعبة قبل أي طلب من النظام
+===================================================================== */
+function btAfterPerms(){
+  NET_TRANSPORT='bt';
+  // الألعاب الثنائية تحتاج اختيار شكل القطعة قبل فتح الغرفة
+  if(currentGame==='wbjn' || currentGame==='kz') openBtScreen();
+  else openShapeScreen('bt');
+}
+function openPermGate(){
+  const BT=BTP();
+  if(!BT){ toast('البلوتوث متاح في نسخة التطبيق فقط'); return; }
+  document.getElementById('permDenied').style.display='none';
+  BT.checkPerms().then(r=>{
+    document.getElementById('permLocItem').style.display = (r && r.legacy) ? 'flex' : 'none';
+    if(r && r.granted){ btAfterPerms(); }
+    else showScreen('permScreen');
+  }).catch(()=>{ showScreen('permScreen'); });
+}
+function permAskNow(){
+  const BT=BTP(); if(!BT) return;
+  const btn=document.getElementById('permOkBtn');
+  btn.disabled=true;
+  BT.requestPerms().then(r=>{
+    btn.disabled=false;
+    if(r && r.granted){
+      document.getElementById('permDenied').style.display='none';
+      btAfterPerms();
+    } else {
+      document.getElementById('permDenied').style.display='block';
+    }
+  }).catch(()=>{
+    btn.disabled=false;
+    document.getElementById('permDenied').style.display='block';
+  });
+}
+document.getElementById('permOkBtn').onclick=permAskNow;
+document.getElementById('permRetryBtn').onclick=permAskNow;
+
+/* =====================================================================
+   زر/إيماءة الرجوع — تأكيد في الرئيسية، رجوع منظّم، ومعطّل أثناء اللعب
+===================================================================== */
+const BACK_MAP = {
+  gameMenuScreen:'hub', rulesScreen:'gamemenu', namesScreen:'hub',
+  shapeScreen:'gamemenu', onlineScreen:'gamemenu', btScreen:'gamemenu',
+  permScreen:'gamemenu', wbSetupScreen:'gamemenu',
+  wbLobbyScreen:'gamemenu', kzLobbyScreen:'gamemenu',
+};
+const PLAY_SCREENS = ['gameScreen','wbPlayScreen','wbHandoffScreen','wbReviewScreen',
+                      'wbScoreScreen','kzPlayScreen','kzScoreScreen'];
+
+function currentScreenId(){
+  const el=document.querySelector('.screen.active');
+  return el ? el.id : 'hubScreen';
+}
+let confirmAction=null;
+function showConfirm(title,msg,yesText,onYes){
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmYes').textContent=yesText;
+  confirmAction=onYes;
+  document.getElementById('confirmOverlay').classList.add('show');
+}
+function hideConfirm(){
+  document.getElementById('confirmOverlay').classList.remove('show');
+  confirmAction=null;
+}
+document.getElementById('confirmYes').onclick=()=>{ const a=confirmAction; hideConfirm(); if(a) a(); };
+document.getElementById('confirmNo').onclick=hideConfirm;
+
+function exitApp(){
+  const A = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+  if(A && A.exitApp) A.exitApp();
+  else window.close();
+}
+function handleBackPress(){
+  // نافذة تأكيد مفتوحة؟ أغلقها فقط
+  if(document.getElementById('confirmOverlay').classList.contains('show')){ hideConfirm(); return; }
+  // شاشة نتيجة مفتوحة؟ لا شيء
+  if(document.getElementById('overlay').classList.contains('show')) return;
+
+  const id=currentScreenId();
+
+  // أثناء اللعب: معطّل تماماً
+  if(PLAY_SCREENS.includes(id)) return;
+
+  // الشاشة الرئيسية: تأكيد الإغلاق
+  if(id==='hubScreen'){
+    showConfirm('إغلاق اللعبة؟','هل تريد الخروج من ألعاب أبو جنان؟','نعم، أغلق', exitApp);
+    return;
+  }
+  // باقي الشاشات: رجوع منظّم
+  const dest=BACK_MAP[id];
+  if(dest==='hub'){ goHub(); }
+  else if(dest==='gamemenu'){ destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); try{ if(BTP()) BTP().stop(); }catch(e){} showScreen('gameMenuScreen'); }
+  else goHub();
+}
+function initBackGuard(){
+  const A = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+  if(A && A.addListener){
+    A.addListener('backButton', () => handleBackPress());
+    return;
+  }
+  try{
+    history.pushState({g:1},'');
+    window.addEventListener('popstate', () => { history.pushState({g:1},''); handleBackPress(); });
+  }catch(e){}
+}
+initBackGuard();
+
+/* =====================================================================
+   شاشة البلوتوث — اختيار الدور والأجهزة
+===================================================================== */
+function openBtScreen(){
+  NET_TRANSPORT='bt'; BT_TARGET=null;
+  const B=BTP();
+  if(B) B.deviceName().then(r=>{ btDeviceName=(r&&r.name)||btDeviceName; }).catch(()=>{});
+  document.getElementById('btTitle').textContent='بلوتوث — '+GAMES[currentGame].name;
+  document.getElementById('btMenu').style.display='block';
+  document.getElementById('btList').style.display='none';
+  showScreen('btScreen');
+  const BT=BTP();
+  if(BT) BT.isAvailable().then(r=>{ if(!r.enabled) BT.enable(); }).catch(()=>{});
+}
+function btStartAsHost(){
+  const BT=BTP();
+  if(!BT){ toast('البلوتوث متاح في نسخة التطبيق فقط'); return; }
+  NET_TRANSPORT='bt'; BT_ROLE='host';
+  if(currentGame==='wbjn') wbCreateRoom();
+  else if(currentGame==='kz') kzCreateRoom();
+  else createRoom();
+}
+function btRenderDevices(list){
+  const box=document.getElementById('btDevices');
+  box.innerHTML='';
+  if(!list.length){
+    const d=document.createElement('div'); d.className='wbPlayerItem';
+    d.textContent='لم يُعثر على أجهزة بعد...';
+    box.appendChild(d);
+    return;
+  }
+  list.forEach(dev=>{
+    const b=document.createElement('button');
+    b.className='btn';
+    b.style.width='100%'; b.style.justifyContent='flex-start'; b.style.margin='4px 0';
+    b.innerHTML='<svg><use href="#i-phone"/></svg>'+esc(dev.name||'جهاز')+
+      ' <span style="opacity:.6;font-size:12px;margin-inline-start:auto">'+esc((dev.id||'').slice(-5))+'</span>';
+    b.onclick=()=>btConnectTo(dev.id, dev.name);
+    box.appendChild(b);
+  });
+}
+let btDevList=[], btFoundHandle=null;
+function btScanDevices(){
+  const BT=BTP();
+  if(!BT){ toast('البلوتوث متاح في نسخة التطبيق فقط'); return; }
+  NET_TRANSPORT='bt'; BT_ROLE='guest';
+  document.getElementById('btMenu').style.display='none';
+  document.getElementById('btList').style.display='block';
+  document.getElementById('btScanMsg').innerHTML='جارٍ البحث عن الأجهزة <span class="spin"></span>';
+  btDevList=[];
+  btRenderDevices(btDevList);
+  if(!btFoundHandle){
+    btFoundHandle = BT.addListener('deviceFound', d=>{
+      if(!btDevList.some(x=>x.id===d.id)){ btDevList.push(d); btRenderDevices(btDevList); }
+    });
+  }
+  BT.scan().then(r=>{
+    btDevList=(r&&r.devices)||[];
+    btRenderDevices(btDevList);
+    setTimeout(()=>{
+      document.getElementById('btScanMsg').textContent = btDevList.length
+        ? 'اختر جهاز المضيف من القائمة:'
+        : 'لم يُعثر على أجهزة — تأكد أن المضيف ضغط «أنا المضيف» ثم أعد البحث';
+    }, 9000);
+  }).catch(err=>{
+    document.getElementById('btScanMsg').textContent='تعذّر البحث: '+(err&&err.message||err);
+  });
+}
+function btConnectTo(id, name){
+  NET_TRANSPORT='bt'; BT_ROLE='guest'; BT_TARGET=id;
+  toast('جارٍ الاتصال بـ '+(name||'المضيف')+'...');
+  if(currentGame==='wbjn') wbJoinRoom();
+  else if(currentGame==='kz') kzJoinRoom();
+  else joinRoom();
+}
+document.getElementById('btBtn').onclick=openPermGate;
+document.getElementById('btHostBtn').onclick=btStartAsHost;
+document.getElementById('btScanBtn').onclick=btScanDevices;
+document.getElementById('btRescanBtn').onclick=btScanDevices;
+
+/* =====================================================================
    SCREENS / NAVIGATION
 ===================================================================== */
 function showScreen(id){
@@ -2956,6 +3385,8 @@ function showScreen(id){
 }
 function goHub(){
   destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); clearInterval(wb.timerId);
+  try{ if(BTP()) BTP().stop(); }catch(e){}
+  NET_TRANSPORT='sb';
   wb.phase='idle'; wb.online=false; kz.phase='end';
   document.getElementById('kzResp').classList.remove('show');
   hideOverlay(); mode='local'; myColor=null; oppName='';
@@ -2964,9 +3395,11 @@ function goHub(){
 }
 function openGameMenu(game){
   currentGame = game;
+  NET_TRANSPORT='sb';
   document.getElementById('gameMenuTitle').textContent = GAMES[game].name;
   document.getElementById('logoTop').src = GAMES[game].logo;
   document.getElementById('localBtn').style.display = game==='kz' ? 'none' : 'flex';   // كوز جوز: أونلاين فقط
+  document.getElementById('btBtn').style.display = isNativeApp() ? 'flex' : 'none';
   showScreen('gameMenuScreen');
 }
 function showOverlay(title,msg){
