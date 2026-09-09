@@ -116,6 +116,78 @@ public class BluetoothLinkPlugin extends Plugin {
         else call.resolve();
     }
 
+    /** هل الأذونات المطلوبة ممنوحة؟ */
+    @PluginMethod
+    public void checkPerms(PluginCall call) {
+        boolean granted = true;
+        for (String alias : neededAliases()) {
+            if (getPermissionState(alias) != com.getcapacitor.PermissionState.GRANTED) granted = false;
+        }
+        JSObject r = new JSObject();
+        r.put("granted", granted);
+        r.put("legacy", Build.VERSION.SDK_INT < Build.VERSION_CODES.S);
+        call.resolve(r);
+    }
+
+    /** يطلب الأذونات ويعيد النتيجة بدل أن يفشل بصمت */
+    @PluginMethod
+    public void requestPerms(PluginCall call) {
+        for (String alias : neededAliases()) {
+            if (getPermissionState(alias) != com.getcapacitor.PermissionState.GRANTED) {
+                pendingPermCall = call;
+                pendingPermAction = "report";
+                requestPermissionForAlias(alias, call, "reportPerms");
+                return;
+            }
+        }
+        JSObject r = new JSObject();
+        r.put("granted", true);
+        call.resolve(r);
+    }
+
+    @PermissionCallback
+    private void reportPerms(PluginCall call) {
+        boolean granted = true;
+        for (String alias : neededAliases()) {
+            if (getPermissionState(alias) != com.getcapacitor.PermissionState.GRANTED) granted = false;
+        }
+        pendingPermCall = null;
+        pendingPermAction = null;
+        JSObject r = new JSObject();
+        r.put("granted", granted);
+        call.resolve(r);
+    }
+
+    /** اسم جهاز البلوتوث الظاهر للآخرين */
+    @PluginMethod
+    @SuppressLint("MissingPermission")
+    public void deviceName(PluginCall call) {
+        JSObject r = new JSObject();
+        String n = "جهازي";
+        try { if (adapter != null) n = safeName(adapter.getName()); } catch (Throwable ignored) {}
+        r.put("name", n);
+        call.resolve(r);
+    }
+
+    /** إعادة إظهار الجهاز للبحث (تنتهي مدة الظهور بعد 5 دقائق) */
+    @PluginMethod
+    @SuppressLint("MissingPermission")
+    public void makeDiscoverable(PluginCall call) {
+        try {
+            Intent disc = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            disc.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            if (getActivity() != null) {
+                getActivity().startActivity(disc);
+            } else {
+                disc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(disc);
+            }
+            call.resolve();
+        } catch (Throwable t) {
+            call.reject("DISCOVERABLE_FAIL: " + t.getMessage());
+        }
+    }
+
     @PluginMethod
     public void isAvailable(PluginCall call) {
         JSObject r = new JSObject();
@@ -151,8 +223,12 @@ public class BluetoothLinkPlugin extends Plugin {
             stopAll();
             Intent disc = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             disc.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            disc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getContext().startActivity(disc);
+            if (getActivity() != null) {
+                getActivity().startActivity(disc);
+            } else {
+                disc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(disc);
+            }
 
             acceptThread = new AcceptThread();
             acceptThread.start();
