@@ -849,6 +849,8 @@ function drawTally(svg,n){ // أعواد عدّ بحبر اللاعب
 function setScreen(name){
  document.querySelectorAll("[data-screen]").forEach(s=>s.classList.remove("active"));
  $(name).classList.add("active");
+ /* لوحة أجراس البلوتوث تظهر في الشاشة الرئيسية فقط حتى لا تغطي أزرار الحكم */
+ const bp=$("btPanel"); if(bp && name!=="scrWelcome") bp.classList.remove("show");
 }
 function statusMsg(txt,cls=""){ const el=$("statusMsg"); el.className="statusMsg "+cls; el.textContent=txt; }
 function showJudge(show){ $("judgeBtns").classList.toggle("show",show);

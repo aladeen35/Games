@@ -1,7 +1,12 @@
 /* ألعاب أبو جنان — Service Worker (مولَّد بواسطة scripts/build-sw.js) */
-const CACHE = 'abujanan-2026-09-13-44';
+const CACHE = 'abujanan-2026-09-13-49';
 const ASSETS = [
   "./",
+  "./docs/screens/anamenu-card.jpg",
+  "./docs/screens/bt-anamenu.jpg",
+  "./docs/screens/bt-bell.jpg",
+  "./docs/screens/bt-wolaat.jpg",
+  "./docs/screens/hub.jpg",
   "./games/anamenu/cards.js",
   "./games/anamenu/cards/manifest.json",
   "./games/anamenu/index.html",
