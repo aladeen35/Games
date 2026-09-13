@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>أنا منو؟ — ألعاب أبو جنان</title>
+<meta name="theme-color" content="#1E7FE0">
+<link rel="icon" href="../../icons/icon-192.png">
+<style>
+  @font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 900;font-display:swap;src:url('../../shared/fonts/baloo-arabic.woff2') format('woff2');
+    unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFC,U+200C-200E,U+2010-2011;}
+  @font-face{font-family:'Baloo Bhaijaan 2';font-weight:400 900;font-display:swap;src:url('../../shared/fonts/baloo-latin.woff2') format('woff2');
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122;}
+  :root{--blue:#1E4FBF;--blue2:#1E7FE0;--gold:#F4B942;--ink:#22203a;--paper:#f6f3ff;--ok:#2fb36b;--no:#f0553f}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  html,body{margin:0;height:100%;overflow:hidden}
+  body{font-family:'Baloo Bhaijaan 2','Segoe UI',Tahoma,sans-serif;background:radial-gradient(circle at 30% 10%,#6a4fe0,#1e3fa8 60%,#132a70);color:#fff;
+    height:100dvh;display:flex;flex-direction:column}
+  .scr{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px)+14px) 16px calc(env(safe-area-inset-bottom,0px)+16px);text-align:center;overflow:auto}
+  .scr.active{display:flex}
+  h1{font-size:clamp(40px,11vw,72px);margin:6px 0 0;font-weight:900;text-shadow:0 6px 0 rgba(0,0,0,.25)}
+  h1 small{display:block;font-size:.38em;color:var(--gold);font-weight:800;text-shadow:none}
+  .tag{color:#dfe6ff;font-size:16px;margin:4px 0 16px;max-width:460px;line-height:1.6}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:min(360px,100%);margin:6px auto;border:0;border-radius:18px;padding:14px 18px;font:inherit;font-size:20px;font-weight:900;
+    background:var(--gold);color:#3a2800;box-shadow:0 5px 0 #b8861c;cursor:pointer}
+  .btn.sec{background:rgba(255,255,255,.14);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.25);border:2px solid rgba(255,255,255,.35)}
+  .btn.ok{background:var(--ok);color:#fff;box-shadow:0 5px 0 #1f7c48}.btn.no{background:var(--no);color:#fff;box-shadow:0 5px 0 #a8351f}
+  .btn:active{transform:translateY(4px);box-shadow:none}.btn:disabled{opacity:.5}
+  .row{display:flex;gap:10px;width:min(360px,100%);margin:6px auto}.row .btn{flex:1;margin:0}
+  .seg{display:flex;gap:6px;justify-content:center;margin:6px 0 12px;flex-wrap:wrap}
+  .seg button{border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;font:inherit;font-weight:800;font-size:17px;padding:8px 16px;border-radius:999px}
+  .seg button[aria-pressed="true"]{background:var(--gold);color:#3a2800;border-color:var(--gold)}
+  .lbl{font-weight:800;color:#dfe6ff;margin-top:8px}
+  /* البطاقة */
+  .cardwrap{width:min(92vw,62vh,520px);aspect-ratio:1;position:relative;border-radius:28px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.4);background:#333;flex:none}
+  .cardwrap img{width:100%;height:100%;object-fit:cover;display:block}
+  .fake{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 6% 6%}
+  .fake .em{font-size:min(38vw,26vh);line-height:1;flex:1;display:flex;align-items:center;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35))}
+  .fake .banner,.namebar{width:100%;background:var(--blue);border:5px solid var(--gold);border-radius:999px;padding:.35em .6em;font-size:min(9vw,6vh,44px);font-weight:900;color:#fff;
+    text-shadow:0 3px 0 #0f2a70,0 0 8px rgba(0,0,0,.3);box-shadow:0 6px 0 #0d2b70,inset 0 3px 0 rgba(255,255,255,.25);line-height:1.2}
+  .timer{font-size:clamp(44px,12vw,80px);font-weight:900;line-height:1;margin:6px 0;text-shadow:0 5px 0 rgba(0,0,0,.25)}
+  .timer.low{color:#ff8f7d;animation:pulse .6s infinite alternate}@keyframes pulse{to{transform:scale(1.08)}}
+  .score{font-size:20px;font-weight:800;color:var(--gold)}
+  .bigq{font-size:min(50vw,34vh);line-height:1;font-weight:900;text-shadow:0 12px 0 rgba(0,0,0,.25)}
+  .status{font-size:19px;color:#dfe6ff;min-height:1.5em;margin:8px 0}
+  .list{width:min(460px,100%);text-align:start;display:flex;flex-direction:column;gap:6px;max-height:44vh;overflow:auto;padding:4px}
+  .li{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border-radius:14px;padding:8px 12px;font-weight:800;font-size:17px}
+  .li .th{width:44px;height:44px;border-radius:10px;object-fit:cover;background:#fff2;flex:none;display:flex;align-items:center;justify-content:center;font-size:26px}
+  .li .r{margin-inline-start:auto;font-size:20px}
+  .li input[type=file]{display:none}
+  .li label{background:var(--gold);color:#3a2800;border-radius:999px;padding:4px 12px;font-size:14px;cursor:pointer;margin-inline-start:auto;white-space:nowrap}
+  .li.has label{background:rgba(255,255,255,.2);color:#fff}
+  .flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .15s}
+  .flash.ok{background:var(--ok);opacity:.55}.flash.no{background:var(--no);opacity:.55}
+  .hint{font-size:14px;color:#c9d3ff;line-height:1.6;max-width:460px}
+  .rules{text-align:start;font-size:17px;line-height:1.8;max-width:520px;background:rgba(0,0,0,.18);padding:14px 18px;border-radius:18px}
+  .bt-badge{display:inline-block;background:rgba(255,255,255,.15);border-radius:999px;padding:4px 14px;font-size:15px;margin:4px}
+  @media (orientation:landscape) and (max-height:520px){ .cardwrap{width:min(60vh,60vw)} .timer{font-size:40px} }
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+
+<!-- ═══════ الرئيسية ═══════ -->
+<section class="scr active" id="s-home">
+  <div style="font-size:70px;line-height:1">🕵️</div>
+  <h1>أنا منو؟<small>خمّن المهنة قبل انتهاء الوقت</small></h1>
+  <p class="tag">ضع الهاتف على جبهتك وصورة البطاقة للأصدقاء — هم يصفون وأنت تخمّن. صح ✅ تُحسب نقطة، وتخطي ⏭ تنتقل للبطاقة التالية.</p>
+  <button class="btn" id="b-solo">📱 ابدأ — هاتف واحد</button>
+  <button class="btn sec" id="b-bt">📶 بلوتوث — هاتف للوصّافين وهاتف للمخمّن</button>
+  <button class="btn sec" id="b-images">🖼️ صور البطاقات <span id="imgCount" class="bt-badge"></span></button>
+  <button class="btn sec" id="b-rules">📖 كيف نلعب</button>
+</section>
+
+<!-- ═══════ الإعداد ═══════ -->
+<section class="scr" id="s-setup">
+  <h1 style="font-size:36px">إعداد الجولة</h1>
+  <div class="lbl">مدة الجولة</div>
+  <div class="seg" id="segTime"><button data-v="60">60 ث</button><button data-v="90" aria-pressed="true">90 ث</button><button data-v="120">120 ث</button></div>
+  <div class="lbl">طريقة الإجابة</div>
+  <div class="seg" id="segTilt"><button data-v="0" aria-pressed="true">أزرار</button><button data-v="1">إمالة الهاتف + أزرار</button></div>
+  <p class="hint">مع الإمالة: أمِل الهاتف للأسفل = صح ✅ · للأعلى = تخطي ⏭</p>
+  <div class="lbl" id="btSetupNote" style="display:none"></div>
+  <button class="btn" id="b-go">🚀 ابدأ</button>
+  <button class="btn sec" id="b-setup-back">رجوع</button>
+</section>
+
+<!-- ═══════ اللعب (البطاقة) ═══════ -->
+<section class="scr" id="s-play">
+  <div style="display:flex;justify-content:space-between;width:min(92vw,520px);align-items:center">
+    <div class="score" id="pScore">✅ 0</div>
+    <div class="timer" id="pTimer">90</div>
+    <div class="score" id="pIdx">1/30</div>
+  </div>
+  <div class="cardwrap" id="card"></div>
+  <div class="status" id="pStatus"></div>
+  <div class="row"><button class="btn no" id="b-skip">⏭ تخطي</button><button class="btn ok" id="b-ok">✅ صح</button></div>
+  <button class="btn sec" id="b-quit" style="font-size:15px;padding:8px">إنهاء الجولة</button>
+</section>
+
+<!-- ═══════ شاشة المخمّن (بلوتوث) ═══════ -->
+<section class="scr" id="s-guess">
+  <div class="status" id="gHead">أنت المخمّن — لا تنظر إلى هاتف الوصّافين!</div>
+  <div class="timer" id="gTimer">--</div>
+  <div class="bigq">؟</div>
+  <div class="score" id="gScore">✅ 0</div>
+  <div class="status" id="gStatus">في انتظار بدء الجولة…</div>
+  <div class="row"><button class="btn no" id="g-skip">⏭ تخطي</button><button class="btn ok" id="g-ok">✅ عرفتها</button></div>
+  <button class="btn sec" id="g-leave" style="font-size:15px;padding:8px">خروج</button>
+</section>
+
+<!-- ═══════ غرفة البلوتوث ═══════ -->
+<section class="scr" id="s-bt">
+  <h1 style="font-size:36px">📶 بلوتوث<small>هاتفان: الوصّافون يرون البطاقة والمخمّن يرى «؟»</small></h1>
+  <p class="hint">هاتف <b>الوصّافين</b> يفتح الغرفة (المضيف) ويعرض البطاقات، وهاتف <b>المخمّن</b> يبحث عنه ويتصل به.</p>
+  <button class="btn" id="bt-host">🗣️ أنا هاتف الوصّافين (المضيف)</button>
+  <button class="btn sec" id="bt-join">🕵️ أنا هاتف المخمّن</button>
+  <div class="status" id="btStatus"></div>
+  <button class="btn sec" id="bt-back">رجوع</button>
+</section>
+
+<!-- ═══════ النتائج ═══════ -->
+<section class="scr" id="s-end">
+  <div style="font-size:60px">🏆</div>
+  <h1 style="font-size:36px">انتهت الجولة!<small id="endScore"></small></h1>
+  <div class="list" id="endList"></div>
+  <div class="row"><button class="btn" id="b-again">🔁 جولة جديدة</button><button class="btn sec" id="b-home">🏠 الرئيسية</button></div>
+</section>
+
+<!-- ═══════ صور البطاقات ═══════ -->
+<section class="scr" id="s-images">
+  <h1 style="font-size:32px">🖼️ صور البطاقات</h1>
+  <p class="hint">البطاقات بلا صورة تُعرض برمز ولون. أضِف صورة كل مهنة من جهازك (تُحفظ داخل التطبيق)، أو اختر عدة صور معًا وسيُطابقها التطبيق بأسماء الملفات.</p>
+  <label class="btn" style="cursor:pointer">📂 اختيار عدة صور معًا<input type="file" id="multiPick" accept="image/*" multiple hidden></label>
+  <div class="list" id="imgList"></div>
+  <div class="row"><button class="btn sec" id="img-clear" style="font-size:15px">🗑️ حذف كل الصور المضافة</button><button class="btn sec" id="img-back">رجوع</button></div>
+</section>
+
+<!-- ═══════ القواعد ═══════ -->
+<section class="scr" id="s-rules">
+  <h1 style="font-size:34px">📖 كيف نلعب</h1>
+  <div class="rules">
+    <b>هاتف واحد:</b> لاعب يمسك الهاتف على جبهته والصورة نحو الآخرين. يصفون المهنة بلا ذكر اسمها، وهو يخمّن. عند الإجابة الصحيحة اضغط ✅ (أو أمِل الهاتف للأسفل)، وللتخطي ⏭ (أو أمِل للأعلى). كل بطاقة صحيحة نقطة، ثم يتبادل اللاعبون.<br><br>
+    <b>بلوتوث:</b> هاتف مع الوصّافين يعرض البطاقة، وهاتف المخمّن لا يعرض إلا الوقت والنقاط. أي هاتف يمكنه ضغط صح/تخطي، والنتيجة تظهر على الهاتفين معًا. بلا إنترنت.
+  </div>
+  <button class="btn sec" id="rules-back" style="margin-top:12px">رجوع</button>
+</section>
+
+<script src="../../shared/abujanan.js"></script>
+<script src="cards.js"></script>
+<script>
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const CARDS=window.ANAMENU_CARDS;
+  const AJ=window.AbuJanan;
+  const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+
+  /* ───── الصوت ───── */
+  let AC=null;
+  const snd=(kind)=>{try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+    const seq=kind==='ok'?[[660,0,.12],[990,.1,.2]]:kind==='no'?[[300,0,.18],[220,.12,.22]]:kind==='tick'?[[1200,0,.05]]:[[523,0,.15],[659,.15,.15],[784,.3,.35]];
+    seq.forEach(([f,t,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,AC.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(.3,AC.currentTime+t+.02);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t+d);o.connect(g).connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+d+.05);});}catch(e){}};
+  const vib=p=>{try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}};
+
+  /* ───── الشاشات ───── */
+  let cur='s-home';
+  function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');cur=id;}
+  AJ.onBack=()=>{ if(cur==='s-home') return false; if(cur==='s-play'){ if(confirm('إنهاء الجولة الحالية؟')) endRound(); return true; } stopNet(); show('s-home'); return true; };
+  AJ.addHomeButton({});
+
+  /* ───── الصور: IndexedDB + ملفات cards/ ───── */
+  let db=null; const urls={};
+  const idb=()=>new Promise((res,rej)=>{ if(db) return res(db); const r=indexedDB.open('anamenu',1); r.onupgradeneeded=()=>r.result.createObjectStore('cards'); r.onsuccess=()=>{db=r.result;res(db);}; r.onerror=()=>rej(r.error); });
+  const idbGet=k=>idb().then(d=>new Promise(res=>{const q=d.transaction('cards').objectStore('cards').get(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null);})).catch(()=>null);
+  const idbSet=(k,v)=>idb().then(d=>new Promise(res=>{const t=d.transaction('cards','readwrite');t.objectStore('cards').put(v,k);t.oncomplete=res;t.onerror=res;}));
+  const idbClear=()=>idb().then(d=>new Promise(res=>{const t=d.transaction('cards','readwrite');t.objectStore('cards').clear();t.oncomplete=res;t.onerror=res;}));
+  /* cards/manifest.json يسرد الصور المرفقة مع التطبيق (يولّده scripts/build-sw.js) */
+  let shipped=null;
+  const loadShipped=()=>shipped?Promise.resolve(shipped):fetch('cards/manifest.json').then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>(shipped=j||{}));
+  async function resolveImages(){
+    const ship=await loadShipped();
+    for(const c of CARDS){
+      if(urls[c.slug]) continue;
+      const blob=await idbGet(c.slug);
+      if(blob){ urls[c.slug]=URL.createObjectURL(blob); continue; }
+      if(ship[c.slug]) urls[c.slug]='cards/'+ship[c.slug];
+    }
+    $('imgCount').textContent=Object.keys(urls).length+'/'+CARDS.length;
+  }
+  function cardHTML(c){
+    if(urls[c.slug]) return `<img src="${urls[c.slug]}" alt="${esc(c.name)}">`;
+    return `<div class="fake" style="background:radial-gradient(circle at 50% 30%,${c.bg},${c.bg}cc 70%,${c.bg}99)"><div class="em">${c.emoji}</div><div class="banner">${esc(c.name)}</div></div>`;
+  }
+  function renderImages(){
+    const box=$('imgList'); box.innerHTML='';
+    CARDS.forEach(c=>{
+      const d=document.createElement('div'); d.className='li'+(urls[c.slug]?' has':'');
+      d.innerHTML=(urls[c.slug]?`<img class="th" src="${urls[c.slug]}" alt="">`:`<div class="th" style="background:${c.bg}">${c.emoji}</div>`)+
+        `<span>${esc(c.name)}</span><label>${urls[c.slug]?'تغيير':'اختر صورة'}<input type="file" accept="image/*"></label>`;
+      d.querySelector('input').onchange=async e=>{const f=e.target.files[0]; if(!f) return; await idbSet(c.slug,f); if(urls[c.slug]&&urls[c.slug].startsWith('blob:')) URL.revokeObjectURL(urls[c.slug]); urls[c.slug]=URL.createObjectURL(f); renderImages(); AJ.toast('حُفظت صورة '+c.name);};
+      box.appendChild(d);
+    });
+    $('imgCount').textContent=Object.keys(urls).length+'/'+CARDS.length;
+  }
+  $('multiPick').onchange=async e=>{
+    const files=Array.from(e.target.files||[]); if(!files.length) return;
+    const norm=s=>s.toLowerCase().replace(/\.[a-z0-9]+$/,'').replace(/[\s_\-()]+/g,'');
+    const left=[];
+    for(const f of files){
+      const n=norm(f.name);
+      const c=CARDS.find(x=>n===norm(x.slug)||n===norm(x.name)||n.includes(norm(x.slug)))||CARDS.find(x=>n.includes(norm(x.name)));
+      if(c){ await idbSet(c.slug,f); urls[c.slug]=URL.createObjectURL(f); } else left.push(f);
+    }
+    for(const f of left){ const c=CARDS.find(x=>!urls[x.slug]); if(!c) break; await idbSet(c.slug,f); urls[c.slug]=URL.createObjectURL(f); }
+    renderImages(); AJ.toast('أُضيفت '+files.length+' صورة'); e.target.value='';
+  };
+  $('img-clear').onclick=async()=>{ if(!confirm('حذف كل الصور المضافة من داخل التطبيق؟')) return; await idbClear(); Object.keys(urls).forEach(k=>{ if(urls[k].startsWith('blob:')){URL.revokeObjectURL(urls[k]);delete urls[k];} }); await resolveImages(); renderImages(); };
+
+  /* ───── الإعدادات ───── */
+  const cfg={secs:90,tilt:false};
+  try{Object.assign(cfg,JSON.parse(localStorage.getItem('anamenu:cfg')||'{}'));}catch(e){}
+  const paintSeg=()=>{ $('segTime').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===cfg.secs)));
+    $('segTilt').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(!!+b.dataset.v===cfg.tilt))); };
+  $('segTime').onclick=e=>{const b=e.target.closest('button');if(!b)return;cfg.secs=+b.dataset.v;save();};
+  $('segTilt').onclick=e=>{const b=e.target.closest('button');if(!b)return;cfg.tilt=!!+b.dataset.v;save();};
+  function save(){try{localStorage.setItem('anamenu:cfg',JSON.stringify(cfg));}catch(e){}paintSeg();}
+  paintSeg();
+
+  /* ───── الجولة ───── */
+  const R={deck:[],i:0,left:0,score:0,results:[],timer:null,running:false};
+  let net=null, role='solo'; /* solo | host | guest */
+  function startRound(){
+    R.deck=shuffle(CARDS); R.i=0; R.left=cfg.secs; R.score=0; R.results=[]; R.running=true;
+    show('s-play'); paintPlay(); startTilt();
+    clearInterval(R.timer); R.timer=setInterval(()=>{ R.left--; if(R.left<=5&&R.left>0) snd('tick'); paintTimer(); sync(); if(R.left<=0) endRound(); },1000);
+    sync();
+  }
+  function paintPlay(){
+    const c=R.deck[R.i]; $('card').innerHTML=cardHTML(c);
+    $('pScore').textContent='✅ '+R.score; $('pIdx').textContent=(R.i+1)+'/'+R.deck.length; paintTimer();
+    $('pStatus').textContent=role==='host'?'المخمّن على الهاتف الآخر — صفوا المهنة!':'';
+  }
+  function paintTimer(){ const t=$('pTimer'); t.textContent=R.left; t.classList.toggle('low',R.left<=10); }
+  let lock=0;
+  function answer(ok){
+    if(!R.running||Date.now()<lock) return; lock=Date.now()+450;
+    const c=R.deck[R.i]; R.results.push({c,ok}); if(ok) R.score++;
+    snd(ok?'ok':'no'); vib(ok?[40]:[20,40,20]);
+    const f=$('flash'); f.className='flash '+(ok?'ok':'no'); setTimeout(()=>f.className='flash',220);
+    if(role==='host'&&net) net.send({t:'fx',ok});
+    R.i++; if(R.i>=R.deck.length){ endRound(); return; }
+    paintPlay(); sync();
+  }
+  function endRound(){
+    if(!R.running) return; R.running=false; clearInterval(R.timer); stopTilt(); snd('win');
+    $('endScore').textContent='النتيجة: '+R.score+' من '+R.results.length;
+    const box=$('endList'); box.innerHTML='';
+    R.results.forEach(r=>{const d=document.createElement('div');d.className='li';d.innerHTML=(urls[r.c.slug]?`<img class="th" src="${urls[r.c.slug]}" alt="">`:`<div class="th" style="background:${r.c.bg}">${r.c.emoji}</div>`)+`<span>${esc(r.c.name)}</span><span class="r">${r.ok?'✅':'⏭'}</span>`;box.appendChild(d);});
+    show('s-end');
+    if(role==='host'&&net) net.send({t:'end',score:R.score,total:R.results.length,list:R.results.map(r=>({n:r.c.name,ok:r.ok}))});
+  }
+  $('b-ok').onclick=()=>answer(true); $('b-skip').onclick=()=>answer(false);
+  $('b-quit').onclick=()=>{ if(confirm('إنهاء الجولة؟')) endRound(); };
+  $('b-again').onclick=()=>{ if(role==='guest'){ AJ.toast('المضيف يبدأ الجولة الجديدة'); return; } startRound(); };
+  $('b-home').onclick=()=>{ stopNet(); show('s-home'); };
+
+  /* ───── الإمالة ───── */
+  let tiltOn=false, neutral=true, tiltHandler=null;
+  function startTilt(){
+    if(!cfg.tilt||!('DeviceOrientationEvent' in window)) return;
+    const go=()=>{ tiltOn=true; neutral=false;
+      tiltHandler=e=>{ const b=e.beta; if(b==null) return;
+        /* الهاتف على الجبهة: beta≈90. للأسفل (وجه الشاشة للأرض) beta يصغر عن 30، وللأعلى يكبر عن 150 */
+        if(neutral){ if(b<35){ neutral=false; answer(true);} else if(b>145){ neutral=false; answer(false);} }
+        else if(b>60&&b<120) neutral=true; };
+      window.addEventListener('deviceorientation',tiltHandler); };
+    if(typeof DeviceOrientationEvent.requestPermission==='function') DeviceOrientationEvent.requestPermission().then(r=>{ if(r==='granted') go(); }).catch(()=>{});
+    else go();
+  }
+  function stopTilt(){ if(tiltHandler) window.removeEventListener('deviceorientation',tiltHandler); tiltHandler=null; tiltOn=false; }
+
+  /* ───── البلوتوث ───── */
+  function sync(){ if(role==='host'&&net) net.send({t:'st',left:R.left,score:R.score,i:R.i+1,n:R.deck.length,run:R.running}); }
+  function stopNet(){ if(net){ try{net.close();}catch(e){} net=null; } role='solo'; $('btSetupNote').style.display='none'; }
+  $('b-bt').onclick=()=>{ if(!AJ.bt.available()){ AJ.toast('اللعب بالبلوتوث متاح في نسخة التطبيق (APK) فقط'); return; } $('btStatus').textContent=''; show('s-bt'); };
+  $('bt-back').onclick=()=>{ stopNet(); show('s-home'); };
+  $('bt-host').onclick=function(){
+    this.disabled=true; $('btStatus').innerHTML='جارٍ فتح الغرفة… <span class="aj-spin"></span>';
+    AJ.bt.host({
+      onJoin:(id,name)=>{ AJ.toast('انضم المخمّن: '+name); $('btSetupNote').textContent='📶 متصل بهاتف المخمّن: '+name; $('btSetupNote').style.display='block'; if(cur==='s-bt'){ show('s-setup'); } sync(); },
+      onLeave:()=>{ AJ.toast('انقطع هاتف المخمّن'); $('btSetupNote').textContent='📶 انقطع الاتصال — بانتظار المخمّن…'; },
+      onData:(m)=>{ if(m.t==='act'&&role==='host'){ if(m.a==='ok') answer(true); else if(m.a==='skip') answer(false); } },
+      onError:(e)=>AJ.toast(e),
+    }).then(link=>{ net=link; role='host'; this.disabled=false;
+      $('btStatus').innerHTML='الغرفة مفتوحة باسم <b>'+esc(link.name)+'</b> — اطلب من المخمّن البحث عن هذا الجهاز.<br><small>انتظار الاتصال… يمكنك أيضًا الدخول إلى الإعداد الآن.</small>';
+      $('btSetupNote').textContent='📶 الغرفة مفتوحة — بانتظار هاتف المخمّن'; $('btSetupNote').style.display='block';
+      const b=document.createElement('button'); b.className='btn sec'; b.textContent='➡️ الإعداد وبدء الجولة'; b.onclick=()=>show('s-setup'); $('btStatus').appendChild(b);
+    }).catch(e=>{ this.disabled=false; $('btStatus').textContent=e.message||String(e); });
+  };
+  $('bt-join').onclick=function(){
+    AJ.bt.pick({title:'اختر هاتف الوصّافين'}).then(dev=>{
+      $('btStatus').innerHTML='جارٍ الاتصال بـ '+esc(dev.name)+' <span class="aj-spin"></span>';
+      return AJ.bt.connect(dev.id,{
+        onData:(m)=>{
+          if(m.t==='st'){ $('gTimer').textContent=m.left; $('gTimer').classList.toggle('low',m.left<=10); $('gScore').textContent='✅ '+m.score; $('gStatus').textContent=m.run?('البطاقة '+m.i+' من '+m.n+' — استمع للوصف وخمّن!'):'في انتظار بدء الجولة…'; if(cur!=='s-guess'&&cur!=='s-end') show('s-guess'); if(m.run&&cur==='s-end') show('s-guess'); }
+          else if(m.t==='fx'){ snd(m.ok?'ok':'no'); vib(m.ok?[40]:[20,40,20]); const f=$('flash'); f.className='flash '+(m.ok?'ok':'no'); setTimeout(()=>f.className='flash',220); }
+          else if(m.t==='end'){ snd('win'); $('endScore').textContent='النتيجة: '+m.score+' من '+m.total; const box=$('endList'); box.innerHTML=''; (m.list||[]).forEach(r=>{const d=document.createElement('div');d.className='li';d.innerHTML=`<span>${esc(r.n)}</span><span class="r">${r.ok?'✅':'⏭'}</span>`;box.appendChild(d);}); show('s-end'); }
+        },
+        onLeave:()=>{ AJ.toast('انقطع الاتصال بهاتف الوصّافين'); stopNet(); show('s-home'); },
+        onError:(e)=>AJ.toast(e),
+      });
+    }).then(link=>{ if(!link) return; net=link; role='guest'; show('s-guess'); $('gStatus').textContent='متصل ✓ — في انتظار بدء الجولة…'; })
+      .catch(e=>{ if(e&&e.message==='cancelled') return; $('btStatus').textContent=e.message||String(e); });
+  };
+  $('g-ok').onclick=()=>{ if(net) net.send({t:'act',a:'ok'}); };
+  $('g-skip').onclick=()=>{ if(net) net.send({t:'act',a:'skip'}); };
+  $('g-leave').onclick=()=>{ stopNet(); show('s-home'); };
+
+  /* ───── الربط ───── */
+  $('b-solo').onclick=()=>{ stopNet(); show('s-setup'); };
+  $('b-go').onclick=()=>{ snd('tick'); startRound(); };
+  $('b-setup-back').onclick=()=>{ if(role==='host') show('s-bt'); else show('s-home'); };
+  $('b-images').onclick=()=>{ renderImages(); show('s-images'); };
+  $('img-back').onclick=()=>show('s-home');
+  $('b-rules').onclick=()=>show('s-rules'); $('rules-back').onclick=()=>show('s-home');
+  resolveImages();
+})();
+</script>
+</body>
+</html>

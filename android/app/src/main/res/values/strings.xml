@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ألعاب أبو جنان</string>
+    <string name="title_activity_main">ألعاب أبو جنان</string>
+    <string name="package_name">sd.abujanan.hub</string>
+    <string name="custom_url_scheme">sd.abujanan.hub</string>
+</resources>

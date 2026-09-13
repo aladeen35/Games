@@ -1,0 +1,11 @@
+{
+  "appId": "sd.abujanan.hub",
+  "appName": "ألعاب أبو جنان",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

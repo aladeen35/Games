@@ -1,0 +1,20 @@
+{
+  "name": "ألعاب أبو جنان",
+  "short_name": "ألعاب أبو جنان",
+  "description": "مجموعة ألعاب أبو جنان في تطبيق واحد: تحدّي الجرس، أنا منو، ولعت، الخرطوم عالم مفتوح، وعالم الألوان مع جنان — تعمل دون إنترنت مع لعب جماعي عبر البلوتوث.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["games", "entertainment", "kids"],
+  "background_color": "#FFF3DC",
+  "theme_color": "#E9A319",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ]
+}
