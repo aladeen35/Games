@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'nut-alkalb-v12';
+const CACHE = 'nut-alkalb-v13';
 const PRECACHE = [
   './',
   'index.html',
@@ -18,6 +18,8 @@ const PRECACHE = [
   'assets/font-kufi.ttf',
   'assets/music.mp3',
   'assets/net-supabase.mjs',
+  'assets/three.mjs',
+  'assets/board3d.mjs',
   'assets/dog-star.png',
   'assets/dog-spiral.png',
   'assets/dog-diamond.png',
