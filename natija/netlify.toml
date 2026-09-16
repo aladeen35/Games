@@ -1,0 +1,11 @@
+# توجيه مسار العدّاد إلى الدالة.
+# الدالة تُعرّف مسارها بنفسها أيضاً (config.path)، وهذا التوجيه احتياط
+# للإصدارات التي لا تقرأ ذلك التعريف.
+[[redirects]]
+  from = "/api/visits"
+  to = "/.netlify/functions/visits"
+  status = 200
+  force = true
+
+[functions]
+  directory = "netlify/functions"
