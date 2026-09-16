@@ -1,11 +1,11 @@
-# توجيه مسار العدّاد إلى الدالة.
-# الدالة تُعرّف مسارها بنفسها أيضاً (config.path)، وهذا التوجيه احتياط
-# للإصدارات التي لا تقرأ ذلك التعريف.
+# إعداد Netlify عند رفع هذا المجلد وحده (سحب وإفلات).
+# جذر النشر هنا هو هذا المجلد نفسه.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
 [[redirects]]
   from = "/api/visits"
   to = "/.netlify/functions/visits"
   status = 200
   force = true
-
-[functions]
-  directory = "netlify/functions"

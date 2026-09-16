@@ -160,8 +160,20 @@
     opt = opt || {};
     var box = document.getElementById(opt.box || "visits");
     if (!box || typeof fetch !== "function") return;
-    var endpoint = opt.endpoint || "/api/visits";
+    /* تُجرَّب المسارات بالترتيب. بعض طرق الرفع لا تطبّق توجيه netlify.toml
+       ولا تقرأ config.path، فيبقى المسار المباشر للدالة هو العامل. */
+    var endpoints = opt.endpoints || [
+      opt.endpoint || "/api/visits",
+      "/.netlify/functions/visits"
+    ];
+    var endpoint = null;          /* المسار الذي نجح */
     var every = opt.interval || 45000;
+    var lastError = null;
+
+    try {
+      var remembered = sessionStorage.getItem("vep");
+      if (remembered && endpoints.indexOf(remembered) > -1) endpoint = remembered;
+    } catch (e) { /* تجاهل */ }
 
     function sid() {
       try {
@@ -211,15 +223,42 @@
       }
     }
 
-    function poll(mode) {
-      try {
-        fetch(endpoint + "?m=" + mode + "&sid=" + sid(), { cache: "no-store" })
-          .then(function (r) { return r.json(); })
-          .then(render)
-          .catch(function () { if (!shown) box.style.display = "none"; });
-      } catch (e) { if (!shown) box.style.display = "none"; }
+    function ask(url, mode) {
+      return fetch(url + "?m=" + mode + "&sid=" + sid(), { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error(url + " → " + r.status);
+          return r.json();
+        })
+        .then(function (d) {
+          if (!d || !d.ok) throw new Error(url + " → " + (d && d.error ? d.error : "ok:false"));
+          return d;
+        });
     }
 
+    function poll(mode) {
+      var list = endpoint ? [endpoint] : endpoints.slice();
+
+      function attempt(i) {
+        if (i >= list.length) {
+          if (!shown) box.style.display = "none";
+          Site.visitsError = lastError;
+          return;
+        }
+        ask(list[i], mode).then(function (d) {
+          endpoint = list[i];
+          try { sessionStorage.setItem("vep", endpoint); } catch (e) { /* تجاهل */ }
+          Site.visitsError = null;
+          render(d);
+        }).catch(function (e) {
+          lastError = (e && e.message) || String(e);
+          attempt(i + 1);
+        });
+      }
+
+      try { attempt(0); } catch (e) { if (!shown) box.style.display = "none"; }
+    }
+
+    Site.visitsPoll = poll;
     poll(firstMode());
     setInterval(function () { if (!document.hidden) poll("ping"); }, every);
     document.addEventListener("visibilitychange", function () { if (!document.hidden) poll("ping"); });

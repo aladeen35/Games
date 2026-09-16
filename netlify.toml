@@ -1,0 +1,12 @@
+# إعداد Netlify عند ربط الموقع بمستودع GitHub مباشرة.
+# مجلد النشر هو natija/ لأن جذر المستودع يحوي مشاريع أخرى.
+[build]
+  publish = "natija"
+  functions = "natija/netlify/functions"
+  command = ""
+
+[[redirects]]
+  from = "/api/visits"
+  to = "/.netlify/functions/visits"
+  status = 200
+  force = true

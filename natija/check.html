@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فحص عدّاد الزيارات</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E1F42">
+<link rel="icon" type="image/png" href="shared/assets/albashari-mark.png">
+<link rel="stylesheet" href="shared/fonts.css">
+<link rel="stylesheet" href="shared/theme.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a href="index.html" class="plate"><img src="shared/assets/albashari-logo.png" alt="شعار شركة البشري"></a>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1>فحص عدّاد الزيارات</h1>
+    <p class="sub">صفحة تشخيص — افتحها بعد رفع الموقع</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <img class="mark" src="shared/assets/albashari-mark.png" alt="">
+      <p class="lead" id="lead">جارٍ الفحص…</p>
+      <div id="verdict"></div>
+      <h2 class="sec">تفاصيل الفحص</h2>
+      <table>
+        <thead><tr><th>المسار المُجرَّب</th><th>النتيجة</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="note" id="raw"></p>
+      <div class="acts">
+        <button id="again">إعادة الفحص</button>
+        <button onclick="location.href='index.html'">رجوع للموقع</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="co">شركة البشري محمد الحسن التقنية</p>
+  </footer>
+</div>
+
+<script src="shared/site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var PATHS = ["/api/visits", "/.netlify/functions/visits"];
+  var results = [];
+
+  function test(path) {
+    var url = path + "?m=health";
+    return fetch(url, { cache: "no-store" })
+      .then(function (r) {
+        return r.text().then(function (t) {
+          var body = null;
+          try { body = JSON.parse(t); } catch (e) { /* ليس JSON */ }
+          return { path: path, status: r.status, ok: r.ok, body: body, text: t.slice(0, 160) };
+        });
+      })
+      .catch(function (e) { return { path: path, status: 0, ok: false, error: String(e) }; });
+  }
+
+  function note(cls, title, lines) {
+    var d = Site.el("div", "notice");
+    d.appendChild(Site.el("em", null, cls === "good" ? "✅" : (cls === "warn" ? "⚠️" : "⛔")));
+    var span = Site.el("span");
+    span.appendChild(Site.el("b", null, title));
+    lines.forEach(function (t) {
+      span.appendChild(document.createElement("br"));
+      span.appendChild(document.createTextNode(t));
+    });
+    d.appendChild(span);
+    return d;
+  }
+
+  function run() {
+    document.getElementById("rows").innerHTML = "";
+    document.getElementById("verdict").innerHTML = "";
+    document.getElementById("lead").textContent = "جارٍ الفحص…";
+
+    Promise.all(PATHS.map(test)).then(function (res) {
+      results = res;
+      var tb = document.getElementById("rows");
+      res.forEach(function (r) {
+        var tr = Site.el("tr");
+        tr.appendChild(Site.el("td", null, r.path));
+        var td = Site.el("td"), sp = Site.el("span", "mk");
+        if (r.ok && r.body && r.body.ok) { sp.textContent = "يعمل"; }
+        else { sp.className = "mk abs"; sp.textContent = r.status || "فشل"; }
+        td.appendChild(sp); tr.appendChild(td); tb.appendChild(tr);
+      });
+
+      var working = res.filter(function (r) { return r.ok && r.body && r.body.ok; });
+      var v = document.getElementById("verdict");
+      var lead = document.getElementById("lead");
+
+      if (!working.length) {
+        lead.textContent = "الدالة غير منشورة على الموقع";
+        v.appendChild(note("bad", "العدّاد لن يظهر، والسبب أن دالة ‎/api/visits‎ غير موجودة.", [
+          "١ — تأكد أن المجلد المرفوع يحتوي على netlify.toml ومجلد netlify/functions/visits.js.",
+          "٢ — طريقة السحب والإفلات لا تنشر الدوال في بعض الحالات. الحل الأضمن: اربط الموقع بمستودع GitHub، واجعل مجلد النشر هو مجلد الموقع.",
+          "٣ — من لوحة Netlify افتح Functions وتأكد من ظهور الدالة باسم visits.",
+          "٤ — إن لم تظهر الدالة فتأكد من إعداد Functions directory = netlify/functions."
+        ]));
+      } else {
+        var w = working[0], storage = w.body.storage;
+        var viaFallback = w.path !== PATHS[0];
+
+        if (storage === "netlify-blobs") {
+          lead.textContent = "العدّاد يعمل والأرقام محفوظة";
+          v.appendChild(note("good", "كل شيء سليم.", [
+            "الدالة تعمل على المسار: " + w.path,
+            "التخزين: Netlify Blobs — الأرقام تبقى بعد كل رفع جديد."
+          ]));
+        } else {
+          lead.textContent = "العدّاد يعمل لكن بلا تخزين دائم";
+          v.appendChild(note("warn", "التخزين غير مفعّل، فالأرقام ستعود للبذرة عند إعادة تشغيل الدالة.", [
+            "الدالة تعمل على المسار: " + w.path,
+            "الحالة: " + storage,
+            "الحل: فعّل Netlify Blobs للموقع من إعداداته، ثم أعد الفحص."
+          ]));
+        }
+
+        if (viaFallback) {
+          v.appendChild(note("warn", "المسار ‎/api/visits‎ لا يعمل، والموقع يستخدم المسار المباشر بدلاً منه.", [
+            "الموقع يتدبّر أمره تلقائياً فالعدّاد سيظهر،",
+            "ولجعل المسار القصير يعمل تأكد من رفع ملف netlify.toml مع الموقع."
+          ]));
+        }
+      }
+
+      document.getElementById("raw").textContent =
+        "الرد الخام: " + res.map(function (r) {
+          return r.path + " → " + (r.status || "لا اتصال") + " " + (r.text || r.error || "");
+        }).join("  |  ");
+    });
+  }
+
+  document.getElementById("again").addEventListener("click", run);
+  run();
+})();
+</script>
+</body>
+</html>
