@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الكليات المناسبة — بوابة الشهادة الثانوية 2026</title>
+<meta name="description" content="ابحث عن الكليات المناسبة لنسبتك وتخصصك في الثانوية، مرتّبة بترميز لوني يوضّح فرصة القبول.">
+<meta name="theme-color" content="#0E1F42">
+<link rel="icon" type="image/png" href="shared/assets/albashari-mark.png">
+<link rel="apple-touch-icon" href="shared/assets/albashari-mark.png">
+<link rel="stylesheet" href="shared/fonts.css">
+<link rel="stylesheet" href="shared/theme.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <a href="index.html" class="plate"><img src="shared/assets/albashari-logo.png" alt="شعار شركة البشري"></a>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1>الكليات المناسبة لنسبتك</h1>
+    <p class="sub">اختر نسبتك وتخصصك، ورتّب الموقع لك الكليات المطابقة</p>
+  </header>
+
+  <main>
+    <section class="panel no-print" id="searchPanel">
+      <img class="mark" src="shared/assets/albashari-mark.png" alt="">
+      <p class="lead">أدخل بيانات البحث</p>
+
+      <p class="notice" id="srcNotice"><em>ℹ️</em><span></span></p>
+
+      <div class="filters">
+        <div class="field">
+          <label for="pct">النسبة المئوية <span style="color:var(--no)">*</span></label>
+          <input type="text" id="pct" class="big-code" inputmode="decimal" autocomplete="off"
+                 spellcheck="false" maxlength="5" placeholder="مثال: 78.5">
+        </div>
+        <div class="field">
+          <label for="state">الولاية (اختياري)</label>
+          <select id="state"><option value="">كل الولايات</option></select>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:16px">
+        <label>القسم في الثانوية <span style="color:var(--no)">*</span></label>
+        <div class="chips" id="trackChips"></div>
+      </div>
+
+      <div class="field">
+        <label>التخصص <span style="color:var(--no)">*</span></label>
+        <div class="chips" id="specChips"></div>
+      </div>
+
+      <div class="field">
+        <label>نوع الجامعة</label>
+        <div class="chips" id="sectorChips"></div>
+      </div>
+
+      <div class="field" id="feesField" hidden>
+        <label for="fees">أقصى مصاريف دراسية للكليات الأهلية (بالجنيه، اختياري)</label>
+        <input type="text" id="fees" inputmode="numeric" autocomplete="off" placeholder="مثال: 2000000">
+      </div>
+
+      <button class="go" id="go">ابحث عن الكليات</button>
+      <p class="msg" id="msg" role="alert"></p>
+    </section>
+
+    <section class="panel" id="result" hidden>
+      <img class="mark" src="shared/assets/albashari-mark.png" alt="">
+      <div class="rhead">
+        <h2 class="rname" id="rTitle">نتائج المطابقة</h2>
+        <span class="badge ok" id="rCount"></span>
+      </div>
+
+      <div class="meta" id="rMeta"></div>
+      <div class="tally" id="rTally"></div>
+
+      <div class="legend no-print">
+        <span><i style="background:#D98324"></i> قبول محتمل</span>
+        <span><i style="background:#5FB07A"></i> قبول</span>
+        <span><i style="background:#12693F"></i> قبول مرتفع</span>
+        <span><i style="background:#B3342F"></i> ضعيف أو معدوم</span>
+      </div>
+
+      <div class="cols" id="rList"></div>
+      <p class="note" id="rNote"></p>
+
+      <div class="acts no-print">
+        <button id="prt">طباعة القائمة</button>
+        <button id="again">بحث جديد</button>
+        <button id="toResult">الاستعلام عن نتيجة أخرى</button>
+      </div>
+    </section>
+
+    <section class="ded no-print">
+      <h2>الإهداء</h2>
+      <p>إلى كل طالبٍ وطالبة وقفوا اليوم أمام قائمة الكليات يختارون طريقاً لبقية العمر: اختاروا ما يشبهكم، فالنسبة رقمٌ والطريق أنتم.</p>
+      <p class="sig">— أبو جنان</p>
+    </section>
+  </main>
+
+  <section class="stats no-print" id="visits" style="display:none">
+    <h2>زوّار الموقع</h2>
+    <p class="cap">يُحتسب كل فتح جديد للصفحة</p>
+    <div class="vnums">
+      <div class="vnum"><b id="vTotal">—</b><span>إجمالي الزيارات</span></div>
+      <div class="vnum"><b><span class="dot"></span><span id="vOnline">—</span></b><span>متصلون الآن</span></div>
+      <div class="vnum"><b id="vCountries">—</b><span>عدد الدول</span></div>
+    </div>
+    <div class="flags" id="vFlags"></div>
+  </section>
+
+  <footer>
+    <span class="plate"><img src="shared/assets/albashari-logo.png" alt="شعار شركة البشري"></span>
+    <p class="gift">هدية مقدمة من أبو جنان</p>
+    <p class="co">شركة البشري محمد الحسن التقنية</p>
+    <p class="dis">نسب القبول والمصاريف للاسترشاد فقط، والمرجع الرسمي المعتمد هو دليل القبول الصادر من وزارة التعليم العالي والبحث العلمي.</p>
+  </footer>
+</div>
+
+<script src="shared/site.js"></script>
+<script src="js/tracks.js"></script>
+<script src="js/colleges.js"></script>
+<script>Site.visits({ box: "visits", endpoint: "/api/visits" });</script>
+</body>
+</html>

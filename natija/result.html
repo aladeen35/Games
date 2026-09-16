@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نتيجة الشهادة الثانوية — الولاية الشمالية 2026</title>
+<meta name="description" content="الاستعلام عن نتيجة الشهادة الثانوية للولاية الشمالية للعام 2026 برقم الجلوس.">
+<meta name="theme-color" content="#0E1F42">
+<link rel="icon" type="image/png" href="shared/assets/albashari-mark.png">
+<link rel="apple-touch-icon" href="shared/assets/albashari-mark.png">
+<link rel="stylesheet" href="shared/fonts.css">
+<link rel="stylesheet" href="shared/theme.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <a href="index.html" class="plate"><img src="shared/assets/albashari-logo.png" alt="شعار شركة البشري"></a>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1>نتيجة الشهادة الثانوية للولاية الشمالية للعام 2026</h1>
+    <p class="sub">بوابة الاستعلام عن النتيجة برقم الجلوس</p>
+  </header>
+
+  <main>
+    <section class="panel no-print" id="searchPanel">
+      <img class="mark" src="shared/assets/albashari-mark.png" alt="">
+      <p class="lead">أدخل رقم الجلوس للتحقق من النتيجة</p>
+
+      <div class="field">
+        <label for="seat">رقم الجلوس</label>
+        <input type="text" id="seat" class="big-code" inputmode="numeric" autocomplete="off"
+               spellcheck="false" enterkeyhint="next" maxlength="6" placeholder="مثال: 457000">
+      </div>
+
+      <div class="field">
+        <label for="code">التحقق من الرمز</label>
+        <div class="cap-row">
+          <div class="cap-box">
+            <canvas id="cap" width="264" height="92" aria-label="رمز التحقق المصوَّر"></canvas>
+            <button type="button" class="reload" id="newcap" title="رمز جديد" aria-label="توليد رمز تحقق جديد">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+            </button>
+          </div>
+          <input type="text" id="code" autocomplete="off" autocapitalize="characters"
+                 spellcheck="false" enterkeyhint="search" maxlength="5" placeholder="اكتب الرمز">
+        </div>
+      </div>
+
+      <button class="go" id="go">استعلام عن النتيجة</button>
+      <p class="msg" id="msg" role="alert"></p>
+      <p class="hint" id="hint">جارٍ تحميل كشف النتائج…</p>
+    </section>
+
+    <section class="panel" id="result" hidden>
+      <img class="mark" src="shared/assets/albashari-mark.png" alt="">
+      <div class="rhead">
+        <h2 class="rname" id="rName"></h2>
+        <span class="badge" id="rBadge"></span>
+      </div>
+      <div class="meta" id="rMeta"></div>
+      <div class="pillars" id="rPillars"></div>
+      <h2 class="sec">درجات المواد</h2>
+      <table>
+        <thead><tr><th>المادة</th><th>الدرجة</th></tr></thead>
+        <tbody id="rMarks"></tbody>
+      </table>
+      <p class="note" id="rNote"></p>
+      <div class="acts no-print">
+        <button id="toColleges">🎓 الكليات المناسبة لنتيجتي</button>
+        <button id="prt">طباعة النتيجة</button>
+        <button id="shr">مشاركة النتيجة</button>
+        <button id="again">استعلام عن رقم آخر</button>
+      </div>
+    </section>
+
+    <section class="ded no-print">
+      <h2>الإهداء</h2>
+      <p>إلى كل طالبٍ وطالبة سهروا الليالي على ضوءٍ شحيح، وإلى أمٍّ دعت في السَّحَر، وأبٍ حمل الهمّ في صمت، وإلى معلّمٍ أعطى من عمره ولم ينتظر شكراً.</p>
+      <p>هذه صفحةٌ صغيرة في حقّ تعبكم الكبير. مبروك لمن نجح، وشدّوا الهمّة لمن تعثّر؛ فالطريق أطول من نتيجةٍ واحدة، والولاية الشمالية أنجبت من بعد كل عثرةٍ رجالاً ونساءً.</p>
+      <p class="sig">— أبو جنان</p>
+    </section>
+  </main>
+
+  <section class="stats no-print" id="visits" style="display:none">
+    <h2>زوّار الموقع</h2>
+    <p class="cap">يُحتسب كل فتح جديد للصفحة</p>
+    <div class="vnums">
+      <div class="vnum"><b id="vTotal">—</b><span>إجمالي الزيارات</span></div>
+      <div class="vnum"><b><span class="dot"></span><span id="vOnline">—</span></b><span>متصلون الآن</span></div>
+      <div class="vnum"><b id="vCountries">—</b><span>عدد الدول</span></div>
+    </div>
+    <div class="flags" id="vFlags"></div>
+  </section>
+
+  <footer>
+    <span class="plate"><img src="shared/assets/albashari-logo.png" alt="شعار شركة البشري"></span>
+    <p class="gift">هدية مقدمة من أبو جنان</p>
+    <p class="co">شركة البشري محمد الحسن التقنية</p>
+    <p class="dis">هذه الصفحة للاطلاع وتيسير البحث فقط، والمرجع الرسمي المعتمد هو كشوف وزارة التربية والتعليم بالولاية الشمالية.</p>
+  </footer>
+</div>
+
+<script src="shared/site.js"></script>
+<script src="js/tracks.js"></script>
+<script src="js/result.js"></script>
+<script>Site.visits({ box: "visits", endpoint: "/api/visits" });</script>
+</body>
+</html>
