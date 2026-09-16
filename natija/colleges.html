@@ -40,8 +40,8 @@
                  spellcheck="false" maxlength="5" placeholder="مثال: 78.5">
         </div>
         <div class="field">
-          <label for="state">الولاية (اختياري)</label>
-          <select id="state"><option value="">كل الولايات</option></select>
+          <label for="sec">نوع القبول</label>
+          <select id="sec"></select>
         </div>
       </div>
 
@@ -55,14 +55,15 @@
         <div class="chips" id="specChips"></div>
       </div>
 
-      <div class="field">
-        <label>نوع الجامعة</label>
-        <div class="chips" id="sectorChips"></div>
-      </div>
-
-      <div class="field" id="feesField" hidden>
-        <label for="fees">أقصى مصاريف دراسية للكليات الأهلية (بالجنيه، اختياري)</label>
-        <input type="text" id="fees" inputmode="numeric" autocomplete="off" placeholder="مثال: 2000000">
+      <div class="filters">
+        <div class="field">
+          <label for="uni" id="uniLabel">الجامعة (اختياري)</label>
+          <select id="uni"></select>
+        </div>
+        <div class="field">
+          <label for="q">بحث باسم التخصص (اختياري)</label>
+          <input type="text" id="q" autocomplete="off" placeholder="مثال: هندسة مدنية">
+        </div>
       </div>
 
       <button class="go" id="go">ابحث عن الكليات</button>
@@ -87,6 +88,7 @@
       </div>
 
       <div class="cols" id="rList"></div>
+      <button class="go no-print" id="more" hidden style="margin-top:14px">عرض المزيد</button>
       <p class="note" id="rNote"></p>
 
       <div class="acts no-print">

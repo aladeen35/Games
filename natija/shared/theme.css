@@ -284,6 +284,7 @@ footer .dis{font-size:11.5px; color:#7F8FAE; margin:14px auto 0; max-width:46ch;
 @media (max-width:520px){
   .col{padding:12px 13px}
   .col .nm{font-size:16.5px}
+  .tally{grid-template-columns:repeat(2,1fr)}
 }
 @media print{
   .col{break-inside:avoid; border-color:#0E1F42}
