@@ -1,0 +1,225 @@
+/* ============================================================
+   نظام تصميم «البشري» — Al-Bashari design system
+   مستخرج من صفحة: نتيجة الشهادة الثانوية للولاية الشمالية 2026
+   يُستخدم كأساس موحّد لكل فروع الموقع الجديدة.
+   الاستخدام: <link rel="stylesheet" href="../shared/theme.css">
+   ============================================================ */
+
+/* ---------- 1. الرموز اللونية والخطوط ---------- */
+:root{
+  --navy-900:#0B1A38; --navy-800:#0E1F42; --navy-700:#152C5B; --navy-600:#1E3C74;
+  --gold:#C6A35F; --gold-lt:#E7CE92; --gold-dp:#9C7B3C;
+  --cream:#F8F4E9; --cream-2:#F1EADA; --ink:#1A2438; --ink-soft:#5A6076;
+  --cyan:#2BC4D8; --ok:#1F7A4D; --no:#A32A2A; --warn:#8A5A12;
+  --sans:'Tajawal','Segoe UI',Tahoma,Arial,sans-serif;
+  --serif:'Amiri','Times New Roman',serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans); color:var(--cream); background:var(--navy-900);
+  -webkit-text-size-adjust:100%; line-height:1.6;
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, #23478C 0%, #14295A 45%, #0B1A38 100%);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+
+/* نقشة الدوائر الخفيفة المستوحاة من الشعار */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.16;
+  background-image:
+    linear-gradient(90deg, rgba(198,163,95,.35) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(43,196,216,.18) 1px, transparent 1px);
+  background-size:58px 58px, 58px 58px;
+  -webkit-mask-image:radial-gradient(80% 60% at 50% 0%, #000 0%, transparent 75%);
+  mask-image:radial-gradient(80% 60% at 50% 0%, #000 0%, transparent 75%);
+}
+.wrap{position:relative; max-width:880px; margin:0 auto; padding:0 16px 56px}
+
+/* ---------- 2. الترويسة ولوحة الشعار ---------- */
+header.site{padding:30px 0 8px; text-align:center}
+.plate{display:inline-flex; align-items:center; justify-content:center;
+  background:#fff; padding:16px 26px 14px; border-radius:22px;
+  border:1.5px solid var(--gold); box-shadow:0 14px 34px rgba(4,12,30,.5), 0 0 0 5px rgba(255,255,255,.07)}
+header.site .plate img{width:168px; max-width:46vw; height:auto; display:block}
+.rule{display:flex; align-items:center; justify-content:center; gap:12px; margin:18px auto 14px; max-width:460px}
+.rule i{flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); display:block}
+.rule b{width:9px; height:9px; background:var(--gold); transform:rotate(45deg); display:block}
+h1{font-family:var(--serif); font-weight:700; font-size:clamp(25px,6.4vw,42px); line-height:1.35;
+  margin:0; color:var(--gold-lt); text-shadow:0 2px 10px rgba(0,0,0,.5)}
+header.site .sub{margin:6px 0 0; color:#C4D2EA; font-size:clamp(14px,3.4vw,17px); font-weight:500}
+
+/* ---------- 3. اللوحة الكريمية (البطاقة الأساسية) ---------- */
+.panel{
+  position:relative; background:var(--cream); color:var(--ink);
+  border:2px solid var(--gold); border-radius:20px;
+  box-shadow:0 18px 44px rgba(4,12,30,.45);
+  padding:24px 20px; margin-top:22px; overflow:hidden;
+}
+.panel::after{content:""; position:absolute; inset:6px; border:1px solid rgba(21,44,91,.22);
+  border-radius:14px; pointer-events:none}
+.panel .mark{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:340px; opacity:.045; pointer-events:none}
+.panel > *{position:relative; z-index:1}
+
+/* ---------- 4. الحقول والنماذج ---------- */
+.lead{margin:2px 0 20px; text-align:center; font-size:clamp(15px,3.8vw,18px); font-weight:700; color:var(--navy-700)}
+.field{margin-bottom:16px}
+.field label{display:block; font-size:13.5px; font-weight:700; color:var(--ink-soft); margin-bottom:7px}
+input[type=text],input[type=search],input[type=tel],select,textarea{
+  width:100%; font-family:var(--sans); font-size:19px; font-weight:700; color:var(--navy-800);
+  padding:13px 14px; background:#fff; border:1.5px solid rgba(21,44,91,.28); border-radius:12px;
+  outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.big-code{letter-spacing:.14em; text-align:center; font-size:24px}
+input:focus,select:focus,textarea:focus{border-color:var(--gold-dp); box-shadow:0 0 0 3.5px rgba(198,163,95,.3)}
+input::placeholder{color:#A9B0C2; font-weight:500; letter-spacing:normal}
+
+/* رمز التحقق المصوَّر */
+.cap-row{display:flex; gap:10px; align-items:stretch}
+.cap-row input{flex:1; min-width:0; text-align:center; letter-spacing:.2em}
+.cap-box{display:flex; align-items:center; gap:6px; background:#fff;
+  border:1.5px solid rgba(21,44,91,.28); border-radius:12px; padding:4px 6px 4px 4px}
+.cap-box canvas{display:block; border-radius:8px; width:132px; height:46px}
+.reload{border:0; background:transparent; cursor:pointer; padding:7px; border-radius:9px;
+  color:var(--navy-600); line-height:0}
+.reload:hover{background:rgba(21,44,91,.08)}
+.reload svg{width:19px; height:19px}
+
+/* ---------- 5. الأزرار ---------- */
+button.go{
+  width:100%; margin-top:6px; cursor:pointer; font-family:var(--sans); font-weight:800; font-size:18px;
+  color:var(--gold-lt); padding:15px 18px; border-radius:14px;
+  border:2px solid var(--gold); background:linear-gradient(180deg,var(--navy-600),var(--navy-800));
+  box-shadow:0 6px 0 var(--navy-900), 0 12px 22px rgba(6,16,38,.35);
+  transition:transform .08s, box-shadow .08s;
+}
+button.go:hover{filter:brightness(1.08)}
+button.go:active{transform:translateY(4px); box-shadow:0 2px 0 var(--navy-900), 0 6px 14px rgba(6,16,38,.3)}
+.acts{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px}
+.acts button{flex:1 1 130px; cursor:pointer; font-family:var(--sans); font-weight:700; font-size:15px;
+  padding:12px 14px; border-radius:12px; border:1.5px solid var(--navy-600); background:#fff; color:var(--navy-700)}
+.acts button:hover{background:var(--navy-700); color:var(--gold-lt)}
+
+/* ---------- 6. الرسائل والتلميحات ---------- */
+.hint{margin:14px 0 0; text-align:center; font-size:12.5px; color:var(--ink-soft)}
+.msg{margin:14px 0 0; display:none; text-align:center; font-weight:700; font-size:14.5px;
+  padding:11px 14px; border-radius:11px; background:#FBEAEA; color:var(--no); border:1px solid #EBC4C4}
+.msg.on{display:block}
+.msg.good{background:#E6F3EC; color:var(--ok); border-color:#BFDFCD}
+:focus-visible{outline:3px solid var(--cyan); outline-offset:2px}
+
+/* ---------- 7. رأس النتيجة والشارات ---------- */
+.rhead{display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px;
+  padding-bottom:16px; margin-bottom:16px; border-bottom:1px solid rgba(21,44,91,.16)}
+.rname{font-family:var(--serif); font-size:clamp(23px,5.6vw,33px); font-weight:700; color:var(--navy-800);
+  margin:0; line-height:1.4; flex:1 1 auto; min-width:200px}
+.badge{font-weight:800; font-size:15px; padding:9px 18px; border-radius:999px; white-space:nowrap;
+  border:1.5px solid currentColor}
+.badge.ok{color:var(--ok); background:#E6F3EC}
+.badge.no{color:var(--no); background:#FBEAEA}
+.badge.warn{color:var(--warn); background:#FBF2DF}
+
+/* ---------- 8. شبكة البيانات والأعمدة الثلاثة ---------- */
+.meta{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:2px;
+  background:rgba(21,44,91,.14); border:1px solid rgba(21,44,91,.14); border-radius:12px; overflow:hidden}
+.meta div{background:var(--cream); padding:11px 13px}
+.meta span{display:block; font-size:12px; color:var(--ink-soft); font-weight:500}
+.meta strong{font-size:15.5px; font-weight:700; color:var(--navy-800)}
+
+.pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:18px 0}
+.pillar{text-align:center; padding:14px 8px; border-radius:14px;
+  background:linear-gradient(180deg,var(--navy-700),var(--navy-800)); border:1.5px solid var(--gold)}
+.pillar b{display:block; font-family:var(--serif); font-size:clamp(22px,6vw,31px); font-weight:700;
+  color:var(--gold-lt); line-height:1.2}
+.pillar span{display:block; font-size:12px; color:#BFCDE6; margin-top:3px; font-weight:500}
+
+/* ---------- 9. العناوين الفرعية والجداول ---------- */
+h2.sec{font-family:var(--serif); font-size:20px; color:var(--navy-800); margin:22px 0 10px; font-weight:700}
+table{width:100%; border-collapse:collapse; font-size:15.5px}
+thead th{background:var(--navy-700); color:var(--gold-lt); font-weight:700; font-size:13.5px;
+  padding:10px 13px; text-align:right}
+thead th:last-child{text-align:center; width:104px}
+tbody td{padding:10px 13px; border-bottom:1px solid rgba(21,44,91,.12); color:var(--ink)}
+tbody tr:nth-child(even) td{background:rgba(21,44,91,.035)}
+tbody td:last-child{text-align:center}
+table thead th:first-child{border-radius:0 10px 0 0}
+table thead th:last-child{border-radius:10px 0 0 0}
+.mk{display:inline-block; min-width:52px; font-weight:800; font-size:15.5px; padding:4px 10px;
+  border-radius:9px; border:1.5px solid var(--gold); background:#fff; color:var(--navy-800)}
+.mk.low{border-color:#E0B3B3; color:var(--no); background:#FDF4F4}
+.mk.abs{border-color:#E0B3B3; background:#FBEAEA; color:var(--no)}
+.note{font-size:12.5px; color:var(--ink-soft); margin:12px 0 0; line-height:1.8}
+
+/* ---------- 10. الإهداء ---------- */
+.ded{margin-top:26px; text-align:center; padding:26px 20px; border-radius:20px;
+  border:1px solid rgba(198,163,95,.45); background:rgba(11,26,56,.55)}
+.ded h2{font-family:var(--serif); font-size:22px; color:var(--gold-lt); margin:0 0 10px; font-weight:700}
+.ded p{margin:0 auto; max-width:60ch; color:#D7E0F2; font-size:15.5px; line-height:2}
+.ded p + p{margin-top:10px}
+.ded .sig{font-family:var(--serif); color:var(--gold); font-size:17px; margin-top:14px}
+
+/* ---------- 11. عدّاد الزيارات ---------- */
+.stats{margin-top:24px; padding:22px 16px; border-radius:20px; text-align:center;
+  border:1px solid rgba(198,163,95,.45); background:rgba(11,26,56,.55)}
+.stats h2{font-family:var(--serif); font-size:20px; color:var(--gold-lt); margin:0 0 4px; font-weight:700}
+.stats .cap{font-size:12.5px; color:#9FB2D2; margin:0}
+.vnums{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:16px}
+.vnum{background:rgba(255,255,255,.05); border:1px solid rgba(198,163,95,.35); border-radius:14px; padding:13px 5px}
+.vnum b{display:block; font-family:var(--serif); font-size:clamp(19px,5.4vw,28px); color:var(--gold-lt); line-height:1.25}
+.vnum span{display:block; font-size:11.5px; color:#BFCDE6; margin-top:3px}
+.dot{width:8px; height:8px; border-radius:50%; background:#3DD68C; display:inline-block;
+  vertical-align:middle; margin-inline-end:7px; box-shadow:0 0 0 0 rgba(61,214,140,.75); animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(61,214,140,0)} 100%{box-shadow:0 0 0 0 rgba(61,214,140,0)}}
+.flags{display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:16px}
+.flag{display:inline-flex; align-items:center; gap:6px; font-size:13px; color:#D7E0F2;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:5px 11px}
+.flag b{color:var(--gold-lt); font-weight:700; font-size:12.5px}
+.flag em{font-style:normal; font-size:15px; line-height:1}
+
+/* ---------- 12. التذييل ---------- */
+footer{text-align:center; padding:30px 16px 10px}
+footer .plate{padding:12px 20px 10px; border-radius:17px; margin-bottom:12px}
+footer .plate img{width:96px; height:auto; display:block}
+footer .gift{font-family:var(--serif); font-size:18px; color:var(--gold-lt); margin:0}
+footer .co{font-size:13.5px; color:#A9BAD8; margin:5px 0 0}
+footer .dis{font-size:11.5px; color:#7F8FAE; margin:14px auto 0; max-width:46ch; line-height:1.9}
+
+/* ---------- 13. بطاقات الروابط (شبكة فروع الموقع) ---------- */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:20px}
+.card{display:block; text-decoration:none; padding:18px 16px; border-radius:18px;
+  background:linear-gradient(180deg,var(--navy-700),var(--navy-800)); border:1.5px solid var(--gold);
+  box-shadow:0 10px 26px rgba(4,12,30,.35); transition:transform .12s, filter .12s}
+.card:hover{transform:translateY(-3px); filter:brightness(1.1)}
+.card em{font-style:normal; font-size:27px; line-height:1; display:block; margin-bottom:8px}
+.card b{display:block; font-family:var(--serif); font-size:19px; color:var(--gold-lt); font-weight:700}
+.card span{display:block; font-size:13px; color:#BFCDE6; margin-top:5px; line-height:1.8}
+
+/* ---------- 14. الشاشات الصغيرة ---------- */
+@media (max-width:520px){
+  .panel{padding:20px 14px; border-radius:17px}
+  .pillars{gap:7px}
+  .pillar{padding:11px 4px}
+  thead th,tbody td{padding:9px 9px; font-size:14.5px}
+  .cap-box canvas{width:112px; height:44px}
+  .acts button{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+
+/* ---------- 15. الطباعة ---------- */
+@media print{
+  body{background:#fff; color:#000}
+  body::before,.no-print,header.site .sub,.rule{display:none!important}
+  .wrap{max-width:none; padding:0}
+  header.site{padding:0 0 6px}
+  header.site .plate{padding:0; border:0; box-shadow:none}
+  header.site .plate img{width:120px}
+  h1{color:#0E1F42; font-size:22px}
+  .panel{box-shadow:none; border-color:#0E1F42; margin-top:10px; page-break-inside:avoid}
+  .pillar{background:#fff!important; border-color:#0E1F42}
+  .pillar b{color:#0E1F42} .pillar span{color:#333}
+  thead th{background:#0E1F42!important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  footer .dis{color:#444}
+}

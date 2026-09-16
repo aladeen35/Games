@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قالب الفرع الجديد — البشري</title>
+<meta name="description" content="قالب جاهز مبني على نفس تصميم بوابة نتيجة الشهادة الثانوية 2026: الترويسة، لوحة الاستعلام، بطاقة النتيجة، الإهداء، وعدّاد الزيارات.">
+<meta name="theme-color" content="#0E1F42">
+<link rel="icon" type="image/png" href="../shared/assets/albashari-mark.png">
+<link rel="apple-touch-icon" href="../shared/assets/albashari-mark.png">
+<link rel="stylesheet" href="../shared/fonts.css">
+<link rel="stylesheet" href="../shared/theme.css">
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ====== 1. الترويسة: لوحة الشعار + خط ذهبي + عنوان ====== -->
+  <header class="site">
+    <span class="plate"><img src="../shared/assets/albashari-logo.png" alt="شعار شركة البشري"></span>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1>عنوان الفرع الجديد هنا</h1>
+    <p class="sub">سطر وصف قصير يوضّح وظيفة الصفحة</p>
+  </header>
+
+  <main>
+    <!-- ====== 2. لوحة الاستعلام ====== -->
+    <section class="panel no-print" id="searchPanel">
+      <img class="mark" src="../shared/assets/albashari-mark.png" alt="">
+      <p class="lead">أدخل الرقم للتحقق من البيانات</p>
+
+      <div class="field">
+        <label for="seat">الرقم</label>
+        <input type="text" id="seat" class="big-code" inputmode="numeric" autocomplete="off"
+               spellcheck="false" enterkeyhint="next" maxlength="6" placeholder="مثال: 1001">
+      </div>
+
+      <div class="field">
+        <label for="code">التحقق من الرمز</label>
+        <div class="cap-row">
+          <div class="cap-box">
+            <canvas id="cap" width="264" height="92" aria-label="رمز التحقق المصوَّر"></canvas>
+            <button type="button" class="reload" id="newcap" title="رمز جديد" aria-label="توليد رمز تحقق جديد">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+            </button>
+          </div>
+          <input type="text" id="code" autocomplete="off" autocapitalize="characters"
+                 spellcheck="false" enterkeyhint="search" maxlength="5" placeholder="اكتب الرمز">
+        </div>
+      </div>
+
+      <button class="go" id="go">استعلام</button>
+      <p class="msg" id="msg" role="alert"></p>
+      <p class="hint" id="hint"></p>
+    </section>
+
+    <!-- ====== 3. بطاقة النتيجة ====== -->
+    <section class="panel" id="result" hidden>
+      <img class="mark" src="../shared/assets/albashari-mark.png" alt="">
+      <div class="rhead">
+        <h2 class="rname" id="rName"></h2>
+        <span class="badge" id="rBadge"></span>
+      </div>
+      <div class="meta" id="rMeta"></div>
+      <div class="pillars" id="rPillars"></div>
+      <h2 class="sec">التفاصيل</h2>
+      <table>
+        <thead><tr><th>البند</th><th>القيمة</th></tr></thead>
+        <tbody id="rRows"></tbody>
+      </table>
+      <p class="note" id="rNote"></p>
+      <div class="acts no-print">
+        <button id="prt">طباعة</button>
+        <button id="shr">مشاركة</button>
+        <button id="again">استعلام جديد</button>
+      </div>
+    </section>
+
+    <!-- ====== 4. الإهداء ====== -->
+    <section class="ded no-print">
+      <h2>الإهداء</h2>
+      <p>اكتب هنا كلمات الإهداء بلغة قريبة من القلب، سطرين أو ثلاثة لا أكثر.</p>
+      <p class="sig">— أبو جنان</p>
+    </section>
+  </main>
+
+  <!-- ====== 5. عدّاد الزيارات (يظهر فقط عند توفّر /api/visits) ====== -->
+  <section class="stats no-print" id="visits" style="display:none">
+    <h2>زوّار الموقع</h2>
+    <p class="cap">يُحتسب كل فتح جديد للصفحة</p>
+    <div class="vnums">
+      <div class="vnum"><b id="vTotal">—</b><span>إجمالي الزيارات</span></div>
+      <div class="vnum"><b><span class="dot"></span><span id="vOnline">—</span></b><span>متصلون الآن</span></div>
+      <div class="vnum"><b id="vCountries">—</b><span>عدد الدول</span></div>
+    </div>
+    <div class="flags" id="vFlags"></div>
+  </section>
+
+  <!-- ====== 6. التذييل ====== -->
+  <footer>
+    <span class="plate"><img src="../shared/assets/albashari-logo.png" alt="شعار شركة البشري"></span>
+    <p class="gift">هدية مقدمة من أبو جنان</p>
+    <p class="co">شركة البشري محمد الحسن التقنية</p>
+    <p class="dis">هذه الصفحة للاطلاع وتيسير البحث فقط، والمرجع الرسمي المعتمد هو الجهة المختصة.</p>
+  </footer>
+</div>
+
+<script src="../shared/site.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ====== بيانات تجريبية — استبدلها ببيانات الفرع الجديد ====== */
+  var DATA = {
+    1001: { name: "محمد أحمد الحسن", state: "ok", badge: "مقبول",
+            meta: { "الرقم": "1001", "الجهة": "الولاية الشمالية", "النوع": "طالب", "التاريخ": "2026" },
+            pillars: [["540 / 600", "المجموع"], ["90.0%", "النسبة"], ["ممتاز", "التقدير"]],
+            rows: [["البند الأول", "90"], ["البند الثاني", "88"], ["البند الثالث", "45"]] },
+    1002: { name: "سارة عبدالله بشير", state: "warn", badge: "قيد المراجعة",
+            meta: { "الرقم": "1002", "الجهة": "الولاية الشمالية", "النوع": "طالبة", "التاريخ": "2026" },
+            pillars: [["—", "المجموع"], ["—", "النسبة"], ["قيد المراجعة", "الحالة"]],
+            rows: [["البند الأول", "غ"], ["البند الثاني", "72"]] }
+  };
+
+  var msg = Site.message("msg");
+  var cap = Site.captcha({ canvas: "cap", reload: "newcap", input: "code" });
+  var res = document.getElementById("result");
+  var keys = Object.keys(DATA).map(Number);
+
+  document.getElementById("hint").textContent =
+    "الأرقام المتاحة في هذه النسخة التجريبية: " + keys.join("، ");
+
+  function show(rec) {
+    document.getElementById("rName").textContent = rec.name;
+    var b = document.getElementById("rBadge");
+    b.textContent = rec.badge; b.className = "badge " + rec.state;
+
+    var meta = document.getElementById("rMeta"); meta.innerHTML = "";
+    Object.keys(rec.meta).forEach(function (k) { meta.appendChild(Site.cell(k, rec.meta[k])); });
+
+    var pil = document.getElementById("rPillars"); pil.innerHTML = "";
+    rec.pillars.forEach(function (p) { pil.appendChild(Site.pillar(p[0], p[1])); });
+
+    var tb = document.getElementById("rRows"); tb.innerHTML = "";
+    rec.rows.forEach(function (r) {
+      var tr = Site.el("tr");
+      tr.appendChild(Site.el("td", null, r[0]));
+      var td = Site.el("td"), sp = Site.el("span", "mk", r[1]);
+      var n = parseFloat(r[1]);
+      if (isNaN(n)) sp.className = "mk abs"; else if (n < 50) sp.className = "mk low";
+      td.appendChild(sp); tr.appendChild(td); tb.appendChild(tr);
+    });
+
+    document.getElementById("rNote").textContent =
+      "الرمز «غ» يعني أن البند غير مكتمل ويُراجع مع الجهة المختصة.";
+    res.hidden = false;
+    res.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function search() {
+    msg.clear();
+    var seatEl = document.getElementById("seat"), codeEl = document.getElementById("code");
+    var raw = Site.normalizeDigits(seatEl.value);
+    if (!raw) { msg.fail("اكتب الرقم أولاً."); seatEl.focus(); return; }
+    if (!cap.verify(codeEl.value)) {
+      msg.fail("رمز التحقق غير صحيح. أعد كتابة الرمز الظاهر في الصورة.");
+      cap.redraw(); codeEl.value = ""; codeEl.focus(); return;
+    }
+    var rec = DATA[parseInt(raw, 10)];
+    if (!rec) {
+      res.hidden = true;
+      msg.fail("لا توجد بيانات للرقم " + raw + ".");
+      cap.redraw(); codeEl.value = ""; return;
+    }
+    show(rec); cap.redraw(); codeEl.value = "";
+  }
+
+  document.getElementById("go").addEventListener("click", search);
+  ["seat", "code"].forEach(function (id) {
+    var e = document.getElementById(id);
+    e.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); search(); } });
+    e.addEventListener("input", msg.clear);
+  });
+
+  document.getElementById("prt").addEventListener("click", Site.print);
+  document.getElementById("shr").addEventListener("click", function () {
+    Site.share(document.getElementById("rName").textContent + " — " + document.getElementById("rBadge").textContent);
+  });
+  document.getElementById("again").addEventListener("click", function () {
+    res.hidden = true;
+    document.getElementById("seat").value = ""; document.getElementById("code").value = "";
+    cap.redraw(); msg.clear();
+    document.getElementById("searchPanel").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("seat").focus();
+  });
+
+  document.getElementById("seat").focus();
+})();
+
+Site.visits({ box: "visits", endpoint: "/api/visits" });
+</script>
+</body>
+</html>
