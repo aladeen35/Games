@@ -111,7 +111,10 @@
   function show(i) {
     var st = parse(i), female = st.sex === 1, info = STATUS[st.st];
     var det = Tracks.detect(st.marks.map(function (m) { return m.name; }));
-    current = { pct: st.pct, track: det.track, spec: det.spec, status: st.st };
+    var muf = Tracks.mufadala(st.marks, det.track);
+    current = {
+      pct: st.pct, muf: muf, track: det.track, spec: det.spec, status: st.st
+    };
 
     document.getElementById("rName").textContent = st.names.join(" ");
     var b = document.getElementById("rBadge");
@@ -127,9 +130,14 @@
     meta.appendChild(Site.cell("التخصص", det.spec || "—"));
 
     var pil = document.getElementById("rPillars"); pil.innerHTML = "";
+    pil.className = "pillars";
     if (st.pct !== null) {
       pil.appendChild(Site.pillar(st.sum + " / " + (st.cnt * 100), "المجموع الكلي"));
       pil.appendChild(Site.pillar(st.pct.toFixed(1) + "%", "النسبة المئوية"));
+      if (muf) {
+        pil.className = "pillars p4";
+        pil.appendChild(Site.pillar(muf.pct.toFixed(1) + "%", "نسبة المفاضلة"));
+      }
       pil.appendChild(Site.pillar(
         st.st === "ن" ? grade(st.pct) : (st.pass50 + " / " + st.cnt),
         st.st === "ن" ? "التقدير" : "مواد بدرجة 50 فأكثر"));
@@ -156,6 +164,10 @@
       var rsc = sc ? sc.map.get(st.seat) : null;
       if (rs) notes.push("الترتيب على مستوى الولاية بين الناجحين: " + Site.fmtNum(rs) + " من " + Site.fmtNum(rk.state.total) + ".");
       if (rsc) notes.push("الترتيب على مستوى المدرسة بين الناجحين: " + rsc + " من " + sc.total + ".");
+    }
+    if (muf) {
+      notes.push("نسبة المفاضلة (" + muf.pct.toFixed(1) + "%) هي التي يُحسب عليها القبول الجامعي، " +
+                 "وتُؤخذ من أربع مواد: " + muf.subjects.join("، ") + ".");
     }
     if (st.marks.some(function (m) { return m.val === "غ"; })) notes.push("الرمز «غ» في خانة المادة يعني حالة غش.");
     if (st.marks.some(function (m) { return m.num === null && m.val !== "غ"; })) notes.push("الرموز الأخرى في خانة الدرجة رموز خاصة تُراجع مع مكتب التعليم بالمحلية.");
@@ -221,7 +233,9 @@
   /* الانتقال إلى صفحة الكليات بنسبة الطالب وتخصصه جاهزَين */
   document.getElementById("toColleges").addEventListener("click", function () {
     if (!current || current.pct === null) return;
-    location.href = "colleges.html?p=" + current.pct.toFixed(2) +
+    /* القبول يُحسب على نسبة المفاضلة، ويُرجع إلى النسبة العامة إن تعذّر حسابها */
+    var p = current.muf ? current.muf.pct : current.pct;
+    location.href = "colleges.html?p=" + p.toFixed(2) +
                     "&t=" + encodeURIComponent(current.track) +
                     "&s=" + encodeURIComponent(current.spec);
   });

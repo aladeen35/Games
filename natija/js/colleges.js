@@ -130,7 +130,7 @@
     if (!DATA) { msg.fail("البيانات لم تكتمل تحميلها بعد."); return; }
 
     var pct = parseFloat(decimal(document.getElementById("pct").value));
-    if (isNaN(pct) || pct <= 0 || pct > 100) { msg.fail("اكتب نسبة صحيحة بين 1 و 100."); return; }
+    if (isNaN(pct) || pct <= 0 || pct > 100) { msg.fail("اكتب نسبة مفاضلة صحيحة بين 1 و 100."); return; }
     if (!sel.track) { msg.fail("اختر القسم: علمي أو أدبي."); return; }
     if (!sel.spec) { msg.fail("اختر التخصص الذي درسته في الثانوية."); return; }
 
@@ -163,7 +163,7 @@
       ? Site.fmtNum(rows.length) + " كلية مطابقة" : "لا توجد نتائج";
 
     var meta = document.getElementById("rMeta"); meta.innerHTML = "";
-    meta.appendChild(Site.cell("نسبتك", pct.toFixed(1) + "%"));
+    meta.appendChild(Site.cell("نسبة المفاضلة", pct.toFixed(1) + "%"));
     meta.appendChild(Site.cell("القسم", "القسم " + (sel.track === "علمي" ? "العلمي" : "الأدبي")));
     meta.appendChild(Site.cell("التخصص", sel.spec));
     meta.appendChild(Site.cell("نوع الجامعة", sel.sector));

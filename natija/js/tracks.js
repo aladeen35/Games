@@ -44,5 +44,62 @@
     return { track: track, spec: spec };
   };
 
+  /* ---------- نسبة المفاضلة ----------
+     القبول الجامعي لا يُحسب من متوسط كل المواد، بل من أربع مواد فقط
+     حسب قاعدة دليل القبول:
+
+       المجموعة العلمية (أحياء)  : الرياضيات المتخصصة + الفيزياء + الكيمياء + الأحياء
+       المجموعة العلمية (رياضيات): الرياضيات المتخصصة + الفيزياء + الكيمياء
+                                   + (العلوم الهندسية أو علوم الحاسوب)
+       المجموعة الأدبية          : اللغة العربية + اللغة الإنجليزية + الرياضيات الأساسية
+                                   + أحسن مادة من المواد المؤهلة
+
+     المواد المؤهلة للمجموعة الأدبية: الدراسات الإسلامية، التاريخ، الجغرافيا،
+     الأدب الإنجليزي، الفنون والتصميم.                                        */
+  var MUFADALA = {
+    "علمي": {
+      fixed: ["الرياضيات المتخصصة", "الفيزياء", "الكيمياء"],
+      best: ["الأحياء", "العلوم الهندسية", "علوم الحاسوب"]
+    },
+    "أدبي": {
+      fixed: ["اللغة العربية", "اللغة الإنجليزية", "الرياضيات الأساسية"],
+      best: ["الدراسات الإسلامية", "التاريخ", "الجغرافيا", "الأدب الإنجليزي", "الفنون والتصميم"]
+    }
+  };
+  Tracks.mufadalaRule = MUFADALA;
+
+  /**
+   * يحسب نسبة المفاضلة من درجات الطالب.
+   * @param marks قائمة {name, num} — num يكون null للدرجات غير الرقمية
+   * @param track "علمي" أو "أدبي"؛ يُستنتج تلقائياً إذا تُرك فارغاً
+   * @returns {{pct:number, subjects:string[], total:number}|null}
+   *          null إذا نقصت إحدى المواد الأربع أو كانت درجتها غير رقمية
+   */
+  Tracks.mufadala = function (marks, track) {
+    marks = marks || [];
+    if (!track) track = Tracks.detect(marks.map(function (m) { return m.name; })).track;
+    var rule = MUFADALA[track];
+    if (!rule) return null;
+
+    var score = {};
+    marks.forEach(function (m) { if (m && m.num !== null && m.num !== undefined) score[m.name] = m.num; });
+
+    var picked = [], total = 0;
+    for (var i = 0; i < rule.fixed.length; i++) {
+      var n = rule.fixed[i];
+      if (!(n in score)) return null;
+      picked.push(n); total += score[n];
+    }
+
+    var bestName = null;
+    rule.best.forEach(function (n) {
+      if (n in score && (bestName === null || score[n] > score[bestName])) bestName = n;
+    });
+    if (bestName === null) return null;
+    picked.push(bestName); total += score[bestName];
+
+    return { pct: total / picked.length, subjects: picked, total: total };
+  };
+
   root.Tracks = Tracks;
 })(window);
