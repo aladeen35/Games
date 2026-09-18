@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ألعاب أبو جنان — ألعاب سودانية تراثية على هاتفك</title>
-<meta name="description" content="ست ألعاب سودانية تراثية في تطبيق واحد: نط الكلب، صفرجت، السيجة الكبرى، ولد بنت جماد نبات، كوز جوز لوز موز، وأنا مِنو. العب أونلاين مباشرة من المتصفح أو حمّل التطبيق والعب بالبلوتوث بلا إنترنت.">
+<meta name="description" content="ست ألعاب سودانية تراثية في تطبيق واحد: نط الكلب، صفرجت، السيجة الكبرى، ولد بنت جماد نبات، كوز جوز لوز موز، وأنا مِنو. العب أونلاين من المتصفح، أو حمّل تطبيق أندرويد والعب بالبلوتوث بلا إنترنت، أو نسخة ويندوز للكمبيوتر.">
 <meta name="theme-color" content="#2b1a0e">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
@@ -91,6 +91,8 @@ header.hero{text-align:center;padding:30px 0 6px}
 .cta.gold .ic{background:radial-gradient(circle at 38% 30%, #fff6e0, #a06a12 85%);color:#fff3d8}
 .cta.green{background:linear-gradient(168deg,#57b56b 0%,#3f9d52 45%,#2c7a3c 85%,#215f2e 100%);color:#f2fff4}
 .cta.green .ic{background:radial-gradient(circle at 38% 30%, #e9ffe9, #bde8c2 70%, #8fd39a);color:#215f2e}
+.cta.blue{background:linear-gradient(168deg,#4f8fd8 0%,#2f6fd0 45%,#204f9c 85%,#183d79 100%);color:#eef5ff}
+.cta.blue .ic{background:radial-gradient(circle at 38% 30%, #eaf3ff, #c3dbf8 70%, #96bbec);color:#183d79}
 
 /* ---------- panels ---------- */
 section{margin-top:34px}
@@ -165,9 +167,24 @@ a.plain:hover{color:#fff1cd}
 footer{text-align:center;margin-top:34px;padding:22px 0 10px;font-size:13.5px;font-weight:700;opacity:.9;line-height:2}
 footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
 .note{font-size:12px;opacity:.72;margin-top:10px;text-align:center;line-height:1.8}
+.dlGrid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
+.dlCard{padding:16px 14px;border-radius:20px;
+  background:linear-gradient(170deg, rgba(130,78,35,.55), rgba(48,26,10,.88));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5), 0 4px 12px rgba(0,0,0,.3)}
+.dlHead{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px}
+.dlHead b{font-size:19px;font-weight:900;color:var(--brass-hi)}
+.dlIc{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 65%, #c8944c)}
+.dlIc svg{width:20px;height:20px}
+.dlMeta{text-align:center;font-size:12.5px;font-weight:700;opacity:.82;margin-bottom:10px}
+.dlCard .cta{width:100%;min-width:0;justify-content:flex-start}
+.dlCard .note{margin-top:10px}
 @media (min-width:760px){
+  .dlGrid{grid-template-columns:1fr 1fr;align-items:start}
   .games{grid-template-columns:repeat(3,1fr)}
   .feats{grid-template-columns:repeat(3,1fr)}
+  /* لا نترك بطاقة يتيمة في آخر صف */
+  .games > :last-child:nth-child(3n+1), .feats > :last-child:nth-child(3n+1){grid-column:1 / -1}
 }
 @media (max-width:520px){
   .cta{min-width:100%;justify-content:flex-start}
@@ -185,6 +202,8 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
   <symbol id="i-wifi-off" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M2 4l20 16M5 12.5a11 11 0 0 1 4-2.6M2 8.8A16 16 0 0 1 8 5.4m8 .3a16 16 0 0 1 6 3.1M15 10.4a11 11 0 0 1 4 2.1M9.5 16a6 6 0 0 1 5-.3"/><circle cx="12" cy="19.5" r="1.4" fill="currentColor"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M11 18h2"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 20V10M10 20V4m6 16v-7m6 7V8"/></symbol>
+  <symbol id="i-android" viewBox="0 0 24 24"><path fill="currentColor" d="M5 10.5h14v7.2a1.3 1.3 0 0 1-1.3 1.3H6.3A1.3 1.3 0 0 1 5 17.7zM3.4 10.6a1.2 1.2 0 0 1 2.4 0v4.6a1.2 1.2 0 0 1-2.4 0zm14.8 0a1.2 1.2 0 0 1 2.4 0v4.6a1.2 1.2 0 0 1-2.4 0zM8.2 19.3h2.2v2.1a1.1 1.1 0 0 1-2.2 0zm5.4 0h2.2v2.1a1.1 1.1 0 0 1-2.2 0zM5.2 9.4a6.9 6.9 0 0 1 3-4.9L7 2.9a.4.4 0 0 1 .6-.5L9 4.1a7.7 7.7 0 0 1 6 0l1.4-1.7a.4.4 0 0 1 .6.5l-1.2 1.6a6.9 6.9 0 0 1 3 4.9zM9.3 7.3a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm5.4 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5z"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.6 10.4 4.6v6.6H3zm8.6-1.2L21 3v8.2h-9.4zM3 12.8h7.4v6.6L3 18.4zm8.6 0H21V21l-9.4-1.4z"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" d="M12 2.5 20 6v6c0 5-3.4 8.6-8 9.6C7.4 20.6 4 17 4 12V6z"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
 </svg>
 
@@ -193,7 +212,7 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
   <header class="hero">
     <img class="logo" src="assets/logo-main.png" alt="ألعاب أبو جنان">
     <h1>ألعاب أبو جنان</h1>
-    <p class="tag">ستّ ألعاب سودانية تراثية في تطبيق واحد —<br>العب أونلاين مع أصدقائك، أو بالبلوتوث بلا إنترنت، أو على جهاز واحد.</p>
+    <p class="tag">ستّ ألعاب سودانية تراثية في تطبيق واحد —<br>على الهاتف والكمبيوتر: أونلاين مع أصدقائك، أو بالبلوتوث بلا إنترنت، أو على جهاز واحد.</p>
     <div class="flagline">🇸🇩 من التراث السوداني · بلا إعلانات · بلا حسابات</div>
 
     <div class="ctaRow">
@@ -202,11 +221,15 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
         <span>العب الآن أونلاين<small>تفتح مباشرة في المتصفح — بلا تحميل</small></span>
       </a>
       <a class="cta green" id="apkBtn" href="AbuJanan-Games-1.2.0.apk" download>
-        <span class="ic"><svg><use href="#i-down"/></svg></span>
-        <span>حمّل التطبيق APK<small>أندرويد · الإصدار 1.2.0 · <span id="apkSize">13</span> ميجابايت</small></span>
+        <span class="ic"><svg><use href="#i-android"/></svg></span>
+        <span>حمّل تطبيق أندرويد<small>APK · الإصدار 1.2.0 · <span id="apkSize">13</span> ميجابايت</small></span>
+      </a>
+      <a class="cta blue" id="exeBtn" href="AbuJanan-Games-1.2.0-Windows.exe" download>
+        <span class="ic"><svg><use href="#i-windows"/></svg></span>
+        <span>حمّل نسخة الكمبيوتر<small>ويندوز EXE · يعمل بلا تثبيت · <span id="exeSize">84</span> ميجابايت</small></span>
       </a>
     </div>
-    <p class="note">نسخة التطبيق وحدها هي التي تدعم <b>اللعب بالبلوتوث بلا إنترنت</b>.</p>
+    <p class="note">نسخة أندرويد وحدها هي التي تدعم <b>اللعب بالبلوتوث بلا إنترنت</b>.</p>
   </header>
 
   <!-- ============ الألعاب ============ -->
@@ -271,6 +294,7 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
         <div class="feat"><div class="fic"><svg><use href="#i-bt"/></svg></div><b>بلوتوث بلا إنترنت</b><span>العبوا وأنتم متقاربون دون أي شبكة — في نسخة التطبيق.</span></div>
         <div class="feat"><div class="fic"><svg><use href="#i-users"/></svg></div><b>على جهاز واحد</b><span>تناوبا الأدوار على شاشة واحدة، أو العب ضد الجهاز.</span></div>
         <div class="feat"><div class="fic"><svg><use href="#i-wifi-off"/></svg></div><b>تعمل بلا اتصال</b><span>نسخة الويب تُثبَّت كتطبيق وتعمل بلا إنترنت في الوضع المحلي.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-windows"/></svg></div><b>على الكمبيوتر أيضاً</b><span>نسخة ويندوز محمولة تعمل بالضغط المزدوج بلا تثبيت.</span></div>
         <div class="feat"><div class="fic"><svg><use href="#i-phone"/></svg></div><b>مصمَّمة للهاتف</b><span>واجهة عربية كاملة، أصوات حقيقية، وعرض ثلاثي الأبعاد للألعاب اللوحية.</span></div>
         <div class="feat"><div class="fic"><svg><use href="#i-shield"/></svg></div><b>بلا إعلانات</b><span>لا إعلانات ولا مشتريات ولا جمع لبيانات اللاعبين.</span></div>
       </div>
@@ -295,21 +319,41 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
   <section id="download">
     <div class="panel">
       <h2 class="sec">تحميل التطبيق</h2>
-      <p class="sub">الإصدار 1.2.0 لأجهزة أندرويد 6 فما فوق.</p>
-      <div class="ctaRow" style="margin-top:6px">
-        <a class="cta green" href="AbuJanan-Games-1.2.0.apk" download>
-          <span class="ic"><svg><use href="#i-down"/></svg></span>
-          <span>تحميل AbuJanan-Games-1.2.0.apk<small>ملف مباشر · بلا متجر ولا حساب</small></span>
-        </a>
+      <p class="sub">الإصدار 1.2.0 — نسخة أندرويد ونسخة كمبيوتر.</p>
+
+      <div class="dlGrid">
+        <div class="dlCard">
+          <div class="dlHead"><span class="dlIc"><svg><use href="#i-android"/></svg></span><b>أندرويد</b></div>
+          <p class="dlMeta">APK مباشر · <span id="apkSize2">13</span> ميجابايت · أندرويد 6 فما فوق</p>
+          <a class="cta green" href="AbuJanan-Games-1.2.0.apk" download>
+            <span class="ic"><svg><use href="#i-down"/></svg></span>
+            <span>تحميل ملف APK<small>بلا متجر ولا حساب</small></span>
+          </a>
+          <ol class="steps">
+            <li>اضغط زر التحميل وانتظر اكتمال الملف.</li>
+            <li>افتح الملف من شريط الإشعارات أو من مجلد «التنزيلات».</li>
+            <li>إن ظهرت رسالة «مصادر غير معروفة» فاختر <b>إعدادات</b> ثم فعّل السماح لهذا المتصفح بتثبيت التطبيقات، وارجع واضغط <b>تثبيت</b>.</li>
+            <li>افتح التطبيق واختر لعبتك — ولتفعيل البلوتوث اسمح بإذن «الأجهزة القريبة» عند طلبه.</li>
+          </ol>
+          <p class="note">كل الإصدارات موقَّعة بشهادة «أبو جنان» نفسها، فتتحدّث النسخة القديمة مباشرة دون حذفها.</p>
+        </div>
+
+        <div class="dlCard">
+          <div class="dlHead"><span class="dlIc"><svg><use href="#i-windows"/></svg></span><b>ويندوز</b></div>
+          <p class="dlMeta">EXE محمول · <span id="exeSize2">84</span> ميجابايت · ويندوز 10 و11 (64-بت)</p>
+          <a class="cta blue" href="AbuJanan-Games-1.2.0-Windows.exe" download>
+            <span class="ic"><svg><use href="#i-down"/></svg></span>
+            <span>تحميل ملف EXE<small>يعمل مباشرة بلا تثبيت</small></span>
+          </a>
+          <ol class="steps">
+            <li>حمّل الملف ثم اضغط عليه مرتين — لا يحتاج تثبيتاً ولا صلاحيات مدير.</li>
+            <li>قد يظهر تنبيه <b>«Windows حمى جهازك»</b> لأن الملف غير موقَّع بشهادة مدفوعة: اضغط <b>«مزيد من المعلومات»</b> ثم <b>«تشغيل على أي حال»</b>.</li>
+            <li>تفتح اللعبة في نافذتها الخاصة — <b>F11</b> لملء الشاشة و<b>Ctrl+R</b> لإعادة التحميل.</li>
+            <li>يمكنك نسخ الملف على فلاشة وتشغيله على أي جهاز ويندوز آخر كما هو.</li>
+          </ol>
+          <p class="note">نسخة الكمبيوتر تدعم اللعب على جهاز واحد وأونلاين برمز الغرفة — أما البلوتوث فهو في نسخة أندرويد فقط.</p>
+        </div>
       </div>
-      <h2 class="sec" style="font-size:19px;margin-top:20px">خطوات التثبيت</h2>
-      <ol class="steps">
-        <li>اضغط زر التحميل أعلاه وانتظر اكتمال الملف.</li>
-        <li>افتح الملف من شريط الإشعارات أو من مجلد «التنزيلات».</li>
-        <li>إن ظهرت رسالة «مصادر غير معروفة» فاختر <b>إعدادات</b> ثم فعّل السماح لهذا المتصفح بتثبيت التطبيقات، وارجع واضغط <b>تثبيت</b>.</li>
-        <li>افتح التطبيق، واختر <b>أسماء اللاعبين</b> ثم لعبتك — ولتفعيل البلوتوث اسمح بإذن «الأجهزة القريبة» عند طلبه.</li>
-      </ol>
-      <p class="note">التطبيق موقَّع بشهادة «أبو جنان» نفسها في كل الإصدارات، فتتحدّث النسخة القديمة فوق الجديدة مباشرة دون حذفها.</p>
     </div>
   </section>
 
@@ -334,7 +378,9 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
     <span class="credit">إنتاج أبو جنان</span><br>
     <a class="plain" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener">العب أونلاين</a>
     &nbsp;·&nbsp;
-    <a class="plain" href="AbuJanan-Games-1.2.0.apk" download>حمّل APK</a>
+    <a class="plain" href="AbuJanan-Games-1.2.0.apk" download>أندرويد APK</a>
+    &nbsp;·&nbsp;
+    <a class="plain" href="AbuJanan-Games-1.2.0-Windows.exe" download>ويندوز EXE</a>
     &nbsp;·&nbsp;
     <a class="plain" href="stats.html">الإحصاءات</a>
   </footer>
@@ -342,11 +388,15 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
 </div>
 <script src="track.js"></script>
 <script>
-/* حجم ملف الـAPK يُقرأ من الخادم ليبقى الرقم صحيحاً مع كل إصدار */
-fetch('AbuJanan-Games-1.2.0.apk', {method:'HEAD'})
-  .then(r => { const n = +r.headers.get('content-length');
-    if(n) document.getElementById('apkSize').textContent = (n/1048576).toFixed(1); })
-  .catch(()=>{});
+/* أحجام الملفات تُقرأ من الخادم لتبقى صحيحة مع كل إصدار */
+[['AbuJanan-Games-1.2.0.apk', ['apkSize','apkSize2']],
+ ['AbuJanan-Games-1.2.0-Windows.exe', ['exeSize','exeSize2']]].forEach(([file, ids]) => {
+  fetch(file, {method:'HEAD'})
+    .then(r => { const n = +r.headers.get('content-length');
+      if(n) ids.forEach(id => { const el = document.getElementById(id);
+        if(el) el.textContent = (n/1048576).toFixed(1); }); })
+    .catch(()=>{});
+});
 </script>
 </body>
 </html>
