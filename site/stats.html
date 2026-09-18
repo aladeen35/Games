@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>إحصاءات الزوار — ألعاب أبو جنان</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2b1a0e">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+@font-face{font-family:'Noto Kufi Arabic';src:url('assets/font-kufi.ttf') format('truetype');font-weight:100 900;font-display:swap}
+:root{
+  --leather-hi:#5a3315; --leather-mid:#3d2412; --leather-lo:#241207;
+  --brass-hi:#ffd98a; --brass:#e3a83c; --brass-lo:#8a5c14;
+  --cream:#f7e6c9; --ink:#33200c;
+  --shadow-lift:0 2px 3px rgba(30,14,2,.4), 0 10px 22px rgba(30,14,2,.4), 0 26px 48px rgba(30,14,2,.38);
+  --shadow-rest:0 1px 2px rgba(30,14,2,.45), 0 4px 10px rgba(30,14,2,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,sans-serif;color:var(--cream);
+  background:#79441c url('assets/backdrop.jpg') center/cover fixed no-repeat;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(160% 120% at 50% 45%, rgba(0,0,0,.15) 30%, rgba(30,12,0,.65) 100%)}
+.wrap{position:relative;z-index:1;width:min(980px,94vw);margin:0 auto;padding:22px 0 46px}
+.top{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.top h1{font-size:clamp(20px,4.6vw,27px);font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.8)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 18px;border:none;border-radius:13px;
+  font-family:inherit;font-size:14.5px;font-weight:800;color:var(--cream);text-decoration:none;cursor:pointer;
+  background:linear-gradient(168deg,#9a6130 0%,#7a4820 45%,#5d3414 85%,#512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.3), inset 0 0 0 1.5px rgba(242,181,68,.35)}
+.btn:active{transform:translateY(2px)}
+.panel{padding:20px 17px;border-radius:24px;margin-top:15px;position:relative;overflow:hidden;
+  background:linear-gradient(168deg, var(--leather-hi) 0%, #4a2b12 22%, var(--leather-mid) 48%, #331d0d 76%, var(--leather-lo) 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 0 60px rgba(0,0,0,.45)}
+h2{font-size:18px;font-weight:900;color:var(--brass-hi);margin-bottom:12px;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:11px}
+.card{padding:14px 12px;border-radius:17px;text-align:center;
+  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.9));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5)}
+.card b{display:block;font-size:29px;font-weight:900;color:var(--brass-hi);line-height:1.3}
+.card span{font-size:12px;font-weight:700;opacity:.85}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 8px;text-align:start;border-bottom:1.5px solid rgba(201,141,78,.25);font-weight:700}
+th{color:var(--brass-hi);font-weight:900;font-size:12.5px;white-space:nowrap}
+td.num,th.num{text-align:center;width:88px}
+tr:last-child td{border-bottom:none}
+.flag{font-size:20px;margin-inline-end:7px;vertical-align:-2px}
+.bar{height:7px;border-radius:999px;background:rgba(0,0,0,.4);overflow:hidden;margin-top:5px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.6)}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#f4c766,#c1832a)}
+.chart{display:flex;align-items:flex-end;gap:3px;height:132px;padding:6px 2px 0;overflow-x:auto}
+.chart .col{flex:1;min-width:9px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+.chart .col i{display:block;width:100%;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#f4c766,#a06a12);min-height:3px;
+  box-shadow:inset 0 1px 0 rgba(255,245,210,.6)}
+.chart .col em{font-style:normal;font-size:9px;opacity:.6;white-space:nowrap}
+.msg{text-align:center;font-size:14px;font-weight:700;opacity:.85;padding:14px 4px;line-height:1.9}
+.err{background:rgba(180,60,40,.18);border-radius:14px;box-shadow:inset 0 0 0 1.5px rgba(231,76,60,.4);padding:14px;font-size:13.5px;line-height:1.9}
+.err code{display:block;margin-top:7px;font-size:12px;opacity:.9;direction:ltr;text-align:left;background:rgba(0,0,0,.3);padding:8px;border-radius:9px}
+.foot{text-align:center;margin-top:22px;font-size:12.5px;opacity:.75;line-height:1.9}
+a.plain{color:var(--brass-hi);font-weight:800;text-decoration:none;border-bottom:1.5px dashed rgba(242,181,68,.5)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>📊 إحصاءات زوّار الموقع</h1>
+    <div>
+      <a class="btn" href="index.html">← الصفحة الرئيسية</a>
+      <button class="btn" id="reload">⟳ تحديث</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cards" id="totals">
+      <div class="card"><b>…</b><span>إجمالي الزيارات</span></div>
+      <div class="card"><b>…</b><span>آخر 24 ساعة</span></div>
+      <div class="card"><b>…</b><span>آخر 7 أيام</span></div>
+      <div class="card"><b>…</b><span>آخر 30 يوماً</span></div>
+      <div class="card"><b>…</b><span>عدد الدول</span></div>
+    </div>
+    <div id="setup"></div>
+  </div>
+
+  <div class="panel"><h2>🌍 الزيارات حسب الدولة</h2><div id="countries" class="msg">جارٍ التحميل…</div></div>
+  <div class="panel"><h2>🏙️ أكثر المدن</h2><div id="cities" class="msg">جارٍ التحميل…</div></div>
+  <div class="panel"><h2>📈 الزيارات اليومية (آخر 60 يوماً)</h2><div id="daily" class="msg">جارٍ التحميل…</div></div>
+  <div class="panel"><h2>📱 الأجهزة</h2><div id="devices" class="msg">جارٍ التحميل…</div></div>
+  <div class="panel"><h2>🔗 مصادر الزيارات</h2><div id="refs" class="msg">جارٍ التحميل…</div></div>
+
+  <p class="foot">
+    تُحتسب زيارة واحدة لكل جلسة تصفّح. لا يُخزَّن عنوان IP ولا أي بيانات شخصية.<br>
+    البيانات محفوظة في مشروع Supabase الخاص بك.
+  </p>
+</div>
+
+<script src="track.js"></script>
+<script>
+'use strict';
+const AR = n => Number(n||0).toLocaleString('ar-EG');
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function flag(cc){
+  if(!cc || cc.length!==2 || !/^[A-Za-z]{2}$/.test(cc)) return '🏳️';
+  return String.fromCodePoint(...[...cc.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+}
+async function get(view, query){
+  const r = await ajRest(view + (query ? '?' + query : ''));
+  if(!r.ok){ const t = await r.text().catch(()=> ''); throw new Error(r.status + ' ' + t.slice(0,180)); }
+  return r.json();
+}
+function table(rows, cols, max){
+  if(!rows.length) return '<div class="msg">لا توجد بيانات بعد — ستظهر مع أول زيارة.</div>';
+  let h = '<table><thead><tr>' + cols.map(c => '<th'+(c.num?' class="num"':'')+'>'+c.t+'</th>').join('') + '</tr></thead><tbody>';
+  rows.forEach(r => {
+    h += '<tr>' + cols.map(c => '<td'+(c.num?' class="num"':'')+'>'+c.f(r,max)+'</td>').join('') + '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+function showSetupHelp(err){
+  document.getElementById('setup').innerHTML =
+    '<div class="err" style="margin-top:14px">⚠️ لم نتمكّن من قراءة الإحصاءات بعد.<br>'+
+    'افتح لوحة Supabase ← <b>SQL Editor</b> ← الصق محتوى الملف <b>sql/setup.sql</b> واضغط Run، ثم حدّث هذه الصفحة.'+
+    '<code>'+esc(err && err.message || err)+'</code></div>';
+}
+async function load(){
+  let failed = false;
+  try{
+    const [t] = await get('site_stats_totals','select=*');
+    document.getElementById('totals').innerHTML =
+      [[t.total,'إجمالي الزيارات'],[t.last_24h,'آخر 24 ساعة'],[t.last_7d,'آخر 7 أيام'],
+       [t.last_30d,'آخر 30 يوماً'],[t.countries,'عدد الدول']]
+      .map(([v,l]) => '<div class="card"><b>'+AR(v)+'</b><span>'+l+'</span></div>').join('');
+    document.getElementById('setup').innerHTML = '';
+  }catch(e){ failed = true; showSetupHelp(e); }
+
+  const jobs = [
+    ['countries', 'site_stats_countries', 'select=*&limit=200', rows => {
+      const max = Math.max(1, ...rows.map(r => +r.visits));
+      return table(rows, [
+        {t:'الدولة', f:r => '<span class="flag">'+flag(r.country_code)+'</span>'+esc(r.country_name)+
+          '<div class="bar"><i style="width:'+(r.visits/max*100).toFixed(1)+'%"></i></div>'},
+        {t:'الزيارات', num:true, f:r => AR(r.visits)},
+      ]);
+    }],
+    ['cities', 'site_stats_cities', 'select=*', rows => table(rows, [
+      {t:'المدينة', f:r => '<span class="flag">'+flag(r.country_code)+'</span>'+esc(r.city)},
+      {t:'الدولة', f:r => esc(r.country_name)},
+      {t:'الزيارات', num:true, f:r => AR(r.visits)},
+    ])],
+    ['devices', 'site_stats_devices', 'select=*', rows => {
+      const max = Math.max(1, ...rows.map(r => +r.visits));
+      return table(rows, [
+        {t:'الجهاز', f:r => esc(r.device)+'<div class="bar"><i style="width:'+(r.visits/max*100).toFixed(1)+'%"></i></div>'},
+        {t:'الزيارات', num:true, f:r => AR(r.visits)},
+      ]);
+    }],
+    ['refs', 'site_stats_referrers', 'select=*', rows => table(rows, [
+      {t:'المصدر', f:r => esc(r.referrer)},
+      {t:'الزيارات', num:true, f:r => AR(r.visits)},
+    ])],
+  ];
+  for(const [id, view, q, render] of jobs){
+    const el = document.getElementById(id);
+    try{ el.className=''; el.innerHTML = render(await get(view, q)); }
+    catch(e){ el.className='msg'; el.textContent = failed ? 'بانتظار تهيئة قاعدة البيانات.' : 'تعذّر التحميل.'; }
+  }
+
+  const el = document.getElementById('daily');
+  try{
+    const rows = await get('site_stats_daily','select=*');
+    if(!rows.length){ el.className='msg'; el.textContent='لا توجد بيانات بعد.'; }
+    else{
+      const max = Math.max(1, ...rows.map(r => +r.visits));
+      el.className='chart';
+      el.innerHTML = rows.map(r => {
+        const d = new Date(r.day+'T00:00:00Z');
+        const lbl = d.getUTCDate()+'/'+(d.getUTCMonth()+1);
+        return '<span class="col" title="'+lbl+' — '+AR(r.visits)+'">'+
+               '<i style="height:'+(r.visits/max*100).toFixed(1)+'%"></i><em>'+lbl+'</em></span>';
+      }).join('');
+    }
+  }catch(e){ el.className='msg'; el.textContent = failed ? 'بانتظار تهيئة قاعدة البيانات.' : 'تعذّر التحميل.'; }
+}
+document.getElementById('reload').onclick = load;
+window.addEventListener('load', () => setTimeout(load, 900));
+</script>
+</body>
+</html>

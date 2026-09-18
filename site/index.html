@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ألعاب أبو جنان — ألعاب سودانية تراثية على هاتفك</title>
+<meta name="description" content="ست ألعاب سودانية تراثية في تطبيق واحد: نط الكلب، صفرجت، السيجة الكبرى، ولد بنت جماد نبات، كوز جوز لوز موز، وأنا مِنو. العب أونلاين مباشرة من المتصفح أو حمّل التطبيق والعب بالبلوتوث بلا إنترنت.">
+<meta name="theme-color" content="#2b1a0e">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ألعاب أبو جنان — ألعاب سودانية تراثية">
+<meta property="og:description" content="ست ألعاب سودانية تراثية: العب أونلاين أو حمّل التطبيق والعب بالبلوتوث بلا إنترنت.">
+<meta property="og:image" content="assets/icon-512.png">
+<meta property="og:locale" content="ar_SD">
+<style>
+@font-face{
+  font-family:'Noto Kufi Arabic';
+  src:url('assets/font-kufi.ttf') format('truetype');
+  font-weight:100 900; font-display:swap;
+}
+:root{
+  --clay-hi:#e0a866; --clay-mid:#c37f3c; --clay-lo:#8f5423;
+  --leather-hi:#5a3315; --leather-mid:#3d2412; --leather-lo:#241207;
+  --brass-hi:#ffd98a; --brass:#e3a83c; --brass-lo:#8a5c14;
+  --cream:#f7e6c9; --cream-dim:#dbc39c; --ink:#33200c;
+  --green:#3f9d52;
+  --shadow-rest:0 1px 2px rgba(30,14,2,.45), 0 4px 10px rgba(30,14,2,.35), 0 14px 30px rgba(30,14,2,.3);
+  --shadow-lift:0 2px 3px rgba(30,14,2,.4), 0 10px 22px rgba(30,14,2,.4), 0 26px 48px rgba(30,14,2,.38);
+  --shadow-press:0 1px 1px rgba(30,14,2,.5), 0 2px 5px rgba(30,14,2,.35);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,sans-serif;
+  color:var(--cream);
+  background:#79441c url('assets/backdrop.jpg') center/cover fixed no-repeat;
+  min-height:100%; overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(130% 90% at 50% 6%, rgba(255,214,150,.26) 0%, rgba(120,60,15,0) 46%),
+    radial-gradient(160% 120% at 50% 55%, rgba(0,0,0,0) 38%, rgba(30,12,0,.6) 100%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;z-index:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.wrap{position:relative;z-index:1;width:min(1080px,94vw);margin:0 auto;padding:0 0 40px}
+
+/* ---------- hero ---------- */
+header.hero{text-align:center;padding:30px 0 6px}
+.hero img.logo{
+  width:min(300px,62vw);height:auto;display:block;margin:0 auto;
+  filter:drop-shadow(0 14px 28px rgba(20,8,0,.6)) drop-shadow(0 0 40px rgba(255,190,90,.3));
+  animation:floaty 5.5s ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero h1{
+  font-size:clamp(26px,6.2vw,44px);font-weight:900;margin-top:10px;
+  color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.85), 0 3px 10px rgba(20,8,0,.7);
+}
+.hero p.tag{font-size:clamp(14px,3.6vw,19px);font-weight:700;color:var(--cream);opacity:.93;margin-top:8px;line-height:1.75}
+.flagline{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:6px 16px;border-radius:999px;
+  font-size:13.5px;font-weight:800;color:var(--brass-hi);
+  background:rgba(0,0,0,.28);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.4)}
+
+/* ---------- CTA ---------- */
+.ctaRow{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:26px 0 8px}
+.cta{
+  display:flex;align-items:center;gap:13px;min-width:265px;padding:16px 24px;border:none;border-radius:20px;
+  font-family:inherit;font-size:19px;font-weight:900;text-decoration:none;color:var(--cream);text-align:start;
+  background:linear-gradient(168deg,#9a6130 0%,#7a4820 45%,#5d3414 85%,#512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.4);
+  transition:transform .22s var(--ease-out), box-shadow .22s;
+}
+.cta:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 0 0 1.5px rgba(242,181,68,.6)}
+.cta:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press)}
+.cta small{display:block;font-size:12.5px;font-weight:600;opacity:.85;margin-top:3px}
+.cta .ic{
+  flex:none;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 62%, #c8944c);
+  box-shadow:inset 0 -3px 6px rgba(120,70,20,.5), 0 3px 7px rgba(0,0,0,.35);
+}
+.cta .ic svg{width:26px;height:26px}
+.cta.gold{color:#3a2408;background:linear-gradient(168deg,#f4c766 0%,#e3a83c 40%,#c1832a 75%,#a06a12 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,245,210,.7), inset 0 -3px 6px rgba(120,70,10,.45)}
+.cta.gold .ic{background:radial-gradient(circle at 38% 30%, #fff6e0, #a06a12 85%);color:#fff3d8}
+.cta.green{background:linear-gradient(168deg,#57b56b 0%,#3f9d52 45%,#2c7a3c 85%,#215f2e 100%);color:#f2fff4}
+.cta.green .ic{background:radial-gradient(circle at 38% 30%, #e9ffe9, #bde8c2 70%, #8fd39a);color:#215f2e}
+
+/* ---------- panels ---------- */
+section{margin-top:34px}
+.panel{
+  padding:24px 20px;border-radius:28px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(130% 100% at 50% 0%, rgba(150,90,40,.38) 0%, rgba(150,90,40,0) 55%),
+    linear-gradient(168deg, var(--leather-hi) 0%, #4a2b12 22%, var(--leather-mid) 48%, #331d0d 76%, var(--leather-lo) 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,215,150,.15), inset 0 0 60px rgba(0,0,0,.45);
+}
+.panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23l)'/></svg>");
+}
+h2.sec{font-size:clamp(21px,4.6vw,28px);font-weight:900;text-align:center;color:var(--brass-hi);
+  text-shadow:0 -1px 0 rgba(0,0,0,.8), 0 2px 5px rgba(20,8,0,.6);margin-bottom:6px}
+p.sub{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px;line-height:1.8}
+
+/* ---------- games ---------- */
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;position:relative}
+.game{
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px 15px;border-radius:20px;text-align:center;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(190,120,55,.4) 0%, rgba(190,120,55,0) 60%),
+    linear-gradient(168deg,#8a5427 0%,#6a3d1a 55%,#512c10 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.4);
+  transition:transform .22s var(--ease-out), box-shadow .22s;
+}
+.game:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift), inset 0 0 0 1.5px rgba(242,181,68,.6)}
+.game img{height:104px;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(20,8,0,.55))}
+.game b{font-size:17px;font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.85)}
+.game span{font-size:12.5px;font-weight:600;opacity:.86;line-height:1.65}
+.game .tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.tg{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.3);color:var(--brass-hi);
+  box-shadow:inset 0 0 0 1px rgba(242,181,68,.35)}
+
+/* ---------- features ---------- */
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px}
+.feat{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 10px;border-radius:18px;text-align:center;
+  background:linear-gradient(170deg,#7a4820 0%,#63381a 40%,#4a2810 100%);
+  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.3), inset 0 0 0 1.5px rgba(242,181,68,.4)}
+.feat .fic{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
+  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 62%, #c8944c);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
+.feat .fic svg{width:26px;height:26px}
+.feat b{font-size:15px;font-weight:900;color:var(--brass-hi)}
+.feat span{font-size:12.5px;font-weight:600;opacity:.85;line-height:1.6}
+
+/* ---------- shots ---------- */
+.shots{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory}
+.shots figure{flex:none;width:min(230px,62vw);scroll-snap-align:center;text-align:center}
+.shots img{width:100%;border-radius:18px;display:block;
+  box-shadow:0 10px 24px rgba(20,8,0,.55), inset 0 0 0 2px rgba(242,181,68,.35), 0 0 0 2px rgba(242,181,68,.35)}
+.shots figcaption{margin-top:8px;font-size:12.5px;font-weight:800;color:var(--brass-hi)}
+
+/* ---------- steps ---------- */
+ol.steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:9px;margin-top:6px}
+ol.steps li{counter-increment:s;display:flex;gap:11px;align-items:flex-start;padding:11px 14px;border-radius:14px;
+  background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.35);font-size:14px;font-weight:700;line-height:1.7}
+ol.steps li::before{content:counter(s);flex:none;width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;color:#3a2408;background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 70%, #c8944c)}
+
+/* ---------- stats badge ---------- */
+.statsRow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.statCard{min-width:140px;padding:14px 18px;border-radius:18px;text-align:center;
+  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.9));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5), 0 3px 9px rgba(0,0,0,.35)}
+.statCard b{display:block;font-size:30px;font-weight:900;color:var(--brass-hi);line-height:1.25}
+.statCard span{font-size:12.5px;font-weight:700;opacity:.85}
+a.plain{color:var(--brass-hi);font-weight:800;text-decoration:none;border-bottom:1.5px dashed rgba(242,181,68,.55)}
+a.plain:hover{color:#fff1cd}
+
+footer{text-align:center;margin-top:34px;padding:22px 0 10px;font-size:13.5px;font-weight:700;opacity:.9;line-height:2}
+footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
+.note{font-size:12px;opacity:.72;margin-top:10px;text-align:center;line-height:1.8}
+@media (min-width:760px){
+  .games{grid-template-columns:repeat(3,1fr)}
+  .feats{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:520px){
+  .cta{min-width:100%;justify-content:flex-start}
+  .game img{height:88px}
+}
+</style>
+</head>
+<body>
+<svg style="display:none">
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.2c0-.9 1-1.5 1.8-1l9 6.8c.7.5.7 1.5 0 2l-9 6.8c-.8.5-1.8-.1-1.8-1z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+  <symbol id="i-bt" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m7 7 10 10-5 5V2l5 5L7 17"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path fill="none" stroke="currentColor" stroke-width="2.2" d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M2.5 20a6.5 6.5 0 0 1 13 0M17 5.2a3.4 3.4 0 0 1 0 6.6M18.5 20a6 6 0 0 0-3-5.2"/></symbol>
+  <symbol id="i-wifi-off" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M2 4l20 16M5 12.5a11 11 0 0 1 4-2.6M2 8.8A16 16 0 0 1 8 5.4m8 .3a16 16 0 0 1 6 3.1M15 10.4a11 11 0 0 1 4 2.1M9.5 16a6 6 0 0 1 5-.3"/><circle cx="12" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M11 18h2"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 20V10M10 20V4m6 16v-7m6 7V8"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" d="M12 2.5 20 6v6c0 5-3.4 8.6-8 9.6C7.4 20.6 4 17 4 12V6z"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
+</svg>
+
+<div class="wrap">
+
+  <header class="hero">
+    <img class="logo" src="assets/logo-main.png" alt="ألعاب أبو جنان">
+    <h1>ألعاب أبو جنان</h1>
+    <p class="tag">ستّ ألعاب سودانية تراثية في تطبيق واحد —<br>العب أونلاين مع أصدقائك، أو بالبلوتوث بلا إنترنت، أو على جهاز واحد.</p>
+    <div class="flagline">🇸🇩 من التراث السوداني · بلا إعلانات · بلا حسابات</div>
+
+    <div class="ctaRow">
+      <a class="cta gold" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener">
+        <span class="ic"><svg><use href="#i-play"/></svg></span>
+        <span>العب الآن أونلاين<small>تفتح مباشرة في المتصفح — بلا تحميل</small></span>
+      </a>
+      <a class="cta green" id="apkBtn" href="AbuJanan-Games-1.2.0.apk" download>
+        <span class="ic"><svg><use href="#i-down"/></svg></span>
+        <span>حمّل التطبيق APK<small>أندرويد · الإصدار 1.2.0 · <span id="apkSize">13</span> ميجابايت</small></span>
+      </a>
+    </div>
+    <p class="note">نسخة التطبيق وحدها هي التي تدعم <b>اللعب بالبلوتوث بلا إنترنت</b>.</p>
+  </header>
+
+  <!-- ============ الألعاب ============ -->
+  <section>
+    <div class="panel">
+      <h2 class="sec">الألعاب الستّ</h2>
+      <p class="sub">كل لعبة بقوانينها الأصلية كما تُلعب في السودان، وبشاشة قوانين داخل التطبيق.</p>
+      <div class="games">
+
+        <div class="game">
+          <img src="assets/logo.png" alt="نط الكلب" loading="lazy">
+          <b>نط الكلب</b>
+          <span>لوحة 5×5 و12 كلباً لكل لاعب — نُطّ فوق كلاب خصمك واستبعدها، مع الضربات المتعددة.</span>
+          <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
+        </div>
+
+        <div class="game">
+          <img src="assets/sufraget-logo.png" alt="صفرجت" loading="lazy">
+          <b>صفرجت</b>
+          <span>السيجة السودانية الصغيرة 3×3 — أنزل قطعك ثم حرّكها، ومن رتّب ثلاثه في خط فاز.</span>
+          <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
+        </div>
+
+        <div class="game">
+          <img src="assets/seega-logo.png" alt="السيجة الكبرى" loading="lazy">
+          <b>السيجة الكبرى</b>
+          <span>الشطرنج الشعبي 5×5 — رصّ 12 قطعة، ثم حاصر وكُل بالساندوتش مع الأكل المتتالي وحماية العين.</span>
+          <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
+        </div>
+
+        <div class="game">
+          <img src="assets/wbjn-logo.png" alt="ولد بنت جماد نبات" loading="lazy">
+          <b>ولد بنت جماد نبات</b>
+          <span>كلمات وسرعة من 2 إلى 5 لاعبين — حرف عشوائي، ستّ فئات، وزر ستوب يوقف الجميع.</span>
+          <div class="tags"><i class="tg">2 — 5 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i></div>
+        </div>
+
+        <div class="game">
+          <img src="assets/kz-logo.png" alt="كوز جوز لوز موز" loading="lazy">
+          <b>كوز جوز لوز موز</b>
+          <span>مرّر البطاقات واجمع أربعاً متطابقة، واضغط «أنا فزت!» فيتسابق البقية على زر الاستجابة.</span>
+          <div class="tags"><i class="tg">3 — 4 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i></div>
+        </div>
+
+        <div class="game">
+          <img src="assets/mino-logo.png" alt="أنا مِنو" loading="lazy">
+          <b>أنا مِنو</b>
+          <span>30 بطاقة شخصية ولكلٍّ شخصية سرية — اسأل أسئلة «نعم/لا»، استبعد، وخمّن قبل خصمك.</span>
+          <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">ضد الجهاز</i></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ المزايا ============ -->
+  <section>
+    <div class="panel">
+      <h2 class="sec">لماذا ألعاب أبو جنان؟</h2>
+      <div class="feats">
+        <div class="feat"><div class="fic"><svg><use href="#i-globe"/></svg></div><b>أونلاين برمز غرفة</b><span>أنشئ غرفة وشارك رمزاً من 4 رموز — بلا تسجيل ولا حساب.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-bt"/></svg></div><b>بلوتوث بلا إنترنت</b><span>العبوا وأنتم متقاربون دون أي شبكة — في نسخة التطبيق.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-users"/></svg></div><b>على جهاز واحد</b><span>تناوبا الأدوار على شاشة واحدة، أو العب ضد الجهاز.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-wifi-off"/></svg></div><b>تعمل بلا اتصال</b><span>نسخة الويب تُثبَّت كتطبيق وتعمل بلا إنترنت في الوضع المحلي.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-phone"/></svg></div><b>مصمَّمة للهاتف</b><span>واجهة عربية كاملة، أصوات حقيقية، وعرض ثلاثي الأبعاد للألعاب اللوحية.</span></div>
+        <div class="feat"><div class="fic"><svg><use href="#i-shield"/></svg></div><b>بلا إعلانات</b><span>لا إعلانات ولا مشتريات ولا جمع لبيانات اللاعبين.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ لقطات ============ -->
+  <section>
+    <div class="panel">
+      <h2 class="sec">من داخل التطبيق</h2>
+      <p class="sub">اسحب يميناً ويساراً لتصفّح اللقطات.</p>
+      <div class="shots">
+        <figure><img src="assets/shots/hub.jpg" alt="الشاشة الرئيسية" loading="lazy"><figcaption>الشاشة الرئيسية</figcaption></figure>
+        <figure><img src="assets/shots/nut.jpg" alt="نط الكلب" loading="lazy"><figcaption>نط الكلب</figcaption></figure>
+        <figure><img src="assets/shots/mino.jpg" alt="أنا مِنو" loading="lazy"><figcaption>أنا مِنو</figcaption></figure>
+        <figure><img src="assets/shots/seega.jpg" alt="السيجة الكبرى" loading="lazy"><figcaption>السيجة الكبرى</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ التحميل ============ -->
+  <section id="download">
+    <div class="panel">
+      <h2 class="sec">تحميل التطبيق</h2>
+      <p class="sub">الإصدار 1.2.0 لأجهزة أندرويد 6 فما فوق.</p>
+      <div class="ctaRow" style="margin-top:6px">
+        <a class="cta green" href="AbuJanan-Games-1.2.0.apk" download>
+          <span class="ic"><svg><use href="#i-down"/></svg></span>
+          <span>تحميل AbuJanan-Games-1.2.0.apk<small>ملف مباشر · بلا متجر ولا حساب</small></span>
+        </a>
+      </div>
+      <h2 class="sec" style="font-size:19px;margin-top:20px">خطوات التثبيت</h2>
+      <ol class="steps">
+        <li>اضغط زر التحميل أعلاه وانتظر اكتمال الملف.</li>
+        <li>افتح الملف من شريط الإشعارات أو من مجلد «التنزيلات».</li>
+        <li>إن ظهرت رسالة «مصادر غير معروفة» فاختر <b>إعدادات</b> ثم فعّل السماح لهذا المتصفح بتثبيت التطبيقات، وارجع واضغط <b>تثبيت</b>.</li>
+        <li>افتح التطبيق، واختر <b>أسماء اللاعبين</b> ثم لعبتك — ولتفعيل البلوتوث اسمح بإذن «الأجهزة القريبة» عند طلبه.</li>
+      </ol>
+      <p class="note">التطبيق موقَّع بشهادة «أبو جنان» نفسها في كل الإصدارات، فتتحدّث النسخة القديمة فوق الجديدة مباشرة دون حذفها.</p>
+    </div>
+  </section>
+
+  <!-- ============ الزوار ============ -->
+  <section id="visitors">
+    <div class="panel">
+      <h2 class="sec">زوّار الموقع</h2>
+      <p class="sub">عدّاد مباشر لزوار هذه الصفحة وعدد الدول التي زارتنا منها.</p>
+      <div class="statsRow">
+        <div class="statCard"><b id="visitCount">…</b><span>إجمالي الزيارات</span></div>
+        <div class="statCard"><b id="visitCountries">…</b><span>دولة زارتنا</span></div>
+      </div>
+      <p class="sub" style="margin-top:16px;margin-bottom:0">
+        <a class="plain" href="stats.html">افتح لوحة الإحصاءات الكاملة — الدول والمدن والأجهزة والمصادر ↩</a>
+      </p>
+      <p class="note">لا نخزّن عنوان IP ولا أي بيانات شخصية — فقط الدولة والمدينة ونوع الجهاز ومصدر الزيارة.</p>
+    </div>
+  </section>
+
+  <footer>
+    ألعاب أبو جنان 🇸🇩 — ألعاب سودانية تراثية<br>
+    <span class="credit">إنتاج أبو جنان</span><br>
+    <a class="plain" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener">العب أونلاين</a>
+    &nbsp;·&nbsp;
+    <a class="plain" href="AbuJanan-Games-1.2.0.apk" download>حمّل APK</a>
+    &nbsp;·&nbsp;
+    <a class="plain" href="stats.html">الإحصاءات</a>
+  </footer>
+
+</div>
+<script src="track.js"></script>
+<script>
+/* حجم ملف الـAPK يُقرأ من الخادم ليبقى الرقم صحيحاً مع كل إصدار */
+fetch('AbuJanan-Games-1.2.0.apk', {method:'HEAD'})
+  .then(r => { const n = +r.headers.get('content-length');
+    if(n) document.getElementById('apkSize').textContent = (n/1048576).toFixed(1); })
+  .catch(()=>{});
+</script>
+</body>
+</html>
