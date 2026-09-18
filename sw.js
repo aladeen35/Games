@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'nut-alkalb-v13';
+const CACHE = 'nut-alkalb-v14';
 const PRECACHE = [
   './',
   'index.html',
@@ -9,6 +9,7 @@ const PRECACHE = [
   'assets/seega-logo.png',
   'assets/wbjn-logo.png',
   'assets/kz-logo.png',
+  'assets/mino-logo.png',
   'assets/backdrop.jpg',
   'assets/favicon.png',
   'assets/icon-192.png',
@@ -33,6 +34,36 @@ const PRECACHE = [
   'assets/snd/o2.wav',
   'assets/snd/o3.wav',
   'assets/snd/die.wav',
+  'assets/mino/1.jpg',
+  'assets/mino/2.jpg',
+  'assets/mino/3.jpg',
+  'assets/mino/4.jpg',
+  'assets/mino/5.jpg',
+  'assets/mino/6.jpg',
+  'assets/mino/7.jpg',
+  'assets/mino/8.jpg',
+  'assets/mino/9.jpg',
+  'assets/mino/10.jpg',
+  'assets/mino/11.jpg',
+  'assets/mino/12.jpg',
+  'assets/mino/13.jpg',
+  'assets/mino/14.jpg',
+  'assets/mino/15.jpg',
+  'assets/mino/16.jpg',
+  'assets/mino/17.jpg',
+  'assets/mino/18.jpg',
+  'assets/mino/19.jpg',
+  'assets/mino/20.jpg',
+  'assets/mino/21.jpg',
+  'assets/mino/22.jpg',
+  'assets/mino/23.jpg',
+  'assets/mino/24.jpg',
+  'assets/mino/25.jpg',
+  'assets/mino/26.jpg',
+  'assets/mino/27.jpg',
+  'assets/mino/28.jpg',
+  'assets/mino/29.jpg',
+  'assets/mino/30.jpg',
 ];
 
 self.addEventListener('install', e => {

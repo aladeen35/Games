@@ -497,6 +497,101 @@ input.code{
   box-shadow:inset 0 0 0 1.5px rgba(60,90,160,.25);font-weight:800;color:#1c2c50}
 .wbPlayerItem .dot{width:12px;height:12px;border-radius:50%;background:#5a9e34}
 
+
+/* ---------- أنا مِنو: بطاقات الشخصيات ---------- */
+.mnHead{display:flex;gap:10px;align-items:stretch;margin-bottom:6px}
+.mnSecret{
+  flex:none;width:96px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px 6px;border-radius:16px;
+  background:linear-gradient(170deg, rgba(130,78,35,.65), rgba(48,26,10,.9));
+  box-shadow:inset 0 0 0 2px var(--brass), 0 3px 9px rgba(0,0,0,.4);
+}
+.mnSecret img{width:72px;height:72px;object-fit:cover;border-radius:11px;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+.mnSecLbl{font-size:10.5px;font-weight:900;color:var(--brass-hi);letter-spacing:.2px}
+.mnSecNm{font-size:11.5px;font-weight:900;color:var(--cream);text-align:center;line-height:1.35}
+.mnMeta{flex:1;display:flex;flex-direction:column;justify-content:center;gap:7px;min-width:0}
+#mnTurn{
+  text-align:center;font-size:15.5px;font-weight:900;color:var(--cream);padding:8px 12px;border-radius:999px;
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5);
+}
+#mnTurn.me{color:#3a2408;background:linear-gradient(168deg,#f4c766,#c1832a);box-shadow:0 0 14px rgba(242,181,68,.55)}
+.mnStats{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.mnStat{font-size:11.5px;font-weight:700;color:var(--cream-dim);padding:2px 9px;border-radius:999px;background:rgba(0,0,0,.25)}
+.mnStat b{color:var(--brass-hi);font-size:13px}
+.mnTimerBar{height:6px;border-radius:999px;overflow:hidden;background:rgba(0,0,0,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.6)}
+.mnTimerBar i{display:block;height:100%;width:100%;border-radius:999px;background:linear-gradient(90deg,#f4c766,#e3a83c);transition:width .9s linear}
+.mnTimerBar i.low{background:linear-gradient(90deg,#e8574b,#b5432f)}
+
+.mnGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;width:100%;margin:8px 0 4px}
+.mnCard{
+  position:relative;padding:0;border:none;border-radius:11px;overflow:hidden;aspect-ratio:1/1;background:#123054;font-family:inherit;
+  box-shadow:0 3px 7px rgba(20,8,0,.45), inset 0 0 0 2px rgba(201,141,78,.5);
+  transition:transform .2s var(--ease-spring), filter .3s, opacity .3s, box-shadow .2s;
+}
+.mnCard img{width:100%;height:100%;object-fit:cover;display:block}
+.mnCard .mnNm{
+  position:absolute;inset-inline-start:3px;top:3px;font-size:9.5px;font-weight:900;color:#fff;line-height:1;padding:3px 7px;border-radius:999px;
+  background:rgba(8,22,50,.82);box-shadow:0 1px 3px rgba(0,0,0,.5);
+  max-width:calc(100% - 6px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.mnCard.out img{filter:grayscale(1) brightness(.4)}
+.mnCard.out .mnNm{opacity:.5}
+.mnCard.out{opacity:.9}
+.mnCard.out::after{
+  content:"✕";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:900;color:#ff6a58;text-shadow:0 2px 7px rgba(0,0,0,.9);
+}
+.mnCard:active{transform:scale(.95)}
+.mnGrid.guessing .mnCard{box-shadow:0 3px 7px rgba(20,8,0,.45), inset 0 0 0 2px rgba(231,76,60,.85)}
+.mnGrid.guessing .mnCard.out{opacity:.35}
+.mnCard.flash{animation:mnFlash .6s var(--ease-out)}
+@keyframes mnFlash{0%{box-shadow:0 0 0 3px var(--brass), 0 0 18px rgba(242,181,68,.9)}100%{box-shadow:0 3px 7px rgba(20,8,0,.45), inset 0 0 0 2px rgba(201,141,78,.5)}}
+.mnActs .btn{flex:1;justify-content:center;min-width:130px}
+
+.mnLogHead{
+  width:100%;margin-top:10px;padding:9px 14px;border:none;border-radius:13px;font-family:inherit;font-size:13.5px;font-weight:900;text-align:start;
+  color:var(--brass-hi);background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.4);
+}
+.mnLog{display:flex;flex-direction:column;gap:5px;margin-top:6px;max-height:190px;overflow-y:auto}
+.mnLogItem{
+  display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:11px;
+  background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.3);
+  font-size:12.5px;font-weight:700;color:var(--cream);
+}
+.mnLogItem .who{flex:none;font-size:10.5px;font-weight:900;color:var(--brass-hi);min-width:52px}
+.mnLogItem .qt{flex:1;line-height:1.4}
+.mnLogItem .av{flex:none;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:900;color:#fff}
+.mnLogItem .av.y{background:#3f9d52}
+.mnLogItem .av.n{background:#c0392b}
+
+#mnAsk{position:fixed;inset:0;z-index:72;display:none;align-items:center;justify-content:center;padding:14px;
+  background:rgba(22,10,0,.78);backdrop-filter:blur(4px)}
+#mnAsk.show{display:flex}
+#mnAskCard{
+  width:100%;max-width:460px;max-height:86vh;overflow-y:auto;padding:18px 15px;border-radius:24px;text-align:center;
+  background:linear-gradient(168deg,var(--leather-hi) 0%,#4a2b12 25%,var(--leather-mid) 60%,var(--leather-lo) 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4);
+  color:var(--cream);
+}
+#mnAskCard h2{font-size:20px;margin-bottom:8px;color:var(--brass-hi)}
+.mnQs{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.mnQ{
+  width:100%;padding:11px 14px;border:none;border-radius:13px;font-family:inherit;font-size:14.5px;font-weight:800;text-align:start;
+  color:var(--ink);background:linear-gradient(180deg,#fdf3e0,#eeddbc);
+  box-shadow:0 3px 0 rgba(90,50,15,.45), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.mnQ:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(90,50,15,.45)}
+.mnQ:disabled{opacity:.4;background:rgba(255,255,255,.25);color:var(--cream);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.3)}
+.mnResCards{display:flex;gap:12px;justify-content:center;margin:10px 0}
+.mnResOne{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px;border-radius:16px;
+  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.9));box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5)}
+.mnResOne img{width:104px;height:104px;object-fit:cover;border-radius:13px;box-shadow:0 3px 8px rgba(0,0,0,.5)}
+.mnScoreBox{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.mnScoreBox .mnSc{padding:8px 14px;border-radius:14px;font-weight:900;font-size:14px;color:var(--cream);
+  background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.45)}
+.mnScoreBox .mnSc b{display:block;font-size:22px;color:var(--brass-hi)}
+@media (max-width:360px){ .mnCard .mnNm{font-size:8.5px;padding:2px 5px} .mnSecret{width:84px} .mnSecret img{width:62px;height:62px} }
+
 /* ---------- كوز جوز لوز موز: cards ---------- */
 .kOpps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
 .kOpp{
@@ -702,10 +797,15 @@ footer .credit{
           <span class="gname">ولد بنت جماد نبات</span>
           <small>كل حرف له عالم! — 2 إلى 5</small>
         </button>
-        <button class="gameCard wide" data-game="kz">
+        <button class="gameCard" data-game="kz">
           <img src="assets/kz-logo.png" alt="كوز جوز لوز موز">
           <span class="gname">كوز جوز لوز موز</span>
-          <small>مرّر البطاقات واجمع 4 متطابقة… أو ستوب! — أونلاين 3-4 لاعبين</small>
+          <small>مرّر البطاقات واجمع 4 متطابقة — أونلاين 3-4</small>
+        </button>
+        <button class="gameCard" data-game="mn">
+          <img src="assets/mino-logo.png" alt="أنا مِنو">
+          <span class="gname">أنا مِنو</span>
+          <small>اسأل واستبعد وخمّن الشخصية — لاعبان</small>
         </button>
       </div>
       <div class="row" style="margin-top:10px">
@@ -725,7 +825,7 @@ footer .credit{
       <h2 id="gameMenuTitle">نط الكلب</h2>
       <button class="bigbtn" id="localBtn">
         <span class="ic"><svg><use href="#i-users"/></svg></span>
-        <span>لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
+        <span id="localBtnTxt">لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
       </button>
       <button class="bigbtn" id="onlineBtn">
         <span class="ic"><svg><use href="#i-globe"/></svg></span>
@@ -819,6 +919,15 @@ footer .credit{
         <li>ممنوع رؤية بطاقات الآخرين أو التنسيق معهم — كلٌّ يعتمد على بطاقاته وقراره.</li>
         <li><b>🏆 أنا فزت!</b> — من جمع 4 بطاقات متطابقة يضغط الزر فتتجمد الجولة، ويظهر <b>زر الاستجابة</b> فوراً للبقية: الأسرع ضغطاً يأخذ المركز الثاني ثم الثالث ثم الرابع (يُقاس زمن الضغط على جهاز كل لاعب بدقة).</li>
         <li><b>النقاط:</b> الأول 4، الثاني 3، الثالث 2، الرابع 1 (مع 3 لاعبين: 3/2/1) — وتتراكم عبر الجولات، وصاحب أعلى مجموع بعد كل الجولات هو الفائز.</li>
+      </ol>
+      <ol class="rulesList" id="rulesMino" style="display:none">
+        <li><b>لاعبان</b>: أونلاين برمز غرفة، أو عبر <b>البلوتوث بلا إنترنت</b>، أو جولة سريعة <b>ضد الجهاز</b>.</li>
+        <li>أمام كل لاعب <b>30 بطاقة شخصية</b> — ويحصل كل لاعب على <b>شخصية سرية</b> واحدة من بينها لا يعرفها خصمه.</li>
+        <li><b>في دورك:</b> إمّا أن تسأل سؤالاً واحداً بـ«نعم/لا» من بنك الأسئلة (المظهر، المهنة، الملابس، الإكسسوارات، الصفات) — وتُحتسب الإجابة تلقائياً من شخصية خصمك السرية — وإمّا أن تُخمّن.</li>
+        <li>بعد الإجابة ينتقل الدور إلى خصمك. لكل دور <b>90 ثانية</b>، ومن انتهى وقته يفقد دوره.</li>
+        <li><b>الاستبعاد:</b> اضغط أي بطاقة لاستبعادها أو لإعادتها. وزرّ <b>«استبعاد تلقائي»</b> يستبعد عنك كل الشخصيات المخالفة للإجابة.</li>
+        <li><b>التخمين:</b> اضغط «خمّن الشخصية» ثم اختر البطاقة — التخمين الصحيح يفوز بالجولة، و<b>الخاطئ يعني الخسارة فوراً</b>.</li>
+        <li><b>النقاط:</b> 100 نقطة ناقص 5 عن كل سؤال سألته (وبحدٍّ أدنى 20)، زائد <b>مكافأة سرعة</b> تبدأ من 50 وتنقص نقطة كل 12 ثانية — فكلما خمّنت أسرع وبأسئلة أقل زادت نقاطك.</li>
       </ol>
       <ol class="rulesList" id="rulesWbjn" style="display:none">
         <li>يتنافس <b>من 2 إلى 5 لاعبين</b> في عدة جولات، وفي كل جولة حرف واحد عشوائي.</li>
@@ -1090,6 +1199,99 @@ footer .credit{
     </div>
   </section>
 
+
+  <!-- ===================== أنا مِنو ===================== -->
+  <section id="mnLobbyScreen" class="screen">
+    <div class="panel" id="mnLobbyMenu">
+      <h2>أنا مِنو — لاعبان</h2>
+      <div class="row"><button class="btn gold" id="mnCreateBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button></div>
+      <div class="row" style="margin-top:12px">
+        <input type="text" class="code" id="mnJoinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <button class="btn" id="mnJoinBtn"><svg><use href="#i-door"/></svg>انضمام</button>
+      </div>
+      <p class="hint">لكل لاعب شخصية سرية من الثلاثين — اسأل، استبعد، وخمّن قبل خصمك!</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+    <div class="panel" id="mnWaitCard" style="display:none;text-align:center">
+      <h2>غرفة أنا مِنو</h2>
+      <div class="row" id="mnCodeRow"><span id="mnRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;border-radius:14px;padding:6px 18px;color:#33200c">····</span></div>
+      <div class="row" id="mnCopyRow"><button class="btn" id="mnCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="btRoom" id="btRoommn" style="display:none">
+        <div class="btOpenTag">📶 الغرفة مفتوحة عبر البلوتوث</div>
+        <p class="btLabel">اسم جهازك الظاهر للاعب الآخر:</p>
+        <div class="btName" id="btNamemn">...</div>
+        <ol class="btSteps">
+          <li>افتح اللعبة في الجهاز الآخر واختر <b>أنا مِنو</b></li>
+          <li>اضغط <b>بلوتوث — بلا إنترنت</b> ثم <b>ابحث عن مضيف</b></li>
+          <li>اختر الاسم الظاهر أعلاه من القائمة</li>
+        </ol>
+        <div class="row"><button class="btn" onclick="btReDiscoverable()"><svg><use href="#i-refresh"/></svg>أظهر جهازي من جديد</button></div>
+      </div>
+      <p class="hint" id="mnWaitMsg">بانتظار انضمام خصمك <span class="spin"></span></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="mnCancelBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="mnPlayScreen" class="screen">
+    <div class="panel">
+      <div class="mnHead">
+        <div class="mnSecret">
+          <div class="mnSecLbl">شخصيتك السرية</div>
+          <img id="mnSecImg" src="" alt="">
+          <div class="mnSecNm" id="mnSecNm"></div>
+        </div>
+        <div class="mnMeta">
+          <div id="mnTurn">…</div>
+          <div class="mnStats">
+            <span class="mnStat"><b id="mnLeft">30</b> متبقٍ</span>
+            <span class="mnStat"><b id="mnQn">0</b> أسئلتك</span>
+            <span class="mnStat"><b id="mnClock">00:00</b> الوقت</span>
+          </div>
+          <div class="mnTimerBar"><i id="mnTimerFill"></i></div>
+        </div>
+      </div>
+
+      <div class="mnGrid" id="mnGrid"></div>
+
+      <div class="row mnActs">
+        <button class="btn gold" id="mnAskBtn"><svg><use href="#i-bulb"/></svg>اسأل سؤالاً</button>
+        <button class="btn red" id="mnGuessBtn"><svg><use href="#i-search"/></svg>خمّن الشخصية</button>
+      </div>
+      <div class="row" style="margin:2px 0 0">
+        <button class="chip on" id="mnAutoBtn">✨ استبعاد تلقائي</button>
+      </div>
+      <p class="hint" id="mnHint">اضغط أي بطاقة لاستبعادها أو لإعادتها</p>
+
+      <button class="mnLogHead" id="mnLogHead">سجل الأسئلة <span id="mnLogCount">(0)</span> <span id="mnLogCaret">▾</span></button>
+      <div class="mnLog" id="mnLog" style="display:none"></div>
+
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="mnQuitBtn"><svg><use href="#i-exit"/></svg>انسحاب</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="mnScoreScreen" class="screen">
+    <div class="panel" style="text-align:center">
+      <h2 id="mnResTitle">النتيجة</h2>
+      <div class="mnResCards">
+        <div class="mnResOne"><div class="mnSecLbl">شخصيتك</div><img id="mnResMine" src="" alt=""><div class="mnSecNm" id="mnResMineNm"></div></div>
+        <div class="mnResOne"><div class="mnSecLbl">شخصية خصمك</div><img id="mnResOpp" src="" alt=""><div class="mnSecNm" id="mnResOppNm"></div></div>
+      </div>
+      <p id="mnResMsg" style="font-weight:800;margin:8px 0"></p>
+      <div class="mnScoreBox" id="mnScoreBox"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="mnAgainBtn"><svg><use href="#i-refresh"/></svg>جولة جديدة</button>
+        <button class="btn ghost" id="mnHomeBtn"><svg><use href="#i-home"/></svg>القائمة الرئيسية</button>
+      </div>
+      <p class="hint" id="mnResHint"></p>
+    </div>
+  </section>
+
   <!-- ===================== game ===================== -->
   <section id="gameScreen" class="screen">
     <div id="hud">
@@ -1131,6 +1333,14 @@ footer .credit{
   <div id="kzRespMsg"></div>
   <button id="kzRespBtn">✋ اضغط!</button>
 </div>
+<div id="mnAsk">
+  <div id="mnAskCard">
+    <h2>اختر سؤالك</h2>
+    <div class="wbChips" id="mnCats"></div>
+    <div class="mnQs" id="mnQs"></div>
+    <div class="row"><button class="btn ghost" id="mnAskClose"><svg><use href="#i-exit"/></svg>رجوع</button></div>
+  </div>
+</div>
 <div id="confirmOverlay">
   <div id="confirmCard">
     <h2 id="confirmTitle"></h2>
@@ -1171,6 +1381,7 @@ const GAMES = {
   seega: {name:'السيجة الكبرى', logo:'assets/seega-logo.png',    peerPrefix:'seega-sd-'},
   wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
   kz   : {name:'كوز جوز لوز موز',   logo:'assets/kz-logo.png',   peerPrefix:'kz-sd-'},
+  mn   : {name:'أنا مِنو',            logo:'assets/mino-logo.png', peerPrefix:'mino-sd-'},
 };
 /* ---------- unified game bus over Supabase Realtime (NET_IMPL override for tests) ---------- */
 const SB_URL = 'https://gqjoyzjejyeibbmejcoo.supabase.co';
@@ -3244,7 +3455,7 @@ window.addEventListener('board3d-ready', () => { d3Refresh(); if(use3D && docume
 ===================================================================== */
 let btDeviceName = 'جهازي';
 function btPaintRoom(){
-  ['2p','wb','kz'].forEach(k=>{
+  ['2p','wb','kz','mn'].forEach(k=>{
     const box=document.getElementById('btRoom'+k);
     const nm=document.getElementById('btName'+k);
     if(!box||!nm) return;
@@ -3264,7 +3475,7 @@ window.btReDiscoverable = btReDiscoverable;
 function btAfterPerms(){
   NET_TRANSPORT='bt';
   // الألعاب الثنائية تحتاج اختيار شكل القطعة قبل فتح الغرفة
-  if(currentGame==='wbjn' || currentGame==='kz') openBtScreen();
+  if(currentGame==='wbjn' || currentGame==='kz' || currentGame==='mn') openBtScreen();
   else openShapeScreen('bt');
 }
 function openPermGate(){
@@ -3297,6 +3508,557 @@ function permAskNow(){
 document.getElementById('permOkBtn').onclick=permAskNow;
 document.getElementById('permRetryBtn').onclick=permAskNow;
 
+
+/* =====================================================================
+   GAME 6: أنا مِنو — خمّن الشخصية، اسأل واستبعد
+===================================================================== */
+const MN_CHARS = [
+{i:1,n:"خالد",p:"طبيب",g:"male",f:"medicine",s:"tan",hc:"black",hl:"short",gl:false,bd:"none",hw:"none",cl:"whiteCoat",un:true,ac:"stethoscope",wo:false,wd:false,col:"#4FB3E8"},
+{i:2,n:"سارة",p:"طبيبة",g:"female",f:"medicine",s:"light",hc:"covered",hl:"covered",gl:false,bd:"none",hw:"hijab",cl:"whiteCoat",un:true,ac:"stethoscope",wo:false,wd:false,col:"#2FBF9B"},
+{i:3,n:"عمر",p:"مهندس",g:"male",f:"engineering",s:"dark",hc:"black",hl:"short",gl:true,bd:"full",hw:"helmet",cl:"vest",un:true,ac:"blueprint",wo:false,wd:true,col:"#FFC928"},
+{i:4,n:"ريم",p:"مهندسة",g:"female",f:"engineering",s:"tan",hc:"brown",hl:"long",gl:false,bd:"none",hw:"helmet",cl:"vest",un:true,ac:"tablet",wo:false,wd:true,col:"#F26B5E"},
+{i:5,n:"سامي",p:"طباخ",g:"male",f:"food",s:"light",hc:"black",hl:"none",gl:false,bd:"full",hw:"chefHat",cl:"chefJacket",un:true,ac:"spoon",wo:false,wd:false,col:"#F26B5E"},
+{i:6,n:"نور",p:"طباخة",g:"female",f:"food",s:"medium",hc:"brown",hl:"short",gl:false,bd:"none",hw:"chefHat",cl:"chefJacket",un:true,ac:"spoon",wo:false,wd:false,col:"#7C5CBF"},
+{i:7,n:"مازن",p:"طيار",g:"male",f:"aviation",s:"light",hc:"black",hl:"short",gl:true,bd:"trimmed",hw:"pilotCap",cl:"pilotUniform",un:true,ac:"none",wo:false,wd:false,col:"#1E63C8"},
+{i:8,n:"ليان",p:"طيارة",g:"female",f:"aviation",s:"tan",hc:"brown",hl:"long",gl:false,bd:"none",hw:"pilotCap",cl:"pilotUniform",un:true,ac:"none",wo:false,wd:false,col:"#4FB3E8"},
+{i:9,n:"إياد",p:"مبرمج",g:"male",f:"tech",s:"light",hc:"brown",hl:"short",gl:true,bd:"none",hw:"none",cl:"casual",un:false,ac:"laptop",wo:true,wd:false,col:"#2FBF9B"},
+{i:10,n:"دانا",p:"مبرمجة",g:"female",f:"tech",s:"medium",hc:"black",hl:"long",gl:true,bd:"none",hw:"none",cl:"casual",un:false,ac:"laptop",wo:true,wd:false,col:"#FFC928"},
+{i:11,n:"يوسف",p:"مصور",g:"male",f:"media",s:"medium",hc:"black",hl:"short",gl:false,bd:"trimmed",hw:"none",cl:"casual",un:false,ac:"camera",wo:false,wd:true,col:"#7C5CBF"},
+{i:12,n:"هبة",p:"مصورة",g:"female",f:"media",s:"dark",hc:"black",hl:"long",gl:false,bd:"none",hw:"sunHat",cl:"casual",un:false,ac:"camera",wo:false,wd:true,col:"#2FBF9B"},
+{i:13,n:"أحمد",p:"معلم",g:"male",f:"education",s:"tan",hc:"gray",hl:"short",gl:true,bd:"none",hw:"none",cl:"blazer",un:false,ac:"book",wo:true,wd:false,col:"#4FB3E8"},
+{i:14,n:"مريم",p:"معلمة",g:"female",f:"education",s:"light",hc:"covered",hl:"covered",gl:true,bd:"none",hw:"hijab",cl:"blazer",un:false,ac:"book",wo:true,wd:false,col:"#F26B5E"},
+{i:15,n:"فهد",p:"شرطي",g:"male",f:"security",s:"medium",hc:"black",hl:"short",gl:false,bd:"trimmed",hw:"policeCap",cl:"policeUniform",un:true,ac:"none",wo:false,wd:true,col:"#1E63C8"},
+{i:16,n:"جنى",p:"شرطية",g:"female",f:"security",s:"light",hc:"brown",hl:"long",gl:false,bd:"none",hw:"policeCap",cl:"policeUniform",un:true,ac:"none",wo:false,wd:true,col:"#7C5CBF"},
+{i:17,n:"راشد",p:"رجل إطفاء",g:"male",f:"security",s:"tan",hc:"black",hl:"short",gl:false,bd:"none",hw:"fireHelmet",cl:"fireUniform",un:true,ac:"none",wo:false,wd:true,col:"#F26B5E"},
+{i:18,n:"لينا",p:"مهندسة معمارية",g:"female",f:"engineering",s:"light",hc:"blonde",hl:"long",gl:true,bd:"none",hw:"none",cl:"blazer",un:false,ac:"blueprint",wo:true,wd:false,col:"#FFC928"},
+{i:19,n:"جواد",p:"مزارع",g:"male",f:"agriculture",s:"dark",hc:"gray",hl:"short",gl:false,bd:"full",hw:"sunHat",cl:"overalls",un:false,ac:"wheat",wo:false,wd:true,col:"#2FBF9B"},
+{i:20,n:"عبير",p:"مزارعة",g:"female",f:"agriculture",s:"tan",hc:"covered",hl:"covered",gl:false,bd:"none",hw:"hijab",cl:"overalls",un:false,ac:"wheat",wo:false,wd:true,col:"#FFC928"},
+{i:21,n:"بدر",p:"مصمم جرافيك",g:"male",f:"design",s:"light",hc:"black",hl:"long",gl:true,bd:"trimmed",hw:"none",cl:"casual",un:false,ac:"tablet",wo:true,wd:false,col:"#F26B5E"},
+{i:22,n:"تالا",p:"مصممة أزياء",g:"female",f:"design",s:"medium",hc:"brown",hl:"long",gl:false,bd:"none",hw:"none",cl:"stylish",un:false,ac:"tape",wo:true,wd:false,col:"#7C5CBF"},
+{i:23,n:"حسن",p:"طبيب أسنان",g:"male",f:"medicine",s:"light",hc:"brown",hl:"short",gl:true,bd:"none",hw:"none",cl:"whiteCoat",un:true,ac:"dentalMirror",wo:false,wd:false,col:"#4FB3E8"},
+{i:24,n:"أمل",p:"صيدلانية",g:"female",f:"medicine",s:"tan",hc:"covered",hl:"covered",gl:true,bd:"none",hw:"hijab",cl:"whiteCoat",un:true,ac:"medicine",wo:false,wd:false,col:"#2FBF9B"},
+{i:25,n:"وليد",p:"كهربائي",g:"male",f:"trades",s:"medium",hc:"brown",hl:"short",gl:false,bd:"none",hw:"helmet",cl:"overalls",un:false,ac:"bulb",wo:false,wd:false,col:"#FFC928"},
+{i:26,n:"رنا",p:"ميكانيكية",g:"female",f:"trades",s:"light",hc:"black",hl:"long",gl:false,bd:"none",hw:"none",cl:"overalls",un:false,ac:"wrench",wo:false,wd:false,col:"#1E63C8"},
+{i:27,n:"نادر",p:"محامٍ",g:"male",f:"law",s:"light",hc:"gray",hl:"short",gl:true,bd:"none",hw:"none",cl:"suit",un:false,ac:"scales",wo:true,wd:false,col:"#7C5CBF"},
+{i:28,n:"سلمى",p:"صحفية",g:"female",f:"media",s:"medium",hc:"black",hl:"long",gl:false,bd:"none",hw:"none",cl:"blazer",un:false,ac:"mic",wo:false,wd:false,col:"#F26B5E"},
+{i:29,n:"طارق",p:"خباز",g:"male",f:"food",s:"tan",hc:"brown",hl:"short",gl:false,bd:"trimmed",hw:"chefHat",cl:"apron",un:true,ac:"bread",wo:false,wd:false,col:"#FFC928"},
+{i:30,n:"لمى",p:"مديرة أعمال",g:"female",f:"business",s:"light",hc:"brown",hl:"long",gl:false,bd:"none",hw:"none",cl:"suit",un:false,ac:"briefcase",wo:true,wd:false,col:"#4FB3E8"}];
+const MN_CATS = [
+  {id:'appearance', n:'المظهر',        ic:'🙂'},
+  {id:'profession', n:'المهنة',        ic:'💼'},
+  {id:'clothing',   n:'الملابس',       ic:'👕'},
+  {id:'accessories',n:'الإكسسوارات',   ic:'🎒'},
+  {id:'traits',     n:'الصفات',        ic:'✨'},
+];
+const MN_QS = [
+  {id:'q_male',        c:'appearance', t:'هل الشخصية رجل؟',                   f:x=>x.g==='male'},
+  {id:'q_female',      c:'appearance', t:'هل الشخصية امرأة؟',                 f:x=>x.g==='female'},
+  {id:'q_glasses',     c:'appearance', t:'هل ترتدي الشخصية نظارة؟',           f:x=>x.gl},
+  {id:'q_beard',       c:'appearance', t:'هل لدى الشخصية لحية؟',              f:x=>x.bd!=='none'},
+  {id:'q_short_hair',  c:'appearance', t:'هل شعر الشخصية قصير وظاهر؟',        f:x=>x.hl==='short'},
+  {id:'q_long_hair',   c:'appearance', t:'هل شعر الشخصية طويل وظاهر؟',        f:x=>x.hl==='long'},
+  {id:'q_black_hair',  c:'appearance', t:'هل شعر الشخصية أسود وظاهر؟',        f:x=>x.hc==='black'&&x.hl!=='covered'&&x.hl!=='none'},
+  {id:'q_hijab',       c:'appearance', t:'هل ترتدي الشخصية حجاباً؟',          f:x=>x.hw==='hijab'},
+  {id:'q_dark_skin',   c:'appearance', t:'هل بشرة الشخصية داكنة؟',            f:x=>x.s==='dark'},
+  {id:'q_medicine',    c:'profession', t:'هل تعمل الشخصية في المجال الطبي؟',  f:x=>x.f==='medicine'},
+  {id:'q_engineering', c:'profession', t:'هل تعمل الشخصية في مجال الهندسة؟',  f:x=>x.f==='engineering'},
+  {id:'q_food',        c:'profession', t:'هل تعمل الشخصية في مجال الطعام؟',   f:x=>x.f==='food'},
+  {id:'q_tech',        c:'profession', t:'هل تعمل الشخصية في مجال التقنية؟',  f:x=>x.f==='tech'},
+  {id:'q_media',       c:'profession', t:'هل تعمل الشخصية في الإعلام أو التصوير؟', f:x=>x.f==='media'},
+  {id:'q_education',   c:'profession', t:'هل تعمل الشخصية في التعليم؟',       f:x=>x.f==='education'},
+  {id:'q_security',    c:'profession', t:'هل تعمل الشخصية في الأمن أو الإنقاذ؟', f:x=>x.f==='security'},
+  {id:'q_uniform',     c:'clothing',   t:'هل ترتدي الشخصية زياً مهنياً رسمياً؟', f:x=>x.un},
+  {id:'q_white_coat',  c:'clothing',   t:'هل ترتدي الشخصية معطفاً أبيض؟',     f:x=>x.cl==='whiteCoat'},
+  {id:'q_helmet',      c:'clothing',   t:'هل ترتدي الشخصية خوذة؟',            f:x=>x.hw==='helmet'||x.hw==='fireHelmet'},
+  {id:'q_headwear',    c:'clothing',   t:'هل يغطي رأسَ الشخصية شيء؟',         f:x=>x.hw!=='none'},
+  {id:'q_suit',        c:'clothing',   t:'هل ترتدي الشخصية بدلة رسمية أنيقة؟', f:x=>x.cl==='suit'},
+  {id:'q_hiviz',       c:'clothing',   t:'هل ترتدي الشخصية سترة عاكسة؟',      f:x=>x.cl==='vest'},
+  {id:'q_stethoscope', c:'accessories',t:'هل تحمل الشخصية سماعة طبية؟',       f:x=>x.ac==='stethoscope'},
+  {id:'q_camera',      c:'accessories',t:'هل تحمل الشخصية كاميرا؟',           f:x=>x.ac==='camera'},
+  {id:'q_device',      c:'accessories',t:'هل تحمل الشخصية جهازاً إلكترونياً؟', f:x=>x.ac==='laptop'||x.ac==='tablet'},
+  {id:'q_tool',        c:'accessories',t:'هل تحمل الشخصية أداة مهنية؟',       f:x=>x.ac!=='none'},
+  {id:'q_office',      c:'traits',     t:'هل تعمل الشخصية داخل مكتب عادةً؟',  f:x=>x.wo},
+  {id:'q_outdoors',    c:'traits',     t:'هل تعمل الشخصية في الهواء الطلق غالباً؟', f:x=>x.wd},
+];
+const MN_QMAP = {}; MN_QS.forEach(q => MN_QMAP[q.id]=q);
+const MN_TURN_SECONDS = 90;
+const mnChar = id => MN_CHARS[id-1];
+const mnImg  = id => 'assets/mino/'+id+'.jpg';
+
+const mn = {
+  online:false, isHost:false, vsAI:false, phase:'idle',
+  mySecret:0, oppSecret:0, myTurn:false, guessing:false,
+  out:new Set(), asked:new Set(), myQ:0, log:[],
+  t0:0, tick:null, turnLeft:0, cat:'appearance',
+  auto:true, aiCands:[], aiAsked:new Set(), aiTimer:null,
+};
+let mnet=null, mnOpp=null, mnRoom='', mnOppName='';
+
+function mnDestroyPeer(){
+  try{ if(mnet) mnet.leave(); }catch(e){}
+  mnet=null; mnOpp=null;
+}
+function mnSend(obj){ if(mnet && mnOpp) mnet.send(obj, mnOpp); }
+function mnStopTimers(){ clearInterval(mn.tick); mn.tick=null; clearTimeout(mn.aiTimer); mn.aiTimer=null; }
+function mnLeaveAll(){ mnStopTimers(); mnDestroyPeer(); mn.phase='idle'; mn.vsAI=false; mn.online=false;
+  document.getElementById('mnAsk').classList.remove('show'); }
+
+/* ---------- الغرفة ---------- */
+function mnCreateRoom(){
+  if(!peerAvailable()) return;
+  mnDestroyPeer();
+  mn.isHost=true; mn.online=true; mn.vsAI=false; mn.phase='lobby';
+  const BTM = NET_TRANSPORT==='bt';
+  mnRoom = BTM ? 'BT' : makeCode();
+  showScreen('mnLobbyScreen');
+  document.getElementById('mnLobbyMenu').style.display='none';
+  document.getElementById('mnWaitCard').style.display='block';
+  document.getElementById('mnRoomCode').textContent=mnRoom;
+  document.getElementById('mnCodeRow').style.display=BTM?'none':'flex';
+  document.getElementById('mnCopyRow').style.display=BTM?'none':'flex';
+  document.getElementById('mnWaitMsg').innerHTML=(BTM?'جهازك ظاهر الآن — بانتظار خصمك':'بانتظار انضمام خصمك')+' <span class="spin"></span>';
+  btPaintRoom();
+  mnet = netJoin('mino-sd-'+mnRoom.toLowerCase());
+  mnet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='mwho'){ mnet.send({t:'mhost'}, id); return; }
+    if(d.t==='mjoin'){
+      if(mnOpp){ mnet.send({t:'mfull'}, id); return; }
+      mnOpp=id; mnOppName=String(d.name||'').slice(0,18)||'الخصم';
+      mnStartMatch();
+      return;
+    }
+    if(id===mnOpp) mnOnData(d);
+  });
+  mnet.onLeave(id=>{ if(id===mnOpp) mnOppGone(); });
+}
+function mnJoinRoom(){
+  if(!peerAvailable()) return;
+  const BTM = NET_TRANSPORT==='bt';
+  let code='BT';
+  if(!BTM){
+    code=document.getElementById('mnJoinInput').value.trim().toUpperCase();
+    if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  }
+  mnDestroyPeer();
+  mn.isHost=false; mn.online=true; mn.vsAI=false; mn.phase='lobby';
+  mnRoom=code;
+  showScreen('mnLobbyScreen');
+  document.getElementById('mnLobbyMenu').style.display='none';
+  document.getElementById('mnWaitCard').style.display='block';
+  document.getElementById('mnCodeRow').style.display='none';
+  document.getElementById('mnCopyRow').style.display='none';
+  document.getElementById('mnWaitMsg').innerHTML='جارٍ الاتصال بالمضيف <span class="spin"></span>';
+  btPaintRoom();
+  mnet = netJoin('mino-sd-'+code.toLowerCase());
+  let welcomed=false;
+  const failTimer=setTimeout(()=>{ if(!welcomed) toast(BTM?'لم يستجب المضيف — أعد المحاولة':'لم يتم العثور على الغرفة — تأكد من الرمز'); }, BTM?20000:12000);
+  const askHost=()=>{ if(!mnOpp && mnet) mnet.send({t:'mwho'}); };
+  mnet.onJoin(()=>askHost());
+  const askTimer=setInterval(()=>{ if(mnOpp||!mnet) clearInterval(askTimer); else askHost(); }, 2000);
+  setTimeout(askHost, 600);
+  mnet.onData((d,id)=>{
+    if(!d || typeof d!=='object') return;
+    if(d.t==='mfull'){ clearTimeout(failTimer); clearInterval(askTimer); toast('الغرفة ممتلئة بالفعل'); mnDestroyPeer(); return; }
+    if(d.t==='mhost' && !mnOpp){
+      mnOpp=id; clearInterval(askTimer);
+      mnet.send({t:'mjoin', name:names.me.trim()||'لاعب'}, id);
+      return;
+    }
+    if(id!==mnOpp) return;
+    if(d.t==='mstart'){ welcomed=true; clearTimeout(failTimer); }
+    mnOnData(d);
+  });
+  mnet.onLeave(id=>{ if(id===mnOpp) mnOppGone(); });
+}
+function mnOppGone(){
+  if(mn.phase==='play'){
+    mnStopTimers();
+    mnFinish(true, 'انسحب خصمك من اللعبة — أنت الفائز! 🎉', true);
+  } else if(mn.phase==='lobby'){
+    toast('انقطع الاتصال بالخصم');
+  }
+  mnOpp=null;
+}
+
+/* ---------- بدء الجولة ---------- */
+function mnPickSecrets(){
+  const a = 1+Math.floor(Math.random()*MN_CHARS.length);
+  let b = 1+Math.floor(Math.random()*MN_CHARS.length);
+  while(b===a) b = 1+Math.floor(Math.random()*MN_CHARS.length);
+  return [a,b];
+}
+function mnStartMatch(){            // المضيف فقط
+  const [a,b]=mnPickSecrets();
+  const hostFirst = Math.random()<0.5;
+  mn.mySecret=a; mn.oppSecret=b;
+  mnSend({t:'mstart', you:b, opp:a, first:!hostFirst, name:names.me.trim()||'المضيف'});
+  mnBegin(hostFirst);
+  toast('انضم '+mnOppName+' ✔');
+}
+function mnStartAI(){
+  mn.online=false; mn.vsAI=true; mn.isHost=true;
+  mnDestroyPeer();
+  const [a,b]=mnPickSecrets();
+  mn.mySecret=a; mn.oppSecret=b; mnOppName='الجهاز';
+  mn.aiCands=MN_CHARS.slice(); mn.aiAsked=new Set();
+  mnBegin(true);
+}
+function mnBegin(myTurn){
+  mn.phase='play'; mn.myTurn=!!myTurn; mn.guessing=false;
+  mn.out=new Set(); mn.asked=new Set(); mn.myQ=0; mn.log=[];
+  mn.t0=Date.now();
+  mn.aiCands=MN_CHARS.slice(); mn.aiAsked=new Set();
+  document.getElementById('mnLog').style.display='none';
+  document.getElementById('mnLogCaret').textContent='▾';
+  mnBuildGrid();
+  mnPaintSecret();
+  mnResetTurnTimer();
+  showScreen('mnPlayScreen');
+  mnRender();
+  startMusic();
+  if(!mn.myTurn && mn.vsAI) mnAITurn();
+}
+
+/* ---------- اللوحة ---------- */
+function mnBuildGrid(){
+  const g=document.getElementById('mnGrid');
+  g.innerHTML='';
+  MN_CHARS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='mnCard'; b.dataset.id=c.i;
+    b.innerHTML='<img src="'+mnImg(c.i)+'" alt="'+esc(c.n)+' — '+esc(c.p)+'" loading="lazy"><span class="mnNm">'+esc(c.n)+'</span>';
+    b.onclick=()=>mnCardTap(c.i);
+    g.appendChild(b);
+  });
+}
+function mnPaintSecret(){
+  const c=mnChar(mn.mySecret);
+  document.getElementById('mnSecImg').src=mnImg(c.i);
+  document.getElementById('mnSecNm').textContent=c.n+' — '+c.p;
+}
+function mnCardTap(id){
+  if(mn.phase!=='play') return;
+  if(mn.guessing){ mnConfirmGuess(id); return; }
+  if(mn.out.has(id)) mn.out.delete(id); else mn.out.add(id);
+  mnRender();
+}
+function mnRender(){
+  const g=document.getElementById('mnGrid');
+  g.classList.toggle('guessing', mn.guessing);
+  [...g.children].forEach(el=>{
+    el.classList.toggle('out', mn.out.has(+el.dataset.id));
+  });
+  document.getElementById('mnLeft').textContent = MN_CHARS.length - mn.out.size;
+  document.getElementById('mnQn').textContent = mn.myQ;
+  const turn=document.getElementById('mnTurn');
+  if(mn.guessing){ turn.textContent='اختر الشخصية التي تظنها شخصية خصمك'; turn.classList.remove('me'); }
+  else if(mn.myTurn){ turn.textContent='دورك — اسأل أو خمّن'; turn.classList.add('me'); }
+  else { turn.textContent='انتظر دور '+(mnOppName||'خصمك')+'…'; turn.classList.remove('me'); }
+  document.getElementById('mnAskBtn').disabled = !mn.myTurn || mn.guessing;
+  document.getElementById('mnGuessBtn').innerHTML = mn.guessing
+    ? '<svg><use href="#i-exit"/></svg>إلغاء التخمين'
+    : '<svg><use href="#i-search"/></svg>خمّن الشخصية';
+  document.getElementById('mnGuessBtn').disabled = !mn.myTurn;
+  document.getElementById('mnAutoBtn').classList.toggle('on', mn.auto);
+  document.getElementById('mnHint').textContent = mn.guessing
+    ? 'تحذير: التخمين الخاطئ يعني الخسارة!'
+    : 'اضغط أي بطاقة لاستبعادها أو لإعادتها';
+  mnRenderLog();
+}
+function mnRenderLog(){
+  document.getElementById('mnLogCount').textContent='('+mn.log.length+')';
+  const box=document.getElementById('mnLog');
+  box.innerHTML='';
+  mn.log.slice().reverse().forEach(e=>{
+    const q=MN_QMAP[e.qid]; if(!q) return;
+    const d=document.createElement('div'); d.className='mnLogItem';
+    d.innerHTML='<span class="who">'+(e.mine?'أنت':esc(mnOppName||'الخصم'))+'</span>'+
+                '<span class="qt">'+esc(q.t)+'</span>'+
+                '<span class="av '+(e.ans?'y':'n')+'">'+(e.ans?'نعم':'لا')+'</span>';
+    box.appendChild(d);
+  });
+}
+function mnAutoEliminate(qid, ans){
+  const q=MN_QMAP[qid]; if(!q) return 0;
+  let n=0;
+  MN_CHARS.forEach(c=>{ if(!!q.f(c)!==ans && !mn.out.has(c.i)){ mn.out.add(c.i); n++; } });
+  return n;
+}
+
+/* ---------- المؤقّت ---------- */
+function mnResetTurnTimer(){
+  mn.turnLeft=MN_TURN_SECONDS;
+  clearInterval(mn.tick);
+  mn.tick=setInterval(mnTick, 1000);
+  mnPaintTimer();
+}
+function mnPaintTimer(){
+  const f=document.getElementById('mnTimerFill');
+  const pct=Math.max(0,mn.turnLeft)/MN_TURN_SECONDS*100;
+  f.style.width=pct+'%';
+  f.classList.toggle('low', mn.turnLeft<=20);
+  const sec=Math.max(0,Math.floor((Date.now()-mn.t0)/1000));
+  document.getElementById('mnClock').textContent =
+    String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
+}
+function mnTick(){
+  if(mn.phase!=='play') return;
+  if(mn.turnLeft<=0 && !mn.myTurn){ mnPaintTimer(); return; }
+  mn.turnLeft--;
+  mnPaintTimer();
+  if(mn.turnLeft<=0 && mn.myTurn && !mn.guessing){
+    toast('انتهى وقت دورك!');
+    mn.myTurn=false; mnResetTurnTimer();
+    if(mn.online) mnSend({t:'mpass'});
+    else if(mn.vsAI) mnAITurn();
+    mnRender();
+  }
+}
+
+/* ---------- الأسئلة ---------- */
+function mnOpenAsk(){
+  if(!mn.myTurn || mn.guessing) return;
+  mnRenderCats();
+  mnRenderQs();
+  document.getElementById('mnAsk').classList.add('show');
+}
+function mnRenderCats(){
+  const box=document.getElementById('mnCats');
+  box.innerHTML='';
+  MN_CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='chip'+(mn.cat===c.id?' on':'');
+    b.textContent=c.ic+' '+c.n;
+    b.onclick=()=>{ mn.cat=c.id; mnRenderCats(); mnRenderQs(); };
+    box.appendChild(b);
+  });
+}
+function mnRenderQs(){
+  const box=document.getElementById('mnQs');
+  box.innerHTML='';
+  MN_QS.filter(q=>q.c===mn.cat).forEach(q=>{
+    const b=document.createElement('button');
+    b.className='mnQ'; b.textContent=q.t;
+    b.disabled=mn.asked.has(q.id);
+    b.onclick=()=>mnAsk(q.id);
+    box.appendChild(b);
+  });
+}
+function mnAsk(qid){
+  if(!mn.myTurn || mn.asked.has(qid)) return;
+  mn.asked.add(qid); mn.myQ++;
+  mn.myTurn=false;
+  document.getElementById('mnAsk').classList.remove('show');
+  if(mn.online){
+    mnSend({t:'mask', q:qid});
+    toast('بانتظار إجابة خصمك…');
+  } else {
+    const ans=!!MN_QMAP[qid].f(mnChar(mn.oppSecret));
+    mnGotAnswer(qid, ans);
+    mnAITurn();
+  }
+  mnRender();
+}
+function mnGotAnswer(qid, ans){
+  mn.log.push({mine:true, qid:qid, ans:ans});
+  let n=0;
+  if(mn.auto) n=mnAutoEliminate(qid, ans);
+  toast((ans?'الإجابة: نعم ✔':'الإجابة: لا ✘')+(n?(' — استُبعدت '+n+' شخصية'):''));
+  mnRender();
+}
+function mnAnswerFor(qid){                   // أجب عن سؤال الخصم من شخصيتي السرية
+  const q=MN_QMAP[qid]; if(!q) return null;
+  return !!q.f(mnChar(mn.mySecret));
+}
+
+/* ---------- التخمين ---------- */
+function mnToggleGuess(){
+  if(!mn.myTurn) return;
+  mn.guessing=!mn.guessing;
+  mnRender();
+}
+function mnConfirmGuess(id){
+  const c=mnChar(id);
+  showConfirm('هل أنت متأكد؟', 'تظن أن شخصية خصمك هي «'+c.n+' — '+c.p+'»؟ التخمين الخاطئ يعني الخسارة.',
+    'نعم، هذا تخميني', ()=>mnDoGuess(id));
+}
+function mnDoGuess(id){
+  mn.guessing=false; mn.myTurn=false;
+  if(mn.online){
+    mnSend({t:'mguess', id:id});
+    toast('أرسلنا تخمينك…');
+    mnRender();
+  } else {
+    const ok = (id===mn.oppSecret);
+    mnFinish(ok, ok?'تخمين صحيح! عرفت شخصية الجهاز 🎉':'تخمينك خاطئ — فاز الجهاز هذه المرة 😄', false);
+  }
+}
+
+/* ---------- الذكاء الاصطناعي (اللعب ضد الجهاز) ---------- */
+function mnAIBestQuestion(){
+  let best=null, bestScore=1e9;
+  MN_QS.forEach(q=>{
+    if(mn.aiAsked.has(q.id)) return;
+    let y=0; mn.aiCands.forEach(c=>{ if(q.f(c)) y++; });
+    const n=mn.aiCands.length-y;
+    if(!y || !n) return;
+    const sc=Math.max(y,n);
+    if(sc<bestScore){ bestScore=sc; best=q; }
+  });
+  return best;
+}
+function mnAITurn(){
+  if(!mn.vsAI || mn.phase!=='play') return;
+  mn.myTurn=false; mnResetTurnTimer(); mnRender();
+  clearTimeout(mn.aiTimer);
+  mn.aiTimer=setTimeout(()=>{
+    if(mn.phase!=='play') return;
+    const q = (mn.aiCands.length<=1) ? null : mnAIBestQuestion();
+    if(!q){
+      const guess = mn.aiCands.length ? mn.aiCands[Math.floor(Math.random()*mn.aiCands.length)] : mnChar(1);
+      const ok = (guess.i===mn.mySecret);
+      mnFinish(!ok, ok?('خمّن الجهاز شخصيتك «'+guess.n+'» بشكل صحيح — فاز الجهاز 😄')
+                     :('خمّن الجهاز «'+guess.n+'» وكان مخطئاً — أنت الفائز! 🎉'), false);
+      return;
+    }
+    mn.aiAsked.add(q.id);
+    const ans=!!q.f(mnChar(mn.mySecret));
+    mn.aiCands=mn.aiCands.filter(c=>!!q.f(c)===ans);
+    mn.log.push({mine:false, qid:q.id, ans:ans});
+    mn.myTurn=true; mnResetTurnTimer(); mnRender();
+    toast('سألك الجهاز: '+q.t+' — أجبنا: '+(ans?'نعم':'لا'));
+  }, 1500+Math.random()*900);
+}
+
+/* ---------- الرسائل ---------- */
+function mnOnData(d){
+  switch(d.t){
+    case 'mstart': {
+      mn.mySecret=d.you; mn.oppSecret=d.opp;
+      mnOppName=String(d.name||'').slice(0,18)||'المضيف';
+      mnBegin(!!d.first);
+      break;
+    }
+    case 'mask': {
+      if(mn.phase!=='play') return;
+      const ans=mnAnswerFor(d.q);
+      if(ans===null) return;
+      mnSend({t:'mans', q:d.q, a:ans});
+      mn.log.push({mine:false, qid:d.q, ans:ans});
+      mn.myTurn=true; mnResetTurnTimer();
+      const q=MN_QMAP[d.q];
+      toast('سألك '+(mnOppName||'خصمك')+': '+q.t+' — أجبنا: '+(ans?'نعم':'لا'));
+      mnRender();
+      break;
+    }
+    case 'mans': {
+      if(mn.phase!=='play') return;
+      mnGotAnswer(d.q, !!d.a);
+      break;
+    }
+    case 'mpass': {
+      if(mn.phase!=='play') return;
+      mn.myTurn=true; mnResetTurnTimer(); mnRender();
+      toast('انتهى وقت خصمك — دورك الآن');
+      break;
+    }
+    case 'mguess': {
+      if(mn.phase!=='play') return;
+      const ok = (d.id===mn.mySecret);
+      mnSend({t:'mres', ok:ok, secret:mn.mySecret});
+      mnFinish(!ok, ok ? ('خمّن '+(mnOppName||'خصمك')+' شخصيتك بشكل صحيح — فاز عليك 😄')
+                       : ('خمّن '+(mnOppName||'خصمك')+' شخصية خاطئة — أنت الفائز! 🎉'), false);
+      break;
+    }
+    case 'mres': {
+      if(mn.phase!=='play') return;
+      mn.oppSecret=d.secret||mn.oppSecret;
+      mnFinish(!!d.ok, d.ok ? 'تخمين صحيح! عرفت شخصية خصمك 🎉' : 'للأسف، كان تخمينك خاطئاً 😄', false);
+      break;
+    }
+    case 'magain': {
+      if(mn.isHost) mnStartMatch();
+      break;
+    }
+    case 'mquit': {
+      mnOppGone();
+      break;
+    }
+  }
+}
+
+/* ---------- النهاية والنتيجة ---------- */
+function mnFinish(won, msg, forfeit){
+  mnStopTimers();
+  mn.phase='end'; mn.guessing=false;
+  const sec=Math.max(0,Math.floor((Date.now()-mn.t0)/1000));
+  document.getElementById('mnResTitle').textContent = won ? 'أحسنت! 🎉' : 'هذه المرة لم يحالفك الحظ 😄';
+  document.getElementById('mnResMsg').textContent = msg;
+  const me=mnChar(mn.mySecret), op=mnChar(mn.oppSecret);
+  document.getElementById('mnResMine').src=mnImg(me.i);
+  document.getElementById('mnResMineNm').textContent=me.n+' — '+me.p;
+  document.getElementById('mnResOpp').src=mnImg(op.i);
+  document.getElementById('mnResOppNm').textContent=op.n+' — '+op.p;
+  const box=document.getElementById('mnScoreBox');
+  if(won && !forfeit){
+    const base=Math.max(20, 100-mn.myQ*5);
+    const bonus=Math.max(0, 50-Math.floor(sec/12));
+    box.innerHTML='<div class="mnSc">النقاط<b>'+base+'</b></div>'+
+                  '<div class="mnSc">مكافأة السرعة<b>'+bonus+'</b></div>'+
+                  '<div class="mnSc">المجموع<b>'+(base+bonus)+'</b></div>';
+  } else {
+    box.innerHTML='<div class="mnSc">أسئلتك<b>'+mn.myQ+'</b></div>'+
+                  '<div class="mnSc">الوقت<b>'+String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')+'</b></div>';
+  }
+  document.getElementById('mnResHint').textContent =
+    mn.online ? (mn.isHost?'اضغط «جولة جديدة» لبدء جولة أخرى مع نفس الخصم':'يمكنك طلب جولة جديدة من المضيف') : '';
+  showScreen('mnScoreScreen');
+}
+function mnAgain(){
+  if(mn.vsAI){ mnStartAI(); return; }
+  if(!mnet || !mnOpp){ toast('انقطع الاتصال بالخصم'); goHub(); return; }
+  if(mn.isHost) mnStartMatch();
+  else { mnSend({t:'magain'}); toast('طلبنا من المضيف جولة جديدة…'); }
+}
+
+/* ---------- الأزرار ---------- */
+document.getElementById('mnCreateBtn').onclick=mnCreateRoom;
+document.getElementById('mnJoinBtn').onclick=mnJoinRoom;
+document.getElementById('mnJoinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') mnJoinRoom(); });
+document.getElementById('mnCopyBtn').onclick=()=>{
+  navigator.clipboard?.writeText(mnRoom).then(()=>toast('تم نسخ الرمز ✔')).catch(()=>{});
+};
+document.getElementById('mnCancelBtn').onclick=()=>{
+  mnLeaveAll();
+  document.getElementById('mnLobbyMenu').style.display='block';
+  document.getElementById('mnWaitCard').style.display='none';
+};
+document.getElementById('mnAskBtn').onclick=mnOpenAsk;
+document.getElementById('mnAskClose').onclick=()=>document.getElementById('mnAsk').classList.remove('show');
+document.getElementById('mnGuessBtn').onclick=mnToggleGuess;
+document.getElementById('mnAutoBtn').onclick=()=>{
+  mn.auto=!mn.auto;
+  try{ localStorage.setItem('mn_auto', mn.auto?'1':'0'); }catch(e){}
+  toast(mn.auto?'الاستبعاد التلقائي مُفعّل':'الاستبعاد التلقائي متوقف — استبعد بنفسك');
+  mnRender();
+};
+try{ if(localStorage.getItem('mn_auto')==='0') mn.auto=false; }catch(e){}
+document.getElementById('mnLogHead').onclick=()=>{
+  const b=document.getElementById('mnLog');
+  const open = b.style.display==='none';
+  b.style.display = open?'flex':'none';
+  document.getElementById('mnLogCaret').textContent = open?'▴':'▾';
+};
+document.getElementById('mnQuitBtn').onclick=()=>{
+  showConfirm('الانسحاب من الجولة؟','سيفوز خصمك إن انسحبت الآن.','نعم، انسحب', ()=>{
+    if(mn.online) mnSend({t:'mquit'});
+    mnLeaveAll(); goHub();
+  });
+};
+document.getElementById('mnAgainBtn').onclick=mnAgain;
+document.getElementById('mnHomeBtn').onclick=()=>{ if(mn.online) mnSend({t:'mquit'}); mnLeaveAll(); goHub(); };
+
 /* =====================================================================
    زر/إيماءة الرجوع — تأكيد في الرئيسية، رجوع منظّم، ومعطّل أثناء اللعب
 ===================================================================== */
@@ -3304,10 +4066,10 @@ const BACK_MAP = {
   gameMenuScreen:'hub', rulesScreen:'gamemenu', namesScreen:'hub',
   shapeScreen:'gamemenu', onlineScreen:'gamemenu', btScreen:'gamemenu',
   permScreen:'gamemenu', wbSetupScreen:'gamemenu',
-  wbLobbyScreen:'gamemenu', kzLobbyScreen:'gamemenu',
+  wbLobbyScreen:'gamemenu', kzLobbyScreen:'gamemenu', mnLobbyScreen:'gamemenu',
 };
 const PLAY_SCREENS = ['gameScreen','wbPlayScreen','wbHandoffScreen','wbReviewScreen',
-                      'wbScoreScreen','kzPlayScreen','kzScoreScreen'];
+                      'wbScoreScreen','kzPlayScreen','kzScoreScreen','mnPlayScreen','mnScoreScreen'];
 
 function currentScreenId(){
   const el=document.querySelector('.screen.active');
@@ -3352,7 +4114,7 @@ function handleBackPress(){
   // باقي الشاشات: رجوع منظّم
   const dest=BACK_MAP[id];
   if(dest==='hub'){ goHub(); }
-  else if(dest==='gamemenu'){ destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); try{ if(BTP()) BTP().stop(); }catch(e){} showScreen('gameMenuScreen'); }
+  else if(dest==='gamemenu'){ destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); try{ if(BTP()) BTP().stop(); }catch(e){} showScreen('gameMenuScreen'); }
   else goHub();
 }
 function initBackGuard(){
@@ -3388,6 +4150,7 @@ function btStartAsHost(){
   NET_TRANSPORT='bt'; BT_ROLE='host';
   if(currentGame==='wbjn') wbCreateRoom();
   else if(currentGame==='kz') kzCreateRoom();
+  else if(currentGame==='mn') mnCreateRoom();
   else createRoom();
 }
 function btRenderDevices(list){
@@ -3441,6 +4204,7 @@ function btConnectTo(id, name){
   toast('جارٍ الاتصال بـ '+(name||'المضيف')+'...');
   if(currentGame==='wbjn') wbJoinRoom();
   else if(currentGame==='kz') kzJoinRoom();
+  else if(currentGame==='mn') mnJoinRoom();
   else joinRoom();
 }
 document.getElementById('btBtn').onclick=openPermGate;
@@ -3457,7 +4221,7 @@ function showScreen(id){
 }
 function goHub(){
   try{ if(window.Board3D) window.Board3D.hide(); document.getElementById('boardWrap').classList.remove('d3'); }catch(e){}
-  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); clearInterval(wb.timerId);
+  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); clearInterval(wb.timerId);
   try{ if(BTP()) BTP().stop(); }catch(e){}
   NET_TRANSPORT='sb';
   wb.phase='idle'; wb.online=false; kz.phase='end';
@@ -3472,6 +4236,9 @@ function openGameMenu(game){
   document.getElementById('gameMenuTitle').textContent = GAMES[game].name;
   document.getElementById('logoTop').src = GAMES[game].logo;
   document.getElementById('localBtn').style.display = game==='kz' ? 'none' : 'flex';   // كوز جوز: أونلاين فقط
+  document.getElementById('localBtnTxt').innerHTML = game==='mn'
+    ? 'العب ضد الجهاز<small>جولة سريعة بلا إنترنت ولا شريك</small>'
+    : 'لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small>';
   document.getElementById('btBtn').style.display = isNativeApp() ? 'flex' : 'none';
   showScreen('gameMenuScreen');
 }
@@ -3491,6 +4258,7 @@ function toast(msg){
 document.querySelectorAll('.gameCard').forEach(b => b.onclick = () => openGameMenu(b.dataset.game));
 document.getElementById('localBtn').onclick =()=>{
   if(currentGame==='wbjn'){ wbRenderSetup(); showScreen('wbSetupScreen'); return; }
+  if(currentGame==='mn'){ mnStartAI(); return; }
   openShapeScreen('local1');
 };
 document.getElementById('onlineBtn').onclick=()=>{
@@ -3504,6 +4272,11 @@ document.getElementById('onlineBtn').onclick=()=>{
     document.getElementById('kzWaitCard').style.display='none';
     showScreen('kzLobbyScreen'); return;
   }
+  if(currentGame==='mn'){
+    document.getElementById('mnLobbyMenu').style.display='block';
+    document.getElementById('mnWaitCard').style.display='none';
+    showScreen('mnLobbyScreen'); return;
+  }
   openShapeScreen('online');
 };
 document.getElementById('rulesBtn').onclick =()=> {
@@ -3513,6 +4286,7 @@ document.getElementById('rulesBtn').onclick =()=> {
   document.getElementById('rulesSeega').style.display = currentGame==='seega'?'block':'none';
   document.getElementById('rulesWbjn').style.display = currentGame==='wbjn'?'block':'none';
   document.getElementById('rulesKz').style.display = currentGame==='kz'?'block':'none';
+  document.getElementById('rulesMino').style.display = currentGame==='mn'?'block':'none';
   showScreen('rulesScreen');
 };
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{
