@@ -1,0 +1,66 @@
+{
+  "name": "abujanan-games",
+  "productName": "AbuJanan Games",
+  "version": "1.2.0",
+  "description": "ألعاب أبو جنان — ألعاب سودانية تراثية",
+  "author": "Abu Janan Productions",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "app": "bash ../scripts/build-desktop-app.sh",
+    "start": "npm run app && electron .",
+    "dist": "npm run app && electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "33.2.0",
+    "electron-builder": "25.1.8",
+    "resedit": "^2.0.3"
+  },
+  "build": {
+    "appId": "sd.abujanan.games",
+    "productName": "AbuJanan Games",
+    "copyright": "إنتاج أبو جنان",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "app/**/*",
+      "build/icon.png",
+      "!afterPack.js"
+    ],
+    "compression": "maximum",
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "AbuJanan-Games-${version}-Portable.exe"
+    },
+    "nsis": {
+      "artifactName": "AbuJanan-Games-${version}-Setup.exe",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ألعاب أبو جنان",
+      "installerLanguages": [
+        "ar-SA",
+        "en-US"
+      ],
+      "language": "1025"
+    },
+    "afterPack": "afterPack.js"
+  }
+}
