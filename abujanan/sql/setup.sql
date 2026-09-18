@@ -92,3 +92,86 @@ grant select on
   public.site_stats_devices,
   public.site_stats_referrers
 to anon, authenticated;
+
+-- ============================================================
+-- 4) عدّاد التحميلات (ضغطات أزرار التحميل)
+-- ============================================================
+create table if not exists public.site_downloads (
+  id           bigserial primary key,
+  created_at   timestamptz not null default now(),
+  kind         text not null check (kind in ('windows','android')),
+  country_code text,
+  country_name text,
+  city         text,
+  device       text
+);
+
+create index if not exists site_downloads_kind_idx    on public.site_downloads (kind);
+create index if not exists site_downloads_created_idx on public.site_downloads (created_at desc);
+
+alter table public.site_downloads enable row level security;
+
+drop policy if exists "downloads insert" on public.site_downloads;
+create policy "downloads insert" on public.site_downloads
+  for insert to anon, authenticated with check (true);
+
+grant insert on public.site_downloads to anon, authenticated;
+grant usage, select on sequence public.site_downloads_id_seq to anon, authenticated;
+
+create or replace view public.site_stats_downloads as
+  select
+    kind,
+    count(*)::bigint                                                         as total,
+    count(*) filter (where created_at > now() - interval '24 hours')::bigint as last_24h,
+    count(*) filter (where created_at > now() - interval '7 days')::bigint   as last_7d,
+    max(created_at)                                                          as last_at
+  from public.site_downloads
+  group by kind;
+
+create or replace view public.site_stats_downloads_countries as
+  select
+    kind,
+    coalesce(nullif(country_code,''),'??')        as country_code,
+    coalesce(nullif(country_name,''),'غير معروف') as country_name,
+    count(*)::bigint                              as downloads
+  from public.site_downloads
+  group by 1,2,3
+  order by downloads desc;
+
+grant select on public.site_stats_downloads, public.site_stats_downloads_countries to anon, authenticated;
+
+-- ============================================================
+-- 5) رسائل التواصل
+--    تُكتب فقط ولا تُقرأ علناً — اقرأها من لوحة Supabase:
+--    Table Editor ← site_messages
+-- ============================================================
+create table if not exists public.site_messages (
+  id           bigserial primary key,
+  created_at   timestamptz not null default now(),
+  name         text not null check (char_length(name)  between 1 and 80),
+  email        text          check (char_length(email) <= 120),
+  body         text not null check (char_length(body)  between 2 and 4000),
+  country_code text,
+  country_name text,
+  device       text
+);
+
+alter table public.site_messages enable row level security;
+
+drop policy if exists "messages insert" on public.site_messages;
+create policy "messages insert" on public.site_messages
+  for insert to anon, authenticated with check (true);
+
+grant insert on public.site_messages to anon, authenticated;
+grant usage, select on sequence public.site_messages_id_seq to anon, authenticated;
+
+-- لا سياسة قراءة ولا grant select على الجدول: لا أحد يقرأ الرسائل بالمفتاح العام.
+-- المعلن فقط عددها:
+create or replace view public.site_stats_messages as
+  select
+    count(*)::bigint                                                       as total,
+    count(*) filter (where created_at > now() - interval '7 days')::bigint as last_7d,
+    max(created_at)                                                        as last_at
+  from public.site_messages;
+
+grant select on public.site_stats_messages to anon, authenticated;

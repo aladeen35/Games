@@ -81,6 +81,27 @@ a.plain{color:var(--brass-hi);font-weight:800;text-decoration:none;border-bottom
     <div id="setup"></div>
   </div>
 
+  <div class="panel">
+    <h2>📥 مرات التحميل</h2>
+    <div class="cards" id="dlTotals">
+      <div class="card"><b>…</b><span>ويندوز EXE</span></div>
+      <div class="card"><b>…</b><span>أندرويد APK</span></div>
+      <div class="card"><b>…</b><span>المجموع</span></div>
+    </div>
+    <div id="dlCountries" class="msg" style="margin-top:12px">جارٍ التحميل…</div>
+    <p class="foot" style="margin-top:10px">تُحتسب ضغطة زر التحميل في الموقع — قد يختلف الرقم قليلاً عن عدد الملفات المكتملة فعلاً في موقع الاستضافة.</p>
+  </div>
+
+  <div class="panel">
+    <h2>📩 رسائل التواصل</h2>
+    <div class="cards" id="msgTotals">
+      <div class="card"><b>…</b><span>إجمالي الرسائل</span></div>
+      <div class="card"><b>…</b><span>آخر 7 أيام</span></div>
+      <div class="card"><b>…</b><span>آخر رسالة</span></div>
+    </div>
+    <p class="foot" style="margin-top:10px">نص الرسائل غير مقروء من هنا حمايةً لخصوصية المرسلين — تُقرأ من لوحة Supabase ← <b>Table Editor</b> ← <b>site_messages</b>، وتصلك نسخة منها بالبريد أيضاً.</p>
+  </div>
+
   <div class="panel"><h2>🌍 الزيارات حسب الدولة</h2><div id="countries" class="msg">جارٍ التحميل…</div></div>
   <div class="panel"><h2>🏙️ أكثر المدن</h2><div id="cities" class="msg">جارٍ التحميل…</div></div>
   <div class="panel"><h2>📈 الزيارات اليومية (آخر 60 يوماً)</h2><div id="daily" class="msg">جارٍ التحميل…</div></div>
@@ -162,6 +183,46 @@ async function load(){
     const el = document.getElementById(id);
     try{ el.className=''; el.innerHTML = render(await get(view, q)); }
     catch(e){ el.className='msg'; el.textContent = failed ? 'بانتظار تهيئة قاعدة البيانات.' : 'تعذّر التحميل.'; }
+  }
+
+  /* التحميلات */
+  try{
+    const rows = await get('site_stats_downloads','select=*');
+    const by = k => rows.find(r => r.kind === k) || {total:0,last_7d:0};
+    const w = by('windows'), a = by('android');
+    document.getElementById('dlTotals').innerHTML =
+      [[w.total,'ويندوز EXE'],[a.total,'أندرويد APK'],[(+w.total)+(+a.total),'المجموع']]
+      .map(([v,l]) => '<div class="card"><b>'+AR(v)+'</b><span>'+l+'</span></div>').join('');
+  }catch(e){
+    document.getElementById('dlTotals').innerHTML =
+      ['ويندوز EXE','أندرويد APK','المجموع']
+      .map(l => '<div class="card"><b>—</b><span>'+l+'</span></div>').join('');
+  }
+  {
+    const el = document.getElementById('dlCountries');
+    try{
+      const rows = await get('site_stats_downloads_countries','select=*&limit=100');
+      const kindAr = k => k === 'windows' ? '💻 ويندوز' : '📱 أندرويد';
+      el.className = '';
+      el.innerHTML = table(rows, [
+        {t:'الدولة', f:r => '<span class="flag">'+flag(r.country_code)+'</span>'+esc(r.country_name)},
+        {t:'النسخة', f:r => kindAr(r.kind)},
+        {t:'التحميلات', num:true, f:r => AR(r.downloads)},
+      ]);
+    }catch(e){ el.className='msg'; el.textContent = failed ? 'بانتظار تهيئة قاعدة البيانات.' : 'تعذّر التحميل.'; }
+  }
+
+  /* الرسائل */
+  try{
+    const [m] = await get('site_stats_messages','select=*');
+    const last = m.last_at ? new Date(m.last_at).toLocaleDateString('ar-EG',{day:'numeric',month:'long'}) : '—';
+    document.getElementById('msgTotals').innerHTML =
+      [[AR(m.total),'إجمالي الرسائل'],[AR(m.last_7d),'آخر 7 أيام'],[last,'آخر رسالة']]
+      .map(([v,l]) => '<div class="card"><b>'+v+'</b><span>'+l+'</span></div>').join('');
+  }catch(e){
+    document.getElementById('msgTotals').innerHTML =
+      ['إجمالي الرسائل','آخر 7 أيام','آخر رسالة']
+      .map(l => '<div class="card"><b>—</b><span>'+l+'</span></div>').join('');
   }
 
   const el = document.getElementById('daily');
