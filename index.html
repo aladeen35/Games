@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ألعاب سودانية تراثية — نط الكلب وصفرجت</title>
+<title>ألعاب أبو جنان — ألعاب سودانية تراثية</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="نط الكلب">
+<meta name="apple-mobile-web-app-title" content="ألعاب أبو جنان">
 <style>
 /* =====================================================================
    Sudanese heritage games hub — skeuomorphic design system
@@ -765,7 +765,7 @@ footer .credit{
 
 <main>
   <header>
-    <img id="logoTop" src="assets/logo.png" alt="ألعاب سودانية تراثية">
+    <img id="logoTop" src="assets/logo-main.png" alt="ألعاب أبو جنان">
     <div class="sndToggles">
       <button class="tog" id="musicTog" aria-label="تشغيل أو كتم الموسيقى"><svg><use href="#i-music"/></svg></button>
       <button class="tog" id="sfxTog" aria-label="تشغيل أو كتم المؤثرات الصوتية"><svg><use href="#i-sound"/></svg></button>
@@ -1315,7 +1315,7 @@ footer .credit{
     </div>
   </section>
 
-  <footer>ألعاب سودانية تراثية 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
+  <footer>ألعاب أبو جنان 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
 </main>
 
 <div id="overlay">
@@ -4227,7 +4227,7 @@ function goHub(){
   wb.phase='idle'; wb.online=false; kz.phase='end';
   document.getElementById('kzResp').classList.remove('show');
   hideOverlay(); mode='local'; myColor=null; oppName='';
-  document.getElementById('logoTop').src='assets/logo.png';
+  document.getElementById('logoTop').src='assets/logo-main.png';
   showScreen('hubScreen');
 }
 function openGameMenu(game){
@@ -4356,7 +4356,7 @@ document.getElementById('quitBtn').onclick=()=>{
 document.getElementById('overlayQuit').onclick=goHub;
 
 /* ---------- PWA ---------- */
-if('serviceWorker' in navigator){
+if('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())){
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
 </script>
