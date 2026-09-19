@@ -1371,6 +1371,11 @@ footer .credit{
       <h2 id="pgSetupTitle">إعداد اللعبة — نفس الجهاز</h2>
       <p style="font-weight:900;margin:6px 0 2px;color:var(--brass-hi)">عدد اللاعبين:</p>
       <div class="wbChips" id="pgCountChips"></div>
+      <div id="pgDiceOpt" style="display:none">
+        <p style="font-weight:900;margin:12px 0 2px;color:var(--brass-hi)">عدد أحجار الزهر لكل دور:</p>
+        <div class="wbChips" id="pgDiceChips"></div>
+        <p class="hint" style="margin-top:2px">يُختار مرة واحدة ويبقى ثابتاً طوال المباراة لكل اللاعبين</p>
+      </div>
       <div id="pgNameFields"></div>
       <div class="row" style="margin-top:14px">
         <button class="btn gold" id="pgLocalStartBtn"><svg><use href="#i-paw"/></svg>ابدأ اللعب</button>
@@ -1409,6 +1414,10 @@ footer .credit{
       </div>
       <div class="kOpps" id="pgLobbyList" style="justify-content:center"></div>
       <div id="pgHostOpts">
+        <div id="pgDiceOpt2" style="display:none">
+          <p style="font-weight:900;margin:8px 0 2px;color:var(--brass-hi)">عدد أحجار الزهر لكل دور:</p>
+          <div class="wbChips" id="pgDiceChips2"></div>
+        </div>
         <div class="row"><button class="btn gold" id="pgStartBtn" disabled><svg><use href="#i-paw"/></svg>ابدأ المباراة</button></div>
       </div>
       <p class="hint" id="pgWaitMsg">بانتظار اللاعبين <span class="spin"></span></p>
@@ -1425,13 +1434,12 @@ footer .credit{
       <div class="luWrap">
         <div class="luBoard"><div class="luGrid" id="luGrid"></div><div class="luPieces" id="luPieces"></div></div>
       </div>
-      <div class="diceCount" id="luDiceCount"></div>
       <div class="diceRow" id="luDice"></div>
       <div class="row">
         <button class="btn gold" id="luRollBtn"><svg><use href="#i-refresh"/></svg>ارمِ الزهر</button>
         <button class="btn" id="luPassBtn" style="display:none"><svg><use href="#i-hand"/></svg>إنهاء الدور</button>
       </div>
-      <p class="hint" id="luHint">اختر عدد الزهر ثم ارمِ</p>
+      <p class="hint" id="luHint">اختر الزهر ثم الحجر — والدبل يتحرك بنصف النتيجة</p>
       <div class="row" style="margin-top:8px">
         <button class="btn ghost" id="luQuitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
       </div>
@@ -4347,7 +4355,7 @@ const PG_SEATS = {2:[0,2], 3:[0,1,2], 4:[0,1,2,3]};
 
 const pg = {
   game:'ludo', online:false, isHost:false, myIdx:0, phase:'idle',
-  count:4, players:[],           // [{name, seat}]
+  count:4, nDice:1, players:[],   // nDice: يُختار مرة واحدة قبل المباراة
 };
 let pnet=null, pHostId=null, pPeerIds=[], proom='';
 
@@ -4374,6 +4382,10 @@ function pgRenderSetup(){
     (pg.game==='ludo' ? 'ولِيدو' : 'السلم والثعبان') + ' — نفس الجهاز';
   wbChips(document.getElementById('pgCountChips'), [2,3,4], pg.count, v => v+' لاعبين',
           v => { pg.count=v; pgRenderSetup(); });
+  document.getElementById('pgDiceOpt').style.display = pg.game==='ludo' ? 'block' : 'none';
+  if(pg.game==='ludo')
+    wbChips(document.getElementById('pgDiceChips'), [1,2,3,4], pg.nDice,
+            v => v===1 ? 'زهر واحد' : v+' زهرات', v => { pg.nDice=v; pgRenderSetup(); });
   const nf = document.getElementById('pgNameFields');
   const prev = [...nf.querySelectorAll('input')].map(i => i.value);
   nf.innerHTML='';
@@ -4414,6 +4426,16 @@ function pgRenderLobby(){
     ? 'بانتظار لاعب آخر على الأقل <span class="spin"></span>'
     : (pg.isHost ? 'جاهزون! يمكنك البدء الآن' : 'بانتظار بدء المضيف <span class="spin"></span>');
   document.getElementById('pgHostOpts').style.display = pg.isHost ? 'block' : 'none';
+  document.getElementById('pgDiceOpt2').style.display = (pg.isHost && pg.game==='ludo') ? 'block' : 'none';
+  if(pg.isHost && pg.game==='ludo')
+    wbChips(document.getElementById('pgDiceChips2'), [1,2,3,4], pg.nDice,
+            v => v===1 ? 'زهر واحد' : v+' زهرات',
+            v => { pg.nDice=v; pgRenderLobby(); pgBroadcast({t:'plobby', names: pg.players.map(p=>p.name), nDice: pg.nDice}); });
+  else if(pg.game==='ludo'){
+    const w = document.getElementById('pgWaitMsg');
+    if(pg.phase==='lobby' && !pg.isHost)
+      w.innerHTML = w.innerHTML + '<br><span style="font-size:12.5px">عدد الزهر لكل دور: <b>'+pg.nDice+'</b></span>';
+  }
 }
 function pgCreateRoom(){
   if(!peerAvailable()) return;
@@ -4440,8 +4462,8 @@ function pgCreateRoom(){
       const nm = String(d.name||'').slice(0,18) || ('لاعب '+(pg.players.length+1));
       pPeerIds.push(id);
       pg.players.push({name:nm});
-      pnet.send({t:'pwelcome', idx: pg.players.length-1, names: pg.players.map(p=>p.name), game: pg.game}, id);
-      pgBroadcast({t:'plobby', names: pg.players.map(p=>p.name)});
+      pnet.send({t:'pwelcome', idx: pg.players.length-1, names: pg.players.map(p=>p.name), game: pg.game, nDice: pg.nDice}, id);
+      pgBroadcast({t:'plobby', names: pg.players.map(p=>p.name), nDice: pg.nDice});
       pgRenderLobby();
       toast('انضم '+nm+' ✔');
       return;
@@ -4497,10 +4519,11 @@ function pgJoinRoom(){
       welcomed=true; clearTimeout(failTimer);
       pg.myIdx = d.idx;
       pg.players = d.names.map(n => ({name:n}));
+      if(d.nDice) pg.nDice = d.nDice;
       pgRenderLobby();
       return;
     }
-    if(d.t==='plobby'){ pg.players = d.names.map(n => ({name:n})); pgRenderLobby(); return; }
+    if(d.t==='plobby'){ pg.players = d.names.map(n => ({name:n})); if(d.nDice) pg.nDice = d.nDice; pgRenderLobby(); return; }
     if(d.t==='pstart'){ pg.players = d.players; pgBeginFromState(d.state); return; }
     if(d.t==='pstate'){ pgApplyState(d.state, d.fx); return; }
   });
@@ -4557,11 +4580,12 @@ function luPoint(seat, steps, slot, stack){
   const g = LU_GOALPT[seat]; return {r:g[0], c:g[1]};
 }
 
-function luNewState(players){
+function luNewState(players, nDice){
   return {
     seats: players.map(p => p.seat),
     pos:   players.map(() => [-1,-1,-1,-1]),
     turn: 0, dice: [], rolled: false, done: [],
+    nDice: Math.max(1, Math.min(4, nDice|0)) || 1,
   };
 }
 /* شريك الدبل: قطعة أخرى لنفس اللاعب على نفس الخانة داخل المسار */
@@ -4880,18 +4904,20 @@ function luPaintPlayers(){
 }
 function luPaintDice(){
   const row = document.getElementById('luDice');
-  const cnt = document.getElementById('luDiceCount');
   const mine = pgIsMyTurn(lu);
+  const btn = document.getElementById('luRollBtn');
+  const n = lu.nDice || 1;
+  btn.innerHTML = '<svg><use href="#i-refresh"/></svg>' + (n===1 ? 'ارمِ الزهر' : 'ارمِ ' + n + ' زهرات');
   if(!lu.rolled){
-    row.innerHTML = '';
-    cnt.style.display = mine ? 'flex' : 'none';
-    if(mine) wbChips(cnt, [1,2,3,4], lu.nDice || 1, v => v + ' زهر', v => { lu.nDice = v; luPaintDice(); });
-    document.getElementById('luRollBtn').style.display = mine ? 'inline-flex' : 'none';
+    if(row.children.length !== n){
+      row.innerHTML = '';
+      for(let i=0;i<n;i++){ const w = dieEl(); w.classList.add('used'); row.appendChild(w); dieSet(w, 1); }
+    }
+    btn.style.display = mine ? 'inline-flex' : 'none';
     return;
   }
-  cnt.style.display = 'none';
-  document.getElementById('luRollBtn').style.display = 'none';
-  if(row.children.length !== lu.dice.length){
+  btn.style.display = 'none';
+  if(row.children.length !== lu.dice.length || !row.children[0].onclick){
     row.innerHTML = '';
     lu.dice.forEach((d, i) => {
       const w = dieEl();
@@ -4917,7 +4943,7 @@ function luPaintStatus(ms){
   el.classList.toggle('me', mine);
   if(lu.done.length >= lu.pos.length - 1){ el.textContent = 'انتهت المباراة'; return; }
   if(!lu.rolled){
-    el.textContent = mine ? 'دورك — اختر عدد الزهر وارمِ' : 'دور ' + pgName(lu.turn) + '…';
+    el.textContent = mine ? 'دورك — ارمِ الزهر' : 'دور ' + pgName(lu.turn) + '…';
     return;
   }
   if(!mine){ el.textContent = pgName(lu.turn) + ' يلعب دوره…'; return; }
@@ -4951,9 +4977,8 @@ function luDoMove(mv){
 }
 function luRoll(){
   if(!pgIsMyTurn(lu) || lu.rolled || luBusy) return;
-  const n = lu.nDice || 1;
-  if(pg.online && !pg.isHost){ luBusy = true; pgSendHost({t:'pact', a:'roll', n}); return; }
-  luHostRoll(pg.online ? pg.myIdx : lu.turn, n);
+  if(pg.online && !pg.isHost){ luBusy = true; pgSendHost({t:'pact', a:'roll'}); return; }
+  luHostRoll(pg.online ? pg.myIdx : lu.turn);
 }
 
 /* ---------- ولِيدو: المضيف هو المرجع ---------- */
@@ -4973,7 +4998,6 @@ function luShowRoll(){
   void row.offsetWidth;
   lu.dice.forEach((d,i) => setTimeout(() => dieRoll(row.children[i], d.v), i*90));
   luBusy = true;
-  document.getElementById('luDiceCount').style.display='none';
   document.getElementById('luRollBtn').style.display='none';
   playClip(SFX.mine[Math.floor(Math.random()*SFX.mine.length)], 0.5) || sndBark();
   clearTimeout(pgTimer);
@@ -4984,9 +5008,9 @@ function luAutoSelect(){
   const un = lu.dice.map((d,i)=>({d,i})).filter(x => !x.d.used);
   luSelDie = un.length === 1 ? un[0].i : -1;
 }
-function luHostRoll(pi, n){
+function luHostRoll(pi){
   if(lu.turn !== pi || lu.rolled) return;
-  n = Math.max(1, Math.min(4, n|0));
+  const n = Math.max(1, Math.min(4, lu.nDice|0)) || 1;
   lu.dice = Array.from({length:n}, () => ({v: 1 + Math.floor(Math.random()*6), used:false}));
   lu.rolled = true;
   luSelDie = -1; luSelPiece = -1; luHints = [];
@@ -5034,6 +5058,63 @@ const SN_JUMPS = {
   1:38, 4:14, 9:31, 21:42, 28:84, 36:44, 51:67, 71:91, 80:100,      // سلالم
   16:6, 47:26, 49:11, 56:53, 62:19, 64:60, 87:24, 93:73, 95:75, 98:78, // ثعابين
 };
+/* ثعبان بأسلوب اللوحة الكلاسيكية: جسم متموّج مسنّن الحواف يدقّ نحو الذنب،
+   ورأس بعينين ولسان أحمر مشقوق */
+function snSnake(add, head, tail, skin){
+  const dx = tail.x-head.x, dy = tail.y-head.y;
+  const len = Math.hypot(dx,dy) || 1;
+  const ux = dx/len, uy = dy/len;          // اتجاه المحور
+  const nx = -uy,   ny = ux;               // العمودي
+  const waves = Math.max(2, Math.round(len/13));
+  const amp   = Math.min(4.6, len*0.09);
+  const headW = Math.min(3.1, 1.5 + len*0.017);
+  const N = 64, L = [], R = [], C = [];
+  for(let i=0;i<=N;i++){
+    const t = i/N;
+    const swing = Math.sin(t * Math.PI * waves) * amp * (0.35 + 0.65*Math.sin(Math.PI*Math.min(1, t*1.25)));
+    const cx = head.x + dx*t + nx*swing;
+    const cy = head.y + dy*t + ny*swing;
+    // اتجاه المماس ليبقى العرض عمودياً على الجسم
+    const dt = 0.5/N;
+    const t2 = Math.min(1, t+dt);
+    const sw2 = Math.sin(t2 * Math.PI * waves) * amp * (0.35 + 0.65*Math.sin(Math.PI*Math.min(1, t2*1.25)));
+    const tx = (dx*(t2-t) + nx*(sw2-swing)), ty = (dy*(t2-t) + ny*(sw2-swing));
+    const tl = Math.hypot(tx,ty) || 1;
+    const px = -ty/tl, py = tx/tl;
+    const taper = Math.pow(1 - t, 0.72);
+    const scallop = 1 + 0.17*Math.sin(t * Math.PI * waves * 5);
+    const w = headW * (0.10 + 0.90*taper) * scallop;
+    C.push([cx,cy]);
+    L.push([cx+px*w, cy+py*w]);
+    R.push([cx-px*w, cy-py*w]);
+  }
+  const pts = L.concat(R.reverse());
+  const d = 'M ' + pts.map(p => p[0].toFixed(2)+' '+p[1].toFixed(2)).join(' L ') + ' Z';
+  add('path', {d, fill:skin[0], stroke:'#111', 'stroke-width':.62, 'stroke-linejoin':'round'});
+  // خط الظهر الفاتح
+  const spine = 'M ' + C.filter((_,i)=>i%4===0).map(p => p[0].toFixed(2)+' '+p[1].toFixed(2)).join(' L ');
+  add('path', {d:spine, fill:'none', stroke:skin[1], 'stroke-width':.75,
+               'stroke-linecap':'round', 'stroke-dasharray':'1.1 2.1', opacity:.95});
+  // الرأس واللسان
+  const hx = head.x, hy = head.y;
+  const ax = C[2][0]-hx, ay = C[2][1]-hy, al = Math.hypot(ax,ay)||1;
+  const ox = -ax/al, oy = -ay/al;          // للأمام بعيداً عن الجسم
+  const ex = -oy, ey = ox;
+  add('ellipse', {cx:hx+ox*0.5, cy:hy+oy*0.5, rx:headW*1.16, ry:headW*0.96, fill:skin[0],
+                  stroke:'#111', 'stroke-width':.62,
+                  transform:'rotate('+(Math.atan2(oy,ox)*180/Math.PI)+' '+(hx+ox*0.5)+' '+(hy+oy*0.5)+')'});
+  const tl0 = headW*1.5, tw = headW*0.5;
+  add('path', {d:'M '+(hx+ox*tl0*0.75)+' '+(hy+oy*tl0*0.75)+
+                  ' L '+(hx+ox*tl0*1.6+ex*tw)+' '+(hy+oy*tl0*1.6+ey*tw)+
+                  ' M '+(hx+ox*tl0*0.75)+' '+(hy+oy*tl0*0.75)+
+                  ' L '+(hx+ox*tl0*1.6-ex*tw)+' '+(hy+oy*tl0*1.6-ey*tw),
+               stroke:'#E31E24', 'stroke-width':.7, 'stroke-linecap':'round', fill:'none'});
+  [-1,1].forEach(sg => {
+    const cx = hx + ox*0.35 + ex*sg*headW*0.46, cy = hy + oy*0.35 + ey*sg*headW*0.46;
+    add('circle', {cx, cy, r:headW*0.30, fill:'#fff', stroke:'#111', 'stroke-width':.28});
+    add('circle', {cx:cx+ox*0.12, cy:cy+oy*0.12, r:headW*0.15, fill:'#111'});
+  });
+}
 const SN_SKIN = [['#F7941E','#FFD87A'], ['#8DD3F5','#FFFFFF'], ['#39B54A','#B9E88F'],
                  ['#E31E24','#FFC7C9'], ['#9B59B6','#E6C8F0'], ['#00AEEF','#CCEEFB']];
 function snCell(n){                                   // رقم الخانة ← صف وعمود
@@ -5079,22 +5160,8 @@ function snBuildBoard(){
         const t = i/steps;
         add('line', {x1:a.x+dx*t+nx, y1:a.y+dy*t+ny, x2:a.x+dx*t-nx, y2:a.y+dy*t-ny, stroke:'#111', 'stroke-width':1.05, 'stroke-linecap':'round'});
       }
-    } else {                                          // ثعبان ملوّن
-      const sk = SN_SKIN[snIdx++ % SN_SKIN.length];
-      const dx = b.x-a.x, dy = b.y-a.y, len = Math.hypot(dx,dy);
-      const nx = -dy/len, ny = dx/len, w = Math.min(10, len*0.36);
-      const d = 'M '+a.x+' '+a.y+
-                ' C '+(a.x+dx*0.28+nx*w)+' '+(a.y+dy*0.28+ny*w)+
-                ', '+(a.x+dx*0.72-nx*w)+' '+(a.y+dy*0.72-ny*w)+
-                ', '+b.x+' '+b.y;
-      add('path', {d, fill:'none', stroke:'#111', 'stroke-width':3.6, 'stroke-linecap':'round'});
-      add('path', {d, fill:'none', stroke:sk[0], 'stroke-width':2.6, 'stroke-linecap':'round'});
-      add('path', {d, fill:'none', stroke:sk[1], 'stroke-width':1.1, 'stroke-linecap':'round', 'stroke-dasharray':'1.4 2.4'});
-      add('circle', {cx:a.x, cy:a.y, r:2.9, fill:sk[0], stroke:'#111', 'stroke-width':.9});
-      add('circle', {cx:a.x-1.0, cy:a.y-0.9, r:.62, fill:'#fff'});
-      add('circle', {cx:a.x+1.0, cy:a.y-0.9, r:.62, fill:'#fff'});
-      add('circle', {cx:a.x-1.0, cy:a.y-0.9, r:.28, fill:'#111'});
-      add('circle', {cx:a.x+1.0, cy:a.y-0.9, r:.28, fill:'#111'});
+    } else {                                          // ثعبان: شريط متموّج بحواف مسنّنة يدقّ نحو الذنب
+      snSnake(add, a, b, SN_SKIN[snIdx++ % SN_SKIN.length]);
     }
   });
 }
@@ -5215,7 +5282,7 @@ function pgStartMatch(){
   const seats = PG_SEATS[n] || PG_SEATS[4];
   pg.players.forEach((p,i) => { p.seat = seats[i]; });
   pg.phase = 'play';
-  const state = pg.game === 'ludo' ? luNewState(pg.players) : snNewState(pg.players);
+  const state = pg.game === 'ludo' ? luNewState(pg.players, pg.nDice) : snNewState(pg.players);
   if(pg.online && pg.isHost)
     pgBroadcast({t:'pstart', players: pg.players, state});
   pgBeginFromState(state);
@@ -5224,7 +5291,7 @@ function pgBeginFromState(state){
   pg.phase = 'play';
   clearTimeout(pgTimer); pgTimer = null;
   if(pg.game === 'ludo'){
-    lu = state; lu.nDice = 1;
+    lu = state; lu.nDice = lu.nDice || 1; pg.nDice = lu.nDice;
     luSelDie = -1; luSelPiece = -1; luHints = []; luBusy = false;
     luBuildBoard();
     document.getElementById('luPieces').innerHTML = '';
@@ -5244,7 +5311,7 @@ function pgBeginFromState(state){
 function pgApplyState(state, fx){
   if(pg.game === 'ludo'){
     const wasRolled = lu && lu.rolled;
-    lu = state; lu.nDice = (lu.nDice || 1);
+    lu = state; lu.nDice = lu.nDice || 1;
     luBusy = false;
     if(fx && fx.roll){ luPaint(); luShowRoll(); return; }
     luSelDie = -1; luSelPiece = -1; luHints = [];
@@ -5263,7 +5330,7 @@ function pgApplyState(state, fx){
 function pgHostAction(idx, d){
   if(pg.phase !== 'play') return;
   if(pg.game === 'ludo'){
-    if(d.a === 'roll') luHostRoll(idx, d.n);
+    if(d.a === 'roll') luHostRoll(idx);
     else if(d.a === 'move') luHostMove(idx, d.mv);
   } else {
     if(d.a === 'roll') snHostRoll(idx);
