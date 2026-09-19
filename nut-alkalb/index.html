@@ -498,6 +498,141 @@ input.code{
 .wbPlayerItem .dot{width:12px;height:12px;border-radius:50%;background:#5a9e34}
 
 
+
+/* ---------- ولِيدو والسلم والثعبان: مشترك ---------- */
+.pgBar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:6px 0 8px}
+.pgWho{
+  display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:13px;font-size:12.5px;font-weight:800;
+  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.85));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.4);color:var(--cream);opacity:.55;
+  transition:opacity .25s, box-shadow .25s, transform .25s var(--ease-out);
+}
+.pgWho.turn{opacity:1;transform:translateY(-2px);box-shadow:inset 0 0 0 2.5px var(--brass), 0 0 14px rgba(242,181,68,.45)}
+.pgWho.done{opacity:1;box-shadow:inset 0 0 0 2px #3f9d52}
+.pgWho img{width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.pgWho .pgN{max-width:86px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pgWho .pgK{font-size:11px;color:var(--brass-hi);font-weight:900}
+#pgStatus, #pgStatus2{
+  min-height:34px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14.5px;font-weight:900;color:var(--cream);
+  padding:6px 16px;border-radius:999px;margin:2px auto 8px;max-width:100%;
+  background:linear-gradient(168deg,var(--leather-hi),var(--leather-lo));
+  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.45);
+}
+#pgStatus.me, #pgStatus2.me{color:#3a2408;background:linear-gradient(168deg,#f4c766,#c1832a);box-shadow:0 0 14px rgba(242,181,68,.5)}
+
+/* ---------- الزهر ثلاثي الأبعاد ---------- */
+.diceRow{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:60px;margin:8px 0 4px;perspective:900px}
+.dieWrap{width:52px;height:52px;position:relative}
+.dieWrap.toss{animation:dieToss 1.15s var(--ease-out)}
+@keyframes dieToss{0%{transform:translateY(-26px) scale(.8)}45%{transform:translateY(4px) scale(1.06)}70%{transform:translateY(-6px) scale(.98)}100%{transform:translateY(0) scale(1)}}
+.die{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transition:transform 1.15s cubic-bezier(.21,.84,.28,1);
+  cursor:pointer;
+}
+.dieF{
+  position:absolute;inset:0;border-radius:11px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  padding:6px;backface-visibility:hidden;
+  background:linear-gradient(150deg,#fffaf0 0%,#f6e9d2 55%,#e4d0ac 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(120,80,30,.35), inset 0 -4px 7px rgba(120,80,30,.28), inset 0 3px 4px rgba(255,255,255,.9);
+}
+.dieF span{display:flex;align-items:center;justify-content:center}
+.dieF i{display:block;width:62%;height:62%;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #6b5330, #2a1c0b 75%);box-shadow:inset 0 -1px 1px rgba(255,255,255,.25)}
+.dieWrap.sel .dieF{box-shadow:inset 0 0 0 2.5px var(--brass), 0 0 16px rgba(242,181,68,.85), inset 0 -4px 7px rgba(120,80,30,.28)}
+.dieWrap.used{opacity:.34;filter:grayscale(.6)}
+.dieWrap.used .die{cursor:default}
+.dieHalf{position:absolute;inset-inline-end:-6px;top:-8px;font-size:10.5px;font-weight:900;color:#3a2408;background:var(--brass-hi);
+  border-radius:999px;padding:1px 6px;box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.diceCount{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:4px 0 2px}
+.diceCount .chip{min-width:44px}
+
+/* ---------- لوحة ولِيدو ---------- */
+.luWrap{width:100%;max-width:520px;margin:4px auto;position:relative}
+.luBoard{
+  position:relative;width:100%;aspect-ratio:1;padding:3.4%;border-radius:20px;
+  background:
+    repeating-linear-gradient(94deg, rgba(60,30,8,.16) 0 3px, rgba(255,215,160,.05) 3px 8px),
+    linear-gradient(150deg,#7a4a22 0%,#5e3617 45%,#46270f 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px rgba(242,181,68,.4), inset 0 0 0 5px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,215,150,.2);
+}
+.luGrid{
+  position:relative;width:100%;height:100%;display:grid;direction:ltr;
+  grid-template-columns:repeat(15,1fr);grid-template-rows:repeat(15,1fr);
+  border-radius:7px;overflow:hidden;
+  background:linear-gradient(160deg,#f6e8ca,#ecd9b2);
+  box-shadow:inset 0 0 0 1.5px rgba(80,45,12,.55), inset 0 2px 10px rgba(90,55,20,.25);
+}
+.luC{box-shadow:inset 0 0 0 .7px rgba(96,60,22,.3)}
+.luC.path{background:linear-gradient(160deg,#fbf0d8,#f0e0bd)}
+.luC.home{opacity:.92}
+.luC.startC{box-shadow:inset 0 0 0 1.4px rgba(60,35,10,.5)}
+.luC.startC::after{content:"★";display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  font-size:min(2.3vw,13px);color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.luYard{border-radius:10px;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 2px rgba(60,35,10,.45), inset 0 3px 10px rgba(0,0,0,.18)}
+.luYardIn{width:62%;height:62%;border-radius:8px;background:linear-gradient(160deg,#fdf4e2,#f0e1c2);
+  box-shadow:inset 0 0 0 1.5px rgba(96,60,22,.4), inset 0 2px 6px rgba(90,55,20,.2)}
+.luSlot{
+  position:absolute;width:5.9%;height:5.9%;margin:-2.95% 0 0 -2.95%;border-radius:50%;z-index:1;
+  background:radial-gradient(circle at 38% 32%, #ffffff, #f6ecd9 68%, #e6d6b6 100%);
+  box-shadow:inset 0 0 0 1.6px rgba(58,34,10,.6), inset 0 -2px 4px rgba(120,80,30,.22), 0 1px 2px rgba(0,0,0,.28);
+}
+.luCenter{position:relative;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1.5px rgba(96,60,22,.45)}
+.luCenter .luTri{position:absolute;inset:0}
+.luCenter .luRose{position:relative;width:52%;height:52%;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #fff3d6, #e3b970 55%, #b8873a 100%);
+  box-shadow:0 2px 6px rgba(0,0,0,.35), inset 0 -3px 6px rgba(120,70,20,.45);
+  display:flex;align-items:center;justify-content:center;font-size:min(3.2vw,17px);font-weight:900;color:#5a3512}
+
+.luPieces{position:absolute;inset:3.4%;pointer-events:none;direction:ltr}
+.luP{
+  position:absolute;width:5.6%;height:5.6%;margin:-2.8% 0 0 -2.8%;pointer-events:auto;cursor:pointer;
+  transition:left .42s var(--ease-out), top .42s var(--ease-out), transform .2s var(--ease-spring);
+  filter:drop-shadow(0 3px 3px rgba(20,8,0,.55));
+}
+.luP img{width:100%;height:100%;object-fit:contain;display:block}
+.luP.big{width:6.6%;height:6.6%;margin:-3.3% 0 0 -3.3%}
+.luP.pick{transform:scale(1.22);filter:drop-shadow(0 0 7px rgba(255,220,130,.95)) drop-shadow(0 3px 3px rgba(20,8,0,.5));z-index:4}
+.luP.movable{animation:luBob 1.1s ease-in-out infinite}
+@keyframes luBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-13%)}}
+.luP.dbl::after{content:"2";position:absolute;inset-inline-end:-14%;top:-18%;font-size:min(2vw,10px);font-weight:900;color:#3a2408;
+  background:var(--brass-hi);border-radius:999px;padding:0 4px;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.luHint{position:absolute;width:5.6%;height:5.6%;margin:-2.8% 0 0 -2.8%;border-radius:50%;pointer-events:auto;cursor:pointer;z-index:3;
+  background:radial-gradient(circle,rgba(255,225,150,.92),rgba(255,190,80,.35) 65%,rgba(255,190,80,0) 72%);
+  animation:luPulse 1s ease-in-out infinite}
+@keyframes luPulse{0%,100%{transform:scale(.82);opacity:.8}50%{transform:scale(1.1);opacity:1}}
+
+/* ---------- لوحة السلم والثعبان ---------- */
+.snWrap{width:100%;max-width:500px;margin:4px auto;position:relative}
+.snBoard{position:relative;width:100%;aspect-ratio:1;padding:3%;border-radius:18px;
+  background:
+    repeating-linear-gradient(94deg, rgba(60,30,8,.16) 0 3px, rgba(255,215,160,.05) 3px 8px),
+    linear-gradient(150deg,#7a4a22 0%,#5e3617 45%,#46270f 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px rgba(242,181,68,.4), inset 0 0 0 5px rgba(0,0,0,.35);
+}
+.snGrid{position:relative;width:100%;height:100%;display:grid;direction:ltr;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);
+  background:#111;gap:1.5px;padding:1.5px;box-shadow:0 0 0 3px #111}
+.snC{position:relative;display:flex;align-items:center;justify-content:center;
+  font-size:min(3vw,15px);font-weight:900;color:#111;letter-spacing:-.4px;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.snC.cw{background:#fff}
+.snC.cr{background:#E31E24;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.snC.cb{background:#0072BC;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.snC.cg{background:#00A651;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.snC.cy{background:#FFDE17}
+.snC.goal{background:linear-gradient(150deg,#FFE96B,#F2B705);color:#111;box-shadow:inset 0 0 0 2px #111}
+.snSvg{position:absolute;inset:3%;width:94%;height:94%;pointer-events:none;z-index:2;overflow:visible}
+.snPieces{position:absolute;inset:3%;pointer-events:none;z-index:3;direction:ltr}
+.snP{position:absolute;width:5.4%;height:5.4%;margin:-2.7% 0 0 -2.7%;
+  transition:left .5s var(--ease-out), top .5s var(--ease-out);
+  filter:drop-shadow(0 3px 3px rgba(20,8,0,.55))}
+.snP img{width:100%;height:100%;object-fit:contain;display:block}
+.snP.hop{animation:snHop .5s var(--ease-out)}
+@keyframes snHop{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28%) scale(1.12)}}
+.snLegend{display:flex;gap:14px;justify-content:center;font-size:12px;font-weight:800;opacity:.85;margin-top:2px}
+
 /* ---------- أنا مِنو: بطاقات الشخصيات ---------- */
 .mnHead{display:flex;gap:10px;align-items:stretch;margin-bottom:6px}
 .mnSecret{
@@ -807,6 +942,16 @@ footer .credit{
           <span class="gname">أنا مِنو</span>
           <small>اسأل واستبعد وخمّن الشخصية — لاعبان</small>
         </button>
+        <button class="gameCard" data-game="ludo">
+          <img src="assets/ludo-logo.png" alt="ولِيدو">
+          <span class="gname">ولِيدو</span>
+          <small>ليدو سوداني: 1-4 زهرات ودبل وحواجز — 2 إلى 4</small>
+        </button>
+        <button class="gameCard" data-game="snake">
+          <img src="assets/snake-logo.png" alt="السلم والثعبان">
+          <span class="gname">السلم والثعبان</span>
+          <small>اصعد بالسلّم واحذر الثعبان — 2 إلى 4</small>
+        </button>
       </div>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="namesBtn"><svg><use href="#i-pen"/></svg>أسماء اللاعبين</button>
@@ -919,6 +1064,25 @@ footer .credit{
         <li>ممنوع رؤية بطاقات الآخرين أو التنسيق معهم — كلٌّ يعتمد على بطاقاته وقراره.</li>
         <li><b>🏆 أنا فزت!</b> — من جمع 4 بطاقات متطابقة يضغط الزر فتتجمد الجولة، ويظهر <b>زر الاستجابة</b> فوراً للبقية: الأسرع ضغطاً يأخذ المركز الثاني ثم الثالث ثم الرابع (يُقاس زمن الضغط على جهاز كل لاعب بدقة).</li>
         <li><b>النقاط:</b> الأول 4، الثاني 3، الثالث 2، الرابع 1 (مع 3 لاعبين: 3/2/1) — وتتراكم عبر الجولات، وصاحب أعلى مجموع بعد كل الجولات هو الفائز.</li>
+      </ol>
+      <ol class="rulesList" id="rulesLudo" style="display:none">
+        <li><b>من لاعبَين إلى أربعة</b>، لكل لاعب لون و<b>4 أحجار</b>، والهدف إيصال أحجارك الأربعة إلى بيت لونك في المنتصف.</li>
+        <li><b>الخروج من الساحة:</b> لا يدخل الحجر المسار إلا بظهور <b>٦</b> — وعند رمي عدة زهرات يكفي أن يظهر ٦ في إحداها.</li>
+        <li><b>عدد الزهر:</b> في بداية دورك تختار <b>1 أو 2 أو 3 أو 4</b> زهرات. كل زهر مستقل، وتوزّع نتائجه كيف تشاء على أحجارك — لكن <b>لا يجوز تقسيم نتيجة زهر واحد</b>: زهر ٤ يتحرّك به حجر واحد أربع خانات كاملة.</li>
+        <li><b>منطقة الأمان:</b> خانة انطلاق لونك وحدها آمنة لك. أما خانات انطلاق الألوان الأخرى فتمرّ عليها عادياً ولا تحميك.</li>
+        <li><b>الدبل:</b> إذا اجتمع حجران من لونك في خانة واحدة تكوّن <b>دبل</b>، ولك في أي دور لاحق خياران:
+          <br>— <b>تسييرهما معاً</b> بـ<b>نصف نتيجة الزهر</b> (٤ ← خطوتان، ٦ ← ثلاث)، ولا يجوز تقسيم النصف بينهما، والقيم الفردية لا تحرّك الدبل مجتمعاً.
+          <br>— أو <b>إفراد الدبل</b>: تحرّك أحد الحجرين بالنتيجة كاملة وتترك الآخر مكانه، فينفكّ الحاجز.</li>
+        <li><b>الحاجز:</b> الدبل يسدّ الطريق — لا يعبره حجر الخصم المفرد ولا يهبط عليه. والاستثناء: يجوز <b>العبور</b> فوقه إذا كانت نتيجة الزهر <b>١ أو ٦</b> وكان الدبل على بعد خطوة أو خطوتين.</li>
+        <li><b>الأكل:</b> الحجر المفرد يأكل حجر الخصم المفرد عند الهبوط عليه خارج منطقته الآمنة فيعود إلى ساحته ويحتاج ٦ ليخرج. و<b>دبل يهبط على دبل يأكل الاثنين معاً</b>.</li>
+        <li><b>الوصول:</b> يلزم العدد <b>بالضبط</b> لدخول خانة النهاية، وما زاد عنها حركة غير قانونية. ومحرّك اللعبة يمنع أي حركة مخالفة تلقائياً.</li>
+      </ol>
+      <ol class="rulesList" id="rulesSnake" style="display:none">
+        <li><b>من لاعبَين إلى أربعة</b> على لوحة من <b>100 خانة</b>، وأول من يصل إلى الخانة 100 يفوز.</li>
+        <li>في دورك ارمِ الزهر وتقدّم بعدد نقاطه.</li>
+        <li><b>السلّم 🪜</b> يرفعك إلى خانة أعلى، و<b>الثعبان 🐍</b> ينزلك إلى خانة أدنى.</li>
+        <li>عند ظهور <b>٦</b> لك رمية إضافية.</li>
+        <li>للوصول إلى <b>100</b> يلزم العدد بالضبط — وإن زاد عنه بقيت مكانك حتى الدور التالي.</li>
       </ol>
       <ol class="rulesList" id="rulesMino" style="display:none">
         <li><b>لاعبان</b>: أونلاين برمز غرفة، أو عبر <b>البلوتوث بلا إنترنت</b>، أو جولة سريعة <b>ضد الجهاز</b>.</li>
@@ -1200,6 +1364,109 @@ footer .credit{
   </section>
 
 
+
+  <!-- ===================== ولِيدو والسلم والثعبان ===================== -->
+  <section id="pgSetupScreen" class="screen">
+    <div class="panel">
+      <h2 id="pgSetupTitle">إعداد اللعبة — نفس الجهاز</h2>
+      <p style="font-weight:900;margin:6px 0 2px;color:var(--brass-hi)">عدد اللاعبين:</p>
+      <div class="wbChips" id="pgCountChips"></div>
+      <div id="pgNameFields"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn gold" id="pgLocalStartBtn"><svg><use href="#i-paw"/></svg>ابدأ اللعب</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="pgLobbyScreen" class="screen">
+    <div class="panel" id="pgLobbyMenu">
+      <h2 id="pgLobbyTitle">اللعب أونلاين</h2>
+      <div class="row"><button class="btn gold" id="pgCreateBtn"><svg><use href="#i-home"/></svg>إنشاء غرفة جديدة</button></div>
+      <div class="row" style="margin-top:12px">
+        <input type="text" class="code" id="pgJoinInput" maxlength="4" placeholder="····" inputmode="latin" autocomplete="off" aria-label="رمز الغرفة">
+        <button class="btn" id="pgJoinBtn"><svg><use href="#i-door"/></svg>انضمام</button>
+      </div>
+      <p class="hint">من لاعبَين إلى أربعة في غرفة واحدة</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+    <div class="panel" id="pgWaitCard" style="display:none;text-align:center">
+      <h2>غرفة اللعب <span id="pgCount"></span></h2>
+      <div class="row" id="pgCodeRow"><span id="pgRoomCode" style="font-size:32px;font-weight:900;letter-spacing:8px;direction:ltr;background:#fdf3e0;border-radius:14px;padding:6px 18px;color:#33200c">····</span></div>
+      <div class="row" id="pgCopyRow"><button class="btn" id="pgCopyBtn"><svg><use href="#i-copy"/></svg>نسخ الرمز</button></div>
+      <div class="btRoom" id="btRoompg" style="display:none">
+        <div class="btOpenTag">📶 الغرفة مفتوحة عبر البلوتوث</div>
+        <p class="btLabel">اسم جهازك الظاهر للاعبين:</p>
+        <div class="btName" id="btNamepg">...</div>
+        <ol class="btSteps">
+          <li>افتح اللعبة في الجهاز الآخر واختر <b>نفس اللعبة</b></li>
+          <li>اضغط <b>بلوتوث — بلا إنترنت</b> ثم <b>ابحث عن مضيف</b></li>
+          <li>اختر الاسم الظاهر أعلاه من القائمة</li>
+        </ol>
+        <div class="row"><button class="btn" onclick="btReDiscoverable()"><svg><use href="#i-refresh"/></svg>أظهر جهازي من جديد</button></div>
+      </div>
+      <div class="kOpps" id="pgLobbyList" style="justify-content:center"></div>
+      <div id="pgHostOpts">
+        <div class="row"><button class="btn gold" id="pgStartBtn" disabled><svg><use href="#i-paw"/></svg>ابدأ المباراة</button></div>
+      </div>
+      <p class="hint" id="pgWaitMsg">بانتظار اللاعبين <span class="spin"></span></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="pgCancelBtn"><svg><use href="#i-exit"/></svg>إلغاء</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="luPlayScreen" class="screen">
+    <div class="panel">
+      <div class="pgBar" id="luPlayers"></div>
+      <div id="pgStatus">…</div>
+      <div class="luWrap">
+        <div class="luBoard"><div class="luGrid" id="luGrid"></div><div class="luPieces" id="luPieces"></div></div>
+      </div>
+      <div class="diceCount" id="luDiceCount"></div>
+      <div class="diceRow" id="luDice"></div>
+      <div class="row">
+        <button class="btn gold" id="luRollBtn"><svg><use href="#i-refresh"/></svg>ارمِ الزهر</button>
+        <button class="btn" id="luPassBtn" style="display:none"><svg><use href="#i-hand"/></svg>إنهاء الدور</button>
+      </div>
+      <p class="hint" id="luHint">اختر عدد الزهر ثم ارمِ</p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="luQuitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="snPlayScreen" class="screen">
+    <div class="panel">
+      <div class="pgBar" id="snPlayers"></div>
+      <div id="pgStatus2">…</div>
+      <div class="snWrap">
+        <div class="snBoard"><div class="snGrid" id="snGrid"></div><svg class="snSvg" id="snSvg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg><div class="snPieces" id="snPieces"></div></div>
+      </div>
+      <div class="diceRow" id="snDice"></div>
+      <div class="row"><button class="btn gold" id="snRollBtn"><svg><use href="#i-refresh"/></svg>ارمِ الزهر</button></div>
+      <p class="hint" id="snHint">السلّم يرفعك والثعبان ينزلك — من يصل ١٠٠ أولاً يفوز</p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="snQuitBtn"><svg><use href="#i-exit"/></svg>خروج</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="pgScoreScreen" class="screen">
+    <div class="panel" style="text-align:center">
+      <h2 id="pgResTitle">النتيجة</h2>
+      <div class="kMedals" id="pgMedals"></div>
+      <p id="pgResMsg" style="font-weight:800;margin:8px 0"></p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="pgAgainBtn"><svg><use href="#i-refresh"/></svg>جولة جديدة</button>
+        <button class="btn ghost" id="pgHomeBtn"><svg><use href="#i-home"/></svg>القائمة الرئيسية</button>
+      </div>
+      <p class="hint" id="pgResHint"></p>
+    </div>
+  </section>
+
   <!-- ===================== أنا مِنو ===================== -->
   <section id="mnLobbyScreen" class="screen">
     <div class="panel" id="mnLobbyMenu">
@@ -1382,6 +1649,8 @@ const GAMES = {
   wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
   kz   : {name:'كوز جوز لوز موز',   logo:'assets/kz-logo.png',   peerPrefix:'kz-sd-'},
   mn   : {name:'أنا مِنو',            logo:'assets/mino-logo.png', peerPrefix:'mino-sd-'},
+  ludo : {name:'ولِيدو',              logo:'assets/ludo-logo.png', peerPrefix:'ludo-sd-'},
+  snake: {name:'السلم والثعبان',      logo:'assets/snake-logo.png',peerPrefix:'snake-sd-'},
 };
 /* ---------- unified game bus over Supabase Realtime (NET_IMPL override for tests) ---------- */
 const SB_URL = 'https://gqjoyzjejyeibbmejcoo.supabase.co';
@@ -3455,7 +3724,7 @@ window.addEventListener('board3d-ready', () => { d3Refresh(); if(use3D && docume
 ===================================================================== */
 let btDeviceName = 'جهازي';
 function btPaintRoom(){
-  ['2p','wb','kz','mn'].forEach(k=>{
+  ['2p','wb','kz','mn','pg'].forEach(k=>{
     const box=document.getElementById('btRoom'+k);
     const nm=document.getElementById('btName'+k);
     if(!box||!nm) return;
@@ -3475,7 +3744,7 @@ window.btReDiscoverable = btReDiscoverable;
 function btAfterPerms(){
   NET_TRANSPORT='bt';
   // الألعاب الثنائية تحتاج اختيار شكل القطعة قبل فتح الغرفة
-  if(currentGame==='wbjn' || currentGame==='kz' || currentGame==='mn') openBtScreen();
+  if(['wbjn','kz','mn','ludo','snake'].includes(currentGame)) openBtScreen();
   else openShapeScreen('bt');
 }
 function openPermGate(){
@@ -4059,6 +4328,1002 @@ document.getElementById('mnQuitBtn').onclick=()=>{
 document.getElementById('mnAgainBtn').onclick=mnAgain;
 document.getElementById('mnHomeBtn').onclick=()=>{ if(mn.online) mnSend({t:'mquit'}); mnLeaveAll(); goHub(); };
 
+
+/* =====================================================================
+   GAME 7 & 8: ولِيدو السوداني — والسلم والثعبان
+   محرّك القواعد منفصل عن الواجهة: كل حركة تمرّ على المحرّك قبل تنفيذها.
+===================================================================== */
+/* الألوان مستخرجة من صور الأحجار نفسها فتطابق لون كل حجر بيته تماماً */
+const PG_COLORS = [
+  {key:'green',  name:'الأخضر', img:'assets/dog-star.png',    css:'#7C9930', hi:'#A8C756', lo:'#586E1E'},
+  {key:'yellow', name:'الأصفر', img:'assets/dog-circle.png',  css:'#FD8F00', hi:'#FF9E1E', lo:'#B46600'},
+  {key:'blue',   name:'الأزرق', img:'assets/dog-spiral.png',  css:'#0068F5', hi:'#1B7CFF', lo:'#004BAF'},
+  {key:'red',    name:'الأحمر', img:'assets/dog-diamond.png', css:'#C5241E', hi:'#FE534D', lo:'#8C130F'},
+];
+const pgGrad = c => 'linear-gradient(160deg,'+c.hi+' 0%,'+c.css+' 52%,'+c.lo+' 100%)';
+PG_COLORS.forEach(c => { const im = new Image(); im.src = c.img; });
+/* المقاعد حسب عدد اللاعبين: اثنان متقابلان قطرياً */
+const PG_SEATS = {2:[0,2], 3:[0,1,2], 4:[0,1,2,3]};
+
+const pg = {
+  game:'ludo', online:false, isHost:false, myIdx:0, phase:'idle',
+  count:4, players:[],           // [{name, seat}]
+};
+let pnet=null, pHostId=null, pPeerIds=[], proom='';
+
+function pgColor(seat){ return PG_COLORS[seat]; }
+function pgIsMyTurn(st){ return !pg.online || st.turn === pg.myIdx; }
+function pgName(i){ return (pg.players[i] && pg.players[i].name) || ('لاعب '+(i+1)); }
+
+function pgDestroyPeer(){
+  try{ if(pnet) pnet.leave(); }catch(e){}
+  pnet=null; pHostId=null; pPeerIds=[];
+}
+function pgBroadcast(o){ if(pnet) pPeerIds.forEach(id => pnet.send(o, id)); }
+function pgSendHost(o){ if(pnet && pHostId) pnet.send(o, pHostId); }
+function pgLeaveAll(){
+  pgDestroyPeer();
+  clearTimeout(pgTimer); pgTimer=null;
+  pg.phase='idle'; pg.online=false;
+}
+let pgTimer=null;
+
+/* ---------- إعداد اللعب على جهاز واحد ---------- */
+function pgRenderSetup(){
+  document.getElementById('pgSetupTitle').textContent =
+    (pg.game==='ludo' ? 'ولِيدو' : 'السلم والثعبان') + ' — نفس الجهاز';
+  wbChips(document.getElementById('pgCountChips'), [2,3,4], pg.count, v => v+' لاعبين',
+          v => { pg.count=v; pgRenderSetup(); });
+  const nf = document.getElementById('pgNameFields');
+  const prev = [...nf.querySelectorAll('input')].map(i => i.value);
+  nf.innerHTML='';
+  const seats = PG_SEATS[pg.count];
+  const defaults = [names.p1.trim()||'اللاعب 1', names.p2.trim()||'اللاعب 2', 'اللاعب 3', 'اللاعب 4'];
+  for(let i=0;i<pg.count;i++){
+    const c = pgColor(seats[i]);
+    const d = document.createElement('div'); d.className='wbField';
+    const tag = document.createElement('span'); tag.className='wbTag';
+    tag.style.background = c.css; tag.textContent = c.name;
+    const inp = document.createElement('input'); inp.maxLength=18; inp.value = prev[i] || defaults[i];
+    d.appendChild(tag); d.appendChild(inp);
+    nf.appendChild(d);
+  }
+}
+function pgLocalStart(){
+  const inps = [...document.getElementById('pgNameFields').querySelectorAll('input')];
+  const seats = PG_SEATS[pg.count];
+  pg.online=false; pg.isHost=true; pg.myIdx=-1;
+  pg.players = inps.map((inp,i) => ({name: inp.value.trim() || ('لاعب '+(i+1)), seat: seats[i]}));
+  pgStartMatch();
+}
+
+/* ---------- الغرفة (أونلاين/بلوتوث) ---------- */
+function pgRenderLobby(){
+  document.getElementById('pgCount').textContent = '('+pg.players.length+' / 4)';
+  const list = document.getElementById('pgLobbyList');
+  list.innerHTML='';
+  const seats = PG_SEATS[Math.max(2, pg.players.length)] || PG_SEATS[4];
+  pg.players.forEach((p,i) => {
+    const c = pgColor(seats[i] !== undefined ? seats[i] : i);
+    const d = document.createElement('div'); d.className='kOpp'; d.style.opacity=1;
+    d.innerHTML = '<img class="kAv" src="'+c.img+'" alt="" style="background:none;box-shadow:none;object-fit:contain">'+esc(p.name);
+    list.appendChild(d);
+  });
+  document.getElementById('pgStartBtn').disabled = !(pg.isHost && pg.players.length >= 2);
+  document.getElementById('pgWaitMsg').innerHTML = pg.players.length < 2
+    ? 'بانتظار لاعب آخر على الأقل <span class="spin"></span>'
+    : (pg.isHost ? 'جاهزون! يمكنك البدء الآن' : 'بانتظار بدء المضيف <span class="spin"></span>');
+  document.getElementById('pgHostOpts').style.display = pg.isHost ? 'block' : 'none';
+}
+function pgCreateRoom(){
+  if(!peerAvailable()) return;
+  pgDestroyPeer();
+  pg.online=true; pg.isHost=true; pg.myIdx=0; pg.phase='lobby';
+  pg.players = [{name: names.me.trim() || 'المضيف'}];
+  const BTM = NET_TRANSPORT==='bt';
+  proom = BTM ? 'BT' : makeCode();
+  showScreen('pgLobbyScreen');
+  document.getElementById('pgLobbyMenu').style.display='none';
+  document.getElementById('pgWaitCard').style.display='block';
+  document.getElementById('pgRoomCode').textContent = proom;
+  document.getElementById('pgCodeRow').style.display = BTM?'none':'flex';
+  document.getElementById('pgCopyRow').style.display = BTM?'none':'flex';
+  btPaintRoom();
+  pgRenderLobby();
+  pnet = netJoin(GAMES[currentGame].peerPrefix + proom.toLowerCase());
+  pnet.onData((d,id) => {
+    if(!d || typeof d!=='object') return;
+    if(d.t==='pwho'){ pnet.send({t:'phost'}, id); return; }
+    if(d.t==='pjoin'){
+      if(pPeerIds.includes(id)) return;
+      if(pg.players.length >= 4 || pg.phase!=='lobby'){ pnet.send({t:'pfull'}, id); return; }
+      const nm = String(d.name||'').slice(0,18) || ('لاعب '+(pg.players.length+1));
+      pPeerIds.push(id);
+      pg.players.push({name:nm});
+      pnet.send({t:'pwelcome', idx: pg.players.length-1, names: pg.players.map(p=>p.name), game: pg.game}, id);
+      pgBroadcast({t:'plobby', names: pg.players.map(p=>p.name)});
+      pgRenderLobby();
+      toast('انضم '+nm+' ✔');
+      return;
+    }
+    const idx = pPeerIds.indexOf(id) + 1;
+    if(idx > 0 && d.t==='pact') pgHostAction(idx, d);
+  });
+  pnet.onLeave(id => {
+    const i = pPeerIds.indexOf(id);
+    if(i < 0) return;
+    if(pg.phase==='lobby'){
+      pPeerIds.splice(i,1); pg.players.splice(i+1,1); pgRenderLobby(); toast('غادر أحد اللاعبين');
+    } else {
+      toast(pgName(i+1)+' انقطع اتصاله');
+    }
+  });
+}
+function pgJoinRoom(){
+  if(!peerAvailable()) return;
+  const BTM = NET_TRANSPORT==='bt';
+  let code='BT';
+  if(!BTM){
+    code = document.getElementById('pgJoinInput').value.trim().toUpperCase();
+    if(code.length!==4){ toast('أدخل رمز الغرفة المكوّن من 4 رموز'); return; }
+  }
+  pgDestroyPeer();
+  pg.online=true; pg.isHost=false; pg.phase='lobby';
+  proom = code;
+  showScreen('pgLobbyScreen');
+  document.getElementById('pgLobbyMenu').style.display='none';
+  document.getElementById('pgWaitCard').style.display='block';
+  document.getElementById('pgCodeRow').style.display='none';
+  document.getElementById('pgCopyRow').style.display='none';
+  document.getElementById('pgWaitMsg').innerHTML='جارٍ الاتصال بالغرفة <span class="spin"></span>';
+  btPaintRoom();
+  pnet = netJoin(GAMES[currentGame].peerPrefix + code.toLowerCase());
+  let welcomed=false;
+  const failTimer = setTimeout(() => { if(!welcomed) toast(BTM?'لم يستجب المضيف — أعد المحاولة':'لم يتم العثور على الغرفة — تأكد من الرمز'); }, BTM?20000:12000);
+  const ask = () => { if(!pHostId && pnet) pnet.send({t:'pwho'}); };
+  pnet.onJoin(() => ask());
+  const askTimer = setInterval(() => { if(pHostId || !pnet) clearInterval(askTimer); else ask(); }, 2000);
+  setTimeout(ask, 600);
+  pnet.onData((d,id) => {
+    if(!d || typeof d!=='object') return;
+    if(d.t==='pfull'){ clearTimeout(failTimer); clearInterval(askTimer); toast('الغرفة ممتلئة أو بدأت المباراة'); pgDestroyPeer(); return; }
+    if(d.t==='phost' && !pHostId){
+      pHostId = id; clearInterval(askTimer);
+      pnet.send({t:'pjoin', name: names.me.trim() || 'لاعب'}, id);
+      return;
+    }
+    if(id !== pHostId) return;
+    if(d.t==='pwelcome'){
+      welcomed=true; clearTimeout(failTimer);
+      pg.myIdx = d.idx;
+      pg.players = d.names.map(n => ({name:n}));
+      pgRenderLobby();
+      return;
+    }
+    if(d.t==='plobby'){ pg.players = d.names.map(n => ({name:n})); pgRenderLobby(); return; }
+    if(d.t==='pstart'){ pg.players = d.players; pgBeginFromState(d.state); return; }
+    if(d.t==='pstate'){ pgApplyState(d.state, d.fx); return; }
+  });
+  pnet.onLeave(id => { if(id===pHostId && pg.phase!=='end'){ toast('انقطع الاتصال بالمضيف'); goHub(); } });
+}
+
+/* =====================================================================
+   ولِيدو — محرّك القواعد (لا يلمس الواجهة إطلاقاً)
+===================================================================== */
+const LU_RINGN = 52;          // خانات المسار الدائري
+const LU_GOAL  = 56;          // 0 = خانة الانطلاق، 1..50 المسار، 51..55 البيت، 56 النهاية
+const LU_START = [0, 13, 26, 39];   // فهرس خانة الانطلاق لكل مقعد
+
+/* مسار الدائرة على شبكة 15×15 */
+const LU_RING = (() => {
+  const p = [];
+  for(let c=1;c<=5;c++)  p.push([6,c]);
+  for(let r=5;r>=0;r--)  p.push([r,6]);
+  p.push([0,7]);
+  for(let r=0;r<=5;r++)  p.push([r,8]);
+  for(let c=9;c<=14;c++) p.push([6,c]);
+  p.push([7,14]);
+  for(let c=14;c>=9;c--) p.push([8,c]);
+  for(let r=9;r<=14;r++) p.push([r,8]);
+  p.push([14,7]);
+  for(let r=14;r>=9;r--) p.push([r,6]);
+  for(let c=5;c>=0;c--)  p.push([8,c]);
+  p.push([7,0]);
+  p.push([6,0]);
+  return p;
+})();
+const LU_HOMEC = [
+  [[7,1],[7,2],[7,3],[7,4],[7,5]],
+  [[1,7],[2,7],[3,7],[4,7],[5,7]],
+  [[7,13],[7,12],[7,11],[7,10],[7,9]],
+  [[13,7],[12,7],[11,7],[10,7],[9,7]],
+];
+const LU_YARD = [
+  [[1.9,1.9],[1.9,4.1],[4.1,1.9],[4.1,4.1]],
+  [[1.9,10.9],[1.9,13.1],[4.1,10.9],[4.1,13.1]],
+  [[10.9,10.9],[10.9,13.1],[13.1,10.9],[13.1,13.1]],
+  [[10.9,1.9],[10.9,4.1],[13.1,1.9],[13.1,4.1]],
+];
+const LU_GOALPT = [[7.5,6.6],[6.6,7.5],[7.5,8.4],[8.4,7.5]];
+
+const luRingIdx = (seat, steps) => (LU_START[seat] + steps) % LU_RINGN;   // للخطوات 0..50 فقط
+const luOnRing  = steps => steps >= 0 && steps <= 50;
+
+/* إحداثيات مركز قطعة (بوحدات الخانة على شبكة 15) */
+function luPoint(seat, steps, slot, stack){
+  if(steps < 0){ const y = LU_YARD[seat][slot]; return {r:y[0], c:y[1]}; }
+  if(steps <= 50){ const cell = LU_RING[luRingIdx(seat, steps)]; return {r:cell[0]+0.5, c:cell[1]+0.5}; }
+  if(steps < LU_GOAL){ const cell = LU_HOMEC[seat][steps-51]; return {r:cell[0]+0.5, c:cell[1]+0.5}; }
+  const g = LU_GOALPT[seat]; return {r:g[0], c:g[1]};
+}
+
+function luNewState(players){
+  return {
+    seats: players.map(p => p.seat),
+    pos:   players.map(() => [-1,-1,-1,-1]),
+    turn: 0, dice: [], rolled: false, done: [],
+  };
+}
+/* شريك الدبل: قطعة أخرى لنفس اللاعب على نفس الخانة داخل المسار */
+function luPartner(st, pi, ki){
+  const p = st.pos[pi][ki];
+  if(!luOnRing(p)) return -1;
+  for(let k=0;k<4;k++) if(k!==ki && st.pos[pi][k]===p) return k;
+  return -1;
+}
+/* عدد قطع لاعب ما على خانة مسار معيّنة */
+function luCountAt(st, pi, ringIdx, skip){
+  let n = 0;
+  for(let k=0;k<4;k++){
+    if(skip && skip.indexOf(k)>=0) continue;
+    const p = st.pos[pi][k];
+    if(luOnRing(p) && luRingIdx(st.seats[pi], p) === ringIdx) n++;
+  }
+  return n;
+}
+/* هل على خانة المسار دبل لخصم؟ */
+function luEnemyDouble(st, pi, ringIdx){
+  for(let q=0;q<st.pos.length;q++){
+    if(q===pi) continue;
+    if(luCountAt(st, q, ringIdx) >= 2) return q;
+  }
+  return -1;
+}
+const luIsSafeFor = (st, q, ringIdx) => ringIdx === LU_START[st.seats[q]];
+
+/* هل يجوز الهبوط على الخانة؟ movers = القطع المتحركة (لاستثنائها من العد) */
+function luCanLand(st, pi, to, movers){
+  if(to > LU_GOAL) return false;
+  if(to > 50) return true;                       // البيت والنهاية: بلا حصار ولا أكل
+  const ring = luRingIdx(st.seats[pi], to);
+  const mine = luCountAt(st, pi, ring, movers);
+  if(mine + movers.length > 2) return false;     // لا أكثر من قطعتين لنفس اللون
+  for(let q=0;q<st.pos.length;q++){
+    if(q===pi) continue;
+    const n = luCountAt(st, q, ring);
+    if(n < 2) continue;
+    if(movers.length < 2) return false;            // مفرد لا يهبط على دبل
+    if(luIsSafeFor(st, q, ring)) return false;     // دبل محميّ في منطقته: حاجز لا يُكسر
+  }
+  return true;
+}
+/* فحص المسار كاملاً: الحصار والهبوط */
+function luPathOk(st, pi, from, steps, movers, dieV){
+  const to = from + steps;
+  if(to > LU_GOAL) return false;
+  for(let off=1; off<=steps; off++){
+    const at = from + off;
+    if(!luOnRing(at)) break;                      // دخلنا البيت: لا حصار بعدها
+    const ring = luRingIdx(st.seats[pi], at);
+    if(luEnemyDouble(st, pi, ring) < 0) continue;
+    if(movers.length >= 2) continue;              // الدبل يكسر الحاجز: يعبر ويأكل
+    if(at === to) return false;                   // المفرد لا يهبط على دبل الخصم أبداً
+    // العبور: مسموح فقط بزهر 1 أو 6 وإذا كان الدبل على بعد خطوة أو خطوتين
+    if(!((dieV===1 || dieV===6) && off <= 2)) return false;
+  }
+  return luCanLand(st, pi, to, movers);
+}
+
+/* كل الحركات القانونية للاعب صاحب الدور */
+function luMoves(st){
+  const out = [];
+  const pi = st.turn;
+  st.dice.forEach((d, di) => {
+    if(d.used) return;
+    for(let ki=0; ki<4; ki++){
+      const p = st.pos[pi][ki];
+      if(p >= LU_GOAL) continue;
+      if(p < 0){
+        if(d.v === 6 && luCanLand(st, pi, 0, [ki]))
+          out.push({ki, di, from:-1, to:0, steps:0, together:false, out:true});
+        continue;
+      }
+      const partner = luPartner(st, pi, ki);
+      if(luPathOk(st, pi, p, d.v, [ki], d.v))
+        out.push({ki, di, from:p, to:p+d.v, steps:d.v, together:false, split: partner>=0});
+      if(partner >= 0 && d.v % 2 === 0){
+        const h = d.v/2;
+        if(luPathOk(st, pi, p, h, [ki, partner], d.v))
+          out.push({ki, di, from:p, to:p+h, steps:h, together:true, partner});
+      }
+    }
+  });
+  // إزالة التكرار: الدبل يولّد نفس الحركة من القطعتين
+  const seen = {};
+  return out.filter(m => {
+    const key = [m.together ? Math.min(m.ki, m.partner) : m.ki, m.di, m.to, m.together?1:0].join('|');
+    if(seen[key]) return false;
+    seen[key] = 1; return true;
+  });
+}
+
+/* تنفيذ حركة — يفترض أنها من luMoves */
+function luApply(st, mv){
+  const pi = st.turn;
+  const fx = {kills: [], moved: [], goal: false};
+  st.dice[mv.di].used = true;
+  const movers = mv.together ? [mv.ki, mv.partner] : [mv.ki];
+  movers.forEach(k => { st.pos[pi][k] = mv.to; fx.moved.push(k); });
+  if(mv.to <= 50){
+    const ring = luRingIdx(st.seats[pi], mv.to);
+    for(let q=0;q<st.pos.length;q++){
+      if(q===pi) continue;
+      if(luCountAt(st, q, ring) === 0) continue;
+      if(luIsSafeFor(st, q, ring)) continue;                 // محميّ في منطقة انطلاقه
+      for(let k=0;k<4;k++){
+        const p = st.pos[q][k];
+        if(luOnRing(p) && luRingIdx(st.seats[q], p) === ring){
+          st.pos[q][k] = -1;
+          fx.kills.push({pi:q, ki:k});
+        }
+      }
+    }
+  }
+  if(mv.to === LU_GOAL) fx.goal = true;
+  if(st.pos[pi].every(p => p === LU_GOAL) && st.done.indexOf(pi) < 0) st.done.push(pi);
+  return fx;
+}
+function luTurnOver(st){
+  if(st.dice.every(d => d.used)) return true;
+  return luMoves(st).length === 0;
+}
+function luNextTurn(st){
+  st.dice = []; st.rolled = false;
+  const n = st.pos.length;
+  let t = st.turn;
+  for(let i=1;i<=n;i++){
+    const c = (t + i) % n;
+    if(st.done.indexOf(c) < 0){ st.turn = c; return; }
+  }
+  st.turn = t;
+}
+const luFinished = st => st.done.length >= st.pos.length - 1;
+
+/* =====================================================================
+   الزهر ثلاثي الأبعاد — مكعّب حقيقي بستة أوجه يتقلّب ثم يستقرّ
+===================================================================== */
+const DIE_PIPS = {1:[5], 2:[1,9], 3:[1,5,9], 4:[1,3,7,9], 5:[1,3,5,7,9], 6:[1,3,4,6,7,9]};
+const DIE_FACE = {                                   // وضع كل وجه على المكعّب
+  1:'translateZ(26px)', 6:'rotateY(180deg) translateZ(26px)',
+  3:'rotateY(90deg) translateZ(26px)', 4:'rotateY(-90deg) translateZ(26px)',
+  5:'rotateX(90deg) translateZ(26px)', 2:'rotateX(-90deg) translateZ(26px)',
+};
+const DIE_SHOW = {                                   // الدوران الذي يُظهر الوجه أماماً
+  1:[0,0], 2:[90,0], 3:[0,-90], 4:[0,90], 5:[-90,0], 6:[0,180],
+};
+function dieEl(){
+  const wrap = document.createElement('div'); wrap.className='dieWrap';
+  const die  = document.createElement('div'); die.className='die';
+  for(let v=1; v<=6; v++){
+    const f = document.createElement('div'); f.className='dieF';
+    f.style.transform = DIE_FACE[v];
+    for(let i=1;i<=9;i++){
+      const cell = document.createElement('span');
+      if(DIE_PIPS[v].indexOf(i) >= 0) cell.innerHTML = '<i></i>';
+      f.appendChild(cell);
+    }
+    die.appendChild(f);
+  }
+  wrap.appendChild(die);
+  wrap._die = die;
+  return wrap;
+}
+function dieRoll(wrap, v, spins){
+  const [x,y] = DIE_SHOW[v];
+  const s = spins === undefined ? 2 + Math.floor(Math.random()*2) : spins;
+  wrap._die.style.transform = 'rotateX('+(x - 360*s)+'deg) rotateY('+(y + 360*(s+1))+'deg)';
+  wrap.classList.remove('toss'); void wrap.offsetWidth; wrap.classList.add('toss');
+}
+function dieSet(wrap, v){
+  const [x,y] = DIE_SHOW[v];
+  wrap._die.style.transition='none';
+  wrap._die.style.transform = 'rotateX('+x+'deg) rotateY('+y+'deg)';
+  void wrap.offsetWidth;
+  wrap._die.style.transition='';
+}
+
+/* =====================================================================
+   ولِيدو — الواجهة
+===================================================================== */
+let lu = null;          // حالة اللعبة
+let luSelDie = -1, luSelPiece = -1, luHints = [], luBusy = false;
+
+function luBuildBoard(){
+  const g = document.getElementById('luGrid');
+  g.innerHTML = '';
+  const cells = [];
+  for(let r=0;r<15;r++){ cells.push([]); for(let c=0;c<15;c++) cells[r].push(null); }
+  const mk = (r,c,cls,style) => {
+    const d = document.createElement('div');
+    d.className = 'luC ' + (cls||'');
+    d.style.gridArea = (r+1)+' / '+(c+1);
+    if(style) d.setAttribute('style', d.getAttribute('style') + ';' + style);
+    g.appendChild(d); cells[r][c] = d; return d;
+  };
+  // الساحات الأربع
+  const yards = [[1,1,7,7],[1,10,7,16],[10,10,16,16],[10,1,16,7]];
+  yards.forEach((a,seat) => {
+    const d = document.createElement('div');
+    d.className = 'luYard';
+    d.style.gridArea = a[0]+' / '+a[1]+' / '+a[2]+' / '+a[3];
+    d.style.background = pgGrad(pgColor(seat));
+    d.innerHTML = '<div class="luYardIn"></div>';
+    g.appendChild(d);
+  });
+  // خانات المسار
+  LU_RING.forEach((cell, i) => {
+    const seat = LU_START.indexOf(i);
+    const col = seat >= 0 ? pgColor(seat) : null;
+    const d = mk(cell[0], cell[1], 'path' + (seat>=0 ? ' startC' : ''));
+    if(col) d.style.background = pgGrad(col);
+  });
+  // ممرات البيوت
+  LU_HOMEC.forEach((arr, seat) => {
+    arr.forEach(cell => {
+      const d = mk(cell[0], cell[1], 'home');
+      d.style.background = pgGrad(pgColor(seat));
+    });
+  });
+  // نقاط مواضع الأحجار داخل الساحات — تبقى ظاهرة بعد خروج الحجر
+  LU_YARD.forEach(slots => slots.forEach(pt => {
+    const d = document.createElement('div');
+    d.className = 'luSlot';
+    d.style.left = (pt[1]/15*100) + '%';
+    d.style.top  = (pt[0]/15*100) + '%';
+    g.appendChild(d);
+  }));
+  // المركز
+  const ctr = document.createElement('div');
+  ctr.className = 'luCenter';
+  ctr.style.gridArea = '7 / 7 / 10 / 10';
+  ctr.innerHTML =
+    '<svg class="luTri" viewBox="0 0 100 100" preserveAspectRatio="none">' +
+      '<polygon points="0,0 100,0 50,50" fill="'+PG_COLORS[1].css+'"/>' +
+      '<polygon points="100,0 100,100 50,50" fill="'+PG_COLORS[2].css+'"/>' +
+      '<polygon points="100,100 0,100 50,50" fill="'+PG_COLORS[3].css+'"/>' +
+      '<polygon points="0,100 0,0 50,50" fill="'+PG_COLORS[0].css+'"/>' +
+    '</svg><div class="luRose">🏠</div>';
+  g.appendChild(ctr);
+}
+
+function luPaint(fx){
+  const box = document.getElementById('luPieces');
+  const st = lu;
+  // القطع
+  const want = {};
+  st.pos.forEach((arr, pi) => arr.forEach((p, ki) => { want[pi+'-'+ki] = 1; }));
+  [...box.querySelectorAll('.luP')].forEach(el => { if(!want[el.dataset.id]) el.remove(); });
+  st.pos.forEach((arr, pi) => {
+    const seat = st.seats[pi], col = pgColor(seat);
+    arr.forEach((p, ki) => {
+      const id = pi+'-'+ki;
+      let el = box.querySelector('.luP[data-id="'+id+'"]');
+      if(!el){
+        el = document.createElement('div');
+        el.className = 'luP'; el.dataset.id = id;
+        el.innerHTML = '<img src="'+col.img+'" alt="'+col.name+'">';
+        el.onclick = () => luTapPiece(pi, ki);
+        box.appendChild(el);
+      }
+      const partner = luPartner(st, pi, ki);
+      const pt = luPoint(seat, p, ki, 0);
+      let dr = 0, dc = 0;
+      if(partner >= 0){ const first = partner > ki; dr = first ? -0.17 : 0.17; dc = first ? -0.17 : 0.17; }
+      else if(p >= LU_GOAL){ dr = (ki%2)*0.34 - 0.17; dc = (ki>1?0.34:0) - 0.17; }
+      el.style.left = ((pt.c + dc)/15*100) + '%';
+      el.style.top  = ((pt.r + dr)/15*100) + '%';
+      el.classList.toggle('dbl', partner >= 0 && partner > ki);
+      el.classList.toggle('big', p < 0);
+      el.style.zIndex = p < 0 ? 1 : 2;
+    });
+  });
+  // تلميحات القطع القابلة للتحريك
+  const my = pgIsMyTurn(st) && st.rolled && !luBusy;
+  const ms = my ? luMoves(st) : [];
+  const movable = {};
+  ms.forEach(m => { if(luSelDie < 0 || m.di === luSelDie) movable[st.turn+'-'+m.ki] = 1; });
+  [...box.querySelectorAll('.luP')].forEach(el => {
+    el.classList.toggle('movable', !!movable[el.dataset.id]);
+    el.classList.toggle('pick', el.dataset.id === (st.turn+'-'+luSelPiece));
+  });
+  luPaintHints();
+  luPaintDice();
+  luPaintPlayers();
+  luPaintStatus(ms);
+}
+function luPaintHints(){
+  const box = document.getElementById('luPieces');
+  [...box.querySelectorAll('.luHint')].forEach(e => e.remove());
+  luHints.forEach(h => {
+    const pt = luPoint(lu.seats[lu.turn], h.to, 0, 0);
+    const d = document.createElement('div');
+    d.className = 'luHint';
+    d.style.left = (pt.c/15*100) + '%';
+    d.style.top  = (pt.r/15*100) + '%';
+    d.onclick = () => luDoMove(h);
+    box.appendChild(d);
+  });
+}
+function luPaintPlayers(){
+  const box = document.getElementById('luPlayers');
+  box.innerHTML = '';
+  lu.pos.forEach((arr, pi) => {
+    const col = pgColor(lu.seats[pi]);
+    const home = arr.filter(p => p === LU_GOAL).length;
+    const d = document.createElement('div');
+    d.className = 'pgWho' + (pi===lu.turn ? ' turn' : '') + (lu.done.indexOf(pi)>=0 ? ' done' : '');
+    d.innerHTML = '<img src="'+col.img+'" alt="">' +
+      '<span class="pgN">'+esc(pgName(pi))+(pg.online && pi===pg.myIdx ? ' (أنت)' : '')+'</span>' +
+      '<span class="pgK">'+home+'/4</span>';
+    box.appendChild(d);
+  });
+}
+function luPaintDice(){
+  const row = document.getElementById('luDice');
+  const cnt = document.getElementById('luDiceCount');
+  const mine = pgIsMyTurn(lu);
+  if(!lu.rolled){
+    row.innerHTML = '';
+    cnt.style.display = mine ? 'flex' : 'none';
+    if(mine) wbChips(cnt, [1,2,3,4], lu.nDice || 1, v => v + ' زهر', v => { lu.nDice = v; luPaintDice(); });
+    document.getElementById('luRollBtn').style.display = mine ? 'inline-flex' : 'none';
+    return;
+  }
+  cnt.style.display = 'none';
+  document.getElementById('luRollBtn').style.display = 'none';
+  if(row.children.length !== lu.dice.length){
+    row.innerHTML = '';
+    lu.dice.forEach((d, i) => {
+      const w = dieEl();
+      w.onclick = () => luTapDie(i);
+      row.appendChild(w);
+      dieSet(w, d.v);
+    });
+  }
+  const ms = mine ? luMoves(lu) : [];
+  [...row.children].forEach((w, i) => {
+    const d = lu.dice[i];
+    w.classList.toggle('used', d.used);
+    w.classList.toggle('sel', i === luSelDie && !d.used);
+    const canHalf = !d.used && d.v % 2 === 0 && ms.some(m => m.di === i && m.together);
+    let tag = w.querySelector('.dieHalf');
+    if(canHalf && !tag){ tag = document.createElement('span'); tag.className='dieHalf'; tag.textContent='½ '+(d.v/2); w.appendChild(tag); }
+    else if(!canHalf && tag) tag.remove();
+  });
+}
+function luPaintStatus(ms){
+  const el = document.getElementById('pgStatus');
+  const mine = pgIsMyTurn(lu);
+  el.classList.toggle('me', mine);
+  if(lu.done.length >= lu.pos.length - 1){ el.textContent = 'انتهت المباراة'; return; }
+  if(!lu.rolled){
+    el.textContent = mine ? 'دورك — اختر عدد الزهر وارمِ' : 'دور ' + pgName(lu.turn) + '…';
+    return;
+  }
+  if(!mine){ el.textContent = pgName(lu.turn) + ' يلعب دوره…'; return; }
+  if(luSelPiece >= 0 && luHints.length) el.textContent = 'اختر الخانة التي تريدها';
+  else if(ms && ms.length) el.textContent = luSelDie >= 0 ? 'اختر الحجر الذي تحرّكه' : 'اختر زهراً ثم حجراً';
+  else el.textContent = 'لا توجد حركة قانونية…';
+}
+
+/* ---------- تفاعل ---------- */
+function luTapDie(i){
+  if(!pgIsMyTurn(lu) || luBusy || lu.dice[i].used) return;
+  luSelDie = (luSelDie === i) ? -1 : i;
+  luSelPiece = -1; luHints = [];
+  luPaint();
+}
+function luTapPiece(pi, ki){
+  if(luBusy || !pgIsMyTurn(lu) || pi !== lu.turn || !lu.rolled) return;
+  let ms = luMoves(lu).filter(m => m.ki === ki || (m.together && m.partner === ki));
+  if(luSelDie >= 0) ms = ms.filter(m => m.di === luSelDie);
+  if(!ms.length){ toast('لا حركة قانونية لهذا الحجر'); return; }
+  if(ms.length === 1){ luDoMove(ms[0]); return; }
+  // عدّة احتمالات: أظهر الوجهات ودَع اللاعب يختار
+  luSelPiece = ki;
+  luHints = ms;
+  luPaint();
+}
+function luDoMove(mv){
+  luSelDie = -1; luSelPiece = -1; luHints = [];
+  if(pg.online && !pg.isHost){ luBusy = true; pgSendHost({t:'pact', a:'move', mv:{ki:mv.ki, di:mv.di, to:mv.to, together:!!mv.together, partner:mv.partner}}); luPaint(); return; }
+  luHostMove(pg.online ? pg.myIdx : lu.turn, mv);
+}
+function luRoll(){
+  if(!pgIsMyTurn(lu) || lu.rolled || luBusy) return;
+  const n = lu.nDice || 1;
+  if(pg.online && !pg.isHost){ luBusy = true; pgSendHost({t:'pact', a:'roll', n}); return; }
+  luHostRoll(pg.online ? pg.myIdx : lu.turn, n);
+}
+
+/* ---------- ولِيدو: المضيف هو المرجع ---------- */
+function pgPush(fx){
+  if(pg.online && pg.isHost)
+    pgBroadcast({t:'pstate', state: pg.game==='ludo' ? lu : sn, fx: fx||null});
+}
+function luShowRoll(){
+  const row = document.getElementById('luDice');
+  row.innerHTML = '';
+  lu.dice.forEach((d,i) => {
+    const w = dieEl();
+    w.onclick = () => luTapDie(i);
+    row.appendChild(w);
+    dieSet(w, 1);
+  });
+  void row.offsetWidth;
+  lu.dice.forEach((d,i) => setTimeout(() => dieRoll(row.children[i], d.v), i*90));
+  luBusy = true;
+  document.getElementById('luDiceCount').style.display='none';
+  document.getElementById('luRollBtn').style.display='none';
+  playClip(SFX.mine[Math.floor(Math.random()*SFX.mine.length)], 0.5) || sndBark();
+  clearTimeout(pgTimer);
+  pgTimer = setTimeout(() => { luBusy = false; luAutoSelect(); luPaint(); luCheckStuck(); }, 1250 + lu.dice.length*90);
+}
+function luAutoSelect(){
+  if(!pgIsMyTurn(lu)) return;
+  const un = lu.dice.map((d,i)=>({d,i})).filter(x => !x.d.used);
+  luSelDie = un.length === 1 ? un[0].i : -1;
+}
+function luHostRoll(pi, n){
+  if(lu.turn !== pi || lu.rolled) return;
+  n = Math.max(1, Math.min(4, n|0));
+  lu.dice = Array.from({length:n}, () => ({v: 1 + Math.floor(Math.random()*6), used:false}));
+  lu.rolled = true;
+  luSelDie = -1; luSelPiece = -1; luHints = [];
+  pgPush({roll:true});
+  luShowRoll();
+}
+function luHostMove(pi, mv){
+  if(lu.turn !== pi || !lu.rolled) return;
+  const legal = luMoves(lu).find(m => m.ki===mv.ki && m.di===mv.di && m.to===mv.to && !!m.together === !!mv.together);
+  if(!legal){ toast('حركة غير قانونية'); luBusy=false; luPaint(); return; }
+  const fx = luApply(lu, legal);
+  pgPush({move:true, fx});
+  luAfterMove(fx);
+}
+function luAfterMove(fx){
+  luBusy = false;
+  if(fx && fx.kills && fx.kills.length) playClip(SFX.die, 0.9) || sndBark();
+  else playClip(SFX.opp[Math.floor(Math.random()*SFX.opp.length)], 0.55) || sndBark();
+  luAutoSelect();
+  luPaint();
+  if(fx && fx.kills && fx.kills.length) toast('أكلت ' + fx.kills.length + ' حجراً! 💥');
+  if(fx && fx.goal) toast('حجر وصل البيت 🏠');
+  luCheckStuck();
+}
+function luCheckStuck(){
+  if(luFinished(lu)){ pgFinish(); return; }
+  if(!lu.rolled) return;
+  if(!luTurnOver(lu)) return;
+  const noMove = luMoves(lu).length === 0 && !lu.dice.every(d => d.used);
+  clearTimeout(pgTimer);
+  pgTimer = setTimeout(() => {
+    if(pg.online && !pg.isHost) return;          // المضيف وحده يُنهي الدور
+    if(noMove) toast('لا حركة ممكنة — انتقل الدور');
+    luNextTurn(lu);
+    luSelDie = -1; luSelPiece = -1; luHints = [];
+    pgPush({turn:true});
+    luPaint();
+  }, noMove ? 1100 : 450);
+}
+
+/* =====================================================================
+   السلم والثعبان
+===================================================================== */
+const SN_JUMPS = {
+  1:38, 4:14, 9:31, 21:42, 28:84, 36:44, 51:67, 71:91, 80:100,      // سلالم
+  16:6, 47:26, 49:11, 56:53, 62:19, 64:60, 87:24, 93:73, 95:75, 98:78, // ثعابين
+};
+const SN_SKIN = [['#F7941E','#FFD87A'], ['#8DD3F5','#FFFFFF'], ['#39B54A','#B9E88F'],
+                 ['#E31E24','#FFC7C9'], ['#9B59B6','#E6C8F0'], ['#00AEEF','#CCEEFB']];
+function snCell(n){                                   // رقم الخانة ← صف وعمود
+  const fromBottom = Math.floor((n-1)/10);
+  const idx = (n-1) % 10;
+  return { r: 9 - fromBottom, c: (fromBottom % 2 === 0) ? idx : 9 - idx };
+}
+function snNewState(players){
+  return { seats: players.map(p=>p.seat), pos: players.map(()=>0), turn:0, die:0, rolled:false, done:[], again:false };
+}
+let sn = null, snBusy = false;
+
+const SN_PAL = ['cw','cr','cb','cg','cy'];      // نمط ألوان اللوحة الكلاسيكية
+function snBuildBoard(){
+  const g = document.getElementById('snGrid');
+  g.innerHTML = '';
+  const byRC = {};
+  for(let n=1;n<=100;n++){ const p = snCell(n); byRC[p.r+'-'+p.c] = n; }
+  for(let r=0;r<10;r++) for(let c=0;c<10;c++){
+    const n = byRC[r+'-'+c];
+    const d = document.createElement('div');
+    d.className = 'snC ' + (n===100 ? 'goal' : SN_PAL[(c + 2*r + 1) % 5]);
+    d.textContent = n;
+    g.appendChild(d);
+  }
+  // السلالم والثعابين
+  const svg = document.getElementById('snSvg');
+  svg.innerHTML = '';
+  const P = n => { const p = snCell(n); return { x:(p.c+0.5)*10, y:(p.r+0.5)*10 }; };
+  const NS = 'http://www.w3.org/2000/svg';
+  const add = (tag, attrs) => { const e = document.createElementNS(NS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; };
+  let snIdx = 0;
+  Object.keys(SN_JUMPS).map(Number).forEach(from => {
+    const to = SN_JUMPS[from];
+    const a = P(from), b = P(to);
+    if(to > from){                                   // سلّم أسود بدرجات
+      const dx = b.x-a.x, dy = b.y-a.y, len = Math.hypot(dx,dy);
+      const nx = -dy/len*1.8, ny = dx/len*1.8;
+      add('line', {x1:a.x+nx, y1:a.y+ny, x2:b.x+nx, y2:b.y+ny, stroke:'#111', 'stroke-width':1.3, 'stroke-linecap':'round'});
+      add('line', {x1:a.x-nx, y1:a.y-ny, x2:b.x-nx, y2:b.y-ny, stroke:'#111', 'stroke-width':1.3, 'stroke-linecap':'round'});
+      const steps = Math.max(3, Math.round(len/4.2));
+      for(let i=1;i<steps;i++){
+        const t = i/steps;
+        add('line', {x1:a.x+dx*t+nx, y1:a.y+dy*t+ny, x2:a.x+dx*t-nx, y2:a.y+dy*t-ny, stroke:'#111', 'stroke-width':1.05, 'stroke-linecap':'round'});
+      }
+    } else {                                          // ثعبان ملوّن
+      const sk = SN_SKIN[snIdx++ % SN_SKIN.length];
+      const dx = b.x-a.x, dy = b.y-a.y, len = Math.hypot(dx,dy);
+      const nx = -dy/len, ny = dx/len, w = Math.min(10, len*0.36);
+      const d = 'M '+a.x+' '+a.y+
+                ' C '+(a.x+dx*0.28+nx*w)+' '+(a.y+dy*0.28+ny*w)+
+                ', '+(a.x+dx*0.72-nx*w)+' '+(a.y+dy*0.72-ny*w)+
+                ', '+b.x+' '+b.y;
+      add('path', {d, fill:'none', stroke:'#111', 'stroke-width':3.6, 'stroke-linecap':'round'});
+      add('path', {d, fill:'none', stroke:sk[0], 'stroke-width':2.6, 'stroke-linecap':'round'});
+      add('path', {d, fill:'none', stroke:sk[1], 'stroke-width':1.1, 'stroke-linecap':'round', 'stroke-dasharray':'1.4 2.4'});
+      add('circle', {cx:a.x, cy:a.y, r:2.9, fill:sk[0], stroke:'#111', 'stroke-width':.9});
+      add('circle', {cx:a.x-1.0, cy:a.y-0.9, r:.62, fill:'#fff'});
+      add('circle', {cx:a.x+1.0, cy:a.y-0.9, r:.62, fill:'#fff'});
+      add('circle', {cx:a.x-1.0, cy:a.y-0.9, r:.28, fill:'#111'});
+      add('circle', {cx:a.x+1.0, cy:a.y-0.9, r:.28, fill:'#111'});
+    }
+  });
+}
+function snPaint(){
+  const drow = document.getElementById('snDice');
+  if(!drow.children.length){ const w = dieEl(); drow.appendChild(w); dieSet(w, sn.die || 1); }
+  const box = document.getElementById('snPieces');
+  sn.pos.forEach((p, pi) => {
+    const col = pgColor(sn.seats[pi]);
+    let el = box.querySelector('.snP[data-id="'+pi+'"]');
+    if(!el){
+      el = document.createElement('div'); el.className='snP'; el.dataset.id = pi;
+      el.innerHTML = '<img src="'+col.img+'" alt="'+col.name+'">';
+      box.appendChild(el);
+    }
+    const n = Math.max(1, p);
+    const cell = snCell(n);
+    const share = sn.pos.filter((q,j) => j < pi && q === p).length;
+    el.style.left = ((cell.c + 0.5 + (share%2)*0.42 - 0.21)/10*100) + '%';
+    el.style.top  = ((cell.r + 0.58 + Math.floor(share/2)*0.34 - 0.17)/10*100) + '%';
+    el.style.opacity = p === 0 ? 0.55 : 1;
+    el.style.zIndex = 3 + pi;
+  });
+  // اللاعبون
+  const bar = document.getElementById('snPlayers');
+  bar.innerHTML = '';
+  sn.pos.forEach((p, pi) => {
+    const col = pgColor(sn.seats[pi]);
+    const d = document.createElement('div');
+    d.className = 'pgWho' + (pi===sn.turn ? ' turn' : '') + (sn.done.indexOf(pi)>=0 ? ' done' : '');
+    d.innerHTML = '<img src="'+col.img+'" alt="">' +
+      '<span class="pgN">'+esc(pgName(pi))+(pg.online && pi===pg.myIdx ? ' (أنت)' : '')+'</span>' +
+      '<span class="pgK">'+p+'</span>';
+    bar.appendChild(d);
+  });
+  const el = document.getElementById('pgStatus2');
+  const mine = pgIsMyTurn(sn);
+  el.classList.toggle('me', mine);
+  el.textContent = sn.done.length ? 'انتهت المباراة'
+    : (mine ? (sn.again ? 'ظهر ٦ — لك رمية أخرى!' : 'دورك — ارمِ الزهر') : 'دور ' + pgName(sn.turn) + '…');
+  document.getElementById('snRollBtn').style.display = (mine && !snBusy && !sn.done.length) ? 'inline-flex' : 'none';
+}
+function snRoll(){
+  if(!pgIsMyTurn(sn) || snBusy || sn.done.length) return;
+  if(pg.online && !pg.isHost){ snBusy = true; snPaint(); pgSendHost({t:'pact', a:'roll'}); return; }
+  snHostRoll(pg.online ? pg.myIdx : sn.turn);
+}
+function snHostRoll(pi){
+  if(sn.turn !== pi || snBusy) return;
+  const v = 1 + Math.floor(Math.random()*6);
+  const pos0 = sn.pos[pi];
+  let np = pos0 + v;
+  let jumped = 0;
+  if(np > 100) np = pos0;                        // يلزم الرقم بالضبط
+  const landed = np;
+  if(SN_JUMPS[np] !== undefined){ jumped = SN_JUMPS[np]; }
+  sn.die = v; sn.rolled = true;
+  sn.pos[pi] = np;
+  const fx = {v, from:pos0, landed, jump: jumped || 0};
+  if(jumped) sn.pos[pi] = jumped;
+  if(sn.pos[pi] === 100 && sn.done.indexOf(pi) < 0) sn.done.push(pi);
+  sn.again = (v === 6) && !sn.done.length;
+  pgPush(fx);
+  snAnimate(fx);
+}
+function snAnimate(fx){
+  snBusy = true;
+  const row = document.getElementById('snDice');
+  if(!row.children.length){ const w = dieEl(); row.appendChild(w); }
+  const w = row.children[0];
+  dieRoll(w, fx.v);
+  playClip(SFX.mine[Math.floor(Math.random()*SFX.mine.length)], 0.5) || sndBark();
+  const pi = sn.turn;
+  const box = document.getElementById('snPieces');
+  clearTimeout(pgTimer);
+  pgTimer = setTimeout(() => {
+    // اعرض الهبوط أولاً ثم القفزة
+    const el = box.querySelector('.snP[data-id="'+pi+'"]');
+    if(el) el.classList.add('hop');
+    const tmp = sn.pos[pi];
+    if(fx.jump){ sn.pos[pi] = fx.landed; snPaint(); }
+    else snPaint();
+    setTimeout(() => {
+      if(el) el.classList.remove('hop');
+      if(fx.jump){
+        sn.pos[pi] = tmp;
+        snPaint();
+        toast(fx.jump > fx.landed ? 'سلّم! صعدت إلى ' + fx.jump + ' 🪜' : 'ثعبان! نزلت إلى ' + fx.jump + ' 🐍');
+        playClip(fx.jump > fx.landed ? SFX.opp[0] : SFX.die, 0.85) || sndBark();
+      } else if(fx.landed === fx.from && fx.v){
+        toast('تحتاج الرقم بالضبط للوصول إلى ١٠٠');
+      }
+      snBusy = false;
+      snPaint();
+      snAfter();
+    }, fx.jump ? 620 : 260);
+  }, 1200);
+}
+function snAfter(){
+  if(sn.done.length){ pgFinish(); return; }
+  if(pg.online && !pg.isHost) return;
+  if(sn.again){ sn.again = true; pgPush(null); snPaint(); return; }
+  clearTimeout(pgTimer);
+  pgTimer = setTimeout(() => {
+    const n = sn.pos.length;
+    sn.turn = (sn.turn + 1) % n;
+    sn.rolled = false; sn.die = 0;
+    pgPush(null);
+    snPaint();
+  }, 350);
+}
+
+/* =====================================================================
+   بدء المباراة ومزامنتها وإنهاؤها
+===================================================================== */
+function pgStartMatch(){
+  const n = pg.players.length;
+  const seats = PG_SEATS[n] || PG_SEATS[4];
+  pg.players.forEach((p,i) => { p.seat = seats[i]; });
+  pg.phase = 'play';
+  const state = pg.game === 'ludo' ? luNewState(pg.players) : snNewState(pg.players);
+  if(pg.online && pg.isHost)
+    pgBroadcast({t:'pstart', players: pg.players, state});
+  pgBeginFromState(state);
+}
+function pgBeginFromState(state){
+  pg.phase = 'play';
+  clearTimeout(pgTimer); pgTimer = null;
+  if(pg.game === 'ludo'){
+    lu = state; lu.nDice = 1;
+    luSelDie = -1; luSelPiece = -1; luHints = []; luBusy = false;
+    luBuildBoard();
+    document.getElementById('luPieces').innerHTML = '';
+    document.getElementById('luDice').innerHTML = '';
+    showScreen('luPlayScreen');
+    luPaint();
+  } else {
+    sn = state; snBusy = false;
+    snBuildBoard();
+    document.getElementById('snPieces').innerHTML = '';
+    document.getElementById('snDice').innerHTML = '';
+    showScreen('snPlayScreen');
+    snPaint();
+  }
+  startMusic();
+}
+function pgApplyState(state, fx){
+  if(pg.game === 'ludo'){
+    const wasRolled = lu && lu.rolled;
+    lu = state; lu.nDice = (lu.nDice || 1);
+    luBusy = false;
+    if(fx && fx.roll){ luPaint(); luShowRoll(); return; }
+    luSelDie = -1; luSelPiece = -1; luHints = [];
+    luAutoSelect();
+    if(fx && fx.fx && fx.fx.kills && fx.fx.kills.length) playClip(SFX.die, 0.9);
+    luPaint();
+    if(luFinished(lu)) pgFinish();
+  } else {
+    sn = state;
+    if(fx && fx.v){ snAnimate(fx); return; }
+    snBusy = false;
+    snPaint();
+    if(sn.done.length) pgFinish();
+  }
+}
+function pgHostAction(idx, d){
+  if(pg.phase !== 'play') return;
+  if(pg.game === 'ludo'){
+    if(d.a === 'roll') luHostRoll(idx, d.n);
+    else if(d.a === 'move') luHostMove(idx, d.mv);
+  } else {
+    if(d.a === 'roll') snHostRoll(idx);
+  }
+}
+function pgFinish(){
+  if(pg.phase === 'end') return;
+  pg.phase = 'end';
+  clearTimeout(pgTimer); pgTimer = null;
+  const st = pg.game === 'ludo' ? lu : sn;
+  const order = st.done.slice();
+  for(let i=0;i<st.pos.length;i++) if(order.indexOf(i) < 0) order.push(i);
+  const medals = ['🥇','🥈','🥉','🏅'];
+  const box = document.getElementById('pgMedals');
+  box.innerHTML = '';
+  order.forEach((pi, k) => {
+    const col = pgColor(st.seats[pi]);
+    const d = document.createElement('div'); d.className = 'kMedal';
+    const val = pg.game === 'ludo'
+      ? lu.pos[pi].filter(p => p === LU_GOAL).length + '/4'
+      : sn.pos[pi];
+    d.innerHTML = '<span class="rank">'+medals[k]+'</span>' +
+      '<img src="'+col.img+'" alt="" style="width:26px;height:26px;object-fit:contain">' +
+      '<span>'+esc(pgName(pi))+'</span><span class="pts">'+val+'</span>';
+    box.appendChild(d);
+  });
+  const win = order[0];
+  document.getElementById('pgResTitle').textContent =
+    (pg.online && win === pg.myIdx) || !pg.online ? 'انتهت المباراة! 🎉' : 'انتهت المباراة';
+  document.getElementById('pgResMsg').textContent = 'الفائز: ' + pgName(win) + ' 🏆';
+  document.getElementById('pgResHint').textContent =
+    pg.online ? (pg.isHost ? 'اضغط «جولة جديدة» لبدء مباراة أخرى مع نفس اللاعبين' : 'المضيف يبدأ المباراة التالية') : '';
+  showScreen('pgScoreScreen');
+}
+
+/* ---------- الأزرار والتنقّل ---------- */
+document.getElementById('pgLocalStartBtn').onclick = pgLocalStart;
+document.getElementById('pgCreateBtn').onclick = pgCreateRoom;
+document.getElementById('pgJoinBtn').onclick = pgJoinRoom;
+document.getElementById('pgJoinInput').addEventListener('keydown', e => { if(e.key==='Enter') pgJoinRoom(); });
+document.getElementById('pgCopyBtn').onclick = () => {
+  navigator.clipboard?.writeText(proom).then(() => toast('تم نسخ الرمز ✔')).catch(()=>{});
+};
+document.getElementById('pgStartBtn').onclick = () => { if(pg.isHost && pg.players.length >= 2) pgStartMatch(); };
+document.getElementById('pgCancelBtn').onclick = () => {
+  pgLeaveAll();
+  document.getElementById('pgLobbyMenu').style.display='block';
+  document.getElementById('pgWaitCard').style.display='none';
+};
+document.getElementById('luRollBtn').onclick = luRoll;
+document.getElementById('snRollBtn').onclick = snRoll;
+const pgQuit = () => showConfirm('الخروج من المباراة؟','ستغادر الجولة الحالية.','نعم، اخرج', () => { pgLeaveAll(); goHub(); });
+document.getElementById('luQuitBtn').onclick = pgQuit;
+document.getElementById('snQuitBtn').onclick = pgQuit;
+document.getElementById('pgAgainBtn').onclick = () => {
+  if(pg.online && !pg.isHost){ toast('المضيف فقط يبدأ مباراة جديدة'); return; }
+  pgStartMatch();
+};
+document.getElementById('pgHomeBtn').onclick = () => { pgLeaveAll(); goHub(); };
+
 /* =====================================================================
    زر/إيماءة الرجوع — تأكيد في الرئيسية، رجوع منظّم، ومعطّل أثناء اللعب
 ===================================================================== */
@@ -4067,9 +5332,11 @@ const BACK_MAP = {
   shapeScreen:'gamemenu', onlineScreen:'gamemenu', btScreen:'gamemenu',
   permScreen:'gamemenu', wbSetupScreen:'gamemenu',
   wbLobbyScreen:'gamemenu', kzLobbyScreen:'gamemenu', mnLobbyScreen:'gamemenu',
+  pgLobbyScreen:'gamemenu', pgSetupScreen:'gamemenu',
 };
 const PLAY_SCREENS = ['gameScreen','wbPlayScreen','wbHandoffScreen','wbReviewScreen',
-                      'wbScoreScreen','kzPlayScreen','kzScoreScreen','mnPlayScreen','mnScoreScreen'];
+                      'wbScoreScreen','kzPlayScreen','kzScoreScreen','mnPlayScreen','mnScoreScreen',
+                      'luPlayScreen','snPlayScreen','pgScoreScreen'];
 
 function currentScreenId(){
   const el=document.querySelector('.screen.active');
@@ -4114,7 +5381,7 @@ function handleBackPress(){
   // باقي الشاشات: رجوع منظّم
   const dest=BACK_MAP[id];
   if(dest==='hub'){ goHub(); }
-  else if(dest==='gamemenu'){ destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); try{ if(BTP()) BTP().stop(); }catch(e){} showScreen('gameMenuScreen'); }
+  else if(dest==='gamemenu'){ destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); pgLeaveAll(); try{ if(BTP()) BTP().stop(); }catch(e){} showScreen('gameMenuScreen'); }
   else goHub();
 }
 function initBackGuard(){
@@ -4151,6 +5418,7 @@ function btStartAsHost(){
   if(currentGame==='wbjn') wbCreateRoom();
   else if(currentGame==='kz') kzCreateRoom();
   else if(currentGame==='mn') mnCreateRoom();
+  else if(currentGame==='ludo' || currentGame==='snake') pgCreateRoom();
   else createRoom();
 }
 function btRenderDevices(list){
@@ -4205,6 +5473,7 @@ function btConnectTo(id, name){
   if(currentGame==='wbjn') wbJoinRoom();
   else if(currentGame==='kz') kzJoinRoom();
   else if(currentGame==='mn') mnJoinRoom();
+  else if(currentGame==='ludo' || currentGame==='snake') pgJoinRoom();
   else joinRoom();
 }
 document.getElementById('btBtn').onclick=openPermGate;
@@ -4221,7 +5490,7 @@ function showScreen(id){
 }
 function goHub(){
   try{ if(window.Board3D) window.Board3D.hide(); document.getElementById('boardWrap').classList.remove('d3'); }catch(e){}
-  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); clearInterval(wb.timerId);
+  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); pgLeaveAll(); clearInterval(wb.timerId);
   try{ if(BTP()) BTP().stop(); }catch(e){}
   NET_TRANSPORT='sb';
   wb.phase='idle'; wb.online=false; kz.phase='end';
@@ -4238,7 +5507,10 @@ function openGameMenu(game){
   document.getElementById('localBtn').style.display = game==='kz' ? 'none' : 'flex';   // كوز جوز: أونلاين فقط
   document.getElementById('localBtnTxt').innerHTML = game==='mn'
     ? 'العب ضد الجهاز<small>جولة سريعة بلا إنترنت ولا شريك</small>'
-    : 'لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small>';
+    : (game==='ludo' || game==='snake'
+        ? 'العبوا على نفس الجهاز<small>من لاعبَين إلى أربعة على شاشة واحدة</small>'
+        : 'لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small>');
+  if(game==='ludo' || game==='snake') pg.game = (game==='ludo' ? 'ludo' : 'snake');
   document.getElementById('btBtn').style.display = isNativeApp() ? 'flex' : 'none';
   showScreen('gameMenuScreen');
 }
@@ -4259,6 +5531,7 @@ document.querySelectorAll('.gameCard').forEach(b => b.onclick = () => openGameMe
 document.getElementById('localBtn').onclick =()=>{
   if(currentGame==='wbjn'){ wbRenderSetup(); showScreen('wbSetupScreen'); return; }
   if(currentGame==='mn'){ mnStartAI(); return; }
+  if(currentGame==='ludo' || currentGame==='snake'){ pgRenderSetup(); showScreen('pgSetupScreen'); return; }
   openShapeScreen('local1');
 };
 document.getElementById('onlineBtn').onclick=()=>{
@@ -4277,6 +5550,12 @@ document.getElementById('onlineBtn').onclick=()=>{
     document.getElementById('mnWaitCard').style.display='none';
     showScreen('mnLobbyScreen'); return;
   }
+  if(currentGame==='ludo' || currentGame==='snake'){
+    document.getElementById('pgLobbyTitle').textContent = GAMES[currentGame].name + ' — أونلاين';
+    document.getElementById('pgLobbyMenu').style.display='block';
+    document.getElementById('pgWaitCard').style.display='none';
+    showScreen('pgLobbyScreen'); return;
+  }
   openShapeScreen('online');
 };
 document.getElementById('rulesBtn').onclick =()=> {
@@ -4287,6 +5566,8 @@ document.getElementById('rulesBtn').onclick =()=> {
   document.getElementById('rulesWbjn').style.display = currentGame==='wbjn'?'block':'none';
   document.getElementById('rulesKz').style.display = currentGame==='kz'?'block':'none';
   document.getElementById('rulesMino').style.display = currentGame==='mn'?'block':'none';
+  document.getElementById('rulesLudo').style.display = currentGame==='ludo'?'block':'none';
+  document.getElementById('rulesSnake').style.display = currentGame==='snake'?'block':'none';
   showScreen('rulesScreen');
 };
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{
