@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'abujanan-v15';
+const CACHE = 'abujanan-v16';
 const PRECACHE = [
   './',
   'index.html',
@@ -11,6 +11,8 @@ const PRECACHE = [
   'assets/wbjn-logo.png',
   'assets/kz-logo.png',
   'assets/mino-logo.png',
+  'assets/ludo-logo.png',
+  'assets/snake-logo.png',
   'assets/backdrop.jpg',
   'assets/favicon.png',
   'assets/icon-192.png',
