@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مراجعة الآراء — ألعاب أبو جنان</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2b1a0e">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg style="display:none">
+  <symbol id="i-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></symbol>
+</svg>
+
+<div class="topbar">
+  <div class="topin">
+    <a class="brand" href="index.html"><img src="assets/logo-main.png" alt=""><span>لوحة المراجعة</span></a>
+    <a class="navBtn" href="index.html"><svg><use href="#i-back"/></svg>الموقع</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- تسجيل الدخول -->
+  <section id="loginSec">
+    <div class="panel adm">
+      <div class="secHead"><h2 class="sec">🔐 دخول المدير</h2></div>
+      <p class="sub">هذه الصفحة لمراجعة آراء اللاعبين واعتمادها أو حذفها.</p>
+      <form class="rForm" id="logForm" style="max-width:360px">
+        <input type="email" id="admEmail" placeholder="بريد المدير" autocomplete="username" required>
+        <input type="password" id="admPass" placeholder="كلمة المرور" autocomplete="current-password" required>
+        <button type="submit" id="logBtn">دخول</button>
+      </form>
+      <p class="cMsg" id="logMsg"></p>
+      <p class="note">أنشئ مستخدم المدير مرة واحدة من لوحة Supabase ← Authentication ← Add user، ببريدك <b id="admHint"></b>.</p>
+    </div>
+  </section>
+
+  <!-- لوحة المراجعة -->
+  <section id="modSec" style="display:none">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">آراء اللاعبين</h2><span class="count" id="cPend">…</span></div>
+      <div class="tabs" id="tabs"></div>
+      <div class="admRow" style="margin-bottom:6px">
+        <button class="admBtn" id="refreshBtn">⟳ تحديث</button>
+        <button class="admBtn no" id="outBtn">خروج</button>
+      </div>
+      <div class="revList" id="modList"><p class="revEmpty">جارٍ التحميل…</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="credit">إنتاج أبو جنان</span><br>
+    <a class="plain" href="index.html">الصفحة الرئيسية</a>
+  </footer>
+</div>
+
+<script src="track.js"></script>
+<script>
+'use strict';
+const SB = window.AJ_SB_URL, KEY = window.AJ_SB_KEY;
+const TOK = 'aj_admin_tok';
+const GAME_AR = {all:'التطبيق', nut:'نط الكلب', sija:'صفرجت', seega:'السيجة الكبرى',
+                 wbjn:'ولد بنت جماد نبات', kz:'كوز جوز لوز موز', mn:'أنا مِنو',
+                 ludo:'ولِيدو', snake:'السلم والثعبان'};
+let token = null, filter = 'pending';
+
+document.getElementById('admHint').textContent = ['ALADEEN35','@','GMAIL','.','COM'].join('').toLowerCase();
+try{ token = sessionStorage.getItem(TOK); }catch(e){}
+
+const say = (el, txt, cls) => { const e = document.getElementById(el); e.textContent = txt; e.className = 'cMsg ' + (cls||''); };
+const authHeaders = extra => Object.assign({apikey:KEY, Authorization:'Bearer '+token}, extra||{});
+
+async function login(email, pass){
+  const r = await fetch(SB + '/auth/v1/token?grant_type=password', {
+    method:'POST',
+    headers:{apikey:KEY, 'Content-Type':'application/json'},
+    body: JSON.stringify({email, password: pass}),
+  });
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok || !j.access_token) throw new Error(j.error_description || j.msg || j.message || ('خطأ ' + r.status));
+  return j.access_token;
+}
+function showMod(on){
+  document.getElementById('loginSec').style.display = on ? 'none' : 'block';
+  document.getElementById('modSec').style.display  = on ? 'block' : 'none';
+}
+document.getElementById('logForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const b = document.getElementById('logBtn'); b.disabled = true;
+  say('logMsg','جارٍ الدخول…');
+  try{
+    token = await login(document.getElementById('admEmail').value.trim(),
+                        document.getElementById('admPass').value);
+    try{ sessionStorage.setItem(TOK, token); }catch(x){}
+    say('logMsg','');
+    showMod(true); load();
+  }catch(err){ say('logMsg', 'تعذّر الدخول: ' + err.message, 'bad'); }
+  b.disabled = false;
+});
+document.getElementById('outBtn').onclick = () => {
+  token = null; try{ sessionStorage.removeItem(TOK); }catch(e){}
+  showMod(false);
+};
+document.getElementById('refreshBtn').onclick = () => load();
+
+function renderTabs(counts){
+  const defs = [['pending','بانتظار المراجعة'], ['approved','منشورة'], ['all','الكل']];
+  document.getElementById('tabs').innerHTML = defs.map(([k,l]) =>
+    '<button class="chip'+(filter===k?' on':'')+'" data-f="'+k+'">'+l+' ('+(counts[k]||0)+')</button>').join('');
+  document.querySelectorAll('#tabs .chip').forEach(b => b.onclick = () => { filter = b.dataset.f; load(); });
+}
+async function load(){
+  const list = document.getElementById('modList');
+  list.innerHTML = '<p class="revEmpty">جارٍ التحميل…</p>';
+  try{
+    const r = await fetch(SB + '/rest/v1/site_reviews?select=*&order=created_at.desc&limit=300',
+                          {headers: authHeaders({Accept:'application/json'})});
+    if(r.status === 401 || r.status === 403){ showMod(false); say('logMsg','انتهت الجلسة — سجّل الدخول من جديد.','bad'); return; }
+    if(!r.ok) throw new Error('خطأ ' + r.status);
+    const rows = await r.json();
+    const counts = {
+      all: rows.length,
+      pending: rows.filter(x => !x.approved && !x.hidden).length,
+      approved: rows.filter(x => x.approved && !x.hidden).length,
+    };
+    document.getElementById('cPend').textContent = counts.pending + ' بانتظارك';
+    renderTabs(counts);
+    const shown = rows.filter(x => filter === 'all' ? true
+                    : filter === 'pending' ? (!x.approved && !x.hidden)
+                    : (x.approved && !x.hidden));
+    if(!shown.length){ list.innerHTML = '<p class="revEmpty">لا شيء هنا.</p>'; return; }
+    list.innerHTML = '';
+    shown.forEach(x => {
+      const d = document.createElement('div');
+      d.className = 'rev' + (!x.approved && !x.hidden ? ' pend' : '');
+      d.innerHTML =
+        '<div class="top">' + ajStars(x.stars) +
+        '<span class="who">' + ajEsc(x.name) + '</span>' +
+        (x.country_code ? '<span>' + ajFlag(x.country_code) + '</span>' : '') +
+        '<span class="gtag">' + ajEsc(GAME_AR[x.game] || x.game) + '</span>' +
+        '<span class="meta">' + new Date(x.created_at).toLocaleString('ar-EG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) + '</span>' +
+        '</div>' + (x.body ? '<p>' + ajEsc(x.body) + '</p>' : '') +
+        '<div class="admRow">' +
+          (x.approved
+            ? '<button class="admBtn" data-a="unapprove">↩ إخفاء من الموقع</button>'
+            : '<button class="admBtn ok" data-a="approve">✔ اعتماد ونشر</button>') +
+          '<button class="admBtn no" data-a="delete">🗑 حذف نهائي</button>' +
+        '</div>';
+      d.querySelectorAll('[data-a]').forEach(b => b.onclick = () => act(b.dataset.a, x.id, b));
+      list.appendChild(d);
+    });
+  }catch(err){ list.innerHTML = '<p class="revEmpty">تعذّر التحميل: ' + ajEsc(err.message) + '</p>'; }
+}
+async function act(a, id, btn){
+  if(a === 'delete' && !confirm('حذف هذا الرأي نهائياً؟ لا يمكن التراجع.')) return;
+  btn.disabled = true;
+  try{
+    let r;
+    if(a === 'delete'){
+      r = await fetch(SB + '/rest/v1/site_reviews?id=eq.' + id, {method:'DELETE', headers: authHeaders()});
+    }else{
+      r = await fetch(SB + '/rest/v1/site_reviews?id=eq.' + id, {
+        method:'PATCH',
+        headers: authHeaders({'Content-Type':'application/json', Prefer:'return=minimal'}),
+        body: JSON.stringify({approved: a === 'approve'}),
+      });
+    }
+    if(!r.ok) throw new Error('خطأ ' + r.status);
+    load();
+  }catch(err){ alert('تعذّر التنفيذ: ' + err.message); btn.disabled = false; }
+}
+
+if(token){ showMod(true); load(); } else showMod(false);
+</script>
+</body>
+</html>

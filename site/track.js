@@ -140,3 +140,79 @@
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })();
+
+/* ============================================================
+   تقييمات اللاعبين — قراءة المعتمَد، وإرسال رأي جديد للمراجعة،
+   وشريط سفلي متحرّك يعرض الآراء.
+   ============================================================ */
+(function(){
+  'use strict';
+  const AR = n => Number(n||0).toLocaleString('ar-EG');
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  window.ajEsc = esc;
+
+  window.ajFlag = cc => (!cc || !/^[A-Za-z]{2}$/.test(cc)) ? ''
+    : String.fromCodePoint(...[...cc.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+
+  window.ajStars = (n, size) => {
+    const full = Math.round(Number(n)||0);
+    let h = '<span class="stars"' + (size ? ' style="font-size:'+size+'"' : '') + '>';
+    for(let i=1;i<=5;i++) h += '<i class="'+(i<=full?'on':'')+'">★</i>';
+    return h + '</span>';
+  };
+
+  window.ajReviews = async function(game, limit){
+    const q = 'site_reviews_public?select=*&limit=' + (limit||30) +
+              (game && game!=='all' ? '&game=eq.'+encodeURIComponent(game) : '');
+    const r = await window.ajRest(q);
+    if(!r.ok) throw new Error('reviews ' + r.status);
+    return r.json();
+  };
+  window.ajReviewStats = async function(){
+    const r = await window.ajRest('site_reviews_stats?select=*');
+    if(!r.ok) throw new Error('stats ' + r.status);
+    const rows = await r.json();
+    const by = {}; rows.forEach(x => by[x.game] = x);
+    const all = rows.reduce((a,x) => { a.n += +x.n; a.sum += (+x.avg) * (+x.n); return a; }, {n:0, sum:0});
+    by.__all = {n: all.n, avg: all.n ? (all.sum/all.n) : 0};
+    return by;
+  };
+  window.ajSendReview = async function(game, name, stars, body){
+    const g = await window.ajGeo();
+    const r = await window.ajInsert('site_reviews', {
+      game: game || 'all',
+      name: String(name||'').trim().slice(0,40),
+      stars: Math.max(1, Math.min(5, stars|0)),
+      body: String(body||'').trim().slice(0,600) || null,
+      country_code: (g.cc||'').slice(0,4),
+      country_name: (g.cn||'').slice(0,80),
+    });
+    return r.ok;
+  };
+
+  /* ---------- الشريط السفلي المتحرّك ---------- */
+  const GAME_AR = {all:'التطبيق', nut:'نط الكلب', sija:'صفرجت', seega:'السيجة الكبرى',
+                   wbjn:'ولد بنت جماد نبات', kz:'كوز جوز لوز موز', mn:'أنا مِنو',
+                   ludo:'ولِيدو', snake:'السلم والثعبان'};
+  window.ajGameName = k => GAME_AR[k] || k;
+
+  window.ajTicker = async function(){
+    const bar = document.getElementById('ticker');
+    if(!bar) return;
+    const track = bar.querySelector('.tkTrack');
+    let rows = [];
+    try{ rows = await window.ajReviews('all', 25); }catch(e){}
+    if(!rows.length){ bar.classList.remove('show'); return; }
+    const item = r => '<span class="tkItem">' + window.ajStars(r.stars) +
+      '<b>' + esc(r.name) + '</b>' +
+      (r.country_code && r.country_code!=='??' ? '<em>' + window.ajFlag(r.country_code) + '</em>' : '') +
+      (r.body ? '<span class="tkTxt">«' + esc(r.body) + '»</span>' : '') +
+      '<i class="tkG">' + esc(window.ajGameName(r.game)) + '</i></span>';
+    const html = rows.map(item).join('');
+    track.innerHTML = html + html;                       // نسختان لدوران بلا انقطاع
+    const secs = Math.max(26, rows.length * 7);
+    track.style.animationDuration = secs + 's';
+    bar.classList.add('show');
+    document.body.classList.add('hasTicker');
+  };
+})();
