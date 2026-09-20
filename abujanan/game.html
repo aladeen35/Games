@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>لعبة — ألعاب أبو جنان</title>
+<meta name="description" content="قوانين اللعبة ولقطاتها وآراء اللاعبين — من ألعاب أبو جنان، ثماني ألعاب سودانية تراثية.">
+<meta name="theme-color" content="#2b1a0e">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg style="display:none">
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.2c0-.9 1-1.5 1.8-1l9 6.8c.7.5.7 1.5 0 2l-9 6.8c-.8.5-1.8-.1-1.8-1z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+  <symbol id="i-android" viewBox="0 0 24 24"><path fill="currentColor" d="M5 10.5h14v7.2a1.3 1.3 0 0 1-1.3 1.3H6.3A1.3 1.3 0 0 1 5 17.7zM3.4 10.6a1.2 1.2 0 0 1 2.4 0v4.6a1.2 1.2 0 0 1-2.4 0zm14.8 0a1.2 1.2 0 0 1 2.4 0v4.6a1.2 1.2 0 0 1-2.4 0zM8.2 19.3h2.2v2.1a1.1 1.1 0 0 1-2.2 0zm5.4 0h2.2v2.1a1.1 1.1 0 0 1-2.2 0zM5.2 9.4a6.9 6.9 0 0 1 3-4.9L7 2.9a.4.4 0 0 1 .6-.5L9 4.1a7.7 7.7 0 0 1 6 0l1.4-1.7a.4.4 0 0 1 .6.5l-1.2 1.6a6.9 6.9 0 0 1 3 4.9zM9.3 7.3a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm5.4 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5z"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.6 10.4 4.6v6.6H3zm8.6-1.2L21 3v8.2h-9.4zM3 12.8h7.4v6.6L3 18.4zm8.6 0H21V21l-9.4-1.4z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" d="M6 3h12v18H6z"/><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" d="M9 8h6M9 12h6M9 16h4"/></symbol>
+</svg>
+
+<div class="topbar">
+  <div class="topin">
+    <a class="brand" href="index.html"><img src="assets/logo-main.png" alt=""><span>ألعاب أبو جنان</span></a>
+    <nav class="navlinks">
+      <a href="index.html#games">كل الألعاب</a>
+      <a href="index.html#news">ما الجديد</a>
+      <a href="index.html#reviews">الآراء</a>
+      <a href="index.html#download">التحميل</a>
+    </nav>
+    <a class="navBtn" href="index.html#download"><svg><use href="#i-down"/></svg>حمّل الآن</a>
+  </div>
+</div>
+
+<div class="wrap" id="top">
+  <div style="margin-top:14px"><a class="backLink" href="index.html#games"><svg style="width:15px;height:15px"><use href="#i-back"/></svg>رجوع إلى كل الألعاب</a></div>
+
+  <section style="margin-top:12px">
+    <div class="panel">
+      <div class="gHero">
+        <div class="gArt"><img id="gLogo" src="" alt=""></div>
+        <div class="gInfo">
+          <h1 id="gName">…</h1>
+          <p class="gTag" id="gTag"></p>
+          <div class="tags" id="gTags"></div>
+          <div class="gRate" id="gRate"></div>
+        </div>
+      </div>
+      <div class="ctaRow" style="margin:18px 0 4px">
+        <a class="cta green" id="gApk" href="#" target="_blank" rel="noopener" onclick="ajLogDownload('android')">
+          <span class="ic"><svg><use href="#i-android"/></svg></span>
+          <span>حمّل تطبيق أندرويد<small>APK · الإصدار 1.3.1 · كل الألعاب الثماني</small></span>
+        </a>
+        <a class="cta gold" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener">
+          <span class="ic"><svg><use href="#i-play"/></svg></span>
+          <span>العب أونلاين الآن<small>تفتح مباشرة في المتصفح — بلا تحميل</small></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="gshots">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">لقطات من اللعبة</h2></div>
+      <div class="shotRail" id="gShots"></div>
+    </div>
+  </section>
+
+  <section id="grules">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">📜 قوانين اللعبة</h2></div>
+      <p class="sub">نفس القوانين الموجودة داخل التطبيق.</p>
+      <ol class="rulesOl" id="gRules"></ol>
+    </div>
+  </section>
+
+  <section id="grev">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">⭐ آراء اللاعبين</h2><span class="count" id="gRevCount">…</span></div>
+      <div class="rateBox" id="gRateBox"></div>
+      <div class="revList" id="gRevList"><p class="revEmpty">جارٍ التحميل…</p></div>
+
+      <div class="secHead" style="margin-top:22px"><h2 class="sec" style="font-size:20px">اكتب رأيك في هذه اللعبة</h2></div>
+      <form class="rForm" id="rForm">
+        <div class="rPick" id="rPick"></div>
+        <input type="text" id="rName" maxlength="40" placeholder="اسمك" autocomplete="name" required>
+        <textarea id="rBody" maxlength="600" placeholder="رأيك في اللعبة… (اختياري)"></textarea>
+        <button type="submit" id="rSend">أرسل تقييمك ⭐</button>
+      </form>
+      <p class="cMsg" id="rMsg"></p>
+      <p class="note">تُراجَع الآراء قبل نشرها، فلا تظهر في الموقع مباشرةً.</p>
+    </div>
+  </section>
+
+  <footer>
+    ألعاب أبو جنان 🇸🇩 — ثماني ألعاب سودانية تراثية<br>
+    <span class="credit">إنتاج أبو جنان</span><br>
+    <a class="plain" href="index.html">الصفحة الرئيسية</a> &nbsp;·&nbsp;
+    <a class="plain" href="index.html#download">التحميل</a> &nbsp;·&nbsp;
+    <a class="plain" href="index.html#contact">تواصل معنا</a>
+  </footer>
+</div>
+
+<div id="ticker"><div class="tkWrap"><div class="tkTrack"></div></div><div class="tkLbl">⭐ آراء اللاعبين</div></div>
+
+<script src="games-data.js"></script>
+<script src="track.js"></script>
+<script>
+'use strict';
+const APK = 'https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk';
+const key = (new URLSearchParams(location.search).get('g') || '').trim();
+const G = GAMES[key];
+
+if(!G){
+  document.getElementById('gName').textContent = 'لعبة غير معروفة';
+  document.getElementById('gTag').innerHTML = 'تفقّد <a class="plain" href="index.html#games">قائمة الألعاب</a>.';
+}else{
+  document.title = G.name + ' — ألعاب أبو جنان';
+  document.getElementById('gLogo').src = 'assets/' + G.logo;
+  document.getElementById('gLogo').alt = G.name;
+  document.getElementById('gName').textContent = G.name;
+  document.getElementById('gTag').textContent = G.tag;
+  document.getElementById('gApk').href = APK;
+  document.getElementById('gTags').innerHTML =
+    (G.isNew ? '<i class="tg hot">جديد</i>' : '') + G.tags.map(t => '<i class="tg">' + ajEsc(t) + '</i>').join('');
+  document.getElementById('gRules').innerHTML = G.rules.map(r => '<li><span>' + r + '</span></li>').join('');
+  document.getElementById('gShots').innerHTML =
+    G.shots.map(s => '<figure class="shot"><div class="phone"><img src="assets/shots/' + s + '.jpg" alt="' + ajEsc(G.name) + '"></div>' +
+                     '<figcaption>' + ajEsc(G.name) + '<i>من داخل اللعبة</i></figcaption></figure>').join('') +
+    '<figure class="shot"><div class="phone"><img src="assets/shots/hub.jpg" alt="الشاشة الرئيسية"></div>' +
+    '<figcaption>الشاشة الرئيسية<i>ثماني ألعاب في مكان واحد</i></figcaption></figure>';
+
+  /* ---------- النجوم ---------- */
+  let picked = 5;
+  const pick = document.getElementById('rPick');
+  const paintPick = () => { [...pick.children].forEach((b,i) => b.classList.toggle('on', i < picked)); };
+  for(let i=1;i<=5;i++){
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = '★'; b.setAttribute('aria-label', i + ' نجوم');
+    b.onclick = () => { picked = i; paintPick(); };
+    pick.appendChild(b);
+  }
+  paintPick();
+
+  async function loadReviews(){
+    const list = document.getElementById('gRevList');
+    try{
+      const [rows, stats] = await Promise.all([ ajReviews(key, 30), ajReviewStats() ]);
+      const st = stats[key] || {n:0, avg:0};
+      document.getElementById('gRevCount').textContent = (+st.n || 0) + ' رأي';
+      document.getElementById('gRateBox').innerHTML = (+st.n)
+        ? '<div class="rateBig"><b>' + (+st.avg).toFixed(1).replace('.',',') + '</b>' + ajStars(st.avg) +
+          '<span>من ' + (+st.n) + ' تقييماً</span></div>'
+        : '<div class="rateBig"><b>—</b>' + ajStars(0) + '<span>كن أول من يقيّم</span></div>';
+      document.getElementById('gRate').innerHTML = (+st.n)
+        ? ajStars(st.avg) + '<span>' + (+st.avg).toFixed(1).replace('.',',') + ' من ' + (+st.n) + ' تقييماً</span>'
+        : ajStars(0) + '<span>لا تقييمات بعد</span>';
+      list.innerHTML = rows.length ? rows.map(r =>
+        '<div class="rev"><div class="top">' + ajStars(r.stars) +
+        '<span class="who">' + ajEsc(r.name) + '</span>' +
+        (r.country_code !== '??' ? '<span>' + ajFlag(r.country_code) + '</span>' : '') +
+        '<span class="meta">' + new Date(r.created_at).toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'}) + '</span>' +
+        '</div>' + (r.body ? '<p>' + ajEsc(r.body) + '</p>' : '') + '</div>').join('')
+        : '<p class="revEmpty">لا توجد آراء منشورة لهذه اللعبة بعد — كن أول من يكتب رأيه 👇</p>';
+    }catch(e){
+      list.innerHTML = '<p class="revEmpty">تعذّر تحميل الآراء الآن.</p>';
+      document.getElementById('gRevCount').textContent = '—';
+    }
+  }
+  loadReviews();
+
+  const rMsg = document.getElementById('rMsg');
+  const rSend = document.getElementById('rSend');
+  document.getElementById('rForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('rName').value.trim();
+    const body = document.getElementById('rBody').value.trim();
+    if(name.length < 2){ rMsg.className='cMsg bad'; rMsg.textContent='اكتب اسمك من فضلك.'; return; }
+    rSend.disabled = true; rMsg.className='cMsg'; rMsg.textContent='جارٍ الإرسال…';
+    let ok = false;
+    try{ ok = await ajSendReview(key, name, picked, body); }catch(err){}
+    rSend.disabled = false;
+    if(ok){
+      e.target.reset(); picked = 5; paintPick();
+      rMsg.className='cMsg ok';
+      rMsg.textContent='شكراً لك! وصل تقييمك وسيظهر بعد المراجعة ✔';
+    }else{
+      rMsg.className='cMsg bad';
+      rMsg.textContent='تعذّر الإرسال — حاول مرة أخرى.';
+    }
+  });
+}
+ajTicker();
+</script>
+</body>
+</html>

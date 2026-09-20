@@ -13,301 +13,7 @@
 <meta property="og:description" content="ثماني ألعاب سودانية تراثية: العب أونلاين أو حمّل التطبيق والعب بالبلوتوث بلا إنترنت.">
 <meta property="og:image" content="assets/icon-512.png">
 <meta property="og:locale" content="ar_SD">
-<style>
-@font-face{
-  font-family:'Noto Kufi Arabic';
-  src:url('assets/font-kufi.ttf') format('truetype');
-  font-weight:100 900; font-display:swap;
-}
-:root{
-  --leather-hi:#5a3315; --leather-mid:#3d2412; --leather-lo:#241207;
-  --brass-hi:#ffd98a; --brass:#e3a83c; --brass-lo:#8a5c14;
-  --cream:#f7e6c9; --cream-dim:#dbc39c; --ink:#33200c;
-  --green:#3f9d52; --blue:#2f6fd0;
-  --shadow-rest:0 1px 2px rgba(30,14,2,.45), 0 4px 10px rgba(30,14,2,.35), 0 14px 30px rgba(30,14,2,.3);
-  --shadow-lift:0 2px 3px rgba(30,14,2,.4), 0 10px 22px rgba(30,14,2,.4), 0 26px 48px rgba(30,14,2,.38);
-  --shadow-press:0 1px 1px rgba(30,14,2,.5), 0 2px 5px rgba(30,14,2,.35);
-  --ease-out:cubic-bezier(.22,1,.36,1);
-  --ease-spring:cubic-bezier(.34,1.56,.64,1);
-  --bar:64px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + 14px)}
-body{
-  font-family:'Noto Kufi Arabic','Cairo','Segoe UI',Tahoma,sans-serif;
-  color:var(--cream);
-  background:#79441c url('assets/backdrop.jpg') center/cover fixed no-repeat;
-  min-height:100%; overflow-x:hidden;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(130% 90% at 50% 6%, rgba(255,214,150,.26) 0%, rgba(120,60,15,0) 46%),
-    radial-gradient(160% 120% at 50% 55%, rgba(0,0,0,0) 38%, rgba(30,12,0,.62) 100%);
-}
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;z-index:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-.wrap{position:relative;z-index:1;width:min(1120px,94vw);margin:0 auto;padding:0 0 40px}
-
-/* ---------- شريط علوي ثابت ---------- */
-.topbar{
-  position:sticky;top:0;z-index:40;height:var(--bar);
-  background:linear-gradient(180deg, rgba(38,21,8,.96), rgba(38,21,8,.82));
-  backdrop-filter:blur(10px);
-  box-shadow:0 2px 0 rgba(242,181,68,.35), 0 8px 24px rgba(20,8,0,.45);
-}
-.topin{width:min(1120px,94vw);margin:0 auto;height:100%;display:flex;align-items:center;gap:14px}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--brass-hi);font-weight:900;font-size:16.5px;flex:none}
-.brand img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
-.navlinks{display:flex;gap:4px;margin-inline-start:auto;align-items:center}
-.navlinks a{
-  color:var(--cream);text-decoration:none;font-size:13.5px;font-weight:800;padding:8px 12px;border-radius:11px;
-  transition:background .2s, color .2s;
-}
-.navlinks a:hover{background:rgba(255,220,150,.12);color:var(--brass-hi)}
-.navBtn{
-  display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:12px;text-decoration:none;flex:none;
-  font-size:14px;font-weight:900;color:#3a2408;
-  background:linear-gradient(168deg,#f4c766,#c1832a);
-  box-shadow:0 3px 0 rgba(120,70,10,.55), 0 6px 14px rgba(20,8,0,.4);
-  transition:transform .18s var(--ease-out);
-}
-.navBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(120,70,10,.55)}
-.navBtn svg{width:17px;height:17px}
-@media (max-width:760px){ .navlinks{display:none} .brand{margin-inline-end:auto} }
-
-/* ---------- hero ---------- */
-header.hero{text-align:center;padding:26px 0 6px}
-.hero img.logo{
-  width:min(240px,50vw);height:auto;display:block;margin:0 auto;
-  filter:drop-shadow(0 14px 28px rgba(20,8,0,.6)) drop-shadow(0 0 40px rgba(255,190,90,.3));
-  animation:floaty 5.5s ease-in-out infinite;
-}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.hero h1{
-  font-size:clamp(26px,6.2vw,46px);font-weight:900;margin-top:10px;line-height:1.25;
-  color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.85), 0 3px 10px rgba(20,8,0,.7);
-}
-.hero p.tag{font-size:clamp(14px,3.6vw,19px);font-weight:700;color:var(--cream);opacity:.93;margin-top:9px;line-height:1.8}
-.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:13px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;
-  font-size:12.5px;font-weight:800;color:var(--brass-hi);
-  background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.4)}
-
-/* ---------- CTA ---------- */
-.ctaRow{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin:24px 0 8px}
-.cta{
-  display:flex;align-items:center;gap:13px;min-width:262px;padding:15px 22px;border:none;border-radius:19px;
-  font-family:inherit;font-size:18px;font-weight:900;text-decoration:none;color:var(--cream);text-align:start;
-  background:linear-gradient(168deg,#9a6130 0%,#7a4820 45%,#5d3414 85%,#512c10 100%);
-  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.4);
-  transition:transform .22s var(--ease-out), box-shadow .22s;
-}
-.cta:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 0 0 1.5px rgba(242,181,68,.6)}
-.cta:active{transform:translateY(2px) scale(.99);box-shadow:var(--shadow-press)}
-.cta small{display:block;font-size:12.5px;font-weight:600;opacity:.85;margin-top:3px;line-height:1.7}
-.cta small b{color:inherit;font-weight:900;font-size:13.5px}
-.cta .ic{
-  flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
-  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 62%, #c8944c);
-  box-shadow:inset 0 -3px 6px rgba(120,70,20,.5), 0 3px 7px rgba(0,0,0,.35);
-}
-.cta .ic svg{width:25px;height:25px}
-.cta.gold{color:#3a2408;background:linear-gradient(168deg,#f4c766 0%,#e3a83c 40%,#c1832a 75%,#a06a12 100%);
-  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,245,210,.7), inset 0 -3px 6px rgba(120,70,10,.45)}
-.cta.gold .ic{background:radial-gradient(circle at 38% 30%, #fff6e0, #a06a12 85%);color:#fff3d8}
-.cta.green{background:linear-gradient(168deg,#57b56b 0%,#3f9d52 45%,#2c7a3c 85%,#215f2e 100%);color:#f2fff4}
-.cta.green .ic{background:radial-gradient(circle at 38% 30%, #e9ffe9, #bde8c2 70%, #8fd39a);color:#215f2e}
-.cta.blue{background:linear-gradient(168deg,#4f8fd8 0%,#2f6fd0 45%,#204f9c 85%,#183d79 100%);color:#eef5ff}
-.cta.blue .ic{background:radial-gradient(circle at 38% 30%, #eaf3ff, #c3dbf8 70%, #96bbec);color:#183d79}
-.cta.mail{background:linear-gradient(168deg,#d8604f 0%,#c0392b 45%,#97281c 85%,#7d2016 100%);color:#fff2ef}
-.cta.mail .ic{background:radial-gradient(circle at 38% 30%, #ffeae6, #f5c3bb 70%, #e8a196);color:#7d2016}
-
-/* ---------- شريط الأرقام ---------- */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
-.kpi{
-  padding:14px 8px;border-radius:18px;text-align:center;
-  background:linear-gradient(170deg, rgba(130,78,35,.55), rgba(48,26,10,.9));
-  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5), 0 4px 12px rgba(0,0,0,.3);
-}
-.kpi b{display:block;font-size:clamp(20px,5vw,30px);font-weight:900;color:var(--brass-hi);line-height:1.25}
-.kpi span{font-size:11.5px;font-weight:700;opacity:.85}
-@media (max-width:520px){ .kpis{grid-template-columns:repeat(2,1fr)} }
-
-/* ---------- ألواح ---------- */
-section{margin-top:30px;scroll-margin-top:calc(var(--bar) + 14px)}
-.panel{
-  padding:24px 20px;border-radius:28px;position:relative;overflow:hidden;
-  background:
-    radial-gradient(130% 100% at 50% 0%, rgba(150,90,40,.38) 0%, rgba(150,90,40,0) 55%),
-    linear-gradient(168deg, var(--leather-hi) 0%, #4a2b12 22%, var(--leather-mid) 48%, #331d0d 76%, var(--leather-lo) 100%);
-  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,215,150,.15), inset 0 0 60px rgba(0,0,0,.45);
-}
-.panel::before{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23l)'/></svg>");
-}
-.secHead{display:flex;align-items:baseline;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:4px}
-h2.sec{font-size:clamp(21px,4.6vw,29px);font-weight:900;text-align:center;color:var(--brass-hi);
-  text-shadow:0 -1px 0 rgba(0,0,0,.8), 0 2px 5px rgba(20,8,0,.6)}
-.secHead .count{font-size:13px;font-weight:800;color:#3a2408;background:var(--brass-hi);border-radius:999px;padding:2px 11px}
-p.sub{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px;line-height:1.85}
-
-/* ---------- معرض اللقطات ---------- */
-.shotRail{display:flex;gap:16px;overflow-x:auto;padding:8px 2px 16px;scroll-snap-type:x mandatory;scrollbar-width:thin}
-.shotRail::-webkit-scrollbar{height:8px}
-.shotRail::-webkit-scrollbar-thumb{background:rgba(242,181,68,.45);border-radius:99px}
-.shotRail::-webkit-scrollbar-track{background:rgba(0,0,0,.25);border-radius:99px}
-.shot{flex:none;width:min(248px,68vw);scroll-snap-align:center;text-align:center}
-.phone{
-  position:relative;border-radius:26px;padding:8px 7px 10px;
-  background:linear-gradient(168deg,#3a2210,#1d1008 60%,#120a04);
-  box-shadow:0 14px 30px rgba(20,8,0,.6), inset 0 0 0 1.5px rgba(242,181,68,.42), inset 0 2px 2px rgba(255,215,150,.18);
-  transition:transform .3s var(--ease-out), box-shadow .3s;
-}
-.shot:hover .phone{transform:translateY(-6px) scale(1.015);box-shadow:0 22px 44px rgba(20,8,0,.62), inset 0 0 0 1.5px rgba(242,181,68,.7)}
-.phone::before{content:"";position:absolute;top:3px;inset-inline:0;margin:0 auto;width:38%;height:4px;border-radius:99px;background:rgba(242,181,68,.3)}
-.phone img{width:100%;display:block;border-radius:19px}
-.shot figcaption{margin-top:9px;font-size:13px;font-weight:900;color:var(--brass-hi)}
-.shot figcaption i{display:block;font-style:normal;font-size:11.5px;font-weight:700;color:var(--cream-dim);margin-top:2px}
-.railHint{text-align:center;font-size:12px;opacity:.6;margin-top:-6px}
-
-/* ---------- بطاقات الألعاب ---------- */
-.games{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
-.game{
-  display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 13px 15px;border-radius:22px;text-align:center;position:relative;
-  background:
-    radial-gradient(120% 80% at 50% 0%, rgba(190,120,55,.42) 0%, rgba(190,120,55,0) 60%),
-    linear-gradient(168deg,#8a5427 0%,#6a3d1a 55%,#512c10 100%);
-  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.35), inset 0 -3px 6px rgba(30,12,0,.45), inset 0 0 0 1.5px rgba(242,181,68,.4);
-  transition:transform .22s var(--ease-out), box-shadow .22s;
-}
-.game:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift), inset 0 0 0 1.5px rgba(242,181,68,.7)}
-.game .cover{width:100%;height:112px;display:flex;align-items:center;justify-content:center;border-radius:15px;margin-bottom:2px;
-  background:radial-gradient(85% 75% at 50% 32%, rgba(255,222,165,.16), rgba(0,0,0,.22) 75%);
-  box-shadow:inset 0 0 0 1px rgba(242,181,68,.22)}
-.game .cover img{max-height:100%;max-width:92%;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(20,8,0,.55))}
-.game b{font-size:17.5px;font-weight:900;color:var(--brass-hi);text-shadow:0 -1px 0 rgba(0,0,0,.85)}
-.game span{font-size:12.5px;font-weight:600;opacity:.86;line-height:1.7;min-height:44px;margin-bottom:6px}
-.game .tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:2px}
-.tg{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.32);color:var(--brass-hi);
-  box-shadow:inset 0 0 0 1px rgba(242,181,68,.35)}
-.tg.hot{background:linear-gradient(168deg,#e8574b,#b0301f);color:#fff;box-shadow:none}
-.game .playBtn{
-  margin-top:auto;width:100%;padding:9px 12px;border-radius:13px;text-decoration:none;
-  font-size:14px;font-weight:900;color:#3a2408;display:flex;align-items:center;justify-content:center;gap:7px;
-  background:linear-gradient(168deg,#f4c766,#c1832a);
-  box-shadow:0 3px 0 rgba(120,70,10,.5), inset 0 1.5px 0 rgba(255,245,210,.6);
-  transition:transform .18s var(--ease-out);
-}
-.game .playBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(120,70,10,.5)}
-.game .playBtn svg{width:16px;height:16px}
-.ribbon{position:absolute;top:11px;inset-inline-start:11px;font-size:10.5px;font-weight:900;color:#fff;
-  padding:3px 10px;border-radius:999px;background:linear-gradient(168deg,#e8574b,#a52b1c);box-shadow:0 2px 6px rgba(0,0,0,.45);z-index:2}
-
-/* ---------- المزايا ---------- */
-.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px}
-.feat{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 10px;border-radius:18px;text-align:center;
-  background:linear-gradient(170deg,#7a4820 0%,#63381a 40%,#4a2810 100%);
-  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,222,165,.3), inset 0 0 0 1.5px rgba(242,181,68,.4)}
-.feat .fic{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
-  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 62%, #c8944c);box-shadow:inset 0 -3px 5px rgba(120,70,20,.5)}
-.feat .fic svg{width:26px;height:26px}
-.feat b{font-size:15px;font-weight:900;color:var(--brass-hi)}
-.feat span{font-size:12.5px;font-weight:600;opacity:.85;line-height:1.65}
-
-/* ---------- التحميل ---------- */
-.dlGrid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
-.dlCard{padding:16px 14px;border-radius:20px;
-  background:linear-gradient(170deg, rgba(130,78,35,.55), rgba(48,26,10,.88));
-  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5), 0 4px 12px rgba(0,0,0,.3)}
-.dlHead{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px}
-.dlHead b{font-size:19px;font-weight:900;color:var(--brass-hi)}
-.dlIc{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5d3414;
-  background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 65%, #c8944c)}
-.dlIc svg{width:20px;height:20px}
-.dlMeta{text-align:center;font-size:12.5px;font-weight:700;opacity:.82;margin-bottom:10px}
-.dlCard .cta{width:100%;min-width:0;justify-content:flex-start}
-.dlCount{text-align:center;font-size:13px;font-weight:800;color:var(--brass-hi);margin-top:8px;
-  padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.26);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.35)}
-.dlCount b{font-size:16px}
-ol.steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:9px;margin-top:10px}
-ol.steps li{counter-increment:s;display:flex;gap:11px;align-items:flex-start;padding:11px 14px;border-radius:14px;
-  background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.35);font-size:13.5px;font-weight:700;line-height:1.75}
-ol.steps li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:13.5px;font-weight:900;color:#3a2408;background:radial-gradient(circle at 38% 30%, #ffe9bd, #dfae62 70%, #c8944c)}
-.dlCard .note{margin-top:10px}
-
-/* ---------- الزوار والتواصل ---------- */
-.statsRow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
-.statCard{min-width:140px;padding:14px 18px;border-radius:18px;text-align:center;
-  background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.9));
-  box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5), 0 3px 9px rgba(0,0,0,.35)}
-.statCard b{display:block;font-size:30px;font-weight:900;color:var(--brass-hi);line-height:1.25}
-.statCard span{font-size:12.5px;font-weight:700;opacity:.85}
-.contactRow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:8px 0 4px}
-.cForm{display:flex;flex-direction:column;gap:9px;max-width:520px;margin:14px auto 0}
-.cForm input,.cForm textarea{
-  font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);padding:12px 14px;border:none;border-radius:14px;width:100%;
-  background:linear-gradient(180deg,#fdf3e0,#f2e2c4);
-  box-shadow:inset 0 2px 6px rgba(90,50,15,.35), inset 0 -1px 0 rgba(255,255,255,.7);
-}
-.cForm textarea{min-height:110px;resize:vertical;line-height:1.7}
-.cForm input:focus,.cForm textarea:focus{outline:2.5px solid rgba(242,181,68,.75);outline-offset:1px}
-.cForm button{
-  min-height:50px;border:none;border-radius:15px;font-family:inherit;font-size:17px;font-weight:900;color:#3a2408;cursor:pointer;
-  background:linear-gradient(168deg,#f4c766 0%,#e3a83c 40%,#c1832a 75%,#a06a12 100%);
-  box-shadow:var(--shadow-rest), inset 0 1.5px 0 rgba(255,245,210,.7), inset 0 -3px 5px rgba(120,70,10,.45);
-  transition:transform .18s var(--ease-out);
-}
-.cForm button:active{transform:translateY(2px)}
-.cForm button:disabled{opacity:.55}
-.cMsg{text-align:center;font-size:14px;font-weight:800;min-height:22px;margin-top:8px;line-height:1.8}
-.cMsg.ok{color:#8fe0a0}
-.cMsg.bad{color:#ffb0a4}
-
-a.plain{color:var(--brass-hi);font-weight:800;text-decoration:none;border-bottom:1.5px dashed rgba(242,181,68,.55)}
-a.plain:hover{color:#fff1cd}
-.note{font-size:12px;opacity:.72;margin-top:10px;text-align:center;line-height:1.85}
-footer{text-align:center;margin-top:32px;padding:22px 0 10px;font-size:13.5px;font-weight:700;opacity:.9;line-height:2.1}
-footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
-
-/* ---------- زر عائم للتحميل على الجوال ---------- */
-.fab{
-  position:fixed;inset-inline-end:14px;bottom:14px;z-index:35;display:none;align-items:center;gap:8px;
-  padding:13px 18px;border-radius:16px;text-decoration:none;font-size:15px;font-weight:900;color:#3a2408;
-  background:linear-gradient(168deg,#f4c766,#c1832a);
-  box-shadow:0 4px 0 rgba(120,70,10,.55), 0 10px 26px rgba(20,8,0,.5);
-}
-.fab svg{width:19px;height:19px}
-.fab.show{display:flex;animation:fabIn .3s var(--ease-spring)}
-@keyframes fabIn{from{transform:translateY(18px);opacity:0}}
-@media (min-width:760px){
-  .games{grid-template-columns:repeat(4,1fr)}
-  .feats{grid-template-columns:repeat(3,1fr)}
-  .dlGrid{grid-template-columns:1fr 1fr;align-items:start}
-  .games > :last-child:nth-child(4n+1), .feats > :last-child:nth-child(3n+1){grid-column:1 / -1}
-  .fab{display:none !important}
-}
-@media (max-width:760px){
-  .game{padding:12px 9px 12px;border-radius:18px;gap:5px}
-  .game .cover{height:84px}
-  .game b{font-size:14.5px}
-  .game span{font-size:11px;line-height:1.6;min-height:0}
-  .tg{font-size:9.5px;padding:2px 7px}
-  .game .playBtn{font-size:12.5px;padding:8px 10px}
-  .ribbon{font-size:9.5px;padding:2px 8px;top:8px;inset-inline-start:8px}
-}
-@media (max-width:520px){
-  .cta{min-width:100%;justify-content:flex-start}
-}
-@media (max-width:360px){
-  .games{gap:8px}
-  .game span{font-size:10.5px}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <svg style="display:none">
@@ -332,6 +38,8 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
       <a href="#shots">اللقطات</a>
       <a href="#games">الألعاب</a>
       <a href="#why">المزايا</a>
+      <a href="#news">ما الجديد</a>
+      <a href="#reviews">الآراء</a>
       <a href="#download">التحميل</a>
       <a href="#contact">تواصل</a>
     </nav>
@@ -373,7 +81,7 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
       <div class="kpi"><b>٨</b><span>ألعاب تراثية</span></div>
       <div class="kpi"><b id="kpiDl">…</b><span>مرة تحميل</span></div>
       <div class="kpi"><b id="visitCountries">…</b><span>دولة زارتنا</span></div>
-      <div class="kpi"><b id="visitCount">…</b><span>زيارة للموقع</span></div>
+      <div class="kpi"><b id="kpiRate">…</b><span>تقييم اللاعبين</span></div>
     </div>
   </header>
 
@@ -409,70 +117,78 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
       <p class="sub">كل لعبة بقوانينها الأصلية كما تُلعب في السودان، وبشاشة قوانين مفصّلة داخل التطبيق.</p>
       <div class="games">
 
-        <div class="game">
+        <div class="game" data-g="ludo" onclick="openGame('ludo')">
           <span class="ribbon">جديد</span>
           <div class="cover"><img src="assets/ludo-logo.png" alt="ولِيدو" loading="lazy"></div>
           <b>ولِيدو</b>
           <span>الليدو بالطريقة السودانية: من 1 إلى 4 زهرات، والدبل يتحرك بنصف النتيجة ويسدّ الطريق — ودبل يأكل دبلاً.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">2 — 4 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg hot">زهر 3D</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=ludo" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="snake" onclick="openGame('snake')">
           <span class="ribbon">جديد</span>
           <div class="cover"><img src="assets/snake-logo.png" alt="السلم والثعبان" loading="lazy"></div>
           <b>السلم والثعبان</b>
           <span>مئة خانة وسلالم ترفعك وثعابين تُنزلك — و٦ تمنحك رمية إضافية، ومن يصل 100 أولاً يفوز.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">2 — 4 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=snake" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="nut" onclick="openGame('nut')">
           <div class="cover"><img src="assets/logo.png" alt="نط الكلب" loading="lazy"></div>
           <b>نط الكلب</b>
           <span>لوحة 5×5 و12 كلباً لكل لاعب — نُطّ فوق كلاب خصمك واستبعدها، مع الضربات المتعددة.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=nut" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="mn" onclick="openGame('mn')">
           <div class="cover"><img src="assets/mino-logo.png" alt="أنا مِنو" loading="lazy"></div>
           <b>أنا مِنو</b>
           <span>30 بطاقة شخصية ولكلٍّ شخصية سرية — اسأل أسئلة «نعم/لا»، استبعد، وخمّن قبل خصمك.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">ضد الجهاز</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=mn" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="sija" onclick="openGame('sija')">
           <div class="cover"><img src="assets/sufraget-logo.png" alt="صفرجت" loading="lazy"></div>
           <b>صفرجت</b>
           <span>السيجة السودانية الصغيرة 3×3 — أنزل قطعك ثم حرّكها، ومن رتّب ثلاثه في خط فاز.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=sija" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="seega" onclick="openGame('seega')">
           <div class="cover"><img src="assets/seega-logo.png" alt="السيجة الكبرى" loading="lazy"></div>
           <b>السيجة الكبرى</b>
           <span>الشطرنج الشعبي 5×5 — رصّ 12 قطعة، ثم حاصر وكُل بالساندوتش مع الأكل المتتالي وحماية العين.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">لاعبان</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i><i class="tg">3D</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=seega" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="wbjn" onclick="openGame('wbjn')">
           <div class="cover"><img src="assets/wbjn-logo.png" alt="ولد بنت جماد نبات" loading="lazy"></div>
           <b>ولد بنت جماد نبات</b>
           <span>كلمات وسرعة من 2 إلى 5 لاعبين — حرف عشوائي، ستّ فئات، وزر ستوب يوقف الجميع.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">2 — 5 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=wbjn" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
-        <div class="game">
+        <div class="game" data-g="kz" onclick="openGame('kz')">
           <div class="cover"><img src="assets/kz-logo.png" alt="كوز جوز لوز موز" loading="lazy"></div>
           <b>كوز جوز لوز موز</b>
           <span>مرّر البطاقات واجمع أربعاً متطابقة، واضغط «أنا فزت!» فيتسابق البقية على زر الاستجابة.</span>
+          <div class="gStars" data-stars></div>
           <div class="tags"><i class="tg">3 — 4 لاعبين</i><i class="tg">أونلاين</i><i class="tg">بلوتوث</i></div>
-          <a class="playBtn" href="https://aladeen35.github.io/Games/nut-alkalb/" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg>العب الآن</a>
+          <a class="playBtn" href="https://uploady.io/fen44ap1aqxh/AbuJanan-Games-1.3.1.apk" target="_blank" rel="noopener" onclick="event.stopPropagation();ajLogDownload('android')"><svg><use href="#i-down"/></svg>حمّل التطبيق</a><a class="moreLink" href="game.html?g=kz" onclick="event.stopPropagation()">القوانين واللقطات ←</a>
         </div>
 
       </div>
@@ -540,6 +256,84 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
     </div>
   </section>
 
+  <!-- ============ ما الجديد ============ -->
+  <section id="news">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">🆕 ما الجديد</h2><span class="count">سجل الإصدارات</span></div>
+      <p class="sub">كل ما أُضيف إلى التطبيق، من الأحدث إلى الأقدم.</p>
+      <div class="log">
+
+        <div class="logItem now">
+          <div class="logHead"><b>الإصدار 1.3.1</b><span class="badge2">الأحدث</span><span class="when">سبتمبر 2026</span></div>
+          <ul>
+            <li>لعبتان جديدتان: <b>ولِيدو</b> بالطريقة السودانية و<b>السلم والثعبان</b> — من لاعبَين إلى أربعة.</li>
+            <li>زهر <b>ثلاثي الأبعاد</b> حقيقي يتقلّب في الهواء ثم يستقرّ على وجهه.</li>
+            <li>عدد أحجار الزهر في ولِيدو يُختار مرة واحدة قبل المباراة ويبقى ثابتاً للجميع.</li>
+            <li>لوحة السلم والثعبان بالتصميم الكلاسيكي الملوّن، وثعابين مرسومة بحواف مسنّنة ورؤوس وألسنة.</li>
+            <li>ألوان أحجار ولِيدو مطابقة تماماً لألوان بيوتها، ومواضع الأحجار تبقى ظاهرة بعد خروجها.</li>
+          </ul>
+        </div>
+
+        <div class="logItem">
+          <div class="logHead"><b>الإصدار 1.2.0</b><span class="when">سبتمبر 2026</span></div>
+          <ul>
+            <li>لعبة <b>أنا مِنو</b>: ثلاثون بطاقة شخصية، و28 سؤالاً بـ«نعم/لا»، ووضع ضد الجهاز.</li>
+            <li>هوية جديدة للتطبيق باسم <b>ألعاب أبو جنان</b> وشعار وأيقونات جديدة.</li>
+            <li>أول نسخة <b>ويندوز</b> محمولة تعمل بلا تثبيت.</li>
+          </ul>
+        </div>
+
+        <div class="logItem">
+          <div class="logHead"><b>الإصدار 1.1.0</b><span class="when">سبتمبر 2026</span></div>
+          <ul>
+            <li><b>عرض ثلاثي الأبعاد</b> للألعاب اللوحية بطابع صحراوي سوداني.</li>
+            <li>شاشة غرفة بلوتوث واضحة، وبوابة أذونات بأسلوب اللعبة، وضبط زرّ الرجوع.</li>
+          </ul>
+        </div>
+
+        <div class="logItem">
+          <div class="logHead"><b>الإصدار 1.0</b><span class="when">سبتمبر 2026</span></div>
+          <ul>
+            <li>نسخة <b>أندرويد</b> (APK و AAB) مع وضع اللعب بالبلوتوث بلا إنترنت.</li>
+            <li>اللعب أونلاين برمز غرفة عبر Supabase Realtime.</li>
+            <li>الألعاب الخمس الأولى: نط الكلب، صفرجت، السيجة الكبرى، ولد بنت جماد نبات، وكوز جوز لوز موز.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ الآراء ============ -->
+  <section id="reviews">
+    <div class="panel">
+      <div class="secHead"><h2 class="sec">⭐ آراء اللاعبين</h2><span class="count" id="revCount">…</span></div>
+      <div class="rateBox" id="rateBox"></div>
+      <div class="revList" id="revList"><p class="revEmpty">جارٍ التحميل…</p></div>
+
+      <div class="secHead" style="margin-top:22px"><h2 class="sec" style="font-size:20px">اكتب رأيك</h2></div>
+      <form class="rForm" id="rForm">
+        <div class="rPick" id="rPick"></div>
+        <input type="text" id="rName" maxlength="40" placeholder="اسمك" autocomplete="name" required>
+        <select id="rGame">
+          <option value="all">التطبيق كله</option>
+          <option value="ludo">ولِيدو</option>
+          <option value="snake">السلم والثعبان</option>
+          <option value="nut">نط الكلب</option>
+          <option value="mn">أنا مِنو</option>
+          <option value="sija">صفرجت</option>
+          <option value="seega">السيجة الكبرى</option>
+          <option value="wbjn">ولد بنت جماد نبات</option>
+          <option value="kz">كوز جوز لوز موز</option>
+        </select>
+        <textarea id="rBody" maxlength="600" placeholder="رأيك… (اختياري)"></textarea>
+        <button type="submit" id="rSend">أرسل تقييمك ⭐</button>
+      </form>
+      <p class="cMsg" id="rMsg"></p>
+      <p class="note">تُراجَع الآراء قبل نشرها، فلا تظهر في الموقع مباشرةً.</p>
+    </div>
+  </section>
+
   <!-- ============ الزوار ============ -->
   <section id="visitors">
     <div class="panel">
@@ -592,10 +386,12 @@ footer .credit{color:var(--brass-hi);font-weight:900;font-size:15px}
     <a class="plain" href="stats.html">الإحصاءات</a>
     &nbsp;·&nbsp;
     <a class="plain" href="#contact">تواصل معنا</a>
+    <br><a class="plain" href="admin.html" style="font-size:11.5px;opacity:.6;border:none">لوحة المراجعة</a>
   </footer>
 
 </div>
 
+<div id="ticker"><div class="tkWrap"><div class="tkTrack"></div></div><div class="tkLbl">⭐ آراء اللاعبين</div></div>
 <a class="fab" id="fab" href="#download"><svg><use href="#i-down"/></svg>حمّل التطبيق</a>
 
 <script src="track.js"></script>
@@ -609,6 +405,9 @@ document.getElementById('mailBtn').href =
   '?subject=' + encodeURIComponent('ألعاب أبو جنان — رسالة من الموقع') +
   '&body='    + encodeURIComponent('السلام عليكم،\n\n');
 
+/* فتح صفحة اللعبة عند الضغط على البطاقة */
+function openGame(k){ location.href = 'game.html?g=' + k; }
+
 /* زر التحميل العائم يظهر بعد تجاوز المقدمة */
 const fab = document.getElementById('fab');
 const dl  = document.getElementById('download');
@@ -617,6 +416,73 @@ addEventListener('scroll', () => {
   const atDl = dl.getBoundingClientRect().top < innerHeight && dl.getBoundingClientRect().bottom > 0;
   fab.classList.toggle('show', past && !atDl);
 }, {passive:true});
+
+/* ---------- التقييمات ---------- */
+let picked = 5;
+const rPick = document.getElementById('rPick');
+const paintPick = () => { [...rPick.children].forEach((b,i) => b.classList.toggle('on', i < picked)); };
+for(let i=1;i<=5;i++){
+  const b = document.createElement('button');
+  b.type='button'; b.textContent='★'; b.setAttribute('aria-label', i+' نجوم');
+  b.onclick = () => { picked = i; paintPick(); };
+  rPick.appendChild(b);
+}
+paintPick();
+
+async function loadReviews(){
+  const list = document.getElementById('revList');
+  try{
+    const [rows, stats] = await Promise.all([ ajReviews('all', 24), ajReviewStats() ]);
+    const st = stats.__all || {n:0, avg:0};
+    document.getElementById('revCount').textContent = (st.n||0) + ' رأي';
+    document.getElementById('kpiRate').textContent  = st.n ? st.avg.toFixed(1).replace('.',',') : '—';
+    document.getElementById('rateBox').innerHTML = st.n
+      ? '<div class="rateBig"><b>' + st.avg.toFixed(1).replace('.',',') + '</b>' + ajStars(st.avg) +
+        '<span>من ' + st.n + ' تقييماً</span></div>'
+      : '<div class="rateBig"><b>—</b>' + ajStars(0) + '<span>كن أول من يقيّم</span></div>';
+    // نجوم على بطاقات الألعاب
+    document.querySelectorAll('.game[data-g]').forEach(card => {
+      const k = card.dataset.g, x = stats[k];
+      const box = card.querySelector('[data-stars]');
+      if(box) box.innerHTML = x && +x.n
+        ? ajStars(x.avg) + '<span class="sN">' + (+x.avg).toFixed(1).replace('.',',') + ' (' + x.n + ')</span>'
+        : '';
+    });
+    list.innerHTML = rows.length ? rows.map(r =>
+      '<div class="rev"><div class="top">' + ajStars(r.stars) +
+      '<span class="who">' + ajEsc(r.name) + '</span>' +
+      (r.country_code !== '??' ? '<span>' + ajFlag(r.country_code) + '</span>' : '') +
+      '<span class="gtag">' + ajEsc(ajGameName(r.game)) + '</span>' +
+      '<span class="meta">' + new Date(r.created_at).toLocaleDateString('ar-EG',{day:'numeric',month:'long'}) + '</span>' +
+      '</div>' + (r.body ? '<p>' + ajEsc(r.body) + '</p>' : '') + '</div>').join('')
+      : '<p class="revEmpty">لا توجد آراء منشورة بعد — كن أول من يكتب رأيه 👇</p>';
+  }catch(e){
+    list.innerHTML = '<p class="revEmpty">تعذّر تحميل الآراء الآن.</p>';
+    document.getElementById('revCount').textContent = '—';
+    document.getElementById('kpiRate').textContent = '—';
+  }
+}
+loadReviews();
+ajTicker();
+
+const rMsg = document.getElementById('rMsg'), rSend = document.getElementById('rSend');
+document.getElementById('rForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = document.getElementById('rName').value.trim();
+  const body = document.getElementById('rBody').value.trim();
+  const game = document.getElementById('rGame').value;
+  if(name.length < 2){ rMsg.className='cMsg bad'; rMsg.textContent='اكتب اسمك من فضلك.'; return; }
+  rSend.disabled = true; rMsg.className='cMsg'; rMsg.textContent='جارٍ الإرسال…';
+  let ok = false;
+  try{ ok = await ajSendReview(game, name, picked, body); }catch(err){}
+  rSend.disabled = false;
+  if(ok){
+    e.target.reset(); picked = 5; paintPick();
+    rMsg.className='cMsg ok'; rMsg.textContent='شكراً لك! وصل تقييمك وسيظهر بعد المراجعة ✔';
+  }else{
+    rMsg.className='cMsg bad'; rMsg.textContent='تعذّر الإرسال — حاول مرة أخرى.';
+  }
+});
 
 const cForm = document.getElementById('cForm');
 const cMsg  = document.getElementById('cMsg');
