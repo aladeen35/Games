@@ -106,6 +106,7 @@
   const AR = n => Number(n||0).toLocaleString('ar-EG');
   const setAll = (ids, text) => ids.forEach(id => { const el = document.getElementById(id); if(el) el.textContent = text; });
 
+  const V_IDS = ['visitCount','visitCount2'], C_IDS = ['visitCountries','visitCountries2'];
   async function paintVisits(){
     if(!document.getElementById('visitCount') && !document.getElementById('visitCountries')) return;
     try{
@@ -113,9 +114,9 @@
       if(!r.ok) throw 0;
       const [s] = await r.json();
       if(!s) throw 0;
-      setAll(['visitCount'], AR(s.total));
-      setAll(['visitCountries'], AR(s.countries));
-    }catch(e){ setAll(['visitCount','visitCountries'], '—'); }
+      setAll(V_IDS, AR(s.total));
+      setAll(C_IDS, AR(s.countries));
+    }catch(e){ setAll(V_IDS.concat(C_IDS), '—'); }
   }
   async function paintDownloads(){
     if(!document.getElementById('dlWin') && !document.getElementById('dlAnd')) return;
@@ -123,10 +124,12 @@
       const r = await window.ajRest('site_stats_downloads?select=kind,total');
       if(!r.ok) throw 0;
       const rows = await r.json();
-      const by = k => { const x = rows.find(v => v.kind === k); return x ? x.total : 0; };
-      setAll(['dlWin','dlWin2'], AR(by('windows')));
-      setAll(['dlAnd','dlAnd2'], AR(by('android')));
-    }catch(e){ setAll(['dlWin','dlWin2','dlAnd','dlAnd2'], '—'); }
+      const by = k => { const x = rows.find(v => v.kind === k); return x ? +x.total : 0; };
+      const w = by('windows'), a = by('android');
+      setAll(['dlWin','dlWin2'], AR(w));
+      setAll(['dlAnd','dlAnd2'], AR(a));
+      setAll(['kpiDl'], AR(w + a));
+    }catch(e){ setAll(['dlWin','dlWin2','dlAnd','dlAnd2','kpiDl'], '—'); }
   }
   window.ajPaintDownloads = paintDownloads;
 
