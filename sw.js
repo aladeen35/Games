@@ -1,20 +1,21 @@
 /* عالم الألوان مع جنان — Service Worker */
-const CACHE = 'jinan-colors-v2';
+const CACHE = 'jinan-colors-v3';
 const CORE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
-  './fonts/baloo-arabic.woff2',
-  './fonts/baloo-latin.woff2',
-  './vendor/pdf.min.js',
-  './vendor/pdf.worker.min.js'
+  './', './index.html', './manifest.json',
+  './icon-192.png', './icon-512.png', './icon-maskable.png',
+  './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2',
+  './vendor/pdf.min.js', './vendor/pdf.worker.min.js'
 ];
+for (let i = 1; i <= 21; i++) {
+  const n = String(i).padStart(2, '0');
+  CORE.push(`./pages/professions/p${n}.png`, `./pages/professions/t${n}.jpg`);
+}
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting())
+    caches.open(CACHE)
+      .then(c => Promise.allSettled(CORE.map(u => c.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -26,7 +27,6 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* cache-first مع تخزين ما يُجلب لاحقًا (pdf.js عند أول استخدام مثلًا) */
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(

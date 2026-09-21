@@ -1,7 +1,7 @@
 {
   "name": "عالم الألوان مع جنان",
   "short_name": "ألوان جنان",
-  "description": "تطبيق تلوين مرح وآمن للأطفال بعمر 3 سنوات — 12 صفحة تلوين مدمجة، تعبئة بلمسة واحدة، فرشاة قوس قزح، طوابع، أصوات مبهجة، ودعم كتب PDF إضافية",
+  "description": "تطبيق تلوين مرح وآمن للأطفال بعمر 3 سنوات — كتاب المهن، رسمات مدمجة، تعبئة بلمسة، نقشات، لمعان ورشّاش",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -13,8 +13,7 @@
   "theme_color": "#2EC4B6",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

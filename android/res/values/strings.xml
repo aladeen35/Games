@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">عالم الألوان مع جنان</string>
+    <string name="saved_ok">تم حفظ اللوحة في الصور</string>
+    <string name="need_perm">اسمحي بالوصول إلى الصور ثم أعيدي الحفظ</string>
+</resources>
