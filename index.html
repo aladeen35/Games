@@ -1609,7 +1609,7 @@ footer .credit{
     </div>
   </section>
 
-  <footer>ألعاب أبو جنان 🇸🇩<br><span class="credit">إنتاج أبو جنان</span></footer>
+  <footer>ألعاب أبو جنان 🇸🇩<br><span class="credit">إنتاج أبو جنان</span><br><span class="credit" id="verTag" style="opacity:.55;font-size:11px">الإصدار 1.4.1</span></footer>
 </main>
 
 <div id="overlay">
@@ -6358,7 +6358,31 @@ document.getElementById('overlayQuit').onclick=goHub;
 
 /* ---------- PWA ---------- */
 if('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())){
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  // هل كانت هناك نسخة تعمل أصلاً؟ إن نعم فأي تبديل لاحق يعني وصول تحديث.
+  const hadWorker = !!navigator.serviceWorker.controller;
+  let reloading = false;
+  const refresh = () => {
+    if(reloading) return;
+    reloading = true;
+    location.reload();
+  };
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if(hadWorker) refresh(); });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      // تحقّق من وجود تحديث فور الإقلاع وكلما عاد اللاعب إلى اللعبة
+      reg.update().catch(()=>{});
+      document.addEventListener('visibilitychange', () => {
+        if(document.visibilityState === 'visible') reg.update().catch(()=>{});
+      });
+      reg.addEventListener('updatefound', () => {
+        const w = reg.installing;
+        if(!w) return;
+        w.addEventListener('statechange', () => {
+          if(w.state === 'activated' && hadWorker) refresh();
+        });
+      });
+    }).catch(()=>{});
+  });
 }
 </script>
 </body>

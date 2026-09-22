@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'abujanan-v17';
+const CACHE = 'abujanan-v18';
 const PRECACHE = [
   './',
   'index.html',
@@ -86,15 +86,37 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if(url.origin !== location.origin) return;   // PeerJS/CDN: شبكة مباشرة دائماً
+  if(e.request.method !== 'GET') return;
+
+  // صفحة اللعبة نفسها: الشبكة أولاً حتى يصل أي تحديث فور نشره،
+  // ومع انقطاع الإنترنت نرجع إلى النسخة المحفوظة فتعمل اللعبة بلا اتصال.
+  const isPage = e.request.mode === 'navigate' ||
+                 url.pathname.endsWith('/') ||
+                 url.pathname.endsWith('/index.html');
+  if(isPage){
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if(res && res.ok){
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put('index.html', copy));
+        }
+        return res;
+      }).catch(() => caches.match('index.html', {ignoreSearch:true})
+                     .then(hit => hit || caches.match(e.request, {ignoreSearch:true})))
+    );
+    return;
+  }
+
+  // باقي الملفات (صور وأصوات وخطوط): الذاكرة أولاً لأنها لا تتغيّر إلا مع الإصدار.
   e.respondWith(
     caches.match(e.request, {ignoreSearch:true}).then(hit => hit ||
       fetch(e.request).then(res => {
-        if(res.ok && e.request.method === 'GET'){
+        if(res.ok){
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, copy));
         }
         return res;
-      }).catch(() => e.request.mode === 'navigate' ? caches.match('index.html') : undefined)
+      })
     )
   );
 });
