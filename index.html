@@ -499,7 +499,7 @@ input.code{
 
 
 
-/* ---------- ولِيدو والسلم والثعبان: مشترك ---------- */
+/* ---------- ليدو والسلم والثعبان: مشترك ---------- */
 .pgBar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:6px 0 8px}
 .pgWho{
   display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:13px;font-size:12.5px;font-weight:800;
@@ -547,7 +547,7 @@ input.code{
 .diceCount{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:4px 0 2px}
 .diceCount .chip{min-width:44px}
 
-/* ---------- لوحة ولِيدو ---------- */
+/* ---------- لوحة ليدو ---------- */
 .luWrap{width:100%;max-width:520px;margin:4px auto;position:relative}
 .luBoard{
   position:relative;width:100%;aspect-ratio:1;padding:3.4%;border-radius:20px;
@@ -943,8 +943,8 @@ footer .credit{
           <small>اسأل واستبعد وخمّن الشخصية — لاعبان</small>
         </button>
         <button class="gameCard" data-game="ludo">
-          <img src="assets/ludo-logo.png" alt="ولِيدو">
-          <span class="gname">ولِيدو</span>
+          <img src="assets/ludo-logo.png" alt="ليدو">
+          <span class="gname">ليدو</span>
           <small>ليدو سوداني: 1-4 زهرات ودبل وحواجز — 2 إلى 4</small>
         </button>
         <button class="gameCard" data-game="snake">
@@ -972,6 +972,10 @@ footer .credit{
         <span class="ic"><svg><use href="#i-users"/></svg></span>
         <span id="localBtnTxt">لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small></span>
       </button>
+      <button class="bigbtn" id="aiBtn">
+        <span class="ic"><svg><use href="#i-bulb"/></svg></span>
+        <span id="aiBtnTxt">العب ضد الجهاز<small>خصم ذكي بثلاثة مستويات — بلا إنترنت</small></span>
+      </button>
       <button class="bigbtn" id="onlineBtn">
         <span class="ic"><svg><use href="#i-globe"/></svg></span>
         <span>اللعب أونلاين<small>أنشئ غرفة وشارك الرمز مع خصمك</small></span>
@@ -986,6 +990,21 @@ footer .credit{
       </button>
       <div class="row" style="margin-top:10px">
         <button class="btn ghost" data-back="hub"><svg><use href="#i-exit"/></svg>رجوع</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== العب ضد الجهاز ===================== -->
+  <section id="aiScreen" class="screen">
+    <div class="panel">
+      <h2 id="aiTitle">العب ضد الجهاز</h2>
+      <p style="font-weight:900;margin:8px 0 2px;color:var(--brass-hi)">مستوى الجهاز:</p>
+      <div class="wbChips" id="aiLevelChips"></div>
+      <p class="hint" id="aiLevelHint"></p>
+      <div id="aiExtra"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn gold" id="aiStartBtn"><svg><use href="#i-paw"/></svg>ابدأ اللعب</button>
+        <button class="btn ghost" data-back="gamemenu"><svg><use href="#i-exit"/></svg>رجوع</button>
       </div>
     </div>
   </section>
@@ -1365,7 +1384,7 @@ footer .credit{
 
 
 
-  <!-- ===================== ولِيدو والسلم والثعبان ===================== -->
+  <!-- ===================== ليدو والسلم والثعبان ===================== -->
   <section id="pgSetupScreen" class="screen">
     <div class="panel">
       <h2 id="pgSetupTitle">إعداد اللعبة — نفس الجهاز</h2>
@@ -1657,7 +1676,7 @@ const GAMES = {
   wbjn : {name:'ولد بنت جماد نبات', logo:'assets/wbjn-logo.png', peerPrefix:'wbjn-sd-'},
   kz   : {name:'كوز جوز لوز موز',   logo:'assets/kz-logo.png',   peerPrefix:'kz-sd-'},
   mn   : {name:'أنا مِنو',            logo:'assets/mino-logo.png', peerPrefix:'mino-sd-'},
-  ludo : {name:'ولِيدو',              logo:'assets/ludo-logo.png', peerPrefix:'ludo-sd-'},
+  ludo : {name:'ليدو',              logo:'assets/ludo-logo.png', peerPrefix:'ludo-sd-'},
   snake: {name:'السلم والثعبان',      logo:'assets/snake-logo.png',peerPrefix:'snake-sd-'},
 };
 /* ---------- unified game bus over Supabase Realtime (NET_IMPL override for tests) ---------- */
@@ -1951,7 +1970,10 @@ function baseName(p){
   if(mode==='online') return p===myColor ? (names.me.trim()||'أنت') : (oppName||'الخصم');
   return p==='G' ? (names.p1.trim()||'اللاعب الأول') : (names.p2.trim()||'اللاعب الثاني');
 }
-function nameOf(p){ return baseName(p) + ' • ' + shapeByKey(shapeSel[p]).name; }
+function nameOf(p){
+  if(mode==='ai' && p===AI_SIDE) return 'الجهاز • ' + AI_NAMES[AI_LEVEL];
+  return baseName(p) + ' • ' + shapeByKey(shapeSel[p]).name;
+}
 const enemy = p => p==='G' ? 'B' : 'G';
 
 /* flying piece animation shared by both games (index-based) */
@@ -2566,6 +2588,7 @@ function sgTap(r,c){
    SHARED HUD / END
 ===================================================================== */
 function updateHud(){
+  setTimeout(aiMaybeMove, 0);
   document.getElementById('nameG').textContent=nameOf('G');
   document.getElementById('nameB').textContent=nameOf('B');
   document.getElementById('imgG').src=shapeByKey(shapeSel.G).img;
@@ -3273,6 +3296,7 @@ const KZ_WORDS = [
   {w:'موز', e:'🍌', c:'#c9971a'},
 ];
 const kz = {
+  ai:false,
   phase:'idle', isHost:false, myIdx:0,
   players:[], totals:[], rounds:3, round:0,
   hand:[], counts:[], cur:0,
@@ -3282,7 +3306,7 @@ let knet=null, kHostId=null, kPeerIds=[], kroom='';
 
 function kzDestroyPeer(){
   try{ if(knet) knet.leave(); }catch(e){}
-  knet=null; kHostId=null; kPeerIds=[];
+  knet=null; kHostId=null; kPeerIds=[]; kz.ai=false; aiStop();
 }
 function kzBroadcast(obj){ if(knet) kPeerIds.forEach(id=>knet.send(obj,id)); }
 function kzSendTo(i,obj){ if(knet && kPeerIds[i-1]) knet.send(obj, kPeerIds[i-1]); }
@@ -3480,6 +3504,7 @@ function kzHostApplyPass(p, w){
   for(let i=1;i<kz.players.length;i++)
     kzSendTo(i,{t:'khand', hand:kz.hostHands[i], cur:kz.cur, counts:kz.counts});
   kzRenderPlay();
+  kzAiTick();
   if(kz.cur===0 && !REDUCED){
     const cards=document.getElementById('kzHand').children;
     if(cards.length) cards[cards.length-1].classList.add('dropIn');
@@ -3503,6 +3528,7 @@ function kzHostClaim(p){
   kz.respWait=kz.players.length-1;
   kzBroadcast({t:'kstop', winner:p, word});
   kzShowResp(p, word);
+  kzAiRespond();
   setTimeout(()=>{ if(kz.phase==='resp') kzHostFinishResp(); }, 7000);
 }
 function kzHostResp(p, d){
@@ -3977,7 +4003,7 @@ function mnStartAI(){
   mn.online=false; mn.vsAI=true; mn.isHost=true;
   mnDestroyPeer();
   const [a,b]=mnPickSecrets();
-  mn.mySecret=a; mn.oppSecret=b; mnOppName='الجهاز';
+  mn.mySecret=a; mn.oppSecret=b; mnOppName='الجهاز • '+AI_NAMES[AI_LEVEL];
   mn.aiCands=MN_CHARS.slice(); mn.aiAsked=new Set();
   mnBegin(true);
 }
@@ -4174,16 +4200,25 @@ function mnDoGuess(id){
 
 /* ---------- الذكاء الاصطناعي (اللعب ضد الجهاز) ---------- */
 function mnAIBestQuestion(){
-  let best=null, bestScore=1e9;
+  const usable = [];
   MN_QS.forEach(q=>{
     if(mn.aiAsked.has(q.id)) return;
     let y=0; mn.aiCands.forEach(c=>{ if(q.f(c)) y++; });
     const n=mn.aiCands.length-y;
     if(!y || !n) return;
-    const sc=Math.max(y,n);
-    if(sc<bestScore){ bestScore=sc; best=q; }
+    usable.push({q, sc:-Math.max(y,n)});          // كلما صغُر أكبر قسمين كان السؤال أفضل
   });
-  return best;
+  if(!usable.length) return null;
+  // سهل يسأل أسئلة ضعيفة كثيراً، متوسط أحياناً، صعب يسأل الأمثل دائماً
+  const slip = AI_LEVEL===1 ? 0.75 : AI_LEVEL===2 ? 0.3 : 0;
+  if(slip && usable.length>1 && Math.random()<slip){
+    usable.sort((a,b)=>a.sc-b.sc);                // الأضعف أولاً
+    const k = Math.max(1, Math.ceil(usable.length/2));
+    return usable[Math.floor(Math.random()*k)].q; // يختار من النصف الأضعف
+  }
+  usable.sort((a,b)=>b.sc-a.sc);
+  const top = usable.filter(x=>x.sc===usable[0].sc);
+  return top[Math.floor(Math.random()*top.length)].q;
 }
 function mnAITurn(){
   if(!mn.vsAI || mn.phase!=='play') return;
@@ -4338,7 +4373,7 @@ document.getElementById('mnHomeBtn').onclick=()=>{ if(mn.online) mnSend({t:'mqui
 
 
 /* =====================================================================
-   GAME 7 & 8: ولِيدو السوداني — والسلم والثعبان
+   GAME 7 & 8: ليدو السوداني — والسلم والثعبان
    محرّك القواعد منفصل عن الواجهة: كل حركة تمرّ على المحرّك قبل تنفيذها.
 ===================================================================== */
 /* الألوان مستخرجة من صور الأحجار نفسها فتطابق لون كل حجر بيته تماماً */
@@ -4354,13 +4389,13 @@ PG_COLORS.forEach(c => { const im = new Image(); im.src = c.img; });
 const PG_SEATS = {2:[0,2], 3:[0,1,2], 4:[0,1,2,3]};
 
 const pg = {
-  game:'ludo', online:false, isHost:false, myIdx:0, phase:'idle',
+  game:'ludo', online:false, ai:false, isHost:false, myIdx:0, phase:'idle',
   count:4, nDice:1, players:[],   // nDice: يُختار مرة واحدة قبل المباراة
 };
 let pnet=null, pHostId=null, pPeerIds=[], proom='';
 
 function pgColor(seat){ return PG_COLORS[seat]; }
-function pgIsMyTurn(st){ return !pg.online || st.turn === pg.myIdx; }
+function pgIsMyTurn(st){ return (!pg.online && !pg.ai) || st.turn === pg.myIdx; }
 function pgName(i){ return (pg.players[i] && pg.players[i].name) || ('لاعب '+(i+1)); }
 
 function pgDestroyPeer(){
@@ -4371,15 +4406,15 @@ function pgBroadcast(o){ if(pnet) pPeerIds.forEach(id => pnet.send(o, id)); }
 function pgSendHost(o){ if(pnet && pHostId) pnet.send(o, pHostId); }
 function pgLeaveAll(){
   pgDestroyPeer();
-  clearTimeout(pgTimer); pgTimer=null;
-  pg.phase='idle'; pg.online=false;
+  clearTimeout(pgTimer); pgTimer=null; aiStop();
+  pg.phase='idle'; pg.online=false; pg.ai=false;
 }
 let pgTimer=null;
 
 /* ---------- إعداد اللعب على جهاز واحد ---------- */
 function pgRenderSetup(){
   document.getElementById('pgSetupTitle').textContent =
-    (pg.game==='ludo' ? 'ولِيدو' : 'السلم والثعبان') + ' — نفس الجهاز';
+    (pg.game==='ludo' ? 'ليدو' : 'السلم والثعبان') + ' — نفس الجهاز';
   wbChips(document.getElementById('pgCountChips'), [2,3,4], pg.count, v => v+' لاعبين',
           v => { pg.count=v; pgRenderSetup(); });
   document.getElementById('pgDiceOpt').style.display = pg.game==='ludo' ? 'block' : 'none';
@@ -4531,7 +4566,7 @@ function pgJoinRoom(){
 }
 
 /* =====================================================================
-   ولِيدو — محرّك القواعد (لا يلمس الواجهة إطلاقاً)
+   ليدو — محرّك القواعد (لا يلمس الواجهة إطلاقاً)
 ===================================================================== */
 const LU_RINGN = 52;          // خانات المسار الدائري
 const LU_GOAL  = 56;          // 0 = خانة الانطلاق، 1..50 المسار، 51..55 البيت، 56 النهاية
@@ -4767,7 +4802,7 @@ function dieSet(wrap, v){
 }
 
 /* =====================================================================
-   ولِيدو — الواجهة
+   ليدو — الواجهة
 ===================================================================== */
 let lu = null;          // حالة اللعبة
 let luSelDie = -1, luSelPiece = -1, luHints = [], luBusy = false;
@@ -4874,6 +4909,7 @@ function luPaint(fx){
   luPaintDice();
   luPaintPlayers();
   luPaintStatus(ms);
+  pgAiTick();
 }
 function luPaintHints(){
   const box = document.getElementById('luPieces');
@@ -4981,7 +5017,7 @@ function luRoll(){
   luHostRoll(pg.online ? pg.myIdx : lu.turn);
 }
 
-/* ---------- ولِيدو: المضيف هو المرجع ---------- */
+/* ---------- ليدو: المضيف هو المرجع ---------- */
 function pgPush(fx){
   if(pg.online && pg.isHost)
     pgBroadcast({t:'pstate', state: pg.game==='ludo' ? lu : sn, fx: fx||null});
@@ -5203,6 +5239,7 @@ function snPaint(){
   el.textContent = sn.done.length ? 'انتهت المباراة'
     : (mine ? (sn.again ? 'ظهر ٦ — لك رمية أخرى!' : 'دورك — ارمِ الزهر') : 'دور ' + pgName(sn.turn) + '…');
   document.getElementById('snRollBtn').style.display = (mine && !snBusy && !sn.done.length) ? 'inline-flex' : 'none';
+  pgAiTick();
 }
 function snRoll(){
   if(!pgIsMyTurn(sn) || snBusy || sn.done.length) return;
@@ -5391,13 +5428,626 @@ document.getElementById('pgAgainBtn').onclick = () => {
 };
 document.getElementById('pgHomeBtn').onclick = () => { pgLeaveAll(); goHub(); };
 
+
+/* =====================================================================
+   العب ضد الجهاز — إطار مشترك لكل الألعاب
+   ثلاثة مستويات: 1 سهل · 2 متوسط · 3 صعب
+   محرّكات البحث نقيّة: تعمل على نسخ من اللوح ولا تمسّ الواجهة إطلاقاً.
+===================================================================== */
+let AI_ON = false, AI_LEVEL = 2;
+try{ const v = +localStorage.getItem('aj_ai_level'); if(v>=1 && v<=3) AI_LEVEL = v; }catch(e){}
+const AI_NAMES = {1:'سهل', 2:'متوسط', 3:'صعب'};
+function aiSetLevel(v){
+  AI_LEVEL = Math.max(1, Math.min(3, v|0)) || 2;
+  try{ localStorage.setItem('aj_ai_level', AI_LEVEL); }catch(e){}
+}
+/* تأخير تفكير يبدو طبيعياً */
+const aiWait = () => 420 + Math.random()*520;
+let aiTimer = null;
+function aiLater(fn, ms){ clearTimeout(aiTimer); aiTimer = setTimeout(fn, ms === undefined ? aiWait() : ms); }
+function aiStop(){ clearTimeout(aiTimer); aiTimer = null; }
+/* اختيار من بين الحركات مع عشوائية حسب المستوى:
+   سهل يخطئ كثيراً، متوسط أحياناً، صعب يختار الأفضل دائماً */
+function aiPickScored(list){                       // [{mv, sc}]
+  if(!list.length) return null;
+  list.sort((a,b) => b.sc - a.sc);
+  const slip = AI_LEVEL === 1 ? 0.45 : AI_LEVEL === 2 ? 0.15 : 0;
+  if(slip && Math.random() < slip){
+    const pool = list.slice(1);                    // أي حركة غير الأفضل
+    if(pool.length) return pool[Math.floor(Math.random()*pool.length)].mv;
+  }
+  const top = list.filter(x => x.sc >= list[0].sc - 1e-9);
+  return top[Math.floor(Math.random()*top.length)].mv;
+}
+
+/* =====================================================================
+   نط الكلب — محرّك بحث نقيّ (minimax مع alpha-beta)
+===================================================================== */
+const NA_DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+const naIn = (r,c) => r>=0 && r<5 && c>=0 && c<5;
+const naFoe = p => p==='G' ? 'B' : 'G';
+const naClone = b => b.map(r => r.slice());
+
+/* كل تسلسلات دور واحد: خطوة عادية، أو نطّة وما يتبعها من نطّات متتالية */
+function naTurns(b, p){
+  const out = [];
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+    if(b[r][c] !== p) continue;
+    for(const [dr,dc] of NA_DIRS){
+      const nr=r+dr, nc=c+dc;
+      if(naIn(nr,nc) && b[nr][nc]===null) out.push({path:[[r,c],[nr,nc]], eats:0});
+    }
+  }
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+    if(b[r][c] !== p) continue;
+    naChains(b, p, r, c, null, [[r,c]], 0, out);
+  }
+  return out;
+}
+function naChains(b, p, r, c, lastDir, path, eats, out){
+  let any = false;
+  for(const [dr,dc] of NA_DIRS){
+    if(lastDir && dr === -lastDir[0] && dc === -lastDir[1]) continue;   // لا رجوع للخلف
+    const mr=r+dr, mc=c+dc, tr=r+2*dr, tc=c+2*dc;
+    if(!naIn(tr,tc) || b[mr][mc] !== naFoe(p) || b[tr][tc] !== null) continue;
+    any = true;
+    const nb = naClone(b);
+    nb[r][c] = null; nb[mr][mc] = null; nb[tr][tc] = p;
+    const np = path.concat([[tr,tc]]);
+    naChains(nb, p, tr, tc, [dr,dc], np, eats+1, out);
+    out.push({path:np, eats:eats+1});
+  }
+  return any;
+}
+function naApply(b, t){
+  const nb = naClone(b);
+  const [sr,sc] = t.path[0];
+  const p = nb[sr][sc];
+  for(let i=0;i<t.path.length-1;i++){
+    const [ar,ac] = t.path[i], [br,bc] = t.path[i+1];
+    if(Math.abs(br-ar)===2 || Math.abs(bc-ac)===2) nb[(ar+br)/2][(ac+bc)/2] = null;
+    nb[ar][ac] = null; nb[br][bc] = p;
+  }
+  return nb;
+}
+function naCount(b, p){ let n=0; for(const row of b) for(const v of row) if(v===p) n++; return n; }
+function naMobility(b, p){
+  let n = 0;
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+    if(b[r][c] !== p) continue;
+    for(const [dr,dc] of NA_DIRS){
+      const nr=r+dr, nc=c+dc;
+      if(naIn(nr,nc) && b[nr][nc]===null) n++;
+      const tr=r+2*dr, tc=c+2*dc;
+      if(naIn(tr,tc) && b[nr][nc]===naFoe(p) && b[tr][tc]===null) n += 4;
+    }
+  }
+  return n;
+}
+function naEval(b, me){
+  const foe = naFoe(me);
+  const mine = naCount(b, me), theirs = naCount(b, foe);
+  if(theirs === 0) return 1e6;
+  if(mine === 0) return -1e6;
+  let s = (mine - theirs) * 100 + (naMobility(b, me) - naMobility(b, foe)) * 2;
+  // القرب من المركز يفيد قليلاً
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+    if(b[r][c] === null) continue;
+    const w = 3 - (Math.abs(r-2) + Math.abs(c-2));
+    s += (b[r][c] === me ? w : -w);
+  }
+  return s;
+}
+function naSearch(b, p, me, depth, alpha, beta){
+  const turns = naTurns(b, p);
+  if(!turns.length) return p === me ? -1e6 + depth : 1e6 - depth;      // من لا حركة له يخسر
+  if(depth === 0) return naEval(b, me);
+  if(p === me){
+    let best = -Infinity;
+    turns.sort((x,y) => y.eats - x.eats);
+    for(const t of turns){
+      const v = naSearch(naApply(b,t), naFoe(p), me, depth-1, alpha, beta);
+      if(v > best) best = v;
+      if(best > alpha) alpha = best;
+      if(alpha >= beta) break;
+    }
+    return best;
+  }
+  let best = Infinity;
+  turns.sort((x,y) => y.eats - x.eats);
+  for(const t of turns){
+    const v = naSearch(naApply(b,t), naFoe(p), me, depth-1, alpha, beta);
+    if(v < best) best = v;
+    if(best < beta) beta = best;
+    if(alpha >= beta) break;
+  }
+  return best;
+}
+function naBestTurn(b, me){
+  const depth = AI_LEVEL === 1 ? 1 : AI_LEVEL === 2 ? 3 : 5;
+  const turns = naTurns(b, me);
+  if(!turns.length) return null;
+  const scored = turns.map(t => ({mv:t, sc: naSearch(naApply(b,t), naFoe(me), me, depth-1, -Infinity, Infinity)}));
+  return aiPickScored(scored);
+}
+
+/* =====================================================================
+   صفرجت — بحث تامّ مع تذكّر الحالات (اللوحة صغيرة فيُحلّ اللعب حلاً كاملاً)
+===================================================================== */
+const SA_LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const saAdj = (i,j) => {
+  const r1=(i/3)|0, c1=i%3, r2=(j/3)|0, c2=j%3;
+  return i!==j && Math.abs(r1-r2)<=1 && Math.abs(c1-c2)<=1;
+};
+const saFoe = p => p==='G' ? 'B' : 'G';
+const saLine = (b,p) => SA_LINES.some(L => b[L[0]]===p && b[L[1]]===p && b[L[2]]===p);
+function saMoves(b, p, placed){
+  const out = [];
+  if(placed[p] < 3){
+    for(let i=0;i<9;i++) if(b[i]===null) out.push({place:i});
+    return out;
+  }
+  for(let i=0;i<9;i++){
+    if(b[i]!==p) continue;
+    for(let j=0;j<9;j++) if(b[j]===null && saAdj(i,j)) out.push({from:i, to:j});
+  }
+  return out;
+}
+function saDo(b, placed, p, mv){
+  const nb = b.slice(), np = {G:placed.G, B:placed.B};
+  if(mv.place !== undefined){ nb[mv.place] = p; np[p]++; }
+  else { nb[mv.from] = null; nb[mv.to] = p; }
+  return [nb, np];
+}
+const saKey = (b, placed, p) => b.map(v => v==='G'?1:v==='B'?2:0).join('') + placed.G + placed.B + p;
+const saMemo = new Map();
+/* القيمة من منظور me: +ve فوز · 0 تعادل/لا نهاية · -ve خسارة */
+function saSearch(b, placed, p, me, depth){
+  if(saLine(b, me)) return 1000 - depth;
+  if(saLine(b, saFoe(me))) return -1000 + depth;
+  if(depth >= 24) return 0;                                   // حدّ أمان ضد اللفّ الأبدي
+  const key = saKey(b, placed, p) + '|' + depth;
+  const hit = saMemo.get(key);
+  if(hit !== undefined) return hit;
+  const mvs = saMoves(b, p, placed);
+  if(!mvs.length){ const v = (p === me ? -1000 + depth : 1000 - depth); saMemo.set(key, v); return v; }
+  let best = p === me ? -Infinity : Infinity;
+  for(const mv of mvs){
+    const [nb, np] = saDo(b, placed, p, mv);
+    const v = saSearch(nb, np, saFoe(p), me, depth+1);
+    if(p === me){ if(v > best) best = v; }
+    else { if(v < best) best = v; }
+  }
+  saMemo.set(key, best);
+  return best;
+}
+function saEvalShallow(b, p){                                  // تقييم سريع للمستوى السهل
+  const foe = saFoe(p);
+  let s = 0;
+  SA_LINES.forEach(L => {
+    const mine = L.filter(i => b[i]===p).length, th = L.filter(i => b[i]===foe).length;
+    if(mine && !th) s += mine*mine;
+    if(th && !mine) s -= th*th;
+  });
+  if(b[4]===p) s += 2; else if(b[4]===foe) s -= 2;
+  return s;
+}
+function saBest(b, placed, me){
+  const mvs = saMoves(b, me, placed);
+  if(!mvs.length) return null;
+  if(AI_LEVEL === 1){                                          // سهل: تقييم سطحي فقط
+    return aiPickScored(mvs.map(mv => { const [nb] = saDo(b, placed, me, mv);
+      return {mv, sc: saLine(nb, me) ? 999 : saEvalShallow(nb, me) + Math.random()*2}; }));
+  }
+  saMemo.clear();
+  const cap = AI_LEVEL === 2 ? 10 : 24;                        // متوسط يرى أقصر، صعب يرى كل شيء
+  const scored = mvs.map(mv => {
+    const [nb, np] = saDo(b, placed, me, mv);
+    return {mv, sc: saSearch(nb, np, saFoe(me), me, 24 - cap)};
+  });
+  return aiPickScored(scored);
+}
+
+/* =====================================================================
+   السيجة الكبرى — رصّ بقواعد، ثم بحث بالساندوتش
+===================================================================== */
+const SG_DIRS = [[-1,0],[1,0],[0,-1],[0,1]];
+const sgIn = (r,c) => r>=0 && r<5 && c>=0 && c<5;
+const sgFoe = p => p==='G' ? 'B' : 'G';
+const sgCl = b => b.map(r => r.slice());
+const SG_EYE = [2,2];
+/* ما الذي يُؤكل لو وصلت قطعة p إلى (r,c)؟ */
+function sgCapsAt(b, r, c, p){
+  const out = [];
+  for(const [dr,dc] of SG_DIRS){
+    const mr=r+dr, mc=c+dc, or_=r+2*dr, oc=c+2*dc;
+    if(sgIn(or_,oc) && b[mr][mc]===sgFoe(p) && b[or_][oc]===p && !(mr===2 && mc===2)) out.push([mr,mc]);
+  }
+  return out;
+}
+function sgMoveList(b, p){
+  const out = [];
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+    if(b[r][c] !== p) continue;
+    for(const [dr,dc] of SG_DIRS){
+      const nr=r+dr, nc=c+dc;
+      if(!sgIn(nr,nc) || b[nr][nc] !== null) continue;
+      const nb = sgCl(b);
+      nb[r][c] = null; nb[nr][nc] = p;
+      const caps = sgCapsAt(nb, nr, nc, p);
+      caps.forEach(([mr,mc]) => { nb[mr][mc] = null; });
+      out.push({from:[r,c], to:[nr,nc], eats:caps.length, board:nb});
+    }
+  }
+  return out;
+}
+function sgCnt(b, p){ let n=0; for(const row of b) for(const v of row) if(v===p) n++; return n; }
+function sgEval(b, me){
+  const foe = sgFoe(me);
+  const m = sgCnt(b, me), t = sgCnt(b, foe);
+  if(t === 0) return 1e6;
+  if(m === 0) return -1e6;
+  let s = (m - t) * 100;
+  s += (sgMoveList(b, me).length - sgMoveList(b, foe).length) * 2;
+  if(b[2][2] === me) s += 25; else if(b[2][2] === foe) s -= 25;     // العين محميّة
+  return s;
+}
+function sgSearch(b, p, me, depth, alpha, beta){
+  const mvs = sgMoveList(b, p);
+  if(!mvs.length) return p === me ? -1e6 + depth : 1e6 - depth;
+  if(depth === 0) return sgEval(b, me);
+  mvs.sort((x,y) => y.eats - x.eats);
+  if(p === me){
+    let best = -Infinity;
+    for(const mv of mvs){
+      const v = sgSearch(mv.board, sgFoe(p), me, depth-1, alpha, beta);
+      if(v > best) best = v;
+      if(best > alpha) alpha = best;
+      if(alpha >= beta) break;
+    }
+    return best;
+  }
+  let best = Infinity;
+  for(const mv of mvs){
+    const v = sgSearch(mv.board, sgFoe(p), me, depth-1, alpha, beta);
+    if(v < best) best = v;
+    if(best < beta) beta = best;
+    if(alpha >= beta) break;
+  }
+  return best;
+}
+function sgBestMove(b, me){
+  const depth = AI_LEVEL === 1 ? 1 : AI_LEVEL === 2 ? 3 : 4;
+  const mvs = sgMoveList(b, me);
+  if(!mvs.length) return null;
+  const scored = mvs.map(mv => ({mv, sc: sgSearch(mv.board, sgFoe(me), me, depth-1, -Infinity, Infinity)}));
+  return aiPickScored(scored);
+}
+/* الرصّ: تجنّب الخانات التي يأكلني فيها الخصم فوراً، وفضّل الجوار والمركز */
+function sgBestPlace(b, me){
+  const free = [];
+  for(let r=0;r<5;r++) for(let c=0;c<5;c++)
+    if(b[r][c]===null && !(r===2 && c===2)) free.push([r,c]);
+  if(!free.length) return null;
+  const foe = sgFoe(me);
+  const scored = free.map(([r,c]) => {
+    const nb = sgCl(b); nb[r][c] = me;
+    let sc = 0;
+    // هل أعطي الخصم أكلاً فورياً بعد امتلاء اللوح؟ (يُحسب بالجوار المقابل)
+    for(const [dr,dc] of SG_DIRS){
+      const ar=r+dr, ac=c+dc, br=r-dr, bc=c-dc;
+      if(sgIn(ar,ac) && sgIn(br,bc)){
+        if(nb[ar][ac]===foe && nb[br][bc]===null) sc -= 6;     // نصف ساندوتش جاهز ضدّي
+        if(nb[ar][ac]===foe && nb[br][bc]===foe) sc -= 14;     // محصور فعلاً
+        if(nb[ar][ac]===me  && nb[br][bc]===null) sc += 3;     // أبني ساندوتشاً لي
+      }
+    }
+    sc += (4 - (Math.abs(r-2) + Math.abs(c-2))) * 2;           // القرب من العين
+    for(const [dr,dc] of SG_DIRS){
+      const nr=r+dr, nc=c+dc;
+      if(sgIn(nr,nc) && nb[nr][nc]===me) sc += 2;              // التماسك
+    }
+    if(AI_LEVEL === 1) sc += Math.random()*10;
+    return {mv:[r,c], sc};
+  });
+  return aiPickScored(scored);
+}
+
+/* =====================================================================
+   ليدو — تقييم الحركات (المحرّك نقيّ أصلاً: luMoves / luApply)
+===================================================================== */
+function luAiScore(st, mv){
+  const pi = st.turn, seat = st.seats[pi];
+  let sc = 0;
+  /* هل تأكل؟ نحاكي الحركة على نسخة */
+  const copy = JSON.parse(JSON.stringify(st));
+  const before = copy.pos.map(a => a.slice());
+  const legal = luMoves(copy).find(m => m.ki===mv.ki && m.di===mv.di && m.to===mv.to && !!m.together === !!mv.together);
+  if(legal){
+    const fx = luApply(copy, legal);
+    fx.kills.forEach(k => {
+      const travelled = before[k.pi][k.ki];
+      sc += 150 + travelled * 2.2;                    // كل ما بعُد الحجر المأكول زاد المكسب
+    });
+    if(fx.goal) sc += 220;
+  }
+  if(mv.out) sc += 110;                               // إخراج حجر من الساحة مهمّ
+  if(mv.to > 50 && mv.from <= 50) sc += 90;           // دخول ممرّ البيت (أمان تام)
+  sc += (mv.to - Math.max(0, mv.from)) * 1.5;         // التقدّم
+  if(mv.to <= 50){
+    const ring = (LU_START[seat] + mv.to) % 52;
+    if(ring === LU_START[seat]) sc += 22;             // خانة انطلاقي آمنة لي
+    /* تكوين دبل: قطعة أخرى لي على نفس الخانة */
+    const mates = st.pos[pi].filter((p,k) => k !== mv.ki && p === mv.to && p >= 0 && p <= 50).length;
+    if(mates >= 1 && !mv.together) sc += 55;          // أبني دبلاً/حاجزاً
+    if(mv.split) sc -= 30;                            // كسر دبل قائم يضعف الحاجز
+    /* الخطر: هل يصلني خصم بزهر 1..6 في دوره؟ */
+    if(AI_LEVEL >= 2){
+      let risk = 0;
+      for(let q=0;q<st.pos.length;q++){
+        if(q === pi) continue;
+        for(let k=0;k<4;k++){
+          const p = st.pos[q][k];
+          if(p < 0 || p > 50) continue;
+          const qr = (LU_START[st.seats[q]] + p) % 52;
+          const gap = (ring - qr + 52) % 52;
+          if(gap >= 1 && gap <= 6) risk += 1;
+        }
+      }
+      sc -= risk * (AI_LEVEL === 3 ? 26 : 12);
+    }
+  }
+  if(mv.together) sc += 12;                           // تسيير الدبل يبقيه حاجزاً
+  return sc;
+}
+function luAiPick(st){
+  const mvs = luMoves(st);
+  if(!mvs.length) return null;
+  if(AI_LEVEL === 1 && Math.random() < 0.5) return mvs[Math.floor(Math.random()*mvs.length)];
+  return aiPickScored(mvs.map(mv => ({mv, sc: luAiScore(st, mv) + (AI_LEVEL===1 ? Math.random()*90 : AI_LEVEL===2 ? Math.random()*22 : 0)})));
+}
+/* عدد الزهر الذي يختاره الجهاز لو كان هو المضيف (في وضع ضد الجهاز اللاعب يختاره) */
+
+/* =====================================================================
+   كوز جوز لوز موز — قرار التمرير وزمن الاستجابة
+===================================================================== */
+function kzAiPass(hand){
+  /* أبقِ الكلمة الأكثر تكراراً ومرّر الشاذة */
+  const cnt = {};
+  hand.forEach(w => cnt[w] = (cnt[w]||0) + 1);
+  const best = Object.keys(cnt).sort((a,b) => cnt[b] - cnt[a])[0];
+  const others = hand.map((w,i) => ({w,i})).filter(x => x.w !== best);
+  if(!others.length) return hand.length - 1;
+  if(AI_LEVEL === 1 && Math.random() < 0.4) return Math.floor(Math.random()*hand.length);
+  /* مرّر أقلّ الكلمات تكراراً عندي */
+  others.sort((a,b) => cnt[a.w] - cnt[b.w]);
+  return others[0].i;
+}
+const kzAiThink = () => (AI_LEVEL === 1 ? 1500 : AI_LEVEL === 2 ? 950 : 600) + Math.random()*700;
+const kzAiReact = () => (AI_LEVEL === 1 ? 1400 : AI_LEVEL === 2 ? 800 : 420) + Math.random()*(AI_LEVEL===3?300:700);
+
+
+/* =====================================================================
+   وصل الذكاء بالواجهة — الألعاب اللوحية الثلاث
+===================================================================== */
+const AI_SIDE = 'B';                       // الجهاز يلعب بالشكل الثاني دائماً
+let aiBusy = false;
+
+function startAiGame(){
+  mode='ai'; myColor='G'; oppName='الجهاز';
+  aiStop(); aiBusy=false;
+  destroyPeer();
+  showScreen('gameScreen'); setupBoardForGame();
+  newRoundForGame();
+  startMusic();
+  toast('ضد الجهاز — المستوى ' + AI_NAMES[AI_LEVEL]);
+}
+/* يُستدعى من updateHud بعد كل تغيّر في الحالة */
+function aiMaybeMove(){
+  if(mode !== 'ai' || gameOver || animating || aiBusy) return;
+  if(turn !== AI_SIDE) return;
+  aiBusy = true;
+  aiLater(() => { aiBusy = false; aiPlayTurn(); });
+}
+function aiPlayTurn(){
+  if(mode !== 'ai' || gameOver || turn !== AI_SIDE || animating) return;
+  if(currentGame === 'nut')        aiNutTurn();
+  else if(currentGame === 'sija')  aiSijaTurn();
+  else if(currentGame === 'seega') aiSeegaTurn();
+}
+/* ينتظر انتهاء حركة الطيران ثم ينفّذ */
+function aiAfterAnim(fn, extra){
+  const tick = () => {
+    if(mode !== 'ai' || gameOver) return;
+    if(animating){ setTimeout(tick, 60); return; }
+    setTimeout(fn, extra === undefined ? (REDUCED ? 40 : 300) : extra);
+  };
+  setTimeout(tick, 40);
+}
+function aiNutTurn(){
+  const t = naBestTurn(board, AI_SIDE);
+  if(!t) return;                                  // لا حركة — checkEnd يتكفّل
+  let i = 0;
+  const step = () => {
+    if(mode !== 'ai' || gameOver || turn !== AI_SIDE) return;
+    const [ar,ac] = t.path[i], [br,bc] = t.path[i+1];
+    i++;
+    aiBusy = true;
+    applyMove(ar, ac, br, bc);
+    aiAfterAnim(() => {
+      aiBusy = false;
+      if(i < t.path.length - 1) step();
+      else if(chainPiece) endChain();
+    });
+  };
+  step();
+}
+function aiSijaTurn(){
+  const mv = saBest(sjBoard.slice(), {G:sjPlaced.G, B:sjPlaced.B}, AI_SIDE);
+  if(!mv) return;
+  if(mv.place !== undefined) sjApplyPlace(mv.place);
+  else { sjSel = null; sjApplyMove(mv.from, mv.to); }
+}
+function aiSeegaTurn(){
+  if(sgPhase === 'place'){
+    const pl = sgBestPlace(sgBoard, AI_SIDE);
+    if(pl) sgApplyPlace(pl[0], pl[1]);
+    return;
+  }
+  if(sgChain){                                    // الأكل المتتالي: واصل أو أنهِ
+    const [cr,cc] = sgChain;
+    const opts = sgChainMoves(cr, cc);
+    if(!opts.length){ sgEndChain(); return; }
+    const scored = opts.map(([tr,tc]) => {
+      const nb = sgCl(sgBoard);
+      nb[cr][cc] = null; nb[tr][tc] = AI_SIDE;
+      sgCapsAt(nb, tr, tc, AI_SIDE).forEach(([mr,mc]) => { nb[mr][mc] = null; });
+      return {mv:[tr,tc], sc: sgEval(nb, AI_SIDE)};
+    });
+    const pick = aiPickScored(scored);
+    if(pick) sgApplyMove(cr, cc, pick[0], pick[1]); else sgEndChain();
+    return;
+  }
+  const mv = sgBestMove(sgBoard, AI_SIDE);
+  if(!mv) return;
+  sgApplyMove(mv.from[0], mv.from[1], mv.to[0], mv.to[1]);
+}
+
+/* =====================================================================
+   ليدو والسلم والثعبان — الجهاز يشغل المقاعد 1..n
+===================================================================== */
+function pgAiTick(){
+  if(!pg.ai || pg.phase !== 'play') return;
+  const st = pg.game === 'ludo' ? lu : sn;
+  if(!st || st.turn === 0) return;                      // دور اللاعب البشري
+  if(pg.game === 'ludo'){
+    if(luBusy) return;
+    aiLater(() => {
+      if(!pg.ai || pg.phase !== 'play' || lu.turn === 0 || luBusy) return;
+      if(!lu.rolled){ luHostRoll(lu.turn); return; }
+      const mv = luAiPick(lu);
+      if(mv) luHostMove(lu.turn, mv);
+    }, lu.rolled ? aiWait() : 520);
+  } else {
+    if(snBusy) return;
+    aiLater(() => {
+      if(!pg.ai || pg.phase !== 'play' || sn.turn === 0 || snBusy || sn.done.length) return;
+      snHostRoll(sn.turn);
+    }, 640);
+  }
+}
+
+/* =====================================================================
+   كوز جوز لوز موز — مباراة محلية ضد أجهزة
+===================================================================== */
+function kzAiTick(){
+  if(!kz.ai || kz.phase !== 'play') return;
+  if(kz.cur === 0) return;
+  const p = kz.cur;
+  aiLater(() => {
+    if(!kz.ai || kz.phase !== 'play' || kz.cur !== p) return;
+    const hand = kz.hostHands[p];
+    if(kzHasFour(hand)){ kzHostClaim(p); return; }
+    const idx = kzAiPass(hand);
+    kzHostApplyPass(p, hand[idx]);
+  }, kzAiThink());
+}
+function kzAiRespond(){
+  if(!kz.ai || kz.phase !== 'resp') return;
+  for(let p = 1; p < kz.players.length; p++){
+    if(p === kz.winner) continue;
+    const d = kzAiReact();
+    setTimeout(() => { if(kz.phase === 'resp') kzHostResp(p, d); }, d);
+  }
+}
+
+
+/* =====================================================================
+   شاشة «العب ضد الجهاز» — المستوى وعدد الخصوم
+===================================================================== */
+const AI_HINTS = {
+  1:'الجهاز يخطئ أحياناً — مناسب للأطفال والمبتدئين',
+  2:'خصم متوازن يفكّر قبل أن يلعب',
+  3:'الجهاز يلعب بأقصى قوّته — استعدّ جيداً',
+};
+const AI_GAMES = ['nut','sija','seega','ludo','snake','kz','mn'];
+let aiFoes = 1;                                   // عدد خصوم الجهاز في الألعاب الجماعية
+
+function openAiScreen(){
+  document.getElementById('aiTitle').textContent = 'العب ضد الجهاز — ' + GAMES[currentGame].name;
+  aiRenderLevel();
+  showScreen('aiScreen');
+}
+function aiRenderLevel(){
+  wbChips(document.getElementById('aiLevelChips'), [1,2,3], AI_LEVEL,
+          v => AI_NAMES[v], v => { aiSetLevel(v); aiRenderLevel(); });
+  document.getElementById('aiLevelHint').textContent = AI_HINTS[AI_LEVEL];
+  const ex = document.getElementById('aiExtra');
+  ex.innerHTML = '';
+  const g = currentGame;
+  if(g === 'ludo' || g === 'snake' || g === 'kz'){
+    const min = g === 'kz' ? 2 : 1, max = 3;
+    if(aiFoes < min) aiFoes = min;
+    const p1 = document.createElement('p');
+    p1.style.cssText = 'font-weight:900;margin:12px 0 2px;color:var(--brass-hi)';
+    p1.textContent = 'عدد خصوم الجهاز:';
+    const box = document.createElement('div'); box.className = 'wbChips';
+    ex.appendChild(p1); ex.appendChild(box);
+    const vals = []; for(let i=min;i<=max;i++) vals.push(i);
+    wbChips(box, vals, aiFoes, v => v === 1 ? 'خصم واحد' : v + ' خصوم',
+            v => { aiFoes = v; aiRenderLevel(); });
+  }
+  if(g === 'ludo'){
+    const p2 = document.createElement('p');
+    p2.style.cssText = 'font-weight:900;margin:12px 0 2px;color:var(--brass-hi)';
+    p2.textContent = 'عدد أحجار الزهر لكل دور:';
+    const box2 = document.createElement('div'); box2.className = 'wbChips';
+    ex.appendChild(p2); ex.appendChild(box2);
+    wbChips(box2, [1,2,3,4], pg.nDice, v => v === 1 ? 'زهر واحد' : v + ' زهرات',
+            v => { pg.nDice = v; aiRenderLevel(); });
+  }
+}
+function aiStart(){
+  const g = currentGame;
+  if(g === 'nut' || g === 'sija' || g === 'seega'){ startAiGame(); return; }
+  if(g === 'mn'){ mnStartAI(); return; }
+  if(g === 'ludo' || g === 'snake'){
+    pgLeaveAll();
+    pg.game = (g === 'ludo') ? 'ludo' : 'snake';
+    pg.ai = true; pg.online = false; pg.isHost = true; pg.myIdx = 0;
+    const n = aiFoes + 1;
+    const seats = PG_SEATS[n] || PG_SEATS[4];
+    pg.count = n;
+    pg.players = [{name: names.me.trim() || 'أنت', seat: seats[0]}];
+    for(let i=1;i<n;i++) pg.players.push({name: 'الجهاز ' + i, seat: seats[i]});
+    pgStartMatch();
+    toast('ضد الجهاز — المستوى ' + AI_NAMES[AI_LEVEL]);
+    return;
+  }
+  if(g === 'kz'){ kzStartAi(); return; }
+}
+/* كوز جوز: مباراة محلية بالكامل مع أجهزة */
+function kzStartAi(){
+  kzDestroyPeer(); aiStop();
+  kz.ai = true; kz.isHost = true; kz.myIdx = 0; kz.phase = 'idle';
+  const n = aiFoes + 1;
+  kz.players = [{name: names.me.trim() || 'أنت'}];
+  for(let i=1;i<n;i++) kz.players.push({name: 'الجهاز ' + i});
+  kz.totals = kz.players.map(() => 0);
+  kz.rounds = kz.rounds || 3;
+  kzStartMatch();
+  toast('ضد الجهاز — المستوى ' + AI_NAMES[AI_LEVEL]);
+}
+document.getElementById('aiBtn').onclick = openAiScreen;
+document.getElementById('aiStartBtn').onclick = aiStart;
+
 /* =====================================================================
    زر/إيماءة الرجوع — تأكيد في الرئيسية، رجوع منظّم، ومعطّل أثناء اللعب
 ===================================================================== */
 const BACK_MAP = {
   gameMenuScreen:'hub', rulesScreen:'gamemenu', namesScreen:'hub',
   shapeScreen:'gamemenu', onlineScreen:'gamemenu', btScreen:'gamemenu',
-  permScreen:'gamemenu', wbSetupScreen:'gamemenu',
+  permScreen:'gamemenu', wbSetupScreen:'gamemenu', aiScreen:'gamemenu',
   wbLobbyScreen:'gamemenu', kzLobbyScreen:'gamemenu', mnLobbyScreen:'gamemenu',
   pgLobbyScreen:'gamemenu', pgSetupScreen:'gamemenu',
 };
@@ -5557,7 +6207,7 @@ function showScreen(id){
 }
 function goHub(){
   try{ if(window.Board3D) window.Board3D.hide(); document.getElementById('boardWrap').classList.remove('d3'); }catch(e){}
-  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); pgLeaveAll(); clearInterval(wb.timerId);
+  destroyPeer(); wbDestroyPeer(); kzDestroyPeer(); mnLeaveAll(); pgLeaveAll(); aiStop(); clearInterval(wb.timerId);
   try{ if(BTP()) BTP().stop(); }catch(e){}
   NET_TRANSPORT='sb';
   wb.phase='idle'; wb.online=false; kz.phase='end';
@@ -5571,7 +6221,7 @@ function openGameMenu(game){
   NET_TRANSPORT='sb';
   document.getElementById('gameMenuTitle').textContent = GAMES[game].name;
   document.getElementById('logoTop').src = GAMES[game].logo;
-  document.getElementById('localBtn').style.display = game==='kz' ? 'none' : 'flex';   // كوز جوز: أونلاين فقط
+  document.getElementById('localBtn').style.display = (game==='kz' || game==='mn') ? 'none' : 'flex';
   document.getElementById('localBtnTxt').innerHTML = game==='mn'
     ? 'العب ضد الجهاز<small>جولة سريعة بلا إنترنت ولا شريك</small>'
     : (game==='ludo' || game==='snake'
@@ -5579,6 +6229,10 @@ function openGameMenu(game){
         : 'لاعبان على نفس الجهاز<small>تناوبا الأدوار على شاشة واحدة</small>');
   if(game==='ludo' || game==='snake') pg.game = (game==='ludo' ? 'ludo' : 'snake');
   document.getElementById('btBtn').style.display = isNativeApp() ? 'flex' : 'none';
+  document.getElementById('aiBtn').style.display = AI_GAMES.includes(game) ? 'flex' : 'none';
+  document.getElementById('aiBtnTxt').innerHTML = game==='mn'
+    ? 'العب ضد الجهاز<small>خصم يسأل ويستبعد بذكاء — بلا إنترنت</small>'
+    : 'العب ضد الجهاز<small>خصم ذكي بثلاثة مستويات — بلا إنترنت</small>';
   showScreen('gameMenuScreen');
 }
 function showOverlay(title,msg){
@@ -5597,7 +6251,6 @@ function toast(msg){
 document.querySelectorAll('.gameCard').forEach(b => b.onclick = () => openGameMenu(b.dataset.game));
 document.getElementById('localBtn').onclick =()=>{
   if(currentGame==='wbjn'){ wbRenderSetup(); showScreen('wbSetupScreen'); return; }
-  if(currentGame==='mn'){ mnStartAI(); return; }
   if(currentGame==='ludo' || currentGame==='snake'){ pgRenderSetup(); showScreen('pgSetupScreen'); return; }
   openShapeScreen('local1');
 };

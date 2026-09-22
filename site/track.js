@@ -193,7 +193,7 @@
   /* ---------- الشريط السفلي المتحرّك ---------- */
   const GAME_AR = {all:'التطبيق', nut:'نط الكلب', sija:'صفرجت', seega:'السيجة الكبرى',
                    wbjn:'ولد بنت جماد نبات', kz:'كوز جوز لوز موز', mn:'أنا مِنو',
-                   ludo:'ولِيدو', snake:'السلم والثعبان'};
+                   ludo:'ليدو', snake:'السلم والثعبان'};
   window.ajGameName = k => GAME_AR[k] || k;
 
   window.ajTicker = async function(){

@@ -1,5 +1,5 @@
 /* نط الكلب — service worker: يجعل اللعبة تعمل بلا إنترنت (الوضع المحلي) */
-const CACHE = 'abujanan-v16';
+const CACHE = 'abujanan-v17';
 const PRECACHE = [
   './',
   'index.html',
