@@ -15,7 +15,7 @@
 البناء: `bash android/build-apk.sh` (أو `KB_SERVER_URL=https://… bash android/build-apk.sh` لتضمين عنوان خادم افتراضي).
 يحتاج `aapt2 javac zipalign apksigner` و `android.jar` (منصة 23)، ومُجمّع DEX الموجود في `../android/tools/`.
 
-> مفتاح التوقيع يُنشأ في `android/keystore/` (غير مرفوع). احتفظ به لتثبيت التحديثات فوق النسخة القديمة.
+> مفتاح التوقيع محفوظ في `android/keystore/abujinan.keystore` داخل المستودع، حتى تُوقَّع كل النسخ الجديدة بنفس المفتاح وتُثبَّت فوق القديمة. لا تجعل المستودع عامًا ما دام المفتاح فيه.
 
 ## 🎮 طريقة اللعب
 

@@ -2,5 +2,4 @@ node_modules/
 dist/
 data/
 android/build/
-android/keystore/
 release/*.idsig
