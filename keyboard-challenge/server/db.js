@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS game_rooms (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   code         TEXT NOT NULL UNIQUE,
   difficulty   TEXT NOT NULL,
-  phraseIndex  INTEGER NOT NULL,
+  pool         TEXT NOT NULL,
+  textId       TEXT NOT NULL,
+  round        INTEGER NOT NULL DEFAULT 1,
   status       TEXT NOT NULL DEFAULT 'waiting' CHECK (status IN ('waiting','racing','finished')),
   createdBy    INTEGER NOT NULL REFERENCES users(id),
   createdAt    INTEGER NOT NULL,
@@ -51,7 +53,7 @@ CREATE TABLE IF NOT EXISTS solo_rounds (
   id           TEXT PRIMARY KEY,
   userId       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   difficulty   TEXT NOT NULL,
-  phraseIndex  INTEGER NOT NULL,
+  textId       TEXT NOT NULL,
   startedAt    INTEGER NOT NULL,
   usedAt       INTEGER
 );
@@ -61,23 +63,38 @@ CREATE TABLE IF NOT EXISTS game_results (
   userId       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   displayName  TEXT NOT NULL,
   difficulty   TEXT NOT NULL,
-  phraseIndex  INTEGER NOT NULL,
+  textId       TEXT NOT NULL,
+  category     TEXT NOT NULL,
+  kind         TEXT NOT NULL,
   wpm          INTEGER NOT NULL CHECK (wpm BETWEEN 0 AND 999),
   accuracy     INTEGER NOT NULL CHECK (accuracy BETWEEN 0 AND 100),
   roomId       INTEGER REFERENCES game_rooms(id) ON DELETE SET NULL,
   completedAt  INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_results_week ON game_results (completedAt, difficulty);
+CREATE INDEX IF NOT EXISTS idx_results_week ON game_results (completedAt, kind);
 CREATE INDEX IF NOT EXISTS idx_results_user ON game_results (userId, completedAt);
 CREATE INDEX IF NOT EXISTS idx_sessions_exp ON sessions (expiresAt);
 `;
+
+const SCHEMA_VERSION = 2;
+
+/** الإصدار 2 يربط الجولات بمعرّف النص بدل رقم الجملة: تُعاد جداول اللعب وتبقى الحسابات. */
+function migrate(db) {
+  const { user_version: v } = db.prepare('PRAGMA user_version').get();
+  const hasRooms = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'game_rooms'").get();
+  if (hasRooms && v < 2) {
+    db.exec('DROP TABLE IF EXISTS room_players; DROP TABLE IF EXISTS game_results; DROP TABLE IF EXISTS solo_rounds; DROP TABLE IF EXISTS game_rooms;');
+  }
+}
 
 export function openDatabase(path = ':memory:') {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
   if (path !== ':memory:') db.exec('PRAGMA journal_mode = WAL;');
+  migrate(db);
   db.exec(SCHEMA);
+  db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`);
   return db;
 }
 

@@ -1,15 +1,32 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  DIFFICULTIES, TypingTracker, computeWpm, computeAccuracy, computeProgress, trackPosition,
-  weekStartUTC, compareResults, pickPhraseIndex, normalizeRoomCode, isValidRoomCode, botCharsPerSecond,
+  DIFFICULTIES, TypingTracker, computeWpm, computeAccuracy, computeProgress, trackPosition, roundSeconds,
+  weekStartUTC, compareResults, normalizeRoomCode, isValidRoomCode, botCharsPerSecond, normalizeInput,
 } from '../shared/game.js';
+import { CATEGORIES, KINDS, getText, allTextIds, randomTextId, MIX } from '../shared/texts/index.js';
 
-test('ثلاثة مستويات لكل منها جمل مختلفة', () => {
+test('ثلاثة مستويات تحدد سرعة المنافسين والوقت', () => {
   assert.deepEqual(Object.keys(DIFFICULTIES), ['easy', 'medium', 'rocket']);
-  const all = Object.values(DIFFICULTIES).flatMap((d) => d.phrases);
-  assert.equal(new Set(all).size, all.length);
-  assert.equal(DIFFICULTIES.medium.seconds, 42);
+  assert.ok(roundSeconds(40, 'easy') > roundSeconds(40, 'rocket'));
+  assert.ok(roundSeconds(800, 'medium') > roundSeconds(40, 'medium'));
+  assert.equal(roundSeconds(5, 'rocket'), 30);
+});
+
+test('خمس كاتوجريات × ثلاثة أنواع × 30 نصًا', () => {
+  assert.equal(CATEGORIES.length, 5);
+  assert.deepEqual(KINDS.map((k) => k.id), ['short', 'long', 'article']);
+  for (const c of CATEGORIES) for (const k of KINDS) assert.equal(allTextIds(c.id, k.id).length, 30, `${c.id}:${k.id}`);
+  assert.equal(allTextIds(MIX, 'short').length, 150);
+  const t = getText('islamic:long:0');
+  assert.ok(t.text && t.source);
+  assert.equal(getText('nope:short:0'), null);
+  assert.equal(getText('general:short:99'), null);
+  for (let i = 0; i < 20; i++) assert.ok(getText(randomTextId(MIX, 'article')).title);
+});
+
+test('الأرقام الهندية والفاصلة اللاتينية تُقبل', () => {
+  assert.equal(normalizeInput('١٨ درجة, تمام?'), '18 درجة، تمام؟');
 });
 
 test('WPM = (الحروف / 5) / الدقائق مع التقريب والتقييد', () => {
@@ -76,13 +93,6 @@ test('الترتيب: WPM ثم الدقة ثم الأقدم', () => {
     { id: 'd', wpm: 50, accuracy: 90, completedAt: 1 },
   ];
   assert.deepEqual(rows.sort(compareResults).map((r) => r.id), ['b', 'c', 'd', 'a']);
-});
-
-test('جملة جديدة مختلفة عن السابقة', () => {
-  for (let i = 0; i < 50; i++) {
-    const prev = i % DIFFICULTIES.medium.phrases.length;
-    assert.notEqual(pickPhraseIndex('medium', prev), prev);
-  }
 });
 
 test('سرعة المنافسين الآليين ضمن النطاق', () => {

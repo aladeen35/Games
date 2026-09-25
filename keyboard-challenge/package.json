@@ -10,7 +10,7 @@
     "start:dist": "STATIC_DIR=dist node --disable-warning=ExperimentalWarning server/index.js",
     "dev": "node --disable-warning=ExperimentalWarning --watch server/index.js",
     "test": "node --disable-warning=ExperimentalWarning --test \"test/*.test.js\"",
-    "check": "node scripts/check.js && node --disable-warning=ExperimentalWarning --test \"test/*.test.js\"",
+    "check": "node scripts/check.js && node scripts/validate-texts.js && node --disable-warning=ExperimentalWarning --test \"test/*.test.js\"",
     "build": "node scripts/build.js"
   }
 }

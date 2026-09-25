@@ -27,10 +27,17 @@ const SECURITY_HEADERS = {
   'Referrer-Policy': 'same-origin',
   'X-Frame-Options': 'DENY',
   'Content-Security-Policy':
-    "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+    "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self' http: https:; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
 };
 
 const MAX_BODY = 16 * 1024;
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '600',
+};
 
 function send(res, status, body, headers = {}) {
   res.writeHead(status, { ...SECURITY_HEADERS, ...headers });
@@ -71,19 +78,22 @@ export function createApp({
   const handlers = createHandlers({ db, presence });
 
   async function handleApi(req, res, name) {
+    // تطبيق أندرويد يعمل من نطاق مختلف ويستخدم رمز Bearer بدل الكوكي، لذلك نسمح بـ CORS بلا كوكيز.
+    if (req.method === 'OPTIONS') return send(res, 204, '', CORS_HEADERS);
     if (req.method !== 'POST') return sendJson(res, 405, { error: { code: 'method', message: 'استخدم POST' } });
     if (!Object.prototype.hasOwnProperty.call(handlers, name)) {
-      return sendJson(res, 404, { error: { code: 'unknown', message: 'إجراء غير معروف' } });
+      return sendJson(res, 404, { error: { code: 'unknown', message: 'إجراء غير معروف' } }, CORS_HEADERS);
     }
     // طلبات JSON فقط: تمنع إرسال النماذج من مواقع أخرى (حماية CSRF مع SameSite).
     if (!String(req.headers['content-type'] || '').startsWith('application/json')) {
-      return sendJson(res, 415, { error: { code: 'contentType', message: 'المحتوى يجب أن يكون JSON' } });
+      return sendJson(res, 415, { error: { code: 'contentType', message: 'المحتوى يجب أن يكون JSON' } }, CORS_HEADERS);
     }
     const cookies = parseCookies(req.headers.cookie);
     const t = now();
-    const sessionToken = cookies[SESSION_COOKIE] || null;
+    const bearer = /^Bearer\s+([A-Za-z0-9_-]{20,100})$/.exec(String(req.headers.authorization || ''));
+    const sessionToken = bearer ? bearer[1] : cookies[SESSION_COOKIE] || null;
     const secure = req.headers['x-forwarded-proto'] === 'https' || req.socket.encrypted === true;
-    const outHeaders = {};
+    const outHeaders = { ...CORS_HEADERS };
     const ctx = {
       now: t,
       sessionToken,
@@ -105,7 +115,7 @@ export function createApp({
         sendJson(res, err.status, { error: { code: err.code, message: err.message } }, outHeaders);
       } else {
         console.error(`[api ${name}]`, err);
-        sendJson(res, 500, { error: { code: 'internal', message: 'حصل خطأ في الخادم، جرب مرة ثانية' } });
+        sendJson(res, 500, { error: { code: 'internal', message: 'حصل خطأ في الخادم، جرب مرة ثانية' } }, CORS_HEADERS);
       }
     }
   }

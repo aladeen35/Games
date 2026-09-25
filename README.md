@@ -1,4 +1,4 @@
-> 🎮 **جديد:** [تحدي الـ Keyboard مع أبو جنان](keyboard-challenge/) — سباق كتابة عربي متعدد اللاعبين.
+> 🎮 **جديد:** [تحدي الـ Keyboard مع أبو جنان](keyboard-challenge/) — سباق كتابة عربي: منفرد، أونلاين، أو بلوتوث · [تحميل APK](keyboard-challenge/release/AbuJinanKeyboard-2.0.apk)
 
 # 🎨 عالم الألوان مع جنان
 

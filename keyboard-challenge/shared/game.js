@@ -1,57 +1,26 @@
 // منطق اللعبة المشترك بين الواجهة والخادم — تحدي الـ Keyboard مع أبو جنان
 // ملف ES Module بلا اعتماديات، يُحمَّل في المتصفح ويُستورد في Node.
 
-export const ROUND_SECONDS = 42;
 export const MAX_WPM = 220;          // أعلى سرعة يقبلها الخادم
 export const SYNC_INTERVAL_MS = 2500;
+export const COUNTDOWN_MS = 3000;    // العد التنازلي قبل الانطلاق
 
+// المستوى يحدد سرعة المنافسين وسخاء المؤقت؛ النص نفسه يأتي من الفئة والنوع.
 export const DIFFICULTIES = {
   easy: {
-    id: 'easy',
-    label: 'هادي',
-    hint: 'جمل قصيرة ومنافسون على راحتهم',
-    seconds: 55,
-    expectedWpm: 22,
-    botRange: [0.65, 0.78],
-    phrases: [
-      'اللمة الحلوة بتخلي الشغل ساهل',
-      'صباح الخير يا زول، اليوم يوم السرعة',
-      'الشاي بالنعناع في العصرية',
-      'النيل جاري والقلب فرحان',
-      'أكتب براحة وركز في الحروف',
-      'الجنينة خضراء والجو جميل',
-    ],
+    id: 'easy', label: 'هادي', icon: '🐢',
+    hint: 'منافسون على راحتهم ووقت واسع',
+    expectedWpm: 22, botRange: [0.65, 0.78], slack: 2.1,
   },
   medium: {
-    id: 'medium',
-    label: 'معتدل',
-    hint: 'المستوى الافتراضي: توازن بين السرعة والدقة',
-    seconds: ROUND_SECONDS,
-    expectedWpm: 32,
-    botRange: [0.78, 0.94],
-    phrases: [
-      'أكتب أسرع وخلي أبو جنان يقود السباق',
-      'من الخرطوم تبدأ الحكاية وبالكلمة نصل',
-      'ريحة القهوة في أم درمان بتجيب الهمة',
-      'على شط النيل الأزرق الناس بتتلاقى',
-      'الكيبورد في إيدك والسباق في راسك',
-      'كل صباح جديد فرصة نكتب أحسن',
-    ],
+    id: 'medium', label: 'معتدل', icon: '🏃',
+    hint: 'توازن بين السرعة والدقة',
+    expectedWpm: 32, botRange: [0.78, 0.94], slack: 1.7,
   },
   rocket: {
-    id: 'rocket',
-    label: 'صاروخ',
-    hint: 'جمل طويلة وترقيم ومنافسون سريعون',
-    seconds: ROUND_SECONDS,
-    expectedWpm: 42,
-    botRange: [0.92, 1.08],
-    phrases: [
-      'يا صاحبي خليك صاحي، الجملة دي دايرة تركيز شديد',
-      'في شارع النيل كل حرف محسوب وكل ثانية بتفرق',
-      'من توتي لي بحري، الأصابع بتجري والعيون بتراقب',
-      'الصبر مفتاح الفرج، لكن في السباق السرعة مفتاح الفوز',
-      'لو غلطت ما تزعل؛ صحح الحرف وواصل الجري',
-    ],
+    id: 'rocket', label: 'صاروخ', icon: '🚀',
+    hint: 'منافسون سريعون ووقت ضيق',
+    expectedWpm: 42, botRange: [0.92, 1.08], slack: 1.4,
   },
 };
 
@@ -62,27 +31,25 @@ export function isDifficulty(d) {
   return typeof d === 'string' && Object.prototype.hasOwnProperty.call(DIFFICULTIES, d);
 }
 
-export function getPhrase(difficulty, index) {
-  const list = DIFFICULTIES[difficulty].phrases;
-  return list[((index % list.length) + list.length) % list.length];
-}
-
-/** رقم جملة عشوائي مختلف عن السابق إن أمكن. */
-export function pickPhraseIndex(difficulty, previous = -1, rand = Math.random) {
-  const n = DIFFICULTIES[difficulty].phrases.length;
-  if (n <= 1) return 0;
-  let i = Math.floor(rand() * n);
-  if (i === previous) i = (i + 1 + Math.floor(rand() * (n - 1))) % n;
-  return i;
+/** زمن الجولة بالثواني حسب طول النص والمستوى (بين 30 ثانية و15 دقيقة). */
+export function roundSeconds(textLength, difficulty = DEFAULT_DIFFICULTY) {
+  const d = DIFFICULTIES[difficulty] || DIFFICULTIES[DEFAULT_DIFFICULTY];
+  const cps = (d.expectedWpm * 5) / 60;
+  return clamp(Math.ceil(12 + (textLength / cps) * d.slack), 30, 900);
 }
 
 // مكافئات مقبولة من لوحات المفاتيح المختلفة (فاصلة لاتينية بدل العربية مثلًا).
-const EQUIV = { ',': '،', '?': '؟', ';': '؛', '\u00A0': ' ' };
+const EQUIV = {
+  ',': '،', '?': '؟', ';': '؛', '\u00A0': ' ', '\u200F': '', '\u200E': '',
+  'ی': 'ي', 'ک': 'ك', // لوحات فارسية
+  '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4', '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+  '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
+};
 
 /** تحويل حرف مُدخل إلى صيغته القياسية قبل المقارنة. */
 export function normalizeChar(ch) {
   const e = EQUIV[ch];
-  return e ? e : ch;
+  return e === undefined ? ch : e;
 }
 
 export function normalizeInput(str) {

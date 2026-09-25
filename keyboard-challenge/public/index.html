@@ -2,216 +2,325 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <title>تحدي الـ Keyboard مع أبو جنان</title>
-  <meta name="description" content="سباق كتابة عربي بطابع سوداني: اكتب الجملة بأسرع وقت وأعلى دقة، ونافس أصحابك في غرف مباشرة.">
+  <meta name="description" content="سباق كتابة عربي بطابع سوداني: اختار الكاتوجري ونوع النص، واكتب أسرع من منافسيك منفردًا أو أونلاين أو بالبلوتوث.">
   <meta name="theme-color" content="#09182B">
   <link rel="icon" type="image/png" href="assets/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="fonts/baloo-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
   <script type="module" src="app.js"></script>
 </head>
 <body>
-  <a class="skip" href="#typing">تخطَّ إلى منطقة الكتابة</a>
+  <div class="bg" aria-hidden="true">
+    <span class="bg-stars"></span>
+    <span class="bg-moon"></span>
+    <span class="bg-dunes"></span>
+    <span class="bg-nile"></span>
+  </div>
 
-  <!-- الشريط العلوي -->
-  <header class="topbar">
-    <div class="brand">
-      <span class="asset">
-        <img class="brand-logo" src="assets/logo.webp" alt="شعار تحدي الـ Keyboard مع أبو جنان" width="56" height="56">
-        <span class="asset-fallback brand-fallback" aria-hidden="true">⌨️</span>
-      </span>
-      <span class="brand-name">تحدي الـ Keyboard <small>مع أبو جنان</small></span>
-    </div>
-    <div class="topbar-actions">
-      <span class="pill online" id="online" title="عدد اللاعبين الأونلاين الآن">
-        <span class="dot" aria-hidden="true"></span><span id="onlineCount">—</span> أونلاين
-      </span>
-      <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="كتم الصوت" title="الصوت">
-        <span aria-hidden="true" id="soundIcon">🔊</span>
-      </button>
-      <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="dialog" aria-label="القائمة" title="القائمة">
-        <span aria-hidden="true">☰</span>
-      </button>
-    </div>
-  </header>
+  <div class="app" id="app">
 
-  <main>
-    <!-- منطقة البداية -->
-    <section class="hero" aria-labelledby="heroTitle">
-      <div class="hero-text">
-        <p class="chip"><span aria-hidden="true">📍</span> الخرطوم · <span id="roundName">جولة شارع النيل</span></p>
-        <h1 id="heroTitle">مين أسرع زول في الكيبورد؟</h1>
-        <p class="lead">اكتب الجملة زي ما هي بالضبط، بالمسافات وعلامات الترقيم. كل حرف صحيح بيقدّم أبو جنان خطوة نحو خط النهاية على اليسار.</p>
-
-        <fieldset class="levels" id="levels">
-          <legend>اختار المستوى</legend>
-          <label><input type="radio" name="level" value="easy"><span>🐢 هادي</span></label>
-          <label><input type="radio" name="level" value="medium" checked><span>🏃 معتدل</span></label>
-          <label><input type="radio" name="level" value="rocket"><span>🚀 صاروخ</span></label>
-        </fieldset>
-        <p class="level-hint" id="levelHint"></p>
-
-        <div class="hero-actions">
-          <button class="btn btn-primary btn-lg" id="startBtn" type="button">ابدأ الجولة</button>
-          <p class="hint"><kbd>المسافة</kbd> جزء من الجملة — ما تنساها بين الكلمات.</p>
-        </div>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <span class="asset">
-          <img src="assets/abu-jinan-runner.webp" alt="" width="317" height="520">
-          <span class="asset-fallback art-fallback">🏃🏾‍♂️⌨️</span>
+    <!-- ═════════ الانترو ═════════ -->
+    <section class="screen screen-intro active" data-screen="intro" aria-label="البداية">
+      <div class="intro-stage">
+        <span class="asset intro-logo">
+          <img src="assets/logo.webp" alt="تحدي الـ Keyboard مع أبو جنان" width="280" height="280">
+          <span class="asset-fallback logo-fallback">⌨️ تحدي الـ Keyboard<br>مع أبو جنان</span>
         </span>
+        <div class="intro-run" aria-hidden="true">
+          <img class="sprite" data-sprite="intro" src="assets/abu-jinan-runner.webp" alt="" width="120" height="197">
+          <span class="dust"></span>
+        </div>
+        <p class="intro-tag">سباق الكتابة العربي بطابع سوداني</p>
+        <button class="btn btn-sand btn-xl pulse" id="introBtn" type="button">اضغط للبدء</button>
       </div>
     </section>
 
-    <!-- المضمار -->
-    <section class="track-wrap" aria-label="المضمار">
-      <div class="track" id="track">
-        <div class="track-sky" aria-hidden="true">
-          <span class="star s1"></span><span class="star s2"></span><span class="star s3"></span>
-          <span class="moon"></span>
-          <span class="skyline"></span>
-        </div>
-        <div class="sign sign-start" aria-hidden="true">البداية ←</div>
-        <div class="sign sign-finish" aria-hidden="true">🏁 النهاية</div>
-        <div class="finish-line" aria-hidden="true"></div>
-        <ol class="lanes" id="lanes" aria-live="off"></ol>
-        <div class="nile" aria-hidden="true"></div>
+    <!-- ═════════ الشريط العلوي (لكل الشاشات عدا الانترو والسباق) ═════════ -->
+    <header class="topbar" id="topbar" hidden>
+      <button class="icon-btn" id="backBtn" type="button" aria-label="رجوع" title="رجوع"><span aria-hidden="true">→</span></button>
+      <h1 class="topbar-title" id="topbarTitle">الرئيسية</h1>
+      <div class="topbar-actions">
+        <span class="pill online" id="online" title="اللاعبون الأونلاين الآن"><span class="dot" aria-hidden="true"></span><span id="onlineCount">—</span></span>
+        <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="كتم الصوت"><span aria-hidden="true" id="soundIcon">🔊</span></button>
+        <button class="icon-btn" id="settingsBtn" type="button" aria-label="الإعدادات"><span aria-hidden="true">⚙️</span></button>
       </div>
-      <p class="track-caption" id="trackCaption">الاتجاه: من اليمين إلى اليسار ←</p>
+    </header>
+
+    <!-- ═════════ الرئيسية ═════════ -->
+    <section class="screen screen-home" data-screen="home" aria-labelledby="homeTitle">
+      <div class="home-hero">
+        <span class="asset home-logo">
+          <img src="assets/logo.webp" alt="" width="200" height="200">
+          <span class="asset-fallback logo-fallback">⌨️</span>
+        </span>
+        <div class="home-copy">
+          <h2 id="homeTitle">مين أسرع زول في الكيبورد؟</h2>
+          <p class="muted" id="homeGreeting">اختار طريقة اللعب وخلي أبو جنان يقود السباق.</p>
+        </div>
+        <div class="home-char" aria-hidden="true">
+          <img class="sprite" data-sprite="home" src="assets/abu-jinan-runner.webp" alt="" width="150" height="246">
+        </div>
+      </div>
+
+      <nav class="menu" aria-label="طرق اللعب">
+        <button class="menu-btn menu-solo" type="button" data-go="solo">
+          <span class="menu-icon" aria-hidden="true">🏁</span>
+          <span class="menu-text"><b>العب منفرد</b><small>ضد منافسين آليين</small></span>
+        </button>
+        <button class="menu-btn menu-online" type="button" data-go="online">
+          <span class="menu-icon" aria-hidden="true">🌐</span>
+          <span class="menu-text"><b>تحدَّ أصحابك أونلاين</b><small>غرف بكود أو رابط دعوة</small></span>
+        </button>
+        <button class="menu-btn menu-bt" type="button" data-go="bt">
+          <span class="menu-icon" aria-hidden="true">📶</span>
+          <span class="menu-text"><b>العب بالبلوتوث</b><small id="btMenuHint">جهازين قريبين بدون إنترنت</small></span>
+        </button>
+        <div class="menu-row">
+          <button class="menu-btn menu-small" type="button" data-go="board"><span class="menu-icon" aria-hidden="true">🏆</span><b>ترتيب الأسبوع</b></button>
+          <button class="menu-btn menu-small" type="button" data-go="howto"><span class="menu-icon" aria-hidden="true">❓</span><b>طريقة اللعب</b></button>
+        </div>
+      </nav>
     </section>
 
-    <!-- منطقة الكتابة -->
-    <section class="typing card" id="typing" aria-labelledby="typingTitle">
-      <div class="typing-head">
-        <h2 id="typingTitle">الجملة المطلوبة</h2>
-        <div class="stats" role="group" aria-label="الإحصائيات">
-          <div class="stat"><span class="stat-label">الوقت</span><span class="stat-value" id="timer">42</span></div>
-          <div class="stat"><span class="stat-label">WPM</span><span class="stat-value" id="wpm">0</span></div>
-          <div class="stat"><span class="stat-label">الدقة</span><span class="stat-value" id="accuracy">100%</span></div>
-          <div class="stat"><span class="stat-label">الحرف الحالي</span><span class="stat-value current-char" id="currentChar">—</span></div>
-        </div>
+    <!-- ═════════ اختيار الكاتوجري والنوع ═════════ -->
+    <section class="screen screen-setup" data-screen="setup" aria-labelledby="setupTitle">
+      <h2 class="screen-title" id="setupTitle">جهّز جولتك</h2>
+
+      <div class="step">
+        <h3 class="step-title"><span class="step-no">1</span> اختار الكاتوجري</h3>
+        <div class="cards cat-cards" id="catCards" role="radiogroup" aria-label="الكاتوجري"></div>
       </div>
 
-      <p class="phrase" id="phrase" lang="ar"></p>
+      <div class="step">
+        <h3 class="step-title"><span class="step-no">2</span> نوع الكتابة</h3>
+        <div class="cards kind-cards" id="kindCards" role="radiogroup" aria-label="نوع الكتابة"></div>
+      </div>
+
+      <div class="step">
+        <h3 class="step-title"><span class="step-no">3</span> سرعة المنافسين</h3>
+        <div class="chips" id="levelChips" role="radiogroup" aria-label="المستوى"></div>
+        <p class="muted small" id="levelHint"></p>
+      </div>
+
+      <div class="setup-go">
+        <button class="btn btn-sand btn-xl" id="setupGo" type="button">يلا نبدأ 🏁</button>
+      </div>
+    </section>
+
+    <!-- ═════════ السباق ═════════ -->
+    <section class="screen screen-game" data-screen="game" aria-label="السباق">
+      <header class="hud">
+        <button class="icon-btn hud-quit" id="quitBtn" type="button" aria-label="إنهاء الجولة"><span aria-hidden="true">✕</span></button>
+        <div class="hud-meta">
+          <span class="hud-cat" id="hudCat">—</span>
+          <span class="hud-kind" id="hudKind">—</span>
+        </div>
+        <div class="hud-stats" role="group" aria-label="الإحصائيات">
+          <div class="hud-stat timer"><span class="lbl">الوقت</span><span class="val" id="timer">0</span></div>
+          <div class="hud-stat"><span class="lbl">WPM</span><span class="val" id="wpm">0</span></div>
+          <div class="hud-stat"><span class="lbl">الدقة</span><span class="val" id="accuracy">100%</span></div>
+        </div>
+      </header>
       <div class="timebar" aria-hidden="true"><span id="timebar"></span></div>
 
-      <label class="sr-only" for="input">اكتب الجملة هنا</label>
-      <input class="type-input" id="input" type="text" dir="rtl" lang="ar"
-             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-             enterkeyhint="done" inputmode="text" placeholder="اضغط هنا وابدأ الكتابة…">
+      <div class="track" id="track">
+        <div class="track-sign sign-finish" aria-hidden="true">🏁</div>
+        <div class="finish-line" aria-hidden="true"></div>
+        <ol class="lanes" id="lanes"></ol>
+      </div>
+
+      <div class="play-area">
+        <div class="coach" aria-hidden="true">
+          <img class="sprite" data-sprite="coach" src="assets/abu-jinan-runner.webp" alt="" width="170" height="279">
+          <span class="coach-bubble" id="coachBubble">يلا!</span>
+        </div>
+        <div class="text-card" id="textCard">
+          <div class="text-head">
+            <h3 class="text-title" id="textTitle" hidden></h3>
+            <span class="text-progress" id="textProgress">0%</span>
+          </div>
+          <div class="phrase-wrap" id="phraseWrap">
+            <p class="phrase" id="phrase" lang="ar"></p>
+          </div>
+          <p class="text-source" id="textSource" hidden></p>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <label class="sr-only" for="input">اكتب هنا</label>
+        <input class="type-input" id="input" type="text" dir="rtl" lang="ar"
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+               enterkeyhint="next" inputmode="text" placeholder="اكتب الكلمة الحالية هنا…">
+        <span class="next-char" id="currentChar" title="الحرف التالي">—</span>
+      </div>
       <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
+      <div class="vkb" id="vkb" dir="ltr" aria-hidden="true"></div>
 
-      <details class="kb-details" id="kbDetails" open>
-        <summary>الكيبورد العربي المرئي</summary>
-        <div class="vkb" id="vkb" dir="ltr" aria-hidden="true"></div>
-      </details>
+      <div class="countdown" id="countdown" hidden><span id="countdownNum">3</span></div>
     </section>
 
-    <!-- ساحة أبو جنان -->
-    <section class="arena" aria-labelledby="arenaTitle">
-      <h2 id="arenaTitle" class="arena-title">ساحة أبو جنان</h2>
-      <div class="arena-grid">
-        <!-- الغرف -->
-        <article class="card rooms" aria-labelledby="roomsTitle">
-          <header class="card-head">
-            <h3 id="roomsTitle">🏟️ الغرف</h3>
-            <span class="sync" id="syncStatus" role="status">فردي</span>
-          </header>
-
-          <div id="roomLobby">
-            <p class="muted" id="roomAuthNote">العب مع أصحابك: أنشئ غرفة وأرسل الكود، أو انضم بكود صاحبك.</p>
-            <div class="room-actions">
-              <button class="btn btn-green" id="createRoomBtn" type="button">إنشاء غرفة جديدة</button>
-              <form class="join-form" id="joinForm" autocomplete="off">
-                <label class="sr-only" for="joinCode">كود الغرفة</label>
-                <input id="joinCode" class="code-input" type="text" dir="ltr" maxlength="5" placeholder="NILE7"
-                       autocapitalize="characters" spellcheck="false" inputmode="latin" pattern="[A-Za-z0-9]{5}">
-                <button class="btn btn-ghost" type="submit">انضم</button>
-              </form>
-            </div>
-          </div>
-
-          <div id="roomPanel" hidden>
-            <div class="room-code-row">
-              <div>
-                <span class="muted">كود الغرفة</span>
-                <strong class="room-code" id="roomCode" dir="ltr">—</strong>
-              </div>
-              <div class="room-code-actions">
-                <button class="btn btn-ghost btn-sm" id="copyCodeBtn" type="button">نسخ الكود</button>
-                <button class="btn btn-ghost btn-sm" id="copyLinkBtn" type="button">نسخ رابط الدعوة</button>
-              </div>
-            </div>
-            <p class="room-meta"><span id="roomLevel">—</span> · <span id="roomStatus">—</span></p>
-            <ul class="players" id="players"></ul>
-            <div class="room-actions">
-              <button class="btn btn-primary" id="roomStartBtn" type="button">ابدأ الجولة للجميع</button>
-              <button class="btn btn-ghost" id="leaveRoomBtn" type="button">غادر الغرفة</button>
-            </div>
-          </div>
-        </article>
-
-        <!-- ترتيب الأسبوع -->
-        <article class="card board" aria-labelledby="boardTitle">
-          <header class="card-head">
-            <h3 id="boardTitle">🏆 ترتيب الأسبوع</h3>
-            <label class="filter">
-              <span class="sr-only">فلتر المستوى</span>
-              <select id="boardFilter">
-                <option value="all">كل المستويات</option>
-                <option value="easy">هادي</option>
-                <option value="medium">معتدل</option>
-                <option value="rocket">صاروخ</option>
-              </select>
-            </label>
-          </header>
-          <p class="muted small" id="boardWeek">الأسبوع يبدأ الإثنين 00:00 UTC</p>
-          <div class="table-wrap">
-            <table class="board-table">
-              <thead>
-                <tr><th scope="col">#</th><th scope="col">اللاعب</th><th scope="col">WPM</th><th scope="col">الدقة</th><th scope="col">المستوى</th><th scope="col">الوقت</th></tr>
-              </thead>
-              <tbody id="boardBody"></tbody>
-            </table>
-          </div>
-          <p class="muted small" id="boardEmpty" hidden></p>
-        </article>
+    <!-- ═════════ النتيجة ═════════ -->
+    <section class="screen screen-result" data-screen="result" aria-labelledby="resultTitle">
+      <div class="result-card">
+        <div class="result-pose">
+          <img class="sprite" data-sprite="result" src="assets/abu-jinan-runner.webp" alt="" width="200" height="328">
+          <span class="result-badge" id="resultBadge" aria-hidden="true">🏆</span>
+        </div>
+        <h2 id="resultTitle">وصلت خط النهاية!</h2>
+        <p class="muted result-sub" id="resultSub"></p>
+        <dl class="result-stats">
+          <div><dt>WPM</dt><dd id="resWpm">0</dd></div>
+          <div><dt>الدقة</dt><dd id="resAcc">100%</dd></div>
+          <div><dt>الزمن</dt><dd id="resTime">0</dd></div>
+          <div><dt>المركز</dt><dd id="resPlace">—</dd></div>
+        </dl>
+        <ol class="result-ranking" id="resRanking"></ol>
+        <p class="save-line" id="resSave"></p>
+        <div class="result-actions">
+          <button class="btn btn-sand btn-lg" id="againBtn" type="button">جولة ثانية</button>
+          <button class="btn btn-green" id="changeBtn" type="button">غيّر الكاتوجري</button>
+          <button class="btn btn-ghost" id="resLoginBtn" type="button" hidden>سجّل الدخول لحفظ نتيجتك</button>
+          <button class="btn btn-ghost" id="homeBtn" type="button">الرئيسية</button>
+        </div>
       </div>
     </section>
-  </main>
 
-  <footer class="footer">
-    <p>صُنعت بحب من الخرطوم إلى كل الدنيا · <span dir="ltr">⌨️ × 🏃🏾‍♂️</span></p>
-  </footer>
+    <!-- ═════════ أونلاين ═════════ -->
+    <section class="screen screen-online" data-screen="online" aria-labelledby="onlineTitle">
+      <h2 class="screen-title" id="onlineTitle">🌐 تحدَّ أصحابك أونلاين</h2>
+      <p class="sync" id="syncStatus" role="status">—</p>
 
-  <!-- بطاقة النتيجة -->
-  <dialog class="modal" id="resultDialog" aria-labelledby="resultTitle">
-    <form method="dialog" class="modal-body">
-      <div class="result-face">
-        <span class="asset">
-          <img src="assets/abu-jinan-face.webp" alt="" width="96" height="96">
-          <span class="asset-fallback" aria-hidden="true">🏃🏾‍♂️</span>
-        </span>
+      <div class="panel" id="onlineGate" hidden>
+        <p id="onlineGateMsg"></p>
+        <div class="row">
+          <button class="btn btn-sand" id="gateLoginBtn" type="button">تسجيل الدخول</button>
+          <button class="btn btn-ghost" id="gateSettingsBtn" type="button">إعدادات الخادم</button>
+        </div>
       </div>
-      <h2 id="resultTitle">وصلت خط النهاية!</h2>
-      <p class="muted" id="resultSub"></p>
-      <dl class="result-stats">
-        <div><dt>WPM</dt><dd id="resWpm">0</dd></div>
-        <div><dt>الدقة</dt><dd id="resAcc">100%</dd></div>
-        <div><dt>الزمن</dt><dd id="resTime">0</dd></div>
-        <div><dt>المركز</dt><dd id="resPlace">—</dd></div>
-      </dl>
-      <p class="save-line" id="resSave"></p>
-      <div class="modal-actions">
-        <button class="btn btn-primary" value="again" id="againBtn">جولة جديدة</button>
-        <button class="btn btn-ghost" value="level" id="levelBtn">غيّر المستوى</button>
-        <button class="btn btn-ghost" value="login" id="resLoginBtn" hidden>تسجيل الدخول</button>
+
+      <div class="panel lobby" id="roomLobby" hidden>
+        <button class="big-action" id="createRoomBtn" type="button">
+          <span aria-hidden="true">➕</span><b>إنشاء غرفة جديدة</b><small>اختار الكاتوجري وأرسل الكود لأصحابك</small>
+        </button>
+        <div class="or"><span>أو</span></div>
+        <form class="join-form" id="joinForm" autocomplete="off">
+          <label for="joinCode">انضم بكود صاحبك</label>
+          <div class="row">
+            <input id="joinCode" class="code-input" type="text" dir="ltr" maxlength="5" placeholder="NILE7"
+                   autocapitalize="characters" spellcheck="false" inputmode="latin">
+            <button class="btn btn-green" type="submit">انضم</button>
+          </div>
+        </form>
       </div>
-    </form>
+
+      <div class="panel room" id="roomPanel" hidden>
+        <div class="room-code-row">
+          <div>
+            <span class="muted small">كود الغرفة</span>
+            <strong class="room-code" id="roomCode" dir="ltr">—</strong>
+          </div>
+          <div class="row">
+            <button class="btn btn-ghost btn-sm" id="copyCodeBtn" type="button">نسخ الكود</button>
+            <button class="btn btn-ghost btn-sm" id="copyLinkBtn" type="button">رابط الدعوة</button>
+          </div>
+        </div>
+        <p class="room-meta" id="roomMeta">—</p>
+        <ul class="players" id="players"></ul>
+        <div class="row">
+          <button class="btn btn-sand btn-lg" id="roomStartBtn" type="button">ابدأ الجولة للجميع</button>
+          <button class="btn btn-green" id="roomRematchBtn" type="button" hidden>جولة جديدة بنص جديد</button>
+          <button class="btn btn-ghost" id="leaveRoomBtn" type="button">غادر الغرفة</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ بلوتوث ═════════ -->
+    <section class="screen screen-bt" data-screen="bt" aria-labelledby="btTitle">
+      <h2 class="screen-title" id="btTitle">📶 العب بالبلوتوث</h2>
+
+      <div class="panel" id="btUnavailable" hidden>
+        <p>اللعب بالبلوتوث متاح في <b>تطبيق أندرويد</b> فقط، لأن المتصفح لا يسمح بالاتصال المباشر بين جهازين.</p>
+        <p class="muted small">ثبّت ملف APK على جهازين، فعّل البلوتوث، وخلي واحد يفتح الغرفة والتاني ينضم.</p>
+      </div>
+
+      <div id="btMain" hidden>
+        <div class="panel" id="btChoose">
+          <div class="bt-choices">
+            <button class="big-action" id="btHostBtn" type="button"><span aria-hidden="true">📡</span><b>افتح غرفة</b><small>جهازك يكون المضيف</small></button>
+            <button class="big-action alt" id="btJoinBtn" type="button"><span aria-hidden="true">🔗</span><b>انضم لغرفة</b><small>اتصل بجهاز صاحبك</small></button>
+          </div>
+        </div>
+
+        <div class="panel" id="btHostPanel" hidden>
+          <p class="bt-status" id="btHostStatus">جهازك ظاهر للأجهزة القريبة… في انتظار اللاعبين.</p>
+          <ul class="players" id="btPlayers"></ul>
+          <div class="row">
+            <button class="btn btn-sand btn-lg" id="btStartBtn" type="button">اختار النص وابدأ</button>
+            <button class="btn btn-ghost" id="btStopBtn" type="button">إغلاق الغرفة</button>
+          </div>
+        </div>
+
+        <div class="panel" id="btJoinPanel" hidden>
+          <p class="bt-status" id="btJoinStatus">اختار جهاز المضيف من القائمة.</p>
+          <ul class="devices" id="btDevices"></ul>
+          <div class="row">
+            <button class="btn btn-green" id="btScanBtn" type="button">🔍 ابحث عن أجهزة</button>
+            <button class="btn btn-ghost" id="btLeaveBtn" type="button">رجوع</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ الترتيب ═════════ -->
+    <section class="screen screen-board" data-screen="board" aria-labelledby="boardTitle">
+      <h2 class="screen-title" id="boardTitle">🏆 ترتيب الأسبوع</h2>
+      <div class="tabs" id="boardTabs" role="tablist">
+        <button type="button" role="tab" data-kind="all" aria-selected="true">الكل</button>
+        <button type="button" role="tab" data-kind="short" aria-selected="false">بسيطة</button>
+        <button type="button" role="tab" data-kind="long" aria-selected="false">طويلة</button>
+        <button type="button" role="tab" data-kind="article" aria-selected="false">مقالات</button>
+      </div>
+      <p class="muted small" id="boardWeek">الأسبوع يبدأ الإثنين 00:00 UTC</p>
+      <ol class="board" id="boardList"></ol>
+      <p class="muted board-empty" id="boardEmpty" hidden></p>
+    </section>
+
+    <!-- ═════════ طريقة اللعب ═════════ -->
+    <section class="screen screen-howto" data-screen="howto" aria-labelledby="howtoTitle">
+      <h2 class="screen-title" id="howtoTitle">❓ طريقة اللعب</h2>
+      <ol class="howto">
+        <li><b>اختار الكاتوجري</b>: حكم سودانية، معلومات عامة، تشجيعية، إسلامية، أو الجودة للجميع — أو خليها عشوائي.</li>
+        <li><b>اختار نوع الكتابة</b>: جمل بسيطة، جمل طويلة من 3 إلى 5 سطور، أو مقالات وقصص قصيرة.</li>
+        <li>بعد العد التنازلي <b>اكتب النص كما هو</b>: الأخضر صح، الأحمر غلط، والذهبي هو الحرف الجاي.</li>
+        <li>الخانة بتاخد <b>كلمة كلمة</b>: كل ما تكمل كلمة صح بالمسافة، الخانة بتفضى للكلمة الجاية.</li>
+        <li>لو غلطت <b>امسح وصحح</b> عشان تكمل — والأخطاء بتنقص الدقة.</li>
+        <li>أكمل النص قبل ما يخلص الوقت، وخلي أبو جنان يوصل خط النهاية أول واحد!</li>
+      </ol>
+      <p class="muted small">في الكمبيوتر: <kbd>Esc</kbd> لإنهاء الجولة · <kbd>Enter</kbd> لجولة ثانية من شاشة النتيجة.</p>
+    </section>
+  </div>
+
+  <!-- الإعدادات -->
+  <dialog class="modal" id="settingsDialog" aria-labelledby="settingsTitle">
+    <div class="modal-body">
+      <button class="icon-btn modal-close" type="button" data-close aria-label="إغلاق">✕</button>
+      <h2 id="settingsTitle">⚙️ الإعدادات</h2>
+      <section class="menu-account" id="menuAccount"></section>
+      <label class="field">اسمك في السباق (للعب الفردي والبلوتوث)
+        <input id="nickInput" maxlength="24" placeholder="أبو جنان">
+      </label>
+      <label class="switch"><input type="checkbox" id="soundToggle"> <span>المؤثرات الصوتية</span></label>
+      <label class="field" id="serverField">عنوان خادم اللعب الأونلاين
+        <input id="serverInput" dir="ltr" inputmode="url" placeholder="https://example.com">
+        <small class="muted">اتركه فارغًا لاستخدام نفس الموقع. في التطبيق اكتب عنوان الخادم المنشور.</small>
+      </label>
+      <button class="btn btn-sand" id="settingsSave" type="button">حفظ</button>
+    </div>
   </dialog>
 
   <!-- تسجيل الدخول -->
@@ -226,35 +335,15 @@
       <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="tabLogin">
         <label>اسم المستخدم<input name="username" dir="ltr" autocomplete="username" required minlength="3" maxlength="20"></label>
         <label>كلمة المرور<input name="password" type="password" dir="ltr" autocomplete="current-password" required minlength="6"></label>
-        <button class="btn btn-primary" type="submit">دخول</button>
+        <button class="btn btn-sand" type="submit">دخول</button>
       </form>
       <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="tabRegister" hidden>
         <label>الاسم الظاهر في السباق<input name="displayName" required minlength="2" maxlength="24" placeholder="مثلًا: أبو جنان"></label>
         <label>اسم المستخدم (حروف لاتينية)<input name="username" dir="ltr" autocomplete="username" required pattern="[A-Za-z0-9_]{3,20}" maxlength="20"></label>
         <label>كلمة المرور<input name="password" type="password" dir="ltr" autocomplete="new-password" required minlength="6"></label>
-        <button class="btn btn-primary" type="submit">أنشئ الحساب</button>
+        <button class="btn btn-sand" type="submit">أنشئ الحساب</button>
       </form>
       <p class="form-error" id="authError" role="alert"></p>
-    </div>
-  </dialog>
-
-  <!-- القائمة -->
-  <dialog class="modal" id="menuDialog" aria-labelledby="menuTitle">
-    <div class="modal-body">
-      <button class="icon-btn modal-close" type="button" data-close aria-label="إغلاق">✕</button>
-      <h2 id="menuTitle">القائمة</h2>
-      <section class="menu-account" id="menuAccount"></section>
-      <section>
-        <h3>طريقة اللعب</h3>
-        <ol class="howto">
-          <li>اختار المستوى: هادي، معتدل، أو صاروخ.</li>
-          <li>اضغط «ابدأ الجولة» أو ابدأ الكتابة مباشرة.</li>
-          <li>اكتب الجملة كما هي: الأخضر صح، الأحمر غلط، والذهبي هو الحرف الجاي.</li>
-          <li>امسح الغلط وصححه عشان تكمل — الأخطاء بتنقص الدقة.</li>
-          <li>أكمل الجملة قبل ما يخلص الوقت.</li>
-        </ol>
-        <p class="muted small">اختصارات: <kbd>Esc</kbd> لإيقاف الجولة · <kbd>Enter</kbd> لجولة جديدة بعد النهاية.</p>
-      </section>
     </div>
   </dialog>
 
