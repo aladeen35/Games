@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>تحدي الـ Keyboard مع أبو جنان</title>
+  <meta name="description" content="سباق كتابة عربي بطابع سوداني: اكتب الجملة بأسرع وقت وأعلى دقة، ونافس أصحابك في غرف مباشرة.">
+  <meta name="theme-color" content="#09182B">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/baloo-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#typing">تخطَّ إلى منطقة الكتابة</a>
+
+  <!-- الشريط العلوي -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="asset">
+        <img class="brand-logo" src="assets/logo.webp" alt="شعار تحدي الـ Keyboard مع أبو جنان" width="56" height="56">
+        <span class="asset-fallback brand-fallback" aria-hidden="true">⌨️</span>
+      </span>
+      <span class="brand-name">تحدي الـ Keyboard <small>مع أبو جنان</small></span>
+    </div>
+    <div class="topbar-actions">
+      <span class="pill online" id="online" title="عدد اللاعبين الأونلاين الآن">
+        <span class="dot" aria-hidden="true"></span><span id="onlineCount">—</span> أونلاين
+      </span>
+      <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="كتم الصوت" title="الصوت">
+        <span aria-hidden="true" id="soundIcon">🔊</span>
+      </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="dialog" aria-label="القائمة" title="القائمة">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- منطقة البداية -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-text">
+        <p class="chip"><span aria-hidden="true">📍</span> الخرطوم · <span id="roundName">جولة شارع النيل</span></p>
+        <h1 id="heroTitle">مين أسرع زول في الكيبورد؟</h1>
+        <p class="lead">اكتب الجملة زي ما هي بالضبط، بالمسافات وعلامات الترقيم. كل حرف صحيح بيقدّم أبو جنان خطوة نحو خط النهاية على اليسار.</p>
+
+        <fieldset class="levels" id="levels">
+          <legend>اختار المستوى</legend>
+          <label><input type="radio" name="level" value="easy"><span>🐢 هادي</span></label>
+          <label><input type="radio" name="level" value="medium" checked><span>🏃 معتدل</span></label>
+          <label><input type="radio" name="level" value="rocket"><span>🚀 صاروخ</span></label>
+        </fieldset>
+        <p class="level-hint" id="levelHint"></p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="startBtn" type="button">ابدأ الجولة</button>
+          <p class="hint"><kbd>المسافة</kbd> جزء من الجملة — ما تنساها بين الكلمات.</p>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <span class="asset">
+          <img src="assets/abu-jinan-runner.webp" alt="" width="317" height="520">
+          <span class="asset-fallback art-fallback">🏃🏾‍♂️⌨️</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- المضمار -->
+    <section class="track-wrap" aria-label="المضمار">
+      <div class="track" id="track">
+        <div class="track-sky" aria-hidden="true">
+          <span class="star s1"></span><span class="star s2"></span><span class="star s3"></span>
+          <span class="moon"></span>
+          <span class="skyline"></span>
+        </div>
+        <div class="sign sign-start" aria-hidden="true">البداية ←</div>
+        <div class="sign sign-finish" aria-hidden="true">🏁 النهاية</div>
+        <div class="finish-line" aria-hidden="true"></div>
+        <ol class="lanes" id="lanes" aria-live="off"></ol>
+        <div class="nile" aria-hidden="true"></div>
+      </div>
+      <p class="track-caption" id="trackCaption">الاتجاه: من اليمين إلى اليسار ←</p>
+    </section>
+
+    <!-- منطقة الكتابة -->
+    <section class="typing card" id="typing" aria-labelledby="typingTitle">
+      <div class="typing-head">
+        <h2 id="typingTitle">الجملة المطلوبة</h2>
+        <div class="stats" role="group" aria-label="الإحصائيات">
+          <div class="stat"><span class="stat-label">الوقت</span><span class="stat-value" id="timer">42</span></div>
+          <div class="stat"><span class="stat-label">WPM</span><span class="stat-value" id="wpm">0</span></div>
+          <div class="stat"><span class="stat-label">الدقة</span><span class="stat-value" id="accuracy">100%</span></div>
+          <div class="stat"><span class="stat-label">الحرف الحالي</span><span class="stat-value current-char" id="currentChar">—</span></div>
+        </div>
+      </div>
+
+      <p class="phrase" id="phrase" lang="ar"></p>
+      <div class="timebar" aria-hidden="true"><span id="timebar"></span></div>
+
+      <label class="sr-only" for="input">اكتب الجملة هنا</label>
+      <input class="type-input" id="input" type="text" dir="rtl" lang="ar"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             enterkeyhint="done" inputmode="text" placeholder="اضغط هنا وابدأ الكتابة…">
+      <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
+
+      <details class="kb-details" id="kbDetails" open>
+        <summary>الكيبورد العربي المرئي</summary>
+        <div class="vkb" id="vkb" dir="ltr" aria-hidden="true"></div>
+      </details>
+    </section>
+
+    <!-- ساحة أبو جنان -->
+    <section class="arena" aria-labelledby="arenaTitle">
+      <h2 id="arenaTitle" class="arena-title">ساحة أبو جنان</h2>
+      <div class="arena-grid">
+        <!-- الغرف -->
+        <article class="card rooms" aria-labelledby="roomsTitle">
+          <header class="card-head">
+            <h3 id="roomsTitle">🏟️ الغرف</h3>
+            <span class="sync" id="syncStatus" role="status">فردي</span>
+          </header>
+
+          <div id="roomLobby">
+            <p class="muted" id="roomAuthNote">العب مع أصحابك: أنشئ غرفة وأرسل الكود، أو انضم بكود صاحبك.</p>
+            <div class="room-actions">
+              <button class="btn btn-green" id="createRoomBtn" type="button">إنشاء غرفة جديدة</button>
+              <form class="join-form" id="joinForm" autocomplete="off">
+                <label class="sr-only" for="joinCode">كود الغرفة</label>
+                <input id="joinCode" class="code-input" type="text" dir="ltr" maxlength="5" placeholder="NILE7"
+                       autocapitalize="characters" spellcheck="false" inputmode="latin" pattern="[A-Za-z0-9]{5}">
+                <button class="btn btn-ghost" type="submit">انضم</button>
+              </form>
+            </div>
+          </div>
+
+          <div id="roomPanel" hidden>
+            <div class="room-code-row">
+              <div>
+                <span class="muted">كود الغرفة</span>
+                <strong class="room-code" id="roomCode" dir="ltr">—</strong>
+              </div>
+              <div class="room-code-actions">
+                <button class="btn btn-ghost btn-sm" id="copyCodeBtn" type="button">نسخ الكود</button>
+                <button class="btn btn-ghost btn-sm" id="copyLinkBtn" type="button">نسخ رابط الدعوة</button>
+              </div>
+            </div>
+            <p class="room-meta"><span id="roomLevel">—</span> · <span id="roomStatus">—</span></p>
+            <ul class="players" id="players"></ul>
+            <div class="room-actions">
+              <button class="btn btn-primary" id="roomStartBtn" type="button">ابدأ الجولة للجميع</button>
+              <button class="btn btn-ghost" id="leaveRoomBtn" type="button">غادر الغرفة</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ترتيب الأسبوع -->
+        <article class="card board" aria-labelledby="boardTitle">
+          <header class="card-head">
+            <h3 id="boardTitle">🏆 ترتيب الأسبوع</h3>
+            <label class="filter">
+              <span class="sr-only">فلتر المستوى</span>
+              <select id="boardFilter">
+                <option value="all">كل المستويات</option>
+                <option value="easy">هادي</option>
+                <option value="medium">معتدل</option>
+                <option value="rocket">صاروخ</option>
+              </select>
+            </label>
+          </header>
+          <p class="muted small" id="boardWeek">الأسبوع يبدأ الإثنين 00:00 UTC</p>
+          <div class="table-wrap">
+            <table class="board-table">
+              <thead>
+                <tr><th scope="col">#</th><th scope="col">اللاعب</th><th scope="col">WPM</th><th scope="col">الدقة</th><th scope="col">المستوى</th><th scope="col">الوقت</th></tr>
+              </thead>
+              <tbody id="boardBody"></tbody>
+            </table>
+          </div>
+          <p class="muted small" id="boardEmpty" hidden></p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>صُنعت بحب من الخرطوم إلى كل الدنيا · <span dir="ltr">⌨️ × 🏃🏾‍♂️</span></p>
+  </footer>
+
+  <!-- بطاقة النتيجة -->
+  <dialog class="modal" id="resultDialog" aria-labelledby="resultTitle">
+    <form method="dialog" class="modal-body">
+      <div class="result-face">
+        <span class="asset">
+          <img src="assets/abu-jinan-face.webp" alt="" width="96" height="96">
+          <span class="asset-fallback" aria-hidden="true">🏃🏾‍♂️</span>
+        </span>
+      </div>
+      <h2 id="resultTitle">وصلت خط النهاية!</h2>
+      <p class="muted" id="resultSub"></p>
+      <dl class="result-stats">
+        <div><dt>WPM</dt><dd id="resWpm">0</dd></div>
+        <div><dt>الدقة</dt><dd id="resAcc">100%</dd></div>
+        <div><dt>الزمن</dt><dd id="resTime">0</dd></div>
+        <div><dt>المركز</dt><dd id="resPlace">—</dd></div>
+      </dl>
+      <p class="save-line" id="resSave"></p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" value="again" id="againBtn">جولة جديدة</button>
+        <button class="btn btn-ghost" value="level" id="levelBtn">غيّر المستوى</button>
+        <button class="btn btn-ghost" value="login" id="resLoginBtn" hidden>تسجيل الدخول</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- تسجيل الدخول -->
+  <dialog class="modal" id="authDialog" aria-labelledby="authTitle">
+    <div class="modal-body">
+      <button class="icon-btn modal-close" type="button" data-close aria-label="إغلاق">✕</button>
+      <h2 id="authTitle">حسابك في السباق</h2>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">دخول</button>
+        <button type="button" role="tab" id="tabRegister" aria-selected="false" aria-controls="registerForm">حساب جديد</button>
+      </div>
+      <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="tabLogin">
+        <label>اسم المستخدم<input name="username" dir="ltr" autocomplete="username" required minlength="3" maxlength="20"></label>
+        <label>كلمة المرور<input name="password" type="password" dir="ltr" autocomplete="current-password" required minlength="6"></label>
+        <button class="btn btn-primary" type="submit">دخول</button>
+      </form>
+      <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="tabRegister" hidden>
+        <label>الاسم الظاهر في السباق<input name="displayName" required minlength="2" maxlength="24" placeholder="مثلًا: أبو جنان"></label>
+        <label>اسم المستخدم (حروف لاتينية)<input name="username" dir="ltr" autocomplete="username" required pattern="[A-Za-z0-9_]{3,20}" maxlength="20"></label>
+        <label>كلمة المرور<input name="password" type="password" dir="ltr" autocomplete="new-password" required minlength="6"></label>
+        <button class="btn btn-primary" type="submit">أنشئ الحساب</button>
+      </form>
+      <p class="form-error" id="authError" role="alert"></p>
+    </div>
+  </dialog>
+
+  <!-- القائمة -->
+  <dialog class="modal" id="menuDialog" aria-labelledby="menuTitle">
+    <div class="modal-body">
+      <button class="icon-btn modal-close" type="button" data-close aria-label="إغلاق">✕</button>
+      <h2 id="menuTitle">القائمة</h2>
+      <section class="menu-account" id="menuAccount"></section>
+      <section>
+        <h3>طريقة اللعب</h3>
+        <ol class="howto">
+          <li>اختار المستوى: هادي، معتدل، أو صاروخ.</li>
+          <li>اضغط «ابدأ الجولة» أو ابدأ الكتابة مباشرة.</li>
+          <li>اكتب الجملة كما هي: الأخضر صح، الأحمر غلط، والذهبي هو الحرف الجاي.</li>
+          <li>امسح الغلط وصححه عشان تكمل — الأخطاء بتنقص الدقة.</li>
+          <li>أكمل الجملة قبل ما يخلص الوقت.</li>
+        </ol>
+        <p class="muted small">اختصارات: <kbd>Esc</kbd> لإيقاف الجولة · <kbd>Enter</kbd> لجولة جديدة بعد النهاية.</p>
+      </section>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
