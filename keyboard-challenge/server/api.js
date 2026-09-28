@@ -201,6 +201,7 @@ function roomView(db, room, user, now) {
     players: players.map((p) => ({
       userId: p.userId,
       displayName: p.displayName,
+      character: p.character,
       progress: p.progress,
       wpm: p.wpm,
       accuracy: p.accuracy,
@@ -213,11 +214,13 @@ function roomView(db, room, user, now) {
   };
 }
 
-function addPlayer(db, room, user, now) {
-  db.prepare(`INSERT INTO room_players (roomId, userId, displayName, joinedAt, lastSeenAt)
-              VALUES (?, ?, ?, ?, ?)
-              ON CONFLICT (roomId, userId) DO UPDATE SET lastSeenAt = excluded.lastSeenAt`)
-    .run(room.id, user.id, user.displayName, now, now);
+const characterOf = (v) => (typeof v === 'string' && /^[a-z0-9_-]{1,32}$/.test(v) ? v : 'abujinan');
+
+function addPlayer(db, room, user, now, character) {
+  db.prepare(`INSERT INTO room_players (roomId, userId, displayName, character, joinedAt, lastSeenAt)
+              VALUES (?, ?, ?, ?, ?, ?)
+              ON CONFLICT (roomId, userId) DO UPDATE SET lastSeenAt = excluded.lastSeenAt, character = excluded.character`)
+    .run(room.id, user.id, user.displayName, characterOf(character), now, now);
 }
 
 // ───────────── الإجراءات ─────────────
@@ -281,7 +284,7 @@ export function createHandlers({ db, presence }) {
           'INSERT INTO game_rooms (code, difficulty, pool, textId, createdBy, createdAt) VALUES (?, ?, ?, ?, ?, ?)',
         ).run(code, difficulty, pool, textFromPool(pool), user.id, ctx.now);
         const room = db.prepare('SELECT * FROM game_rooms WHERE id = ?').get(lastInsertRowid);
-        addPlayer(db, room, user, ctx.now);
+        addPlayer(db, room, user, ctx.now, ctx.body.character);
         return roomView(db, room, user, ctx.now);
       });
     },
@@ -297,7 +300,7 @@ export function createHandlers({ db, presence }) {
           const { n } = db.prepare('SELECT COUNT(*) AS n FROM room_players WHERE roomId = ?').get(room.id);
           if (n >= MAX_PLAYERS) fail(409, 'roomFull');
         }
-        addPlayer(db, room, user, ctx.now);
+        addPlayer(db, room, user, ctx.now, ctx.body.character);
         return roomView(db, room, user, ctx.now);
       });
     },

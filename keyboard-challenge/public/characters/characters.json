@@ -1,0 +1,84 @@
+{
+  "characters": [
+    {
+      "id": "abujinan",
+      "name": "أبو جنان",
+      "gender": "m",
+      "poses": {
+        "run": [
+          "abujinan/run.webp"
+        ],
+        "error": [
+          "abujinan/error.webp"
+        ],
+        "near": [
+          "abujinan/near.webp"
+        ],
+        "won": [
+          "abujinan/won.webp"
+        ],
+        "lost": [
+          "abujinan/lost.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "abujinan/lane-run.webp"
+        ],
+        "error": [
+          "abujinan/lane-error.webp"
+        ],
+        "near": [
+          "abujinan/lane-near.webp"
+        ],
+        "won": [
+          "abujinan/lane-won.webp"
+        ],
+        "lost": [
+          "abujinan/lane-lost.webp"
+        ]
+      },
+      "thumb": "abujinan/thumb.webp"
+    },
+    {
+      "id": "jinan",
+      "name": "جنان",
+      "gender": "f",
+      "poses": {
+        "run": [
+          "jinan/run.webp"
+        ],
+        "error": [
+          "jinan/error.webp"
+        ],
+        "near": [
+          "jinan/near.webp"
+        ],
+        "won": [
+          "jinan/won.webp"
+        ],
+        "lost": [
+          "jinan/lost.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "jinan/lane-run.webp"
+        ],
+        "error": [
+          "jinan/lane-error.webp"
+        ],
+        "near": [
+          "jinan/lane-near.webp"
+        ],
+        "won": [
+          "jinan/lane-won.webp"
+        ],
+        "lost": [
+          "jinan/lane-lost.webp"
+        ]
+      },
+      "thumb": "jinan/thumb.webp"
+    }
+  ]
+}

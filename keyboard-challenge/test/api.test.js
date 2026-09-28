@@ -83,8 +83,10 @@ test('دورة غرفة كاملة: إنشاء، انضمام، بدء، تقد�
   r = await bob('room.state', { code });
   assert.equal(r.status, 403);
 
-  r = await bob('room.join', { code: code.toLowerCase() });
+  r = await bob('room.join', { code: code.toLowerCase(), character: 'jinan' });
   assert.equal(r.status, 200);
+  assert.equal(r.players.find((p) => p.isMe).character, 'jinan');
+  assert.equal(r.players.find((p) => !p.isMe).character, 'abujinan');
   assert.equal(r.players.length, 2);
   assert.equal(r.room.isHost, false);
 

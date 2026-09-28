@@ -31,7 +31,7 @@
           <img src="assets/logo.webp" alt="تحدي الـ Keyboard مع أبو جنان" width="280" height="280">
           <span class="asset-fallback logo-fallback">⌨️ تحدي الـ Keyboard<br>مع أبو جنان</span>
         </span>
-        <div class="intro-run" aria-hidden="true">
+        <div class="intro-run" aria-hidden="true" data-art>
           <img class="sprite" data-sprite="intro" src="assets/abu-jinan-runner.webp" alt="" width="120" height="197">
           <span class="dust"></span>
         </div>
@@ -62,7 +62,7 @@
           <h2 id="homeTitle">مين أسرع زول في الكيبورد؟</h2>
           <p class="muted" id="homeGreeting">اختار طريقة اللعب وخلي أبو جنان يقود السباق.</p>
         </div>
-        <div class="home-char" aria-hidden="true">
+        <div class="home-char" aria-hidden="true" data-art>
           <img class="sprite" data-sprite="home" src="assets/abu-jinan-runner.webp" alt="" width="150" height="246">
         </div>
       </div>
@@ -92,17 +92,22 @@
       <h2 class="screen-title" id="setupTitle">جهّز جولتك</h2>
 
       <div class="step">
-        <h3 class="step-title"><span class="step-no">1</span> اختار الكاتوجري</h3>
+        <h3 class="step-title"><span class="step-no">1</span> اختار شخصيتك</h3>
+        <div class="cards char-cards" id="charCards" role="radiogroup" aria-label="الشخصية"></div>
+      </div>
+
+      <div class="step">
+        <h3 class="step-title"><span class="step-no">2</span> اختار الكاتوجري</h3>
         <div class="cards cat-cards" id="catCards" role="radiogroup" aria-label="الكاتوجري"></div>
       </div>
 
       <div class="step">
-        <h3 class="step-title"><span class="step-no">2</span> نوع الكتابة</h3>
+        <h3 class="step-title"><span class="step-no">3</span> نوع الكتابة</h3>
         <div class="cards kind-cards" id="kindCards" role="radiogroup" aria-label="نوع الكتابة"></div>
       </div>
 
       <div class="step">
-        <h3 class="step-title"><span class="step-no">3</span> سرعة المنافسين</h3>
+        <h3 class="step-title"><span class="step-no">4</span> سرعة المنافسين</h3>
         <div class="chips" id="levelChips" role="radiogroup" aria-label="المستوى"></div>
         <p class="muted small" id="levelHint"></p>
       </div>
@@ -135,7 +140,7 @@
       </div>
 
       <div class="play-area">
-        <div class="coach" aria-hidden="true">
+        <div class="coach" aria-hidden="true" data-art>
           <img class="sprite" data-sprite="coach" src="assets/abu-jinan-runner.webp" alt="" width="170" height="279">
           <span class="coach-bubble" id="coachBubble">يلا!</span>
         </div>
@@ -167,7 +172,7 @@
     <!-- ═════════ النتيجة ═════════ -->
     <section class="screen screen-result" data-screen="result" aria-labelledby="resultTitle">
       <div class="result-card">
-        <div class="result-pose">
+        <div class="result-pose" data-art>
           <img class="sprite" data-sprite="result" src="assets/abu-jinan-runner.webp" alt="" width="200" height="328">
           <span class="result-badge" id="resultBadge" aria-hidden="true">🏆</span>
         </div>

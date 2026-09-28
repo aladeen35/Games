@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS room_players (
   roomId       INTEGER NOT NULL REFERENCES game_rooms(id) ON DELETE CASCADE,
   userId       INTEGER NOT NULL REFERENCES users(id),
   displayName  TEXT NOT NULL,
+  character    TEXT NOT NULL DEFAULT 'abujinan',
   progress     INTEGER NOT NULL DEFAULT 0,
   wpm          INTEGER NOT NULL DEFAULT 0,
   accuracy     INTEGER NOT NULL DEFAULT 100,
@@ -77,7 +78,7 @@ CREATE INDEX IF NOT EXISTS idx_results_user ON game_results (userId, completedAt
 CREATE INDEX IF NOT EXISTS idx_sessions_exp ON sessions (expiresAt);
 `;
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 /** الإصدار 2 يربط الجولات بمعرّف النص بدل رقم الجملة: تُعاد جداول اللعب وتبقى الحسابات. */
 function migrate(db) {
@@ -85,6 +86,9 @@ function migrate(db) {
   const hasRooms = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'game_rooms'").get();
   if (hasRooms && v < 2) {
     db.exec('DROP TABLE IF EXISTS room_players; DROP TABLE IF EXISTS game_results; DROP TABLE IF EXISTS solo_rounds; DROP TABLE IF EXISTS game_rooms;');
+  } else if (hasRooms && v < 3) {
+    // الإصدار 3: شخصية كل لاعب في الغرفة
+    db.exec("ALTER TABLE room_players ADD COLUMN character TEXT NOT NULL DEFAULT 'abujinan'");
   }
 }
 

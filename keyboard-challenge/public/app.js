@@ -7,7 +7,7 @@ import { CATEGORIES, KINDS, MIX, getText, allTextIds, textCount, categoryMeta, k
 import { api, isApp, hasServer, getServerUrl, setServerUrl } from './api.js';
 import { sfx, unlockAudio, isSoundOn, setSound } from './audio.js';
 import { buildKeyboard, highlightNext, flashKey } from './keyboard.js';
-import { Sprite, probePoses } from './sprite.js';
+import { Sprite, loadCharacters, characters, characterById, isCharacterId, DEFAULT_CHARACTER } from './sprite.js';
 import { bt } from './bt.js';
 
 const $ = (id) => document.getElementById(id);
@@ -18,7 +18,7 @@ const el = {
   topbar: $('topbar'), backBtn: $('backBtn'), topbarTitle: $('topbarTitle'),
   online: $('online'), onlineCount: $('onlineCount'), soundBtn: $('soundBtn'), soundIcon: $('soundIcon'), settingsBtn: $('settingsBtn'),
   introBtn: $('introBtn'), homeGreeting: $('homeGreeting'), btMenuHint: $('btMenuHint'),
-  catCards: $('catCards'), kindCards: $('kindCards'), levelChips: $('levelChips'), levelHint: $('levelHint'),
+  charCards: $('charCards'), catCards: $('catCards'), kindCards: $('kindCards'), levelChips: $('levelChips'), levelHint: $('levelHint'),
   setupTitle: $('setupTitle'), setupGo: $('setupGo'),
   quitBtn: $('quitBtn'), hudCat: $('hudCat'), hudKind: $('hudKind'), timer: $('timer'), wpm: $('wpm'), accuracy: $('accuracy'),
   timebar: $('timebar'), lanes: $('lanes'), coachBubble: $('coachBubble'),
@@ -66,7 +66,7 @@ const local = {
 const S = {
   user: null,
   serverUp: false,
-  prefs: { category: MIX, kind: 'short', difficulty: DEFAULT_DIFFICULTY, nick: '', ...local.get('kb-prefs', {}) },
+  prefs: { character: DEFAULT_CHARACTER, category: MIX, kind: 'short', difficulty: DEFAULT_DIFFICULTY, nick: '', ...local.get('kb-prefs', {}) },
   setupPurpose: 'solo',
   screen: 'intro',
   history: [],
@@ -78,7 +78,8 @@ const S = {
   bt: null,           // { role, peers: Map, myId, hostName }
 };
 const savePrefs = () => local.set('kb-prefs', S.prefs);
-const nick = () => (S.user?.displayName || S.prefs.nick || 'أبو جنان').slice(0, 24);
+const myChar = () => (isCharacterId(S.prefs.character) ? S.prefs.character : DEFAULT_CHARACTER);
+const nick = () => (S.user?.displayName || S.prefs.nick || characterById(myChar())?.name || 'أبو جنان').slice(0, 24);
 
 let clientId = '';
 try {
@@ -161,7 +162,8 @@ function drawText(category, kind) {
 
 // ───────────── الشخصية ─────────────
 const sprites = {};
-document.querySelectorAll('img[data-sprite]').forEach((img) => { sprites[img.dataset.sprite] = new Sprite(img); });
+document.querySelectorAll('img[data-sprite]').forEach((img) => { sprites[img.dataset.sprite] = new Sprite(img, { character: myChar() }); });
+function applyCharacter() { for (const sp of Object.values(sprites)) sp.setCharacter(myChar()); }
 
 // ───────────── التنقل بين الشاشات ─────────────
 const TITLES = {
@@ -232,6 +234,23 @@ function renderSetup() {
   el.setupTitle.textContent = { solo: '🏁 جولة فردية', room: '🌐 غرفة جديدة', bt: '📶 جولة بلوتوث' }[S.setupPurpose];
   el.setupGo.textContent = S.setupPurpose === 'room' ? 'أنشئ الغرفة ➕' : 'يلا نبدأ 🏁';
   const p = S.prefs;
+  el.charCards.textContent = '';
+  for (const c of characters()) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pick char-pick';
+    b.setAttribute('role', 'radio');
+    b.setAttribute('aria-checked', String(myChar() === c.id));
+    const img = document.createElement('img');
+    img.src = `characters/${c.thumb}`;
+    img.alt = '';
+    img.loading = 'lazy';
+    const t = document.createElement('b'); t.textContent = c.name;
+    b.append(img, t);
+    b.addEventListener('click', () => { unlockAudio(); p.character = c.id; savePrefs(); applyCharacter(); renderSetup(); sfx.join(); });
+    el.charCards.append(b);
+  }
+  el.charCards.closest('.step').hidden = characters().length < 2;
   el.catCards.textContent = '';
   const cats = [...CATEGORIES, { id: MIX, icon: '🎲', label: 'عشوائي', desc: 'نص من أي كاتوجري' }];
   for (const c of cats) {
@@ -313,6 +332,7 @@ function racers() {
       id: `u${p.userId}`, name: p.isMe ? `${p.displayName} (أنت)` : p.displayName, isMe: p.isMe,
       progress: p.isMe ? (r.status === 'finished' ? 1 : me) : p.progress / 100,
       color: PLAYER_COLORS[i % PLAYER_COLORS.length], moving: running && !p.finished && p.active, inactive: !p.active, done: p.finished,
+      character: p.isMe ? myChar() : p.character, place: p.place,
     }));
   }
   if (r.mode === 'bt') {
@@ -320,11 +340,15 @@ function racers() {
       id: `b${p.id}`, name: p.isMe ? `${p.name} (أنت)` : p.name, isMe: p.isMe,
       progress: p.isMe ? (r.status === 'finished' ? 1 : me) : p.progress,
       color: PLAYER_COLORS[i % PLAYER_COLORS.length], moving: running && !p.finished, done: p.finished,
+      character: p.isMe ? myChar() : p.character, place: p.place,
     }));
   }
   return [
-    { id: 'me', name: `${nick()} (أنت)`, progress: me, isMe: true, moving: running, done: r.status === 'finished' },
-    ...r.bots.map((b) => ({ id: b.id, name: b.name, color: b.color, progress: b.progress, moving: running && b.progress < 1 && !b.paused, done: b.progress >= 1 })),
+    { id: 'me', name: `${nick()} (أنت)`, progress: me, isMe: true, moving: running, done: r.status === 'finished', character: myChar() },
+    ...r.bots.map((b) => ({
+      id: b.id, name: b.name, color: b.color, progress: b.progress, moving: running && b.progress < 1 && !b.paused, done: b.progress >= 1,
+      character: b.character, place: b.finishAt != null ? 1 + r.bots.filter((o) => o.finishAt != null && o.finishAt < b.finishAt).length + (r.result?.completed && r.result.elapsedMs < b.finishAt ? 1 : 0) : null,
+    })),
   ];
 }
 
@@ -335,7 +359,9 @@ function renderLanes() {
   list.forEach((r, i) => {
     seen.add(r.id);
     let node = laneNodes.get(r.id);
-    if (!node || node.isMe !== !!r.isMe) {
+    const charKey = r.character && characterById(r.character) ? r.character : '';
+    if (!node || node.isMe !== !!r.isMe || node.charKey !== charKey) {
+      node?.sprite?.destroy();
       node?.li.remove();
       const li = document.createElement('li');
       li.className = 'lane';
@@ -350,14 +376,14 @@ function renderLanes() {
       tag.append(name, pct);
       const body = document.createElement('div');
       body.className = 'runner-body';
-      if (r.isMe) {
+      let sprite = null;
+      if (r.isMe || charKey) {
         const img = document.createElement('img');
         img.className = 'sprite';
         img.alt = '';
-        img.src = 'assets/abu-jinan-runner.webp';
         body.append(img);
-        meLaneSprite?.destroy();
-        meLaneSprite = new Sprite(img);
+        sprite = new Sprite(img, { variant: 'lane', character: charKey || myChar() });
+        if (r.isMe) meLaneSprite = sprite;
       } else {
         body.append(botSvg(r.color));
       }
@@ -366,7 +392,7 @@ function renderLanes() {
       runner.append(tag, body, shadow);
       inner.append(runner);
       li.append(inner);
-      node = { li, runner, name, pct, isMe: !!r.isMe };
+      node = { li, runner, name, pct, isMe: !!r.isMe, charKey, sprite };
       laneNodes.set(r.id, node);
     }
     if (el.lanes.children[i] !== node.li) el.lanes.insertBefore(node.li, el.lanes.children[i] ?? null);
@@ -377,15 +403,32 @@ function renderLanes() {
     node.runner.classList.toggle('moving', !!r.moving);
     node.runner.classList.toggle('done', !!r.done);
     node.runner.classList.toggle('inactive', !!r.inactive);
+    if (node.sprite && !r.isMe) node.sprite.set(otherPose(r));
   });
-  for (const [id, node] of laneNodes) if (!seen.has(id)) { node.li.remove(); laneNodes.delete(id); }
+  for (const [id, node] of laneNodes) if (!seen.has(id)) { node.sprite?.destroy(); node.li.remove(); laneNodes.delete(id); }
+}
+
+/** وضعية المنافسين في المضمار. */
+function otherPose(r) {
+  if (r.done) return r.place === 1 ? 'won' : 'lost';
+  const st = S.race?.status;
+  if (st === 'timeout' || st === 'finished') return r.progress >= 1 ? 'won' : 'lost';
+  if (!r.moving) return 'run';
+  return r.progress >= 0.8 ? 'near' : 'run';
 }
 
 function clearLanes() {
-  laneNodes.forEach((n) => n.li.remove());
+  laneNodes.forEach((n) => { n.sprite?.destroy(); n.li.remove(); });
   laneNodes.clear();
   meLaneSprite?.destroy();
   meLaneSprite = null;
+}
+
+/** المنافسون الآليون الأوائل يأخذون الشخصيات الأخرى، والباقون رسومات بسيطة. */
+function botCharacter(i) {
+  const others = characters().filter((c) => c.id !== myChar());
+  const c = others[i];
+  return c ? { character: c.id, name: c.name } : {};
 }
 
 // ───────────── محرك السباق ─────────────
@@ -411,8 +454,8 @@ function beginRace({ mode, textId, difficulty, delayMs = COUNTDOWN_MS, round = n
     startPerf: performance.now() + delayMs,
     elapsed: 0,
     lastErrorAt: -1e9,
-    bots: mode === 'solo' ? BOTS.map((b) => ({
-      ...b, chars: 0, progress: 0, finishAt: null, paused: false, pauseLeft: 0,
+    bots: mode === 'solo' ? BOTS.map((b, i) => ({
+      ...b, ...botCharacter(i), chars: 0, progress: 0, finishAt: null, paused: false, pauseLeft: 0,
       cps: botCharsPerSecond(difficulty), delay: 0.35 + Math.random() * 0.9,
     })) : [],
     roundReq: null,
@@ -727,6 +770,7 @@ function updateResult() {
   const pose = won ? 'won' : 'lost';
   sprites.result?.set(pose);
   el.resultBadge.textContent = won ? '🏆' : res.completed ? '🏅' : '⏱️';
+  el.resultBadge.hidden = sprites.result?.img.classList.contains('has-art');
   el.resultTitle.textContent = !res.completed ? 'انتهى الوقت!'
     : won ? 'أسرع زول في السباق! 🏆'
       : res.place ? `وصلت في المركز ${res.place}` : 'وصلت خط النهاية! 🎉';
@@ -964,7 +1008,7 @@ async function createRoom() {
   el.setupGo.disabled = true;
   try {
     const { category, kind, difficulty } = S.prefs;
-    const view = await api('room.create', { category, kind, difficulty });
+    const view = await api('room.create', { category, kind, difficulty, character: myChar() });
     S.history = ['home'];
     enterRoom(view);
     toast(`اتنشأت الغرفة ${view.room.code} — أرسل الكود لأصحابك`);
@@ -980,7 +1024,7 @@ async function joinRoom(rawCode) {
   if (!S.user) { S.pendingJoin = code; openAuth('login', 'سجّل الدخول أولًا عشان تنضم للغرفة.'); return; }
   if (!isValidRoomCode(code)) { toast('الغرفة غير موجودة، راجع الكود وجرب مرة ثانية', true); return; }
   try {
-    const view = await api('room.join', { code });
+    const view = await api('room.join', { code, character: myChar() });
     enterRoom(view);
     toast(`انضميت للغرفة ${code} 👋`);
   } catch (err) {
@@ -1044,7 +1088,7 @@ function btPlayersList() {
   if (b.role === 'host') {
     const me = S.race?.mode === 'bt' ? S.race : null;
     return [
-      { id: 'host', name: nick(), isMe: true, progress: me ? me.tracker.progress : 0, wpm: me ? me.tracker.wpm(me.elapsed) : 0, accuracy: me ? me.tracker.accuracy : 100, finished: b.hostFinish != null, place: b.hostPlace ?? null },
+      { id: 'host', name: nick(), character: myChar(), isMe: true, progress: me ? me.tracker.progress : 0, wpm: me ? me.tracker.wpm(me.elapsed) : 0, accuracy: me ? me.tracker.accuracy : 100, finished: b.hostFinish != null, place: b.hostPlace ?? null },
       ...[...b.peers.values()].map((p) => ({ ...p, isMe: false })),
     ];
   }
@@ -1115,7 +1159,7 @@ function btHostStart(textId, difficulty) {
 
 function btState() {
   const b = S.bt;
-  const list = btPlayersList().map((p) => ({ id: p.id, name: p.name, progress: p.progress, wpm: p.wpm, accuracy: p.accuracy, finished: p.finished, place: p.place ?? null }));
+  const list = btPlayersList().map((p) => ({ id: p.id, name: p.name, character: p.character, progress: p.progress, wpm: p.wpm, accuracy: p.accuracy, finished: p.finished, place: p.place ?? null }));
   return { t: 'state', round: b.round, players: list };
 }
 
@@ -1171,7 +1215,7 @@ function bindBt() {
     } else {
       b.connected = true;
       b.hostId = d.id;
-      bt.broadcast({ t: 'join', name: nick() });
+      bt.broadcast({ t: 'join', name: nick(), character: myChar() });
     }
     renderBt();
   });
@@ -1200,6 +1244,7 @@ function bindBt() {
       if (!p) return;
       if (m.t === 'join') {
         p.name = String(m.name || 'لاعب').slice(0, 24);
+        p.character = isCharacterId(m.character) ? m.character : DEFAULT_CHARACTER;
         bt.send(id, { t: 'welcome', id, hostName: nick() });
         bt.broadcast({ t: 'lobby', players: btPlayersList().map(({ id: pid, name }) => ({ id: pid, name })) });
         toast(`${p.name} انضم 👋`);
@@ -1517,7 +1562,7 @@ async function init() {
   bind();
   renderSound();
   fitViewport();
-  probePoses();
+  loadCharacters().then(() => { if (S.screen === 'setup') renderSetup(); renderHome(); });
   sprites.intro?.set('run');
   const invite = new URLSearchParams(location.search).get('room');
   await refreshAuth();
