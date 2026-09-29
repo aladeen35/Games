@@ -3,5 +3,5 @@
    مثال: 'https://bushra-tech.aladeen35.workers.dev'
    اتركه فارغًا ليعمل الموقع في «الوضع المحلي» (بيانات الملف data/catalog.json + تعديلات المتصفح). */
 window.BUSHRA_CONFIG = {
-  apiBase: ''
+  apiBase: 'https://bushra-tech.aladeen35.workers.dev'
 };
