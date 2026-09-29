@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>صفحة المطوّر — البشرى تكنولوجي</title>
+<meta name="theme-color" content="#0B1A38">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html"><img src="assets/icon-192.png" alt=""><span>صفحة المطوّر<small>Al-Bushra Technology</small></span></a>
+    <nav><a href="index.html" target="_blank" rel="noopener">عرض الموقع ↗</a><a href="#" id="logout" hidden>تسجيل الخروج</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- تسجيل الدخول / إنشاء كلمة المرور -->
+  <section id="auth" hidden>
+    <form class="panel login-box" id="authForm">
+      <h3 id="authTitle">دخول المطوّر</h3>
+      <p class="hint" id="authHint"></p>
+      <label for="pw">كلمة المرور</label>
+      <input class="input" id="pw" type="password" autocomplete="current-password" required>
+      <div id="pw2Wrap" hidden>
+        <label for="pw2">تأكيد كلمة المرور</label>
+        <input class="input" id="pw2" type="password" autocomplete="new-password">
+      </div>
+      <div style="margin-top:14px"><button class="btn btn-primary" type="submit" id="authBtn">دخول</button></div>
+      <div class="msg" id="authMsg" role="alert"></div>
+    </form>
+  </section>
+
+  <!-- اللوحة -->
+  <section id="dash" hidden>
+    <div id="modeBanner"></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="apps">التطبيقات</button>
+      <button role="tab" aria-selected="false" data-tab="sugg">الاقتراحات<span class="count" id="unread" hidden></span></button>
+      <button role="tab" aria-selected="false" data-tab="settings">الإعدادات</button>
+    </div>
+
+    <div data-pane="apps">
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          <h3 style="margin:0">التطبيقات والألعاب <span class="hint" id="appsCount"></span></h3>
+          <button class="btn btn-primary" id="addApp" type="button">+ إضافة تطبيق</button>
+        </div>
+        <p class="hint" style="margin-bottom:12px">المفتاح الأخضر = ظاهر في الموقع. استخدم الأسهم لترتيب الظهور. التغييرات تُحفظ فورًا.</p>
+        <div id="appList"></div>
+      </div>
+    </div>
+
+    <div data-pane="sugg" hidden>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          <h3 style="margin:0">اقتراحات الزوّار</h3>
+          <select class="input" id="suggFilter" style="width:auto">
+            <option value="all">الكل</option><option value="unread">غير المقروءة</option>
+            <option value="noreply">بلا ردّ</option><option value="replied">تمّ الردّ</option><option value="hidden">المخفية</option>
+          </select>
+        </div>
+        <p class="hint" style="margin-bottom:12px">الاقتراح الذي تردّ عليه يُنشر مع ردّك في الموقع (بدون وسيلة التواصل)، إلا إذا أخفيته.</p>
+        <div id="suggList"></div>
+      </div>
+    </div>
+
+    <div data-pane="settings" hidden>
+      <div class="two">
+        <form class="panel" id="setForm">
+          <h3>نصوص الموقع</h3>
+          <label for="stName">اسم الموقع</label><input class="input" id="stName" data-k="siteName">
+          <label for="stNameEn">الاسم بالإنجليزية</label><input class="input" id="stNameEn" data-k="siteNameEn" dir="ltr">
+          <label for="stTag">الشعار النصّي</label><input class="input" id="stTag" data-k="tagline">
+          <label for="stAbout">من نحن</label><textarea class="input" id="stAbout" data-k="about"></textarea>
+          <label for="stDed">الإهداء (أسفل الصفحة)</label><input class="input" id="stDed" data-k="dedication">
+          <label for="stMail">بريد التواصل (اختياري)</label><input class="input" id="stMail" data-k="contactEmail" dir="ltr" type="email">
+          <div style="margin-top:14px"><button class="btn btn-primary" type="submit">حفظ النصوص</button></div>
+          <div class="msg" id="setMsg" role="status"></div>
+        </form>
+        <div>
+          <form class="panel" id="pwForm">
+            <h3>تغيير كلمة المرور</h3>
+            <label for="oldPw">الحالية</label><input class="input" id="oldPw" type="password" autocomplete="current-password" required>
+            <label for="newPw">الجديدة</label><input class="input" id="newPw" type="password" autocomplete="new-password" required>
+            <label for="newPw2">تأكيد الجديدة</label><input class="input" id="newPw2" type="password" autocomplete="new-password" required>
+            <div style="margin-top:14px"><button class="btn btn-primary" type="submit">تغيير</button></div>
+            <div class="msg" id="pwMsg" role="status"></div>
+          </form>
+          <div class="panel" style="margin-top:18px">
+            <h3>النسخ الاحتياطي</h3>
+            <p class="hint">صدّر كل البيانات (التطبيقات والنصوص والاقتراحات) كملف JSON، أو استورد نسخة سابقة. ملف <code>data/catalog.json</code> في المستودع هو المصدر الافتراضي.</p>
+            <div class="actions" style="margin-top:10px">
+              <button class="btn btn-ghost" type="button" id="exportBtn">تصدير JSON</button>
+              <label class="btn btn-ghost" style="margin:0">استيراد JSON<input type="file" id="importFile" accept="application/json,.json" hidden></label>
+              <button class="btn btn-danger" type="button" id="resetBtn">استعادة الكتالوج من الملف</button>
+            </div>
+            <div class="msg" id="bkMsg" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- نافذة إضافة/تعديل تطبيق -->
+<dialog id="appDlg">
+  <form method="dialog" id="appForm">
+    <h3 style="margin:0 0 6px;font-family:var(--serif);color:var(--navy-700)" id="dlgTitle">إضافة تطبيق</h3>
+    <label for="fName">الاسم *</label><input class="input" id="fName" required maxlength="80">
+    <div class="row">
+      <div><label for="fCat">التصنيف</label>
+        <select class="input" id="fCat"><option value="apps">تطبيقات</option><option value="games">ألعاب</option><option value="kids">للأطفال</option><option value="tools">أدوات</option></select></div>
+      <div><label for="fBadge">شارة (اختياري)</label><input class="input" id="fBadge" maxlength="30" placeholder="جديد، الإصدار 2.0…"></div>
+    </div>
+    <label for="fDesc">الوصف</label><textarea class="input" id="fDesc" maxlength="600"></textarea>
+    <label>الشعار / الصورة</label>
+    <div class="logo-edit">
+      <div id="fLogoPrev"></div>
+      <div style="flex:1">
+        <input class="input" id="fLogo" placeholder="رابط الصورة أو ارفع ملفًا" dir="ltr">
+        <label class="btn btn-ghost" style="margin-top:8px;display:inline-flex">رفع صورة<input type="file" id="fLogoFile" accept="image/*" hidden></label>
+      </div>
+    </div>
+    <label for="fUrl">الرابط المباشر (الموقع أو صفحة التطبيق)</label><input class="input" id="fUrl" dir="ltr" placeholder="https://">
+    <label for="fPlay">رابط Google Play</label><input class="input" id="fPlay" dir="ltr" placeholder="https://play.google.com/store/apps/details?id=…">
+    <label for="fApk">رابط تحميل APK</label><input class="input" id="fApk" dir="ltr" placeholder="https://">
+    <label class="check"><input type="checkbox" id="fVisible" checked> ظاهر في الموقع</label>
+    <label class="check"><input type="checkbox" id="fFeatured"> مميّز (يظهر أولًا)</label>
+    <div class="msg" id="dlgMsg" role="alert"></div>
+    <div class="foot">
+      <button class="btn btn-ghost" value="cancel" formnovalidate type="submit">إلغاء</button>
+      <button class="btn btn-primary" value="save" type="submit" id="dlgSave">حفظ</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>

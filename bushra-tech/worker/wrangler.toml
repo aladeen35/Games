@@ -1,0 +1,14 @@
+name = "bushra-tech"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# أنشئ مساحة KV مرة واحدة:  npx wrangler kv namespace create BUSHRA_KV
+# ثم ضع الـ id الناتج هنا:
+[[kv_namespaces]]
+binding = "BUSHRA_KV"
+id = "PUT_KV_NAMESPACE_ID_HERE"
+
+[vars]
+# افصل بين النطاقات بفاصلة، أو اتركها "*" للسماح للجميع
+ALLOWED_ORIGINS = "*"
+# اختياري (سرّي): npx wrangler secret put SETUP_KEY — يمنع غيرك من تعيين كلمة المرور قبلك

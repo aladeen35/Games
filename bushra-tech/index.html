@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>البشرى تكنولوجي — Al-Bushra Technology</title>
+<meta name="description" content="البشرى تكنولوجي: كل تطبيقاتنا وألعابنا العربية في مكان واحد — بُشرى، ألعاب أبو جنان، عالم الألوان مع جنان وغيرها.">
+<meta name="theme-color" content="#0B1A38">
+<meta property="og:title" content="البشرى تكنولوجي">
+<meta property="og:description" content="تطبيقات وألعاب عربية نصنعها بحب">
+<meta property="og:image" content="assets/icon-512.png">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/tajawal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="#top"><img src="assets/icon-192.png" alt=""><span><span data-set="siteName">البشرى تكنولوجي</span><small data-set="siteNameEn">Al-Bushra Technology</small></span></a>
+    <nav aria-label="أقسام الصفحة">
+      <a href="#products">منتجاتنا</a>
+      <a href="#suggest">اقتراحاتكم</a>
+      <a href="#about">من نحن</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <div class="plate"><img src="assets/brand-logo.webp" alt="شعار البشرى تكنولوجي" width="170" height="185"></div>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1 data-set="siteName">البشرى تكنولوجي</h1>
+    <div class="en" data-set="siteNameEn">Al-Bushra Technology</div>
+    <p class="sub" data-set="tagline">تطبيقات وألعاب عربية نصنعها بحب</p>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section id="products">
+    <div class="sec-h">
+      <div><h2>منتجاتنا</h2><p>اضغط على أي منتج لفتحه مباشرة أو تنزيله</p></div>
+      <div class="filters" role="toolbar" aria-label="تصفية المنتجات">
+        <div id="chips" class="filters"></div>
+        <input class="search" id="q" type="search" placeholder="ابحث عن تطبيق أو لعبة…" aria-label="بحث">
+      </div>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <div class="empty" id="empty" hidden>لا توجد نتائج مطابقة</div>
+  </section>
+
+  <section id="suggest">
+    <div class="sec-h"><div><h2>اقتراحاتكم</h2><p>فكرة لتطبيق جديد، أو ملاحظة على أحد منتجاتنا؟ يسعدنا سماعها — ونردّ عليها هنا.</p></div></div>
+    <div class="two">
+      <form class="panel" id="suggForm" novalidate>
+        <h3>أرسل اقتراحًا</h3>
+        <div class="row">
+          <div><label for="sName">الاسم (اختياري)</label><input class="input" id="sName" maxlength="60" autocomplete="name"></div>
+          <div><label for="sContact">وسيلة تواصل (اختياري — لا تُنشر)</label><input class="input" id="sContact" maxlength="120" placeholder="بريد أو رقم"></div>
+        </div>
+        <label for="sApp">بخصوص</label>
+        <select class="input" id="sApp"><option value="">اقتراح عام / فكرة جديدة</option></select>
+        <label for="sMsg">الاقتراح</label>
+        <textarea class="input" id="sMsg" maxlength="1500" required placeholder="اكتب اقتراحك هنا…"></textarea>
+        <div style="margin-top:12px"><button class="btn btn-primary" type="submit">إرسال الاقتراح</button></div>
+        <div class="msg" id="sMsgBox" role="status"></div>
+      </form>
+      <div class="panel">
+        <h3>ردود المطوّر</h3>
+        <div class="scroll" id="replies"><p class="hint">لا توجد ردود منشورة بعد.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sec-h"><div><h2>من نحن</h2></div></div>
+    <div class="panel"><p style="margin:0;font-size:17px" data-set="about"></p><p class="hint" id="contactLine" hidden></p></div>
+  </section>
+
+  <footer>
+    <div class="ded" data-set="dedication"></div>
+    <div>© <span id="yr"></span> <span data-set="siteName">البشرى تكنولوجي</span></div>
+    <div style="margin-top:10px"><a class="dev" href="admin.html">🔒 صفحة المطوّر</a></div>
+  </footer>
+</main>
+
+<script src="config.js"></script>
+<script src="assets/common.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
