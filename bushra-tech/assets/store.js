@@ -143,8 +143,13 @@
   }
   const cloudApi = {
     async getPublic() {
-      const st = await withFileDefaults(await call('/api/catalog'));
-      return publicView(st);
+      try {
+        return publicView(await withFileDefaults(await call('/api/catalog')));
+      } catch (e) {
+        // الخادم لا يستجيب: اعرض الكتالوج من الملف حتى لا تتعطل الصفحة
+        console.warn('API unavailable, using data/catalog.json', e);
+        return publicView(await loadFile());
+      }
     },
     async addSuggestion(s) { await call('/api/suggestions', { method: 'POST', body: normalizeSuggestion(s) }); },
     async authStatus() { return call('/api/auth/status'); },

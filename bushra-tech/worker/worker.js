@@ -20,7 +20,7 @@ export default {
       return res;
     } catch (e) {
       const status = e.status || 500;
-      return json({ error: status === 500 ? 'خطأ داخلي في الخادم' : e.message }, status, cors);
+      return json({ error: status === 500 && !e.status ? 'خطأ داخلي في الخادم' : e.message }, status, cors);
     }
   }
 };
@@ -30,6 +30,18 @@ async function route(req, env) {
   const p = url.pathname.replace(/\/+$/, '');
   const m = req.method;
   const KV = env.BUSHRA_KV;
+
+  /* صفحة فحص: افتح رابط الخادم مباشرة لترى حالته */
+  if ((p === '' || p === '/api') && m === 'GET') {
+    return json({
+      ok: !!KV,
+      service: 'Al-Bushra Technology API',
+      kv: KV ? 'مربوط ✓' : 'غير مربوط ✗ — أضف ربط KV باسم BUSHRA_KV من Settings ← Bindings',
+      password: KV ? ((await KV.get('auth')) ? 'معيّنة ✓' : 'لم تُعيَّن بعد — افتح صفحة المطوّر') : '—',
+      setupKey: env.SETUP_KEY ? 'مفعّل ✓' : 'غير مفعّل'
+    });
+  }
+  if (!KV) throw httpErr(500, 'مخزن BUSHRA_KV غير مربوط بالخادم');
 
   /* ---------- عام ---------- */
   if (p === '/api/catalog' && m === 'GET') {
