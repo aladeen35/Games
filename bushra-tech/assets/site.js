@@ -52,7 +52,7 @@
     const games = apps.filter((a) => a.category === 'games' || a.category === 'kids').length;
     const apks = apps.filter((a) => a.apkUrl || a.playUrl).length;
     $('stats').innerHTML = [
-      [apps.length, 'منتج'], [games, 'لعبة'], [apks, 'للتنزيل على أندرويد']
+      [apps.length, 'منتج'], [games, 'لعبة'], [apks, 'للتنزيل']
     ].map(([n, t]) => '<div class="stat"><b>' + n + '</b><span>' + t + '</span></div>').join('');
   }
 
