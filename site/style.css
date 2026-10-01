@@ -432,3 +432,12 @@ body.hasTicker .fab{bottom:58px}
 .gStars .sN{font-size:11px;font-weight:800;color:var(--cream-dim)}
 .moreLink{display:block;margin-top:7px;font-size:11.5px;font-weight:800;color:var(--brass-hi);text-decoration:none;opacity:.9}
 .moreLink:hover{text-decoration:underline}
+
+
+/* سطر الجهة المنتجة في التذييل */
+.maker{display:inline-flex;align-items:center;gap:9px;margin-top:10px;padding:5px 15px 5px 7px;
+  border-radius:999px;font-size:13.5px;font-weight:800;color:#dbe9ff;text-decoration:none;
+  background:linear-gradient(165deg,rgba(14,30,66,.92),rgba(8,18,44,.92));
+  box-shadow:0 2px 7px rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(90,150,235,.45)}
+.maker img{width:28px;height:28px;border-radius:8px;object-fit:cover;display:block}
+.maker b{color:#8fc0ff}

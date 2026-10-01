@@ -1,0 +1,66 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>الصورة المميزة</title>
+<style>
+@font-face{font-family:'Kufi';src:url('../assets/font-kufi.ttf') format('truetype');font-weight:100 900}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#2b1708}
+body{font-family:'Kufi',sans-serif;color:#f6e3c2}
+.stage{position:absolute;top:50%;left:50%;width:1024px;height:500px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center}
+.bg{position:absolute;inset:0;
+  background:
+    radial-gradient(85% 150% at 82% 50%, rgba(226,166,70,.38) 0%, rgba(226,166,70,0) 62%),
+    linear-gradient(105deg,#2a1406 0%,#3d1e0a 30%,#5a3113 62%,#7b4418 100%)}
+.bg::after{content:"";position:absolute;inset:0;opacity:.13;background-image:var(--pat);background-size:118px 102px;mix-blend-mode:overlay}
+.flag{position:absolute;left:0;right:0;height:7px;display:flex}
+.flag i{flex:1}.flag.t{top:0}.flag.b{bottom:0}
+.f1{background:#c8102e}.f2{background:#f3eee6}.f3{background:#1b1b1b}.f4{background:#0f7a3d}
+
+.hero{position:absolute;right:40px;top:50%;transform:translateY(-50%);
+  display:flex;align-items:center;gap:24px;width:700px}
+.hero > img{width:196px;height:196px;flex:0 0 196px;object-fit:contain;filter:drop-shadow(0 10px 26px rgba(0,0,0,.65))}
+.txt{text-align:right;flex:1;min-width:0}
+.txt h1{font-size:57px;font-weight:900;line-height:1.06;color:#ffe3a4;white-space:nowrap;
+  text-shadow:0 3px 0 #6d3d0e,0 8px 20px rgba(0,0,0,.6)}
+.txt .tag{margin-top:12px;font-size:23px;font-weight:700;line-height:1.45;color:#eed2a2}
+.txt .chips{margin-top:16px;display:flex;gap:9px;justify-content:flex-end;flex-wrap:nowrap}
+.txt .chips i{font-style:normal;font-size:17px;font-weight:800;color:#3a2206;white-space:nowrap;
+  background:linear-gradient(180deg,#f5d692,#d9a751);border-radius:999px;padding:7px 15px;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+
+/* شعارات الألعاب على الطرف المقابل */
+.games{position:absolute;left:34px;top:50%;transform:translateY(-50%);
+  display:grid;grid-template-columns:repeat(2,102px);gap:12px}
+.games img{width:102px;height:102px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+.fade{display:none}
+.maker{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:9px;font-size:17px;font-weight:800;color:#cfdff7;opacity:.9}
+.maker img{width:24px;height:24px;border-radius:7px;object-fit:cover}
+</style></head><body>
+<div class="stage" id="stage">
+  <div class="bg" id="bg"></div>
+  <div class="flag t"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+  <div class="flag b"><i class="f4"></i><i class="f3"></i><i class="f2"></i><i class="f1"></i></div>
+  <div class="games">
+    <img src="../assets/ludo-logo.png"><img src="../assets/logo.png">
+    <img src="../assets/snake-logo.png"><img src="../assets/seega-logo.png">
+  </div>
+  <div class="fade"></div>
+  <div class="hero">
+    <img src="../assets/logo-main.png" alt="">
+    <div class="txt">
+      <h1>ألعاب أبو جنان</h1>
+      <div class="tag">ثماني ألعاب سودانية تراثية في تطبيق واحد<br>أونلاين • بلوتوث بلا إنترنت • أو وحدك ضدّ الجهاز</div>
+      <div class="chips"><i>بلا إعلانات</i><i>بلا حسابات</i><i>مجاناً بالكامل</i></div>
+    </div>
+  </div>
+  <div class="maker"><img src="../assets/bushra-logo.png" alt="">من إنتاج البشرى للتكنولوجيا</div>
+</div>
+<script>
+const PAT = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="150" height="130" viewBox="0 0 150 130">
+  <g fill="none" stroke="#f3dcae" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M0 65 L37.5 0 L112.5 0 L150 65 L112.5 130 L37.5 130 Z"/>
+    <path d="M37.5 65 L56 32 L94 32 L112.5 65 L94 98 L56 98 Z"/>
+    <path d="M75 52 L88 65 L75 78 L62 65 Z"/></g>
+  <g fill="#f3dcae"><circle cx="0" cy="65" r="4"/><circle cx="150" cy="65" r="4"/></g></svg>`);
+document.getElementById('bg').style.setProperty('--pat', `url("data:image/svg+xml,${PAT}")`);
+function fit(){ document.getElementById('stage').style.setProperty('--s', Math.max(innerWidth/1024, innerHeight/500)); }
+fit(); addEventListener('resize', fit);
+</script></body></html>

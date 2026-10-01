@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium',args:['--use-gl=swiftshader']});
+const p=await b.newPage({viewport:{width:1024,height:500}});
+await p.goto('http://localhost:8412/playstore/feature.html');
+await p.evaluate(()=>document.fonts.ready);
+await p.waitForFunction(()=>[...document.images].every(i=>i.complete&&i.naturalWidth>0));
+await p.waitForTimeout(400);
+await p.screenshot({path:'/home/user/Games/playstore/out/feature-graphic.png'});
+console.log('✔ feature-graphic 1024×500');
+await b.close();

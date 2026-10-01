@@ -1,0 +1,66 @@
+═══════════════════════════════════════════════════════
+APP NAME (max 30 chars)
+═══════════════════════════════════════════════════════
+Abu Janan Games — Sudan
+  (22 chars)
+
+═══════════════════════════════════════════════════════
+SHORT DESCRIPTION (max 80 chars)
+═══════════════════════════════════════════════════════
+Eight Sudanese heritage games: online, Bluetooth offline, or vs the computer.
+  (76 chars)
+
+═══════════════════════════════════════════════════════
+FULL DESCRIPTION (max 4000 chars)
+═══════════════════════════════════════════════════════
+Eight traditional Sudanese games in one app — fully in Arabic, no ads, no account.
+
+Play with friends online using a four-character room code, over Bluetooth with no internet at all, on one device taking turns, or on your own against the computer at three difficulty levels.
+
+THE GAMES
+
+• Nut Al-Kalb — a 5×5 board, 12 pieces each. Jump over your opponent's piece into the empty square behind it to knock it out, and chain jumps while you can. Win by clearing every one of their pieces.
+
+• Safrajit — a 3×3 board. Place your pieces, then move them; form three in a straight line to remove one of your opponent's pieces.
+
+• Seega — Sudanese folk chess on a 5×5 board. Trap an opponent's piece between two of yours to capture it, and chain captures as far as the board allows.
+
+• Ludo, the Sudanese way — two to four players. Each turn you choose one to four dice and spread the results across your pieces, but a single die's value can never be split. Two pieces on one square form a "double" that moves at half the roll and blocks the path — and a double captures a double. Your own colour never blocks itself, so pieces of the same colour stack freely.
+
+• Snakes and Ladders — 100 squares, two to four players, exact count needed to land on 100.
+
+• Ana Minu — thirty character cards, each player holding one in secret. Ask yes/no questions, rule cards out, and guess your opponent's character before they guess yours.
+
+• Koz Joz Loz Moz — three to four players. Pass cards quickly; the first to collect four matching cards calls it, and everyone else races for the response button.
+
+• Walad Bint Jamad Nabat — two to five players. A random letter each round across six categories; the first to hit STOP freezes everyone, scoring 10, 5 or 0 depending on whether an answer is right and unique.
+
+FOUR WAYS TO PLAY
+
+• Online — create a room, share a four-character code. No sign-up, no account.
+• Bluetooth, no internet — play side by side with no network at all. Each game has its own channel, so you only ever see players who opened the same game.
+• One device — pass and play, up to five players.
+• Versus the computer — seven games with a computer opponent at three levels. The hard level searches several turns ahead before it moves a single piece.
+
+WHY THIS APP
+
+• No ads at all, no in-app purchases, no subscriptions.
+• No account, no email, no phone number.
+• No personal data collected, no tracking.
+• Full right-to-left Arabic interface with Kufic type and real recorded sounds.
+• A 3D view of the board games with a Sudanese desert feel, and 3D dice that tumble and settle.
+• Local and Bluetooth play work completely offline.
+
+The games our grandparents played, by the rules we know — in your pocket.
+
+By Abu Janan 🇸🇩
+Produced by Al-Bushra Technology
+
+═══════════════════════════════════════════════════════
+RELEASE NOTES (max 500 chars)
+═══════════════════════════════════════════════════════
+• Play against the computer in seven games, at three levels: easy, medium and hard.
+• Ludo: your own colour never blocks itself — a third piece passes over your double and stands with it.
+• A movable piece now lifts forward with a golden glow, so it is easy to see and tap.
+• Bigger boards across all the board games.
+• Bluetooth is now per-game: you only see players who opened the same game.

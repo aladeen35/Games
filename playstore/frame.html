@@ -1,0 +1,104 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<title>لقطة متجر</title>
+<style>
+@font-face{font-family:'Kufi';src:url('../assets/font-kufi.ttf') format('truetype');font-weight:100 900}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#2b1708}
+body{font-family:'Kufi',sans-serif;color:#f6e3c2}
+/* التصميم مرسوم على مسرح ثابت 1080×1920 ثم يُكبَّر ليملأ أي مقاس يطلبه المتجر */
+.stage{position:absolute;top:50%;left:50%;width:1080px;height:1920px;
+  transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center}
+
+/* ===== الخلفية: جلد سوداني غامق بنقش هندسي نوبي ===== */
+.bg{position:absolute;inset:0;
+  background:
+    radial-gradient(120% 70% at 50% -8%, rgba(214,146,58,.34) 0%, rgba(214,146,58,0) 58%),
+    radial-gradient(90% 60% at 50% 108%, rgba(120,52,14,.55) 0%, rgba(120,52,14,0) 60%),
+    linear-gradient(168deg,#6b3a16 0%,#50290f 26%,#3a1c0a 60%,#2a1406 100%);}
+.bg::after{content:"";position:absolute;inset:0;opacity:.14;
+  background-image:var(--pat);background-size:150px 130px;mix-blend-mode:overlay}
+
+/* ===== شريط ألوان العلم السوداني رفيع ===== */
+.flagrule{position:absolute;left:0;right:0;height:9px;display:flex}
+.flagrule i{flex:1;display:block}
+.flagrule.top{top:0}.flagrule.bot{bottom:0}
+.f1{background:#c8102e}.f2{background:#f3eee6}.f3{background:#1b1b1b}.f4{background:#0f7a3d}
+
+/* ===== العنوان ===== */
+header{position:absolute;top:96px;left:0;right:0;text-align:center;padding:0 70px}
+h1{font-size:82px;font-weight:900;line-height:1.14;letter-spacing:-1px;
+  color:#ffe6ad;text-shadow:0 3px 0 #70400f, 0 7px 22px rgba(0,0,0,.6)}
+h1 em{font-style:normal;color:#ffd069}
+p.sub{margin-top:22px;font-size:35px;font-weight:600;line-height:1.5;color:#e4c89a;opacity:.95}
+
+/* زخرفة بين العنوان والنص */
+.orn{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px}
+.orn span{height:3px;width:120px;background:linear-gradient(90deg,rgba(226,170,86,0),#e2aa56,rgba(226,170,86,0))}
+.orn b{width:16px;height:16px;transform:rotate(45deg);background:#e2aa56;box-shadow:0 0 0 5px rgba(226,170,86,.22)}
+
+/* ===== إطار الهاتف ===== */
+.phone{position:absolute;left:50%;top:470px;transform:translateX(-50%);
+  width:604px;height:1178px;border-radius:58px;padding:15px;
+  background:linear-gradient(160deg,#e9c483 0%,#a9762f 36%,#6d4315 70%,#c9a160 100%);
+  box-shadow:0 28px 70px rgba(0,0,0,.62), 0 6px 0 rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,236,196,.45)}
+.phone .scr{width:100%;height:100%;border-radius:48px;overflow:hidden;background:#000;
+  box-shadow:inset 0 0 0 3px rgba(40,20,4,.9)}
+.phone .scr img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+
+/* ===== التذييل: الشعار والاسم ===== */
+footer{position:absolute;bottom:56px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:22px}
+footer img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6))}
+footer .nm{text-align:right}
+footer .nm b{display:block;font-size:40px;font-weight:900;color:#ffdf9f;line-height:1.1}
+footer .nm i{display:block;font-style:normal;font-size:25px;color:#d8b887;margin-top:4px}
+.maker{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:9px;font-size:19px;font-weight:800;color:#c6d9f5;opacity:.92}
+.maker img{width:26px;height:26px;border-radius:7px;object-fit:cover}
+
+.badge{position:absolute;top:1676px;left:50%;transform:translateX(-50%);
+  display:flex;gap:14px;align-items:center}
+.badge i{font-style:normal;font-size:25px;font-weight:700;color:#3a2206;background:linear-gradient(180deg,#f3d08a,#d6a24c);
+  border-radius:999px;padding:11px 26px;box-shadow:0 4px 0 rgba(0,0,0,.3)}
+</style></head><body>
+<div class="stage" id="stage">
+<div class="bg" id="bg"></div>
+<div class="flagrule top"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+<div class="flagrule bot"><i class="f4"></i><i class="f3"></i><i class="f2"></i><i class="f1"></i></div>
+<header>
+  <h1 id="t">العنوان</h1>
+  <div class="orn"><span></span><b></b><span></span></div>
+  <p class="sub" id="s">الوصف</p>
+</header>
+<div class="phone"><div class="scr"><img id="shot" src=""></div></div>
+<div class="badge" id="badge"></div>
+<footer>
+  <img src="../assets/logo-main.png" alt="">
+  <div class="nm"><b>ألعاب أبو جنان</b><i>تراث السودان في جيبك 🇸🇩</i></div>
+</footer>
+<div class="maker"><img src="../assets/bushra-logo.png" alt="">من إنتاج البشرى للتكنولوجيا</div>
+</div>
+<script>
+/* نقش هندسي نوبي: معيّنات متشابكة وزخرفة زقزاق — يُرسم مرة ويتكرر */
+const PAT = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="150" height="130" viewBox="0 0 150 130">
+  <g fill="none" stroke="#f3dcae" stroke-width="2.6" stroke-linejoin="round">
+    <path d="M0 65 L37.5 0 L112.5 0 L150 65 L112.5 130 L37.5 130 Z"/>
+    <path d="M37.5 65 L56 32 L94 32 L112.5 65 L94 98 L56 98 Z"/>
+    <path d="M75 52 L88 65 L75 78 L62 65 Z"/>
+  </g>
+  <g fill="#f3dcae"><circle cx="0" cy="65" r="4"/><circle cx="150" cy="65" r="4"/>
+    <circle cx="37.5" cy="0" r="3"/><circle cx="112.5" cy="0" r="3"/>
+    <circle cx="37.5" cy="130" r="3"/><circle cx="112.5" cy="130" r="3"/></g>
+</svg>`);
+document.getElementById('bg').style.setProperty('--pat', `url("data:image/svg+xml,${PAT}")`);
+function fit(){
+  const s = Math.max(innerWidth/1080, innerHeight/1920);
+  document.getElementById('stage').style.setProperty('--s', s);
+}
+fit(); addEventListener('resize', fit);
+const q = new URLSearchParams(location.search);
+document.getElementById('t').innerHTML = q.get('t') || '';
+document.getElementById('s').textContent = q.get('s') || '';
+document.getElementById('shot').src = 'raw/' + (q.get('img')||'hub') + '.png';
+const tags = (q.get('tags')||'').split('|').filter(Boolean);
+document.getElementById('badge').innerHTML = tags.map(x=>'<i>'+x+'</i>').join('');
+</script></body></html>

@@ -58,6 +58,32 @@ public class BluetoothLinkPlugin extends Plugin {
     private static final UUID SERVICE_UUID = UUID.fromString("6a1b0c7e-3f2d-4a58-9e11-ab0c1a2e3d40");
     private static final String SERVICE_NAME = "SudaniGames";
 
+    /**
+     * لكل لعبة معرّف خدمة خاص بها، فلا يرى من فتح «ليدو» مضيفاً فتح «السلم
+     * والثعبان». يُشتقّ المعرّف من المعرّف الأساسي باسم اللعبة، فيبقى ثابتاً
+     * بين الأجهزة بلا جدول ثابت. اسم لعبة فارغ يعني المعرّف الأساسي، حفاظاً
+     * على التوافق مع النسخ السابقة.
+     */
+    private static UUID gameUuid(String game) {
+        if (game == null || game.isEmpty()) return SERVICE_UUID;
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+            md.update(SERVICE_UUID.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            md.update((byte) 0);
+            byte[] d = md.digest(game.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            long hi = 0L, lo = 0L;
+            for (int i = 0; i < 8; i++)  hi = (hi << 8) | (d[i] & 0xffL);
+            for (int i = 8; i < 16; i++) lo = (lo << 8) | (d[i] & 0xffL);
+            hi = (hi & ~0xf000L) | 0x4000L;                 // الإصدار 4
+            lo = (lo & 0x3fffffffffffffffL) | 0x8000000000000000L;  // المتغيّر RFC 4122
+            return new UUID(hi, lo);
+        } catch (Exception e) {
+            return SERVICE_UUID;
+        }
+    }
+
+    private volatile String hostGame = "";
+
     private BluetoothAdapter adapter;
     private AcceptThread acceptThread;
     private final Map<String, Conn> conns = new ConcurrentHashMap<>();
@@ -221,6 +247,7 @@ public class BluetoothLinkPlugin extends Plugin {
     private void doHost(PluginCall call) {
         try {
             stopAll();
+            hostGame = call.getString("game", "");
             Intent disc = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             disc.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             if (getActivity() != null) {
@@ -247,7 +274,8 @@ public class BluetoothLinkPlugin extends Plugin {
         @SuppressLint("MissingPermission")
         public void run() {
             try {
-                server = adapter.listenUsingRfcommWithServiceRecord(SERVICE_NAME, SERVICE_UUID);
+                server = adapter.listenUsingRfcommWithServiceRecord(
+                    SERVICE_NAME + (hostGame.isEmpty() ? "" : "-" + hostGame), gameUuid(hostGame));
             } catch (Exception e) {
                 notifyErr("LISTEN_FAIL: " + e.getMessage());
                 return;
@@ -349,14 +377,27 @@ public class BluetoothLinkPlugin extends Plugin {
     private void doConnect(PluginCall call) {
         String id = call.getString("id");
         if (id == null) { call.reject("NO_ID"); return; }
+        String game = call.getString("game", "");
         new Thread(() -> {
             try {
                 if (adapter.isDiscovering()) adapter.cancelDiscovery();
                 BluetoothDevice dev = adapter.getRemoteDevice(id);
-                BluetoothSocket s = dev.createRfcommSocketToServiceRecord(SERVICE_UUID);
-                s.connect();
+                BluetoothSocket s = null;
+                boolean sameGame = true;
+                try {
+                    s = dev.createRfcommSocketToServiceRecord(gameUuid(game));
+                    s.connect();
+                } catch (Exception first) {
+                    // المضيف قد يكون على نسخة سابقة تستخدم المعرّف الأساسي وحده
+                    try { if (s != null) s.close(); } catch (Exception ignored) {}
+                    s = dev.createRfcommSocketToServiceRecord(SERVICE_UUID);
+                    s.connect();
+                    sameGame = false;
+                }
                 addConn(s);
-                call.resolve();
+                JSObject r = new JSObject();
+                r.put("sameGame", sameGame);
+                call.resolve(r);
             } catch (Exception e) {
                 call.reject("CONNECT_FAIL: " + e.getMessage());
             }
