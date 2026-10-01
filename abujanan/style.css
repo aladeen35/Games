@@ -441,3 +441,6 @@ body.hasTicker .fab{bottom:58px}
   box-shadow:0 2px 7px rgba(0,0,0,.4), inset 0 0 0 1.5px rgba(90,150,235,.45)}
 .maker img{width:28px;height:28px;border-radius:8px;object-fit:cover;display:block}
 .maker b{color:#8fc0ff}
+
+/* بطاقة تحميل واحدة: في المنتصف بدل نصف الشبكة */
+.dlGrid > .dlCard:only-child{grid-column:1 / -1;width:100%;max-width:640px;margin-inline:auto}
