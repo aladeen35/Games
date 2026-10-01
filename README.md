@@ -57,3 +57,16 @@
 | `assets/dog-*.png` | أشكال الكلاب الستة (star, spiral, diamond, circle, wave, square) |
 
 لاستبدال أي عنصر بصري، استبدل الملف بنفس الاسم داخل `assets/` دون تعديل الكود.
+
+## النشر
+
+المواقع المنشورة تعيش في المستودع العام **`aladeen35/aladeen35.github.io`** تحت المجلد `Games/`،
+فتبقى الروابط كما هي: `https://aladeen35.github.io/Games/...`. أما هذا المستودع (الكود والمفتاح) فخاص.
+
+| المسار المنشور | المصدر هنا |
+|---|---|
+| `Games/nut-alkalb/` | `index.html` و `sw.js` و `manifest.webmanifest` و `assets/` |
+| `Games/abujanan/` | محتوى `site/` |
+| `Games/abujanan/files/` | ملف APK من `playstore/release/` (باسمه الذي فيه الإصدار، ونسخة ثابتة `AbuJanan-Games.apk`) |
+
+لا تنشر من فرع `gh-pages` هنا بعد الآن: مستودع خاص على الخطة المجانية لا يُنشر عبر GitHub Pages.
