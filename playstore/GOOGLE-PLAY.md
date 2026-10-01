@@ -8,7 +8,7 @@
 
 | الملف | الاستخدام |
 |---|---|
-| `AbuJanan-Games-1.5.0-PlayStore.aab` | **حزمة التطبيق** التي ترفعها (versionCode 10 · الإصدار 1.5.0) |
+| `AbuJanan-Games-1.5.1-PlayStore.aab` | **حزمة التطبيق** التي ترفعها (versionCode 11 · الإصدار 1.5.1) |
 | `out/app-icon-512.png` | أيقونة المتجر 512×512 |
 | `out/feature-graphic.png` | الصورة المميزة 1024×500 |
 | `out/phone/*.jpg` | لقطات الهاتف 1080×1920 (عشر لقطات) |
@@ -159,8 +159,8 @@
 
 1. **Create new release**.
 2. عند سؤال مفتاح التوقيع: **Use Google-generated key** (انظر ١-ب).
-3. ارفع `AbuJanan-Games-1.5.0-PlayStore.aab`.
-4. Release name: `1.5.0`
+3. ارفع `AbuJanan-Games-1.5.1-PlayStore.aab`.
+4. Release name: `1.5.1`
 5. Release notes: انسخ «ملاحظات الإصدار» من الملفين، كلٌّ في وسم لغته:
    ```
    <ar>
@@ -218,7 +218,7 @@
 
 - **رابط التطبيق** سيكون: `https://play.google.com/store/apps/details?id=sd.abujanan.games`
   — ضعه في الموقع والمنشورات بدل رابط APK أو بجانبه.
-- **التحديثات القادمة**: ارفع AAB جديداً برقم `versionCode` أكبر من السابق (11 فما فوق).
+- **التحديثات القادمة**: ارفع AAB جديداً برقم `versionCode` أكبر من السابق (12 فما فوق).
 - **APK للموقع بعد اعتماد المتجر**: لتكون نسخة الموقع ونسخة المتجر قابلتين للتحديث فوق بعضهما،
   نزّل الـ APK الموقّع من **App bundle explorer ← Downloads ← Signed, universal APK** وضعه في الموقع.
 

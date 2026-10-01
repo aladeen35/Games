@@ -22,7 +22,7 @@ playstore/
 ## ملف AAB والدليل الكامل
 
 - **دليل الرفع خطوة بخطوة، وكل الإجابات:** [`GOOGLE-PLAY.md`](GOOGLE-PLAY.md)
-- **الحزمة:** `release/AbuJanan-Games-1.5.0-PlayStore.aab` (خارج git — تُرسل وتُولَّد بالأوامر أدناه)
+- **الحزمة:** `release/AbuJanan-Games-1.5.1-PlayStore.aab` (خارج git — تُرسل وتُولَّد بالأوامر أدناه)
 
 طريقتان لبناء الحزمة:
 

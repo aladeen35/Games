@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium',args:['--use-gl=swiftshader']});
+const p=await b.newPage({viewport:{width:430,height:860},deviceScaleFactor:3});
+await p.goto('http://localhost:8412/index.html'); await p.waitForTimeout(1800);
+await p.evaluate(()=>document.querySelector('[data-game="mn"]').click()); await p.waitForTimeout(300);
+await p.evaluate(()=>document.getElementById('aiBtn').click()); await p.waitForTimeout(300);
+await p.evaluate(()=>document.getElementById('aiStartBtn').click()); await p.waitForTimeout(1400);
+await p.evaluate(()=>{ clearTimeout(mn.aiTimer);
+  [...document.querySelectorAll('.mnCard')].slice(0,9).forEach(c=>c.classList.add('out'));
+  mn.myTurn=false; mnShowAnswer('q_headwear'); });
+await p.waitForTimeout(700);
+await p.screenshot({path:'/home/user/Games/playstore/raw/mino.png'});
+console.log('✔ mino (نافذة الإجابة)');
+await b.close();

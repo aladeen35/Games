@@ -730,6 +730,39 @@ input.code{
 }
 .mnQ:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(90,50,15,.45)}
 .mnQ:disabled{opacity:.4;background:rgba(255,255,255,.25);color:var(--cream);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.3)}
+/* نافذة الإجابة على سؤال الخصم */
+#mnAnswer{position:fixed;inset:0;z-index:74;display:none;align-items:center;justify-content:center;padding:14px;
+  background:rgba(22,10,0,.8);backdrop-filter:blur(4px)}
+#mnAnswer.show{display:flex}
+#mnAnswerCard{
+  width:100%;max-width:420px;padding:20px 16px 16px;border-radius:24px;text-align:center;color:var(--cream);
+  background:linear-gradient(168deg,var(--leather-hi) 0%,#4a2b12 25%,var(--leather-mid) 60%,var(--leather-lo) 100%);
+  box-shadow:var(--shadow-lift), inset 0 0 0 2px var(--brass-lo), inset 0 0 0 4px rgba(0,0,0,.4);
+  animation:mnAnsIn .32s var(--ease-spring)}
+@keyframes mnAnsIn{from{transform:scale(.88) translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.mnAnsWho{font-size:14px;font-weight:800;color:#e8c99a;margin-bottom:6px}
+#mnAnsQ{font-size:21px;line-height:1.55;color:var(--brass-hi);margin:0 0 14px}
+.mnAnsMine{display:flex;align-items:center;gap:12px;justify-content:center;margin:0 auto 16px;padding:9px 14px;
+  width:max-content;max-width:100%;border-radius:16px;background:rgba(0,0,0,.24);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.4)}
+.mnAnsMine img{width:86px;height:86px;object-fit:cover;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.5)}
+.mnAnsMine span{display:block;font-size:12px;color:#d9bd8f;text-align:start}
+.mnAnsMine b{display:block;font-size:16px;color:var(--cream);text-align:start;margin-top:2px}
+.mnAnsBtns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mnAnsBtn{padding:16px 10px;border:none;border-radius:18px;font-family:inherit;font-size:21px;font-weight:900;cursor:pointer;
+  color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);transition:transform .12s}
+.mnAnsBtn:active{transform:translateY(3px)}
+.mnAnsBtn.yes{background:linear-gradient(180deg,#5fbf63,#2f8a3c);box-shadow:0 5px 0 #1f5e28, inset 0 1px 0 rgba(255,255,255,.35)}
+.mnAnsBtn.no{background:linear-gradient(180deg,#e2624f,#a83426);box-shadow:0 5px 0 #6e1f15, inset 0 1px 0 rgba(255,255,255,.3)}
+.mnAnsNote{margin-top:13px;font-size:12.5px;color:#d6b98b;line-height:1.7}
+
+/* كشف الإجابات في نهاية الجولة */
+.mnCheck{margin:12px auto 4px;max-width:440px;padding:11px 13px;border-radius:15px;text-align:start;font-size:13.5px;line-height:1.75;
+  background:rgba(0,0,0,.24);box-shadow:inset 0 0 0 1.5px rgba(242,181,68,.4)}
+.mnCheck.ok{color:#bfe7b6;box-shadow:inset 0 0 0 1.5px rgba(120,200,110,.5)}
+.mnCheck.bad{color:#ffd9c9;box-shadow:inset 0 0 0 1.5px rgba(232,120,90,.6)}
+.mnCheck b{color:var(--brass-hi)}
+.mnCheck ul{margin:6px 0 0;padding-inline-start:18px}
+.mnCheck li{margin:4px 0}
 .mnResCards{display:flex;gap:12px;justify-content:center;margin:10px 0}
 .mnResOne{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px;border-radius:16px;
   background:linear-gradient(170deg, rgba(130,78,35,.6), rgba(48,26,10,.9));box-shadow:inset 0 0 0 1.5px rgba(201,141,78,.5)}
@@ -1128,10 +1161,12 @@ footer .credit{
       <ol class="rulesList" id="rulesMino" style="display:none">
         <li><b>لاعبان</b>: أونلاين برمز غرفة، أو عبر <b>البلوتوث بلا إنترنت</b>، أو جولة سريعة <b>ضد الجهاز</b>.</li>
         <li>أمام كل لاعب <b>30 بطاقة شخصية</b> — ويحصل كل لاعب على <b>شخصية سرية</b> واحدة من بينها لا يعرفها خصمه.</li>
-        <li><b>في دورك:</b> إمّا أن تسأل سؤالاً واحداً بـ«نعم/لا» من بنك الأسئلة (المظهر، المهنة، الملابس، الإكسسوارات، الصفات) — وتُحتسب الإجابة تلقائياً من شخصية خصمك السرية — وإمّا أن تُخمّن.</li>
+        <li><b>في دورك:</b> إمّا أن تسأل سؤالاً واحداً بـ«نعم/لا» من بنك الأسئلة (المظهر، المهنة، الملابس، الإكسسوارات، الصفات)، وإمّا أن تُخمّن.</li>
+        <li><b>الإجابة بيد خصمك:</b> يظهر سؤالك على شاشة خصمك مع شخصيته السرية، فينظر إليها ويضغط <b>«نعم»</b> أو <b>«لا»</b> بنفسه — وكذلك تجيب أنت عن أسئلته. وضدّ الجهاز تجيب أنت عن أسئلة الجهاز بنفسك أيضاً.</li>
         <li>بعد الإجابة ينتقل الدور إلى خصمك. لكل دور <b>90 ثانية</b>، ومن انتهى وقته يفقد دوره.</li>
-        <li><b>الاستبعاد:</b> اضغط أي بطاقة لاستبعادها أو لإعادتها. وزرّ <b>«استبعاد تلقائي»</b> يستبعد عنك كل الشخصيات المخالفة للإجابة.</li>
+        <li><b>الاستبعاد بيدك:</b> بعد كل إجابة اضغط البطاقات التي لا تنطبق عليها لتخفيها، واضغطها مرة أخرى لإعادتها إن أخطأت.</li>
         <li><b>التخمين:</b> اضغط «خمّن الشخصية» ثم اختر البطاقة — التخمين الصحيح يفوز بالجولة، و<b>الخاطئ يعني الخسارة فوراً</b>.</li>
+        <li><b>كشف الإجابات:</b> في نهاية الجولة تنكشف الشخصيتان، وتعرض اللعبة أي إجابة لم تكن صحيحة — فأجب بصدق 😉</li>
         <li><b>النقاط:</b> 100 نقطة ناقص 5 عن كل سؤال سألته (وبحدٍّ أدنى 20)، زائد <b>مكافأة سرعة</b> تبدأ من 50 وتنقص نقطة كل 12 ثانية — فكلما خمّنت أسرع وبأسئلة أقل زادت نقاطك.</li>
       </ol>
       <ol class="rulesList" id="rulesWbjn" style="display:none">
@@ -1578,7 +1613,6 @@ footer .credit{
         <button class="btn red" id="mnGuessBtn"><svg><use href="#i-search"/></svg>خمّن الشخصية</button>
       </div>
       <div class="row" style="margin:2px 0 0">
-        <button class="chip on" id="mnAutoBtn">✨ استبعاد تلقائي</button>
       </div>
       <p class="hint" id="mnHint">اضغط أي بطاقة لاستبعادها أو لإعادتها</p>
 
@@ -1600,6 +1634,7 @@ footer .credit{
       </div>
       <p id="mnResMsg" style="font-weight:800;margin:8px 0"></p>
       <div class="mnScoreBox" id="mnScoreBox"></div>
+      <div class="mnCheck" id="mnCheck" style="display:none"></div>
       <div class="row" style="margin-top:12px">
         <button class="btn gold" id="mnAgainBtn"><svg><use href="#i-refresh"/></svg>جولة جديدة</button>
         <button class="btn ghost" id="mnHomeBtn"><svg><use href="#i-home"/></svg>القائمة الرئيسية</button>
@@ -1631,7 +1666,7 @@ footer .credit{
     </div>
   </section>
 
-  <footer>ألعاب أبو جنان 🇸🇩<br><span class="credit">إنتاج أبو جنان</span><br><span class="maker"><img src="assets/bushra-logo.png" alt="البشرى للتكنولوجيا">من إنتاج <b>البشرى للتكنولوجيا</b></span><br><span class="credit" id="verTag" style="opacity:.55;font-size:11px">الإصدار 1.5.0</span></footer>
+  <footer>ألعاب أبو جنان 🇸🇩<br><span class="credit">إنتاج أبو جنان</span><br><span class="maker"><img src="assets/bushra-logo.png" alt="البشرى للتكنولوجيا">من إنتاج <b>البشرى للتكنولوجيا</b></span><br><span class="credit" id="verTag" style="opacity:.55;font-size:11px">الإصدار 1.5.1</span></footer>
 </main>
 
 <div id="overlay">
@@ -1655,6 +1690,21 @@ footer .credit{
     <div class="wbChips" id="mnCats"></div>
     <div class="mnQs" id="mnQs"></div>
     <div class="row"><button class="btn ghost" id="mnAskClose"><svg><use href="#i-exit"/></svg>رجوع</button></div>
+  </div>
+</div>
+<div id="mnAnswer" role="dialog" aria-modal="true" aria-labelledby="mnAnsQ">
+  <div id="mnAnswerCard">
+    <p class="mnAnsWho" id="mnAnsWho">سألك خصمك:</p>
+    <h2 id="mnAnsQ">…</h2>
+    <div class="mnAnsMine">
+      <img id="mnAnsImg" src="" alt="">
+      <div><span>شخصيتك السرية</span><b id="mnAnsNm"></b></div>
+    </div>
+    <div class="mnAnsBtns">
+      <button class="mnAnsBtn yes" id="mnAnsYes">نعم ✔</button>
+      <button class="mnAnsBtn no" id="mnAnsNo">لا ✘</button>
+    </div>
+    <p class="mnAnsNote">انظر إلى شخصيتك وأجب بصدق — كل الإجابات تُكشف في نهاية الجولة 😉</p>
   </div>
 </div>
 <div id="confirmOverlay">
@@ -3965,7 +4015,9 @@ const mn = {
   mySecret:0, oppSecret:0, myTurn:false, guessing:false,
   out:new Set(), asked:new Set(), myQ:0, log:[],
   t0:0, tick:null, turnLeft:0, cat:'appearance',
-  auto:true, aiCands:[], aiAsked:new Set(), aiTimer:null,
+  aiCands:[], aiAsked:new Set(), aiTimer:null,
+  pendingQ:null,      // سؤال من الخصم ينتظر أن أجيب عليه بنفسي
+  waitingQ:null,      // سؤالي ينتظر إجابة الخصم
 };
 let mnet=null, mnOpp=null, mnRoom='', mnOppName='';
 
@@ -3976,6 +4028,7 @@ function mnDestroyPeer(){
 function mnSend(obj){ if(mnet && mnOpp) mnet.send(obj, mnOpp); }
 function mnStopTimers(){ clearInterval(mn.tick); mn.tick=null; clearTimeout(mn.aiTimer); mn.aiTimer=null; }
 function mnLeaveAll(){ mnStopTimers(); mnDestroyPeer(); mn.phase='idle'; mn.vsAI=false; mn.online=false;
+  mn.pendingQ=null; mn.waitingQ=null; mnHideAnswer();
   document.getElementById('mnAsk').classList.remove('show'); }
 
 /* ---------- الغرفة ---------- */
@@ -4082,6 +4135,7 @@ function mnStartAI(){
 function mnBegin(myTurn){
   mn.phase='play'; mn.myTurn=!!myTurn; mn.guessing=false;
   mn.out=new Set(); mn.asked=new Set(); mn.myQ=0; mn.log=[];
+  mn.pendingQ=null; mn.waitingQ=null; mnHideAnswer();
   mn.t0=Date.now();
   mn.aiCands=MN_CHARS.slice(); mn.aiAsked=new Set();
   document.getElementById('mnLog').style.display='none';
@@ -4128,6 +4182,8 @@ function mnRender(){
   document.getElementById('mnQn').textContent = mn.myQ;
   const turn=document.getElementById('mnTurn');
   if(mn.guessing){ turn.textContent='اختر الشخصية التي تظنها شخصية خصمك'; turn.classList.remove('me'); }
+  else if(mn.pendingQ){ turn.textContent='أجب عن سؤال '+(mnOppName||'خصمك'); turn.classList.add('me'); }
+  else if(mn.waitingQ){ turn.textContent='بانتظار إجابة '+(mnOppName||'خصمك')+'…'; turn.classList.remove('me'); }
   else if(mn.myTurn){ turn.textContent='دورك — اسأل أو خمّن'; turn.classList.add('me'); }
   else { turn.textContent='انتظر دور '+(mnOppName||'خصمك')+'…'; turn.classList.remove('me'); }
   document.getElementById('mnAskBtn').disabled = !mn.myTurn || mn.guessing;
@@ -4135,7 +4191,6 @@ function mnRender(){
     ? '<svg><use href="#i-exit"/></svg>إلغاء التخمين'
     : '<svg><use href="#i-search"/></svg>خمّن الشخصية';
   document.getElementById('mnGuessBtn').disabled = !mn.myTurn;
-  document.getElementById('mnAutoBtn').classList.toggle('on', mn.auto);
   document.getElementById('mnHint').textContent = mn.guessing
     ? 'تحذير: التخمين الخاطئ يعني الخسارة!'
     : 'اضغط أي بطاقة لاستبعادها أو لإعادتها';
@@ -4153,12 +4208,6 @@ function mnRenderLog(){
                 '<span class="av '+(e.ans?'y':'n')+'">'+(e.ans?'نعم':'لا')+'</span>';
     box.appendChild(d);
   });
-}
-function mnAutoEliminate(qid, ans){
-  const q=MN_QMAP[qid]; if(!q) return 0;
-  let n=0;
-  MN_CHARS.forEach(c=>{ if(!!q.f(c)!==ans && !mn.out.has(c.i)){ mn.out.add(c.i); n++; } });
-  return n;
 }
 
 /* ---------- المؤقّت ---------- */
@@ -4226,8 +4275,8 @@ function mnAsk(qid){
   mn.myTurn=false;
   document.getElementById('mnAsk').classList.remove('show');
   if(mn.online){
+    mn.waitingQ=qid;
     mnSend({t:'mask', q:qid});
-    toast('بانتظار إجابة خصمك…');
   } else {
     const ans=!!MN_QMAP[qid].f(mnChar(mn.oppSecret));
     mnGotAnswer(qid, ans);
@@ -4236,15 +4285,75 @@ function mnAsk(qid){
   mnRender();
 }
 function mnGotAnswer(qid, ans){
+  mn.waitingQ=null;
   mn.log.push({mine:true, qid:qid, ans:ans});
-  let n=0;
-  if(mn.auto) n=mnAutoEliminate(qid, ans);
-  toast((ans?'الإجابة: نعم ✔':'الإجابة: لا ✘')+(n?(' — استُبعدت '+n+' شخصية'):''));
+  toast((ans?'أجاب: نعم ✔':'أجاب: لا ✘')+' — استبعد البطاقات التي لا تنطبق');
   mnRender();
 }
-function mnAnswerFor(qid){                   // أجب عن سؤال الخصم من شخصيتي السرية
-  const q=MN_QMAP[qid]; if(!q) return null;
-  return !!q.f(mnChar(mn.mySecret));
+
+/* ---------- الإجابة على سؤال الخصم: يظهر السؤال وأجيب بنفسي ---------- */
+function mnShowAnswer(qid){
+  const q=MN_QMAP[qid]; if(!q) return;
+  const me=mnChar(mn.mySecret);
+  mn.pendingQ=qid;
+  document.getElementById('mnAsk').classList.remove('show');
+  document.getElementById('mnAnsWho').textContent='سألك '+(mnOppName||'خصمك')+':';
+  document.getElementById('mnAnsQ').textContent=q.t;
+  document.getElementById('mnAnsImg').src=mnImg(me.i);
+  document.getElementById('mnAnsNm').textContent=me.n+' — '+me.p;
+  document.getElementById('mnAnswer').classList.add('show');
+  try{ navigator.vibrate && navigator.vibrate(45); }catch(e){}   // تنبيه خفيف: وصلك سؤال
+  mnRender();
+}
+function mnHideAnswer(){
+  const el=document.getElementById('mnAnswer');
+  if(el) el.classList.remove('show');
+}
+function mnSubmitAnswer(ans){
+  const qid=mn.pendingQ;
+  if(!qid || mn.phase!=='play') return;
+  mn.pendingQ=null;
+  mnHideAnswer();
+  mn.log.push({mine:false, qid:qid, ans:ans});
+  if(mn.online) mnSend({t:'mans', q:qid, a:ans});
+  if(mn.vsAI){                                   // الجهاز يصدّق إجابتك ويستبعد على أساسها
+    const q=MN_QMAP[qid];
+    mn.aiCands=mn.aiCands.filter(c=>!!q.f(c)===ans);
+  }
+  mn.myTurn=true; mnResetTurnTimer();
+  mnRender();
+}
+
+/* كشف الإجابات: بعد انتهاء الجولة تُعرف الشخصيتان، فنراجع كل إجابة */
+function mnAnswerCheck(){
+  const wrong=[];
+  mn.log.forEach(e=>{
+    const q=MN_QMAP[e.qid]; if(!q) return;
+    const secret = e.mine ? mn.oppSecret : mn.mySecret;   // من أجاب عن السؤال؟
+    if(!secret) return;
+    const truth=!!q.f(mnChar(secret));
+    if(truth!==!!e.ans) wrong.push({e, q, truth});
+  });
+  return wrong;
+}
+function mnPaintCheck(){
+  const box=document.getElementById('mnCheck');
+  if(!mn.log.length){ box.style.display='none'; return; }
+  const wrong=mnAnswerCheck();
+  const opp=esc(mnOppName||'الخصم');
+  const yn=v=>v?'نعم':'لا';
+  box.style.display='block';
+  if(!wrong.length){
+    box.className='mnCheck ok';
+    box.innerHTML='✔ <b>كل الإجابات في هذه الجولة كانت صحيحة</b>';
+    return;
+  }
+  box.className='mnCheck bad';
+  box.innerHTML='⚠ <b>إجابات غير صحيحة ('+wrong.length+')</b><ul>'+
+    wrong.map(w=> w.e.mine
+      ? '<li>سؤالك «'+esc(w.q.t)+'» — أجاب '+opp+': <b>'+yn(w.e.ans)+'</b>، والصحيح: <b>'+yn(w.truth)+'</b></li>'
+      : '<li>سؤال '+opp+' «'+esc(w.q.t)+'» — أجبتَ: <b>'+yn(w.e.ans)+'</b>، والصحيح: <b>'+yn(w.truth)+'</b></li>'
+    ).join('')+'</ul>';
 }
 
 /* ---------- التخمين ---------- */
@@ -4307,12 +4416,8 @@ function mnAITurn(){
       return;
     }
     mn.aiAsked.add(q.id);
-    const ans=!!q.f(mnChar(mn.mySecret));
-    mn.aiCands=mn.aiCands.filter(c=>!!q.f(c)===ans);
-    mn.log.push({mine:false, qid:q.id, ans:ans});
-    mn.myTurn=true; mnResetTurnTimer(); mnRender();
-    toast('سألك الجهاز: '+q.t+' — أجبنا: '+(ans?'نعم':'لا'));
-  }, 1500+Math.random()*900);
+    mnShowAnswer(q.id);                          // أنت تجيب، والجهاز يستبعد على أساس إجابتك
+  }, 3000+Math.random()*1500);
 }
 
 /* ---------- الرسائل ---------- */
@@ -4325,15 +4430,8 @@ function mnOnData(d){
       break;
     }
     case 'mask': {
-      if(mn.phase!=='play') return;
-      const ans=mnAnswerFor(d.q);
-      if(ans===null) return;
-      mnSend({t:'mans', q:d.q, a:ans});
-      mn.log.push({mine:false, qid:d.q, ans:ans});
-      mn.myTurn=true; mnResetTurnTimer();
-      const q=MN_QMAP[d.q];
-      toast('سألك '+(mnOppName||'خصمك')+': '+q.t+' — أجبنا: '+(ans?'نعم':'لا'));
-      mnRender();
+      if(mn.phase!=='play' || !MN_QMAP[d.q]) return;
+      mnShowAnswer(d.q);
       break;
     }
     case 'mans': {
@@ -4376,6 +4474,8 @@ function mnOnData(d){
 function mnFinish(won, msg, forfeit){
   mnStopTimers();
   mn.phase='end'; mn.guessing=false;
+  mn.pendingQ=null; mn.waitingQ=null; mnHideAnswer();
+  document.getElementById('toast').classList.remove('show');   // لا تبقى رسالة السؤال الأخير فوق النتيجة
   const sec=Math.max(0,Math.floor((Date.now()-mn.t0)/1000));
   document.getElementById('mnResTitle').textContent = won ? 'أحسنت! 🎉' : 'هذه المرة لم يحالفك الحظ 😄';
   document.getElementById('mnResMsg').textContent = msg;
@@ -4395,6 +4495,7 @@ function mnFinish(won, msg, forfeit){
     box.innerHTML='<div class="mnSc">أسئلتك<b>'+mn.myQ+'</b></div>'+
                   '<div class="mnSc">الوقت<b>'+String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')+'</b></div>';
   }
+  mnPaintCheck();
   document.getElementById('mnResHint').textContent =
     mn.online ? (mn.isHost?'اضغط «جولة جديدة» لبدء جولة أخرى مع نفس الخصم':'يمكنك طلب جولة جديدة من المضيف') : '';
   showScreen('mnScoreScreen');
@@ -4421,13 +4522,8 @@ document.getElementById('mnCancelBtn').onclick=()=>{
 document.getElementById('mnAskBtn').onclick=mnOpenAsk;
 document.getElementById('mnAskClose').onclick=()=>document.getElementById('mnAsk').classList.remove('show');
 document.getElementById('mnGuessBtn').onclick=mnToggleGuess;
-document.getElementById('mnAutoBtn').onclick=()=>{
-  mn.auto=!mn.auto;
-  try{ localStorage.setItem('mn_auto', mn.auto?'1':'0'); }catch(e){}
-  toast(mn.auto?'الاستبعاد التلقائي مُفعّل':'الاستبعاد التلقائي متوقف — استبعد بنفسك');
-  mnRender();
-};
-try{ if(localStorage.getItem('mn_auto')==='0') mn.auto=false; }catch(e){}
+document.getElementById('mnAnsYes').onclick=()=>mnSubmitAnswer(true);
+document.getElementById('mnAnsNo').onclick=()=>mnSubmitAnswer(false);
 document.getElementById('mnLogHead').onclick=()=>{
   const b=document.getElementById('mnLog');
   const open = b.style.display==='none';

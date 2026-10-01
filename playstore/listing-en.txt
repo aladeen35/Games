@@ -59,8 +59,8 @@ Produced by Al-Bushra Technology
 ═══════════════════════════════════════════════════════
 RELEASE NOTES (max 500 chars)
 ═══════════════════════════════════════════════════════
-• Play against the computer in seven games, at three levels: easy, medium and hard.
-• Ludo: your own colour never blocks itself — a third piece passes over your double and stands with it.
-• A movable piece now lifts forward with a golden glow, so it is easy to see and tap.
+• Ana Minu: your question pops up for your opponent, who answers yes or no themselves; you hide cards by hand, and any wrong answer is revealed at the end.
+• Play against the computer in seven games, at three levels.
+• Ludo: your own pieces stack freely, and a movable piece lifts forward.
 • Bigger boards across all the board games.
-• Bluetooth is now per-game: you only see players who opened the same game.
+• Bluetooth is per-game: you only see players who opened the same game.
