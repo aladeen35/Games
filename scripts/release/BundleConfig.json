@@ -1,0 +1,14 @@
+{
+  "optimizations": {
+    "splitsConfig": {
+      "splitDimension": [
+        {"value": "LANGUAGE",       "negate": true},
+        {"value": "ABI",            "negate": false},
+        {"value": "SCREEN_DENSITY", "negate": false},
+        {"value": "TEXTURE_COMPRESSION_FORMAT", "negate": true}
+      ]
+    },
+    "uncompressNativeLibraries": {"enabled": true}
+  },
+  "compression": {"uncompressedGlob": []}
+}

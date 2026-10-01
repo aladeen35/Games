@@ -22,3 +22,6 @@ site/*.exe
 # لقطات خام قابلة لإعادة التوليد من اللعبة نفسها
 playstore/raw/
 playstore/release/
+
+# أدوات البناء المنزّلة
+.cache/

@@ -19,30 +19,27 @@ playstore/
    └─ tablet10/            ← 10 لقطات JPEG بمقاس 1440×2304
 ```
 
-## ما ينقص: ملف AAB
+## ملف AAB والدليل الكامل
 
-متجر Google Play يقبل **حزمة Android App Bundle (.aab)** فقط للتطبيقات الجديدة.
-بناؤها يحتاج Android SDK والوصول إلى `dl.google.com`. عند توفّرهما:
+- **دليل الرفع خطوة بخطوة، وكل الإجابات:** [`GOOGLE-PLAY.md`](GOOGLE-PLAY.md)
+- **الحزمة:** `release/AbuJanan-Games-1.5.0-PlayStore.aab` (خارج git — تُرسل وتُولَّد بالأوامر أدناه)
+
+طريقتان لبناء الحزمة:
 
 ```bash
-ANDROID_SDK_ROOT=/path/to/android-sdk bash scripts/build-playstore.sh
+# الطريقة الرسمية — تحتاج Android SDK والوصول إلى dl.google.com
+ANDROID_SDK_ROOT=/path/to/sdk bash scripts/build-playstore.sh
+
+# بلا Android SDK — من APK سابق مبني بـ Gradle، بأدوات Google الرسمية في bundletool
+KEYSTORE_PASSWORD=... bash scripts/release/release-offline.sh <base.apk>
 ```
 
-ينتج المجلد `playstore/release/` ويضمّ ملف AAB وملف APK وكل ملفات المتجر في مكان واحد،
-بعد فحص آلي يتأكد أن المحزوم هو آخر نسخة من اللعبة وليس نسخة قديمة.
+الطريقة الثانية تحدّث ملفات اللعبة ورقم الإصدار، لكن كود Java (مثل إضافة البلوتوث) يُؤخذ كما هو
+من ملف APK الأساس، فأي تعديل فيه يحتاج الطريقة الأولى.
 
-## خطوات الرفع في Play Console
+## خطوات الرفع
 
-1. **إنشاء حساب مطوّر** على <https://play.google.com/console> (رسم تسجيل 25 دولاراً يُدفع مرة واحدة).
-2. **Create app**: الاسم «ألعاب أبو جنان»، اللغة الافتراضية «العربية»، النوع **Game**، مجاني.
-3. **Store listing** → انسخ النصوص من `listing-ar.txt`، وارفع الأيقونة والصورة المميزة واللقطات من `out/`.
-4. **Store settings** → الفئة: ألعاب ← **Board**، وبريد التواصل، ورابط الموقع.
-5. **Privacy policy** → `https://aladeen35.github.io/Games/abujanan/privacy.html`
-6. **App content** → املأ النماذج من `console-answers.md`:
-   أمان البيانات · تصنيف المحتوى · الإعلانات (لا) · الوصول للتطبيق · الجمهور والمحتوى.
-7. **Production → Create new release** → ارفع ملف `.aab`، وانسخ ملاحظات الإصدار.
-8. **Countries** → اختر كل البلدان (أو ابدأ بالدول العربية).
-9. **Send for review** — المراجعة تستغرق عادةً من بضع ساعات إلى أيام.
+انظر [`GOOGLE-PLAY.md`](GOOGLE-PLAY.md) — مرتّبة من إنشاء الحساب حتى ما بعد النشر.
 
 ## ملاحظات مهمة
 
