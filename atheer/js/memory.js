@@ -179,9 +179,10 @@
     x.setLineDash([]); x.globalAlpha = 1;
     return c;
   }
-  function bakeSil(w, h, col) {
+  function bakeShade(w, h, c0, c1) {
     const c = mk(w * dpr, h * dpr), x = c.getContext('2d'); x.scale(dpr, dpr);
-    x.fillStyle = col; x.beginPath(); x.roundRect(0, 0, w, h, w * .13); x.fill(); return c;
+    const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, c0); g.addColorStop(1, c1);
+    x.fillStyle = g; x.beginPath(); x.roundRect(0, 0, w, h, w * .13); x.fill(); return c;
   }
   function bakeBlur(w, h, pad, col, blur, times) {
     const c = mk((w + pad * 2) * dpr, (h + pad * 2) * dpr), x = c.getContext('2d'); x.scale(dpr, dpr);
@@ -283,7 +284,7 @@
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, cw = 80, ch = 100, gap = 8, cols = 2, rows = 3, mat = { x: 0, y: 0, w: 0, h: 0 };
-  let bgLayer = null, backImg = null, backSil = null, shadowImg = null, glowImg = null, faces = {};
+  let bgLayer = null, backImg = null, shadeL = null, shadeR = null, shineL = null, shineR = null, shadowImg = null, glowImg = null, faces = {};
   let raf = 0, last = 0, T = 0, running = false, paused = false;
   let lvl = 1, def = LEVELS[0], cards = [], open = [], pend = null, events = [], phase = 'deal';
   let moves = 0, mistakes = 0, streak = 0, timeLeft = 0, timed = false, lastTick = 0;
@@ -339,7 +340,9 @@
     bake();
   }
   function bake() {
-    backImg = bakeBack(cw, ch); backSil = bakeSil(cw, ch, '#000');
+    backImg = bakeBack(cw, ch);
+    shadeL = bakeShade(cw, ch, 'rgba(20,0,40,.55)', 'rgba(20,0,40,.08)'); shadeR = bakeShade(cw, ch, 'rgba(20,0,40,.08)', 'rgba(20,0,40,.55)');
+    shineL = bakeShade(cw, ch, 'rgba(255,255,255,.6)', 'rgba(255,255,255,0)'); shineR = bakeShade(cw, ch, 'rgba(255,255,255,0)', 'rgba(255,255,255,.6)');
     shadowImg = bakeBlur(cw, ch, cw * .3, 'rgba(30,10,60,.6)', cw * .12, 1);
     glowImg = bakeBlur(cw, ch, cw * .4, '#FFE45C', cw * .2, 3);
     faces = {};
@@ -669,17 +672,14 @@
   }
 
   /* ---------- الرسم ---------- */
-  function drawStrips(img, a2, shade) {
-    const co = Math.cos(a2), si = Math.sin(a2), P = cw * 2.6, N = 12, iw = img.width / N;
-    for (let k = 0; k < N; k++) {
-      const u0 = -cw / 2 + k * cw / N, u1 = u0 + cw / N, um = (u0 + u1) / 2;
-      const X0 = u0 * co * P / (P - u0 * si), X1 = u1 * co * P / (P - u1 * si), hs = ch * P / (P - um * si);
-      const xa = Math.min(X0, X1), wd = Math.abs(X1 - X0) + .6;
-      ctx.drawImage(img, k * iw, 0, iw, img.height, xa, -hs / 2, wd, hs);
-      const far = si > 0 ? 1 - k / N : k / N;
-      const al = shade * (.08 + .32 * far);
-      if (al > .01) { ctx.globalAlpha = al; ctx.drawImage(backSil, k * iw, 0, iw, backSil.height, xa, -hs / 2, wd, hs); ctx.globalAlpha = 1; }
-    }
+  /* قلب ثلاثي الأبعاد: تصغير أفقي + ظل متدرّج على الجانب البعيد + لمعة على القريب */
+  function drawFlip(img, a2, lift) {
+    const co = Math.max(.02, Math.abs(Math.cos(a2))), far = Math.sin(a2) > 0;
+    ctx.save(); ctx.scale(co, 1);
+    ctx.drawImage(img, -cw / 2, -ch / 2, cw, ch);
+    ctx.globalAlpha = Math.min(1, lift * 1.1); ctx.drawImage(far ? shadeL : shadeR, -cw / 2, -ch / 2, cw, ch);
+    ctx.globalAlpha = lift * .5; ctx.drawImage(far ? shineR : shineL, -cw / 2, -ch / 2, cw, ch);
+    ctx.restore();
   }
   function drawCard(c, idx) {
     const e = ease.inOut(c.f), ang = e * Math.PI, face = ang > Math.PI / 2, lift = Math.sin(ang);
@@ -703,7 +703,7 @@
     ctx.globalAlpha = .55 - lift * .15; ctx.drawImage(shadowImg, -sw * cs / 2 + so * .3, -sh / 2 + so, sw * cs, sh); ctx.globalAlpha = 1;
     const img = face ? faces[c.it.e] : backImg;
     if (lift < .01) ctx.drawImage(img, -cw / 2, -ch / 2, cw, ch);
-    else drawStrips(img, face ? ang - Math.PI : ang, lift);
+    else drawFlip(img, face ? ang - Math.PI : ang, lift);
     if (c.matched && lift < .3) {
       // شريط الاسم
       const fs = clamp(cw * .13, 10, 17), D = DECKS[c.it.d].c;

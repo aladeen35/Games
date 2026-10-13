@@ -526,9 +526,11 @@
     const color = st[s][st[s].length - 1];
     for (let q = 0; q < amt; q++) st[d].push(st[s].pop());
     moves++; sel = -1; tip('', 0);
-    const ts = tv[s], td = tv[d], side = ts.hx < td.hx ? -1 : 1;
+    const ts = tv[s], td = tv[d], reach = G.bottom * .95 + G.tw * .3;
+    let side = ts.hx < td.hx ? -1 : 1;
+    if (side > 0 && td.hx + reach > W) side = -1; else if (side < 0 && td.hx - reach < 0) side = 1;
     const remain = st[s].length, before = remain + amt, R = Math.PI / 180;
-    const th0 = (-side) * (60 + (4 - before) * 13) * R, th1 = (-side) * (82 + (4 - remain) * 11) * R;
+    const th0 = (-side) * (50 + (4 - before) * 9) * R, th1 = (-side) * Math.min(86, 68 + (4 - remain) * 6) * R;
     anim = { s, d, c: color, amt, t: 0, side, th0, th1, T1: .22, T2: .22 + .2 + .13 * amt, T3: .22 + .2 + .13 * amt + .24, fromX: ts.x, fromY: ts.y - ts.lift, dBefore: st[d].length - amt };
     // أصوات الصبّ: قرقرة متصاعدة
     const base = 260 + anim.dBefore * 70;
@@ -850,7 +852,7 @@
     raf = requestAnimationFrame(loop);
     const dt = Math.min(.05, (now - last) / 1000 || 0); last = now;
     if (paused || document.hidden) return;
-    for (let i = 0; i < speed; i++) update(dt);
+    if (speed < 1) update(dt * speed); else for (let i = 0; i < speed; i++) update(dt);
     render();
   }
   function startLoop() { if (running) return; running = true; last = performance.now(); raf = requestAnimationFrame(loop); }

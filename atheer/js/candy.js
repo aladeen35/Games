@@ -38,7 +38,7 @@
     jhour: ['jjjjjjjj', 'xjjjjjjx', 'xxjjjjxx', 'xxx..xxx', 'xxx..xxx', 'xxjjjjxx', 'xjjjjjjx', 'jjjjjjjj'],
     /* لوحات المستويات 25–40 */
     heart: ['x..xx..x', '........', '........', '........', 'x......x', 'xx....xx', 'xxx..xxx', 'xxx..xxx'],
-    jheart: ['xjjxxjjx', 'jjjjjjjj', 'jJJjjJJj', 'jjJJJJjj', 'xjjJJjjx', 'xxjjjjxx', 'xxxjjxxx', 'xxxxxxxx'],
+    jheart: ['x..xx..x', '.jj..jj.', 'jJJjjJJj', 'jjJJJJjj', 'xjjJJjjx', 'xxjjjjxx', 'xxx..xxx', 'xxxxxxxx'],
     arrow: ['xx....xx', 'xx....xx', 'xx....xx', '........', '........', 'x......x', 'xx....xx', 'xxx..xxx'],
     tee: ['........', '........', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx'],
     jtee: ['jjjjjjjj', '........', 'xxjjjjxx', 'xxjJJjxx', 'xxjJJjxx', 'xxjJJjxx', 'xxjjjjxx', 'xxjjjjxx'],
@@ -49,7 +49,7 @@
     zig: ['x.......', 'xx......', 'xxx.....', '........', '........', '.....xxx', '......xx', '.......x'],
     plusb: ['xx....xx', 'xx....xx', '........', '........', '........', '........', 'xx....xx', 'xx....xx'],
     jplus: ['xxxjjxxx', 'xxxjjxxx', '..jjjj..', '.jjJJjj.', '.jjJJjj.', '..jjjj..', 'xxxjjxxx', 'xxxjjxxx'],
-    jcrown: ['jxjxxjxj', 'jjjjjjjj', 'jJjJJjJj', 'JJJJJJJJ', 'jjjjjjjj', 'J.J..J.J', '........', '........']
+    jcrown: ['.x.xx.x.', 'jjjjjjjj', 'jJjJJjJj', 'JJJJJJJJ', 'jjjjjjjj', 'j.j..j.j', '........', '........']
   };
   const LEVELS = [
     { moves: 16, colors: 5, goals: [{ k: 'score', n: 2500 }], stars: [2500, 6000, 9500] },
@@ -77,14 +77,14 @@
     { moves: 26, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.hour, stars: [4500, 5500, 7500] },
     { moves: 38, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 3, n: 22 }], map: M.jhour, stars: [0, 8500, 13500] },
     /* ---- المستويات 25–40 (أُضيفت في النهاية؛ أرقام المستويات القديمة كما هي) ---- */
-    { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jheart, stars: [0, 9000, 14000] },
+    { moves: 30, colors: 5, goals: [{ k: 'jelly' }], map: M.jheart, stars: [0, 9000, 14000] },
     { moves: 24, colors: 6, goals: [{ k: 'c', t: 0, n: 18 }, { k: 'c', t: 5, n: 18 }], map: M.heart, stars: [0, 5000, 8000] },
     { moves: 26, colors: 5, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.arrow, stars: [0, 5000, 8000] },
     { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jdiag, stars: [0, 12000, 20000] },
     { moves: 24, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.tee, stars: [4500, 6500, 8500] },
     { moves: 30, colors: 5, goals: [{ k: 'jelly' }, { k: 'c', t: 2, n: 20 }], map: M.jcheck, stars: [0, 16000, 24000] },
     { moves: 30, colors: 6, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.castle, stars: [0, 6000, 9000] },
-    { moves: 40, colors: 5, goals: [{ k: 'jelly' }], map: M.jframe, stars: [0, 15000, 23000] },
+    { moves: 40, colors: 5, goals: [{ k: 'jelly' }], map: M.jframe, stars: [0, 20000, 30000] },
     { moves: 32, colors: 6, goals: [{ k: 'c', t: 1, n: 24 }, { k: 'c', t: 3, n: 24 }], map: M.zig, stars: [0, 5000, 8000] },
     { moves: 36, colors: 5, goals: [{ k: 'jelly' }], map: M.jtee, stars: [0, 8000, 13000] },
     { moves: 30, colors: 6, goals: [{ k: 'score', n: 5000 }], map: M.plusb, stars: [5000, 7000, 10000] },
@@ -92,7 +92,7 @@
     { moves: 32, colors: 6, goals: [{ k: 'c', t: 0, n: 20 }, { k: 'c', t: 2, n: 20 }, { k: 'c', t: 4, n: 20 }], map: M.castle, stars: [0, 6500, 10000] },
     { moves: 42, colors: 6, goals: [{ k: 'jelly' }], map: M.jheart, stars: [0, 9000, 14000] },
     { moves: 34, colors: 6, goals: [{ k: 'ing', n: 4 }], ingMax: 2, map: M.heart, stars: [0, 4500, 7000] },
-    { moves: 48, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 5, n: 24 }], map: M.jcrown, stars: [0, 12000, 19000] }
+    { moves: 50, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 5, n: 20 }], map: M.jcrown, stars: [0, 12000, 19000] }
   ];
 
   /* ---------- أدوات ---------- */

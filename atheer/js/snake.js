@@ -1060,6 +1060,6 @@
       return false;
     },
     /* للاختبار الآلي فقط */
-    _state() { return { mode, lvl, state, score, fruits, len: body.length, head: body[0], dir, foods: foods.map(f => ({ x: f.x, y: f.y, gold: f.gold })), speed, cell, bx, by }; }
+    _state() { return { mode, lvl, state, score, fruits, len: body.length, head: body[0], body, map, dir, queue: queue.length, foods: foods.map(f => ({ x: f.x, y: f.y, gold: f.gold })), speed, cell, bx, by }; }
   });
 })();
