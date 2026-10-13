@@ -1,6 +1,6 @@
 /* =====================================================================
    مدفع الفقاعات — صوّب الفقاعات، اجمع 3 من نفس اللون، وحرّر الحيوانات
-   شبكة سداسية، خط تصويب يرتدّ عن الجدران، سقف ينزل، 20 مرحلة + وضع بلا نهاية.
+   شبكة سداسية، خط تصويب يرتدّ عن الجدران، سقف ينزل، 40 مرحلة + وضع بلا نهاية.
    ===================================================================== */
 (() => {
   'use strict';
@@ -42,7 +42,28 @@
     { ic: '🌻', rows: ['GGKKGGGKKGG', 'GYYYGGYYYG', 'YYBBBbBBBYY', 'YBBRRRRBBY', 'YBBRPpPRBBY', 'YYBBRRBBYY', '.YYKKKKKYY.'] },
     { ic: '🎂', rows: ['KKPPKKKPPKK', 'PPPPPPPPPP', 'YYYYyYYYYYY', 'BBBBBBBBBB', 'GGGGGgGGGGG', 'RRRRRRRRRR', '.K.Y.R.B.P.'] },
     { ic: '🐳', rows: ['BBRRGGYYPPK', 'KBBRRGGYYP', 'PKKBBRRGGYY', 'PPKKbBRRGG', 'YYPPKKBBRRG', 'YYyPKKBBRR', 'GGYYPPkKBBR', 'GGYYPPKKBB'] },
-    { ic: '🏆', rows: ['KKRRYYGGBBP', 'PKRRYGGBBP', 'PPKKRYGBBPP', 'BPKrRYGbPB', 'BBPKRYyGPBB', 'GBPKRYGPBG', 'GGBPKkRPBGG', '.GBPKRPBG.', '..GBPkPBG..'] }
+    { ic: '🏆', rows: ['KKRRYYGGBBP', 'PKRRYGGBBP', 'PPKKRYGBBPP', 'BPKrRYGbPB', 'BBPKRYyGPBB', 'GBPKRYGPBG', 'GGBPKkRPBGG', '.GBPKRPBG.', '..GBPkPBG..'] },
+    /* ---- المراحل 21–40 (أُضيفت لاحقًا؛ تبقى أرقام المراحل القديمة كما هي) ---- */
+    { ic: '🏰', rows: ['PPYPPYPPYPP', 'PBBBBBBBBP', '.BBYBBBYBB.', '.BBBBrBBBB', '.BBYKKKYBB.', '.BBBKKKBBB', '.RRBKkKBRR.', '.RRBBBBRR.', '..GGGGGGG..'] },
+    { ic: '🚀', rows: ['GGKKRRRKKGG', 'KKKRRRRKKK', 'KKKRYYYRKKK', 'KKKRYyRKKK', 'KKKRYYYRKKK', 'KKRRRRRRKK', 'KRR.RRR.RRK', '..YYYYYY..', '...PPpPP...', '....PP....'] },
+    { ic: '🐟', rows: ['BBBBBBBBBBB', 'BBYYYYBBBY', 'BYYYYYYBBYY', 'YKYYRYYYYY', 'YYYYyYRYYYB', '.YYYYYYYYY', '.BYYRYYBYY.', '..BYYYBBY.', '...PPPP.GG.'] },
+    { ic: '🌷', rows: ['GGGGGGGGGGG', 'RRGPPGYYGR', 'RRRGPPGYYGR', 'RrRGPpGYyG', '.RRGGPPGYG.', '..GGGGGGG.', '..BBGBBGBB.', '.BBBBBBBBB', '..BGBGBGB..'] },
+    { ic: '🔺', rows: ['GGBBGGGBBGG', 'BBYYYYYYBB', '.YYKKKKKYY.', '.YYKKKKYY.', '..YYKKKYY..', '..YYKkYY..', '...YYKYY...', '...YYYY...', '....YyY....', '....RR....'] },
+    { ic: '😊', rows: ['GGBYYYYYBGG', 'BBYYYYYYBB', 'BYYKYYYKYYB', 'BYKkYYKkYB', 'BYYYYYYYYYB', 'BYRYYYYRYB', '.BYRRRRRYB.', '.BYYYYYYB.', '..BBYYYBB..'] },
+    { ic: '☂️', rows: ['GGGGGGGGGGG', 'GGPRPRPRGG', 'GPRPRPRPRPG', 'PRPRPRPRPR', 'RPRPRpRPRPR', '....KK....', '.....K.....', '....KK....', '...KK......', '...k......'] },
+    { ic: '🚗', rows: ['GGBBBBBBBGG', 'BBBBBBBBBB', 'BBBRRRRRBBB', 'BBRBBRBBRB', '.RRRRRRRRR.', 'RRRYRRRRYR', 'RRRRRRRRRRR', '.KKyRRRKkK', '..KK...KK..'] },
+    { ic: '🌳', rows: ['BBBBGGGBBYY', 'BBBGGGGBBB', 'BBGGRGGGGBB', 'BGGGGGRGGB', 'BGGRGGGGGRB', '.GGGGgGGGG', '..GGGGRGG..', '....KK....', '....KKK....', '...KKKK...'] },
+    { ic: '🦉', rows: ['GGGGGGGGGGG', 'GKKGGGGKKG', 'GKKKKKKKKKG', 'KYYKKKYYKK', 'KYBYKKKYBYK', 'KYYKRRKYYK', 'KKKKKRKKKKK', '.KPPpPPPK.', '.KPKPPPKPK.', '..KKKKKKK.'] },
+    { ic: '🐱', rows: ['BBBBBBBBBBB', 'PBBBBBBBBP', 'PPBBBBBBBPP', 'PPPPPPPPPP', 'PPGGPPPGGPP', 'PGkPPPGkPP', 'PPPPPRPPPPP', 'KKPRRRPKKK', '.PPPPPPPPP.', '..PPPPPP..'] },
+    { ic: '🏠', rows: ['BBBBBBBBBBB', 'BBBBRRBBBB', 'BBBRRRRRBBB', 'BBRRRRRRBB', 'BRRRRRRRRRB', '.YYYYYYYYY', '.YBBYYYBBY.', '.YBBYKYBBY', '.YYYYKKYYY.', '.GGGGgGGGG', 'GGGGGGGGGGG'] },
+    { ic: '🌉', rows: ['BBBBBBBBBBB', 'PBBPBBPBBP', 'RRRRRRRRRRR', 'RYRYRYRYRY', 'RYRYRyRYRYR', 'R.R.RR.R.R', 'R.R.....R.R', 'RBB.....BB', 'RBBb...bBBR', 'GBGB..BGBG'] },
+    { ic: '🍉', rows: ['BBBBBBBBBBB', 'GGGGGGGGGG', 'GGGGGGGGGGG', 'YYYYYYYYYY', '.RRKRRRKRR.', '.RRRRKRRRR', '..RKRrRKR..', '..RRRRRR..', '...RRKRR...', '....RR....'] },
+    { ic: '🍦', rows: ['BBBBRRRBBBB', 'BBBPPPPBBB', 'BBPPPpPPBBB', 'BPPPPPPPPB', '.YYYYYYYYY.', '.YYYYyYYYY', '..YYYYYYY..', '..YKYKYKY.', '...YKYKY...', '...YYYY...', '....YY.....'] },
+    { ic: '🐉', rows: ['KKKKKKKKKKK', 'KGGGKKGGGK', 'GGRGGGGGRGG', 'GGRRGGRRGG', 'GGYYGgGYYGG', '.GGGGGGGGG', '.GPGPGPGPG.', '..GGGGGGG.', '..BGBGBGB..', '...GgGGG..', '....GG.....'] },
+    { ic: '✨', rows: ['PPPPPPPPPPP', 'PYPPYYPPYP', 'PPYPYYYPYPP', 'BPPYYYYPPB', 'BBYYYyYYYBB', 'BPPYYYYPPB', 'PPYPYYYPYPP', 'PYPPYYPPYP', 'PPPPPKPPPPP', 'GGGGkKGGGG'] },
+    { ic: '❄️', rows: ['GGKKGGGKKGG', 'KKBKKKKBKK', 'BKKBKKKBKKB', '.BKBBBBKB.', 'BBBBYbYBBBB', '.BKBBBBKB.', 'BKKBKKKBKKB', 'KKBKKKKBKK', 'KKKKKbKKKKK', '...PPPP...'] },
+    { ic: '☀️', rows: ['BBBBBBBBBBB', 'BBYBBBBYBB', 'BBBYYYYYBBB', 'BBYRRRRYBB', 'YYYRRrRRYYY', 'BBYRRRRYBB', 'BBBYYYYYBBB', 'BBYBBBBYBB', 'BYBBBYBBBYB', '.GGGGGGGG.', '..PP.P.PP..'] },
+    { ic: '👑', rows: ['KKPPKKKPPKK', 'YYYYYYYYYY', 'YRYYGYYBYRY', 'YYYPYYPYYY', 'YYBYYyYYGYY', 'YKYYRRYYKY', 'YKK.YYY.KKY', 'Y.K.YkY.KY', 'Y..KYYYK..Y', 'R...Y.Y...', 'r..........'] }
   ];
   const NL = LEVELS.length, ENDLESS = NL + 1;
 
@@ -53,7 +74,14 @@
     outBack: t => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
   };
   function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-  const loadProg = () => { const p = store.get('bubblesProg', null) || {}; return { unlocked: clamp(p.unlocked || 1, 1, ENDLESS), stars: p.stars || {} }; };
+  /* التقدّم: الحفظ القديم (قبل المراحل 21–40) كان يعني unlocked = 21 «بلا نهاية مفتوح»؛ نحافظ عليه بالعلم endless */
+  const OLD_ENDLESS = 21;
+  const loadProg = () => {
+    const p = store.get('bubblesProg', null) || {};
+    const unlocked = clamp(p.unlocked || 1, 1, ENDLESS);
+    const endlessOpen = !!p.endless || unlocked >= ENDLESS || (!p.v && (p.unlocked || 1) >= OLD_ENDLESS);
+    return { v: 2, unlocked, stars: p.stars || {}, endless: endlessOpen };
+  };
 
   function heartPath(c, s) {
     c.beginPath(); c.moveTo(0, s * .9);
@@ -382,7 +410,7 @@
           grid[r][c] = mkCell(ci, ch !== ch.toUpperCase() ? (animalSeq++ % ANIMALS.length) : -1);
         }
       });
-      missMax = n <= 5 ? 8 : n <= 12 ? 7 : 6;
+      missMax = n <= 5 ? 8 : n <= 12 ? 7 : n <= 30 ? 6 : 5;
     } else {
       nColorsEndless = 5;
       for (let r = 0; r < 6; r++) genRow(r);
@@ -595,6 +623,7 @@
     const pr = loadProg(), prev = pr.stars[level] || 0;
     if (stars > prev) pr.stars[level] = stars;
     if (level >= pr.unlocked) pr.unlocked = Math.min(ENDLESS, level + 1);
+    if (level >= NL) pr.endless = true;
     store.set('bubblesProg', pr);
     hintShown = true;
     setTimeout(() => {
@@ -667,15 +696,16 @@
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     const eb = root.querySelector('.lvend');
-    eb.classList.toggle('lock', pr.unlocked < ENDLESS);
+    eb.classList.toggle('lock', !pr.endless);
     const best = store.get('bubblesEndless', 0);
-    root.querySelector('.lvendS').textContent = pr.unlocked < ENDLESS ? '🔒 ' + App.g('أنهي', 'أنهِ') + ' المرحلة 20 لفتحها' : (best ? `أفضل نتيجة: ${best}` : 'فقاعات لا تنتهي!');
+    root.querySelector('.lvendS').textContent = !pr.endless ? '🔒 ' + App.g('أنهي', 'أنهِ') + ` المرحلة ${NL} لفتحها` : (best ? `أفضل نتيجة: ${best}` : 'فقاعات لا تنتهي!');
     winOv.classList.remove('on'); loseOv.classList.remove('on'); lvOv.classList.add('on');
   }
   root.querySelector('#bbLv').addEventListener('click', e => {
     const b = e.target.closest('[data-l]'); if (!b) return;
     const n = +b.dataset.l;
-    if (n > loadProg().unlocked) { Sound.error(); vibrate(20); b.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-8deg)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(0)' }], { duration: 300 }); return; }
+    const pr = loadProg();
+    if (n >= ENDLESS ? !pr.endless : n > pr.unlocked) { Sound.error(); vibrate(20); b.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-8deg)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(0)' }], { duration: 300 }); return; }
     Sound.tap(); startLevel(n);
   });
   function act(a) {

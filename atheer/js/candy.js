@@ -1,7 +1,7 @@
 /* =====================================================================
    حلويات <اسم اللاعب> — مطابقة ثلاث حلويات بأسلوب مصقول
    لوحة 8×8، ستة أنواع حلوى، حلويات خاصة (مخططة، مغلّفة، قنبلة ألوان)
-   ودمجها، جيلي وكرز، 24 مستوى بنجوم، اندفاع السكر في النهاية.
+   ودمجها، جيلي وكرز، 40 مستوى بنجوم، اندفاع السكر في النهاية.
    ===================================================================== */
 (() => {
   'use strict';
@@ -35,7 +35,21 @@
     jJfull: ['JJJJJJJJ', 'JjjjjjjJ', 'Jj....jJ', 'Jj....jJ', 'Jj....jJ', 'Jj....jJ', 'JjjjjjjJ', 'JJJJJJJJ'],
     diam: ['xxx..xxx', 'xx....xx', 'x......x', '........', '........', 'x......x', 'xx....xx', 'xxx..xxx'],
     pillars: ['........', '.x....x.', '.x....x.', '........', '........', '.x....x.', '.x....x.', '........'],
-    jhour: ['jjjjjjjj', 'xjjjjjjx', 'xxjjjjxx', 'xxx..xxx', 'xxx..xxx', 'xxjjjjxx', 'xjjjjjjx', 'jjjjjjjj']
+    jhour: ['jjjjjjjj', 'xjjjjjjx', 'xxjjjjxx', 'xxx..xxx', 'xxx..xxx', 'xxjjjjxx', 'xjjjjjjx', 'jjjjjjjj'],
+    /* لوحات المستويات 25–40 */
+    heart: ['x..xx..x', '........', '........', '........', 'x......x', 'xx....xx', 'xxx..xxx', 'xxx..xxx'],
+    jheart: ['xjjxxjjx', 'jjjjjjjj', 'jJJjjJJj', 'jjJJJJjj', 'xjjJJjjx', 'xxjjjjxx', 'xxxjjxxx', 'xxxxxxxx'],
+    arrow: ['xx....xx', 'xx....xx', 'xx....xx', '........', '........', 'x......x', 'xx....xx', 'xxx..xxx'],
+    tee: ['........', '........', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx', 'xx....xx'],
+    jtee: ['jjjjjjjj', '........', 'xxjjjjxx', 'xxjJJjxx', 'xxjJJjxx', 'xxjJJjxx', 'xxjjjjxx', 'xxjjjjxx'],
+    jdiag: ['jj......', 'jjj.....', '.jjj....', '..jjj...', '...jjj..', '....jjj.', '.....jjj', '......jj'],
+    jcheck: ['j.j.j.j.', '.j.j.j.j', 'j.j.j.j.', '.j.j.j.j', 'j.j.j.j.', '.j.j.j.j', 'j.j.j.j.', '.j.j.j.j'],
+    jframe: ['JJJJJJJJ', 'j......j', 'j......j', 'j......j', 'j......j', 'j......j', 'j......j', 'JJJJJJJJ'],
+    castle: ['.x.xx.x.', '........', '........', '..x..x..', '........', '........', '........', '........'],
+    zig: ['x.......', 'xx......', 'xxx.....', '........', '........', '.....xxx', '......xx', '.......x'],
+    plusb: ['xx....xx', 'xx....xx', '........', '........', '........', '........', 'xx....xx', 'xx....xx'],
+    jplus: ['xxxjjxxx', 'xxxjjxxx', '..jjjj..', '.jjJJjj.', '.jjJJjj.', '..jjjj..', 'xxxjjxxx', 'xxxjjxxx'],
+    jcrown: ['jxjxxjxj', 'jjjjjjjj', 'jJjJJjJj', 'JJJJJJJJ', 'jjjjjjjj', 'J.J..J.J', '........', '........']
   };
   const LEVELS = [
     { moves: 16, colors: 5, goals: [{ k: 'score', n: 2500 }], stars: [2500, 6000, 9500] },
@@ -61,7 +75,24 @@
     { moves: 26, colors: 6, goals: [{ k: 'c', t: 0, n: 22 }, { k: 'c', t: 1, n: 22 }, { k: 'c', t: 5, n: 22 }], stars: [0, 8000, 13000] },
     { moves: 40, colors: 6, goals: [{ k: 'jelly' }, { k: 'ing', n: 2 }], ingMax: 1, map: M.jside, stars: [0, 17000, 27000] },
     { moves: 26, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.hour, stars: [4500, 5500, 7500] },
-    { moves: 38, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 3, n: 22 }], map: M.jhour, stars: [0, 8500, 13500] }
+    { moves: 38, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 3, n: 22 }], map: M.jhour, stars: [0, 8500, 13500] },
+    /* ---- المستويات 25–40 (أُضيفت في النهاية؛ أرقام المستويات القديمة كما هي) ---- */
+    { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jheart, stars: [0, 9000, 14000] },
+    { moves: 24, colors: 6, goals: [{ k: 'c', t: 0, n: 18 }, { k: 'c', t: 5, n: 18 }], map: M.heart, stars: [0, 5000, 8000] },
+    { moves: 26, colors: 5, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.arrow, stars: [0, 5000, 8000] },
+    { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jdiag, stars: [0, 12000, 20000] },
+    { moves: 24, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.tee, stars: [4500, 6500, 8500] },
+    { moves: 30, colors: 5, goals: [{ k: 'jelly' }, { k: 'c', t: 2, n: 20 }], map: M.jcheck, stars: [0, 16000, 24000] },
+    { moves: 30, colors: 6, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.castle, stars: [0, 6000, 9000] },
+    { moves: 40, colors: 5, goals: [{ k: 'jelly' }], map: M.jframe, stars: [0, 15000, 23000] },
+    { moves: 32, colors: 6, goals: [{ k: 'c', t: 1, n: 24 }, { k: 'c', t: 3, n: 24 }], map: M.zig, stars: [0, 5000, 8000] },
+    { moves: 36, colors: 5, goals: [{ k: 'jelly' }], map: M.jtee, stars: [0, 8000, 13000] },
+    { moves: 30, colors: 6, goals: [{ k: 'score', n: 5000 }], map: M.plusb, stars: [5000, 7000, 10000] },
+    { moves: 36, colors: 5, goals: [{ k: 'jelly' }, { k: 'ing', n: 2 }], ingMax: 1, map: M.jplus, stars: [0, 9000, 14000] },
+    { moves: 32, colors: 6, goals: [{ k: 'c', t: 0, n: 20 }, { k: 'c', t: 2, n: 20 }, { k: 'c', t: 4, n: 20 }], map: M.castle, stars: [0, 6500, 10000] },
+    { moves: 42, colors: 6, goals: [{ k: 'jelly' }], map: M.jheart, stars: [0, 9000, 14000] },
+    { moves: 34, colors: 6, goals: [{ k: 'ing', n: 4 }], ingMax: 2, map: M.heart, stars: [0, 4500, 7000] },
+    { moves: 48, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 5, n: 24 }], map: M.jcrown, stars: [0, 12000, 19000] }
   ];
 
   /* ---------- أدوات ---------- */
@@ -73,7 +104,12 @@
   };
   function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   const hexA = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; };
-  const loadProg = () => { const p = store.get('candyProg', null) || {}; return { unlocked: Math.max(1, p.unlocked || 1), stars: p.stars || {}, best: p.best || {} }; };
+  const loadProg = () => {
+    const p = store.get('candyProg', null) || {}, stars = p.stars || {};
+    // من أنهى آخر مستوى قديم قبل إضافة المستويات الجديدة يُفتح له التالي
+    const top = Object.keys(stars).map(Number).filter(n => stars[n]).reduce((a, n) => Math.max(a, n), 0);
+    return { unlocked: Math.max(1, p.unlocked || 1, Math.min(LEVELS.length, top + 1)), stars, best: p.best || {} };
+  };
   function shuffleArr(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
   /* ---------- رسم الحلوى ---------- */
