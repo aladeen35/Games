@@ -12,8 +12,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=4
-VERSION_NAME=3.0
+VERSION_CODE=5
+VERSION_NAME=4.0
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
