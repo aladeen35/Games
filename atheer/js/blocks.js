@@ -23,7 +23,8 @@
     Z: { l: '#FFD0DC', b: '#FF6B8F', d: '#D13363' },
     J: { l: '#D0DEFF', b: '#5E8DFF', d: '#2C52CF' },
     L: { l: '#FFE0BF', b: '#FF9F45', d: '#D6680F' },
-    X: { l: '#F5F1FA', b: '#CBC2D9', d: '#8E85A3' }   // رمادي لنهاية اللعبة
+    X: { l: '#F5F1FA', b: '#CBC2D9', d: '#8E85A3' },  // رمادي لنهاية اللعبة
+    G: { l: '#F1E7D6', b: '#C2AE8E', d: '#86704F' }   // حجارة التحديات
   };
   const TYPES = 'IJLOSTZ';
   const BASE = {
@@ -35,6 +36,27 @@
     T: [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
     Z: [[1, 1, 0], [0, 1, 1], [0, 0, 0]]
   };
+  /* ---------- التحديات ----------
+     g: 'clear' = أزل كل الحجارة، 'lines' = أكمل n صفوف — بعدد محدود من القطع p.
+     rows: نمط الحجارة (من الأعلى للأسفل، يوضع في قاع اللوحة)، cheese: صفوف بثغرة واحدة (ثابتة بالبذرة).
+     s3/s2: أقصى عدد قطع لثلاث/نجمتين، lv: سرعة السقوط. */
+  const CHAL = [
+    { ic: '🧱', g: 'clear', p: 10, s3: 4, s2: 7, rows: ['####.#####', '####.#####'] },
+    { ic: '🎯', g: 'lines', n: 4, p: 16, s3: 11, s2: 13 },
+    { ic: '🪜', g: 'clear', p: 14, s3: 7, s2: 10, rows: ['........##', '......####', '....######', '..########'] },
+    { ic: '🕳️', g: 'clear', p: 12, s3: 6, s2: 9, rows: ['#########.', '#########.', '#########.', '#########.'] },
+    { ic: '🏯', g: 'clear', p: 14, s3: 7, s2: 10, rows: ['##..##..##', '##..##..##', '##..##..##'] },
+    { ic: '⚡', g: 'lines', n: 8, p: 28, s3: 22, s2: 25, lv: 3 },
+    { ic: '🧀', g: 'clear', p: 18, s3: 11, s2: 14, cheese: 5, seed: 7 },
+    { ic: '💎', g: 'clear', p: 18, s3: 11, s2: 14, rows: ['###....###', '##......##', '#........#', '##......##', '###....###'] },
+    { ic: '🌋', g: 'clear', p: 20, s3: 12, s2: 16, rows: ['....##....', '...####...', '..######..', '.########.'], lv: 2 },
+    { ic: '🚀', g: 'lines', n: 6, p: 20, s3: 16, s2: 18, lv: 6 },
+    { ic: '🏔️', g: 'clear', p: 28, s3: 18, s2: 23, cheese: 8, seed: 21, lv: 3 },
+    { ic: '👑', g: 'clear', p: 36, s3: 26, s2: 31, cheese: 10, seed: 99, lv: 4 }
+  ];
+  const loadChal = () => { const p = store.get('blocksChal', null) || {}; return { unlocked: clamp(p.unlocked || 1, 1, CHAL.length), stars: p.stars || {} }; };
+  function chalRng(seed) { return () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }; }
+
   const rotCW = m => m.map((row, y) => row.map((_, x) => m[m.length - 1 - x][y]));
   const CELLS = {};
   for (const t of TYPES) {
@@ -235,6 +257,8 @@
 #blocks .ctl .k-hold small{font-size:11px;font-weight:800;color:#8A5A00}
 #blocks .ctl .k-hold span{font-size:22px}
 #blocks .ctl .sp{flex:0 0 4px}
+#blocks .bar .chip small,#blocks .bar .chip b{white-space:nowrap}
+@media (max-width:440px){#blocks .bar{gap:5px;padding-left:8px;padding-right:8px}#blocks .bar .ib{width:39px;height:39px;flex:0 0 39px;font-size:18px}#blocks .bar .chip{min-width:44px;padding:3px 6px}#blocks .bar .chip small{font-size:10px}#blocks .bar .chip b{font-size:16px}}
 @media (max-width:370px){#blocks .ctl{gap:5px;padding-left:6px;padding-right:6px}#blocks .ctl button{height:58px;font-size:24px;border-radius:18px}#blocks .bar .chip{min-width:46px;padding:3px 6px}#blocks .bar .chip b{font-size:15px}#blocks .bar{gap:6px}}
 #blocks .overlay{background:rgba(70,40,120,.38)}
 #blocks .panel{border-color:#E6D9FF;box-shadow:0 8px 0 #C9B3EC,0 20px 40px rgba(60,30,110,.3);color:#4E2F7A}
@@ -244,6 +268,21 @@
 #blocks .panel .btn.alt{background:#fff;color:#7A4FC0;box-shadow:0 4px 0 #D9C8F5;border-color:#ECE2FF}
 #blocks .panel .rec{font-weight:900;color:#E0217F;font-size:19px;margin:2px 0 4px;animation:blkBump .6s ease 2}
 #blocks .panel .meta{display:flex;justify-content:center;gap:8px;margin:8px 0 12px;flex-wrap:wrap}
+#blocks .cg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:10px 0 12px}
+#blocks .cb{position:relative;aspect-ratio:1;border-radius:18px;border:0;font-family:inherit;font-weight:900;color:#5B3B8C;
+  background:linear-gradient(#FFFFFF,#EBDDFF);box-shadow:0 4px 0 #C9B3EC,0 6px 12px rgba(110,70,170,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px}
+#blocks .cb:active{transform:translateY(3px);box-shadow:0 1px 0 #C9B3EC}
+#blocks .cb .n{font-size:12px;opacity:.7;line-height:1}
+#blocks .cb .e{font-size:24px;line-height:1.15}
+#blocks .cb .s{font-size:10px;letter-spacing:-1px;line-height:1;height:11px}
+#blocks .cb .s i{font-style:normal}
+#blocks .cb .s i.off{filter:grayscale(1);opacity:.3}
+#blocks .cb.cur{outline:3px solid #FF8DC0;outline-offset:2px}
+#blocks .cb.lock{background:linear-gradient(#F3F0F7,#DCD6E6);box-shadow:0 4px 0 #BDB5CC;color:#9890A8}
+#blocks .cb.lock .e{filter:grayscale(1);opacity:.35}
+#blocks .cb.lock::after{content:'🔒';position:absolute;bottom:3px;font-size:14px}
+#blocks .chp{width:min(94vw,420px);max-height:88vh;overflow-y:auto;touch-action:pan-y}
+#blocks .goal{font-weight:800;font-size:16px;margin:4px 0 10px}
 #blocks .panel .meta span{background:#F4EEFF;border-radius:99px;padding:3px 12px;font-weight:800;font-size:15px}
 `);
 
@@ -253,6 +292,7 @@
       <button class="ib home" aria-label="الرئيسية">🏠</button>
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib pausebtn" aria-label="إيقاف مؤقت">⏸️</button>
+      <button class="ib chalbtn" aria-label="التحديات">🎯</button>
       <span class="grow"></span>
       <div class="chip c-score"><small>النقاط</small><b>0</b></div>
       <div class="chip c-lines"><small>المستوى 1</small><b>0/10</b></div>
@@ -270,12 +310,18 @@
       <h3>⏸️ استراحة</h3><p class="pmsg"></p>
       <button class="btn b-resume">متابعة ▶️</button><br>
       <button class="btn alt b-restart">من جديد 🔄</button>
+      <button class="btn alt b-chal">🎯 التحديات</button>
       <button class="btn alt home">القائمة 🏠</button>
+    </div></div>
+    <div class="overlay ov-chal"><div class="panel chp">
+      <h3>🎯 التحديات</h3><div class="cg"></div>
+      <button class="btn b-free">♾️ اللعب الحر</button><br>
+      <button class="btn alt b-cclose">✕ إغلاق</button>
     </div></div>
     <div class="overlay ov-over"><div class="panel"></div></div>
   `);
   const cv = root.querySelector('.cv'), bar = root.querySelector('.bar'), ctl = root.querySelector('.ctl');
-  const ovPause = root.querySelector('.ov-pause'), ovOver = root.querySelector('.ov-over');
+  const ovPause = root.querySelector('.ov-pause'), ovOver = root.querySelector('.ov-over'), ovChal = root.querySelector('.ov-chal');
   const chipS = root.querySelector('.c-score'), chipL = root.querySelector('.c-lines'), chipB = root.querySelector('.c-best');
   const holdBtn = root.querySelector('.k-hold');
 
@@ -292,15 +338,30 @@
 
   const best = () => store.get('blocksBest', 0);
 
-  function newGame() {
+  function newGame(chalN) {
+    const def = chalN ? CHAL[chalN - 1] : null;
     G = {
       board: Array.from({ length: ROWS }, () => Array(COLS).fill(null)),
       bag: [], queue: [], hold: null, canHold: true, cur: null,
       score: 0, lines: 0, level: 1, state: 'play', paused: false,
       lockT: 0, resets: 0, lowest: 0, grav: 0, softT: 0, dasDir: 0, dasT: 0, dasArr: ARR,
       clearing: null, fall: null, landFx: [], rotFx: 0, holdFx: 0, qShift: 0,
-      shake: 0, bounce: 0, overT: 0, overShown: false, result: null, best: best()
+      shake: 0, bounce: 0, overT: 0, overShown: false, result: null, best: best(),
+      chal: def ? { n: chalN, def, used: 0, total: 0 } : null, won: false
     };
+    if (def) {
+      G.level = def.lv || 1;
+      let rows = def.rows ? def.rows.slice() : [];
+      if (def.cheese) {
+        const rr = chalRng(def.seed || 1); let prev = -1;
+        for (let i = 0; i < def.cheese; i++) {
+          let h; do h = Math.floor(rr() * COLS); while (h === prev);
+          prev = h; rows.push(Array.from({ length: COLS }, (_, x) => x === h ? '.' : '#').join(''));
+        }
+      }
+      rows.forEach((str, i) => { const y = ROWS - rows.length + i; for (let x = 0; x < COLS; x++) if (str[x] === '#') { G.board[y][x] = 'G'; G.chal.total++; } });
+    }
+    ovChal.classList.remove('on');
     refill();
     parts = []; banners = [];
     castleStage = 1; castleProg.fill(0); castleProg[0] = 1;
@@ -326,7 +387,14 @@
     }
     return true;
   }
+  const garbageLeft = () => { let n = 0; for (const row of G.board) for (const v of row) if (v === 'G') n++; return n; };
+  const chalDone = () => G.chal.def.g === 'lines' ? G.lines >= G.chal.def.n : garbageLeft() === 0;
   function spawn(type, fromHold) {
+    if (G.chal && (!fromHold || !type)) {
+      if (chalDone()) { chalEnd(); return; }
+      if (G.chal.used >= G.chal.def.p) { gameOver('pieces'); return; }
+      G.chal.used++;
+    }
     if (!type) { type = G.queue.shift(); refill(); G.qShift = 1; }
     const c = { t: type, r: 0, x: type === 'O' ? 4 : 3, y: 1 };
     if (!fits(c.t, 0, c.x, c.y)) { c.y = 0; if (!fits(c.t, 0, c.x, c.y)) { G.cur = null; gameOver(); return; } }
@@ -437,7 +505,7 @@
       if (n >= 2) banners.push({ text: n === 2 ? 'سطران!' : 'ثلاثة!', t: 0, dur: 1000, size: L.c * 1.35, kind: 'big', col: n === 2 ? ['#A0F0FF', '#5E8DFF'] : ['#D9FFB0', '#2BB673'] });
     }
     const nl = 1 + Math.floor(G.lines / 10);
-    if (nl > G.level) {
+    if (!G.chal && nl > G.level) {
       G.level = nl;
       setTimeout(() => {
         if (!G) return;
@@ -486,9 +554,24 @@
     }
     if (parts.length > 500) parts.splice(0, parts.length - 500);
   }
-  function gameOver() {
+  function chalEnd() {
+    G.state = 'over'; G.won = true; G.overT = 0; G.cur = null;
+    dirs.length = 0; softSrcs.clear(); G.dasDir = 0;
+    const d = G.chal.def, u = G.chal.used, st = u <= d.s3 ? 3 : u <= d.s2 ? 2 : 1;
+    const pr = loadChal(), prev = pr.stars[G.chal.n] || 0;
+    if (st > prev) pr.stars[G.chal.n] = st;
+    if (G.chal.n >= pr.unlocked) pr.unlocked = Math.min(CHAL.length, G.chal.n + 1);
+    store.set('blocksChal', pr);
+    G.result = { chal: true, win: true, stars: st, gain: Math.max(0, st - prev) };
+    banners.push({ text: App.g('أحسنتِ!', 'أحسنت!'), sub: '🎯', t: 0, dur: 1400, size: L.c * 1.8, kind: 'big', col: ['#FFE066', '#FF8DC0'] });
+    Sound.star(); setTimeout(() => Sound.win(), 150); vibrate(30);
+    castleBurst();
+    hud();
+  }
+  function gameOver(reason) {
     G.state = 'over'; G.overT = 0; G.cur = null;
     dirs.length = 0; softSrcs.clear(); G.dasDir = 0;
+    if (G.chal) { G.result = { chal: true, win: false, stars: 0, reason }; Sound.lose(); vibrate(40); G.shake = 4; hud(); return; }
     const b = best(), rec = G.score > b && G.score > 0;
     if (rec) store.set('blocksBest', G.score);
     G.result = { rec, best: Math.max(b, G.score), stars: Math.floor(G.lines / 4) + (rec ? 3 : 0) };
@@ -501,7 +584,67 @@
     G.result.given = true;
     if (G.result.stars > 0) App.addStars(G.result.stars);
   }
+  function chalGoalText(d) {
+    return d.g === 'lines' ? `${App.g('أكملي', 'أكمل')} ${d.n} صفوف` : `${App.g('أزيلي', 'أزِل')} كل الحجارة 🪨`;
+  }
+  function showChalOver() {
+    const r = G.result, d = G.chal.def, n = G.chal.n, last = n >= CHAL.length;
+    ovOver.querySelector('.panel').innerHTML = r.win ? `
+      <h3>🎯 ${App.g('أحسنتِ!', 'أحسنت!')} 🎉</h3>
+      <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= r.stars ? '' : 'off'}">⭐</span>`).join('')}</div>
+      <div class="meta"><span>🎯 التحدي ${n}</span><span>🧩 ${G.chal.used} قطعة</span><span>🍬 ${G.score}</span></div>
+      ${last ? '' : '<button class="btn b-next">التالي ▶️</button><br>'}
+      <button class="btn alt b-again">🔄 مرة أخرى</button>
+      <button class="btn alt b-list">🎯 التحديات</button>` : `
+      <h3>😮 ${App.g('كدتِ تنجحين!', 'كدت تنجح!')}</h3>
+      <div class="big">🧱</div>
+      <p>${r.reason === 'pieces' ? 'نفدت القطع 🧩' : 'وصلت المكعبات إلى الأعلى'} — ${App.g('حاولي مرة أخرى!', 'حاول مرة أخرى!')}</p>
+      <button class="btn b-again">🔄 مرة أخرى</button><br>
+      <button class="btn alt b-list">🎯 التحديات</button>
+      <button class="btn alt home">القائمة 🏠</button>`;
+    const pnl = ovOver.querySelector('.panel');
+    pnl.querySelector('.b-again').onclick = () => { Sound.tap(); newGame(n); };
+    pnl.querySelector('.b-list').onclick = () => { Sound.tap(); openChal(); };
+    const nb = pnl.querySelector('.b-next'); if (nb) nb.onclick = () => { Sound.tap(); newGame(n + 1); };
+    ovOver.classList.add('on');
+    if (r.win) {
+      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (r.gain) App.addStars(r.gain);
+      for (let i = 0; i < 60; i++) parts.push({ k: 'rect', x: rand(0, W), y: rand(-40, 0), vx: rand(-60, 60), vy: rand(60, 240), g: 120, s: rand(5, 9), rot: rand(0, 6), vr: rand(-6, 6), col: FLAGC[i % 5], life: 2600, max: 2600 });
+    }
+  }
+  function openChal() {
+    const pr = loadChal(), g = ovChal.querySelector('.cg'), curN = G && G.chal ? G.chal.n : 0;
+    g.innerHTML = CHAL.map((d, i) => {
+      const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
+      return `<button class="cb${lock ? ' lock' : ''}${n === curN ? ' cur' : ''}" data-c="${n}" aria-label="التحدي ${n}"><span class="n">${n}</span><span class="e">${d.ic}</span>
+        <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
+    }).join('');
+    g.querySelectorAll('[data-c]').forEach(b => b.onclick = () => {
+      const n = +b.dataset.c;
+      if (n > loadChal().unlocked) { Sound.error(); vibrate(20); b.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-8deg)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(0)' }], { duration: 300 }); return; }
+      Sound.tap(); startChal(n);
+    });
+    if (G && G.state === 'play' && !G.paused) setPaused(true);
+    ovPause.classList.remove('on'); ovOver.classList.remove('on'); ovChal.classList.add('on');
+  }
+  function startChal(n) {
+    newGame(n);
+    const d = CHAL[n - 1];
+    banners.push({ text: 'التحدي ' + n, sub: chalGoalText(d) + ` · ${d.p} قطعة`, t: 0, dur: 2200, size: L.c * 1.4, kind: 'big', col: ['#FFD6F0', '#B47CFF'], y: L.by + L.c * 8 });
+    Sound.whoosh();
+  }
+  function closeChal() {
+    ovChal.classList.remove('on');
+    if (G && G.state === 'play' && G.paused) ovPause.classList.add('on');
+    else if (G && G.state === 'over' && G.overShown) ovOver.classList.add('on');
+  }
+  root.querySelector('.chalbtn').addEventListener('click', () => { Sound.tap(); openChal(); });
+  root.querySelector('.b-chal').addEventListener('click', () => { Sound.tap(); openChal(); });
+  root.querySelector('.b-cclose').addEventListener('click', () => { Sound.tap(); closeChal(); });
+  root.querySelector('.b-free').addEventListener('click', () => { Sound.tap(); ovChal.classList.remove('on'); newGame(); });
   function showOver() {
+    if (G.chal) { G.overShown = true; showChalOver(); return; }
     G.overShown = true;
     const r = G.result;
     ovOver.querySelector('.panel').innerHTML = `
@@ -539,6 +682,12 @@
       if (old && !force) { chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump'); }
     };
     set(chipS, 's', 'النقاط', G.score);
+    if (G.chal) {
+      const d = G.chal.def;
+      set(chipL, 'l', d.g === 'lines' ? 'الصفوف' : 'الحجارة', d.g === 'lines' ? Math.min(G.lines, d.n) + '/' + d.n : garbageLeft());
+      set(chipB, 'b', 'القطع', Math.max(0, d.p - G.chal.used));
+      return;
+    }
     set(chipL, 'l', 'المستوى ' + G.level, G.lines + '/' + G.level * 10);
     set(chipB, 'b', 'الأفضل', Math.max(G.best, G.state === 'over' ? G.score : 0));
   }
@@ -776,14 +925,14 @@
       g.fillStyle = dg; g.fillRect(bx, by, bw, c * 6);
     }
     // شريط تقدّم المستوى
-    const pr = (G.lines % 10) / 10;
+    const pr = G.chal ? (G.chal.def.g === 'lines' ? Math.min(1, G.lines / G.chal.def.n) : 1 - garbageLeft() / Math.max(1, G.chal.total)) : (G.lines % 10) / 10;
     g.fillStyle = 'rgba(180,150,230,.35)'; g.beginPath(); g.roundRect(bx + 4, by + bh + 1.5, bw - 8, 3.5, 2); g.fill();
     if (pr > 0) { const pg = g.createLinearGradient(bx, 0, bx + bw, 0); pg.addColorStop(0, '#FF8DC0'); pg.addColorStop(1, '#FFD23F'); g.fillStyle = pg; g.beginPath(); g.roundRect(bx + 4, by + bh + 1.5, (bw - 8) * pr, 3.5, 2); g.fill(); }
 
     g.save(); g.beginPath(); g.rect(bx, by, bw, bh); g.clip();
     // المكعبات الثابتة
     const clr = G.clearing, fall = G.fall, fe = fall ? easeOutCubic(fall.t / fall.dur) : 1;
-    const overRows = G.state === 'over' ? G.overT / 40 : -1;
+    const overRows = G.state === 'over' && !G.won ? G.overT / 40 : -1;
     for (let y = HID; y < ROWS; y++) {
       const row = G.board[y]; if (!row.some(v => v)) continue;
       const off = fall ? fall.drop[y] * (1 - fe) : 0;
@@ -998,7 +1147,10 @@
     if (App.current !== ID || !G || $('#sheetWrap').classList.contains('on')) return;
     const k = e.code;
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].includes(k)) e.preventDefault();
-    if (G.state === 'over') { if ((k === 'Enter' || k === 'Space') && G.overShown && !e.repeat) newGame(); return; }
+    if (G.state === 'over') {
+      if ((k === 'Enter' || k === 'Space') && G.overShown && !e.repeat && !ovChal.classList.contains('on')) newGame(G.chal ? (G.won ? Math.min(CHAL.length, G.chal.n + 1) : G.chal.n) : undefined);
+      return;
+    }
     if (k === 'KeyP' || k === 'Escape') { if (!e.repeat) togglePause(); return; }
     if (G.paused) { if ((k === 'Enter' || k === 'Space') && !e.repeat) { Sound.tap(); setPaused(false); } return; }
     if (e.repeat) return;
@@ -1018,7 +1170,7 @@
 
   root.querySelector('.pausebtn').addEventListener('click', togglePause);
   root.querySelector('.b-resume').addEventListener('click', () => { Sound.tap(); setPaused(false); });
-  root.querySelector('.b-restart').addEventListener('click', () => { Sound.tap(); newGame(); });
+  root.querySelector('.b-restart').addEventListener('click', () => { Sound.tap(); newGame(G && G.chal ? G.chal.n : undefined); });
   window.addEventListener('resize', () => { if (App.current === ID && running) layout(); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && App.current === ID && G && G.state === 'play' && !G.paused) setPaused(true); });
   if (document.fonts) document.fonts.ready.then(() => { if (App.current === ID && running) layout(); });
@@ -1033,7 +1185,8 @@
       `👆 ${App.g('المسي', 'المس')} اللوحة للتدوير، ${App.g('واسحبي', 'واسحب')} يمينًا ويسارًا للتحريك.`,
       `⬇️ ${App.g('اسحبي', 'اسحب')} للأسفل ببطء للإنزال، أو بسرعة لإسقاط القطعة فورًا ⏬`,
       `📦 زر «احفظ» يخبّئ القطعة لوقت لاحق، والأزرار في الأسفل تفعل كل شيء.`,
-      `🏰 كل 10 صفوف = مستوى جديد وطابق جديد للقلعة، و4 صفوف معًا = رباعية! 💥`
+      `🏰 كل 10 صفوف = مستوى جديد وطابق جديد للقلعة، و4 صفوف معًا = رباعية! 💥`,
+      `🎯 زر التحديات: ${App.g('أزيلي', 'أزِل')} الحجارة أو ${App.g('أكملي', 'أكمل')} الصفوف بعدد محدود من القطع واربح النجوم ⭐`
     ],
     icon(g, s) {
       const sk = g.createLinearGradient(0, 0, 0, s);
@@ -1062,12 +1215,15 @@
     leave() {
       running = false; cancelAnimationFrame(raf); raf = 0;
       dirs.length = 0; softSrcs.clear(); gest = null;
-      if (G) { G.dasDir = 0; if (G.state === 'over') awardStars(); }
+      if (G) { G.dasDir = 0; if (G.state === 'over' && !G.chal) awardStars(); }
       root.querySelectorAll('.ctl .on').forEach(b => b.classList.remove('on'));
     },
     pause() { sheetPaused = true; dirs.length = 0; softSrcs.clear(); gest = null; if (G) G.dasDir = 0; },
     resume() { sheetPaused = false; last = performance.now(); },
+    /* للاختبار الآلي فقط */
+    _dbg: { g: () => G, chal: n => startChal(n), open: () => openChal(), drop: () => hardDrop() },
     back() {
+      if (ovChal.classList.contains('on')) { closeChal(); return true; }
       if (G && G.state === 'play' && !G.paused) { setPaused(true); return true; }
       return false;
     }
