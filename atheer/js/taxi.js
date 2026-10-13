@@ -1371,6 +1371,7 @@
     /* للاختبار الآلي فقط */
     _dbg() { return { state, mode, distM, hearts, deliveries, starCount, waiting: !!waiting, ride: !!ride, speed, x: taxi && taxi.x }; },
     _god() { hearts = 99; },
+    _eyes() { const k = taxi; return { blink: k.blink, sad: k.sad, nitro: k.nitro, happy: k.happy, hurt: k.hurt, ground: k.ground }; },
     _warp(m) { taxi.x = m * 10; distM = m; camX = taxi.x - TX; nextSpawnX = taxi.x + 600; nextMissionX = taxi.x + 400; zoneI = Math.floor(m / ZONE_LEN); },
     icon(c) {
       const g = c.createLinearGradient(0, 0, 0, 152); g.addColorStop(0, '#7CC8FF'); g.addColorStop(1, '#DDF3FF');
