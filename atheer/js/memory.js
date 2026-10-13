@@ -233,7 +233,7 @@
   #memory .lvb .s i{font-style:normal}
   #memory .lvb .s i.off{filter:grayscale(1);opacity:.3}
   #memory .lvb.cur{outline:3px dashed #E0218A;outline-offset:3px}
-  #memory .lvb.lock{background:linear-gradient(#EEE8F4,#DCD2E6);--e:#BFB1CF;color:#8E80A0}
+  #memory .lvb.lock{background:linear-gradient(#EEE8F4,#DCD2E6) !important;--e:#BFB1CF !important;color:#8E80A0}
   #memory .lvb.lock .e,#memory .lvb.lock .bd{filter:grayscale(1);opacity:.3}
   #memory .lvb.lock::after{content:'🔒';position:absolute;font-size:18px;bottom:6px}
   #memory .lvb.lock .s,#memory .lvb.lock .q{visibility:hidden}

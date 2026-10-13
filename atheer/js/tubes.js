@@ -455,7 +455,7 @@
     mol(W * .06, H * .2, 18); mol(W * .82, H * .9, 16); mol(W * .1, H * .86, 12);
     // الرفوف
     for (const r of rows) {
-      const tw = G.tw, x0 = r.x0 - tw * .35, x1 = r.x1 + tw * .35, y = r.base - tw * .02, h = tw * .24;
+      const tw = G.tw, x0 = Math.max(6, r.x0 - tw * .35), x1 = Math.min(W - 6, r.x1 + tw * .35), y = r.base - tw * .02, h = tw * .24;
       c.fillStyle = 'rgba(60,110,130,.12)'; c.beginPath(); c.ellipse((x0 + x1) / 2, y + h + tw * .18, (x1 - x0) / 2, tw * .14, 0, 0, TAU); c.fill();
       g = c.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.35, '#F4EBDD'); g.addColorStop(1, '#D9C3A5');
       c.fillStyle = g; c.beginPath(); c.roundRect(x0, y, x1 - x0, h, h / 2); c.fill();
@@ -869,17 +869,17 @@
     c.fillStyle = g; c.fillRect(0, 0, s, s);
     g = c.createRadialGradient(s * .75, s * .15, 2, s * .75, s * .15, s * .6); g.addColorStop(0, 'rgba(255,255,235,.9)'); g.addColorStop(1, 'rgba(255,255,235,0)');
     c.fillStyle = g; c.fillRect(0, 0, s, s);
-    c.fillStyle = '#E9D8BF'; c.beginPath(); c.roundRect(s * .08, s * .83, s * .84, s * .07, s * .035); c.fill();
-    c.fillStyle = 'rgba(60,110,130,.15)'; c.beginPath(); c.ellipse(s * .5, s * .92, s * .4, s * .03, 0, 0, TAU); c.fill();
+    c.fillStyle = '#E9D8BF'; c.beginPath(); c.roundRect(s * .12, s * .79, s * .76, s * .06, s * .03); c.fill();
+    c.fillStyle = 'rgba(60,110,130,.15)'; c.beginPath(); c.ellipse(s * .5, s * .87, s * .36, s * .03, 0, 0, TAU); c.fill();
     const Gi = geo(s * .2);
     const tubesI = [
-      { x: .27, L: [{ c: 2, h: 1 }, { c: 0, h: 1 }, { c: 1, h: 2 }], th: -.06 },
+      { x: .31, L: [{ c: 2, h: 1 }, { c: 0, h: 1 }, { c: 1, h: 2 }], th: -.06 },
       { x: .5, L: [{ c: 3, h: 4 }], th: 0, cork: 1 },
-      { x: .73, L: [{ c: 4, h: 1 }, { c: 6, h: 1 }, { c: 2, h: 1 }], th: .06 }
+      { x: .69, L: [{ c: 4, h: 1 }, { c: 6, h: 1 }, { c: 2, h: 1 }], th: .06 }
     ];
-    const sc = (s * .74) / Gi.bottom;
+    const sc = (s * .6) / Gi.bottom;
     for (const t of tubesI) {
-      c.save(); c.translate(s * t.x, s * .835 - Gi.bottom * sc); c.scale(sc, sc);
+      c.save(); c.translate(s * t.x, s * .795 - Gi.bottom * sc); c.scale(sc, sc);
       drawTube(c, Gi, { x: 0, y: 0, th: t.th, layers: t.L, wave: Gi.tw * .03, phase: t.x * 9, cork: t.cork || null });
       c.restore();
     }
