@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="girls">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#FF4FA3">
+<meta name="description" content="ثماني ألعاب للأطفال في تطبيق واحد">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>ألعاب أثير وبشرى</title>
+<style>
+@font-face{font-family:'Baloo Bhaijaan 2';font-style:normal;font-weight:400 900;font-display:swap;src:url('fonts/baloo-arabic.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFC,U+200C-200E,U+2010-2011}
+@font-face{font-family:'Baloo Bhaijaan 2';font-style:normal;font-weight:400 900;font-display:swap;src:url('fonts/baloo-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122}
+
+/* ---------- ألوان الواجهة (الثيم يغيّر القائمة والنوافذ العامة فقط، لا الألعاب) ---------- */
+:root{
+  --font:'Baloo Bhaijaan 2',system-ui,'Segoe UI',Tahoma,sans-serif;
+  /* ألوان ثابتة تستخدمها الألعاب */
+  --pink:#FF4FA3;--pink-d:#E0217F;--pink-l:#FFD6E8;--gold:#FFC531;--gold-d:#E89B0C;--ink:#7A1F4E;
+}
+html[data-theme="girls"]{
+  --t-bg1:#FFE3F0;--t-bg2:#FFF5FA;--t-dot1:#fff;--t-dot2:#FFC2DD;
+  --t-main:#FF4FA3;--t-main-d:#E0217F;--t-soft:#FFD6E8;--t-edge:#FFB3D4;--t-dash:#FFC7E0;
+  --t-ink:#7A1F4E;--t-card:#fff;--t-accent:#FFC531;--t-accent-d:#E89B0C;--t-shadow:rgba(224,33,127,.18);
+}
+html[data-theme="boys"]{
+  --t-bg1:#D8ECFF;--t-bg2:#F2F8FF;--t-dot1:#fff;--t-dot2:#A9D3FF;
+  --t-main:#2E86F5;--t-main-d:#1A5FC2;--t-soft:#CFE5FF;--t-edge:#96C6FF;--t-dash:#B5D7FF;
+  --t-ink:#173A6B;--t-card:#fff;--t-accent:#FF9F1C;--t-accent-d:#D97A00;--t-shadow:rgba(26,95,194,.18);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--t-bg2);font-family:var(--font);color:var(--t-ink);touch-action:none}
+button{font-family:inherit;cursor:pointer;border:0;color:inherit}
+.screen{position:fixed;inset:0;display:none;flex-direction:column}
+.screen.on{display:flex}
+
+/* ============ القائمة الرئيسية ============ */
+#menu{background:
+  radial-gradient(circle at 15% 20%,var(--t-dot1) 0 2px,transparent 3px) 0 0/90px 90px,
+  radial-gradient(circle at 70% 60%,var(--t-dot2) 0 3px,transparent 4px) 0 0/120px 120px,
+  linear-gradient(180deg,var(--t-bg1) 0%,var(--t-bg2) 55%,var(--t-bg1) 100%);
+  align-items:center;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;
+  padding:max(10px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom))}
+.menu-wrap{width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative}
+html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
+.topbar{width:100%;display:flex;align-items:center;gap:8px}
+.tb{height:44px;min-width:44px;border-radius:22px;background:var(--t-card);color:var(--t-main-d);font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:4px;padding:0 10px;box-shadow:0 3px 0 var(--t-edge)}
+.tb:active{transform:translateY(2px);box-shadow:0 1px 0 var(--t-edge)}
+.tb .n{font-size:16px}
+.tb.gift{animation:wiggle 1.2s ease-in-out infinite;background:var(--t-accent);color:#fff;box-shadow:0 3px 0 var(--t-accent-d)}
+.tb.gift.done{animation:none;opacity:.45;background:var(--t-card);color:var(--t-main-d);box-shadow:0 3px 0 var(--t-edge)}
+@keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-6deg)}}
+.grow{flex:1}
+.players{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:6px;padding:4px 14px 4px 6px;border-radius:99px;background:var(--t-card);font-weight:800;font-size:17px;color:var(--t-ink);box-shadow:0 3px 0 var(--t-edge);opacity:.6;border:3px solid transparent}
+.pl.on{opacity:1;border-color:var(--t-main);color:var(--t-main-d)}
+.pl .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:var(--t-soft)}
+.logo{width:min(66vw,280px);aspect-ratio:1;border-radius:50%;position:relative;animation:bob 4s ease-in-out infinite;margin-top:2px;
+  box-shadow:0 0 0 6px #fff,0 0 0 10px var(--t-edge),0 14px 30px var(--t-shadow);overflow:hidden;background:#fff}
+.logo img,.logo svg{width:100%;height:100%;display:block}
+.logo img{transform:scale(1.1)}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-1.5deg)}}
+.hello{font-size:clamp(20px,5.4vw,28px);font-weight:800;color:var(--t-main-d);margin:2px 0 0;text-align:center;text-shadow:0 2px 0 #fff}
+.sub{margin:-8px 0 2px;font-size:15px;opacity:.75}
+.cards{width:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px 10px;border-radius:26px;background:var(--t-card);
+  box-shadow:0 6px 0 var(--t-edge),0 10px 22px var(--t-shadow);border:3px dashed var(--t-dash);text-align:center;color:var(--t-ink);transition:transform .15s;position:relative}
+.card:active{transform:translateY(4px) scale(.98);box-shadow:0 2px 0 var(--t-edge)}
+.card .ic{width:84px;height:84px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #fff,0 3px 8px rgba(0,0,0,.15)}
+.card .ic canvas{width:84px;height:84px;display:block}
+.card h2{margin:4px 0 0;font-size:18px;font-weight:800;color:var(--t-main-d);line-height:1.2}
+.card p{margin:0;font-size:12.5px;line-height:1.4;opacity:.75}
+.card .best{font-size:12px;font-weight:700;color:var(--t-accent-d);min-height:16px}
+.card .newtag{position:absolute;top:6px;left:8px;background:var(--t-accent);color:#fff;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px;transform:rotate(-8deg)}
+.foot{font-size:12px;opacity:.6;margin-top:6px;text-align:center;line-height:1.7}
+.foot b{font-size:14px;color:var(--t-main-d);letter-spacing:.3px}
+.foot .brand{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:10px;opacity:1}
+.foot .brand img{width:96px;height:96px;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+
+/* ============ النوافذ العامة (تتبع الثيم) ============ */
+.sheet-wrap{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(30,20,50,.45);padding:14px}
+.sheet-wrap.on{display:flex;animation:fade .2s}
+.sheet{width:min(94vw,460px);max-height:88vh;overflow-y:auto;touch-action:pan-y;background:var(--t-card);border-radius:28px;padding:18px 16px 16px;
+  border:4px solid var(--t-soft);box-shadow:0 8px 0 var(--t-edge),0 20px 40px rgba(0,0,0,.25);animation:pop .3s cubic-bezier(.3,1.6,.6,1);color:var(--t-ink)}
+.sheet h3{margin:0 0 10px;font-size:24px;color:var(--t-main-d);text-align:center}
+.sheet .close{position:sticky;top:0;float:left;width:38px;height:38px;border-radius:50%;background:var(--t-soft);color:var(--t-main-d);font-size:18px;font-weight:900;z-index:2}
+.row{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:2px dashed var(--t-soft);flex-wrap:wrap}
+.row:last-child{border-bottom:0}
+.row .lbl{flex:1;font-weight:700;font-size:16px;min-width:110px}
+.seg{display:flex;background:var(--t-soft);border-radius:99px;padding:3px;gap:3px}
+.seg button{padding:5px 12px;border-radius:99px;font-weight:800;font-size:14px;background:transparent;color:var(--t-ink)}
+.seg button.on{background:var(--t-main);color:#fff;box-shadow:0 2px 0 var(--t-main-d)}
+.tabs{display:flex;gap:6px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
+.tabs.seg{border-radius:22px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.item{border-radius:20px;background:var(--t-bg2);padding:8px;text-align:center;border:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
+.item canvas{width:84px;height:84px}
+.item b{font-size:15px}
+.item .price{font-size:13px;font-weight:800;color:var(--t-accent-d)}
+.item.eq{border-color:var(--t-main)}
+.item button{margin-top:4px;padding:4px 14px;border-radius:99px;font-weight:800;font-size:14px;background:var(--t-main);color:#fff;box-shadow:0 3px 0 var(--t-main-d)}
+.item button.no{background:#ccc;box-shadow:0 3px 0 #aaa}
+.item button.eqb{background:var(--t-card);color:var(--t-main-d);box-shadow:0 0 0 2px var(--t-main) inset}
+.ach{display:flex;align-items:center;gap:10px;padding:8px;border-radius:16px;background:var(--t-bg2);margin-bottom:6px}
+.ach .ai{font-size:26px;width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;background:var(--t-soft)}
+.ach.lock{opacity:.45;filter:grayscale(.8)}
+.ach b{display:block;font-size:15px}
+.ach small{font-size:12.5px;opacity:.8}
+.ach .ok{margin-inline-start:auto;font-size:20px}
+.helpl{list-style:none;padding:0;margin:0 0 12px}
+.helpl li{padding:8px 10px;margin-bottom:6px;border-radius:14px;background:var(--t-bg2);font-size:16px;line-height:1.5}
+.center{text-align:center}
+.tbtn{display:inline-block;padding:10px 26px;border-radius:99px;background:var(--t-main);color:#fff;font-size:18px;font-weight:800;box-shadow:0 4px 0 var(--t-main-d);margin:4px}
+.tbtn.alt{background:var(--t-card);color:var(--t-main-d);box-shadow:0 4px 0 var(--t-edge);border:2px solid var(--t-soft)}
+.tbtn:active{transform:translateY(3px)}
+.themes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+.themes button{border-radius:22px;padding:14px 6px;font-size:18px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:6px}
+.themes .g{background:linear-gradient(#FFE3F0,#FFC7E0);color:#B0156A;box-shadow:0 5px 0 #FF8CC6}
+.themes .b{background:linear-gradient(#D8ECFF,#A9D3FF);color:#173A6B;box-shadow:0 5px 0 #6FAAF0}
+.themes span{font-size:40px}
+
+/* إشعار عائم (نجوم، إنجازات) */
+#toasts{position:fixed;top:max(64px,calc(env(safe-area-inset-top) + 54px));left:0;right:0;z-index:90;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.tst{background:#fff;color:#5a2a6a;border-radius:99px;padding:6px 16px;font-weight:800;font-size:15px;box-shadow:0 4px 14px rgba(0,0,0,.2);border:2px solid #FFE08A;animation:tst 2.6s ease forwards}
+@keyframes tst{0%{opacity:0;transform:translateY(-14px) scale(.8)}10%{opacity:1;transform:none}85%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+
+/* ============ عناصر مشتركة داخل الألعاب (ثابتة لا تتأثر بالثيم) ============ */
+.bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;z-index:5;padding:max(10px,env(safe-area-inset-top)) 12px 8px}
+.ib{width:44px;height:44px;flex:0 0 44px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--pink-d);font-size:21px;display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.12);position:relative}
+.ib:active{transform:translateY(2px)}
+.ib[disabled]{opacity:.4}
+.ib .cnt{position:absolute;bottom:-4px;left:-4px;min-width:20px;height:20px;border-radius:10px;background:#FF4FA3;color:#fff;font-size:12px;font-weight:900;display:grid;place-items:center;padding:0 4px;box-shadow:0 0 0 2px #fff}
+.chip{background:rgba(255,255,255,.9);border-radius:18px;padding:3px 12px;font-weight:800;line-height:1.15;text-align:center;min-width:68px;box-shadow:0 3px 0 rgba(0,0,0,.1)}
+.chip small{display:block;font-size:11px;font-weight:600;opacity:.7}
+.chip b{font-size:19px}
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:20;background:rgba(80,20,60,.35);padding:16px}
+.overlay.on{display:flex;animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.panel{background:#fff;border-radius:30px;padding:22px 20px 18px;width:min(92vw,360px);text-align:center;box-shadow:0 8px 0 #FFB3D4,0 20px 40px rgba(0,0,0,.25);border:4px solid #FFD6E8;animation:pop .35s cubic-bezier(.3,1.6,.6,1);color:var(--ink)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.panel h3{margin:0 0 4px;font-size:25px;color:var(--pink-d)}
+.panel .big{font-size:44px;font-weight:900;color:var(--ink);line-height:1.1}
+.panel p{margin:4px 0 14px;opacity:.8}
+.btn{display:inline-block;padding:10px 22px;border-radius:99px;background:var(--pink);color:#fff;font-size:18px;font-weight:800;box-shadow:0 4px 0 var(--pink-d);margin:4px}
+.btn.alt{background:#fff;color:var(--pink-d);box-shadow:0 4px 0 #FFB3D4;border:2px solid #FFD6E8}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-d)}
+.hint{position:absolute;left:0;right:0;text-align:center;font-weight:700;font-size:15px;pointer-events:none;transition:opacity .6s;z-index:4}
+.hint span{background:rgba(255,255,255,.8);padding:4px 14px;border-radius:99px}
+.stars3{font-size:40px;letter-spacing:4px;margin:4px 0}
+.stars3 .off{filter:grayscale(1);opacity:.3}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
+</svg>
+
+<!-- ====================== القائمة ====================== -->
+<section id="menu" class="screen on">
+  <div class="menu-wrap">
+    <div class="topbar">
+      <button class="tb" id="mSettings" aria-label="الإعدادات">⚙️</button>
+      <button class="tb" id="mShop" aria-label="المتجر">🛍️</button>
+      <button class="tb" id="mAch" aria-label="الإنجازات">🏆<span class="n" id="mAchN"></span></button>
+      <span class="grow"></span>
+      <button class="tb gift" id="mGift" aria-label="الهدية اليومية">🎁</button>
+      <div class="tb" id="mStars">⭐<span class="n" id="mStarsN">0</span></div>
+    </div>
+    <div class="players" id="players"></div>
+    <div class="logo" id="logo"></div>
+    <h1 class="hello" id="hello"></h1>
+    <p class="sub" id="sub"></p>
+    <div class="cards" id="cards"></div>
+    <div class="foot" id="foot"></div>
+  </div>
+</section>
+
+<!-- نافذة عامة واحدة تُملأ حسب الحاجة -->
+<div class="sheet-wrap" id="sheetWrap"><div class="sheet" id="sheet"></div></div>
+<div id="toasts"></div>
+
+<script src="js/edition.js"></script>
+<script src="js/core.js"></script>
+<script src="js/jump.js"></script>
+<script src="js/cosmos.js"></script>
+<script src="js/chalk.js"></script>
+<script src="js/blocks.js"></script>
+<script src="js/bubbles.js"></script>
+<script src="js/balls.js"></script>
+<script src="js/shapes.js"></script>
+<script src="js/candy.js"></script>
+<script src="js/memory.js"></script>
+<script src="js/tubes.js"></script>
+<script src="js/snake.js"></script>
+<script src="js/slide.js"></script>
+<script src="js/butterfly.js"></script>
+<script>App.boot();</script>
+</body>
+</html>
