@@ -1,9 +1,10 @@
 /* ألعاب أثير وبشرى — Service Worker للعمل دون إنترنت */
-const CACHE = 'atheer-games-v4';
+const CACHE = 'atheer-games-v5';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',
-  './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2',
+  './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2', './img/albushra.jpg',
+  ...[1, 2, 3, 4, 5, 6, 7].map(n => `./img/photos/p${n}.jpg`),
   ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly'].map(n => `./js/${n}.js`)
 ];
 

@@ -25,7 +25,7 @@ build() {
   rm -rf "$OUT"; mkdir -p "$OUT/compiled" "$OUT/gen" "$OUT/classes" "$OUT/assets"
 
   echo "① نسخ ملفات التطبيق ثم ملفات النسخة (الأسماء والشعار)"
-  for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js; do
+  for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js img; do
     cp -r "$ROOT/$item" "$OUT/assets/"
   done
   [ -n "$ED" ] && cp -r "$ED/web/." "$OUT/assets/"

@@ -472,7 +472,7 @@ const App = {
   boot() {
     document.documentElement.dataset.font = gstore.get('font', 'normal');
     document.title = this.EDITION.title;
-    const foot = $('#foot'); if (foot) foot.innerHTML = `صُنعت بحب لـ${this.EDITION.names} 💕<br><b>من إنتاج البشرى تكنولوجي</b>`;
+    const foot = $('#foot'); if (foot) foot.innerHTML = `صُنعت بحب لـ${this.EDITION.names} 💕<div class="brand"><img src="img/albushra.jpg" alt="البشرى تكنولوجي"><b>من إنتاج البشرى تكنولوجي</b></div>`;
     $('#mSettings').onclick = () => { Sound.tap(); this.settings(); };
     $('#mShop').onclick = () => { Sound.tap(); this.shopSheet(); };
     $('#mAch').onclick = () => { Sound.tap(); this.achSheet(); };
