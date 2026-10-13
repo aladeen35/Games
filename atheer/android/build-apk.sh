@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # بناء ملفات APK لكل النسخ دفعة واحدة:
 #   ① «ألعاب أثير وبشرى»            ← dist/AtheerBushra-<الإصدار>.apk
-#   ② «ألعاب كوتي وريلا واويسون»    ← dist/KutiRilaOwaison-<الإصدار>.apk
+#   ② «ألعاب كوتي وريلا وسونى»    ← dist/KutiRilaSony-<الإصدار>.apk
 # الألعاب متطابقة في النسختين؛ تختلف الأسماء والشعار واسم الحزمة ومفتاح التوقيع فقط.
 # الاستخدام: bash atheer/android/build-apk.sh [atheer|kids3]   (بلا وسيط = كل النسخ)
 # يحتاج: aapt2 · javac (JDK 8+) · dalvik-dx · zipalign · apksigner · android.jar
@@ -12,8 +12,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=3
-VERSION_NAME=2.1
+VERSION_CODE=4
+VERSION_NAME=3.0
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
@@ -72,6 +72,6 @@ if [ "$WHICH" = all ] || [ "$WHICH" = atheer ]; then
     "${KEYSTORE:-$AND/atheer.keystore}" "${KEYSTORE_PASS:-atheer2024}" atheer ""
 fi
 if [ "$WHICH" = all ] || [ "$WHICH" = kids3 ]; then
-  build kids3 com.kutirila.games KutiRilaOwaison \
+  build kids3 com.kutirila.games KutiRilaSony \
     "${KEYSTORE_KIDS3:-$ROOT/editions/kids3/kids3.keystore}" "${KEYSTORE_KIDS3_PASS:-kids3games2024}" kids3 "$ROOT/editions/kids3"
 fi

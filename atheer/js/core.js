@@ -115,7 +115,12 @@ const Music = {
     bubbles: { bpm: 112, root: 76, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 23, chords: [0, 3, 5, 4] },
     balls:   { bpm: 118, root: 71, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 29, chords: [0, 4, 5, 3] },
     candy:   { bpm: 116, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 37, chords: [0, 5, 3, 4] },
-    shapes:  { bpm: 92,  root: 72, scale: [0, 2, 4, 5, 7, 9],   wave: 'sine',     seed: 31, chords: [0, 3, 4, 0] }
+    shapes:  { bpm: 92,  root: 72, scale: [0, 2, 4, 5, 7, 9],   wave: 'sine',     seed: 31, chords: [0, 3, 4, 0] },
+    memory:  { bpm: 98,  root: 72, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 41, chords: [0, 3, 4, 0] },
+    tubes:   { bpm: 84,  root: 69, scale: [0, 2, 4, 7, 9],      wave: 'sine',     seed: 43, chords: [0, 5, 3, 4], pad: true },
+    snake:   { bpm: 124, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'square',   seed: 47, chords: [0, 4, 5, 3], soft: true },
+    slide:   { bpm: 90,  root: 71, scale: [0, 2, 4, 5, 7, 9],   wave: 'triangle', seed: 53, chords: [0, 3, 4, 0] },
+    butterfly: { bpm: 110, root: 76, scale: [0, 2, 4, 7, 9],    wave: 'sine',     seed: 59, chords: [0, 3, 5, 4] }
   },
   play(name) {
     if (this.name === name && this.timer) return;
@@ -207,6 +212,21 @@ const App = {
     { id: 'candy_first', g: 'candy',   i: '🍬', t: 'أول حلوى',            d: 'إنهاء أول مستوى في لعبة الحلويات' },
     { id: 'candy_special', g: 'candy', i: '🍭', t: 'حلوى خارقة',          d: 'صنع حلوى خاصة بمطابقة 4 أو 5' },
     { id: 'candy_lvl10', g: 'candy',   i: '🎂', t: 'نجم الحلويات',       d: 'إنهاء المستوى 10' },
+    { id: 'mem_first',   g: 'memory',  i: '🃏', t: 'ذاكرة قوية',          d: 'إنهاء أول لوحة في بطاقات الذاكرة' },
+    { id: 'mem_perfect', g: 'memory',  i: '🧠', t: 'ذاكرة حديدية',        d: 'إنهاء لوحة بأخطاء قليلة جدًا' },
+    { id: 'mem_big',     g: 'memory',  i: '🎴', t: 'اللوحة الكبيرة',      d: 'إنهاء لوحة من 12 زوجًا' },
+    { id: 'tubes_first', g: 'tubes',   i: '🧪', t: 'أول فرز',             d: 'إنهاء أول مستوى في أنابيب الألوان' },
+    { id: 'tubes_10',    g: 'tubes',   i: '🌈', t: 'خبير الألوان',        d: 'إنهاء المستوى 10' },
+    { id: 'tubes_30',    g: 'tubes',   i: '⚗️', t: 'كيميائي صغير',        d: 'إنهاء المستوى 30' },
+    { id: 'snake_10',    g: 'snake',   i: '🐛', t: 'دودة جائعة',          d: 'أكل 10 فواكه في جولة واحدة' },
+    { id: 'snake_30',    g: 'snake',   i: '🐍', t: 'دودة عملاقة',         d: 'الوصول إلى طول 30' },
+    { id: 'snake_gold',  g: 'snake',   i: '🍏', t: 'التفاحة الذهبية',     d: 'أكل فاكهة ذهبية' },
+    { id: 'slide_first', g: 'slide',   i: '🧩', t: 'أول لغز',             d: 'حل أول لغز صور منزلقة' },
+    { id: 'slide_4',     g: 'slide',   i: '🖼️', t: 'محترف الألغاز',      d: 'حل لغز 4×4' },
+    { id: 'slide_fast',  g: 'slide',   i: '⚡', t: 'سريع جدًا',            d: 'حل لغز 3×3 في أقل من دقيقة' },
+    { id: 'bfly_first',  g: 'butterfly', i: '🦋', t: 'صياد الفراشات',     d: 'إنهاء أول جولة في صيد الفراشات' },
+    { id: 'bfly_50',     g: 'butterfly', i: '🌼', t: 'عين الصقر',         d: 'صيد 50 فراشة صحيحة' },
+    { id: 'bfly_lvl10',  g: 'butterfly', i: '🌈', t: 'خبير الألوان',      d: 'الوصول إلى المستوى 10' },
     { id: 'daily_3',     g: '',        i: '🎁', t: 'وفاء يومي',          d: 'فتح الهدية اليومية 3 أيام متتالية' },
     { id: 'shop_first',  g: '',        i: '🛍️', t: 'أول مشتريات',       d: 'شراء أول عنصر من المتجر' },
     { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }
@@ -452,7 +472,7 @@ const App = {
   boot() {
     document.documentElement.dataset.font = gstore.get('font', 'normal');
     document.title = this.EDITION.title;
-    const foot = $('#foot'); if (foot) foot.textContent = `صُنعت بحب لـ${this.EDITION.names} 💕`;
+    const foot = $('#foot'); if (foot) foot.innerHTML = `صُنعت بحب لـ${this.EDITION.names} 💕<br><b>من إنتاج البشرى تكنولوجي</b>`;
     $('#mSettings').onclick = () => { Sound.tap(); this.settings(); };
     $('#mShop').onclick = () => { Sound.tap(); this.shopSheet(); };
     $('#mAch').onclick = () => { Sound.tap(); this.achSheet(); };
