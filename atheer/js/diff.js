@@ -1000,7 +1000,7 @@
   /* ---------- التخطيط ---------- */
   function layout() {
     const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; dpr = f.dpr;
-    const top = bar.getBoundingClientRect().bottom + 8, bottom = H - 34;
+    const top = bar.getBoundingClientRect().bottom + 8, bottom = H - 42;
     const aw = Math.min(W - 16, 1400), ah = bottom - top, gap = 14, fp = 6;
     const asp = PH / PW;
     const st = Math.min(aw - fp * 2, ((ah - gap) / 2 - fp * 2) / asp);            // فوق بعض
@@ -1295,7 +1295,7 @@
     for (const f of floats) {
       const p = pics[f.i], a = f.age < 1 ? 1 : 1 - (f.age - 1) / .4, fs = clamp(W * .05, 18, 28);
       ctx.save(); ctx.globalAlpha = a; ctx.font = `900 ${fs}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const X = clamp(p.x + f.u * kS, p.x + 70, p.x + p.w - 70), Y = p.y + f.v * kS - 30 - f.age * 30;
+      const X = clamp(p.x + f.u * kS, p.x + 70, p.x + p.w - 70), Y = Math.max(p.y + 24, p.y + f.v * kS - 30) - f.age * 22;
       ctx.lineWidth = 5; ctx.strokeStyle = '#fff'; ctx.strokeText(f.t, X, Y); ctx.fillStyle = '#E2558F'; ctx.fillText(f.t, X, Y); ctx.restore();
     }
     for (const q of parts) {

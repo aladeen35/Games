@@ -677,10 +677,10 @@
   }
   /* تلميح: إعادة العدّ مع الإضاءة */
   function recount(list, startAt, restart) {
-    let n = 0, t = T + startAt;
+    let n = 0; const t = T + startAt, iv = list.length > 10 ? .4 : list.length > 6 ? .5 : .62;
     if (restart !== false) list.forEach(o => { o.cnt = 0; });
-    seq = seq.concat(list.map(o => ({ o, n: ++n, at: t + (n - 1) * .62 })));
-    seqEnd = t + n * .62 + .2;
+    seq = seq.concat(list.map(o => ({ o, n: ++n, at: t + (n - 1) * iv })));
+    seqEnd = t + n * iv + .2;
     phase = 'hint';
   }
   function wrongChoice(c) {

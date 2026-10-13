@@ -1048,7 +1048,7 @@
   function skyFor(z) { return ZSKY[z]; }
   function drawBackground(c, t) {
     const zf = distM / ZONE_LEN, zA = Math.floor(zf) % 3, frac = zf - Math.floor(zf);
-    const blend = clamp((frac - .85) / .15, 0, 1), zB = (zA + 1) % 3;
+    const blend = zf < 1 ? 0 : clamp(1 - frac / .12, 0, 1), zB = (zA + 2) % 3; // انتقال من المنطقة السابقة
     const [a0, a1] = skyFor(zA), [b0, b1] = skyFor(zB);
     const g = c.createLinearGradient(0, 0, 0, HB); g.addColorStop(0, mix(a0, b0, blend)); g.addColorStop(1, mix(a1, b1, blend));
     c.fillStyle = g; c.fillRect(-20, -20, W + 40, HB + 22);
@@ -1080,7 +1080,7 @@
     const cw = 40 * S, o2 = (camX * S) % (cw * 2);
     for (let x = -o2 - cw * 2; x < W + cw * 2; x += cw) { c.fillStyle = Math.round((x + o2) / cw) % 2 ? '#F23B3B' : '#FFFFFF'; c.fillRect(x, bot, cw, 8 * S); }
     // الأرض أسفل الطريق
-    const zf = distM / ZONE_LEN, zA = Math.floor(zf) % 3, blend = clamp((zf - Math.floor(zf) - .9) / .1, 0, 1), zB = (zA + 1) % 3;
+    const zf = distM / ZONE_LEN, zA = Math.floor(zf) % 3, blend = zf < 1 ? 0 : clamp(1 - (zf - Math.floor(zf)) / .12, 0, 1), zB = (zA + 2) % 3;
     const bg = c.createLinearGradient(0, bot + 8 * S, 0, H); bg.addColorStop(0, mix(ZBOTTOM[zA][0], ZBOTTOM[zB][0], blend)); bg.addColorStop(1, mix(ZBOTTOM[zA][1], ZBOTTOM[zB][1], blend));
     c.fillStyle = bg; c.fillRect(-10, bot + 8 * S, W + 20, H - bot);
     // نقوش متحرّكة على الأرض
