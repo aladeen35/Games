@@ -1,5 +1,5 @@
 /* =====================================================================
-   ألعاب أثير وبشرى — النواة المشتركة
+   ألعاب أثير وبشرى (ونسخها الأخرى) — النواة المشتركة
    ملفات اللاعبين، الثيمات، الأصوات والموسيقى، النجوم والمتجر،
    الإنجازات، الهدية اليومية، التعليمات، والتنقّل بين الشاشات.
    ===================================================================== */
@@ -19,7 +19,7 @@ const gstore = {
 };
 /* تخزين خاص باللاعب الحالي: كل لاعب له نتائجه ونجومه ومشترياته */
 const store = {
-  key(k) { return (App.profile ? App.profile.id : 'atheer') + ':' + k; },
+  key(k) { return (App.profile ? App.profile.id : App.PROFILES[0].id) + ':' + k; },
   get(k, d) { try { const v = localStorage.getItem(this.key(k)); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(this.key(k), JSON.stringify(v)); } catch (e) {} }
 };
@@ -172,10 +172,8 @@ const Music = {
    ===================================================================== */
 const App = {
   games: {}, order: [], current: 'menu', profile: null, customLogo: false,
-  PROFILES: [
-    { id: 'atheer', name: 'أثير', theme: 'girls' },
-    { id: 'bushra', name: 'بشرى', theme: null } // يُسأل عن الثيم عند أول دخول
-  ],
+  EDITION: window.EDITION,
+  PROFILES: window.EDITION.profiles,
   shop: [], shopCats: {
     hero: { title: 'أبطال فارس السحاب', icon: '🛡️' },
     xo:   { title: 'رموز إكس أو', icon: '✏️' },
@@ -412,7 +410,7 @@ const App = {
   },
   logo() {
     const P = this.profile, boys = this.theme === 'boys';
-    if (!this.customLogo) return `<img src="logo.jpg" alt="أثير وبشرى">`; // الشعار المشترك للتطبيق
+    if (!this.customLogo) return `<img src="logo.jpg" alt="${this.EDITION.names}">`; // الشعار المشترك للتطبيق
     const main = boys ? '#2E86F5' : '#FF4FA3', bg = boys ? '#E4F1FF' : '#FFE8F2', edge = boys ? '#8CC0FF' : '#FFB3D4';
     const deco = boys ? [['🚀', 34, 52, 30, -20], ['⭐', 160, 40, 22, 0], ['🪐', 166, 150, 28, 0], ['⚽', 30, 158, 24, 0], ['🦖', 100, 182, 22, 0]]
                       : [['👑', 52, 50, 30, -15], ['💖', 160, 42, 22, 0], ['🌸', 166, 152, 28, 0], ['⭐', 30, 156, 20, 0], ['🎀', 100, 184, 22, 0]];
@@ -429,7 +427,7 @@ const App = {
   renderMenu() {
     if (!this.profile) return;
     const P = this.profile;
-    $('#players').innerHTML = this.PROFILES.map(p => `<button class="pl ${p.id === P.id ? 'on' : ''}" data-p="${p.id}"><span class="av">${p.id === 'atheer' ? '👑' : '⭐'}</span>${p.name}</button>`).join('');
+    $('#players').innerHTML = this.PROFILES.map(p => `<button class="pl ${p.id === P.id ? 'on' : ''}" data-p="${p.id}"><span class="av">${p.av || '⭐'}</span>${p.name}</button>`).join('');
     $('#players').querySelectorAll('[data-p]').forEach(b => b.onclick = () => { if (b.dataset.p !== P.id) { Sound.tap(); this.setProfile(b.dataset.p); } });
     $('#logo').innerHTML = this.logo();
     $('#hello').textContent = `أهلًا يا ${P.name}! ${this.theme === 'boys' ? '🚀' : '👑'}`;
@@ -453,7 +451,8 @@ const App = {
 
   boot() {
     document.documentElement.dataset.font = gstore.get('font', 'normal');
-    // نقل بيانات الإصدار الأول (أثير فقط) إلى ملفها الجديد يتم تلقائيًا لأن المفتاح نفسه 'atheer:'
+    document.title = this.EDITION.title;
+    const foot = $('#foot'); if (foot) foot.textContent = `صُنعت بحب لـ${this.EDITION.names} 💕`;
     $('#mSettings').onclick = () => { Sound.tap(); this.settings(); };
     $('#mShop').onclick = () => { Sound.tap(); this.shopSheet(); };
     $('#mAch').onclick = () => { Sound.tap(); this.achSheet(); };
@@ -472,7 +471,7 @@ const App = {
       if (document.hidden) { if (Sound.ctx) Sound.ctx.suspend(); }
       else if (Sound.ctx) Sound.ctx.resume();
     });
-    this.setProfile(gstore.get('profile', 'atheer'));
+    this.setProfile(gstore.get('profile', this.PROFILES[0].id));
     if (document.fonts) document.fonts.ready.then(() => this.renderMenu());
     const start = location.hash.slice(1);
     if (this.games[start]) this.show(start);

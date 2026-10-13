@@ -1,10 +1,10 @@
 /* ألعاب أثير وبشرى — Service Worker للعمل دون إنترنت */
-const CACHE = 'atheer-games-v2';
+const CACHE = 'atheer-games-v3';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',
   './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2',
-  ...['core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy'].map(n => `./js/${n}.js`)
+  ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy'].map(n => `./js/${n}.js`)
 ];
 
 self.addEventListener('install', e => {

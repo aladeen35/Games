@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#FF4FA3">
-<meta name="description" content="ألعاب أثير وبشرى: سبع ألعاب في تطبيق واحد">
+<meta name="description" content="ثماني ألعاب للأطفال في تطبيق واحد">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -52,7 +52,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 .tb.gift.done{animation:none;opacity:.45;background:var(--t-card);color:var(--t-main-d);box-shadow:0 3px 0 var(--t-edge)}
 @keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-6deg)}}
 .grow{flex:1}
-.players{display:flex;gap:10px;justify-content:center}
+.players{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .pl{display:flex;align-items:center;gap:6px;padding:4px 14px 4px 6px;border-radius:99px;background:var(--t-card);font-weight:800;font-size:17px;color:var(--t-ink);box-shadow:0 3px 0 var(--t-edge);opacity:.6;border:3px solid transparent}
 .pl.on{opacity:1;border-color:var(--t-main);color:var(--t-main-d)}
 .pl .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:var(--t-soft)}
@@ -170,7 +170,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
     <h1 class="hello" id="hello"></h1>
     <p class="sub" id="sub"></p>
     <div class="cards" id="cards"></div>
-    <div class="foot">صُنعت بحب لأثير وبشرى 💕</div>
+    <div class="foot" id="foot"></div>
   </div>
 </section>
 
@@ -178,6 +178,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 <div class="sheet-wrap" id="sheetWrap"><div class="sheet" id="sheet"></div></div>
 <div id="toasts"></div>
 
+<script src="js/edition.js"></script>
 <script src="js/core.js"></script>
 <script src="js/jump.js"></script>
 <script src="js/cosmos.js"></script>
