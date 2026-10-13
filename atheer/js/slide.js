@@ -917,7 +917,7 @@
 
   /* ---------- الحل ---------- */
   function solved() {
-    phase = 'win'; winT = -.12; timing = false; drag = null; setHint('');
+    phase = 'win'; winT = -.12; timing = false; drag = null; setHint(''); updChips();
     const pr = loadProg(), key = P + '_' + N, prev = pr.b[key] || null;
     const par = PAR[N];
     const ms = moves <= par.m[0] ? 3 : moves <= par.m[1] ? 2 : 1, ts = time <= par.t[0] ? 3 : time <= par.t[1] ? 2 : 1;
