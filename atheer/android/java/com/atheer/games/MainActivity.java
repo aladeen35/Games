@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
     private static final String START_URL = "https://" + HOST + "/index.html";
 
     private WebView web;
-    private TextToSpeech tts;
-    private boolean ttsReady = false;
+    private TextToSpeech tts, ttsEn;
+    private boolean ttsReady = false, ttsEnReady = false;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -56,11 +56,24 @@ public class MainActivity extends Activity {
         setContentView(web);
         web.loadUrl(START_URL);
 
+        initEn();
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     int r = tts.setLanguage(new Locale("ar"));
                     ttsReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
+                }
+            }
+        });
+    }
+
+    /** نطق إنجليزي لحروف وكلمات لعبة «حروفي». */
+    private void initEn() {
+        ttsEn = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int r = ttsEn.setLanguage(Locale.US);
+                    ttsEnReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
                 }
             }
         });
@@ -72,6 +85,12 @@ public class MainActivity extends Activity {
         public void speak(String text) {
             if (!ttsReady || text == null) return;
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
+        @JavascriptInterface
+        public void speakEn(String text) {
+            if (!ttsEnReady || text == null) return;
+            ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
@@ -137,6 +156,7 @@ public class MainActivity extends Activity {
     @Override protected void onResume() { super.onResume(); if (web != null) web.onResume(); }
     @Override protected void onDestroy() {
         if (tts != null) { tts.stop(); tts.shutdown(); }
+        if (ttsEn != null) { ttsEn.stop(); ttsEn.shutdown(); }
         if (web != null) { web.destroy(); web = null; }
         super.onDestroy();
     }
