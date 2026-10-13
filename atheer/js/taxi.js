@@ -228,7 +228,7 @@
   function stopAvailable() {
     if (state !== 'play' || mode !== 'drive' || !waiting || waiting.pax.state !== 'wait') return false;
     const d = waiting.x - taxi.x;
-    return d > -50 && d < 720;
+    return d > -50 && d < 560;
   }
   function requestStop() {
     if (!stopAvailable()) return;
@@ -249,7 +249,7 @@
     props.push({ kind: 'stop', x });
     paxList.push(pax);
     waiting = { x, pax };
-    reserved.push({ a: x - 760, b: x + 260 });
+    reserved.push({ a: x - 760, b: x + 560 });
   }
   function boardDone() {
     const pax = waiting.pax, dest = DESTS[pax.dest];
@@ -260,7 +260,7 @@
     const time = Math.round(dx / vExp * 1.45 + 6);
     ride = { pax, dest: pax.dest, x: taxi.x + dx, from: taxi.x, time, total: time, failed: 0 };
     props.push({ kind: 'dest', x: ride.x, dest: pax.dest });
-    reserved.push({ a: ride.x - 900, b: ride.x + 300 });
+    reserved.push({ a: ride.x - 900, b: ride.x + 650 });
     waiting = null;
     taxi.happy = 1.6; taxi.squash = .8;
     Sound.pop(); [660, 880, 1100].forEach((f, i) => Sound.tone(f, .12, 'triangle', .1, 0, .05 + i * .07));
@@ -349,7 +349,7 @@
     if (!waiting && !ride && mode === 'drive' && nextMissionX < camX + VW + 500) {
       let x = Math.max(nextMissionX, camX + VW + 120);
       // لا تضع الموقف فوق عائق قريب
-      for (const o of obs) if (o.x + o.w > x - 760 && o.x < x + 260) x = Math.max(x, o.x + o.w + 780);
+      for (const o of obs) if (o.x + o.w > x - 760 && o.x < x + 560) x = Math.max(x, o.x + o.w + 780);
       spawnStop(x);
       nextMissionX = Infinity;
     }
@@ -544,7 +544,7 @@
     // الركّاب خارج السيارة
     for (const p of paxList) {
       p.t += dt; p.excite = Math.max(0, (p.excite || 0) - dt);
-      if (p.state === 'out') { p.vy -= 1400 * dt; p.y += p.vy * dt; if (p.y <= 0) { p.y = 0; p.vy = p.t < 1.2 ? 380 : 0; } p.d = Math.max(0, p.d - dt * .8); p.x -= 30 * dt; }
+      if (p.state === 'out') { p.vy -= 1400 * dt; p.y += p.vy * dt; if (p.y <= 0) { p.y = 0; p.vy = p.t < 1.2 ? 380 : 0; } p.d = Math.max(0, p.d - dt * .8); p.x += 70 * dt; }
     }
     paxList = paxList.filter(p => p.state !== 'in' || (ride && ride.pax === p)).filter(p => p.x > camX - 120 || p.state === 'in');
     // الجسيمات
@@ -628,9 +628,8 @@
     c.save(); c.translate(x, y); c.fillStyle = col; c.beginPath();
     c.moveTo(0, r * .35); c.bezierCurveTo(-r * 1.2, -r * .4, -r * .5, -r * 1.2, 0, -r * .45); c.bezierCurveTo(r * .5, -r * 1.2, r * 1.2, -r * .4, 0, r * .35); c.fill(); c.restore();
   }
-  function cloud(c, x, y, s) {
-    c.beginPath(); c.arc(x, y, 18 * s, 0, TAU); c.arc(x + 20 * s, y - 10 * s, 22 * s, 0, TAU); c.arc(x + 44 * s, y - 2 * s, 17 * s, 0, TAU); c.arc(x + 24 * s, y + 6 * s, 16 * s, 0, TAU); c.fill();
-  }
+  function blob(c, list) { c.beginPath(); for (const [x, y, r] of list) { c.moveTo(x + r, y); c.arc(x, y, r, 0, TAU); } c.fill(); }
+  function cloud(c, x, y, s) { blob(c, [[x, y, 18 * s], [x + 20 * s, y - 10 * s, 22 * s], [x + 44 * s, y - 2 * s, 17 * s], [x + 24 * s, y + 6 * s, 16 * s]]); }
 
   /* ---------- التاكسي (الأصل عند منتصف الأرض تحته، الأمام = +x) ---------- */
   function bodyPath(c) {
@@ -800,7 +799,11 @@
         c.fillStyle = '#fff'; c.beginPath(); c.arc(e.x * r / 11 - pr * .35, e.y * r / 11 - pr * .4, pr * .32, 0, TAU); c.fill();
         // الجفن: رمش أو حزن
         const lid = st.blink > 0 ? 1 : sad ? .45 : st.nitro > 0 ? .3 : 0;
-        if (lid) { c.save(); c.beginPath(); c.arc(0, 0, r + .5, 0, TAU); c.clip(); c.fillStyle = '#FFD233'; c.fillRect(-r - 1, -r - 1, r * 2 + 2, (r * 2 + 2) * lid); c.strokeStyle = '#C77700'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(-r, -r - 1 + (r * 2 + 2) * lid); c.lineTo(r, -r - 1 + (r * 2 + 2) * lid); c.stroke(); c.restore(); }
+        if (lid === 1) { // رمشة: جفن مغلق بخط مبتسم
+          c.fillStyle = '#FFD233'; c.beginPath(); c.arc(0, 0, r + .5, 0, TAU); c.fill();
+          c.strokeStyle = '#C77700'; c.lineWidth = 1.2; c.stroke();
+          c.strokeStyle = '#2B1A12'; c.lineWidth = 2.6; c.beginPath(); c.arc(0, -r * .15, r * .62, .25, Math.PI - .25); c.stroke();
+        } else if (lid) { c.save(); c.beginPath(); c.arc(0, 0, r + .5, 0, TAU); c.clip(); c.fillStyle = '#FFD233'; c.fillRect(-r - 1, -r - 1, r * 2 + 2, (r * 2 + 2) * lid); c.strokeStyle = '#C77700'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(-r, -r - 1 + (r * 2 + 2) * lid); c.lineTo(r, -r - 1 + (r * 2 + 2) * lid); c.stroke(); c.restore(); }
       }
       c.restore();
     });
@@ -997,7 +1000,7 @@
         c.fillStyle = '#8A5A34'; c.fillRect(tx - 4 * u, B - h, 9 * u, h);
         const col = h1(i, 14) < .3 ? '#FF9FC8' : h1(i, 14) < .45 ? '#FFC94D' : '#4FBF5A';
         c.fillStyle = col;
-        c.beginPath(); c.arc(tx, B - h - r * .3, r, 0, TAU); c.arc(tx - r * .7, B - h + r * .2, r * .7, 0, TAU); c.arc(tx + r * .7, B - h + r * .2, r * .7, 0, TAU); c.fill();
+        blob(c, [[tx, B - h - r * .3, r], [tx - r * .7, B - h + r * .2, r * .7], [tx + r * .7, B - h + r * .2, r * .7]]);
         c.fillStyle = 'rgba(255,255,255,.22)'; c.beginPath(); c.arc(tx - r * .35, B - h - r * .65, r * .32, 0, TAU); c.fill();
       }
     });
@@ -1110,7 +1113,7 @@
     if (x < -300 * S || x > W + 300 * S) return;
     c.save(); c.translate(x, HB); c.scale(S, S);
     if (p.fade) c.globalAlpha = .35;
-    const bx = 30;
+    const bx = 150, gx = bx + 128;
     if (d === 0) { // بيت
       c.fillStyle = '#FFF0DC'; c.fillRect(bx - 60, -90, 120, 90);
       c.fillStyle = '#FF6B5E'; c.beginPath(); c.moveTo(bx - 72, -86); c.lineTo(bx, -140); c.lineTo(bx + 72, -86); c.closePath(); c.fill();
@@ -1158,10 +1161,10 @@
       c.fillStyle = '#FFD43B'; c.beginPath(); c.arc(cx, cy, 7, 0, TAU); c.fill();
     }
     // لافتة الوجهة
-    c.fillStyle = '#7C8396'; c.fillRect(-72, -64, 4, 64);
-    c.fillStyle = '#fff'; c.beginPath(); c.roundRect(-96, -104, 52, 42, 12); c.fill();
+    c.fillStyle = '#7C8396'; c.fillRect(gx - 2, -64, 4, 64);
+    c.fillStyle = '#fff'; c.beginPath(); c.roundRect(gx - 26, -104, 52, 42, 12); c.fill();
     c.strokeStyle = '#FFB21E'; c.lineWidth = 3; c.stroke();
-    c.font = `28px ${EMOJI}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(DESTS[d].e, -70, -82);
+    c.font = `28px ${EMOJI}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(DESTS[d].e, gx, -82 + Math.sin(t * 4) * 2);
     c.restore();
   }
 
@@ -1180,12 +1183,11 @@
       const mood = p.state === 'sad' ? 'sad' : p.state === 'out' ? 'happy' : p.excite > 0 ? 'wow' : 'smile';
       if (p.state === 'poof') continue;
       c.save(); c.translate(x, y); c.scale(S * (1 + p.d * .1), S * (1 + p.d * .1));
-      if (p.state === 'out') c.scale(-1, 1);
       drawPerson(c, p, t + p.t, mood);
       c.restore();
       if (p.state === 'wait') bubble(c, x + 26 * S, y - 82 * S, S, DESTS[p.dest].e, t + p.t);
       if (p.state === 'sad') bubble(c, x + 22 * S, y - 80 * S, S * .85, '😢', t);
-      if (p.state === 'out' && p.t < 2) bubble(c, x - 24 * S, y - 82 * S, S * .9, '💛', t);
+      if (p.state === 'out' && p.t < 2.5) bubble(c, x + 24 * S, y - 82 * S, S * .9, '💛', t);
     }
     drawRoad(c);
     for (const p of props) if (p.kind === 'dest' && !p.fade) { // علامة مكان النزول
@@ -1371,7 +1373,7 @@
     /* للاختبار الآلي فقط */
     _dbg() { return { state, mode, distM, hearts, deliveries, starCount, waiting: !!waiting, ride: !!ride, speed, x: taxi && taxi.x }; },
     _god() { hearts = 99; },
-    _eyes() { const k = taxi; return { blink: k.blink, sad: k.sad, nitro: k.nitro, happy: k.happy, hurt: k.hurt, ground: k.ground }; },
+    _kill() { hearts = 1; taxi.inv = 0; taxi.nitro = 0; taxi.shield = false; hitTaxi({ type: 'cone', x: taxi.x, y: 0, w: 36, h: 46 }); },
     _warp(m) { taxi.x = m * 10; distM = m; camX = taxi.x - TX; nextSpawnX = taxi.x + 600; nextMissionX = taxi.x + 400; zoneI = Math.floor(m / ZONE_LEN); },
     icon(c) {
       const g = c.createLinearGradient(0, 0, 0, 152); g.addColorStop(0, '#7CC8FF'); g.addColorStop(1, '#DDF3FF');
