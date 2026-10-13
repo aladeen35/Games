@@ -120,7 +120,12 @@ const Music = {
     tubes:   { bpm: 84,  root: 69, scale: [0, 2, 4, 7, 9],      wave: 'sine',     seed: 43, chords: [0, 5, 3, 4], pad: true },
     snake:   { bpm: 124, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'square',   seed: 47, chords: [0, 4, 5, 3], soft: true },
     slide:   { bpm: 90,  root: 71, scale: [0, 2, 4, 5, 7, 9],   wave: 'triangle', seed: 53, chords: [0, 3, 4, 0] },
-    butterfly: { bpm: 110, root: 76, scale: [0, 2, 4, 7, 9],    wave: 'sine',     seed: 59, chords: [0, 3, 5, 4] }
+    butterfly: { bpm: 110, root: 76, scale: [0, 2, 4, 7, 9],    wave: 'sine',     seed: 59, chords: [0, 3, 5, 4] },
+    letters: { bpm: 92,  root: 72, scale: [0, 2, 4, 5, 7, 9],   wave: 'triangle', seed: 61, chords: [0, 3, 4, 0] },
+    numbers: { bpm: 100, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 67, chords: [0, 5, 3, 4] },
+    maze:    { bpm: 96,  root: 69, scale: [0, 2, 3, 7, 8],      wave: 'sine',     seed: 71, chords: [0, 5, 3, 4] },
+    diff:    { bpm: 88,  root: 71, scale: [0, 2, 4, 7, 9],      wave: 'sine',     seed: 73, chords: [0, 3, 4, 0], pad: true },
+    taxi:    { bpm: 132, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'square',   seed: 79, chords: [0, 4, 5, 3], soft: true }
   },
   play(name) {
     if (this.name === name && this.timer) return;
@@ -227,6 +232,21 @@ const App = {
     { id: 'bfly_first',  g: 'butterfly', i: '🦋', t: 'صياد الفراشات',     d: 'إنهاء أول جولة في صيد الفراشات' },
     { id: 'bfly_50',     g: 'butterfly', i: '🌼', t: 'عين الصقر',         d: 'صيد 50 فراشة صحيحة' },
     { id: 'bfly_lvl10',  g: 'butterfly', i: '🌈', t: 'خبير الألوان',      d: 'الوصول إلى المستوى 10' },
+    { id: 'let_first',   g: 'letters', i: '✍️', t: 'أول حرف',             d: 'تتبّع أول حرف' },
+    { id: 'let_ar',      g: 'letters', i: '🔤', t: 'الحروف العربية',     d: 'تتبّع الحروف العربية الـ28 كلها' },
+    { id: 'let_en',      g: 'letters', i: '🅰️', t: 'ABC',                d: 'تتبّع الحروف الإنجليزية الـ26 كلها' },
+    { id: 'num_first',   g: 'numbers', i: '🔢', t: 'أول عدّ',            d: 'إنهاء أول مستوى في أرقام وعدّ' },
+    { id: 'num_add',     g: 'numbers', i: '➕', t: 'بطل الجمع',          d: 'حل 20 مسألة جمع' },
+    { id: 'num_all',     g: 'numbers', i: '🧮', t: 'عبقري الأرقام',      d: 'إنهاء كل مستويات الأرقام' },
+    { id: 'maze_first',  g: 'maze',    i: '🧭', t: 'أول متاهة',          d: 'حل أول متاهة' },
+    { id: 'maze_10',     g: 'maze',    i: '🗺️', t: 'مستكشف',             d: 'حل 10 متاهات' },
+    { id: 'maze_big',    g: 'maze',    i: '🏆', t: 'سيد المتاهات',       d: 'حل أكبر متاهة' },
+    { id: 'diff_first',  g: 'diff',    i: '🔍', t: 'عين حادة',            d: 'إيجاد كل الفروق في أول صورة' },
+    { id: 'diff_fast',   g: 'diff',    i: '⚡', t: 'محقق سريع',           d: 'إيجاد 5 فروق في أقل من 30 ثانية' },
+    { id: 'diff_all',    g: 'diff',    i: '🕵️', t: 'المحقق الكبير',      d: 'إنهاء كل صور الاختلافات' },
+    { id: 'taxi_first',  g: 'taxi',    i: '🚕', t: 'أول توصيلة',          d: 'توصيل أول راكب' },
+    { id: 'taxi_10',     g: 'taxi',    i: '🧍', t: 'سائق محترف',         d: 'توصيل 10 ركاب في جولة واحدة' },
+    { id: 'taxi_far',    g: 'taxi',    i: '🛣️', t: 'طريق طويل',          d: 'قطع 3000 متر في جولة واحدة' },
     { id: 'daily_3',     g: '',        i: '🎁', t: 'وفاء يومي',          d: 'فتح الهدية اليومية 3 أيام متتالية' },
     { id: 'shop_first',  g: '',        i: '🛍️', t: 'أول مشتريات',       d: 'شراء أول عنصر من المتجر' },
     { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }
