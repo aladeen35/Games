@@ -70,8 +70,14 @@
     { at: 0,    name: 'عالم السحاب',     sub: 'ابدأ الرحلة نحو القلعة ☁️' },
     { at: 500,  name: 'جسر قوس قزح',     sub: 'انتبه للطيور 🐦' },
     { at: 1500, name: 'قلعة الأحلام',     sub: 'وصلت إلى القلعة! 🏰' },
-    { at: 3000, name: 'الفضاء الحالم',    sub: 'أعلى من النجوم 🚀' }
+    { at: 3000, name: 'الفضاء الحالم',    sub: 'أعلى من النجوم 🚀' },
+    { at: 4500, name: 'مدينة الحلوى',     sub: 'مصّاصات وغيوم من السكّر 🍭' },
+    { at: 6500, name: 'مملكة النجوم',     sub: 'أضواء الشفق السحرية ✨' }
   ];
+  /* شدّة ظهور عالم ما (0..1) حسب الارتفاع */
+  const band = (h, a, b, fade) => clamp((h - a) / fade, 0, 1) * clamp((b - h) / fade, 0, 1);
+  const candyA = h => band(h, 4200, 6300, 300), auroraA = h => clamp((h - 6200) / 400, 0, 1);
+  const LOLLY = [['#FF5FA2', '#FFF'], ['#FFB341', '#FFF'], ['#7AD8FF', '#FFF'], ['#9D7BFF', '#FFE3F6'], ['#5FE09A', '#FFF']];
 
   function resize() {
     ({ ctx, w: W, h: H } = fitCanvas(cv));
@@ -267,7 +273,7 @@
     $('#jBest').textContent = best; $('#jFinal').textContent = score;
     $('#jOverT').textContent = isBest && score > 0 ? '🏆 رقم قياسي جديد!' : 'سقط البطل! ☁️';
     $('#jOverP').textContent = (score < 500 ? App.g('القلعة تنتظرك في الأعلى — حاولي مرة أخرى!', 'القلعة تنتظرك في الأعلى — حاول مرة أخرى!')
-      : score < 1500 ? 'رائع! القلعة تقترب 🏰' : score < 3000 ? App.g('مذهل! أنتِ فارسة السماء 👑', 'مذهل! أنت فارس السماء 🛡️') : 'أسطوري! وصلت إلى الفضاء 🚀')
+      : score < 1500 ? 'رائع! القلعة تقترب 🏰' : score < 3000 ? App.g('مذهل! أنتِ فارسة السماء 👑', 'مذهل! أنت فارس السماء 🛡️') : score < 4500 ? 'أسطوري! وصلت إلى الفضاء 🚀' : score < 6500 ? 'مدهش! وصلت إلى مدينة الحلوى 🍭' : 'خرافي! وصلت إلى مملكة النجوم ✨')
       + (gemsRun ? ` • جمعت ${gemsRun} ⭐` : '');
     const reward = gemsRun + (isBest && score > 200 ? 3 : 0);
     setTimeout(() => { $('#jOver').classList.add('on'); if (reward) App.addStars(reward); }, 450);
@@ -280,7 +286,9 @@
     return `rgb(${r | 0},${g | 0},${bl | 0})`;
   }
   function skyColors(h) {
-    const stops = [[0, ['#BFE4FF', '#FFE1F0']], [500, ['#D2C8FF', '#FFE6F4']], [1500, ['#FFB7D5', '#FFE3B0']], [2400, ['#8E7BE0', '#FFB8D9']], [3000, ['#2A1D63', '#7A4CB8']], [5000, ['#0E0A2E', '#3A2470']]];
+    const stops = [[0, ['#BFE4FF', '#FFE1F0']], [500, ['#D2C8FF', '#FFE6F4']], [1500, ['#FFB7D5', '#FFE3B0']], [2400, ['#8E7BE0', '#FFB8D9']], [3000, ['#2A1D63', '#7A4CB8']], [3900, ['#1C1452', '#5A2E90']],
+      [4500, ['#FF9ACB', '#FFE0A8']], [5400, ['#FFB0E2', '#B8F0FF']], [6100, ['#C98BE8', '#FFC9E8']],
+      [6500, ['#0B1A3C', '#1C4A66']], [8000, ['#071230', '#22305E']]];
     let i = 0; while (i < stops.length - 2 && h > stops[i + 1][0]) i++;
     const [h0, c0] = stops[i], [h1, c1] = stops[i + 1], t = clamp((h - h0) / (h1 - h0), 0, 1);
     return [mix(c0[0], c1[0], t), mix(c0[1], c1[1], t)];
@@ -298,6 +306,53 @@
     const cols = ['#FF8FB1', '#FFB86B', '#FFE46B', '#8EE68E', '#7FD0FF', '#B28BFF'];
     c.save(); c.globalAlpha = a * .55; c.lineWidth = Math.min(W, 500) * .035;
     cols.forEach((col, i) => { c.strokeStyle = col; c.beginPath(); c.arc(W / 2, H * .75, Math.min(W, 500) * (.62 - i * .036), Math.PI, 0); c.stroke(); });
+    c.restore();
+  }
+  /* مدينة الحلوى: مصّاصات ضخمة على الجانبين بحركة اختلاف المنظر وحبيبات سكّر */
+  function drawCandyLand(c, t, a) {
+    c.save(); c.globalAlpha = a;
+    const span = H * 1.4;
+    for (let i = 0; i < 6; i++) {
+      const side = i % 2, r = 26 + (i * 13) % 22, d = .22 + (i % 3) * .08;
+      const x = side ? W - 26 - (i * 17) % 40 : 26 + (i * 23) % 40;
+      const y = ((i * span / 6 - camY * d) % span + span) % span - r * 2;
+      const [col, col2] = LOLLY[i % LOLLY.length];
+      c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 6; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(x, y + r * .8); c.lineTo(x + (side ? 8 : -8), y + r * 4); c.stroke();
+      c.save(); c.translate(x, y); c.rotate(t * .4 * (side ? -1 : 1) + i);
+      c.fillStyle = col; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill();
+      c.strokeStyle = col2; c.lineWidth = r * .22;
+      c.beginPath(); for (let k = 0; k < 60; k++) { const an = k * .32, rr = r * .9 * k / 60; c.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } c.stroke();
+      c.restore();
+      c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(x - r * .35, y - r * .4, r * .25, r * .14, -.6, 0, 7); c.fill();
+    }
+    // حبيبات سكّر ملوّنة
+    for (let i = 0; i < 26; i++) {
+      const x = (i * 97) % W, y = (((i * 61) % H - camY * .1) % H + H) % H;
+      c.save(); c.translate(x, y); c.rotate(i + t * .5);
+      c.fillStyle = LOLLY[i % LOLLY.length][0]; c.beginPath(); c.roundRect(-5, -1.6, 10, 3.2, 1.6); c.fill(); c.restore();
+    }
+    c.restore();
+  }
+  /* مملكة النجوم: شرائط الشفق القطبي المتموّجة */
+  function drawAurora(c, t, a) {
+    c.save(); c.globalCompositeOperation = 'lighter';
+    const bands = [['rgba(80,255,170,', .22, 0], ['rgba(90,200,255,', .3, 1.7], ['rgba(200,120,255,', .4, 3.1]];
+    for (const [col, yy, ph] of bands) {
+      const y0 = H * yy;
+      const g = c.createLinearGradient(0, y0 - 70, 0, y0 + 90);
+      g.addColorStop(0, col + '0)'); g.addColorStop(.45, col + (.32 * a) + ')'); g.addColorStop(1, col + '0)');
+      c.fillStyle = g; c.beginPath();
+      for (let x = 0; x <= W + 20; x += 20) c.lineTo(x, y0 - 60 + Math.sin(x * .011 + t * .7 + ph) * 26 + Math.sin(x * .027 - t * .4) * 12);
+      for (let x = W + 20; x >= 0; x -= 20) c.lineTo(x, y0 + 70 + Math.sin(x * .013 + t * .5 + ph) * 30);
+      c.closePath(); c.fill();
+    }
+    // نجوم كبيرة متلألئة
+    for (let i = 0; i < 7; i++) {
+      const x = ((i * 137) % (W - 40)) + 20, y = (((i * 89) % H - camY * .03) % H + H) % H;
+      c.globalAlpha = a * (.4 + .6 * Math.abs(Math.sin(t * 1.5 + i)));
+      drawStar(c, x, y, 4 + (i % 3) * 2, '#FFF7C2', null, 0);
+    }
     c.restore();
   }
   function drawCastle(c, t) {
@@ -493,7 +548,8 @@
     const [top, bottom] = skyColors(maxH);
     const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, top); g.addColorStop(1, bottom);
     c.fillStyle = g; c.fillRect(-10, -10, W + 20, H + 20);
-    const starA = clamp((maxH - 2200) / 1200, 0, 1);
+    const cA = candyA(maxH), aA = auroraA(maxH);
+    const starA = clamp((maxH - 2200) / 1200, 0, 1) * (1 - cA);
     if (starA > 0) {
       for (const s of skyStars) {
         const yy = ((s.y - camY * .05) % H + H) % H;
@@ -502,7 +558,7 @@
       }
       c.globalAlpha = 1;
       if (maxH > 3000) { // كواكب بعيدة
-        c.globalAlpha = clamp((maxH - 3000) / 600, 0, .9);
+        c.globalAlpha = clamp((maxH - 3000) / 600, 0, .9) * (1 - cA);
         const pg = c.createRadialGradient(W * .2, H * .25, 4, W * .2, H * .25, 30); pg.addColorStop(0, '#FFE3A3'); pg.addColorStop(1, '#C98B3A');
         c.fillStyle = pg; c.beginPath(); c.arc(W * .2, H * .25, 26, 0, 7); c.fill();
         c.strokeStyle = 'rgba(255,230,170,.8)'; c.lineWidth = 3; c.beginPath(); c.ellipse(W * .2, H * .25, 42, 9, -.3, 0, 7); c.stroke();
@@ -512,10 +568,12 @@
     c.fillStyle = maxH > 2200 ? 'rgba(255,250,220,.85)' : 'rgba(255,240,200,.75)';
     c.beginPath(); c.arc(W * .82, H * .14, 26, 0, 7); c.fill();
     drawRainbow(c);
+    if (aA > 0) drawAurora(c, t, aA);
+    if (cA > 0) drawCandyLand(c, t, cA);
     drawCastle(c, t);
     for (const b of bgClouds) {
       const yy = ((b.y - camY * b.d) % (H + 120) + (H + 120)) % (H + 120) - 60;
-      c.fillStyle = maxH > 2600 ? 'rgba(200,180,255,.18)' : 'rgba(255,255,255,.45)'; cloudShape(c, b.x - 60 * b.s, yy, 140 * b.s, 34 * b.s); c.fill();
+      c.fillStyle = cA > .5 ? 'rgba(255,214,236,.6)' : maxH > 2600 ? 'rgba(200,180,255,.18)' : 'rgba(255,255,255,.45)'; cloudShape(c, b.x - 60 * b.s, yy, 140 * b.s, 34 * b.s); c.fill();
     }
     for (const p of plats) if (p.y - camY > -40 && p.y - camY < H + 40) drawPlat(c, p, t);
     for (const gm of gems) drawStar(c, gm.x, gm.y - camY + Math.sin(t * 3 + gm.t) * 4, 11, '#FFD84D', '#E89B0C', t + gm.t);
@@ -598,9 +656,11 @@
       App.g('⭐ اجمعي النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.', '⭐ اجمع النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.'),
       '⚡ الغيوم الرعدية لا تحملك، والطيور 🐦 تدفعك للأسفل — الدرع يحميك وينقذك من السقوط مرة.',
       '🎈 البالونات ترفعك عاليًا، والنوابض ترميك بقوة!',
-      '🌈 مرّ بعالم السحاب، ثم جسر قوس قزح، ثم قلعة الأحلام، ثم الفضاء. ويمكنك تغيير البطل من المتجر 🛍️'
+      '🌈 مرّ بعالم السحاب، ثم جسر قوس قزح، ثم قلعة الأحلام، ثم الفضاء، ثم مدينة الحلوى 🍭، ثم مملكة النجوم ✨. ويمكنك تغيير البطل من المتجر 🛍️'
     ],
     best() { const b = store.get('jumpBest', 0); return b ? `🏆 أعلى ارتفاع: ${b} م` : ''; },
+    /* للاختبار الآلي فقط */
+    _warp(h) { maxH = h; },
     enter() { resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
     leave() { cancelAnimationFrame(raf); state = 'idle'; input.touchX = null; input.btn = 0; input.keys = { l: 0, r: 0 }; },
     pause() { if (state === 'play') { state = 'held'; } },

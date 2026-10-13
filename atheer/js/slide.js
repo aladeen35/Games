@@ -651,6 +651,31 @@
     { n: 'المدينة ليلًا', p: paintCity },
     { n: 'الشاطئ', p: paintBeach }
   ];
+  /* صور العائلة: معرّفات جديدة (12..18) كي لا يتغيّر تقدّم الصور القديمة المحفوظ */
+  const PHOTO0 = PICS.length, NPHOTO = 7;
+  const photoImgs = [];
+  for (let k = 0; k < NPHOTO; k++) {
+    const id = PHOTO0 + k, im = new Image();
+    PICS.push({ n: 'صورتنا ' + (k + 1), photo: k });
+    im.onload = () => { im.ok = true; invalidate(id); };
+    im.src = 'img/photos/p' + (k + 1) + '.jpg';
+    photoImgs.push(im);
+  }
+  /* ترتيب العرض: الشعار، ثم صور العائلة، ثم الصور المرسومة */
+  const ORDER = [0, ...Array.from({ length: NPHOTO }, (_, k) => PHOTO0 + k), ...Array.from({ length: PHOTO0 - 1 }, (_, k) => k + 1)];
+  const isPhoto = i => i >= PHOTO0;
+  function paintPhotoFallback(x, k) {
+    const hues = [[ '#FFD6EC', '#FF9AC8'], ['#D6ECFF', '#8CC0FF'], ['#E6FFD6', '#9BE07A'], ['#FFF1C2', '#FFC93C'], ['#EDE0FF', '#B197FC'], ['#D6FFF5', '#63E6BE'], ['#FFE0D0', '#FF9F6B']][k % 7];
+    x.fillStyle = G(x, 0, 0, 1000, 1000, hues[0], hues[1]); x.fillRect(0, 0, 1000, 1000);
+    const R = rng(k + 40);
+    for (let i = 0; i < 14; i++) star(x, R() * 1000, R() * 1000, 18 + R() * 26, 'rgba(255,255,255,.7)', R() * TAU);
+    // كاميرا
+    rr(x, 260, 360, 480, 340, 50, G(x, 0, 360, 0, 700, '#6B5BD6', '#4B2FB8'));
+    rr(x, 400, 300, 200, 90, 24, '#4B2FB8');
+    circ(x, 500, 530, 125, '#fff'); circ(x, 500, 530, 95, RG(x, 470, 500, 10, 100, '#9FE7FF', '#2B7FD8', '#173A6B'));
+    circ(x, 465, 495, 26, 'rgba(255,255,255,.8)'); circ(x, 670, 410, 18, '#FFD43B');
+    x.font = '900 130px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = 'rgba(255,255,255,.95)'; x.fillText(String(k + 1), 500, 830);
+  }
 
   /* الشعار يُحمَّل كصورة (يختلف حسب نسخة التطبيق) */
   const logoImg = new Image(); let logoOk = false;
@@ -670,6 +695,12 @@
           const iw = logoImg.naturalWidth, ih = logoImg.naturalHeight, s0 = Math.min(iw, ih) / 1.1;
           x.drawImage(logoImg, (iw - s0) / 2, (ih - s0) / 2, s0, s0, 0, 0, 1000, 1000);
         } else paintLogoFallback(x);
+      } else if (def.photo != null) {
+        const im = photoImgs[def.photo];
+        if (im.ok && im.naturalWidth) {
+          const iw = im.naturalWidth, ih = im.naturalHeight, s0 = Math.min(iw, ih);
+          x.drawImage(im, (iw - s0) / 2, (ih - s0) / 2, s0, s0, 0, 0, 1000, 1000);
+        } else paintPhotoFallback(x, def.photo);
       } else def.p(x, rng(i * 977 + 13));
     } catch (e) { console.warn(e); }
     x.restore();
@@ -685,7 +716,10 @@
   /* ---------- التقدّم ---------- */
   const loadProg = () => { const p = store.get('slideProg', null) || {}; return { b: p.b || {}, last: p.last || null }; };
   const solvedAny = (pr, i) => SIZES.some(n => pr.b[i + '_' + n]);
-  const isUnlocked = (pr, i) => i === 0 || solvedAny(pr, i - 1);
+  /* الصورة التي يجب حلّها أولًا: صور العائلة وأول صورة مرسومة بعد الشعار، وكل صورة مرسومة بعد التي قبلها */
+  const reqOf = i => i === 0 ? -1 : isPhoto(i) ? 0 : i - 1;
+  const isUnlocked = (pr, i) => reqOf(i) < 0 || solvedAny(pr, reqOf(i));
+  const nextId = i => { const j = ORDER.indexOf(i); return j >= 0 && j + 1 < ORDER.length ? ORDER[j + 1] : -1; };
   function puzzlesWord(n) { return n === 1 ? 'لغزًا واحدًا' : n === 2 ? 'لغزين' : n <= 10 ? n + ' ألغاز' : n + ' لغزًا'; }
 
   /* ---------- الواجهة ---------- */
@@ -922,11 +956,12 @@
     const par = PAR[N];
     const ms = moves <= par.m[0] ? 3 : moves <= par.m[1] ? 2 : 1, ts = time <= par.t[0] ? 3 : time <= par.t[1] ? 2 : 1;
     const stars = clamp(Math.round((ms + ts) / 2), 1, 3);
-    const wasUnlockedNext = P + 1 < PICS.length && isUnlocked(pr, P + 1);
+    const lockedBefore = ORDER.filter(i => !isUnlocked(pr, i));
     const rec = { s: Math.max(stars, prev ? prev.s : 0), t: Math.min(time, prev ? prev.t : 1e9), m: Math.min(moves, prev ? prev.m : 1e9) };
     pr.b[key] = rec; store.set('slideProg', pr);
+    const newly = lockedBefore.filter(i => isUnlocked(pr, i));
     result = { stars, newStars: Math.max(0, stars - (prev ? prev.s : 0)), recT: !!prev && time < prev.t, recM: !!prev && moves < prev.m, first: !prev,
-      unlocked: !wasUnlockedNext && P + 1 < PICS.length };
+      unlocked: newly };
   }
   function showPanel() {
     panelShown = true;
@@ -935,7 +970,7 @@
     root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= r.stars ? '' : 'off'}">⭐</span>`).join('');
     root.querySelector('.wTi').textContent = '⏱️ ' + fmtT(time);
     root.querySelector('.wMo').textContent = '👣 ' + moves;
-    root.querySelector('.wRec').textContent = r.unlocked ? '🔓 ' + App.g('فتحتِ', 'فتحت') + ' صورة جديدة: ' + PICS[P + 1].n : (r.recT || r.recM) ? '🏆 رقم قياسي جديد!' : r.first ? '' : '';
+    root.querySelector('.wRec').textContent = r.unlocked.length > 1 ? '🔓 ' + App.g('فتحتِ', 'فتحت') + ' ' + r.unlocked.length + ' صور جديدة!' : r.unlocked.length ? '🔓 ' + App.g('فتحتِ', 'فتحت') + ' صورة جديدة: ' + PICS[r.unlocked[0]].n : (r.recT || r.recM) ? '🏆 رقم قياسي جديد!' : r.first ? '' : '';
     const tc = root.querySelector('.wThumb').getContext('2d'); tc.clearRect(0, 0, 240, 240); tc.drawImage(getPic(P, 256), 0, 0, 240, 240);
     const nx = nextOf();
     root.querySelector('[data-a="next"]').style.display = nx ? '' : 'none';
@@ -946,8 +981,9 @@
     if (N === 3 && time < 60) App.achieve('slide_fast');
   }
   function nextOf() {
-    if (P + 1 < PICS.length) return { p: P + 1, n: N };
-    if (N < 5) return { p: 0, n: N + 1 };
+    const nx = nextId(P);
+    if (nx >= 0) return { p: nx, n: N };
+    if (N < 5) return { p: ORDER[0], n: N + 1 };
     return null;
   }
 
@@ -957,23 +993,23 @@
     const gg = root.querySelector('.gg');
     const solved = Object.keys(pr.b).length;
     root.querySelector('.galP').textContent = solved ? `🏆 ${App.g('حللتِ', 'حللت')} ${puzzlesWord(solved)}` : App.g('اختاري صورة وحجمًا', 'اختر صورة وحجمًا') + ' 👇';
-    gg.innerHTML = PICS.map((pc, i) => {
-      const lock = !isUnlocked(pr, i);
+    gg.innerHTML = ORDER.map((i, pos) => {
+      const pc = PICS[i], lock = !isUnlocked(pr, i);
       return `<div class="pc${lock ? ' lock' : ''}${i === P ? ' cur' : ''}" data-i="${i}">
         <button class="thb" data-p="${i}" aria-label="${pc.n}"><canvas class="th" width="240" height="240"></canvas>${lock ? '<span class="lk">🔒</span>' : ''}</button>
-        <div class="nm">${i + 1}. ${pc.n}</div>
+        <div class="nm">${pos + 1}. ${pc.n}</div>
         <div class="sz">${SIZES.map(n => {
           const b = pr.b[i + '_' + n];
           return `<button data-p="${i}" data-n="${n}" class="${b ? 'done' : ''}">${n}×${n}<i>${b ? [1, 2, 3].map(k => `<span class="${k <= b.s ? '' : 'off'}">⭐</span>`).join('') : ''}</i>${b ? `<small>⏱${fmtT(b.t)}</small><small>👣${b.m}</small>` : ''}</button>`;
         }).join('')}</div></div>`;
     }).join('');
-    gg.querySelectorAll('canvas.th').forEach((c, i) => { const x = c.getContext('2d'); x.drawImage(getPic(i, 256), 0, 0, 240, 240); });
+    gg.querySelectorAll('canvas.th').forEach((c, pos) => { const i = ORDER[pos], x = c.getContext('2d'); x.drawImage(getPic(i, 256), 0, 0, 240, 240); });
     gg.querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
       const i = +b.dataset.p, p2 = loadProg();
       if (!isUnlocked(p2, i)) {
         Sound.error(); vibrate(20);
         b.closest('.pc').animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-4deg)' }, { transform: 'rotate(4deg)' }, { transform: 'rotate(0)' }], { duration: 300 });
-        App.toast(App.g('حُلّي', 'حُلّ') + ' لغز «' + PICS[i - 1].n + '» أولًا 🔓'); return;
+        App.toast(App.g('حُلّي', 'حُلّ') + ' لغز «' + PICS[reqOf(i)].n + '» أولًا 🔓'); return;
       }
       let n = +b.dataset.n || 0;
       if (!n) n = SIZES.find(s => !p2.b[i + '_' + s]) || 3;
@@ -1255,7 +1291,7 @@
       nums = !!store.get('slideNums', false); numBtn.classList.toggle('on', nums);
       const pr = loadProg();
       let p = 0, n = 3;
-      if (pr.last && isUnlocked(pr, pr.last.p)) { p = pr.last.p; n = pr.last.n; if (pr.b[p + '_' + n]) { const nx = SIZES.find(s => !pr.b[p + '_' + s]); if (p + 1 < PICS.length && isUnlocked(pr, p + 1)) p = p + 1; else if (nx) n = nx; } }
+      if (pr.last && isUnlocked(pr, pr.last.p)) { p = pr.last.p; n = pr.last.n; if (pr.b[p + '_' + n]) { const nx = SIZES.find(s => !pr.b[p + '_' + s]); const ni = nextId(p); if (ni >= 0 && isUnlocked(pr, ni)) p = ni; else if (nx) n = nx; } }
       hintMode = '';
       startPuzzle(p, n);
       render();
