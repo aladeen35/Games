@@ -38,30 +38,30 @@
     jhour: ['jjjjjjjj', 'xjjjjjjx', 'xxjjjjxx', 'xxx..xxx', 'xxx..xxx', 'xxjjjjxx', 'xjjjjjjx', 'jjjjjjjj']
   };
   const LEVELS = [
-    { moves: 16, colors: 5, goals: [{ k: 'score', n: 2500 }], stars: [2500, 4500, 6500] },
-    { moves: 18, colors: 5, goals: [{ k: 'c', t: 0, n: 18 }], stars: [0, 4000, 6000] },
-    { moves: 20, colors: 5, goals: [{ k: 'jelly' }], map: M.jc, stars: [0, 4500, 6500] },
-    { moves: 20, colors: 5, goals: [{ k: 'c', t: 4, n: 16 }, { k: 'c', t: 2, n: 16 }], stars: [0, 5000, 7500] },
-    { moves: 18, colors: 5, goals: [{ k: 'score', n: 3500 }], map: M.corners, stars: [3500, 5500, 7500] },
-    { moves: 24, colors: 5, goals: [{ k: 'ing', n: 2 }], ingMax: 1, stars: [0, 5000, 7500] },
-    { moves: 22, colors: 5, goals: [{ k: 'jelly' }], map: M.jcorn, stars: [0, 6000, 9000] },
-    { moves: 20, colors: 6, goals: [{ k: 'score', n: 3500 }], stars: [3500, 5500, 8000] },
-    { moves: 24, colors: 6, goals: [{ k: 'c', t: 0, n: 15 }, { k: 'c', t: 3, n: 15 }, { k: 'c', t: 5, n: 15 }], stars: [0, 5500, 8500] },
-    { moves: 32, colors: 5, goals: [{ k: 'jelly' }], map: M.jfull, stars: [0, 8000, 12000] },
-    { moves: 24, colors: 5, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.hour, stars: [0, 6000, 9000] },
-    { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jJ, stars: [0, 7000, 10000] },
-    { moves: 22, colors: 6, goals: [{ k: 'score', n: 3500 }], map: M.cross, stars: [5000, 7500, 10000] },
-    { moves: 30, colors: 5, goals: [{ k: 'jelly' }, { k: 'c', t: 1, n: 20 }], map: M.jx, stars: [0, 7500, 11000] },
-    { moves: 32, colors: 5, goals: [{ k: 'ing', n: 2 }, { k: 'jelly' }], ingMax: 1, map: M.jbot, stars: [0, 8000, 12000] },
-    { moves: 26, colors: 6, goals: [{ k: 'c', t: 4, n: 20 }, { k: 'c', t: 2, n: 20 }], map: M.pillars, stars: [0, 7000, 10000] },
-    { moves: 24, colors: 6, goals: [{ k: 'jelly' }], map: M.ring, stars: [0, 7000, 10000] },
-    { moves: 24, colors: 6, goals: [{ k: 'score', n: 4000 }], map: M.diam, stars: [6000, 8500, 11500] },
-    { moves: 28, colors: 6, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.corners, stars: [0, 7500, 11000] },
-    { moves: 38, colors: 5, goals: [{ k: 'jelly' }], map: M.jJfull, stars: [0, 9000, 13000] },
-    { moves: 26, colors: 6, goals: [{ k: 'c', t: 0, n: 22 }, { k: 'c', t: 1, n: 22 }, { k: 'c', t: 5, n: 22 }], stars: [0, 8000, 11500] },
-    { moves: 36, colors: 6, goals: [{ k: 'jelly' }, { k: 'ing', n: 2 }], ingMax: 1, map: M.jside, stars: [0, 8500, 12500] },
-    { moves: 26, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.hour, stars: [8000, 11000, 14000] },
-    { moves: 38, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 3, n: 22 }], map: M.jhour, stars: [0, 10000, 14000] }
+    { moves: 16, colors: 5, goals: [{ k: 'score', n: 2500 }], stars: [2500, 6000, 9500] },
+    { moves: 18, colors: 5, goals: [{ k: 'c', t: 0, n: 18 }], stars: [0, 6500, 10000] },
+    { moves: 20, colors: 5, goals: [{ k: 'jelly' }], map: M.jc, stars: [0, 9500, 15000] },
+    { moves: 20, colors: 5, goals: [{ k: 'c', t: 4, n: 16 }, { k: 'c', t: 2, n: 16 }], stars: [0, 9000, 14000] },
+    { moves: 18, colors: 5, goals: [{ k: 'score', n: 3500 }], map: M.corners, stars: [3500, 5500, 9000] },
+    { moves: 24, colors: 5, goals: [{ k: 'ing', n: 2 }], ingMax: 1, stars: [0, 10000, 16000] },
+    { moves: 22, colors: 5, goals: [{ k: 'jelly' }], map: M.jcorn, stars: [0, 8000, 13000] },
+    { moves: 20, colors: 6, goals: [{ k: 'score', n: 3500 }], stars: [3500, 6000, 9000] },
+    { moves: 24, colors: 6, goals: [{ k: 'c', t: 0, n: 15 }, { k: 'c', t: 3, n: 15 }, { k: 'c', t: 5, n: 15 }], stars: [0, 7000, 10500] },
+    { moves: 32, colors: 5, goals: [{ k: 'jelly' }], map: M.jfull, stars: [0, 20000, 30000] },
+    { moves: 24, colors: 5, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.hour, stars: [0, 5000, 8000] },
+    { moves: 28, colors: 5, goals: [{ k: 'jelly' }], map: M.jJ, stars: [0, 13000, 20000] },
+    { moves: 22, colors: 6, goals: [{ k: 'score', n: 3500 }], map: M.cross, stars: [3500, 5000, 7500] },
+    { moves: 30, colors: 5, goals: [{ k: 'jelly' }, { k: 'c', t: 1, n: 20 }], map: M.jx, stars: [0, 16000, 25000] },
+    { moves: 36, colors: 5, goals: [{ k: 'ing', n: 2 }, { k: 'jelly' }], ingMax: 1, map: M.jbot, stars: [0, 20000, 32000] },
+    { moves: 26, colors: 6, goals: [{ k: 'c', t: 4, n: 20 }, { k: 'c', t: 2, n: 20 }], map: M.pillars, stars: [0, 6000, 9500] },
+    { moves: 24, colors: 6, goals: [{ k: 'jelly' }], map: M.ring, stars: [0, 6000, 9000] },
+    { moves: 24, colors: 6, goals: [{ k: 'score', n: 4000 }], map: M.diam, stars: [4000, 5500, 8500] },
+    { moves: 28, colors: 6, goals: [{ k: 'ing', n: 3 }], ingMax: 2, map: M.corners, stars: [0, 5000, 7500] },
+    { moves: 38, colors: 5, goals: [{ k: 'jelly' }], map: M.jJfull, stars: [0, 21000, 33000] },
+    { moves: 26, colors: 6, goals: [{ k: 'c', t: 0, n: 22 }, { k: 'c', t: 1, n: 22 }, { k: 'c', t: 5, n: 22 }], stars: [0, 8000, 13000] },
+    { moves: 40, colors: 6, goals: [{ k: 'jelly' }, { k: 'ing', n: 2 }], ingMax: 1, map: M.jside, stars: [0, 17000, 27000] },
+    { moves: 26, colors: 6, goals: [{ k: 'score', n: 4500 }], map: M.hour, stars: [4500, 5500, 7500] },
+    { moves: 38, colors: 6, goals: [{ k: 'jelly' }, { k: 'c', t: 3, n: 22 }], map: M.jhour, stars: [0, 8500, 13500] }
   ];
 
   /* ---------- أدوات ---------- */
@@ -297,7 +297,7 @@
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, cs = 48, bx = 0, by = 0, gp = { x: 0, y: 0, w: 0, h: 0 };
-  let bgLayer = null, sprites = {}, raf = 0, last = 0, T = 0, running = false, paused = false, speed = 1;
+  let bgLayer = null, cellPath = null, sprites = {}, raf = 0, last = 0, T = 0, running = false, paused = false, speed = 1;
   let lvl = 1, L = null, grid = [], hole = [], jelly = [], moves = 0, score = 0, gcount = [0, 0, 0, 0, 0, 0], jellyLeft = 0, ingDone = 0, ingSpawned = 0;
   let busy = false, over = false, gen = 0, sel = null, drag = null, hintMove = null, idleT = 0, kb = null, kbOn = false;
   let pops = [], parts = [], beams = [], rings = [], bolts = [], texts = [], timers = [], waiters = [], flyers = [], jpops = [];
@@ -325,6 +325,8 @@
     gp = { x: bx, y: y0, w: bw, h: gpH };
     by = Math.round(y0 + gpH + gap);
     sprites = {};
+    cellPath = new Path2D();
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (!hole[r] || !hole[r][c]) cellPath.rect(bx + c * cs - 3, by + r * cs - (r ? 3 : 1), cs + 6, cs + 6);
     introEl.style.top = (by + bw / 2 - 50) + 'px';
     buildBg();
   }
@@ -500,7 +502,8 @@
       let placed = 0;
       for (const c of cols) {
         if (placed >= Math.min(L.ingMax || 1, ig.n)) break;
-        for (let r = 2; r < N; r++) if (valid(r, c)) { const cd = mkC(-1, 'ing'); cd.x = c; cd.y = r; cd.tr = r; grid[r][c] = cd; placed++; ingSpawned++; break; }
+        const vr = []; for (let r = 0; r < N; r++) if (valid(r, c)) vr.push(r);
+        if (vr.length >= 4) { const r = vr[Math.min(2, vr.length - 4)], cd = mkC(-1, 'ing'); cd.x = c; cd.y = r; cd.tr = r; grid[r][c] = cd; placed++; ingSpawned++; }
       }
     }
     layout();
@@ -827,7 +830,7 @@
       moves--; score += 200; updChips();
       burst(cellX(c), cellY(r), COL[cd.t][0], 8); ftext('+200', cellX(c), cellY(r) - cs * .3, '#FFFFFF');
       Sound.tone(600 + i * 60, .1, 'sine', .12, 300);
-      await wait(.12); if (g !== gen) return;
+      await wait(.09); if (g !== gen) return;
     }
     if (moves > 0) { score += moves * 200; moves = 0; updChips(); }
     await wait(.3); if (g !== gen) return;
@@ -1023,6 +1026,7 @@
       ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(x, y, s, s, cs * .2); ctx.fill();
       ctx.lineWidth = j >= 2 ? 2.5 : 1.5; ctx.strokeStyle = j >= 2 ? 'rgba(255,255,255,.85)' : 'rgba(255,255,255,.6)'; ctx.stroke();
       ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.beginPath(); ctx.roundRect(x + s * .12, y + s * .08, s * .5, s * .13, s * .07); ctx.fill();
+      if (jellyLeft <= 4 && !over) { ctx.save(); ctx.globalAlpha = .5 + .5 * Math.sin(T * 6); ctx.lineWidth = 3; ctx.strokeStyle = '#FFF27A'; ctx.shadowColor = '#FF4FA3'; ctx.shadowBlur = 12; ctx.beginPath(); ctx.roundRect(x, y, s, s, cs * .2); ctx.stroke(); ctx.restore(); }
     }
     for (const p of jpops) {
       if (p.t < 0) continue;
@@ -1125,7 +1129,7 @@
     if (sel) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.beginPath(); ctx.roundRect(bx + sel[1] * cs + 2, by + sel[0] * cs + 2, cs - 4, cs - 4, cs * .2); ctx.fill(); mark(sel, '#FF4FA3'); }
     if (kbOn && kb && !busy) mark(kb, '#9B4DFF', true);
     // الحلوى
-    ctx.save(); ctx.beginPath(); ctx.rect(bx - cs, by - 4, cs * (N + 2), cs * N + cs); ctx.clip();
+    ctx.save(); if (cellPath) ctx.clip(cellPath);
     const hintIds = new Set();
     if (hintMove && !busy) hintMove.forEach(([r, c]) => { const cd = grid[r][c]; if (cd) hintIds.add(cd.id); });
     const env = Math.max(0, Math.sin(T * 3.2));
@@ -1230,15 +1234,17 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, s, s); g.addColorStop(0, '#FFD3EC'); g.addColorStop(.5, '#EBD8FF'); g.addColorStop(1, '#C6F4E4');
+    let g = c.createRadialGradient(s * .5, s * .35, s * .1, s * .5, s * .5, s * .75); g.addColorStop(0, '#FFF0F8'); g.addColorStop(.55, '#FFC6E4'); g.addColorStop(1, '#C9A8FF');
     c.fillStyle = g; c.fillRect(0, 0, s, s);
-    cloud(c, s * .25, s * .2, s * .14, .8);
-    drawLolly(c, s * .64, s * .34, s * .2, .35);
+    cloud(c, s * .22, s * .2, s * .13, .85);
+    c.fillStyle = '#A9EBD2'; c.beginPath(); c.ellipse(s * .5, s * 1.02, s * .75, s * .3, 0, 0, TAU); c.fill();
+    drawLolly(c, s * .66, s * .3, s * .21, .3);
     const put = (t, sp, x, y, r, rot) => { c.save(); c.translate(x, y); c.rotate(rot); drawCandy(c, t, sp, r); c.restore(); };
-    put(4, '', s * .26, s * .56, s * .14, -.2);
-    put(5, 'w', s * .44, s * .8, s * .16, .1);
-    put(0, '', s * .76, s * .74, s * .15, .3);
-    put(2, '', s * .2, s * .82, s * .12, -.3);
+    put(4, '', s * .27, s * .5, s * .17, -.15);
+    put(2, '', s * .2, s * .79, s * .15, -.3);
+    put(5, 'w', s * .5, s * .76, s * .2, .08);
+    put(0, 'h', s * .8, s * .73, s * .17, .25);
+    c.fillStyle = '#fff'; [[.42, .2, .025], [.88, .52, .02], [.1, .4, .018]].forEach(([x, y, r]) => { c.save(); c.translate(s * x, s * y); starPath(c, s * r * 2); c.fill(); c.restore(); });
   }
 
   /* ---------- التسجيل ---------- */
@@ -1249,7 +1255,7 @@
       '👆 ' + App.g('اسحبي', 'اسحب') + ' حلوى نحو جارتها لتبديلهما، ' + App.g('وطابقي', 'وطابق') + ' 3 من اللون نفسه',
       '🎯 ' + App.g('حقّقي', 'حقّق') + ' هدف المستوى قبل أن تنفد الحركات: نقاط، أو جمع ألوان، أو إزالة الجيلي، أو إنزال الكرز 🍒',
       '🍭 مطابقة 4 تصنع حلوى مخطّطة، وشكل L أو T يصنع حلوى مغلّفة، ومطابقة 5 تصنع قنبلة الألوان!',
-      '💥 ' + App.g('بدّلي', 'بدّل') + ' حلويين خاصتين معًا لانفجار أكبر',
+      '💥 ' + App.g('بدّلي', 'بدّل') + ' حلوى خاصة مع حلوى خاصة أخرى لانفجار أكبر، ' + App.g('واسحبي', 'واسحب') + ' الكرز 🍒 للأسفل مباشرة',
       '⭐ الحركات المتبقية تتحول إلى اندفاع السكر ونقاط إضافية ونجوم أكثر'
     ],
     icon,
@@ -1275,7 +1281,7 @@
       return false;
     },
     /* للاختبار الآلي فقط */
-    _state() { return { lvl, moves, score, busy, over, goals: L.goals.map(goalDone), cs, bx, by, gcount, jellyLeft, ingDone }; },
+    _state() { return { lvl, moves, score, busy, over, hint: !!hintMove, goals: L.goals.map(goalDone), cs, bx, by, gcount, jellyLeft, ingDone }; },
     _speed(n) { speed = n; },
     _moves() { return findMoves(); },
     _swap(a, b) { return trySwap(a, b); },
