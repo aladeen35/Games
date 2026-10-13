@@ -179,18 +179,18 @@
   }
   const lightOf = (F, k) => F.NX[k] * -.55 + F.NZ[k] * .835;
   function sideBand(c, V, F, topY, botY, col, base = -.3, amp = .42, path) {
-    const tf = typeof topY === 'function', bf = typeof botY === 'function';
-    c.lineWidth = .9; c.lineJoin = 'round';
+    const tf = typeof topY === 'function', bf = typeof botY === 'function', groups = new Map();
     for (const k of F.front) {
       const k1 = (k + 1) % NS, l = lightOf(F, k);
       let f = base + amp * cl01((l + .25) / 1.25); if (l > .9) f += (l - .9) * 2.2;
       const t0 = tf ? topY(k) : topY, t1 = tf ? topY(k1) : topY, b0 = bf ? botY(k) : botY, b1 = bf ? botY(k1) : botY;
-      const ax = px(V, F.X[k]), bx = px(V, F.X[k1]);
-      c.fillStyle = c.strokeStyle = shade(col, f);
-      c.beginPath(); c.moveTo(ax, py(V, t0, F.Z[k])); c.lineTo(bx, py(V, t1, F.Z[k1])); c.lineTo(bx, py(V, b1, F.Z[k1])); c.lineTo(ax, py(V, b0, F.Z[k])); c.closePath();
-      c.fill(); c.stroke();
+      const ax = px(V, F.X[k]), bx = px(V, F.X[k1]), st = shade(col, f);
+      let q = groups.get(st); if (!q) { q = new Path2D(); groups.set(st, q); }
+      q.moveTo(ax, py(V, t0, F.Z[k])); q.lineTo(bx, py(V, t1, F.Z[k1])); q.lineTo(bx, py(V, b1, F.Z[k1])); q.lineTo(ax, py(V, b0, F.Z[k])); q.closePath();
       if (path) { path.moveTo(ax, py(V, t0, F.Z[k]) - .5); path.lineTo(bx, py(V, t1, F.Z[k1]) - .5); path.lineTo(bx, py(V, b1, F.Z[k1]) + .5); path.lineTo(ax, py(V, b0, F.Z[k]) + .5); path.closePath(); }
     }
+    c.lineWidth = .9; c.lineJoin = 'round';
+    for (const [st, q] of groups) { c.fillStyle = c.strokeStyle = st; c.fill(q); c.stroke(q); }
   }
   function sidePath(V, F, y1, y0, p) {
     for (const k of F.front) {
@@ -224,8 +224,10 @@
   function drawTier(c, V, g, F, ck, ti, T) {
     const h = g.y1 - g.y0, fl = FLAV[ck.flavor], S = V.S;
     const sp = new Path2D();
+    const coated = ck.frost >= 0 && ck.pour >= .75;
     // جسم الكيك (عارٍ)
-    if (fl.layers) {
+    if (coated) sidePath(V, F, g.y1, g.y0, sp);
+    else if (fl.layers) {
       const n = fl.layers.length;
       sidePath(V, F, g.y1, g.y0, sp);
       for (let j = 0; j < n; j++) sideBand(c, V, F, g.y1 - h * j / n, g.y1 - h * (j + 1) / n, fl.layers[j], -.28, .42);
@@ -280,7 +282,7 @@
       c.stroke();
     }
     // السطح العلوي
-    const tp = topPath(V, F, g.y1);
+    const tp = topPath(V, F, g.y1 + lip);
     // نرسم السطح بالتدرج داخل مسقط مُحوَّل
     const fillTop = (path, col, light) => {
       c.save(); c.clip(path);
@@ -290,7 +292,7 @@
       c.fillStyle = q; c.fillRect(-g.R * S * 1.4, -g.R * S * 1.4, g.R * S * 2.8, g.R * S * 2.8);
       c.restore();
     };
-    fillTop(tp, fl.layers ? fl.crust : fl.crust, .2);
+    if (!fr || k1 < 1) fillTop(tp, fl.crust, .2);
     if (!fr || k1 < 1) { // ملمس الكيك المخبوز
       c.save(); c.clip(tp); const R = rng(7 + ti); c.fillStyle = 'rgba(120,60,20,.12)';
       for (let i = 0; i < 26; i++) { const a = R() * TAU, d = Math.sqrt(R()) * g.R * .9; c.beginPath(); c.ellipse(px(V, Math.cos(a) * d), py(V, g.y1, Math.sin(a) * d), S * .02, S * .01, 0, 0, TAU); c.fill(); }
@@ -707,7 +709,10 @@
       const u = S * ps, spr = itemSprite(it.k, it.v, S, pr), sz = 2 * d.e * u;
       // ظل التلامس
       if (it.k !== 'flower') {
-        c.fillStyle = 'rgba(70,25,30,.22)'; c.beginPath(); c.ellipse(o.sx + u * .01, o.sy + u * .006, d.e * u * .55, d.e * u * .2, 0, 0, TAU); c.fill();
+        const sw = (SHW[it.k] || .05) * u * 1.25;
+        c.save(); c.translate(o.sx + u * .008, o.sy + u * .004); c.scale(1, .42);
+        const sg = c.createRadialGradient(0, 0, 0, 0, 0, sw); sg.addColorStop(0, 'rgba(70,25,30,.32)'); sg.addColorStop(1, 'rgba(70,25,30,0)');
+        c.fillStyle = sg; c.beginPath(); c.arc(0, 0, sw, 0, TAU); c.fill(); c.restore();
       }
       c.save(); c.translate(o.sx, o.sy + dy);
       if (it.rot && it.k !== 'plq' && it.k !== 'candle') c.rotate(it.rot);
@@ -740,14 +745,42 @@
     c.fillStyle = 'rgba(120,170,255,.55)'; c.beginPath(); c.ellipse(0, -h * .1, w * .45, h * .14, 0, 0, TAU); c.fill();
     c.restore();
   }
+  const TCACHE = [], SCACHE = { cv: null, key: '' };
+  function drawStandCached(c, V, pr) {
+    const key = [V.S.toFixed(2), V.by.toFixed(1), V.cx, pr].join('|');
+    const m = 1.3 * V.S + 10, x = Math.floor(V.cx - m), y = Math.floor(py(V, 0, -1.3) - 10), w = Math.ceil(2 * m), h = Math.ceil(py(V, -.47, .95) + 10 - y);
+    if (SCACHE.key !== key) {
+      if (!SCACHE.cv) SCACHE.cv = mk(1, 1);
+      const cv2 = SCACHE.cv; cv2.width = Math.ceil(w * pr); cv2.height = Math.ceil(h * pr);
+      const x2 = cv2.getContext('2d'); x2.setTransform(pr, 0, 0, pr, -x * pr, -y * pr); drawStand(x2, V);
+      SCACHE.key = key;
+    }
+    c.drawImage(SCACHE.cv, x, y, w, h);
+  }
+  function drawTierCached(c, V, g, F, ck, i, T, pr) {
+    const key = [ck.shape, ck.tiers, ck.flavor, ck.frost, ck.pour, V.S.toFixed(2), V.by.toFixed(1), V.cx, V.th.toFixed(4), pr].join('|');
+    let e = TCACHE[i];
+    if (!e || e.key !== key) {
+      const m = g.R * 1.15 * V.S + 16, x = Math.floor(V.cx - m), w = Math.ceil(m * 2);
+      const y = Math.floor(py(V, g.y1 + .06, -g.R * 1.15) - 10), h = Math.ceil(py(V, g.y0 - .05, g.R * 1.15) + V.S * .16 - y);
+      if (!e) e = TCACHE[i] = { cv: mk(1, 1) };
+      const W2 = Math.ceil(w * pr), H2 = Math.ceil(h * pr);
+      if (e.cv.width !== W2 || e.cv.height !== H2) { e.cv.width = W2; e.cv.height = H2; }
+      const x2 = e.cv.getContext('2d'); x2.setTransform(1, 0, 0, 1, 0, 0); x2.clearRect(0, 0, W2, H2);
+      x2.setTransform(pr, 0, 0, pr, -x * pr, -y * pr);
+      footShadow(x2, V, F, g.y0, 1.02); drawTier(x2, V, g, F, ck, i, T);
+      e.key = key; e.x = x; e.y = y; e.w = W2 / pr; e.h = H2 / pr;
+    }
+    c.drawImage(e.cv, e.x, e.y, e.w, e.h);
+  }
   function drawScene(c, V, ck, o = {}) {
     const G = tiersGeo(ck.tiers), T = o.T == null ? 99 : o.T, pr = o.pr || 1;
-    if (o.stand !== false) drawStand(c, V, o.stand);
+    if (o.stand !== false) { if (o.cache) drawStandCached(c, V, pr); else drawStand(c, V, o.stand); }
     const frames = G.map(g => frame(V, ck.shape, g.R));
     const D = o.decor === false ? null : decorLists(ck, V, G, T);
     for (let i = 0; i < G.length; i++) {
-      footShadow(c, V, frames[i], G[i].y0, 1.02);
-      drawTier(c, V, G[i], frames[i], ck, i, T);
+      if (o.cache) drawTierCached(c, V, G[i], frames[i], ck, i, T, pr);
+      else { footShadow(c, V, frames[i], G[i].y0, 1.02); drawTier(c, V, G[i], frames[i], ck, i, T); }
       if (D) drawDecor(c, V, D.back[i], T, pr, V.th);
     }
     if (D) for (let i = G.length - 1; i >= 0; i--) drawDecor(c, V, D.front[i], T, pr, V.th);
@@ -822,12 +855,12 @@
   #cake .tools.on{display:flex}
   #cake .dock{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;padding:0 8px max(8px,env(safe-area-inset-bottom));pointer-events:none}
   #cake .tipl{margin-bottom:7px;background:rgba(255,255,255,.9);color:#8A2D55;font-weight:800;font-size:14px;padding:3px 14px;border-radius:99px;box-shadow:0 2px 0 rgba(200,80,130,.2);max-width:94%;text-align:center;transition:opacity .3s}
-  #cake .tray{pointer-events:auto;width:min(100%,760px);height:138px;background:linear-gradient(rgba(255,255,255,.96),rgba(255,243,249,.96));border-radius:26px;
+  #cake .tray{pointer-events:auto;width:min(100%,760px);height:150px;background:linear-gradient(rgba(255,255,255,.96),rgba(255,243,249,.96));border-radius:26px;
     box-shadow:0 6px 0 #F6B8D2,0 12px 26px rgba(120,20,70,.2);padding:6px 4px;position:relative;overflow:hidden;border:3px solid #fff}
   #cake .pane{display:none;height:100%;flex-direction:column;justify-content:center;gap:4px}
   #cake .pane.on{display:flex;animation:fade .25s}
-  #cake .row{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;justify-content:safe center;padding:3px 6px 5px;touch-action:pan-x;scrollbar-width:none;align-items:center}
-  #cake .row::-webkit-scrollbar,#cake .grid2::-webkit-scrollbar{display:none}
+  #cake .rw{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;justify-content:safe center;padding:3px 6px 5px;touch-action:pan-x;scrollbar-width:none;align-items:center}
+  #cake .rw::-webkit-scrollbar,#cake .grid2::-webkit-scrollbar{display:none}
   #cake .op{flex:0 0 auto;width:58px;height:58px;border-radius:18px;background:linear-gradient(#FFFFFF,#FFF0F6);box-shadow:0 3px 0 #F4C0D6;display:flex;flex-direction:column;align-items:center;justify-content:center;
     font-size:10.5px;font-weight:800;color:#8A2D55;line-height:1.05;position:relative;border:2px solid #FFE6F0;touch-action:pan-x;padding:0;user-select:none;-webkit-user-select:none}
   #cake .op img{width:40px;height:40px;pointer-events:none;-webkit-user-drag:none}
@@ -941,7 +974,10 @@
   };
 
   /* ---------- أيقونات صغيرة (dataURL) ---------- */
+  const SHW = { cherry: .075, straw: .08, blue: .045, choc: .08, mac: .075, candy: .07, lolly: .03, heart: .05, star: .05, candle: .03, plq: .14 };
   const ICONS = new Map();
+  /* [العرض، الارتفاع] لكل إضافة بوحدة الكعكة لتكبيرها داخل الأيقونة */
+  const ICO_EXT = { cherry: [.2, .33], straw: [.2, .27], blue: [.09, .09], choc: [.17, .16], spr: [.2, .14], mac: [.15, .12], candy: [.2, .12], lolly: [.17, .31], flower: [.2, .1], heart: [.17, .15], star: [.18, .17], candle: [.1, .33], plq: [.5, .3] };
   function icon(key) {
     if (ICONS.has(key)) return ICONS.get(key);
     const P = 2, sz = 64, c0 = mk(sz * P, sz * P), c = c0.getContext('2d'); c.scale(P, P);
@@ -955,8 +991,10 @@
       const r = 13, s = blobSprite(val, '#FF9CCB', r, P), w = r * 2.8;
       for (const dx of val === 'dot' ? [-12, 12] : val === 'ruffle' ? [-12, -6, 0, 6, 12] : [-9, 9]) c.drawImage(s, 32 + dx - w / 2, 34 - w * .45, w, w);
     } else if (kind === 'top') {
-      const d = TOP[val], u = 25 / d.e, s = itemSprite(val, val === 'mac' || val === 'flower' ? 0 : 0, u, P), w = 2 * d.e * u;
-      c.drawImage(s, 32 - w / 2, 54 - w * .8, w, w);
+      const ex = ICO_EXT[val] || [.2, .2], u = 52 / Math.max(ex[0], ex[1]);
+      c.translate(32, 32 + ex[1] * u / 2);
+      itemDraw(c, val, 0, u);
+      if (val === 'candle') drawFlame(c, 0, -.245 * u, u, 0, 1);
     }
     const url = c0.toDataURL();
     ICONS.set(key, url); return url;
@@ -1023,7 +1061,7 @@
     const above = yT + .38 + TILT * rT, below = .47 + TILT * .62;
     const AH = Math.max(120, area.bot - area.top), AW = Math.min(W - 14, 760);
     const S = Math.max(40, Math.min(AW / 2.65, AH / (above + below), 215));
-    return { S, by: area.top + above * S + (AH - (above + below) * S) * .55 };
+    return { S, by: area.top + above * S + (AH - (above + below) * S) * .42 };
   }
   function layout() {
     const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; dpr = f.dpr;
@@ -1053,13 +1091,13 @@
     const op = (attr, img, label, cls = '') => `<button class="op ${cls}" ${attr}><img src="${img}" alt="">${label}</button>`;
     const sw = (attr, c, cls = '') => `<button class="sw ${cls}" ${attr} style="--c:${c};--d:${shade(c, -.28)}"></button>`;
     tray.innerHTML = `
-      <div class="pane" data-p="1"><div class="row">${SHAPES.map(s => op(`data-shape="${s.id}"`, icon('shape:' + s.id), s.n, 'mid')).join('')}</div>
-        <div class="row">${[1, 2, 3].map(n => op(`data-tiers="${n}"`, icon('tiers:' + n), ['طبقة واحدة', 'طبقتان', '3 طبقات'][n - 1], 'mid')).join('')}</div></div>
-      <div class="pane" data-p="2"><div class="row">${FLAV_IDS.map(f => op(`data-flav="${f}"`, icon('flav:' + f), FLAV[f].n, 'wide')).join('')}</div></div>
-      <div class="pane" data-p="3"><div class="row">${FROST.slice(0, 5).map((f, i) => sw(`data-frost="${i}" aria-label="${f.n}"`, f.c)).join('')}</div>
-        <div class="row">${FROST.slice(5).map((f, i) => sw(`data-frost="${i + 5}" aria-label="${f.n}"`, f.c)).join('')}</div></div>
-      <div class="pane" data-p="4"><div class="row">${TIPS.map(t => op(`data-tip="${t.id}"`, icon('tip:' + t.id), t.n)).join('')}</div>
-        <div class="row">${CREAM.map((c, i) => sw(`data-cream="${i}"`, c, 'sm')).join('')}</div></div>
+      <div class="pane" data-p="1"><div class="rw">${SHAPES.map(s => op(`data-shape="${s.id}"`, icon('shape:' + s.id), s.n, 'mid')).join('')}</div>
+        <div class="rw">${[1, 2, 3].map(n => op(`data-tiers="${n}"`, icon('tiers:' + n), ['طبقة واحدة', 'طبقتان', '3 طبقات'][n - 1], 'mid')).join('')}</div></div>
+      <div class="pane" data-p="2"><div class="rw">${FLAV_IDS.map(f => op(`data-flav="${f}"`, icon('flav:' + f), FLAV[f].n, 'wide')).join('')}</div></div>
+      <div class="pane" data-p="3"><div class="rw">${FROST.slice(0, 5).map((f, i) => sw(`data-frost="${i}" aria-label="${f.n}"`, f.c)).join('')}</div>
+        <div class="rw">${FROST.slice(5).map((f, i) => sw(`data-frost="${i + 5}" aria-label="${f.n}"`, f.c)).join('')}</div></div>
+      <div class="pane" data-p="4"><div class="rw">${TIPS.map(t => op(`data-tip="${t.id}"`, icon('tip:' + t.id), t.n)).join('')}</div>
+        <div class="rw">${CREAM.map((c, i) => sw(`data-cream="${i}"`, c, 'sm')).join('')}</div></div>
       <div class="pane" data-p="5"><div class="grid2">${TOPS.map(t => op(`data-top="${t.id}"`, icon('top:' + t.id), t.n)).join('')}</div></div>
       <div class="pane" data-p="6"><div class="fin"></div></div>`;
     stepsEl.innerHTML = STEPS.map((s, i) => `<button class="st" data-s="${i + 1}"><i>${s.i}</i>${s.n}</button>`).join('') + `<button class="nx"></button>`;
@@ -1602,7 +1640,7 @@
     }
     const wk = T - wobT, wsc = wk < 1 ? 1 + .06 * Math.sin(wk * 20) * Math.exp(-wk * 5) : 1;
     const Vr = wsc === 1 ? V : { cx: V.cx, by: V.by, S: V.S * wsc, th: V.th };
-    drawScene(ctx, Vr, cake, { T, pr: dpr });
+    drawScene(ctx, Vr, cake, { T, pr: dpr, cache: true });
     if (cake.frost >= 0 && cake.pour < .62) drawStream();
     if (step === 2 || step === 3) drawSliceCard();
     // شبح السحب
@@ -1647,8 +1685,9 @@
     const ck = Object.assign(newCake(), { tiers: 2, frost: 1, flavor: 'straw' });
     const ring = (tier, R, n, col) => { const pts = []; for (let k = 0; k < n; k++) { const a = k / n * TAU; pts.push({ x: Math.cos(a) * R, z: Math.sin(a) * R, a: 0, t0: -9 }); } ck.pipes.push({ tier, tip: 'star', col, pts }); };
     ring(0, .87, 22, '#FFFDF8'); ring(1, .6, 16, '#FFFDF8');
-    ck.tops.push({ id: 1, k: 'cherry', tier: 1, x: 0, z: .05, v: 0, rot: 0, t0: -9 });
-    drawScene(c, { cx: s * .5, by: s * .77, S: s * .335, th: 0 }, ck, { stand: 'plate', pr: 2, T: 99 });
+    const S = s * .335, by = s * .77;
+    drawScene(c, { cx: s * .5, by, S, th: 0 }, ck, { stand: 'plate', pr: 2, T: 99 });
+    c.save(); c.translate(s * .5, by - 1.095 * S + S * .03); itemDraw(c, 'cherry', 0, S * 1.9); c.restore();
     c.fillStyle = '#fff';
     [[.16, .24, .05], [.85, .3, .04], [.8, .12, .025]].forEach(([x, y, r]) => { c.save(); c.translate(s * x, s * y); starPath(c, s * r, .4); c.fill(); c.restore(); });
   }
