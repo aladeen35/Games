@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -18,7 +20,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 /**
- * ألعاب أثير — غلاف أصلي يعرض الألعاب الثلاث من assets عبر نطاق https داخلي،
+ * ألعاب أثير وبشرى — غلاف أصلي يعرض الألعاب الثلاث من assets عبر نطاق https داخلي،
  * فلا يخرج أي طلب إلى الشبكة ويعمل التطبيق دون إنترنت.
  */
 public class MainActivity extends Activity {
@@ -27,8 +29,10 @@ public class MainActivity extends Activity {
     private static final String START_URL = "https://" + HOST + "/index.html";
 
     private WebView web;
+    private TextToSpeech tts;
+    private boolean ttsReady = false;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
@@ -47,9 +51,28 @@ public class MainActivity extends Activity {
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.setBackgroundColor(0xFFFFF0F6);
         web.setWebViewClient(new AssetClient());
+        web.addJavascriptInterface(new Bridge(), "AndroidBridge");
 
         setContentView(web);
         web.loadUrl(START_URL);
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int r = tts.setLanguage(new Locale("ar"));
+                    ttsReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
+                }
+            }
+        });
+    }
+
+    /** نطق عربي لأسماء الأشكال والتشجيع داخل الألعاب. */
+    private class Bridge {
+        @JavascriptInterface
+        public void speak(String text) {
+            if (!ttsReady || text == null) return;
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
     private class AssetClient extends WebViewClient {
@@ -112,5 +135,9 @@ public class MainActivity extends Activity {
 
     @Override protected void onPause() { if (web != null) web.onPause(); super.onPause(); }
     @Override protected void onResume() { super.onResume(); if (web != null) web.onResume(); }
-    @Override protected void onDestroy() { if (web != null) { web.destroy(); web = null; } super.onDestroy(); }
+    @Override protected void onDestroy() {
+        if (tts != null) { tts.stop(); tts.shutdown(); }
+        if (web != null) { web.destroy(); web = null; }
+        super.onDestroy();
+    }
 }

@@ -114,6 +114,7 @@ const Music = {
     blocks:  { bpm: 126, root: 69, scale: [0, 2, 3, 5, 7, 8, 11], wave: 'square', seed: 19, chords: [0, 5, 3, 4], soft: true },
     bubbles: { bpm: 112, root: 76, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 23, chords: [0, 3, 5, 4] },
     balls:   { bpm: 118, root: 71, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 29, chords: [0, 4, 5, 3] },
+    candy:   { bpm: 116, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 37, chords: [0, 5, 3, 4] },
     shapes:  { bpm: 92,  root: 72, scale: [0, 2, 4, 5, 7, 9],   wave: 'sine',     seed: 31, chords: [0, 3, 4, 0] }
   },
   play(name) {
@@ -170,7 +171,7 @@ const Music = {
    التطبيق
    ===================================================================== */
 const App = {
-  games: {}, order: [], current: 'menu', profile: null,
+  games: {}, order: [], current: 'menu', profile: null, customLogo: false,
   PROFILES: [
     { id: 'atheer', name: 'أثير', theme: 'girls' },
     { id: 'bushra', name: 'بشرى', theme: null } // يُسأل عن الثيم عند أول دخول
@@ -205,6 +206,9 @@ const App = {
     { id: 'shapes_first', g: 'shapes', i: '🔷', t: 'أول لغز',            d: 'إنهاء أول مستوى في مطابقة الأشكال' },
     { id: 'shapes_perfect', g: 'shapes', i: '💯', t: 'بلا أخطاء',        d: 'إنهاء مستوى دون أي خطأ' },
     { id: 'shapes_all',  g: 'shapes',  i: '🎓', t: 'خبير الأشكال',       d: 'إنهاء كل مستويات مطابقة الأشكال' },
+    { id: 'candy_first', g: 'candy',   i: '🍬', t: 'أول حلوى',            d: 'إنهاء أول مستوى في لعبة الحلويات' },
+    { id: 'candy_special', g: 'candy', i: '🍭', t: 'حلوى خارقة',          d: 'صنع حلوى خاصة بمطابقة 4 أو 5' },
+    { id: 'candy_lvl10', g: 'candy',   i: '🎂', t: 'نجم الحلويات',       d: 'إنهاء المستوى 10' },
     { id: 'daily_3',     g: '',        i: '🎁', t: 'وفاء يومي',          d: 'فتح الهدية اليومية 3 أيام متتالية' },
     { id: 'shop_first',  g: '',        i: '🛍️', t: 'أول مشتريات',       d: 'شراء أول عنصر من المتجر' },
     { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }
@@ -408,7 +412,7 @@ const App = {
   },
   logo() {
     const P = this.profile, boys = this.theme === 'boys';
-    if (P.id === 'atheer' && !boys) return `<img src="logo.jpg" alt="${P.name}">`;
+    if (!this.customLogo) return `<img src="logo.jpg" alt="أثير وبشرى">`; // الشعار المشترك للتطبيق
     const main = boys ? '#2E86F5' : '#FF4FA3', bg = boys ? '#E4F1FF' : '#FFE8F2', edge = boys ? '#8CC0FF' : '#FFB3D4';
     const deco = boys ? [['🚀', 34, 52, 30, -20], ['⭐', 160, 40, 22, 0], ['🪐', 166, 150, 28, 0], ['⚽', 30, 158, 24, 0], ['🦖', 100, 182, 22, 0]]
                       : [['👑', 52, 50, 30, -15], ['💖', 160, 42, 22, 0], ['🌸', 166, 152, 28, 0], ['⭐', 30, 156, 20, 0], ['🎀', 100, 184, 22, 0]];

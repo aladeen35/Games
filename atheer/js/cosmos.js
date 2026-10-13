@@ -366,6 +366,7 @@
       if (grid.flat().filter(Boolean).length < 2) { Sound.error(); return; }
       hist.push(snapshot()); powers.bomb--; grid[t.r][t.c] = null; t.el.classList.add('boom'); setTimeout(() => t.el.remove(), 350);
       sparkle(t.r, t.c, 9); Sound.boom(); vibrate(40); clearTarget(); paint(); save();
+      if (!canMove() && !powers.bomb && !powers.swap) end('full');
     } else if (target === 'swap') {
       if (!swapFirst) { swapFirst = t; t.el.classList.add('sel'); Sound.tap(); return; }
       if (swapFirst === t) { t.el.classList.remove('sel'); swapFirst = null; return; }
@@ -373,6 +374,7 @@
       const a = swapFirst, b = t; [a.r, b.r] = [b.r, a.r]; [a.c, b.c] = [b.c, a.c];
       grid[a.r][a.c] = a; grid[b.r][b.c] = b; a.el.style.transform = pos(a.r, a.c); b.el.style.transform = pos(b.r, b.c);
       Sound.whoosh(); clearTarget(); paint(); save();
+      if (!canMove() && !powers.bomb && !powers.swap) end('full');
     }
   }
   function hint() {

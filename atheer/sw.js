@@ -1,9 +1,10 @@
-/* ألعاب أثير — Service Worker للعمل دون إنترنت */
-const CACHE = 'atheer-games-v1';
+/* ألعاب أثير وبشرى — Service Worker للعمل دون إنترنت */
+const CACHE = 'atheer-games-v2';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',
-  './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2'
+  './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2',
+  ...['core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy'].map(n => `./js/${n}.js`)
 ];
 
 self.addEventListener('install', e => {
@@ -16,12 +17,13 @@ self.addEventListener('activate', e => {
     .then(() => self.clients.claim()));
 });
 
+/* الشبكة أولًا للملفات (كي تصل التحديثات)، ثم النسخة المخزّنة عند انقطاع الإنترنت */
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+    fetch(e.request).then(res => {
       if (res.ok && res.type === 'basic') { const clone = res.clone(); caches.open(CACHE).then(c => c.put(e.request, clone)); }
       return res;
-    }).catch(() => { if (e.request.mode === 'navigate') return caches.match('./index.html'); }))
+    }).catch(() => caches.match(e.request).then(r => r || (e.request.mode === 'navigate' ? caches.match('./index.html') : undefined)))
   );
 });

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# بناء ملف APK قابل للتثبيت من «ألعاب أثير»
+# بناء ملف APK قابل للتثبيت من «ألعاب أثير وبشرى»
 # يحتاج: aapt2 · javac (JDK 8+) · dalvik-dx · zipalign · apksigner · android.jar
 set -euo pipefail
 
@@ -9,14 +9,14 @@ AND="$ROOT/android"
 OUT="${OUT_DIR:-$AND/build}"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-KS="${KEYSTORE:-$OUT/atheer.keystore}"
+KS="${KEYSTORE:-$AND/atheer.keystore}"  # مفتاح ثابت خارج مجلد البناء كي تُثبَّت التحديثات فوق النسخة القديمة
 KS_PASS="${KEYSTORE_PASS:-atheer2024}"
-APK="$OUT/AtheerGames.apk"
+APK="$OUT/AtheerBushra.apk"
 
 rm -rf "$OUT"; mkdir -p "$OUT/compiled" "$OUT/gen" "$OUT/classes" "$OUT/assets"
 
 echo "① نسخ ملفات التطبيق إلى assets"
-for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts; do
+for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js; do
   cp -r "$ROOT/$item" "$OUT/assets/"
 done
 
@@ -33,7 +33,7 @@ aapt2 link \
   --java "$OUT/gen" \
   --min-sdk-version 21 \
   --target-sdk-version 34 \
-  --version-code 1 --version-name 1.0 \
+  --version-code 2 --version-name 2.0 \
   --auto-add-overlay
 
 echo "④ ترجمة جافا"
