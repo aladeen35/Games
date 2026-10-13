@@ -593,6 +593,7 @@
   #maze .wInfo{display:flex;justify-content:center;gap:10px;margin:4px 0 6px;flex-wrap:wrap}
   #maze .wInfo span{background:var(--l);border-radius:14px;padding:4px 12px;font-weight:800;font-size:16px}
   #maze .wInfo span.ok{box-shadow:inset 0 0 0 2px var(--a)}
+  @media (min-aspect-ratio:5/4) and (min-width:700px){#maze .ctl{left:auto;right:max(16px,env(safe-area-inset-right));top:50%;bottom:auto;transform:translateY(-50%);flex-direction:column;padding:0;gap:18px}}
   @media (max-height:600px){#maze .pad{grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,40px)}#maze .ab{width:44px;height:40px;font-size:19px}#maze .cb{width:50px;height:50px}}
   `);
   const root = App.section(ID, `
@@ -647,13 +648,15 @@
   function area() {
     const rr = root.getBoundingClientRect();
     const top = bar.getBoundingClientRect().bottom - rr.top + 10;
-    const bot = rr.bottom - ctlEl.getBoundingClientRect().top + 12;
-    return { top, aw: Math.min(W - 24, 1100), ah: Math.max(120, H - top - bot) };
+    const cr = ctlEl.getBoundingClientRect();
+    if (cr.height > cr.width) return { top, aw: Math.min(W - 2 * (cr.width + 30), 1100), ah: Math.max(120, H - top - 14) };
+    const bot = rr.bottom - cr.top + 12;
+    return { top, aw: Math.min(W - 30, 1100), ah: Math.max(120, H - top - bot) };
   }
   function layout() {
     const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; dpr = f.dpr;
     const a = area();
-    S = Math.max(8, Math.floor(Math.min((a.aw - 20) / M.C, (a.ah - 20) / M.R, 74)));
+    S = Math.max(8, Math.floor(Math.min((a.aw - 16) / M.C, (a.ah - 16) / M.R, 74)));
     ox = Math.round((W - M.C * S) / 2); oy = Math.round(a.top + (a.ah - M.R * S) / 2);
     floorL = mkLayer(); const fc = floorL.getContext('2d'); fc.scale(dpr, dpr);
     drawBackground(fc, W, H, TH, lvl); drawFloor(fc, M, S, ox, oy, TH, lvl);
@@ -1114,7 +1117,7 @@
       return false;
     },
     /* للاختبار الآلي فقط */
-    _state() { return { lvl, land, C: M.C, R: M.R, pos, start: M.start, goal: M.goal, stars: M.stars.slice(), got: got.slice(), won, elapsed, par: M.par, hintsLeft, trail: trail.length, queue: queue.length, S, ox, oy, sol: M.sol.slice() }; },
+    _state() { return { lvl, land, C: M.C, R: M.R, pos, start: M.start, goal: M.goal, stars: M.stars.slice(), got: got.slice(), won, elapsed, par: M.par, hintsLeft, trail: trail.length, queue: queue.length + (mv ? 1 : 0), S, ox, oy, sol: M.sol.slice() }; },
     _start(n) { startLevel(n); },
     _speed(n) { speed = n; },
     _gen(n, l) { return genLevel(n, l); },

@@ -346,7 +346,7 @@
         [[e.a, false], [e.b, true]].forEach(([n, rev]) => {
           const d = degOf(n), p = rev ? e.pts[e.pts.length - 1] : e.pts[0];
           const s = score(p[0], p[1]) + (d === 1 || n < 0 ? 0 : 1000);
-          if (!best || s < best.s) best = { e, rev, s };
+          if (!best || s < best.s) best = { e, rev, s, n };
         });
       });
       let pts;
@@ -359,7 +359,7 @@
         strokes.push({ pts, comp: comp[(Math.round(pts[0][1]) * w + Math.round(pts[0][0]))] });
         continue;
       }
-      let e = best.e; left.delete(e); const fromJ = best.s >= 1000;
+      let e = best.e; left.delete(e); const fromJ = best.n >= 0 && nodes[best.n].edges.filter(alive).length > 1;
       pts = best.rev ? e.pts.slice().reverse() : e.pts.slice();
       let node = best.rev ? e.a : e.b;
       for (let g = 0; g < 20 && node >= 0; g++) {
@@ -599,6 +599,7 @@
     card = { x: (W - cw) / 2, y: top, w: cw, h: Math.min(ch, Math.max(cw * 1.35, 300)) };
     card.y = top + Math.max(0, (ch - card.h) / 2);
     bakeBg();
+    hintEl.style.top = (card.y + card.h - 46) + 'px';
     inkCv = mk(W * dpr, H * dpr); inkCtx = inkCv.getContext('2d'); inkCtx.scale(dpr, dpr);
     fillCv = mk(W * dpr, H * dpr); fillCtx = fillCv.getContext('2d');
     fitGlyph(); redrawInk();
@@ -1083,7 +1084,7 @@
       const gg = c.createLinearGradient(0, -sz * .7, 0, 0); gg.addColorStop(0, col[0]); gg.addColorStop(1, col[1]);
       c.fillStyle = gg; c.fillText(t, 0, 0); c.restore();
     };
-    txt('أ', s * .64, s * .72, s * .62, ['#FFB39C', '#F2484B'], '#B8222A', .08);
+    txt('أ', s * .64, s * .8, s * .52, ['#FFB39C', '#F2484B'], '#B8222A', .08);
     txt('A', s * .3, s * .62, s * .44, ['#9CD0FF', '#2F8CF0'], '#1A5DB8', -.12);
     // قلم تلوين
     c.save(); c.translate(s * .38, s * .82); c.rotate(-.75);

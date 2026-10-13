@@ -12,8 +12,10 @@
   App.css(`
   #taxi{background:#9ED8FF;overflow:hidden}
   #taxi canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  #taxi .chip{color:#B86A00}
-  #taxi .hearts{display:flex;gap:1px;background:rgba(255,255,255,.9);border-radius:18px;padding:6px 9px;font-size:18px;box-shadow:0 3px 0 rgba(0,0,0,.1);line-height:1}
+  #taxi .bar{gap:6px}
+  #taxi .chip{color:#B86A00;min-width:54px;padding:3px 8px}
+  #taxi .chip b{font-size:17px}
+  #taxi .hearts{display:flex;gap:0;background:rgba(255,255,255,.9);border-radius:18px;padding:7px 7px;font-size:15px;box-shadow:0 3px 0 rgba(0,0,0,.1);line-height:1}
   #taxi .hearts span{transition:transform .3s,filter .3s,opacity .3s}
   #taxi .hearts span.off{filter:grayscale(1);opacity:.35;transform:scale(.75)}
   #taxi .hearts span.lost{animation:thl .5s}
@@ -61,6 +63,7 @@
   #taxi .stats div{background:#FFF6D6;border-radius:16px;padding:6px 12px;font-weight:900;color:#6B3A00;min-width:76px}
   #taxi .stats small{display:block;font-size:11px;font-weight:700;opacity:.7}
   #taxi .stats b{font-size:20px}
+  #taxi .bestl{font-size:14px;font-weight:800;color:#B86A00;margin:-6px 0 12px}
   #taxi .overlay{background:rgba(90,50,0,.3)}
   `);
 
@@ -90,6 +93,7 @@
         <div><small>نجوم</small><b id="tFinS">0</b> ⭐</div>
       </div>
       <p id="tOverP"></p>
+      <div class="bestl" id="tBestL"></div>
       <button class="btn" id="tAgain">🔁 مرة أخرى</button>
       <button class="btn alt home">🏠 القائمة</button>
     </div></div>
@@ -141,9 +145,9 @@
 
   function resize() {
     ({ ctx, w: W, h: H } = fitCanvas(cv));
-    S = clamp(Math.min(W / 520, H / 560), .6, 1.6);
+    S = clamp(Math.min(W / 470, H / 560), .6, 1.6);
     VW = W / S;
-    GY = Math.round(H * (W > H ? .76 : .67));
+    GY = Math.round(H * (W > H ? .76 : .71));
     HB = GY - 30 * S;
   }
 
@@ -236,7 +240,7 @@
   }
   function beginBrake(target, kind) {
     const d = Math.max(1, target - taxi.x), v = Math.max(speed, 60);
-    brake = { target, kind, a: v * v / (2 * d) };
+    brake = { target, kind, a: Math.max(650, v * v / (2 * d)) };
     mode = 'brake';
   }
   function spawnStop(x) {
@@ -604,7 +608,8 @@
     const msg = deliveries >= 10 ? App.g('أنتِ أمهر سائقة تاكسي في المدينة! 👑', 'أنت أمهر سائق تاكسي في المدينة! 👑')
       : deliveries >= 3 ? 'الركّاب سعداء جدًا بك 😊' : deliveries >= 1 ? App.g('أحسنتِ! وصّلتِ الركّاب بأمان 💛', 'أحسنت! وصّلت الركّاب بأمان 💛')
       : App.g('توقّفي عند الراكب الذي يلوّح لتوصليه 🙋', 'توقّف عند الراكب الذي يلوّح لتوصله 🙋');
-    $('#tOverP').textContent = msg + ` • الأفضل: ${best.d} م · 🧍 ${best.n}`;
+    $('#tOverP').textContent = msg;
+    $('#tBestL').textContent = `🏆 الأفضل: ${best.d} م · 🧍 ${best.n}`;
     $('#tMis').classList.remove('on'); lastMisKey = '';
     const reward = deliveries + Math.floor(d / 500);
     setTimeout(() => { if (state !== 'over') return; $('#tOver').classList.add('on'); Sound.lose(); if (reward) App.addStars(reward); }, 300);
@@ -1358,6 +1363,7 @@
     back() { if (state === 'pause') { togglePause(); return true; } return false; },
     /* للاختبار الآلي فقط */
     _dbg() { return { state, mode, distM, hearts, deliveries, starCount, waiting: !!waiting, ride: !!ride, speed, x: taxi && taxi.x }; },
+    _god() { hearts = 99; },
     _warp(m) { taxi.x = m * 10; distM = m; camX = taxi.x - TX; nextSpawnX = taxi.x + 600; nextMissionX = taxi.x + 400; zoneI = Math.floor(m / ZONE_LEN); },
     icon(c) {
       const g = c.createLinearGradient(0, 0, 0, 152); g.addColorStop(0, '#7CC8FF'); g.addColorStop(1, '#DDF3FF');

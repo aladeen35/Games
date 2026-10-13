@@ -621,7 +621,7 @@
   }
   function openLevels() {
     const pr = loadProg(), path = root.querySelector('.path'), wrap = root.querySelector('.pwrap');
-    const step = 84, h = NL * step + 50;
+    const step = 98, h = NL * step + 50;
     const pts = Array.from({ length: NL }, (_, i) => ({ x: 50 + 30 * Math.sin(i * 1.05), y: 44 + i * step }));
     let d = `M${pts[0].x} ${pts[0].y}`;
     for (let i = 1; i < NL; i++) { const a = pts[i - 1], b = pts[i], my = (a.y + b.y) / 2; d += ` C${a.x} ${my} ${b.x} ${my} ${b.x} ${b.y}`; }
@@ -1010,10 +1010,19 @@
       regions(mode);
       const t = q.type;
       if (t === 'add') {
+        const fa = q.merged ? Math.max(0, 1 - (T - q.solvedAt) * 2.5) : clamp((T - objs[0].at) / .4, 0, 1);
+        if (fa > 0) [[q.rA, q.ciA], [q.rB, q.ciB]].forEach(([r, ci]) => {
+          ctx.save(); ctx.globalAlpha = fa; ctx.fillStyle = mix(COLS[ci][0], '#FFFFFF', .78);
+          ctx.beginPath(); ctx.roundRect(r.x + 4, r.y + 4, r.w - 8, r.h - 8, 20); ctx.fill();
+          ctx.setLineDash([9, 7]); ctx.lineWidth = 3; ctx.strokeStyle = mix(COLS[ci][0], '#FFFFFF', .25); ctx.stroke(); ctx.restore();
+        });
         const p = q.plus, a = q.merged ? Math.max(0, 1 - (T - q.solvedAt) * 2.5) : clamp((T - objs[0].at) / .4, 0, 1);
         if (a > 0) { ctx.save(); ctx.globalAlpha = a; ctx.translate(p.x, p.y); ctx.scale(.8 + a * .2, .8 + a * .2);
-          const s = Math.min(p.s, 58); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, 0, s * .55, 0, TAU); ctx.fill();
-          ctx.fillStyle = '#FF8A3D'; const w = s * .16, l = s * .36; ctx.beginPath(); ctx.roundRect(-l, -w, l * 2, w * 2, w); ctx.roundRect(-w, -l, w * 2, l * 2, w); ctx.fill(); ctx.restore(); }
+          const s = Math.min(p.s, 62);
+          ctx.save(); ctx.shadowColor = 'rgba(30,90,60,.3)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
+          ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, 0, s * .55, 0, TAU); ctx.fill(); ctx.restore();
+          const l = s * .27; ctx.lineCap = 'round'; ctx.lineWidth = s * .17; ctx.strokeStyle = '#FF8A3D';
+          ctx.beginPath(); ctx.moveTo(-l, 0); ctx.lineTo(l, 0); ctx.moveTo(0, -l); ctx.lineTo(0, l); ctx.stroke(); ctx.restore(); }
       }
       if (t === 'more') {
         groups.forEach((g, i) => drawTray(g, i ? q.ciB : q.ciA, q.showTot ? (i ? q.b : q.a) : null));
@@ -1082,10 +1091,10 @@
     g = c.createLinearGradient(0, s * .78, 0, s); g.addColorStop(0, '#E7BE89'); g.addColorStop(1, '#C88E55');
     c.fillStyle = g; c.fillRect(0, s * .8, s, s * .2);
     const sv = dpr; dpr = 2;
-    const bs = s * .3;
-    drawBlock(c, s * .66, s * .66, bs, 1, 0);
-    drawBlock(c, s * .34, s * .66, bs, 2, 4);
-    drawBlock(c, s * .5, s * .66 - bs * 1.04, bs, 3, 2);
+    const bs = s * .33;
+    drawBlock(c, s * .68, s * .65, bs, 1, 0);
+    drawBlock(c, s * .32, s * .65, bs, 2, 4);
+    drawBlock(c, s * .5, s * .65 - bs * 1.04, bs, 3, 2);
     dpr = sv;
     c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
     c.font = `${s * .2}px ${EMOJI_FONT}`; c.fillText('🍎', s * .16, s * .3); c.fillText('🍎', s * .86, s * .32);
@@ -1099,7 +1108,7 @@
     help: () => [
       '👆 ' + App.g('المسي', 'المس') + ' كل شيء ' + App.g('لتعدّيه', 'لتعدّه') + '، وسيظهر عليه رقمه ' + App.g('وتسمعينه', 'وتسمعه'),
       '🔢 ' + App.g('اختاري', 'اختر') + ' المكعب الذي عليه الجواب الصحيح',
-      '➕ في الجمع تجتمع المجموعتان، وفي الطرح ' + App.g('تطير', 'تطير') + ' بعض الأشياء بعيدًا 🎈',
+      '➕ في الجمع تجتمع المجموعتان، وفي الطرح تطير بعض الأشياء بعيدًا 🎈 · ⚖️ وفي «أيهما أكثر؟» ' + App.g('المسي', 'المس') + ' المجموعة',
       '🔗 في التوصيل ' + App.g('اسحبي', 'اسحب') + ' من الرقم إلى المجموعة التي لها العدد نفسه',
       '⭐ ' + App.g('أنهي', 'أنهِ') + ' المستوى دون أخطاء ' + App.g('لتحصلي', 'لتحصل') + ' على 3 نجوم، و🗺️ يفتح ' + App.g('لكِ', 'لك') + ' خريطة المستويات'
     ],

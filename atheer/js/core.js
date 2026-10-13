@@ -125,7 +125,8 @@ const Music = {
     numbers: { bpm: 100, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 67, chords: [0, 5, 3, 4] },
     maze:    { bpm: 96,  root: 69, scale: [0, 2, 3, 7, 8],      wave: 'sine',     seed: 71, chords: [0, 5, 3, 4] },
     diff:    { bpm: 88,  root: 71, scale: [0, 2, 4, 7, 9],      wave: 'sine',     seed: 73, chords: [0, 3, 4, 0], pad: true },
-    taxi:    { bpm: 132, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'square',   seed: 79, chords: [0, 4, 5, 3], soft: true }
+    taxi:    { bpm: 132, root: 74, scale: [0, 2, 4, 7, 9],      wave: 'square',   seed: 79, chords: [0, 4, 5, 3], soft: true },
+    cake:    { bpm: 96,  root: 76, scale: [0, 2, 4, 7, 9],      wave: 'triangle', seed: 83, chords: [0, 3, 4, 0] }
   },
   play(name) {
     if (this.name === name && this.timer) return;
@@ -247,6 +248,9 @@ const App = {
     { id: 'taxi_first',  g: 'taxi',    i: '🚕', t: 'أول توصيلة',          d: 'توصيل أول راكب' },
     { id: 'taxi_10',     g: 'taxi',    i: '🧍', t: 'سائق محترف',         d: 'توصيل 10 ركاب في جولة واحدة' },
     { id: 'taxi_far',    g: 'taxi',    i: '🛣️', t: 'طريق طويل',          d: 'قطع 3000 متر في جولة واحدة' },
+    { id: 'cake_first',  g: 'cake',    i: '🎂', t: 'أول كعكة',           d: 'تزيين أول كعكة' },
+    { id: 'cake_order',  g: 'cake',    i: '📋', t: 'طاهٍ ماهر',           d: 'إنجاز 10 طلبات للزبائن' },
+    { id: 'cake_artist', g: 'cake',    i: '🎨', t: 'فنان الكريمة',       d: 'رسم 20 خطًا بالكريمة على كعكة واحدة' },
     { id: 'daily_3',     g: '',        i: '🎁', t: 'وفاء يومي',          d: 'فتح الهدية اليومية 3 أيام متتالية' },
     { id: 'shop_first',  g: '',        i: '🛍️', t: 'أول مشتريات',       d: 'شراء أول عنصر من المتجر' },
     { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }

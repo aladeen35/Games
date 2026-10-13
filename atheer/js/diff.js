@@ -371,7 +371,7 @@
     const B = [[-.85, .45, 1.7, .55, c], [-.7, -.05, 1.45, .5, '#4FA3E0'], [-.8, -.5, 1.55, .45, '#7BC86C']];
     for (const [a, b, w, h, cl] of B) { x.beginPath(); x.roundRect(a, b, w, h, .06); of(x, cl, .07); x.fillStyle = '#FFF8E8'; x.fillRect(a + w - .15, b + .08, .1, h - .16); x.fillStyle = 'rgba(255,255,255,.4)'; x.fillRect(a + .15, b + h * .4, w * .5, .07); }
   } });
-  def('clock', { d: 'mcf', draw(x, o) {
+  def('clock', { d: 'mc', draw(x, o) {
     const c = pc(o);
     x.beginPath(); x.arc(0, 0, 1, 0, TAU); of(x, G(x, -1, -1, 1, 1, shade(c, .3), c), .08);
     circ(x, 0, 0, .78, '#FFFDF5');
@@ -837,4 +837,552 @@
         ['tree', 378, 205, 34], ['bird', 262, 102, 10, { c: 2 }], A('🐕', 28, 282, 16), ['balloon', 150, 118, 15, { c: 2 }]],
       add: [A('🐈', 300, 200, 12), ['butterfly', 200, 160, 9, { c: 0 }], A('🐿️', 390, 260, 11), ['flower', 120, 290, 11, { c: 6 }], ['balloon', 30, 120, 13, { c: 4 }]] }
   ];
+
+  /* =====================================================================
+     بناء الصورتين واختيار الفروق
+     ===================================================================== */
+  function mkObj(sp) {
+    const [k, x, y, s0, op] = sp, kd = K[k];
+    const s = s0 < 16 ? Math.min(16, s0 * 1.2) : s0;   // تكبير العناصر الصغيرة لعيون الأطفال
+    const o = Object.assign({ k, x, y, s, f: false }, op || {});
+    if (o.c == null) o.c = kd.dc != null ? kd.dc : 0;
+    if (kd.gnd) { o.base = y; o.y = y - s; }
+    return o;
+  }
+  function ext(o) {
+    if (o.k === 'building') { const h = o.h || 1; return { cx: o.x, cy: o.y + o.s * (1 - h) / 2, r: o.s * Math.max(1, (1 + h) / 2) }; }
+    const e = EXT[o.k] || [0, 1];
+    return { cx: o.x, cy: o.y + e[0] * o.s, r: e[1] * o.s };
+  }
+  function region(t, a, b) {
+    if (t === 'v') {
+      const p = ext(a), q = ext(b), d = Math.hypot(p.cx - q.cx, p.cy - q.cy);
+      return { cx: (p.cx + q.cx) / 2, cy: (p.cy + q.cy) / 2, r: d / 2 + Math.max(p.r, q.r) };
+    }
+    if (t === 's') { const p = ext(a), q = ext(b); return p.r > q.r ? p : q; }
+    return ext(a || b);
+  }
+  function buildPuzzle(sc) {
+    const A0 = sc.it.map(mkObj);
+    const cands = [];
+    A0.forEach((o, i) => { let d = o.d != null ? o.d : K[o.k].d; if (o.v) d += 'v'; const er = ext(o).r; for (const t of d) if (er >= 11 || t === 'm' || t === 'v') cands.push({ t, i }); });
+    (sc.add || []).forEach(sp => cands.push({ t: 'a', sp }));
+    shuffle(cands);
+    const B0 = A0.map(o => Object.assign({}, o));
+    const chosen = [], usedI = new Set(), cnt = {};
+    for (const pass of [0, 1, 2]) {
+      for (const c of cands) {
+        if (chosen.length >= NDIFF) break;
+        if (c.used || (c.i != null && usedI.has(c.i))) continue;
+        if (pass === 0 && (cnt[c.t] || 0) >= 2) continue;          // تنويع أنواع الفروق
+        const a = c.i != null ? A0[c.i] : null;
+        let b = a ? Object.assign({}, a) : mkObj(c.sp);
+        if (c.t === 'c') b.c = altColor(a, K[a.k]);
+        else if (c.t === 'f') b.f = !a.f;
+        else if (c.t === 'v') { b.x += a.v[0]; b.y += a.v[1]; }
+        else if (c.t === 's') {
+          const f = a.s > 30 ? .62 : a.s < 13 ? 1.55 : (Math.random() < .5 ? .62 : 1.5);
+          b.s = a.s * f; if (K[a.k].gnd) b.y = a.base - b.s;
+        }
+        const rg = region(c.t, a, c.t === 'm' ? null : b);
+        if (c.t === 'm') Object.assign(rg, ext(a));
+        const ok = chosen.every(d => Math.hypot(d.cx - rg.cx, d.cy - rg.cy) > (pass === 2 ? .5 : .85) * (d.r + rg.r) + 6);
+        if (!ok) continue;
+        if (rg.cx - rg.r * .3 < 0 || rg.cx + rg.r * .3 > PW || rg.cy + rg.r * .3 < 0 || rg.cy - rg.r * .3 > PH) continue;
+        c.used = true;
+        if (c.i != null) { usedI.add(c.i); if (c.t === 'm') B0[c.i] = null; else B0[c.i] = b; }
+        else B0.push(b);
+        cnt[c.t] = (cnt[c.t] || 0) + 1;
+        chosen.push({ t: c.t, cx: rg.cx, cy: rg.cy, r: Math.max(rg.r, 12), found: false, ft: 0 });
+      }
+    }
+    let pa = A0, pb = B0.filter(Boolean);
+    if (Math.random() < .5) [pa, pb] = [pb, pa];
+    return { a: pa, b: pb, diffs: chosen };
+  }
+
+  /* ---------- رسم صورة كاملة ---------- */
+  function paint(x, sc, objs, k, seed) {
+    x.save(); x.scale(k, k); bakePx = k;
+    x.beginPath(); x.rect(0, 0, PW, PH); x.clip();
+    sc.bg(x, rng(seed));
+    for (const o of objs) {
+      const kd = K[o.k];
+      x.save(); x.translate(o.x, o.y);
+      if (kd.gnd) { x.save(); x.scale(o.s, o.s); ell(x, 0, 1, .8, .13, 0, 'rgba(30,30,50,.16)'); x.restore(); }
+      if (o.f) x.scale(-1, 1);
+      x.scale(o.s, o.s);
+      kd.draw(x, o);
+      x.restore();
+    }
+    x.restore();
+  }
+  function bakePic(sc, objs, w, seed) {
+    const c = mk(w * dpr, w * PH / PW * dpr), x = c.getContext('2d');
+    paint(x, sc, objs, w * dpr / PW, seed);
+    return c;
+  }
+
+  /* =====================================================================
+     الواجهة
+     ===================================================================== */
+  const loadProg = () => { const p = store.get('diffProg', null) || {}; return { unlocked: clamp(p.unlocked || 1, 1, SCENES.length), stars: p.stars || {}, best: p.best || {} }; };
+  function chime() { [784, 988, 1175, 1568].forEach((f, i) => Sound.tone(f, .28, 'sine', .1, 0, i * .07)); Sound.tone(2093, .4, 'triangle', .04, 0, .3); }
+
+  App.css(`
+  #diff{background:#2E8FC9;overflow:hidden}
+  #diff canvas.sc{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+  #diff .ib{color:#1C6FA8}
+  #diff .ib.hbtn{position:relative}
+  #diff .ib.hbtn.off{opacity:.5;filter:grayscale(.8)}
+  #diff .chip{color:#1D4F7A;min-width:56px;padding:3px 9px}
+  #diff .chip b{color:#E2558F;display:inline-block}
+  #diff .chip.bump b{animation:pop .4s cubic-bezier(.3,1.8,.6,1)}
+  #diff .panel{border-color:#D6EEFF;box-shadow:0 8px 0 #9FCDEB,0 20px 40px rgba(10,50,90,.35);color:#1D4F7A}
+  #diff .panel h3{color:#E2558F}
+  #diff .btn{background:linear-gradient(#FFB648,#FF8A1F);box-shadow:0 4px 0 #C25E00}
+  #diff .btn.alt{background:#fff;color:#1C6FA8;box-shadow:0 4px 0 #BBDDF3;border-color:#D6EEFF}
+  #diff .btn:active{box-shadow:0 1px 0 #C25E00}
+  #diff .overlay{background:rgba(10,40,80,.45)}
+  #diff .lvp{width:min(94vw,560px);max-height:90vh;overflow-y:auto;touch-action:pan-y;background:linear-gradient(#FFFFFF,#EEF7FF)}
+  #diff .lvg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 9px;margin:10px 2px 12px}
+  @media (min-width:600px){#diff .lvg{grid-template-columns:repeat(4,1fr)}}
+  #diff .lvb{position:relative;border-radius:14px;color:#1D4F7A;font-weight:900;display:flex;flex-direction:column;align-items:stretch;gap:2px;
+    background:#fff;border:3px solid #fff;box-shadow:0 0 0 2px #9FCDEB,0 4px 0 2px #9FCDEB,0 6px 10px rgba(10,50,90,.2);padding:3px 3px 4px}
+  #diff .lvb:active{transform:translateY(3px)}
+  #diff .lvb canvas{width:100%;aspect-ratio:4/3;border-radius:10px;display:block;background:#DDEFFF}
+  #diff .lvb .n{position:absolute;top:6px;right:7px;font-size:12px;background:rgba(255,255,255,.9);border-radius:99px;min-width:20px;padding:0 5px;line-height:20px}
+  #diff .lvb .t{font-size:12px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #diff .lvb .s{font-size:11px;letter-spacing:-1px;line-height:1;height:12px}
+  #diff .lvb .s i{font-style:normal}
+  #diff .lvb .s i.off{filter:grayscale(1);opacity:.3}
+  #diff .lvb.cur{outline:3px dashed #FF8A1F;outline-offset:3px}
+  #diff .lvb.lock canvas{filter:grayscale(1) blur(1.5px);opacity:.45}
+  #diff .lvb.lock::after{content:'🔒';position:absolute;font-size:26px;top:22%;left:50%;transform:translateX(-50%)}
+  #diff .lvb.lock .s{visibility:hidden}
+  #diff .hint{bottom:max(8px,env(safe-area-inset-bottom))}
+  #diff .hint span{background:rgba(255,255,255,.92);color:#1D4F7A;box-shadow:0 2px 8px rgba(10,50,90,.2);display:inline-block;max-width:92vw}
+  #diff .res{display:flex;justify-content:center;gap:10px;margin:6px 0 12px;flex-wrap:wrap}
+  #diff .res div{background:#EAF5FF;border-radius:16px;padding:4px 12px;font-weight:800;font-size:14px}
+  #diff .res b{display:block;font-size:22px;color:#E2558F}
+  `);
+  const root = App.section(ID, `
+    <canvas class="sc"></canvas>
+    <div class="bar">
+      <button class="ib home" aria-label="الرئيسية">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib lvbtn" aria-label="الصور">🖼️</button>
+      <button class="ib hbtn" aria-label="تلميح">🔍<span class="cnt">2</span></button>
+      <span class="grow"></span>
+      <div class="chip cFC"><small>الفروق</small><b class="cF">0/5</b></div>
+      <div class="chip"><small>الوقت</small><b class="cT">0:00</b></div>
+    </div>
+    <div class="hint"><span class="hintT"></span></div>
+    <div class="overlay" id="dfLv"><div class="panel lvp"><h3>🖼️ الصور</h3>
+      <div class="lvg"></div>
+      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="dfEnd"><div class="panel endp"></div></div>`);
+  const cv = root.querySelector('canvas.sc'), bar = root.querySelector('.bar');
+  const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
+  const lvOv = root.querySelector('#dfLv'), endOv = root.querySelector('#dfEnd'), endP = root.querySelector('.endp');
+  const hBtn = root.querySelector('.hbtn'), hCnt = hBtn.querySelector('.cnt');
+
+  /* ---------- الحالة ---------- */
+  let ctx, W = 0, H = 0, dpr = 1, pics = [], kS = 1, bgLayer = null, imgA = null, imgB = null;
+  let raf = 0, last = 0, T = 0, running = false, paused = false;
+  let lvl = 1, sc = SCENES[0], puz = null, seed = 1, phase = 'play';
+  let elapsed = 0, mistakes = 0, hintsLeft = HINTS, cool = 0, coolMark = null, lastSec = -1;
+  let marks = [], hintD = null, hintT0 = 0, parts = [], rings = [], winT = -1, hintTimer = 0, shake = 0, events = [];
+  const thumbs = {};
+
+  function later(t, fn) { events.push({ t, fn }); }
+
+  /* ---------- التخطيط ---------- */
+  function layout() {
+    const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; dpr = f.dpr;
+    const top = bar.getBoundingClientRect().bottom + 8, bottom = H - 34;
+    const aw = Math.min(W - 16, 1400), ah = bottom - top, gap = 14, fp = 6;
+    const asp = PH / PW;
+    const st = Math.min(aw - fp * 2, ((ah - gap) / 2 - fp * 2) / asp);            // فوق بعض
+    const sd = Math.min((aw - gap) / 2 - fp * 2, (ah - fp * 2) / asp);            // جنبًا إلى جنب
+    const stacked = st >= sd;
+    const pw = Math.floor(Math.min(stacked ? st : sd, 720)), ph = Math.round(pw * asp);
+    kS = pw / PW;
+    if (stacked) {
+      const tot = ph * 2 + gap + fp * 4, y0 = top + (ah - tot) / 2 + fp, x0 = (W - pw) / 2;
+      pics = [{ x: x0, y: y0, w: pw, h: ph }, { x: x0, y: y0 + ph + fp * 2 + gap, w: pw, h: ph }];
+    } else {
+      const tot = pw * 2 + gap + fp * 4, x0 = (W - tot) / 2 + fp, y0 = top + (ah - ph) / 2;
+      // الأولى على اليمين (اتجاه القراءة العربي)
+      pics = [{ x: x0 + pw + fp * 2 + gap, y: y0, w: pw, h: ph }, { x: x0, y: y0, w: pw, h: ph }];
+    }
+    pics.forEach(p => { p.fp = fp; });
+    buildBg();
+    bakePics();
+  }
+  function bakePics() { if (!puz) return; imgA = bakePic(sc, puz.a, pics[0].w, seed); imgB = bakePic(sc, puz.b, pics[0].w, seed); }
+  function buildBg() {
+    bgLayer = mk(W * dpr, H * dpr);
+    const x = bgLayer.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    x.fillStyle = G(x, 0, 0, 0, H, '#2E8FC9', '#56B9D9', '#8FDCCB'); x.fillRect(0, 0, W, H);
+    const R = rng(77);
+    for (let i = 0; i < 18; i++) { const bx = R() * W, by = R() * H, br = 20 + R() * 80; circ(x, bx, by, br, RG(x, bx, by, 0, br, 'rgba(255,255,255,.16)', 'rgba(255,255,255,0)')); }
+    x.strokeStyle = 'rgba(255,255,255,.13)'; x.lineWidth = 3;
+    for (let i = 0; i < 14; i++) {
+      const mx = R() * W, my = R() * H, mr = 8 + R() * 10;
+      x.beginPath(); x.arc(mx, my, mr, 0, TAU); x.moveTo(mx + mr * .7, my + mr * .7); x.lineTo(mx + mr * 1.6, my + mr * 1.6); x.stroke();
+    }
+    for (const p of pics) {
+      const fp = p.fp;
+      x.save(); x.shadowColor = 'rgba(10,40,80,.4)'; x.shadowBlur = 18; x.shadowOffsetY = 7;
+      rr(x, p.x - fp, p.y - fp, p.w + fp * 2, p.h + fp * 2, 16, '#FFFFFF'); x.restore();
+      x.strokeStyle = '#FFD36B'; x.lineWidth = 2; x.beginPath(); x.roundRect(p.x - fp + 2.5, p.y - fp + 2.5, p.w + fp * 2 - 5, p.h + fp * 2 - 5, 14); x.stroke();
+    }
+  }
+
+  /* ---------- المستويات ---------- */
+  function startLevel(n) {
+    lvl = clamp(n, 1, SCENES.length); sc = SCENES[lvl - 1];
+    lvOv.classList.remove('on'); endOv.classList.remove('on');
+    seed = lvl * 131 + 7;
+    puz = buildPuzzle(sc);
+    elapsed = 0; mistakes = 0; hintsLeft = HINTS; cool = 0; coolMark = null; lastSec = -1;
+    marks = []; hintD = null; parts = []; rings = []; winT = -1; shake = 0; events = [];
+    phase = 'play';
+    layout(); updChips();
+    Sound.whoosh();
+    const pr = loadProg();
+    showHint(!pr.stars[lvl] && lvl <= 2 ? '👆 ' + App.g('المسي', 'المس') + ' كل شيء مختلف بين الصورتين — هناك 5 فروق!' : '🔎 ' + lvl + '. ' + sc.t + ': ' + App.g('ابحثي', 'ابحث') + ' عن 5 فروق', 6);
+  }
+  function showHint(t, dur) { hintT.textContent = t; hintEl.style.opacity = t ? 1 : 0; hintTimer = t ? dur : 0; }
+  function nFound() { return puz ? puz.diffs.filter(d => d.found).length : 0; }
+  function updChips(bump) {
+    root.querySelector('.cF').textContent = nFound() + '/' + NDIFF;
+    root.querySelector('.cT').textContent = fmtT(elapsed);
+    hCnt.textContent = hintsLeft; hBtn.classList.toggle('off', hintsLeft <= 0);
+    if (bump) { const c = root.querySelector('.cFC'); c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump'); }
+  }
+  function thumb(i) {
+    if (!thumbs[i]) {
+      const s = SCENES[i], c = mk(PW * .5 * 2, PH * .5 * 2), x = c.getContext('2d');
+      paint(x, s, s.it.map(mkObj), 1, (i + 1) * 131 + 7);
+      thumbs[i] = c;
+    }
+    return thumbs[i];
+  }
+  function openLevels() {
+    const pr = loadProg();
+    const g = root.querySelector('.lvg');
+    g.innerHTML = SCENES.map((s, i) => {
+      const n = i + 1, st = pr.stars[n] || 0, lock = n > pr.unlocked;
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="الصورة ${n}">
+        <canvas></canvas><span class="n">${n}</span><span class="t">${s.ic} ${s.t}</span>
+        <span class="s">${[1, 2, 3].map(k => `<i class="${k <= st ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
+    }).join('');
+    g.querySelectorAll('[data-l]').forEach(b => {
+      const i = +b.dataset.l - 1, c = b.querySelector('canvas'), t = thumb(i);
+      c.width = t.width; c.height = t.height; c.getContext('2d').drawImage(t, 0, 0);
+      b.onclick = () => {
+        const n = +b.dataset.l;
+        if (n > loadProg().unlocked) { Sound.error(); vibrate(20); b.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-6deg)' }, { transform: 'rotate(6deg)' }, { transform: 'rotate(0)' }], { duration: 300 }); return; }
+        Sound.tap(); startLevel(n);
+      };
+    });
+    endOv.classList.remove('on'); lvOv.classList.add('on');
+    const cur = g.querySelector('.cur'); if (cur) setTimeout(() => cur.scrollIntoView({ block: 'center' }), 30);
+  }
+
+  /* ---------- اللعب ---------- */
+  function toPic(px, py) {
+    for (let i = 0; i < pics.length; i++) {
+      const p = pics[i];
+      if (px >= p.x - 4 && px <= p.x + p.w + 4 && py >= p.y - 4 && py <= p.y + p.h + 4) return { i, u: clamp((px - p.x) / kS, 0, PW), v: clamp((py - p.y) / kS, 0, PH) };
+    }
+    return null;
+  }
+  function tap(px, py) {
+    if (phase !== 'play' || paused) return;
+    const h = toPic(px, py); if (!h) return;
+    if (cool > 0) { if (coolMark) coolMark.wob = 1; Sound.tone(500, .05, 'sine', .04); return; }
+    const near = d => Math.hypot(d.cx - h.u, d.cy - h.v) <= Math.max(d.r, 16) + 10;
+    let best = null, bd = 1e9;
+    for (const d of puz.diffs) { const dd = Math.hypot(d.cx - h.u, d.cy - h.v) - d.r; if (near(d) && dd < bd) { bd = dd; best = d; } }
+    if (best && best.found) { Sound.pop(); return; }
+    if (best) {
+      best.found = true; best.ft = 0;
+      if (hintD === best) hintD = null;
+      for (const p of pics) { const X = p.x + best.cx * kS, Y = p.y + best.cy * kS; sparkle(X, Y); rings.push({ x: X, y: Y, r: best.r * kS, age: 0, life: .55 }); }
+      chime(); vibrate(20); updChips(true);
+      const n = nFound();
+      if (n >= NDIFF) win();
+      else if (hintTimer > 0) hintTimer = Math.min(hintTimer, .5);
+      if (n === 3) floatTxt(App.g('رائعة! 🌟', 'رائع! 🌟'), h);
+      return;
+    }
+    mistakes++;
+    coolMark = { pic: h.i, u: h.u, v: h.v, age: 0, wob: 0 };
+    marks.push(coolMark);
+    cool = 2;
+    Sound.tone(330, .14, 'sine', .07, -60); Sound.tone(262, .2, 'sine', .05, -40, .08); vibrate(12);
+  }
+  let floats = [];
+  function floatTxt(t, h) { floats.push({ t, i: h.i, u: h.u, v: h.v, age: 0 }); }
+  function useHint() {
+    if (phase !== 'play' || paused) return;
+    if (hintsLeft <= 0) { Sound.error(); hBtn.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-10deg)' }, { transform: 'rotate(10deg)' }, { transform: 'rotate(0)' }], { duration: 300 }); return; }
+    if (hintD && !hintD.found) return;
+    const left = puz.diffs.filter(d => !d.found); if (!left.length) return;
+    hintD = left[Math.floor(Math.random() * left.length)]; hintT0 = T;
+    hintsLeft--; updChips();
+    Sound.whoosh(); Sound.tone(880, .2, 'sine', .07, 300, .05);
+    later(4, () => { if (hintD && T - hintT0 >= 3.9) hintD = null; });
+  }
+  hBtn.addEventListener('click', () => { if (App.current === ID) useHint(); });
+
+  function starsFor() { let s = 3; if (elapsed > 60) s--; if (elapsed > 120) s--; if (mistakes > 3) s--; return Math.max(1, s); }
+  function win() {
+    phase = 'won'; winT = 0; hintD = null; cool = 0;
+    later(.35, () => { confetti(); Sound.win(); vibrate(30); App.speak(App.g('أحسنتِ!', 'أحسنت!')); });
+    const pr = loadProg();
+    const stars = starsFor(), prev = pr.stars[lvl] || 0;
+    if (stars > prev) pr.stars[lvl] = stars;
+    if (!pr.best[lvl] || elapsed < pr.best[lvl]) pr.best[lvl] = Math.round(elapsed);
+    if (lvl >= pr.unlocked) pr.unlocked = Math.min(SCENES.length, lvl + 1);
+    store.set('diffProg', pr);
+    const fast = elapsed < 30;
+    const all = SCENES.every((_, i) => pr.stars[i + 1]);
+    later(1.7, () => {
+      if (App.current !== ID) return;
+      endP.innerHTML = `<h3>${App.g('أحسنتِ!', 'أحسنت!')} 🎉</h3>
+        <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('')}</div>
+        <div class="res"><div>الوقت<b>${fmtT(elapsed)}</b></div><div>الأخطاء<b>${mistakes}</b></div></div>
+        <p>${fast ? 'عين النسر! ⚡' : stars === 3 ? App.g('محقّقة رائعة! 🕵️‍♀️', 'محقّق رائع! 🕵️') : App.g('أسرعي', 'أسرع') + ' وبأخطاء أقل ' + App.g('لتحصلي', 'لتحصل') + ' على 3 نجوم'}</p>
+        ${lvl < SCENES.length ? '<button class="btn" data-a="next">الصورة التالية ▶️</button><br>' : '<p>🏆 ' + App.g('أنهيتِ', 'أنهيتَ') + ' كل الصور!</p>'}
+        <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🖼️ الصور</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
+      bindEnd(); endOv.classList.add('on');
+      if (stars > prev) App.addStars(stars - prev);
+      App.achieve('diff_first');
+      if (fast) App.achieve('diff_fast');
+      if (all) App.achieve('diff_all');
+    });
+  }
+  function bindEnd() { endP.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => act(b.dataset.a))); }
+  function act(a) {
+    Sound.tap();
+    if (a === 'next') startLevel(lvl + 1);
+    else if (a === 'again') startLevel(lvl);
+    else if (a === 'levels') openLevels();
+    else if (a === 'close') { lvOv.classList.remove('on'); if (phase === 'won' && endP.innerHTML) endOv.classList.add('on'); }
+  }
+  root.querySelector('[data-a="close"]').addEventListener('click', () => act('close'));
+  root.querySelector('.lvbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
+
+  /* ---------- الجسيمات ---------- */
+  function sparkle(x, y) {
+    for (let i = 0; i < 14; i++) {
+      const a = rand(0, TAU), v = rand(60, 200);
+      parts.push({ t: i % 3 ? 'star' : 'dot', x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 60, rot: rand(0, TAU), vr: rand(-6, 6), life: rand(.5, .9), age: 0, s: rand(4, 8), c: i % 2 ? '#FFE26B' : '#4CF08A' });
+    }
+  }
+  function confetti() {
+    for (let i = 0; i < 160; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 260), rot: rand(0, TAU), vr: rand(-8, 8),
+      life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF5C8A', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF9F43'][i % 6] });
+  }
+
+  /* ---------- الإدخال ---------- */
+  cv.addEventListener('pointerdown', e => {
+    if (App.current !== ID || paused || lvOv.classList.contains('on') || endOv.classList.contains('on')) return;
+    const r = cv.getBoundingClientRect(); tap(e.clientX - r.left, e.clientY - r.top);
+  });
+  window.addEventListener('keydown', e => {
+    if (App.current !== ID || $('#sheetWrap').classList.contains('on')) return;
+    if (endOv.classList.contains('on')) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const b = endP.querySelector('.btn:not(.alt)'); if (b) act(b.dataset.a); }
+      return;
+    }
+    if (e.key === 'l' || e.key === 'L') { lvOv.classList.contains('on') ? act('close') : openLevels(); return; }
+    if ((e.key === 'h' || e.key === 'H' || e.key === '?') && !lvOv.classList.contains('on')) useHint();
+  });
+
+  /* ---------- التحديث ---------- */
+  function update(dt) {
+    T += dt;
+    for (let i = 0; i < events.length; i++) { const ev = events[i]; ev.t -= dt; if (ev.t <= 0) { events.splice(i--, 1); ev.fn(); } }
+    if (phase === 'play') {
+      elapsed += dt;
+      const s = Math.floor(elapsed); if (s !== lastSec) { lastSec = s; root.querySelector('.cT').textContent = fmtT(elapsed); }
+    }
+    if (cool > 0) { cool = Math.max(0, cool - dt); if (!cool) coolMark = null; }
+    for (let i = marks.length - 1; i >= 0; i--) { const m = marks[i]; m.age += dt; m.wob = Math.max(0, m.wob - dt * 3); if (m.age > 2.6) marks.splice(i, 1); }
+    if (puz) for (const d of puz.diffs) if (d.found) d.ft += dt;
+    if (winT >= 0) winT += dt;
+    if (hintTimer > 0) { hintTimer -= dt; if (hintTimer <= 0) hintEl.style.opacity = 0; }
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const q = parts[i]; q.age += dt;
+      if (q.age > q.life) { parts.splice(i, 1); continue; }
+      if (q.t === 'conf') { q.vy = Math.min(q.vy + 120 * dt, 260); q.vx += Math.sin(T * 3 + i) * 40 * dt; }
+      else { q.vx *= 1 - dt * 3; q.vy = q.vy * (1 - dt * 3) + 300 * dt; }
+      q.x += q.vx * dt; q.y += q.vy * dt; q.rot += q.vr * dt;
+    }
+    for (let i = rings.length - 1; i >= 0; i--) { rings[i].age += dt; if (rings[i].age > rings[i].life) rings.splice(i, 1); }
+    for (let i = floats.length - 1; i >= 0; i--) { floats[i].age += dt; if (floats[i].age > 1.4) floats.splice(i, 1); }
+    shake = Math.max(0, shake - dt * 16);
+  }
+
+  /* ---------- الرسم ---------- */
+  function drawMagnifier(X, Y, r) {
+    const a = T * 4, s = 1 + Math.sin(a) * .12;
+    ctx.save(); ctx.translate(X, Y); ctx.scale(s, s);
+    circ(ctx, 0, 0, r * 1.5, RG(ctx, 0, 0, r * .6, r * 1.5, 'rgba(255,240,120,.55)', 'rgba(255,240,120,0)'));
+    ctx.save(); ctx.translate(r * .72, r * .72); ctx.rotate(Math.PI / 4);
+    rr(ctx, -r * .14, 0, r * .28, r * .95, r * .1, '#8A4B14'); rr(ctx, -r * .1, r * .04, r * .08, r * .85, r * .04, 'rgba(255,255,255,.35)'); ctx.restore();
+    ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fillStyle = 'rgba(220,245,255,.22)'; ctx.fill();
+    ctx.lineWidth = Math.max(4, r * .18); ctx.strokeStyle = '#FFB300'; ctx.stroke();
+    ctx.lineWidth = Math.max(1.5, r * .05); ctx.strokeStyle = '#FFF3B0'; ctx.beginPath(); ctx.arc(0, 0, r * .92, Math.PI * 1.1, Math.PI * 1.6); ctx.stroke();
+    ctx.restore();
+  }
+  function drawOverlay(p, idx) {
+    ctx.save(); ctx.beginPath(); ctx.roundRect(p.x, p.y, p.w, p.h, 8); ctx.clip();
+    ctx.drawImage(idx ? imgB : imgA, p.x, p.y, p.w, p.h);
+    if (cool > 0) { ctx.fillStyle = `rgba(255,255,255,${.22 * Math.min(1, cool * 2)})`; ctx.fillRect(p.x, p.y, p.w, p.h); }
+    // الدوائر حول الفروق المكتشفة
+    for (const d of puz.diffs) {
+      if (!d.found) continue;
+      const X = p.x + d.cx * kS, Y = p.y + d.cy * kS, r = Math.max(14, (d.r + 4) * kS);
+      const t = Math.min(1, d.ft / .4), e = ease.outCubic(t), pop = 1 + Math.sin(Math.min(1, d.ft / .5) * Math.PI) * .12;
+      ctx.save(); ctx.translate(X, Y); ctx.scale(pop, pop);
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.arc(0, 0, r, -Math.PI / 2, -Math.PI / 2 + e * TAU);
+      ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.stroke();
+      ctx.lineWidth = 4; ctx.strokeStyle = '#18C24A'; ctx.stroke();
+      ctx.restore();
+    }
+    // علامات الخطأ
+    for (const m of marks) {
+      if (m.pic !== idx) continue;
+      const X = p.x + m.u * kS, Y = p.y + m.v * kS, a = m.age < 2 ? 1 : 1 - (m.age - 2) / .6;
+      const s = 9 * ease.outBack(Math.min(1, m.age / .25));
+      ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.translate(X + Math.sin(T * 50) * 3 * m.wob, Y);
+      ctx.beginPath(); ctx.moveTo(-s, -s); ctx.lineTo(s, s); ctx.moveTo(s, -s); ctx.lineTo(-s, s); ctx.lineCap = 'round';
+      ctx.lineWidth = 6; ctx.strokeStyle = '#fff'; ctx.stroke(); ctx.lineWidth = 3.5; ctx.strokeStyle = '#F0473E'; ctx.stroke();
+      if (m === coolMark && cool > 0) {
+        ctx.beginPath(); ctx.arc(0, 0, 17, -Math.PI / 2, -Math.PI / 2 + TAU * cool / 2); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(240,71,62,.7)'; ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+    // التلميح
+    if (hintD && !hintD.found) drawMagnifier(p.x + hintD.cx * kS, p.y + hintD.cy * kS, Math.max(16, (hintD.r + 6) * kS));
+    // توهج الفوز
+    if (winT >= 0) {
+      const g = .5 + .5 * Math.sin(winT * 5), fp = p.fp;
+      ctx.save(); ctx.shadowColor = '#FFE45C'; ctx.shadowBlur = 18 + g * 18; ctx.lineWidth = 5; ctx.strokeStyle = `rgba(255,226,90,${.65 + g * .35})`;
+      ctx.beginPath(); ctx.roundRect(p.x - fp, p.y - fp, p.w + fp * 2, p.h + fp * 2, 16); ctx.stroke(); ctx.restore();
+      if (winT < 1.2) { ctx.save(); ctx.globalAlpha = (1 - winT / 1.2) * .5; ctx.fillStyle = '#FFFBE0'; ctx.beginPath(); ctx.roundRect(p.x, p.y, p.w, p.h, 8); ctx.fill(); ctx.restore(); }
+    }
+  }
+  function render() {
+    if (!ctx) return;
+    ctx.save();
+    ctx.fillStyle = '#2E8FC9'; ctx.fillRect(0, 0, W, H);
+    if (bgLayer) ctx.drawImage(bgLayer, 0, 0, W, H);
+    if (puz && imgA) pics.forEach((p, i) => drawOverlay(p, i));
+    for (const r of rings) {
+      const t = r.age / r.life;
+      ctx.save(); ctx.globalAlpha = 1 - t; ctx.strokeStyle = '#B6FFC9'; ctx.lineWidth = 5 * (1 - t) + 1;
+      ctx.beginPath(); ctx.arc(r.x, r.y, r.r + 8 + t * 26, 0, TAU); ctx.stroke(); ctx.restore();
+    }
+    for (const f of floats) {
+      const p = pics[f.i], a = f.age < 1 ? 1 : 1 - (f.age - 1) / .4, fs = clamp(W * .05, 18, 28);
+      ctx.save(); ctx.globalAlpha = a; ctx.font = `900 ${fs}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const X = clamp(p.x + f.u * kS, p.x + 70, p.x + p.w - 70), Y = p.y + f.v * kS - 30 - f.age * 30;
+      ctx.lineWidth = 5; ctx.strokeStyle = '#fff'; ctx.strokeText(f.t, X, Y); ctx.fillStyle = '#E2558F'; ctx.fillText(f.t, X, Y); ctx.restore();
+    }
+    for (const q of parts) {
+      const a = 1 - q.age / q.life;
+      ctx.save(); ctx.globalAlpha = q.t === 'conf' ? Math.min(1, a * 3) : a; ctx.translate(q.x, q.y); ctx.rotate(q.rot); ctx.fillStyle = q.c;
+      if (q.t === 'star') { starPath(ctx, 0, 0, q.s * (.6 + a * .5)); ctx.fill(); }
+      else if (q.t === 'dot') { ctx.beginPath(); ctx.arc(0, 0, q.s * .45 * a + 1, 0, TAU); ctx.fill(); }
+      else { ctx.scale(1, Math.cos(q.age * 9 + q.rot)); ctx.fillRect(-q.s / 2, -q.s * .3, q.s, q.s * .6); }
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  function loop(now) {
+    if (!running) return;
+    raf = requestAnimationFrame(loop);
+    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now;
+    if (paused || document.hidden) return;
+    update(dt); render();
+  }
+  function startLoop() { if (running) return; running = true; last = performance.now(); raf = requestAnimationFrame(loop); }
+  function stopLoop() { running = false; cancelAnimationFrame(raf); }
+  let resizeT = 0;
+  window.addEventListener('resize', () => {
+    if (App.current !== ID || !puz) return;
+    clearTimeout(resizeT); resizeT = setTimeout(() => { layout(); render(); }, 60);
+  });
+
+  /* ---------- أيقونة القائمة: صورتان صغيرتان وعدسة مكبّرة ---------- */
+  function icon(c, s) {
+    c.fillStyle = G(c, 0, 0, 0, s, '#3AA0D8', '#8FDCCB'); c.fillRect(0, 0, s, s);
+    for (let i = 0; i < 6; i++) circ(c, s * [.12, .88, .2, .8, .5, .1][i], s * [.15, .2, .88, .85, .08, .55][i], s * .03, 'rgba(255,255,255,.35)');
+    const sc0 = SCENES[0], fw = s * .4, fh = fw * PH / PW;
+    const frame = (cx, cy, rot, objs) => {
+      c.save(); c.translate(cx, cy); c.rotate(rot);
+      c.save(); c.shadowColor = 'rgba(10,40,80,.4)'; c.shadowBlur = 6; c.shadowOffsetY = 3; rr(c, -fw / 2 - 4, -fh / 2 - 4, fw + 8, fh + 8, 6, '#fff'); c.restore();
+      c.save(); c.translate(-fw / 2, -fh / 2); c.beginPath(); c.rect(0, 0, fw, fh); c.clip();
+      const old = dpr; paint(c, sc0, objs, fw / PW, 138); dpr = old;
+      c.restore(); c.restore();
+    };
+    const base = sc0.it.map(mkObj), alt = base.map(o => Object.assign({}, o));
+    alt[3].c = 1; alt.splice(12, 1);
+    frame(s * .3, s * .4, -.12, base);
+    frame(s * .68, s * .6, .1, alt);
+    // العدسة
+    const mx = s * .56, my = s * .44, r = s * .17;
+    c.save(); c.translate(mx, my);
+    c.save(); c.translate(r * .72, r * .72); c.rotate(-Math.PI / 4);
+    c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 4; rr(c, -r * .17, 0, r * .34, r * 1.15, r * .12, '#8A4B14'); c.restore();
+    c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fillStyle = 'rgba(220,245,255,.35)'; c.fill();
+    c.lineWidth = r * .22; c.strokeStyle = '#FFB300'; c.stroke();
+    c.lineWidth = r * .07; c.strokeStyle = '#FFF3B0'; c.beginPath(); c.arc(0, 0, r * .86, Math.PI * 1.1, Math.PI * 1.6); c.stroke();
+    c.restore();
+  }
+
+  /* ---------- التسجيل ---------- */
+  App.register({
+    id: ID, title: 'ابحث عن الاختلافات', icon2: '🔍', isNew: true, music: 'diff',
+    desc: () => App.g('ابحثي عن 5 فروق بين الصورتين', 'ابحث عن 5 فروق بين الصورتين'),
+    help: () => [
+      '👀 ' + App.g('قارني', 'قارن') + ' الصورتين جيدًا: بينهما 5 فروق بالضبط',
+      '👆 ' + App.g('المسي', 'المس') + ' مكان الفرق في أي صورة لتظهر عليه دائرة خضراء ✅',
+      '❌ اللمسة الخاطئة توقف اللعب ثانيتين، ' + App.g('فركّزي', 'فركّز') + ' قبل اللمس!',
+      '🔍 زر العدسة يدلّك على فرق واحد (مرّتان في كل صورة)',
+      '⭐ ' + App.g('أسرعي', 'أسرع') + ' وبأخطاء أقل لتربح 3 نجوم وتفتح صورًا جديدة 🖼️'
+    ],
+    icon,
+    best() {
+      const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
+      if (!ks.length) return '';
+      return `🏆 الصورة ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+    },
+    enter() {
+      paused = false;
+      const pr = loadProg();
+      startLevel(Math.min(pr.unlocked, SCENES.length));
+      render(); startLoop();
+    },
+    leave() { stopLoop(); events = []; lvOv.classList.remove('on'); endOv.classList.remove('on'); },
+    pause() { paused = true; },
+    resume() { paused = false; last = performance.now(); },
+    back() {
+      if (lvOv.classList.contains('on')) { act('close'); return true; }
+      return false;
+    },
+    /* للاختبار الآلي فقط */
+    _state() { return { lvl, phase, elapsed, mistakes, hintsLeft, cool, pics, kS, diffs: puz ? puz.diffs.map(d => ({ t: d.t, cx: d.cx, cy: d.cy, r: d.r, found: d.found })) : [] }; },
+    _setTime(t) { elapsed = t; },
+    _start(n) { startLevel(n); }
+  });
 })();
