@@ -33,18 +33,29 @@
       ['🍦', 'آيس كريم'], ['🎂', 'كعكة عيد ميلاد'], ['🍮', 'بودينغ'], ['🥧', 'فطيرة'], ['🍯', 'عسل'], ['🥞', 'بان كيك'], ['🍨', 'بوظة']] }
   };
   const DECK_KEYS = Object.keys(DECKS);
+  /* صور العائلة: صور حقيقية تُحمَّل من مجلد التطبيق (بلا أسماء، لذا لا نطق لها) */
+  DECKS.photos = { t: 'صور العائلة', ic: '🖼️', c: ['#FFF8E6', '#FFE3A8', '#E9B93A', '#8A5A00'], items: [] };
+  const PHOTOS = [1, 2, 3, 4, 5, 6, 7].map(n => {
+    const ph = { id: 'photo:' + n, img: new Image(), ok: false, bad: false };
+    ph.img.onload = () => { ph.ok = true; if (faces[ph.id] && faces[ph.id].tmp) { delete faces[ph.id]; if (cards.length) bakeFaces(); } };
+    ph.img.onerror = () => { ph.bad = true; };
+    ph.img.src = 'img/photos/p' + n + '.jpg';
+    return ph;
+  });
 
   /* ---------- المستويات: p أزواج، d مجموعة، peek نظرة أولى، time حدّ زمني ---------- */
   const LEVELS = [
-    { p: 3, d: 'animals' }, { p: 4, d: 'fruits' }, { p: 4, d: 'vehicles' }, { p: 5, d: 'sea' },
-    { p: 6, d: 'sweets' }, { p: 6, d: 'space' }, { p: 6, d: 'animals', peek: 1 }, { p: 8, d: 'fruits' },
-    { p: 8, d: 'vehicles' }, { p: 8, d: 'sea', time: 100 }, { p: 9, d: 'sweets' }, { p: 9, d: 'space', peek: 1 },
+    { p: 3, d: 'animals' }, { p: 4, d: 'fruits' }, { p: 4, d: 'photos' }, { p: 4, d: 'vehicles' },
+    { p: 5, d: 'sea' }, { p: 6, d: 'sweets' }, { p: 6, d: 'photos' }, { p: 6, d: 'space' },
+    { p: 6, d: 'animals', peek: 1 }, { p: 8, d: 'fruits' }, { p: 8, d: 'animals', ph: 7 }, { p: 8, d: 'vehicles' },
+    { p: 8, d: 'sea', time: 100 }, { p: 9, d: 'sweets' }, { p: 9, d: 'space', peek: 1 }, { p: 10, d: 'sea', ph: 7 },
     { p: 10, d: 'animals' }, { p: 10, d: 'fruits', time: 125 }, { p: 10, d: 'vehicles', peek: 1 }, { p: 12, d: 'sea' },
-    { p: 12, d: 'sweets', time: 155 }, { p: 12, d: 'space', peek: 1 }, { p: 12, d: 'animals', time: 145 }, { p: 12, d: 'fruits', peek: 1, time: 135 },
-    { p: 12, d: 'mix', time: 145 }, { p: 12, d: 'mix', peek: 1, time: 125 }, { p: 12, d: 'mix', time: 120 }, { p: 12, d: 'mix', peek: 1, time: 110 }
+    { p: 12, d: 'sweets', ph: 7, peek: 1 }, { p: 12, d: 'sweets', time: 155 }, { p: 12, d: 'space', peek: 1 }, { p: 12, d: 'animals', time: 145 },
+    { p: 12, d: 'fruits', peek: 1, time: 135 }, { p: 12, d: 'mix', ph: 4, time: 145 }, { p: 12, d: 'mix', peek: 1, time: 125 }, { p: 12, d: 'mix', ph: 7, time: 125 },
+    { p: 12, d: 'mix', time: 120 }, { p: 12, d: 'mix', ph: 5, peek: 1, time: 110 }
   ];
   const deckIcon = d => d === 'mix' ? '🎲' : DECKS[d].ic;
-  const deckName = d => d === 'mix' ? 'خليط' : DECKS[d].t;
+  
 
   /* ---------- أدوات ---------- */
   const mk = (w, h) => { const c = document.createElement('canvas'); c.width = Math.max(1, Math.ceil(w)); c.height = Math.max(1, Math.ceil(h)); return c; };
@@ -179,6 +190,37 @@
     x.setLineDash([]); x.globalAlpha = 1;
     return c;
   }
+  /* وجه بطاقة بصورة حقيقية: قصّ لملء الإطار مع نفس الإطار الأبيض واللمعة */
+  function bakePhoto(it, w, h) {
+    const ph = it.photo, D = DECKS.photos.c;
+    const c = mk(w * dpr, h * dpr), x = c.getContext('2d'); x.scale(dpr, dpr);
+    const r = w * .13, b = Math.max(3, w * .05);
+    x.fillStyle = '#FFFFFF'; x.beginPath(); x.roundRect(0, 0, w, h, r); x.fill();
+    x.strokeStyle = D[2]; x.globalAlpha = .6; x.lineWidth = 1.2; x.beginPath(); x.roundRect(.6, .6, w - 1.2, h - 1.2, r); x.stroke(); x.globalAlpha = 1;
+    const iw = w - b * 2, ih = h - b * 2;
+    x.save(); x.beginPath(); x.roundRect(b, b, iw, ih, r * .65); x.clip();
+    let g = x.createLinearGradient(0, b, 0, h - b); g.addColorStop(0, D[0]); g.addColorStop(1, D[1]);
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    if (ph.ok && ph.img.naturalWidth) {
+      const im = ph.img, k = Math.max(iw / im.naturalWidth, ih / im.naturalHeight);
+      const sw = iw / k, sh = ih / k;
+      x.drawImage(im, (im.naturalWidth - sw) / 2, (im.naturalHeight - sh) / 2, sw, sh, b, b, iw, ih);
+    } else {
+      const e = emojiCanvas('📷', w * .4), ew = e.width / dpr; x.globalAlpha = .5; x.drawImage(e, w / 2 - ew / 2, h / 2 - ew / 2, ew, ew); x.globalAlpha = 1;
+      c.tmp = true;
+    }
+    g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(.75, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(60,30,0,.18)');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    g = x.createLinearGradient(0, 0, w * .5, h * .5); g.addColorStop(0, 'rgba(255,255,255,.45)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = g; x.beginPath(); x.moveTo(0, 0); x.lineTo(w * .6, 0); x.quadraticCurveTo(w * .25, h * .12, 0, h * .32); x.closePath(); x.fill();
+    x.restore();
+    x.strokeStyle = D[2]; x.lineWidth = Math.max(1.5, w * .02); x.beginPath(); x.roundRect(b, b, iw, ih, r * .65); x.stroke();
+    x.strokeStyle = 'rgba(255,255,255,.8)'; x.lineWidth = 1; x.beginPath(); x.roundRect(b + 2, b + 2, iw - 4, ih - 4, r * .55); x.stroke();
+    // قلب صغير في الزاوية
+    x.save(); x.translate(w - b - w * .1, b + w * .1); x.fillStyle = '#FF5C8A'; x.strokeStyle = '#fff'; x.lineWidth = 1.5; heartPath(x, w * .06); x.fill(); x.stroke(); x.restore();
+    return c;
+  }
+  function chime() { [784, 988, 1175, 1568].forEach((f, i) => Sound.tone(f, .28, 'sine', .1, 0, i * .07)); Sound.tone(2093, .4, 'triangle', .04, 0, .3); }
   function bakeShade(w, h, c0, c1) {
     const c = mk(w * dpr, h * dpr), x = c.getContext('2d'); x.scale(dpr, dpr);
     const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, c0); g.addColorStop(1, c1);
@@ -346,9 +388,10 @@
     shadowImg = bakeBlur(cw, ch, cw * .3, 'rgba(30,10,60,.6)', cw * .12, 1);
     glowImg = bakeBlur(cw, ch, cw * .4, '#FFE45C', cw * .2, 3);
     faces = {};
-    for (const c of cards) if (!faces[c.it.e]) faces[c.it.e] = bakeFace(c.it, cw, ch);
+    bakeFaces();
     buildBg();
   }
+  function bakeFaces() { for (const c of cards) if (!faces[c.it.e]) faces[c.it.e] = c.it.photo ? bakePhoto(c.it, cw, ch) : bakeFace(c.it, cw, ch); }
   function buildBg() {
     bgLayer = mk(W * dpr, H * dpr);
     const x = bgLayer.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -384,7 +427,13 @@
   }
 
   /* ---------- المستويات ---------- */
-  function pickItems(d, n) {
+  function pickItems(d, n, ph) {
+    if (d === 'photos') { ph = n; d = 'animals'; }
+    if (ph) {
+      const phs = shuffle(PHOTOS.filter(p => !p.bad)).slice(0, Math.min(ph, n)).map(p => ({ e: p.id, n: '', d: 'photos', photo: p }));
+      return shuffle([...phs, ...pickItems(d, n - phs.length, 0)]);
+    }
+    if (!n) return [];
     if (d !== 'mix') return shuffle(DECKS[d].items.slice()).slice(0, n).map(([e, nm]) => ({ e, n: nm, d }));
     const pool = [];
     shuffle(DECK_KEYS.slice()).forEach(k => shuffle(DECKS[k].items.slice()).forEach(([e, nm]) => pool.push({ e, n: nm, d: k })));
@@ -396,7 +445,7 @@
   function startLevel(n) {
     lvl = clamp(n, 1, LEVELS.length); def = LEVELS[lvl - 1];
     lvOv.classList.remove('on'); endOv.classList.remove('on');
-    const items = pickItems(def.d, def.p);
+    const items = pickItems(def.d, def.p, def.ph || 0);
     const deck = shuffle([...items, ...items].map(it => it));
     cards = deck.map((it, i) => ({ it, i, x: 0, y: 0, col: 0, row: 0, f: 0, tgt: 0, matched: false, mt: 0, wob: 0, pop: 0, deal: -i * .035 - .05, dr: rand(-.6, .6), ph: rand(0, TAU) }));
     open = []; pend = null; events = []; parts = []; rings = []; banner = null; shake = 0; kf = -1;
@@ -473,7 +522,7 @@
       const D = DECKS[L.d === 'mix' ? 'space' : L.d].c;
       const style = L.d === 'mix' ? '--a:#FFF6D8;--b:#FFE08A;--e:#E9B93A' : `--a:${D[0]};--b:${D[1]};--e:${D[2]}`;
       return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="${style}" data-l="${n}" aria-label="المستوى ${n}">
-        <span class="n">${n}</span><span class="bd">${L.time ? '⏱️' : ''}${L.peek ? '👀' : ''}</span><span class="e">${deckIcon(L.d)}</span>
+        <span class="n">${n}</span><span class="bd">${L.ph ? '📷' : ''}${L.time ? '⏱️' : ''}${L.peek ? '👀' : ''}</span><span class="e">${deckIcon(L.d)}</span>
         <span class="q">${L.p * 2} ${L.p * 2 <= 10 ? 'بطاقات' : 'بطاقة'}</span><span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -491,7 +540,7 @@
   function flipSound() { Sound.noise(.07, 1800, 3600, .05, 1.4); Sound.tone(760, .05, 'triangle', .06, 240); }
   function tapCard(c) {
     if (phase !== 'play' || paused) return;
-    if (c.matched) { c.pop = 1; Sound.pop(); App.speak(c.it.n); return; }
+    if (c.matched) { c.pop = 1; if (c.it.photo) chime(); else { Sound.pop(); App.speak(c.it.n); } return; }
     if (c.tgt === 1) return;
     if (open.length >= 2) {
       if (!pend) return;           // ننتظر نتيجة المحاولة
@@ -512,7 +561,7 @@
       for (const c of [a, b]) { c.matched = true; c.mt = 0; c.pop = 1; sparkle(c.x, c.y, DECKS[c.it.d].c[2]); }
       streak++;
       Sound.star(); later(.08, () => Sound.merge(Math.min(10, streak + 2))); vibrate(25); shake = Math.max(shake, 2.5);
-      App.speak(a.it.n);
+      if (a.it.photo) chime(); else App.speak(a.it.n);
       if (duo) { scores[turn]++; updDuo(turn); }
       const left = cards.some(c => !c.matched);
       if (!left) { phase = 'over'; later(.8, win); }
@@ -704,7 +753,7 @@
     const img = face ? faces[c.it.e] : backImg;
     if (lift < .01) ctx.drawImage(img, -cw / 2, -ch / 2, cw, ch);
     else drawFlip(img, face ? ang - Math.PI : ang, lift);
-    if (c.matched && lift < .3) {
+    if (c.matched && lift < .3 && c.it.n) {
       // شريط الاسم
       const fs = clamp(cw * .13, 10, 17), D = DECKS[c.it.d].c;
       ctx.font = `800 ${fs}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -824,7 +873,7 @@
       '🧠 إذا تشابهت الصورتان تبقيان مكشوفتين، وإلا تنقلبان من جديد: ' + App.g('تذكّري', 'تذكّر') + ' مكانهما!',
       '⭐ أخطاء أقل = نجوم أكثر. 👀 بعض المستويات تكشف البطاقات قليلًا في البداية، و⏱️ بعضها له وقت محدد',
       '👥 من زر المستويات 🔢 ' + App.g('اختاري', 'اختر') + ' «لاعبان» للعب بالتناوب: الزوج الصحيح يعطي دورًا إضافيًا!',
-      '🔊 ' + App.g('المسي', 'المس') + ' أي بطاقة مكشوفة ' + App.g('لتسمعي', 'لتسمع') + ' اسمها'
+      '🖼️ ' + App.g('ابحثي', 'ابحث') + ' عن صور العائلة الحقيقية في مستويات 📷، و🔊 ' + App.g('المسي', 'المس') + ' أي بطاقة مكشوفة ' + App.g('لتسمعي', 'لتسمع') + ' اسمها'
     ],
     icon,
     best() {
