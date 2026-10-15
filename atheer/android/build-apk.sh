@@ -12,8 +12,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=5
-VERSION_NAME=4.0
+VERSION_CODE=6
+VERSION_NAME=4.1
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
@@ -28,6 +28,8 @@ build() {
   for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js img; do
     cp -r "$ROOT/$item" "$OUT/assets/"
   done
+  # الأصوات المسجّلة فقط (دون ملفات النصوص والدفعات)
+  mkdir -p "$OUT/assets/voice" && cp -r "$ROOT/voice/ar" "$ROOT/voice/en" "$ROOT/voice/index.js" "$OUT/assets/voice/"
   [ -n "$ED" ] && cp -r "$ED/web/." "$OUT/assets/"
 
   echo "② ترجمة الموارد"

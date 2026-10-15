@@ -592,6 +592,7 @@
     if (duo && phase === 'play') { turn ^= 1; updDuo(); setBanner(turnText(), turn ? '#3E8BFF' : '#FF5C8A'); }
   }
   function starsFor(p, m) { return m <= p ? 3 : m <= p * 2 ? 2 : 1; }
+  const isGirl = n => /^(أثير|بشرى|ريلا)$/.test(n) || App.PROFILES.some(p => p.name === n && p.theme === 'girls');
   function win() {
     confetti(); Sound.win(); vibrate(30);
     if (def.p >= 12) App.achieve('mem_big');
@@ -605,7 +606,7 @@
           <button class="btn" data-a="again">🔄 مباراة جديدة</button><br>
           ${lvl < loadProg().unlocked ? '<button class="btn alt" data-a="next">التالي ▶️</button>' : ''}<button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
         bindEnd(); endOv.classList.add('on');
-        App.speak(w < 0 ? 'تعادل' : 'فاز ' + players[w]);
+        App.speak(w < 0 ? 'تعادل' : (isGirl(players[w]) ? 'فازت ' : 'فاز ') + players[w]);
         App.achieve('mem_first');
       });
       return;

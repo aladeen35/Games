@@ -23,6 +23,7 @@
   #jump .world{position:absolute;top:28%;left:0;right:0;text-align:center;z-index:7;pointer-events:none;opacity:0;font-size:30px;font-weight:900;color:#fff;
     text-shadow:0 3px 0 rgba(138,58,143,.5),0 0 18px rgba(255,140,198,.8)}
   #jump .world.show{animation:jworld 2.6s ease-out}
+  @media (max-width:430px){#jump .jbestc{display:none}}
   #jump .world small{display:block;font-size:16px;opacity:.95}
   @keyframes jworld{0%{opacity:0;transform:scale(.6)}12%{opacity:1;transform:scale(1.08)}20%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
   `);
@@ -32,10 +33,11 @@
       <button class="ib home" aria-label="الرئيسية">🏠</button>
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib" id="jPause" aria-label="إيقاف مؤقت">⏸</button>
+      <button class="ib" id="jCtl" aria-label="طريقة التحكم">📱</button>
       <span class="grow"></span>
       <div class="energy" title="طاقة النجوم">⭐<span id="jEnergy">0</span></div>
       <div class="chip"><small>الارتفاع</small><b id="jScore">0</b></div>
-      <div class="chip"><small>الأفضل</small><b id="jBest">0</b></div>
+      <div class="chip jbestc"><small>الأفضل</small><b id="jBest">0</b></div>
     </div>
     <div class="world" id="jWorld"></div>
     <div class="hint" id="jHint"><span id="jHintT"></span></div>
@@ -139,7 +141,7 @@
     // التوجيه
     let dir = input.keys.r - input.keys.l + input.btn;
     if (input.touchX != null) dir = input.touchX > W / 2 ? 1 : -1;
-    if (input.tilt != null && !dir) dir = clamp(input.tilt / 18, -1, 1);
+    if (ctlMode === 'tilt' && input.tilt != null && !dir) dir = clamp(input.tilt / 18, -1, 1);
     dir = clamp(dir, -1, 1);
     if (k.stun > 0) { k.stun -= dt; dir *= .25; }
     k.vx += (dir * MOVE - k.vx) * Math.min(1, dt * 10);
@@ -626,6 +628,19 @@
     if (e.key === 'ArrowRight' || e.key === 'd') input.keys.r = 0;
   });
   window.addEventListener('deviceorientation', e => { if (e.gamma != null && App.current === 'jump') input.tilt = e.gamma; });
+  /* طريقة التحكم: إمالة الهاتف أو الأزرار فقط (تُحفظ لكل لاعب) */
+  let ctlMode = 'tilt';
+  function showCtl() {
+    const b = root.querySelector('#jCtl');
+    b.textContent = ctlMode === 'tilt' ? '📱' : '🎮';
+    b.title = ctlMode === 'tilt' ? 'التحكم: إمالة الهاتف' : 'التحكم: الأزرار فقط';
+  }
+  root.querySelector('#jCtl').addEventListener('click', () => {
+    Sound.tap();
+    ctlMode = ctlMode === 'tilt' ? 'buttons' : 'tilt';
+    store.set('jumpCtl', ctlMode); input.tilt = null; showCtl();
+    App.toast(ctlMode === 'tilt' ? '📱 التحكم بإمالة الهاتف' : '🎮 التحكم بالأزرار فقط — الإمالة متوقفة');
+  });
   function togglePause() {
     if (state === 'play') { state = 'pause'; $('#jPauseP').textContent = App.g('البطل ينتظرك', 'البطل ينتظرك'); $('#jPaused').classList.add('on'); }
     else if (state === 'pause') { state = 'play'; last = 0; $('#jPaused').classList.remove('on'); }
@@ -652,7 +667,7 @@
     id: 'jump', title: 'فارس السحاب', icon2: '☁️', music: 'sky',
     desc: () => App.g('اقفزي فوق الغيوم نحو قلعة الأحلام!', 'اقفز فوق الغيوم نحو قلعة الأحلام!'),
     help: () => [
-      App.g('🦘 البطل يقفز وحده — وجّهيه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف.', '🦘 البطل يقفز وحده — وجّهه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف.'),
+      App.g('🦘 البطل يقفز وحده — وجّهيه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف. زر 📱/🎮 يختار: إمالة الهاتف أو الأزرار فقط.', '🦘 البطل يقفز وحده — وجّهه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف. زر 📱/🎮 يختار: إمالة الهاتف أو الأزرار فقط.'),
       App.g('⭐ اجمعي النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.', '⭐ اجمع النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.'),
       '⚡ الغيوم الرعدية لا تحملك، والطيور 🐦 تدفعك للأسفل — الدرع يحميك وينقذك من السقوط مرة.',
       '🎈 البالونات ترفعك عاليًا، والنوابض ترميك بقوة!',
@@ -661,7 +676,7 @@
     best() { const b = store.get('jumpBest', 0); return b ? `🏆 أعلى ارتفاع: ${b} م` : ''; },
     /* للاختبار الآلي فقط */
     _warp(h) { maxH = h; },
-    enter() { resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
+    enter() { ctlMode = store.get('jumpCtl', 'tilt'); input.tilt = null; showCtl(); resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
     leave() { cancelAnimationFrame(raf); state = 'idle'; input.touchX = null; input.btn = 0; input.keys = { l: 0, r: 0 }; },
     pause() { if (state === 'play') { state = 'held'; } },
     resume() { if (state === 'held') { state = 'play'; last = 0; } },

@@ -54,22 +54,8 @@
   const label = it => it.a === 'en' ? it.c + it.l : it.c;
   const sfxOn = () => gstore.get('sfx', true);
 
-  function speakEn(text) {
-    if (!sfxOn()) return;
-    try {
-      if (window.AndroidBridge) {
-        if (AndroidBridge.speakEn) { AndroidBridge.speakEn(text); return; }
-        if (AndroidBridge.speak) { AndroidBridge.speak(text); return; }
-      }
-      if (window.speechSynthesis) {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = .85; u.pitch = 1.15;
-        const vs = speechSynthesis.getVoices();
-        const v = vs.find(v => /^en[-_]US/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)); if (v) u.voice = v;
-        speechSynthesis.speak(u);
-      }
-    } catch (e) {}
-  }
+  const speakEn = text => App.speak(text, 'en');
+
   const sayName = it => it.a === 'ar' ? App.speak(it.n) : speakEn(it.c);
   const sayWord = it => it.a === 'ar' ? App.speak(it.w) : speakEn(it.w);
 

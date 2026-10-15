@@ -37,6 +37,71 @@ function vibrate(ms) { if (!gstore.get('vib', true)) return; try { navigator.vib
 /* =====================================================================
    المؤثرات الصوتية (مولّدة بالكامل داخل التطبيق)
    ===================================================================== */
+/* ---------- الأصوات المسجّلة ---------- */
+const Voice = {
+  idx: null, bufs: {}, srcs: [], seq: 0,
+  norm(t, lang) {
+    t = String(t).replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه');
+    t = t.replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+    return lang === 'en' ? t.toLowerCase() : t;
+  },
+  /* فهرس: النص المطبَّع ← المقاطع (قد يكون هناك مقطعان مؤنث/مذكر لنفس النص) */
+  index(lang) {
+    if (!this.idx) {
+      this.idx = { ar: new Map(), en: new Map() }; this.maxW = { ar: 1, en: 1 };
+      const V = window.VOICE || {};
+      for (const lg of ['ar', 'en']) for (const [id, plain] of Object.entries(V[lg] || {})) {
+        const k = this.norm(plain, lg); if (!k) continue;
+        if (!this.idx[lg].has(k)) this.idx[lg].set(k, []);
+        this.idx[lg].get(k).push(id);
+        this.maxW[lg] = Math.max(this.maxW[lg], k.split(' ').length);
+      }
+    }
+    return this.idx[lang];
+  },
+  pick(list) {
+    if (list.length === 1) return list[0];
+    const g = App.g('_f', '_m');
+    return list.find(id => id.endsWith(g)) || list[0];
+  },
+  /* تقسيم الجملة إلى أطول عبارات مسجّلة؛ يعيد null إن بقي جزء بلا تسجيل */
+  find(text, lang = 'ar') {
+    const ix = this.index(lang); if (!ix || !ix.size) return null;
+    const w = this.norm(text, lang).split(' ').filter(Boolean); if (!w.length) return null;
+    const out = []; let i = 0;
+    while (i < w.length) {
+      let hit = null;
+      for (let n = Math.min(this.maxW[lang], w.length - i); n > 0 && !hit; n--) {
+        const l = ix.get(w.slice(i, i + n).join(' ')); if (l) hit = [l, n];
+      }
+      if (!hit) return null;
+      out.push(this.pick(hit[0])); i += hit[1];
+    }
+    return out;
+  },
+  async load(lang, id) {
+    const k = lang + '/' + id;
+    if (!this.bufs[k]) this.bufs[k] = fetch('voice/' + k + '.mp3').then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
+      .then(a => new Promise((ok, no) => Sound.ac(true).decodeAudioData(a, ok, no))).catch(e => { delete this.bufs[k]; throw e; });
+    return this.bufs[k];
+  },
+  stop() { this.seq++; this.srcs.forEach(s => { try { s.stop(); } catch (e) {} }); this.srcs = []; },
+  async play(ids, lang) {
+    this.stop(); const my = this.seq;
+    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    const ac = Sound.ac(true); if (!ac) return;
+    let bufs;
+    try { bufs = await Promise.all(ids.map(id => this.load(lang, id))); } catch (e) { return; }
+    if (my !== this.seq) return;
+    let t = ac.currentTime + .02;
+    for (const b of bufs) {
+      const s = ac.createBufferSource(); s.buffer = b;
+      const g = ac.createGain(); g.gain.value = 1; s.connect(g); g.connect(ac.destination);
+      s.start(t); t += Math.max(.05, b.duration - .06) + .04; this.srcs.push(s);
+    }
+  }
+};
+
 const Sound = {
   ctx: null,
   get on() { return gstore.get('sfx', true); },
@@ -289,14 +354,22 @@ const App = {
     const t = document.createElement('div'); t.className = 'tst'; t.textContent = text;
     $('#toasts').appendChild(t); setTimeout(() => t.remove(), 2700);
   },
-  speak(text) {
+  /* النطق: يُفضَّل الصوت المسجَّل (voice/ar و voice/en)، وتُركَّب الجمل من مقاطع،
+     وإن لم يتوفّر مقطع لجزء من الجملة نرجع إلى محرّك النطق في الجهاز */
+  speak(text, lang = 'ar') {
     if (!gstore.get('sfx', true)) return;
+    const ids = Voice.find(text, lang);
+    if (ids) { Voice.play(ids, lang); return; }
+    Voice.stop();
     try {
-      if (window.AndroidBridge && AndroidBridge.speak) { AndroidBridge.speak(text); return; }
+      if (lang === 'en') {
+        if (window.AndroidBridge && (AndroidBridge.speakEn || AndroidBridge.speak)) { (AndroidBridge.speakEn ? AndroidBridge.speakEn(text) : AndroidBridge.speak(text)); return; }
+      } else if (window.AndroidBridge && AndroidBridge.speak) { AndroidBridge.speak(text); return; }
       if (window.speechSynthesis) {
         speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text); u.lang = 'ar-SA'; u.rate = .9; u.pitch = 1.15;
-        const v = speechSynthesis.getVoices().find(v => /^ar/i.test(v.lang)); if (v) u.voice = v;
+        const u = new SpeechSynthesisUtterance(text); u.lang = lang === 'en' ? 'en-US' : 'ar-SA'; u.rate = .9; u.pitch = 1.15;
+        const vs = speechSynthesis.getVoices();
+        const v = vs.find(v => new RegExp('^' + lang, 'i').test(v.lang)); if (v) u.voice = v;
         speechSynthesis.speak(u);
       }
     } catch (e) {}
