@@ -1,0 +1,382 @@
+[
+ {
+  "id": "w_ice_cream",
+  "text": "آيس كْريم",
+  "plain": "آيس كريم",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_octopus",
+  "text": "أُخْطُبوط",
+  "plain": "أخطبوط",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_rabbit",
+  "text": "أَرْنَب",
+  "plain": "أرنب",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_lion",
+  "text": "أَسَد",
+  "plain": "أسد",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_pineapple",
+  "text": "أَناناس",
+  "plain": "أناناس",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_earth",
+  "text": "الأَرْض",
+  "plain": "الأرض",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_badminton",
+  "text": "الرّيشَةُ الطّائِرَة",
+  "plain": "الريشة الطائرة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_volleyball",
+  "text": "الكُرَةُ الطّائِرَة",
+  "plain": "الكرة الطائرة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_balloon",
+  "text": "بالون",
+  "plain": "بالون",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_pancake",
+  "text": "بان كيك",
+  "plain": "بان كيك",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_panda",
+  "text": "باندا",
+  "plain": "باندا",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_parrot",
+  "text": "بَبَّغاء",
+  "plain": "ببغاء",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_orange",
+  "text": "بُرْتُقالَة",
+  "plain": "برتقالة",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_burger",
+  "text": "بَرْغَر",
+  "plain": "برغر",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_lightning",
+  "text": "بَرْق",
+  "plain": "برق",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_volcano",
+  "text": "بُرْكان",
+  "plain": "بركان",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_biscuit",
+  "text": "بَسْكَويت",
+  "plain": "بسكويت",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_duck",
+  "text": "بَطَّة",
+  "plain": "بطة",
+  "lang": "ar",
+  "game": "letters,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_penguin",
+  "text": "بِطْريق",
+  "plain": "بطريق",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_watermelon",
+  "text": "بِطّيخ",
+  "plain": "بطيخ",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_cow",
+  "text": "بَقَرَة",
+  "plain": "بقرة",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_trousers",
+  "text": "بِنْطال",
+  "plain": "بنطال",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_pudding",
+  "text": "بودينغ",
+  "plain": "بودينغ",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_icecream_booza",
+  "text": "بوظَة",
+  "plain": "بوظة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_trumpet",
+  "text": "بوق",
+  "plain": "بوق",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_owl",
+  "text": "بومَة",
+  "plain": "بومة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_piano",
+  "text": "بيانو",
+  "plain": "بيانو",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_house",
+  "text": "بَيْت",
+  "plain": "بيت",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_pizza",
+  "text": "بيتْزا",
+  "plain": "بيتزا",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_oval",
+  "text": "بَيْضاوِيّ",
+  "plain": "بيضاوي",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_egg",
+  "text": "بَيْضَة",
+  "plain": "بيضة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_apple",
+  "text": "تُفّاحَة",
+  "plain": "تفاحة",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_telescope",
+  "text": "تِلِسْكوب",
+  "plain": "تلسكوب",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_crocodile",
+  "text": "تِمْساح",
+  "plain": "تمساح",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_table_tennis",
+  "text": "تِنِسُ الطّاوِلَة",
+  "plain": "تنس الطاولة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_dragon",
+  "text": "تِنّين",
+  "plain": "تنين",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_trex",
+  "text": "تيرانوصور",
+  "plain": "تيرانوصور",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_snake",
+  "text": "ثُعْبان",
+  "plain": "ثعبان",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 7,
+  "note": "كلمة مشتركة"
+ }
+]

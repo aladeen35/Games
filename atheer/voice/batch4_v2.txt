@@ -1,0 +1,59 @@
+أَحْمَر
+<break time="1.2s" />
+أَصْفَر
+<break time="1.2s" />
+أَزْرَق
+<break time="1.2s" />
+أَخْضَر
+<break time="1.2s" />
+وَرْدِيّ
+<break time="1.2s" />
+بَنَفْسَجِيّ
+<break time="1.2s" />
+بُرْتُقالِيّ
+<break time="1.2s" />
+أَبْيَض
+<break time="1.2s" />
+أَسْوَد
+<break time="1.2s" />
+بُنِّيّ
+<break time="1.2s" />
+الحَمْراء
+<break time="1.2s" />
+الصَّفْراء
+<break time="1.2s" />
+الزَّرْقاء
+<break time="1.2s" />
+الخَضْراء
+<break time="1.2s" />
+الوَرْدِيَّة
+<break time="1.2s" />
+البَنَفْسَجِيَّة
+<break time="1.2s" />
+البُرْتُقالِيَّة
+<break time="1.2s" />
+البَيْضاء
+<break time="1.2s" />
+السَّوْداء
+<break time="1.2s" />
+البُنِّيَّة
+<break time="1.2s" />
+حَمْراء
+<break time="1.2s" />
+صَفْراء
+<break time="1.2s" />
+زَرْقاء
+<break time="1.2s" />
+خَضْراء
+<break time="1.2s" />
+وَرْدِيَّة
+<break time="1.2s" />
+بَنَفْسَجِيَّة
+<break time="1.2s" />
+بُرْتُقالِيَّة
+<break time="1.2s" />
+بَيْضاء
+<break time="1.2s" />
+سَوْداء
+<break time="1.2s" />
+بُنِّيَّة

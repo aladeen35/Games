@@ -1,0 +1,51 @@
+Apple!
+<break time="1.2s" />
+Ball!
+<break time="1.2s" />
+Cat!
+<break time="1.2s" />
+Dog!
+<break time="1.2s" />
+Egg!
+<break time="1.2s" />
+Fish!
+<break time="1.2s" />
+Grapes!
+<break time="1.2s" />
+Hat!
+<break time="1.2s" />
+Ice cream!
+<break time="1.2s" />
+Juice!
+<break time="1.2s" />
+Kite!
+<break time="1.2s" />
+Lion!
+<break time="1.2s" />
+Moon!
+<break time="1.2s" />
+Nest!
+<break time="1.2s" />
+Orange!
+<break time="1.2s" />
+Pig!
+<break time="1.2s" />
+Queen!
+<break time="1.2s" />
+Rainbow!
+<break time="1.2s" />
+Sun!
+<break time="1.2s" />
+Tiger!
+<break time="1.2s" />
+Umbrella!
+<break time="1.2s" />
+Violin!
+<break time="1.2s" />
+Whale!
+<break time="1.2s" />
+Xylophone!
+<break time="1.2s" />
+Yo-yo!
+<break time="1.2s" />
+Zebra!

@@ -1,0 +1,75 @@
+آيس كْريم
+<break time="1.2s" />
+أُخْطُبوط
+<break time="1.2s" />
+أَرْنَب
+<break time="1.2s" />
+أَسَد
+<break time="1.2s" />
+أَناناس
+<break time="1.2s" />
+الأَرْض
+<break time="1.2s" />
+الرّيشَةُ الطّائِرَة
+<break time="1.2s" />
+الكُرَةُ الطّائِرَة
+<break time="1.2s" />
+بالون
+<break time="1.2s" />
+بان كيك
+<break time="1.2s" />
+باندا
+<break time="1.2s" />
+بَبَّغاء
+<break time="1.2s" />
+بُرْتُقالَة
+<break time="1.2s" />
+بَرْغَر
+<break time="1.2s" />
+بَرْق
+<break time="1.2s" />
+بُرْكان
+<break time="1.2s" />
+بَسْكَويت
+<break time="1.2s" />
+بَطَّة
+<break time="1.2s" />
+بِطْريق
+<break time="1.2s" />
+بِطّيخ
+<break time="1.2s" />
+بَقَرَة
+<break time="1.2s" />
+بِنْطال
+<break time="1.2s" />
+بودينغ
+<break time="1.2s" />
+بوظَة
+<break time="1.2s" />
+بوق
+<break time="1.2s" />
+بومَة
+<break time="1.2s" />
+بيانو
+<break time="1.2s" />
+بَيْت
+<break time="1.2s" />
+بيتْزا
+<break time="1.2s" />
+بَيْضاوِيّ
+<break time="1.2s" />
+بَيْضَة
+<break time="1.2s" />
+تُفّاحَة
+<break time="1.2s" />
+تِلِسْكوب
+<break time="1.2s" />
+تِمْساح
+<break time="1.2s" />
+تِنِسُ الطّاوِلَة
+<break time="1.2s" />
+تِنّين
+<break time="1.2s" />
+تيرانوصور
+<break time="1.2s" />
+ثُعْبان

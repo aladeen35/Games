@@ -1,0 +1,75 @@
+فَراوِلَة
+<break time="1.2s" />
+فَرَسُ النَّهْر
+<break time="1.2s" />
+فُسْتان
+<break time="1.2s" />
+فَطيرَة
+<break time="1.2s" />
+فْلامِنْغو
+<break time="1.2s" />
+فِنْجان
+<break time="1.2s" />
+فيل
+<break time="1.2s" />
+قارِب
+<break time="1.2s" />
+قُبَّعَة
+<break time="1.2s" />
+قِرْد
+<break time="1.2s" />
+قِرْش
+<break time="1.2s" />
+قِطار
+<break time="1.2s" />
+قِطَّة
+<break time="1.2s" />
+قَطْرَة
+<break time="1.2s" />
+قُفّازات
+<break time="1.2s" />
+قَلْب
+<break time="1.2s" />
+قَمَر
+<break time="1.2s" />
+قَمَرٌ صِناعِيّ
+<break time="1.2s" />
+قَميص
+<break time="1.2s" />
+قَوْسُ قُزَح
+<break time="1.2s" />
+كَأْس
+<break time="1.2s" />
+كائِنٌ فَضائِيّ
+<break time="1.2s" />
+كَب كيك
+<break time="1.2s" />
+كُرَة
+<break time="1.2s" />
+كُرَةُ التِّنِس
+<break time="1.2s" />
+كُرَةُ السَّلَّة
+<break time="1.2s" />
+كَرَز
+<break time="1.2s" />
+كَرْكَنْد
+<break time="1.2s" />
+كَعْكَة
+<break time="1.2s" />
+كَعْكَةُ عيدِ ميلاد
+<break time="1.2s" />
+كَلْب
+<break time="1.2s" />
+كَمان
+<break time="1.2s" />
+كُمَّثْرى
+<break time="1.2s" />
+كَوْكَبُ زُحَل
+<break time="1.2s" />
+كيوي
+<break time="1.2s" />
+لَيْمون
+<break time="1.2s" />
+لَيْمونَة
+<break time="1.2s" />
+مانْجو

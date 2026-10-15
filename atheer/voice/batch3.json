@@ -1,0 +1,372 @@
+[
+ {
+  "id": "num_count_apple",
+  "text": "كَمْ تُفّاحَة؟",
+  "plain": "كم تفاحة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم تفاحة؟»"
+ },
+ {
+  "id": "num_count_banana",
+  "text": "كَمْ مَوْزَة؟",
+  "plain": "كم موزة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم موزة؟»"
+ },
+ {
+  "id": "num_count_strawberry",
+  "text": "كَمْ فَراوِلَة؟",
+  "plain": "كم فراولة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم فراولة؟»"
+ },
+ {
+  "id": "num_count_orange",
+  "text": "كَمْ بُرْتُقالَة؟",
+  "plain": "كم برتقالة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم برتقالة؟»"
+ },
+ {
+  "id": "num_count_chick",
+  "text": "كَمْ كَتْكوتًا؟",
+  "plain": "كم كتكوتا؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم كتكوت؟» — التمييز منصوب (كم كتكوتًا) وهو الصحيح فصيحًا"
+ },
+ {
+  "id": "num_count_fish",
+  "text": "كَمْ سَمَكَة؟",
+  "plain": "كم سمكة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم سمكة؟»"
+ },
+ {
+  "id": "num_count_ladybug",
+  "text": "كَمْ دُعْسوقَة؟",
+  "plain": "كم دعسوقة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم دعسوقة؟»"
+ },
+ {
+  "id": "num_count_butterfly",
+  "text": "كَمْ فَراشَة؟",
+  "plain": "كم فراشة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم فراشة؟»"
+ },
+ {
+  "id": "num_count_turtle",
+  "text": "كَمْ سُلَحْفاة؟",
+  "plain": "كم سلحفاة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم سلحفاة؟»"
+ },
+ {
+  "id": "num_count_bee",
+  "text": "كَمْ نَحْلَة؟",
+  "plain": "كم نحلة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم نحلة؟»"
+ },
+ {
+  "id": "num_count_teddy",
+  "text": "كَمْ دَبْدوبًا؟",
+  "plain": "كم دبدوبا؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم دبدوب؟» — التمييز منصوب (كم دبدوبًا) وهو الصحيح فصيحًا"
+ },
+ {
+  "id": "num_count_ball",
+  "text": "كَمْ كُرَة؟",
+  "plain": "كم كرة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم كرة؟»"
+ },
+ {
+  "id": "num_count_balloon",
+  "text": "كَمْ بالونًا؟",
+  "plain": "كم بالونا؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم بالون؟» — التمييز منصوب (كم بالونًا) وهو الصحيح فصيحًا"
+ },
+ {
+  "id": "num_count_car",
+  "text": "كَمْ سَيّارَة؟",
+  "plain": "كم سيارة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم سيارة؟»"
+ },
+ {
+  "id": "num_count_star",
+  "text": "كَمْ نَجْمَة؟",
+  "plain": "كم نجمة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم نجمة؟»"
+ },
+ {
+  "id": "num_count_flower",
+  "text": "كَمْ زَهْرَة؟",
+  "plain": "كم زهرة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم زهرة؟»"
+ },
+ {
+  "id": "num_count_cookie",
+  "text": "كَمْ بَسْكَويتَة؟",
+  "plain": "كم بسكويتة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم بسكويتة؟»"
+ },
+ {
+  "id": "num_count_duck",
+  "text": "كَمْ بَطَّة؟",
+  "plain": "كم بطة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم بطة؟»"
+ },
+ {
+  "id": "num_count_rabbit",
+  "text": "كَمْ أَرْنَبًا؟",
+  "plain": "كم أرنبا؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم أرنب؟» — التمييز منصوب (كم أرنبًا) وهو الصحيح فصيحًا"
+ },
+ {
+  "id": "num_count_frog",
+  "text": "كَمْ ضِفْدَعًا؟",
+  "plain": "كم ضفدعا؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم ضفدع؟» — التمييز منصوب (كم ضفدعًا) وهو الصحيح فصيحًا"
+ },
+ {
+  "id": "num_count_cherry",
+  "text": "كَمْ كَرَزَة؟",
+  "plain": "كم كرزة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم كرزة؟»"
+ },
+ {
+  "id": "num_count_cake",
+  "text": "كَمْ كَعْكَة؟",
+  "plain": "كم كعكة؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 3,
+  "note": "«كم كعكة؟»"
+ },
+ {
+  "id": "bf_touch_f",
+  "text": "اِلْمِسي الفَراشات",
+  "plain": "المسي الفراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مؤنث؛ يتبعه لون معرّف و/أو نقش معرّف"
+ },
+ {
+  "id": "bf_touch_m",
+  "text": "اِلْمِسِ الفَراشات",
+  "plain": "المس الفراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مذكر"
+ },
+ {
+  "id": "bf_touch3_f",
+  "text": "اِلْمِسي ثَلاثَ فَراشات",
+  "plain": "المسي ثلاث فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مؤنث؛ مهمة العدد 3، يتبعها لون نكرة"
+ },
+ {
+  "id": "bf_touch3_m",
+  "text": "اِلْمِسْ ثَلاثَ فَراشات",
+  "plain": "المس ثلاث فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مذكر؛ مهمة العدد 3"
+ },
+ {
+  "id": "bf_touch4_f",
+  "text": "اِلْمِسي أَرْبَعَ فَراشات",
+  "plain": "المسي أربع فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مؤنث؛ مهمة العدد 4، يتبعها لون نكرة"
+ },
+ {
+  "id": "bf_touch4_m",
+  "text": "اِلْمِسْ أَرْبَعَ فَراشات",
+  "plain": "المس أربع فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مذكر؛ مهمة العدد 4"
+ },
+ {
+  "id": "bf_touch5_f",
+  "text": "اِلْمِسي خَمْسَ فَراشات",
+  "plain": "المسي خمس فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مؤنث؛ مهمة العدد 5، يتبعها لون نكرة"
+ },
+ {
+  "id": "bf_touch5_m",
+  "text": "اِلْمِسْ خَمْسَ فَراشات",
+  "plain": "المس خمس فراشات",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "مذكر؛ مهمة العدد 5"
+ },
+ {
+  "id": "bf_pat_dots_def",
+  "text": "ذاتَ النِّقاط",
+  "plain": "ذات النقاط",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "نقش معرّف (بعد «المسي الفراشات»)"
+ },
+ {
+  "id": "bf_pat_stripes_def",
+  "text": "المُخَطَّطَة",
+  "plain": "المخططة",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 3,
+  "note": "نقش معرّف"
+ },
+ {
+  "id": "bf_this_is",
+  "text": "هذِهِ فَراشَة",
+  "plain": "هذه فراشة",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "gentle",
+  "batch": 3,
+  "note": "عند لمس فراشة خاطئة؛ يتبعه لون نكرة ونقش نكرة"
+ },
+ {
+  "id": "bf_pat_dots_ind",
+  "text": "ذاتُ نِقاط",
+  "plain": "ذات نقاط",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "gentle",
+  "batch": 3,
+  "note": "نقش نكرة (بعد «هذه فراشة ...»)"
+ },
+ {
+  "id": "bf_pat_stripes_ind",
+  "text": "مُخَطَّطَة",
+  "plain": "مخططة",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "gentle",
+  "batch": 3,
+  "note": "نقش نكرة"
+ },
+ {
+  "id": "bf_free_f",
+  "text": "اِلْمِسي أَيَّ فَراشَةٍ لِتَعْرِفي لَوْنَها",
+  "plain": "المسي أي فراشة لتعرفي لونها",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "gentle",
+  "batch": 3,
+  "note": "مؤنث — الحديقة الحرة"
+ },
+ {
+  "id": "bf_free_m",
+  "text": "اِلْمِسْ أَيَّ فَراشَةٍ لِتَعْرِفَ لَوْنَها",
+  "plain": "المس أي فراشة لتعرف لونها",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "gentle",
+  "batch": 3,
+  "note": "مذكر — الحديقة الحرة"
+ }
+]

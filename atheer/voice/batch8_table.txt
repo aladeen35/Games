@@ -1,0 +1,38 @@
+1. w_fox — ثَعْلَب
+2. w_snow — ثَلْج
+3. w_cheese — جُبْنَة
+4. w_tractor — جَرّار
+5. w_carrot — جَزَرَة
+6. w_camel — جَمَل
+7. w_socks — جَوارِب
+8. w_coconut — جَوْزُ الهِنْد
+9. w_guitar — جيتار
+10. w_bus — حافِلَة
+11. w_squid — حَبّار
+12. w_shoe — حِذاء
+13. w_horse — حِصان
+14. w_snail — حَلَزون
+15. w_ring — حَلْقَة
+16. w_candy — حَلْوى
+17. w_milk — حَليب
+18. w_zebra — حِمارٌ وَحْشِيّ
+19. w_whale — حوت
+20. w_bread — خُبْز
+21. w_sheep — خَروف
+22. w_pentagon — خُماسِيّ
+23. w_peach — خَوْخ
+24. w_circle — دائِرَة
+25. w_bear — دُبّ
+26. w_teddy — دَبْدوب
+27. w_chicken — دَجاجَة
+28. w_bicycle — دَرّاجَة
+29. w_motorbike — دَرّاجَةٌ نارِيَّة
+30. w_ladybug — دُعْسوقَة
+31. w_dolphin — دُلْفين
+32. w_donut — دونات
+33. w_dinosaur — ديناصور
+34. w_corn — ذُرَة
+35. w_astronaut — رائِدُ فَضاء
+36. w_snowman — رَجُلُ الثَّلْج
+37. w_pomegranate — رُمّان
+38. w_shrimp — روبْيان

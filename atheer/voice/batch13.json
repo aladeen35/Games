@@ -1,0 +1,262 @@
+[
+ {
+  "id": "en_word_apple",
+  "text": "Apple!",
+  "plain": "Apple",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "A is for Apple"
+ },
+ {
+  "id": "en_word_ball",
+  "text": "Ball!",
+  "plain": "Ball",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "B is for Ball"
+ },
+ {
+  "id": "en_word_cat",
+  "text": "Cat!",
+  "plain": "Cat",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "C is for Cat"
+ },
+ {
+  "id": "en_word_dog",
+  "text": "Dog!",
+  "plain": "Dog",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "D is for Dog"
+ },
+ {
+  "id": "en_word_egg",
+  "text": "Egg!",
+  "plain": "Egg",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "E is for Egg"
+ },
+ {
+  "id": "en_word_fish",
+  "text": "Fish!",
+  "plain": "Fish",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "F is for Fish"
+ },
+ {
+  "id": "en_word_grapes",
+  "text": "Grapes!",
+  "plain": "Grapes",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "G is for Grapes"
+ },
+ {
+  "id": "en_word_hat",
+  "text": "Hat!",
+  "plain": "Hat",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "H is for Hat"
+ },
+ {
+  "id": "en_word_ice_cream",
+  "text": "Ice cream!",
+  "plain": "Ice cream",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "I is for Ice cream"
+ },
+ {
+  "id": "en_word_juice",
+  "text": "Juice!",
+  "plain": "Juice",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "J is for Juice"
+ },
+ {
+  "id": "en_word_kite",
+  "text": "Kite!",
+  "plain": "Kite",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "K is for Kite"
+ },
+ {
+  "id": "en_word_lion",
+  "text": "Lion!",
+  "plain": "Lion",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "L is for Lion"
+ },
+ {
+  "id": "en_word_moon",
+  "text": "Moon!",
+  "plain": "Moon",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "M is for Moon"
+ },
+ {
+  "id": "en_word_nest",
+  "text": "Nest!",
+  "plain": "Nest",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "N is for Nest"
+ },
+ {
+  "id": "en_word_orange",
+  "text": "Orange!",
+  "plain": "Orange",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "O is for Orange"
+ },
+ {
+  "id": "en_word_pig",
+  "text": "Pig!",
+  "plain": "Pig",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "P is for Pig"
+ },
+ {
+  "id": "en_word_queen",
+  "text": "Queen!",
+  "plain": "Queen",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "Q is for Queen"
+ },
+ {
+  "id": "en_word_rainbow",
+  "text": "Rainbow!",
+  "plain": "Rainbow",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "R is for Rainbow"
+ },
+ {
+  "id": "en_word_sun",
+  "text": "Sun!",
+  "plain": "Sun",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "S is for Sun"
+ },
+ {
+  "id": "en_word_tiger",
+  "text": "Tiger!",
+  "plain": "Tiger",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "T is for Tiger"
+ },
+ {
+  "id": "en_word_umbrella",
+  "text": "Umbrella!",
+  "plain": "Umbrella",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "U is for Umbrella"
+ },
+ {
+  "id": "en_word_violin",
+  "text": "Violin!",
+  "plain": "Violin",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "V is for Violin"
+ },
+ {
+  "id": "en_word_whale",
+  "text": "Whale!",
+  "plain": "Whale",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "W is for Whale"
+ },
+ {
+  "id": "en_word_xylophone",
+  "text": "Xylophone!",
+  "plain": "Xylophone",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "X is for Xylophone"
+ },
+ {
+  "id": "en_word_yo_yo",
+  "text": "Yo-yo!",
+  "plain": "Yo-yo",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "Y is for Yo-yo"
+ },
+ {
+  "id": "en_word_zebra",
+  "text": "Zebra!",
+  "plain": "Zebra",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 13,
+  "note": "Z is for Zebra"
+ }
+]

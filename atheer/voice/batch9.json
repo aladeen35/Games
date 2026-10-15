@@ -1,0 +1,382 @@
+[
+ {
+  "id": "w_giraffe",
+  "text": "زَرافَة",
+  "plain": "زرافة",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_flower",
+  "text": "زَهْرَة",
+  "plain": "زهرة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_saxophone",
+  "text": "ساكْسُفون",
+  "plain": "ساكسفون",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_cloud",
+  "text": "سَحابَة",
+  "plain": "سحابة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_hexagon",
+  "text": "سُداسِيّ",
+  "plain": "سداسي",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_ship",
+  "text": "سَفينَة",
+  "plain": "سفينة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_turtle",
+  "text": "سُلَحْفاة",
+  "plain": "سلحفاة",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_crab",
+  "text": "سَلَطْعون",
+  "plain": "سلطعون",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_fish",
+  "text": "سَمَكَة",
+  "plain": "سمكة",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_colorful_fish",
+  "text": "سَمَكَةٌ مُلَوَّنَة",
+  "plain": "سمكة ملونة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_pufferfish",
+  "text": "سَمَكَةٌ مَنْفوخَة",
+  "plain": "سمكة منفوخة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_arrow",
+  "text": "سَهْم",
+  "plain": "سهم",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_car",
+  "text": "سَيّارَة",
+  "plain": "سيارة",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_taxi",
+  "text": "سَيّارَةُ أُجْرَة",
+  "plain": "سيارة أجرة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_ambulance",
+  "text": "سَيّارَةُ إِسْعاف",
+  "plain": "سيارة إسعاف",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_fire_truck",
+  "text": "سَيّارَةُ إِطْفاء",
+  "plain": "سيارة إطفاء",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_police_car",
+  "text": "سَيّارَةُ شُرْطَة",
+  "plain": "سيارة شرطة",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_trapezoid",
+  "text": "شِبْهُ مُنْحَرِف",
+  "plain": "شبه منحرف",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_sun",
+  "text": "شَمْس",
+  "plain": "شمس",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_meteor",
+  "text": "شِهاب",
+  "plain": "شهاب",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_chocolate",
+  "text": "شوكولاتَة",
+  "plain": "شوكولاتة",
+  "lang": "ar",
+  "game": "memory,cake",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_rocket",
+  "text": "صاروخ",
+  "plain": "صاروخ",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_plate",
+  "text": "صَحْن",
+  "plain": "صحن",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_ufo",
+  "text": "صَحْنٌ طائِر",
+  "plain": "صحن طائر",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_shell",
+  "text": "صَدَفَة",
+  "plain": "صدفة",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_falcon",
+  "text": "صَقْر",
+  "plain": "صقر",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_frog",
+  "text": "ضِفْدَع",
+  "plain": "ضفدع",
+  "lang": "ar",
+  "game": "letters,memory",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_airplane",
+  "text": "طائِرَة",
+  "plain": "طائرة",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_drum",
+  "text": "طَبْل",
+  "plain": "طبل",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_envelope",
+  "text": "ظَرْف",
+  "plain": "ظرف",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_honey",
+  "text": "عَسَل",
+  "plain": "عسل",
+  "lang": "ar",
+  "game": "memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_grass",
+  "text": "عُشْب",
+  "plain": "عشب",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_bone",
+  "text": "عَظْمَة",
+  "plain": "عظمة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_grapes",
+  "text": "عِنَب",
+  "plain": "عنب",
+  "lang": "ar",
+  "game": "letters,memory,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_goat",
+  "text": "عَنْزَة",
+  "plain": "عنزة",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_gorilla",
+  "text": "غوريلّا",
+  "plain": "غوريلا",
+  "lang": "ar",
+  "game": "shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_cloud_ghayma",
+  "text": "غَيْمَة",
+  "plain": "غيمة",
+  "lang": "ar",
+  "game": "letters,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ },
+ {
+  "id": "w_butterfly",
+  "text": "فَراشَة",
+  "plain": "فراشة",
+  "lang": "ar",
+  "game": "letters,shapes",
+  "emotion": "cheerful",
+  "batch": 9,
+  "note": "كلمة مشتركة"
+ }
+]

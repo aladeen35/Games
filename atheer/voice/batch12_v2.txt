@@ -1,0 +1,53 @@
+Where is the letter
+<break time="1.2s" />
+A.
+<break time="1.2s" />
+B.
+<break time="1.2s" />
+C.
+<break time="1.2s" />
+D.
+<break time="1.2s" />
+E.
+<break time="1.2s" />
+F.
+<break time="1.2s" />
+G.
+<break time="1.2s" />
+H.
+<break time="1.2s" />
+I.
+<break time="1.2s" />
+J.
+<break time="1.2s" />
+K.
+<break time="1.2s" />
+L.
+<break time="1.2s" />
+M.
+<break time="1.2s" />
+N.
+<break time="1.2s" />
+O.
+<break time="1.2s" />
+P.
+<break time="1.2s" />
+Q.
+<break time="1.2s" />
+R.
+<break time="1.2s" />
+S.
+<break time="1.2s" />
+T.
+<break time="1.2s" />
+U.
+<break time="1.2s" />
+V.
+<break time="1.2s" />
+W.
+<break time="1.2s" />
+X.
+<break time="1.2s" />
+Y.
+<break time="1.2s" />
+Z.

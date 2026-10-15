@@ -1,0 +1,352 @@
+[
+ {
+  "id": "taxi_home",
+  "text": "إِلى البَيْت!",
+  "plain": "إلى البيت!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": "الراكب يقول وجهته"
+ },
+ {
+  "id": "taxi_school",
+  "text": "إِلى المَدْرَسَة!",
+  "plain": "إلى المدرسة!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "taxi_hospital",
+  "text": "إِلى المُسْتَشْفى!",
+  "plain": "إلى المستشفى!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "taxi_market",
+  "text": "إِلى السّوق!",
+  "plain": "إلى السوق!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "taxi_beach",
+  "text": "إِلى الشّاطِئ!",
+  "plain": "إلى الشاطئ!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "taxi_funfair",
+  "text": "إِلى مَدينَةِ المَلاهي!",
+  "plain": "إلى مدينة الملاهي!",
+  "lang": "ar",
+  "game": "taxi",
+  "emotion": "playful",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "mem_player1",
+  "text": "اللّاعِبُ الأَوَّل",
+  "plain": "اللاعب الأول",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "excited",
+  "batch": 2,
+  "note": "بعد won_m: «فاز اللاعب الأول» (بدل «لاعب 1»)"
+ },
+ {
+  "id": "mem_player2",
+  "text": "اللّاعِبُ الثّاني",
+  "plain": "اللاعب الثاني",
+  "lang": "ar",
+  "game": "memory",
+  "emotion": "excited",
+  "batch": 2,
+  "note": "بعد won_m: «فاز اللاعب الثاني»"
+ },
+ {
+  "id": "cake_order_01",
+  "text": "أُريدُ كَعْكَةً بِالشّوكولاتَةِ وَكَريمَةً وَرْدِيَّة",
+  "plain": "أريد كعكة بالشوكولاتة وكريمة وردية",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 1 (ORDERS[0]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_02",
+  "text": "أُريدُ كَعْكَةً بِالفانيلْيا وَكَريمَةً بَيْضاء",
+  "plain": "أريد كعكة بالفانيليا وكريمة بيضاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 2 (ORDERS[1]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_03",
+  "text": "أُريدُ كَعْكَةً عَلى شَكْلِ قَلْبٍ وَكَريمَةً وَرْدِيَّة",
+  "plain": "أريد كعكة على شكل قلب وكريمة وردية",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 3 (ORDERS[2]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_04",
+  "text": "أُريدُ كَعْكَةً بِالفَراوِلَةِ وَكَريمَةً بَيْضاء",
+  "plain": "أريد كعكة بالفراولة وكريمة بيضاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 4 (ORDERS[3]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_05",
+  "text": "أُريدُ كَعْكَةً مِنْ طَبَقَتَيْنِ وَكَريمَةً زَرْقاء",
+  "plain": "أريد كعكة من طبقتين وكريمة زرقاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 5 (ORDERS[4]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_06",
+  "text": "أُريدُ كَعْكَةً مُرَبَّعَةً بِالشّوكولاتَةِ وَكَريمَةً بِالشّوكولاتَة",
+  "plain": "أريد كعكة مربعة بالشوكولاتة وكريمة بالشوكولاتة",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 6 (ORDERS[5]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_07",
+  "text": "أُريدُ كَعْكَةً عَلى شَكْلِ نَجْمَةٍ وَكَريمَةً صَفْراء",
+  "plain": "أريد كعكة على شكل نجمة وكريمة صفراء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 7 (ORDERS[6]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_08",
+  "text": "أُريدُ كَعْكَةً بِأَلْوانِ قَوْسِ قُزَحَ وَكَريمَةً بَيْضاء",
+  "plain": "أريد كعكة بألوان قوس قزح وكريمة بيضاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 8 (ORDERS[7]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_09",
+  "text": "أُريدُ كَعْكَةً مِنْ طَبَقَتَيْنِ وَكَريمَةً بِالنَّعْناع",
+  "plain": "أريد كعكة من طبقتين وكريمة بالنعناع",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 9 (ORDERS[8]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_10",
+  "text": "أُريدُ كَعْكَةً عَلى شَكْلِ قَلْبٍ بِالفَراوِلَةِ وَكَريمَةً حَمْراء",
+  "plain": "أريد كعكة على شكل قلب بالفراولة وكريمة حمراء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 10 (ORDERS[9]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_11",
+  "text": "أُريدُ كَعْكَةً مِنْ ثَلاثِ طَبَقاتٍ وَكَريمَةً بَنَفْسَجِيَّة",
+  "plain": "أريد كعكة من ثلاث طبقات وكريمة بنفسجية",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 11 (ORDERS[10]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_12",
+  "text": "أُريدُ كَعْكَةً بِالشّوكولاتَةِ وَكَريمَةً بِالكَراميل",
+  "plain": "أريد كعكة بالشوكولاتة وكريمة بالكراميل",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 12 (ORDERS[11]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_13",
+  "text": "أُريدُ كَعْكَةً مُرَبَّعَةً مِنْ طَبَقَتَيْنِ وَكَريمَةً وَرْدِيَّة",
+  "plain": "أريد كعكة مربعة من طبقتين وكريمة وردية",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 13 (ORDERS[12]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_14",
+  "text": "أُريدُ كَعْكَةً عَلى شَكْلِ نَجْمَةٍ بِأَلْوانِ قَوْسِ قُزَحَ وَكَريمَةً زَرْقاء",
+  "plain": "أريد كعكة على شكل نجمة بألوان قوس قزح وكريمة زرقاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 14 (ORDERS[13]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "cake_order_15",
+  "text": "أُريدُ كَعْكَةً بِالشّوكولاتَةِ مِنْ ثَلاثِ طَبَقاتٍ وَكَريمَةً بَيْضاء",
+  "plain": "أريد كعكة بالشوكولاتة من ثلاث طبقات وكريمة بيضاء",
+  "lang": "ar",
+  "game": "cake",
+  "emotion": "happy",
+  "batch": 2,
+  "note": "طلب رقم 15 (ORDERS[14]) — جملة كاملة ثابتة"
+ },
+ {
+  "id": "num_plus",
+  "text": "زائِد",
+  "plain": "زائد",
+  "lang": "ar",
+  "game": "numbers,shapes",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "للجمع؛ ويُستخدم أيضًا اسمًا لشكل «زائد» في لعبة الأشكال"
+ },
+ {
+  "id": "num_minus",
+  "text": "ناقِص",
+  "plain": "ناقص",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "للطرح"
+ },
+ {
+  "id": "num_q_sum",
+  "text": "كَمِ المَجْموع؟",
+  "plain": "كم المجموع؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "num_q_left",
+  "text": "كَمْ بَقِي؟",
+  "plain": "كم بقي؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "num_which_more",
+  "text": "أَيُّهُما أَكْثَر؟",
+  "plain": "أيهما أكثر؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "num_which_less",
+  "text": "أَيُّهُما أَقَلّ؟",
+  "plain": "أيهما أقل؟",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "curious",
+  "batch": 2,
+  "note": ""
+ },
+ {
+  "id": "num_touch_f",
+  "text": "اِلْمِسي الرَّقْم",
+  "plain": "المسي الرقم",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "مؤنث؛ يتبعه رقم"
+ },
+ {
+  "id": "num_touch_m",
+  "text": "اِلْمِسِ الرَّقْم",
+  "plain": "المس الرقم",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "مذكر؛ يتبعه رقم"
+ },
+ {
+  "id": "num_search_f",
+  "text": "اِبْحَثي عَنْ",
+  "plain": "ابحثي عن",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "gentle",
+  "batch": 2,
+  "note": "مؤنث؛ يتبعه رقم (بعد إجابة خاطئة)"
+ },
+ {
+  "id": "num_search_m",
+  "text": "اِبْحَثْ عَنْ",
+  "plain": "ابحث عن",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "gentle",
+  "batch": 2,
+  "note": "مذكر؛ يتبعه رقم"
+ },
+ {
+  "id": "num_match_f",
+  "text": "صِلي كُلَّ رَقْمٍ بِعَدَدِه",
+  "plain": "صلي كل رقم بعدده",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "مؤنث"
+ },
+ {
+  "id": "num_match_m",
+  "text": "صِلْ كُلَّ رَقْمٍ بِعَدَدِه",
+  "plain": "صل كل رقم بعدده",
+  "lang": "ar",
+  "game": "numbers",
+  "emotion": "calm",
+  "batch": 2,
+  "note": "مذكر"
+ }
+]

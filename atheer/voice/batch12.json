@@ -1,0 +1,272 @@
+[
+ {
+  "id": "en_where_letter",
+  "text": "Where is the letter",
+  "plain": "Where is the letter",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 12,
+  "note": "Followed by en_letter_x, e.g. «Where is the letter» + «B»"
+ },
+ {
+  "id": "en_letter_a",
+  "text": "A.",
+  "plain": "A",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name A"
+ },
+ {
+  "id": "en_letter_b",
+  "text": "B.",
+  "plain": "B",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name B"
+ },
+ {
+  "id": "en_letter_c",
+  "text": "C.",
+  "plain": "C",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name C"
+ },
+ {
+  "id": "en_letter_d",
+  "text": "D.",
+  "plain": "D",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name D"
+ },
+ {
+  "id": "en_letter_e",
+  "text": "E.",
+  "plain": "E",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name E"
+ },
+ {
+  "id": "en_letter_f",
+  "text": "F.",
+  "plain": "F",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name F"
+ },
+ {
+  "id": "en_letter_g",
+  "text": "G.",
+  "plain": "G",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name G"
+ },
+ {
+  "id": "en_letter_h",
+  "text": "H.",
+  "plain": "H",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name H"
+ },
+ {
+  "id": "en_letter_i",
+  "text": "I.",
+  "plain": "I",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name I"
+ },
+ {
+  "id": "en_letter_j",
+  "text": "J.",
+  "plain": "J",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name J"
+ },
+ {
+  "id": "en_letter_k",
+  "text": "K.",
+  "plain": "K",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name K"
+ },
+ {
+  "id": "en_letter_l",
+  "text": "L.",
+  "plain": "L",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name L"
+ },
+ {
+  "id": "en_letter_m",
+  "text": "M.",
+  "plain": "M",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name M"
+ },
+ {
+  "id": "en_letter_n",
+  "text": "N.",
+  "plain": "N",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name N"
+ },
+ {
+  "id": "en_letter_o",
+  "text": "O.",
+  "plain": "O",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name O"
+ },
+ {
+  "id": "en_letter_p",
+  "text": "P.",
+  "plain": "P",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name P"
+ },
+ {
+  "id": "en_letter_q",
+  "text": "Q.",
+  "plain": "Q",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name Q"
+ },
+ {
+  "id": "en_letter_r",
+  "text": "R.",
+  "plain": "R",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name R"
+ },
+ {
+  "id": "en_letter_s",
+  "text": "S.",
+  "plain": "S",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name S"
+ },
+ {
+  "id": "en_letter_t",
+  "text": "T.",
+  "plain": "T",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name T"
+ },
+ {
+  "id": "en_letter_u",
+  "text": "U.",
+  "plain": "U",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name U"
+ },
+ {
+  "id": "en_letter_v",
+  "text": "V.",
+  "plain": "V",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name V"
+ },
+ {
+  "id": "en_letter_w",
+  "text": "W.",
+  "plain": "W",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name W"
+ },
+ {
+  "id": "en_letter_x",
+  "text": "X.",
+  "plain": "X",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name X"
+ },
+ {
+  "id": "en_letter_y",
+  "text": "Y.",
+  "plain": "Y",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name Y"
+ },
+ {
+  "id": "en_letter_z",
+  "text": "Z.",
+  "plain": "Z",
+  "lang": "en",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 12,
+  "note": "Letter name Z"
+ }
+]

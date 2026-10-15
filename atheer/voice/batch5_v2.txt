@@ -1,0 +1,55 @@
+أَلِف
+<break time="1.2s" />
+باء
+<break time="1.2s" />
+تاء
+<break time="1.2s" />
+ثاء
+<break time="1.2s" />
+جيم
+<break time="1.2s" />
+حاء
+<break time="1.2s" />
+خاء
+<break time="1.2s" />
+دال
+<break time="1.2s" />
+ذال
+<break time="1.2s" />
+راء
+<break time="1.2s" />
+زاي
+<break time="1.2s" />
+سين
+<break time="1.2s" />
+شين
+<break time="1.2s" />
+صاد
+<break time="1.2s" />
+ضاد
+<break time="1.2s" />
+طاء
+<break time="1.2s" />
+ظاء
+<break time="1.2s" />
+عَيْن
+<break time="1.2s" />
+غَيْن
+<break time="1.2s" />
+فاء
+<break time="1.2s" />
+قاف
+<break time="1.2s" />
+كاف
+<break time="1.2s" />
+لام
+<break time="1.2s" />
+ميم
+<break time="1.2s" />
+نون
+<break time="1.2s" />
+هاء
+<break time="1.2s" />
+واو
+<break time="1.2s" />
+ياء

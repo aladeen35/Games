@@ -1,0 +1,37 @@
+1. num_count_apple — كَمْ تُفّاحَة؟
+2. num_count_banana — كَمْ مَوْزَة؟
+3. num_count_strawberry — كَمْ فَراوِلَة؟
+4. num_count_orange — كَمْ بُرْتُقالَة؟
+5. num_count_chick — كَمْ كَتْكوتًا؟
+6. num_count_fish — كَمْ سَمَكَة؟
+7. num_count_ladybug — كَمْ دُعْسوقَة؟
+8. num_count_butterfly — كَمْ فَراشَة؟
+9. num_count_turtle — كَمْ سُلَحْفاة؟
+10. num_count_bee — كَمْ نَحْلَة؟
+11. num_count_teddy — كَمْ دَبْدوبًا؟
+12. num_count_ball — كَمْ كُرَة؟
+13. num_count_balloon — كَمْ بالونًا؟
+14. num_count_car — كَمْ سَيّارَة؟
+15. num_count_star — كَمْ نَجْمَة؟
+16. num_count_flower — كَمْ زَهْرَة؟
+17. num_count_cookie — كَمْ بَسْكَويتَة؟
+18. num_count_duck — كَمْ بَطَّة؟
+19. num_count_rabbit — كَمْ أَرْنَبًا؟
+20. num_count_frog — كَمْ ضِفْدَعًا؟
+21. num_count_cherry — كَمْ كَرَزَة؟
+22. num_count_cake — كَمْ كَعْكَة؟
+23. bf_touch_f — اِلْمِسي الفَراشات
+24. bf_touch_m — اِلْمِسِ الفَراشات
+25. bf_touch3_f — اِلْمِسي ثَلاثَ فَراشات
+26. bf_touch3_m — اِلْمِسْ ثَلاثَ فَراشات
+27. bf_touch4_f — اِلْمِسي أَرْبَعَ فَراشات
+28. bf_touch4_m — اِلْمِسْ أَرْبَعَ فَراشات
+29. bf_touch5_f — اِلْمِسي خَمْسَ فَراشات
+30. bf_touch5_m — اِلْمِسْ خَمْسَ فَراشات
+31. bf_pat_dots_def — ذاتَ النِّقاط
+32. bf_pat_stripes_def — المُخَطَّطَة
+33. bf_this_is — هذِهِ فَراشَة
+34. bf_pat_dots_ind — ذاتُ نِقاط
+35. bf_pat_stripes_ind — مُخَطَّطَة
+36. bf_free_f — اِلْمِسي أَيَّ فَراشَةٍ لِتَعْرِفي لَوْنَها
+37. bf_free_m — اِلْمِسْ أَيَّ فَراشَةٍ لِتَعْرِفَ لَوْنَها

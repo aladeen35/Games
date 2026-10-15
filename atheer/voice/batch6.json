@@ -1,0 +1,282 @@
+[
+ {
+  "id": "ltr_q_alif",
+  "text": "أَيْنَ حَرْفُ الأَلِف؟",
+  "plain": "أين حرف الألف؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ba",
+  "text": "أَيْنَ حَرْفُ الباء؟",
+  "plain": "أين حرف الباء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ta",
+  "text": "أَيْنَ حَرْفُ التّاء؟",
+  "plain": "أين حرف التاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_tha",
+  "text": "أَيْنَ حَرْفُ الثّاء؟",
+  "plain": "أين حرف الثاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_jim",
+  "text": "أَيْنَ حَرْفُ الجيم؟",
+  "plain": "أين حرف الجيم؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ha",
+  "text": "أَيْنَ حَرْفُ الحاء؟",
+  "plain": "أين حرف الحاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_kha",
+  "text": "أَيْنَ حَرْفُ الخاء؟",
+  "plain": "أين حرف الخاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_dal",
+  "text": "أَيْنَ حَرْفُ الدّال؟",
+  "plain": "أين حرف الدال؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_dhal",
+  "text": "أَيْنَ حَرْفُ الذّال؟",
+  "plain": "أين حرف الذال؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ra",
+  "text": "أَيْنَ حَرْفُ الرّاء؟",
+  "plain": "أين حرف الراء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_zay",
+  "text": "أَيْنَ حَرْفُ الزّاي؟",
+  "plain": "أين حرف الزاي؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_sin",
+  "text": "أَيْنَ حَرْفُ السّين؟",
+  "plain": "أين حرف السين؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_shin",
+  "text": "أَيْنَ حَرْفُ الشّين؟",
+  "plain": "أين حرف الشين؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_sad",
+  "text": "أَيْنَ حَرْفُ الصّاد؟",
+  "plain": "أين حرف الصاد؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_dad",
+  "text": "أَيْنَ حَرْفُ الضّاد؟",
+  "plain": "أين حرف الضاد؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_tta",
+  "text": "أَيْنَ حَرْفُ الطّاء؟",
+  "plain": "أين حرف الطاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_dha",
+  "text": "أَيْنَ حَرْفُ الظّاء؟",
+  "plain": "أين حرف الظاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ayn",
+  "text": "أَيْنَ حَرْفُ العَيْن؟",
+  "plain": "أين حرف العين؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ghayn",
+  "text": "أَيْنَ حَرْفُ الغَيْن؟",
+  "plain": "أين حرف الغين؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_fa",
+  "text": "أَيْنَ حَرْفُ الفاء؟",
+  "plain": "أين حرف الفاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_qaf",
+  "text": "أَيْنَ حَرْفُ القاف؟",
+  "plain": "أين حرف القاف؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_kaf",
+  "text": "أَيْنَ حَرْفُ الكاف؟",
+  "plain": "أين حرف الكاف؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_lam",
+  "text": "أَيْنَ حَرْفُ اللّام؟",
+  "plain": "أين حرف اللام؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_mim",
+  "text": "أَيْنَ حَرْفُ الميم؟",
+  "plain": "أين حرف الميم؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_nun",
+  "text": "أَيْنَ حَرْفُ النّون؟",
+  "plain": "أين حرف النون؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_haa",
+  "text": "أَيْنَ حَرْفُ الهاء؟",
+  "plain": "أين حرف الهاء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_waw",
+  "text": "أَيْنَ حَرْفُ الواو؟",
+  "plain": "أين حرف الواو؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ },
+ {
+  "id": "ltr_q_ya",
+  "text": "أَيْنَ حَرْفُ الياء؟",
+  "plain": "أين حرف الياء؟",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "curious",
+  "batch": 6,
+  "note": "سؤال الاختبار"
+ }
+]

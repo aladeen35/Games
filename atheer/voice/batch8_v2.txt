@@ -1,0 +1,75 @@
+ثَعْلَب
+<break time="1.2s" />
+ثَلْج
+<break time="1.2s" />
+جُبْنَة
+<break time="1.2s" />
+جَرّار
+<break time="1.2s" />
+جَزَرَة
+<break time="1.2s" />
+جَمَل
+<break time="1.2s" />
+جَوارِب
+<break time="1.2s" />
+جَوْزُ الهِنْد
+<break time="1.2s" />
+جيتار
+<break time="1.2s" />
+حافِلَة
+<break time="1.2s" />
+حَبّار
+<break time="1.2s" />
+حِذاء
+<break time="1.2s" />
+حِصان
+<break time="1.2s" />
+حَلَزون
+<break time="1.2s" />
+حَلْقَة
+<break time="1.2s" />
+حَلْوى
+<break time="1.2s" />
+حَليب
+<break time="1.2s" />
+حِمارٌ وَحْشِيّ
+<break time="1.2s" />
+حوت
+<break time="1.2s" />
+خُبْز
+<break time="1.2s" />
+خَروف
+<break time="1.2s" />
+خُماسِيّ
+<break time="1.2s" />
+خَوْخ
+<break time="1.2s" />
+دائِرَة
+<break time="1.2s" />
+دُبّ
+<break time="1.2s" />
+دَبْدوب
+<break time="1.2s" />
+دَجاجَة
+<break time="1.2s" />
+دَرّاجَة
+<break time="1.2s" />
+دَرّاجَةٌ نارِيَّة
+<break time="1.2s" />
+دُعْسوقَة
+<break time="1.2s" />
+دُلْفين
+<break time="1.2s" />
+دونات
+<break time="1.2s" />
+ديناصور
+<break time="1.2s" />
+ذُرَة
+<break time="1.2s" />
+رائِدُ فَضاء
+<break time="1.2s" />
+رَجُلُ الثَّلْج
+<break time="1.2s" />
+رُمّان
+<break time="1.2s" />
+روبْيان

@@ -1,0 +1,302 @@
+[
+ {
+  "id": "col_red",
+  "text": "أَحْمَر",
+  "plain": "أحمر",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_yellow",
+  "text": "أَصْفَر",
+  "plain": "أصفر",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_blue",
+  "text": "أَزْرَق",
+  "plain": "أزرق",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_green",
+  "text": "أَخْضَر",
+  "plain": "أخضر",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_pink",
+  "text": "وَرْدِيّ",
+  "plain": "وردي",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_purple",
+  "text": "بَنَفْسَجِيّ",
+  "plain": "بنفسجي",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_orange",
+  "text": "بُرْتُقالِيّ",
+  "plain": "برتقالي",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_white",
+  "text": "أَبْيَض",
+  "plain": "أبيض",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_black",
+  "text": "أَسْوَد",
+  "plain": "أسود",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_brown",
+  "text": "بُنِّيّ",
+  "plain": "بني",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "cheerful",
+  "batch": 4,
+  "note": "اسم اللون (الحديقة الحرة)"
+ },
+ {
+  "id": "col_red_def",
+  "text": "الحَمْراء",
+  "plain": "الحمراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_yellow_def",
+  "text": "الصَّفْراء",
+  "plain": "الصفراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_blue_def",
+  "text": "الزَّرْقاء",
+  "plain": "الزرقاء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_green_def",
+  "text": "الخَضْراء",
+  "plain": "الخضراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_pink_def",
+  "text": "الوَرْدِيَّة",
+  "plain": "الوردية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_purple_def",
+  "text": "البَنَفْسَجِيَّة",
+  "plain": "البنفسجية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_orange_def",
+  "text": "البُرْتُقالِيَّة",
+  "plain": "البرتقالية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_white_def",
+  "text": "البَيْضاء",
+  "plain": "البيضاء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_black_def",
+  "text": "السَّوْداء",
+  "plain": "السوداء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_brown_def",
+  "text": "البُنِّيَّة",
+  "plain": "البنية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة معرّفة: «المسي الفراشات + …»"
+ },
+ {
+  "id": "col_red_ind",
+  "text": "حَمْراء",
+  "plain": "حمراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_yellow_ind",
+  "text": "صَفْراء",
+  "plain": "صفراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_blue_ind",
+  "text": "زَرْقاء",
+  "plain": "زرقاء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_green_ind",
+  "text": "خَضْراء",
+  "plain": "خضراء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_pink_ind",
+  "text": "وَرْدِيَّة",
+  "plain": "وردية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_purple_ind",
+  "text": "بَنَفْسَجِيَّة",
+  "plain": "بنفسجية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_orange_ind",
+  "text": "بُرْتُقالِيَّة",
+  "plain": "برتقالية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_white_ind",
+  "text": "بَيْضاء",
+  "plain": "بيضاء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_black_ind",
+  "text": "سَوْداء",
+  "plain": "سوداء",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ },
+ {
+  "id": "col_brown_ind",
+  "text": "بُنِّيَّة",
+  "plain": "بنية",
+  "lang": "ar",
+  "game": "butterfly",
+  "emotion": "calm",
+  "batch": 4,
+  "note": "صفة نكرة: «المسي ثلاث فراشات + …» و«هذه فراشة + …»"
+ }
+]

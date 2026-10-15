@@ -1,0 +1,75 @@
+زَرافَة
+<break time="1.2s" />
+زَهْرَة
+<break time="1.2s" />
+ساكْسُفون
+<break time="1.2s" />
+سَحابَة
+<break time="1.2s" />
+سُداسِيّ
+<break time="1.2s" />
+سَفينَة
+<break time="1.2s" />
+سُلَحْفاة
+<break time="1.2s" />
+سَلَطْعون
+<break time="1.2s" />
+سَمَكَة
+<break time="1.2s" />
+سَمَكَةٌ مُلَوَّنَة
+<break time="1.2s" />
+سَمَكَةٌ مَنْفوخَة
+<break time="1.2s" />
+سَهْم
+<break time="1.2s" />
+سَيّارَة
+<break time="1.2s" />
+سَيّارَةُ أُجْرَة
+<break time="1.2s" />
+سَيّارَةُ إِسْعاف
+<break time="1.2s" />
+سَيّارَةُ إِطْفاء
+<break time="1.2s" />
+سَيّارَةُ شُرْطَة
+<break time="1.2s" />
+شِبْهُ مُنْحَرِف
+<break time="1.2s" />
+شَمْس
+<break time="1.2s" />
+شِهاب
+<break time="1.2s" />
+شوكولاتَة
+<break time="1.2s" />
+صاروخ
+<break time="1.2s" />
+صَحْن
+<break time="1.2s" />
+صَحْنٌ طائِر
+<break time="1.2s" />
+صَدَفَة
+<break time="1.2s" />
+صَقْر
+<break time="1.2s" />
+ضِفْدَع
+<break time="1.2s" />
+طائِرَة
+<break time="1.2s" />
+طَبْل
+<break time="1.2s" />
+ظَرْف
+<break time="1.2s" />
+عَسَل
+<break time="1.2s" />
+عُشْب
+<break time="1.2s" />
+عَظْمَة
+<break time="1.2s" />
+عِنَب
+<break time="1.2s" />
+عَنْزَة
+<break time="1.2s" />
+غوريلّا
+<break time="1.2s" />
+غَيْمَة
+<break time="1.2s" />
+فَراشَة

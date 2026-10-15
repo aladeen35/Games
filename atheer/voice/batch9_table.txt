@@ -1,0 +1,38 @@
+1. w_giraffe — زَرافَة
+2. w_flower — زَهْرَة
+3. w_saxophone — ساكْسُفون
+4. w_cloud — سَحابَة
+5. w_hexagon — سُداسِيّ
+6. w_ship — سَفينَة
+7. w_turtle — سُلَحْفاة
+8. w_crab — سَلَطْعون
+9. w_fish — سَمَكَة
+10. w_colorful_fish — سَمَكَةٌ مُلَوَّنَة
+11. w_pufferfish — سَمَكَةٌ مَنْفوخَة
+12. w_arrow — سَهْم
+13. w_car — سَيّارَة
+14. w_taxi — سَيّارَةُ أُجْرَة
+15. w_ambulance — سَيّارَةُ إِسْعاف
+16. w_fire_truck — سَيّارَةُ إِطْفاء
+17. w_police_car — سَيّارَةُ شُرْطَة
+18. w_trapezoid — شِبْهُ مُنْحَرِف
+19. w_sun — شَمْس
+20. w_meteor — شِهاب
+21. w_chocolate — شوكولاتَة
+22. w_rocket — صاروخ
+23. w_plate — صَحْن
+24. w_ufo — صَحْنٌ طائِر
+25. w_shell — صَدَفَة
+26. w_falcon — صَقْر
+27. w_frog — ضِفْدَع
+28. w_airplane — طائِرَة
+29. w_drum — طَبْل
+30. w_envelope — ظَرْف
+31. w_honey — عَسَل
+32. w_grass — عُشْب
+33. w_bone — عَظْمَة
+34. w_grapes — عِنَب
+35. w_goat — عَنْزَة
+36. w_gorilla — غوريلّا
+37. w_cloud_ghayma — غَيْمَة
+38. w_butterfly — فَراشَة

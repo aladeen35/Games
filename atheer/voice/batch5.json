@@ -1,0 +1,282 @@
+[
+ {
+  "id": "ltr_alif",
+  "text": "أَلِف",
+  "plain": "ألف",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ba",
+  "text": "باء",
+  "plain": "باء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ta",
+  "text": "تاء",
+  "plain": "تاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_tha",
+  "text": "ثاء",
+  "plain": "ثاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_jim",
+  "text": "جيم",
+  "plain": "جيم",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ha",
+  "text": "حاء",
+  "plain": "حاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_kha",
+  "text": "خاء",
+  "plain": "خاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_dal",
+  "text": "دال",
+  "plain": "دال",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_dhal",
+  "text": "ذال",
+  "plain": "ذال",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ra",
+  "text": "راء",
+  "plain": "راء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_zay",
+  "text": "زاي",
+  "plain": "زاي",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_sin",
+  "text": "سين",
+  "plain": "سين",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_shin",
+  "text": "شين",
+  "plain": "شين",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_sad",
+  "text": "صاد",
+  "plain": "صاد",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_dad",
+  "text": "ضاد",
+  "plain": "ضاد",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_tta",
+  "text": "طاء",
+  "plain": "طاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_dha",
+  "text": "ظاء",
+  "plain": "ظاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ayn",
+  "text": "عَيْن",
+  "plain": "عين",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ghayn",
+  "text": "غَيْن",
+  "plain": "غين",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_fa",
+  "text": "فاء",
+  "plain": "فاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_qaf",
+  "text": "قاف",
+  "plain": "قاف",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_kaf",
+  "text": "كاف",
+  "plain": "كاف",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_lam",
+  "text": "لام",
+  "plain": "لام",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_mim",
+  "text": "ميم",
+  "plain": "ميم",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_nun",
+  "text": "نون",
+  "plain": "نون",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_haa",
+  "text": "هاء",
+  "plain": "هاء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_waw",
+  "text": "واو",
+  "plain": "واو",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ },
+ {
+  "id": "ltr_ya",
+  "text": "ياء",
+  "plain": "ياء",
+  "lang": "ar",
+  "game": "letters",
+  "emotion": "calm",
+  "batch": 5,
+  "note": "اسم الحرف — نطق واضح جدًا"
+ }
+]

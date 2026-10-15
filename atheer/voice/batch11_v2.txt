@@ -1,0 +1,65 @@
+مُتَوازي أَضْلاع
+<break time="1.2s" />
+مُثَلَّث
+<break time="1.2s" />
+مُثَمَّن
+<break time="1.2s" />
+مَجَرَّة
+<break time="1.2s" />
+مُذَنَّب
+<break time="1.2s" />
+مُرَبَّع
+<break time="1.2s" />
+مِرْساة
+<break time="1.2s" />
+مِرْوَحِيَّة
+<break time="1.2s" />
+مُسْتَطيل
+<break time="1.2s" />
+مَصّاصَة
+<break time="1.2s" />
+مَطَر
+<break time="1.2s" />
+مِظَلَّة
+<break time="1.2s" />
+مُعَيَّن
+<break time="1.2s" />
+مِقْراب
+<break time="1.2s" />
+مِقْلاة
+<break time="1.2s" />
+مِلْح
+<break time="1.2s" />
+مِلْعَقَة
+<break time="1.2s" />
+مَوْز
+<break time="1.2s" />
+مَوْزَة
+<break time="1.2s" />
+نَجْمَة
+<break time="1.2s" />
+نَحْلَة
+<break time="1.2s" />
+نَخْلَة
+<break time="1.2s" />
+نِصْفُ دائِرَة
+<break time="1.2s" />
+نَمِر
+<break time="1.2s" />
+نَمْلَة
+<break time="1.2s" />
+هَدِيَّة
+<break time="1.2s" />
+هِلال
+<break time="1.2s" />
+وَرْدَة
+<break time="1.2s" />
+يَد
+<break time="1.2s" />
+يَرَقَة
+<break time="1.2s" />
+دائِرِيَّة
+<break time="1.2s" />
+مُرَبَّعَة
+<break time="1.2s" />
+فانيلْيا

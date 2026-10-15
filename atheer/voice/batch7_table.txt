@@ -1,0 +1,38 @@
+1. w_ice_cream — آيس كْريم
+2. w_octopus — أُخْطُبوط
+3. w_rabbit — أَرْنَب
+4. w_lion — أَسَد
+5. w_pineapple — أَناناس
+6. w_earth — الأَرْض
+7. w_badminton — الرّيشَةُ الطّائِرَة
+8. w_volleyball — الكُرَةُ الطّائِرَة
+9. w_balloon — بالون
+10. w_pancake — بان كيك
+11. w_panda — باندا
+12. w_parrot — بَبَّغاء
+13. w_orange — بُرْتُقالَة
+14. w_burger — بَرْغَر
+15. w_lightning — بَرْق
+16. w_volcano — بُرْكان
+17. w_biscuit — بَسْكَويت
+18. w_duck — بَطَّة
+19. w_penguin — بِطْريق
+20. w_watermelon — بِطّيخ
+21. w_cow — بَقَرَة
+22. w_trousers — بِنْطال
+23. w_pudding — بودينغ
+24. w_icecream_booza — بوظَة
+25. w_trumpet — بوق
+26. w_owl — بومَة
+27. w_piano — بيانو
+28. w_house — بَيْت
+29. w_pizza — بيتْزا
+30. w_oval — بَيْضاوِيّ
+31. w_egg — بَيْضَة
+32. w_apple — تُفّاحَة
+33. w_telescope — تِلِسْكوب
+34. w_crocodile — تِمْساح
+35. w_table_tennis — تِنِسُ الطّاوِلَة
+36. w_dragon — تِنّين
+37. w_trex — تيرانوصور
+38. w_snake — ثُعْبان

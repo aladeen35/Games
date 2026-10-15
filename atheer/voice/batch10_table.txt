@@ -1,0 +1,38 @@
+1. w_strawberry — فَراوِلَة
+2. w_hippo — فَرَسُ النَّهْر
+3. w_dress — فُسْتان
+4. w_pie — فَطيرَة
+5. w_flamingo — فْلامِنْغو
+6. w_cup — فِنْجان
+7. w_elephant — فيل
+8. w_boat — قارِب
+9. w_hat — قُبَّعَة
+10. w_monkey — قِرْد
+11. w_shark — قِرْش
+12. w_train — قِطار
+13. w_cat — قِطَّة
+14. w_drop — قَطْرَة
+15. w_gloves — قُفّازات
+16. w_heart — قَلْب
+17. w_moon — قَمَر
+18. w_satellite — قَمَرٌ صِناعِيّ
+19. w_shirt — قَميص
+20. w_rainbow — قَوْسُ قُزَح
+21. w_trophy — كَأْس
+22. w_alien — كائِنٌ فَضائِيّ
+23. w_cupcake — كَب كيك
+24. w_ball — كُرَة
+25. w_tennis_ball — كُرَةُ التِّنِس
+26. w_basketball — كُرَةُ السَّلَّة
+27. w_cherries — كَرَز
+28. w_lobster — كَرْكَنْد
+29. w_cake — كَعْكَة
+30. w_birthday_cake — كَعْكَةُ عيدِ ميلاد
+31. w_dog — كَلْب
+32. w_violin — كَمان
+33. w_pear — كُمَّثْرى
+34. w_saturn — كَوْكَبُ زُحَل
+35. w_kiwi — كيوي
+36. w_lemons — لَيْمون
+37. w_lemon — لَيْمونَة
+38. w_mango — مانْجو
