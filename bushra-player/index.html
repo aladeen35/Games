@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <base href="/Games/bushra-player/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="البشرى — مشغّل فيديو و IPTV عربي: قوائم M3U وحسابات Xtream ودليل البرامج وفيديوهات جهازك.">
+  <meta name="theme-color" content="#0D111A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="البشرى">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>البشرى</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html, body { margin: 0; height: 100%; background: #0D111A; }
+    #splash { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+      background: radial-gradient(circle at 50% 40%, rgba(39,211,194,.16), rgba(13,17,26,1) 55%); transition: opacity .3s; }
+    #splash img { width: 112px; height: 112px; animation: pulse 1.6s ease-in-out infinite; }
+    #splash div { width: 120px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; }
+    #splash div::after { content: ''; display: block; width: 40%; height: 100%; background: #27D3C2; animation: bar 1.1s ease-in-out infinite; }
+    @keyframes pulse { 50% { transform: scale(1.04); filter: drop-shadow(0 0 24px rgba(39,211,194,.35)); } }
+    @keyframes bar { from { transform: translateX(160%); } to { transform: translateX(-260%); } }
+  </style>
+  <!-- مشغلات البث على الويب: HLS عبر MediaSource و MPEG-TS -->
+  <script src="vendor/hls.min.js" defer></script>
+  <script src="vendor/mpegts.js" defer></script>
+</head>
+<body>
+  <div id="splash"><img src="icons/Icon-512.png" alt="البشرى"><div></div></div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash');
+      if (s) { s.style.opacity = 0; setTimeout(function () { s.remove(); }, 350); }
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
