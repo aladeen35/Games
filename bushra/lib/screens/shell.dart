@@ -36,6 +36,7 @@ const _all = [
   _Dest('home', Icons.home_outlined, Icons.home_rounded, 'الرئيسية', phone: true),
   _Dest('live', Icons.live_tv_outlined, Icons.live_tv_rounded, 'البث المباشر', phone: true),
   _Dest('movies', Icons.movie_outlined, Icons.movie_rounded, 'الأفلام'),
+  _Dest('series', Icons.theaters_outlined, Icons.theaters_rounded, 'المسلسلات'),
   _Dest('epg', Icons.calendar_view_week_outlined, Icons.calendar_view_week_rounded, 'دليل البرامج', phone: true),
   _Dest('continue', Icons.history_rounded, Icons.history_rounded, 'المتابعة'),
   _Dest('favorites', Icons.star_outline_rounded, Icons.star_rounded, 'المفضلة'),
@@ -65,6 +66,7 @@ class _ShellState extends State<Shell> {
   Widget _page(String id, {bool standalone = false}) => switch (id) {
         'live' => LiveScreen(key: standalone ? null : liveKey),
         'movies' => const LiveScreen(initialKind: ChannelKind.vod),
+        'series' => const LiveScreen(initialKind: ChannelKind.series),
         'epg' => const EpgScreen(),
         'continue' => const ContinueScreen(),
         'favorites' => const LiveScreen(initialGroup: '★'),
@@ -78,8 +80,13 @@ class _ShellState extends State<Shell> {
   Widget build(BuildContext context) {
     final wide = context.isWide;
     final p = context.bc;
-    final hasVod = AppStore.I.allChannels.any((c) => !c.isLive);
-    final dests = [for (final d in _all) if (wide ? (d.id != 'movies' || hasVod) : d.phone) d];
+    final all = AppStore.I.allChannels;
+    final hasVod = all.any((c) => c.kind == ChannelKind.vod);
+    final hasSeries = all.any((c) => c.kind == ChannelKind.series);
+    final dests = [
+      for (final d in _all)
+        if (wide ? ((d.id != 'movies' || hasVod) && (d.id != 'series' || hasSeries)) : d.phone) d
+    ];
     if (!dests.any((d) => d.id == current)) current = 'home';
     final body = AnimatedSwitcher(
       duration: AppStore.I.settings.reduceMotion ? Duration.zero : BMotion.page,

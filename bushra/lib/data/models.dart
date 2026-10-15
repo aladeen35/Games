@@ -184,3 +184,36 @@ class EpgProgram {
         start: DateTime.fromMillisecondsSinceEpoch(j['s']), stop: DateTime.fromMillisecondsSinceEpoch(j['e']),
       );
 }
+
+/// تذكير ببرنامج من الدليل.
+class Reminder {
+  final int id;
+  final String channelId, channelName, title;
+  final String? logo;
+  final DateTime start;
+  Reminder({required this.id, required this.channelId, required this.channelName, required this.title, required this.start, this.logo});
+
+  static int idFor(String channelId, DateTime start) =>
+      int.parse(stableId('$channelId|${start.millisecondsSinceEpoch}'), radix: 36) & 0x7fffffff;
+
+  Map<String, dynamic> toJson() => {'id': id, 'c': channelId, 'cn': channelName, 't': title, 'l': logo, 's': start.millisecondsSinceEpoch};
+  factory Reminder.fromJson(Map<String, dynamic> j) => Reminder(
+      id: j['id'], channelId: j['c'], channelName: j['cn'], title: j['t'], logo: j['l'],
+      start: DateTime.fromMillisecondsSinceEpoch(j['s']));
+}
+
+/// حلقة مسلسل من حساب Xtream.
+class Episode {
+  final String id, title, url;
+  final int season, number;
+  final String? plot, image;
+  final Duration? duration;
+  Episode({required this.id, required this.title, required this.url, required this.season, required this.number, this.plot, this.image, this.duration});
+}
+
+class SeriesInfo {
+  final String name;
+  final String? plot, cover, genre, year;
+  final Map<int, List<Episode>> seasons;
+  SeriesInfo({required this.name, required this.seasons, this.plot, this.cover, this.genre, this.year});
+}

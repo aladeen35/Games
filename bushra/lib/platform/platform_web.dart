@@ -34,6 +34,13 @@ Future<({String name, String text})?> pickPlaylistFile() async {
   return (name: files.first.name, text: t);
 }
 
+Future<({String name, String text})?> pickSubtitleFile() async {
+  final files = await _pick('.srt,.vtt,text/vtt');
+  if (files.isEmpty) return null;
+  final t = (await files.first.text().toDart).toDart;
+  return (name: files.first.name, text: t);
+}
+
 Future<void> enterPlayerMode() async {}
 Future<void> exitPlayerMode() async {
   if (web.document.fullscreenElement != null) web.document.exitFullscreen();

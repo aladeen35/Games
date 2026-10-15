@@ -3,6 +3,7 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
+import 'series.dart';
 import 'epg_screen.dart';
 
 /// بحث واحد في: الأسماء والأصلية، المجموعات، البرامج، القوائم، والملفات — بلا تشكيل ومع تسامح الأخطاء.
@@ -51,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SectionHeader('قنوات', subtitle: '${r.channels.length} نتيجة'),
                     for (final c in r.channels.take(40))
                       Padding(padding: const EdgeInsets.only(bottom: 8), child: ChannelCard(channel: c,
-                          onTap: () => openPlayer(context, Playable.channel(c), queue: [for (final x in r.channels) Playable.channel(x)]))),
+                          onTap: () => openChannel(context, c, r.channels))),
                   ],
                   if (r.programs.isNotEmpty) ...[
                     const SectionHeader('برامج'),

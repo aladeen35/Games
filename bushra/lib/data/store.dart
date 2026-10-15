@@ -9,6 +9,8 @@ import 'epg.dart';
 import 'm3u.dart';
 import 'models.dart';
 import 'net.dart';
+import 'open_channels.dart';
+import 'reminders.dart';
 import 'search.dart';
 import 'xtream.dart';
 
@@ -87,6 +89,13 @@ class AppStore extends ChangeNotifier {
   final Map<String, Channel> favorites = {};
   final List<HistoryEntry> history = [];
   final List<LocalVideo> localVideos = [];
+  final List<Reminder> reminders = [];
+
+  /// القنوات المفتوحة المصدر (iptv-org) — منفصلة عن قوائم المستخدم.
+  List<Channel> openChannels = [];
+  DateTime? openUpdated;
+  bool openLoading = false;
+  String? openError;
   bool parentalUnlocked = false;
   bool ready = false;
 
@@ -144,8 +153,19 @@ class AppStore extends ChangeNotifier {
         localVideos.add(LocalVideo.fromJson(Map<String, dynamic>.from(jsonDecode(v))));
       }
     }
+    final openRaw = await _channelsBox.get(OpenChannels.sourceId);
+    if (openRaw != null) {
+      openChannels = [for (final c in jsonDecode(openRaw) as List) Channel.fromJson(Map<String, dynamic>.from(c))];
+      final t = _metaBox.get('openUpd');
+      if (t is int) openUpdated = DateTime.fromMillisecondsSinceEpoch(t);
+    }
+    for (final v in (_userBox.get('reminders', defaultValue: const []) as List)) {
+      final r = Reminder.fromJson(Map<String, dynamic>.from(jsonDecode(v)));
+      if (r.start.isAfter(DateTime.now().subtract(const Duration(minutes: 30)))) reminders.add(r);
+    }
     ready = true;
     notifyListeners();
+    unawaited(Reminders.init(reminders));
     // تحديث مجدول في الخلفية للقوائم القديمة، مع الإبقاء على آخر نسخة ناجحة
     Future.delayed(const Duration(seconds: 3), _autoRefresh);
   }
@@ -192,7 +212,67 @@ class AppStore extends ChangeNotifier {
         if (c.id == id) return c;
       }
     }
+    for (final c in openChannels) {
+      if (c.id == id) return c;
+    }
     return favorites[id];
+  }
+
+  // ———————————————————— القنوات المفتوحة ————————————————————
+  /// يحمّل قائمة iptv-org (مرة يوميًا، أو عند الطلب)، ويحتفظ بآخر نسخة ناجحة.
+  Future<void> loadOpen({bool force = false}) async {
+    if (openLoading) return;
+    final fresh = openUpdated != null && DateTime.now().difference(openUpdated!).inHours < 24;
+    if (!force && fresh && openChannels.isNotEmpty) return;
+    openLoading = true;
+    openError = null;
+    notifyListeners();
+    try {
+      final text = await Net.text(OpenChannels.url, timeout: const Duration(seconds: 90));
+      final list = await compute(parseOpenChannels, text);
+      if (list.isEmpty) throw NetError(NetErrorKind.badFormat, 'empty');
+      openChannels = list;
+      openUpdated = DateTime.now();
+      await _channelsBox.put(OpenChannels.sourceId, jsonEncode([for (final c in list) c.toJson()]));
+      await _metaBox.put('openUpd', openUpdated!.millisecondsSinceEpoch);
+    } catch (e) {
+      openError = e is NetError ? e.message : 'تعذر تحميل القنوات المفتوحة';
+    } finally {
+      openLoading = false;
+      notifyListeners();
+    }
+  }
+
+  List<Channel> visibleOpen() => [for (final c in openChannels) if (!isLocked(c)) c];
+
+  // ———————————————————— التذكير بالبرامج ————————————————————
+  Reminder? reminderFor(String channelId, DateTime start) {
+    final id = Reminder.idFor(channelId, start);
+    for (final r in reminders) {
+      if (r.id == id) return r;
+    }
+    return null;
+  }
+
+  Future<bool> addReminder(Channel c, EpgProgram p) async {
+    final r = Reminder(id: Reminder.idFor(c.id, p.start), channelId: c.id, channelName: c.name, title: p.title, start: p.start, logo: c.logo);
+    final ok = await Reminders.schedule(r);
+    reminders.removeWhere((x) => x.id == r.id);
+    reminders.add(r);
+    reminders.sort((a, b) => a.start.compareTo(b.start));
+    _saveReminders();
+    return ok;
+  }
+
+  Future<void> removeReminder(Reminder r) async {
+    await Reminders.cancel(r);
+    reminders.removeWhere((x) => x.id == r.id);
+    _saveReminders();
+  }
+
+  void _saveReminders() {
+    _userBox.put('reminders', [for (final r in reminders) jsonEncode(r.toJson())]);
+    notifyListeners();
   }
 
   // ———————————————————— المصادر ————————————————————
@@ -507,6 +587,13 @@ class AppStore extends ChangeNotifier {
             break;
           }
         }
+      }
+    }
+    if (scored.length < 120) {
+      for (final c in openChannels) {
+        if (isLocked(c)) continue;
+        final sc = score(normalize(c.name), qs);
+        if (sc > 0) scored.add((sc - 10, c));
       }
     }
     scored.sort((a, b) => b.$1.compareTo(a.$1));

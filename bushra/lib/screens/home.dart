@@ -5,6 +5,7 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
+import 'series.dart';
 import 'add_source.dart';
 import 'continue.dart';
 import 'shell.dart';
@@ -179,7 +180,7 @@ class _ChannelTile extends StatelessWidget {
       width: w,
       child: BTap(
         semantic: channel.name,
-        onTap: () => openPlayer(context, Playable.channel(channel), queue: queueOf(queue)),
+        onTap: () => openChannel(context, channel, queue),
         onLongPress: () => showChannelSheet(context, channel, queue),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           AspectRatio(
@@ -370,7 +371,8 @@ class ChannelInfoPanel extends StatelessWidget {
               if (channel.altName != null) Text(channel.altName!, style: t.bodySmall),
               const SizedBox(height: 4),
               Row(children: [
-                if (channel.isLive) const LiveBadge(small: true) else StatusPill(text: 'فيلم', icon: Icons.movie_outlined, color: p.accent, dense: true),
+                if (channel.isLive) const LiveBadge(small: true) else StatusPill(text: channel.kind == ChannelKind.series ? 'مسلسل' : 'فيلم',
+                    icon: channel.kind == ChannelKind.series ? Icons.theaters_rounded : Icons.movie_outlined, color: p.accent, dense: true),
                 const SizedBox(width: 8),
                 Flexible(child: Text(channel.group, style: t.bodySmall, overflow: TextOverflow.ellipsis)),
               ]),
@@ -390,7 +392,7 @@ class ChannelInfoPanel extends StatelessWidget {
               autofocus: true,
               onPressed: () {
                 if (!sidePanel) Navigator.pop(context);
-                openPlayer(context, Playable.channel(channel), queue: queueOf(queue));
+                openChannel(context, channel, queue);
               },
               icon: const Icon(Icons.play_arrow_rounded), label: const Text('شاهد الآن'),
             )),

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/net.dart';
+import '../data/open_channels.dart';
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
+import 'series.dart';
 import 'add_source.dart';
 import 'home.dart';
 import 'shell.dart';
@@ -22,37 +24,151 @@ class LiveScreenState extends State<LiveScreen> {
   String? sourceId; // null = كل القوائم
   late String group = widget.initialGroup;
   late ChannelKind kind = widget.initialKind;
+  /// مصدر العرض: قوائم المستخدم أو القنوات المفتوحة المضمّنة.
+  late bool open = AppStore.I.sources.isEmpty && widget.initialGroup.isEmpty;
   String filter = '';
   Channel? focused;
   final _filterCtl = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    if (open) WidgetsBinding.instance.addPostFrameCallback((_) => AppStore.I.loadOpen());
+  }
+
   void selectGroup(String g) => setState(() {
+        open = false;
         kind = ChannelKind.live;
         group = g;
       });
+
+  void _setOpen(bool v) {
+    setState(() { open = v; group = ''; filter = ''; _filterCtl.clear(); focused = null; if (v) kind = ChannelKind.live; });
+    if (v) AppStore.I.loadOpen();
+  }
+
+  bool _match(Channel c) => switch (kind) {
+        ChannelKind.live => c.isLive,
+        ChannelKind.vod => c.kind == ChannelKind.vod,
+        ChannelKind.series => c.kind == ChannelKind.series,
+      };
+
+  String get _unit => switch (kind) { ChannelKind.live => 'قناة', ChannelKind.vod => 'فيلم', ChannelKind.series => 'مسلسل' };
 
   @override
   Widget build(BuildContext context) {
     final s = AppStore.I;
     final p = context.bc;
     final t = Theme.of(context).textTheme;
-    if (s.sources.isEmpty) {
-      return SafeArea(child: EmptyState(
-        icon: Icons.live_tv_rounded,
-        title: 'لا توجد قوائم بعد',
-        body: 'أضف رابط M3U أو ملفًا أو حساب Xtream لتظهر قنواتك هنا.',
-        action: 'أضف قائمة الآن',
-        onAction: () => openAddSource(context),
-      ));
+    final wide = context.isWide;
+    final hp = context.isTv ? MediaQuery.sizeOf(context).width * .04 : (wide ? 24.0 : 16.0);
+
+    // ——— اختيار المصدر في الأعلى ———
+    final switcher = Padding(
+      padding: EdgeInsets.fromLTRB(hp, 14, hp, 4),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: SegmentedButton<bool>(
+          showSelectedIcon: false,
+          segments: const [
+            ButtonSegment(value: false, label: Text('قوائمي وملفاتي'), icon: Icon(Icons.playlist_play_rounded)),
+            ButtonSegment(value: true, label: Text('قنوات مفتوحة'), icon: Icon(Icons.public_rounded)),
+          ],
+          selected: {open},
+          onSelectionChanged: (v) => _setOpen(v.first),
+        ),
+      ),
+    );
+
+    List<Channel> base;
+    List<MapEntry<String, int>> groups;
+    Widget status;
+    Widget? notice;
+    if (open) {
+      base = s.visibleOpen();
+      groups = s.groupsOf(base)..sort((a, b) => b.value.compareTo(a.value));
+      final arab = base.where(OpenChannels.isArab).length;
+      if (arab > 0) groups.insert(0, MapEntry(OpenChannels.arabGroup, arab));
+      status = Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 10, runSpacing: 8, children: [
+        Text('القنوات المفتوحة', style: t.headlineSmall),
+        Text('${base.length} قناة${s.openUpdated != null ? ' · آخر تحديث ${ago(s.openUpdated!)}' : ''}', style: t.bodySmall),
+        if (s.openLoading)
+          StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: true)
+        else if (s.openError != null)
+          StatusPill(text: base.isEmpty ? 'لا يمكن الوصول للمصدر' : 'بيانات قديمة', icon: Icons.cloud_off_rounded, color: p.gold, dense: true)
+        else if (base.isNotEmpty)
+          StatusPill(text: 'متصل', icon: Icons.check_circle_rounded, color: p.live, dense: true),
+        TextButton.icon(
+          onPressed: s.openLoading ? null : () => s.loadOpen(force: true),
+          icon: const Icon(Icons.refresh_rounded, size: 20), label: const Text('تحديث القائمة'),
+        ),
+      ]);
+      notice = Padding(
+        padding: EdgeInsets.fromLTRB(hp, 0, hp, 4),
+        child: Row(children: [
+          Icon(Icons.info_outline_rounded, size: 16, color: p.text3),
+          const SizedBox(width: 6),
+          Expanded(child: Text('قنوات مجانية عامة من مشروع iptv-org مفتوح المصدر. بعضها قد لا يعمل أو يكون محجوبًا في منطقتك.',
+              style: t.bodySmall)),
+        ]),
+      );
+    } else {
+      if (s.sources.isEmpty) {
+        return SafeArea(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          switcher,
+          Expanded(child: EmptyState(
+            icon: Icons.live_tv_rounded,
+            title: 'لا توجد قوائم بعد',
+            body: 'أضف رابط M3U أو ملفًا أو حساب Xtream لتظهر قنواتك هنا — أو تصفّح القنوات المفتوحة المضمّنة.',
+            action: 'أضف قائمة الآن',
+            onAction: () => openAddSource(context),
+          )),
+          Center(child: TextButton.icon(onPressed: () => _setOpen(true), icon: const Icon(Icons.public_rounded), label: const Text('تصفح القنوات المفتوحة'))),
+          const SizedBox(height: 24),
+        ]));
+      }
+      base = s.visible(sourceId: sourceId).where(_match).toList();
+      groups = s.groupsOf(base);
+      final src = sourceId == null ? null : s.sources[sourceId];
+      final updating = s.status.values.contains(SourceStatus.updating);
+      final lastUpd = (src != null ? [src] : s.sources.values.toList())
+          .map((x) => x.lastUpdated).whereType<DateTime>().fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a);
+      status = Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 10, runSpacing: 8, children: [
+        Text(switch (kind) { ChannelKind.live => 'البث المباشر', ChannelKind.vod => 'الأفلام', ChannelKind.series => 'المسلسلات' },
+            style: t.headlineSmall),
+        _SourcePicker(value: sourceId, onChanged: (v) => setState(() { sourceId = v; group = ''; })),
+        Text('${base.length} $_unit${lastUpd != null ? ' · آخر تحديث ${ago(lastUpd)}' : ''}', style: t.bodySmall),
+        if (updating)
+          StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: true)
+        else if (src?.lastError != null)
+          StatusPill(text: src!.stale ? 'بيانات قديمة' : src.lastError!, icon: Icons.history_toggle_off_rounded, color: p.gold, dense: true)
+        else
+          const ConnectionPill(),
+        TextButton.icon(
+          onPressed: updating ? null : () async {
+            for (final id in (sourceId == null ? s.sources.keys.toList() : [sourceId!])) {
+              try {
+                await s.refresh(id);
+              } catch (e) {
+                if (context.mounted) {
+                  toast(context, 'تعذر تحديث «${s.sources[id]?.name}». ستظل النسخة السابقة متاحة.', icon: Icons.error_outline_rounded);
+                }
+              }
+            }
+          },
+          icon: const Icon(Icons.refresh_rounded, size: 20),
+          label: const Text('تحديث القائمة'),
+        ),
+      ]);
     }
-    final hasVod = s.allChannels.any((c) => c.kind != ChannelKind.live);
-    final base = s.visible(sourceId: sourceId).where((c) => kind == ChannelKind.live ? c.isLive : !c.isLive).toList();
-    final groups = s.groupsOf(base);
+
     List<Channel> list;
     if (group == '★') {
-      list = s.favorites.values.where((c) => kind == ChannelKind.live ? c.isLive : !c.isLive).toList();
+      list = s.favorites.values.where(_match).toList();
     } else if (group.isEmpty) {
       list = base;
+    } else if (open && group == OpenChannels.arabGroup) {
+      list = base.where(OpenChannels.isArab).toList();
     } else {
       list = base.where((c) => c.group == group).toList();
     }
@@ -60,88 +176,71 @@ class LiveScreenState extends State<LiveScreen> {
       final f = filter.toLowerCase();
       list = list.where((c) => c.name.toLowerCase().contains(f) || (c.altName?.toLowerCase().contains(f) ?? false)).toList();
     }
-    final wide = context.isWide;
-    final hp = context.isTv ? MediaQuery.sizeOf(context).width * .04 : (wide ? 24.0 : 16.0);
-    final src = sourceId == null ? null : s.sources[sourceId];
-    final updating = s.status.values.contains(SourceStatus.updating);
-    final lastUpd = (src != null ? [src] : s.sources.values.toList())
-        .map((x) => x.lastUpdated).whereType<DateTime>().fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a);
 
-    final grid = list.isEmpty
-        ? EmptyState(
-            icon: group == '★' ? Icons.star_outline_rounded : Icons.search_off_rounded,
-            title: group == '★' ? 'لم تضف قنوات مفضلة بعد' : 'لا توجد قنوات هنا',
-            body: group == '★' ? 'اضغط على النجمة أثناء المشاهدة لتجدها هنا.' : 'جرّب مجموعة أخرى أو امسح التصفية.')
-        : GridView.builder(
-            padding: EdgeInsets.fromLTRB(hp, 8, hp, 24),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: context.isTv ? 420 : (wide ? 360 : 400),
-              mainAxisExtent: 84, crossAxisSpacing: 12, mainAxisSpacing: 12,
+    final kinds = open ? const <ChannelKind>[] : [
+      for (final k in ChannelKind.values) if (s.allChannels.any((c) => c.kind == k)) k,
+    ];
+
+    final Widget grid;
+    if (list.isEmpty && open && s.openLoading) {
+      grid = Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const CircularProgressIndicator(),
+        const SizedBox(height: 14),
+        Text('جارٍ تحميل القنوات المفتوحة…', style: t.bodyMedium),
+      ]));
+    } else if (list.isEmpty && open && s.openError != null && base.isEmpty) {
+      grid = EmptyState(icon: Icons.cloud_off_rounded, title: 'تعذر تحميل القنوات المفتوحة', body: s.openError!,
+          action: 'إعادة المحاولة', onAction: () => s.loadOpen(force: true));
+    } else if (list.isEmpty) {
+      grid = EmptyState(
+          icon: group == '★' ? Icons.star_outline_rounded : Icons.search_off_rounded,
+          title: group == '★' ? 'لم تضف قنوات مفضلة بعد' : 'لا توجد قنوات هنا',
+          body: group == '★' ? 'اضغط على النجمة أثناء المشاهدة لتجدها هنا.' : 'جرّب مجموعة أخرى أو امسح التصفية.');
+    } else {
+      grid = GridView.builder(
+        padding: EdgeInsets.fromLTRB(hp, 8, hp, 24),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: context.isTv ? 420 : (wide ? 360 : 400),
+          mainAxisExtent: 84, crossAxisSpacing: 12, mainAxisSpacing: 12,
+        ),
+        itemCount: list.length,
+        itemBuilder: (_, i) {
+          final c = list[i];
+          return Focus(
+            canRequestFocus: false,
+            skipTraversal: true,
+            onFocusChange: (f) { if (f && wide) setState(() => focused = c); },
+            child: MouseRegion(
+              onEnter: (_) { if (wide && focused != c) setState(() => focused = c); },
+              child: ChannelCard(
+                channel: c,
+                selected: wide && focused?.id == c.id,
+                onTap: () => openChannel(context, c, list),
+                onLongPress: () => showChannelSheet(context, c, list),
+              ),
             ),
-            itemCount: list.length,
-            itemBuilder: (_, i) {
-              final c = list[i];
-              return Focus(
-                canRequestFocus: false,
-                skipTraversal: true,
-                onFocusChange: (f) { if (f && wide) setState(() => focused = c); },
-                child: MouseRegion(
-                  onEnter: (_) { if (wide && focused != c) setState(() => focused = c); },
-                  child: ChannelCard(
-                    channel: c,
-                    selected: wide && focused?.id == c.id,
-                    onTap: () => openPlayer(context, Playable.channel(c), queue: queueOf(list)),
-                    onLongPress: () => showChannelSheet(context, c, list),
-                  ),
-                ),
-              );
-            },
           );
+        },
+      );
+    }
 
     return SafeArea(
       bottom: false,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        // شريط الحالة العلوي
-        Padding(
-          padding: EdgeInsets.fromLTRB(hp, 14, hp, 6),
-          child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 10, runSpacing: 8, children: [
-            Text(kind == ChannelKind.live ? 'البث المباشر' : 'أفلام ومسلسلات', style: t.headlineSmall),
-            _SourcePicker(value: sourceId, onChanged: (v) => setState(() { sourceId = v; group = ''; })),
-            Text('${base.length} ${kind == ChannelKind.live ? 'قناة' : 'عنوان'}'
-                '${lastUpd != null ? ' · آخر تحديث ${ago(lastUpd)}' : ''}', style: t.bodySmall),
-            if (updating)
-              StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: true)
-            else if (src?.lastError != null)
-              StatusPill(text: src!.stale ? 'بيانات قديمة' : src.lastError!, icon: Icons.history_toggle_off_rounded, color: p.gold, dense: true)
-            else
-              const ConnectionPill(),
-            TextButton.icon(
-              onPressed: updating ? null : () async {
-                for (final id in (sourceId == null ? s.sources.keys.toList() : [sourceId!])) {
-                  try {
-                    await s.refresh(id);
-                  } catch (e) {
-                    if (context.mounted) {
-                      toast(context, 'تعذر تحديث «${s.sources[id]?.name}». ستظل النسخة السابقة متاحة.', icon: Icons.error_outline_rounded);
-                    }
-                  }
-                }
-              },
-              icon: const Icon(Icons.refresh_rounded, size: 20),
-              label: const Text('تحديث القائمة'),
-            ),
-          ]),
-        ),
-        if (hasVod)
+        switcher,
+        Padding(padding: EdgeInsets.fromLTRB(hp, 8, hp, 6), child: status),
+        ?notice,
+        if (kinds.length > 1)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: hp),
             child: Align(alignment: AlignmentDirectional.centerStart, child: SegmentedButton<ChannelKind>(
               showSelectedIcon: false,
-              segments: const [
-                ButtonSegment(value: ChannelKind.live, label: Text('قنوات'), icon: Icon(Icons.sensors_rounded)),
-                ButtonSegment(value: ChannelKind.vod, label: Text('أفلام ومسلسلات'), icon: Icon(Icons.movie_outlined)),
+              segments: [
+                for (final k in kinds)
+                  ButtonSegment(value: k, label: Text(switch (k) { ChannelKind.live => 'قنوات', ChannelKind.vod => 'أفلام', ChannelKind.series => 'مسلسلات' }),
+                      icon: Icon(switch (k) { ChannelKind.live => Icons.sensors_rounded, ChannelKind.vod => Icons.movie_outlined, ChannelKind.series => Icons.theaters_rounded })),
               ],
-              selected: {kind},
+              selected: {kinds.contains(kind) ? kind : kinds.first},
               onSelectionChanged: (v) => setState(() { kind = v.first; group = ''; }),
             )),
           ),
@@ -154,9 +253,10 @@ class LiveScreenState extends State<LiveScreen> {
             children: [
               _GroupTab(label: 'الكل', icon: Icons.apps_rounded, selected: group.isEmpty, onTap: () => setState(() => group = '')),
               _GroupTab(label: 'المفضلة', icon: Icons.star_rounded, selected: group == '★', onTap: () => setState(() => group = '★')),
-              for (final g in groups)
-                _GroupTab(label: g.key, count: g.value, icon: groupIcon(g.key), selected: group == g.key,
-                    onTap: () => setState(() => group = g.key)),
+              for (final g in groups.take(open ? 60 : 500))
+                _GroupTab(label: g.key, count: g.value,
+                    icon: g.key == OpenChannels.arabGroup ? Icons.translate_rounded : groupIcon(g.key),
+                    selected: group == g.key, onTap: () => setState(() => group = g.key)),
             ],
           ),
         ),
@@ -168,7 +268,7 @@ class LiveScreenState extends State<LiveScreen> {
             decoration: InputDecoration(
               isDense: true,
               prefixIcon: const Icon(Icons.filter_list_rounded),
-              hintText: 'تصفية ${list.length} ${kind == ChannelKind.live ? 'قناة' : 'عنوانًا'} في هذه المجموعة',
+              hintText: 'تصفية ${list.length} $_unit في هذه المجموعة',
               suffixIcon: filter.isEmpty ? null : IconButton(onPressed: () { _filterCtl.clear(); setState(() => filter = ''); },
                   icon: const Icon(Icons.close_rounded), tooltip: 'مسح'),
             ),

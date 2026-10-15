@@ -4,6 +4,7 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
+import '../widgets/reminder_ui.dart';
 import 'shell.dart';
 
 /// دليل البرامج: وضع بطاقي للهاتف، ووضع زمني (شبكة أفقية) للشاشات الكبيرة.
@@ -36,6 +37,9 @@ class _EpgScreenState extends State<EpgScreen> {
       child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 12, runSpacing: 8, children: [
         Text('دليل البرامج', style: t.headlineSmall),
         if (s.epgLoading) StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: true),
+        if (s.reminders.isNotEmpty)
+          TextButton.icon(onPressed: () => showReminders(context),
+              icon: Icon(Icons.notifications_active_rounded, color: p.gold, size: 20), label: Text('تذكيراتي (${s.reminders.length})')),
         Text('${hhmm(DateTime.now())}  ·  ${_dayLabel(DateTime.now().add(Duration(days: day)))}', style: t.titleSmall!.copyWith(color: p.text2)),
         if (chans.isNotEmpty) ...[
           SegmentedButton<int>(
@@ -160,6 +164,7 @@ class _EpgScreenState extends State<EpgScreen> {
           icon: const Icon(Icons.play_arrow_rounded),
           label: Text(live ? 'شاهد الآن' : 'شاهد القناة'),
         ),
+        if (pr.start.isAfter(now)) ...[const SizedBox(height: 10), ReminderButton(channel: c, program: pr)],
       ])),
     );
   }
@@ -262,7 +267,11 @@ class _EpgScreenState extends State<EpgScreen> {
                   : isNow ? Border.all(color: p.accent, width: 1.5) : null,
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(pr.title, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.labelLarge),
+              Row(children: [
+                if (AppStore.I.reminderFor(c.id, pr.start) != null) ...[
+                  Icon(Icons.notifications_active_rounded, size: 14, color: p.gold), const SizedBox(width: 4)],
+                Expanded(child: Text(pr.title, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.labelLarge)),
+              ]),
               Text('${hhmm(pr.start)} – ${hhmm(pr.stop)}', maxLines: 1, style: t.labelSmall),
             ]),
           ),
@@ -320,6 +329,7 @@ class _EpgScreenState extends State<EpgScreen> {
                   const SizedBox(width: 8),
                   Expanded(child: Text(next.title, style: t.bodyMedium, maxLines: 1, overflow: TextOverflow.ellipsis)),
                   Text(hhmm(next.start), style: t.labelMedium),
+                  ReminderButton(channel: c, program: next, expanded: false),
                 ]),
               ),
             ],
@@ -359,8 +369,11 @@ Future<void> showProgramSheet(BuildContext context, Channel c, EpgProgram pr, Li
             onPressed: () { Navigator.pop(ctx); openPlayer(context, Playable.channel(c), queue: queueOf(chans)); },
             icon: const Icon(Icons.play_arrow_rounded), label: const Text('شاهد الآن'),
           )
-        else
+        else ...[
           Text('يبدأ ${pr.start.day}/${pr.start.month} الساعة ${hhmm(pr.start)}', style: t.bodySmall, textAlign: TextAlign.center),
+          const SizedBox(height: 10),
+          ReminderButton(channel: c, program: pr),
+        ],
       ]),
     )),
   );

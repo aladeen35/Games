@@ -28,6 +28,20 @@ Future<({String name, String text})?> pickPlaylistFile() async {
   return (name: f.name, text: t);
 }
 
+/// ملف ترجمة SRT أو VTT من الجهاز.
+Future<({String name, String text})?> pickSubtitleFile() async {
+  final f = await FilePicker.pickFile(type: FileType.custom, allowedExtensions: const ['srt', 'vtt', 'txt']);
+  if (f == null) return null;
+  final b = await f.readAsBytes();
+  String t;
+  try {
+    t = utf8.decode(b);
+  } catch (_) {
+    t = latin1.decode(b);
+  }
+  return (name: f.name, text: t);
+}
+
 Future<void> enterPlayerMode() async {
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 }

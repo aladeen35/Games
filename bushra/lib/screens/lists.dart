@@ -4,6 +4,7 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
+import 'series.dart';
 import 'add_source.dart';
 import 'settings.dart';
 import 'shell.dart';
@@ -73,8 +74,7 @@ class ListsScreen extends StatelessWidget {
           for (final c in s.favorites.values.take(6))
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: ChannelCard(channel: c, onTap: () => openPlayer(context, Playable.channel(c),
-                  queue: queueOf(s.favorites.values.toList()))),
+              child: ChannelCard(channel: c, onTap: () => openChannel(context, c, s.favorites.values.toList())),
             ),
         SectionHeader('الملفات المحلية', subtitle: '${s.localVideos.length} ملف من جهازك', icon: Icons.smartphone_rounded,
             onSeeAll: () => Shell.go('local')),

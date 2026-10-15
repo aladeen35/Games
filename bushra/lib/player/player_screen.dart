@@ -8,7 +8,9 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../platform/platform.dart' as plat;
 import '../widgets/common.dart';
+import '../data/net.dart';
 import 'engine.dart';
+import 'subtitles.dart';
 
 /// يفتح المشغل. [queue] قائمة القنوات للتنقل بالقناة التالية/السابقة.
 Future<void> openPlayer(BuildContext context, Playable item, {List<Playable>? queue}) async {
@@ -51,6 +53,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   DateTime _bufferSince = DateTime.now();
   String? _seekFlash;
   Timer? _flashT;
+  SubtitleTrack? sub;
+  Duration subOffset = Duration.zero;
 
   @override
   void initState() {
@@ -67,6 +71,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _retry?.cancel();
     retryIn = 0;
     slow = false;
+    if (!reconnect && p.key != item.key) {
+      sub = null;
+      subOffset = Duration.zero;
+    }
     item = p;
     if (!reconnect) s.recordPlay(p);
     final h = s.historyOf(p.key);
@@ -244,6 +252,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 if (_seekFlash != null)
                   Center(child: _Glass(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                       child: Text(_seekFlash!, style: const TextStyle(fontFamily: kFont, fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600))))),
+                if (sub != null) _subtitleLayer(),
                 _stateLayer(p),
                 AnimatedOpacity(
                   opacity: overlay ? 1 : 0,
@@ -423,7 +432,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
             Row(children: [
               _CtrlBtn(icon: e.volume == 0 ? Icons.volume_off_rounded : Icons.volume_up_rounded, tip: 'الصوت',
                   onTap: () => e.setVolume(e.volume > 0 ? 0 : 1)),
-              _CtrlBtn(icon: Icons.closed_caption_outlined, tip: 'الترجمة', onTap: _subtitles),
+              _CtrlBtn(icon: sub != null ? Icons.closed_caption_rounded : Icons.closed_caption_outlined, tip: 'الترجمة',
+                  color: sub != null ? BColors.teal : null, onTap: _subtitles),
               _CtrlBtn(icon: Icons.high_quality_outlined, tip: 'اختيار الجودة', onTap: _qualitySheet,
                   label: qualityLabel ?? 'تلقائي'),
               const Spacer(),
@@ -561,14 +571,104 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ]));
   }
 
-  Future<void> _subtitles() => _panel('الترجمة', (c, set) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const _Note('لا تتوفر ترجمة لهذا المصدر.'),
-        const SizedBox(height: 12),
-        Text('حجم الترجمة', style: Theme.of(c).textTheme.titleSmall),
-        Slider(value: s.settings.subtitleScale, min: .8, max: 1.6, divisions: 4,
-            label: '${(s.settings.subtitleScale * 100).round()}%',
-            onChanged: (v) { s.settings.subtitleScale = v; s.saveSettings(); set(() {}); }),
-      ]));
+  /// سطر الترجمة: يرتفع فوق أدوات التحكم حين تظهر، بحجم وخلفية من الإعدادات.
+  Widget _subtitleLayer() {
+    final text = sub!.at(e.position, subOffset);
+    if (text == null) return const SizedBox.shrink();
+    final st = s.settings;
+    final wide = MediaQuery.sizeOf(context).width > 700;
+    return Positioned(
+      left: 24, right: 24, bottom: overlay ? 150 : 36,
+      child: IgnorePointer(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: st.subtitleBackground
+                ? BoxDecoration(color: const Color(0xB3000000), borderRadius: BorderRadius.circular(8))
+                : null,
+            child: Text(text, textAlign: TextAlign.center, style: TextStyle(
+              fontFamily: kFont, color: Colors.white, height: 1.35, fontWeight: FontWeight.w500,
+              fontSize: (wide ? 26 : 18) * st.subtitleScale,
+              shadows: st.subtitleBackground ? null : const [Shadow(blurRadius: 4), Shadow(blurRadius: 8)],
+            )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _loadSubtitle(String name, String text) async {
+    try {
+      final t = parseSubtitles(name, text);
+      setState(() { sub = t; subOffset = Duration.zero; });
+      if (mounted) toast(context, 'حُمّلت الترجمة: ${t.cues.length} سطرًا', icon: Icons.closed_caption_rounded);
+    } catch (_) {
+      if (mounted) toast(context, 'الملف ليس ترجمة SRT أو VTT صالحة', icon: Icons.error_outline_rounded);
+    }
+  }
+
+  Future<void> _subtitles() => _panel('الترجمة', (c, set) {
+        final t = Theme.of(c).textTheme;
+        final secs = subOffset.inMilliseconds / 1000;
+        return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          if (sub == null) const _Note('لا تتوفر ترجمة لهذا المصدر. يمكنك إضافة ملف SRT أو VTT.'),
+          _Opt(label: 'بدون ترجمة', selected: sub == null, onTap: () { setState(() => sub = null); set(() {}); }),
+          if (sub != null) _Opt(label: sub!.name, hint: '${sub!.cues.length} سطرًا', selected: true, onTap: () {}),
+          const SizedBox(height: 6),
+          OutlinedButton.icon(
+            onPressed: () async {
+              final f = await plat.pickSubtitleFile();
+              if (f == null) return;
+              await _loadSubtitle(f.name, f.text);
+              set(() {});
+            },
+            icon: const Icon(Icons.file_open_outlined), label: const Text('ملف ترجمة من الجهاز'),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: () async {
+              final ctl = TextEditingController();
+              final url = await showDialog<String>(context: c, builder: (d) => AlertDialog(
+                title: const Text('رابط ملف ترجمة'),
+                content: TextField(controller: ctl, autofocus: true, textDirection: TextDirection.ltr,
+                    decoration: const InputDecoration(hintText: 'https://…/subtitle.srt')),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(d), child: const Text('إلغاء')),
+                  FilledButton(onPressed: () => Navigator.pop(d, ctl.text.trim()), child: const Text('تحميل')),
+                ],
+              ));
+              if (url == null || url.isEmpty) return;
+              try {
+                final text = await Net.text(url);
+                await _loadSubtitle(Uri.tryParse(url)?.pathSegments.lastOrNull ?? 'ترجمة', text);
+              } catch (err) {
+                if (mounted) toast(context, err is NetError ? err.message : 'تعذر تحميل الترجمة', icon: Icons.error_outline_rounded);
+              }
+              set(() {});
+            },
+            icon: const Icon(Icons.link_rounded), label: const Text('ترجمة من رابط'),
+          ),
+          if (sub != null) ...[
+            const SizedBox(height: 16),
+            Row(children: [
+              Expanded(child: Text('مزامنة الترجمة', style: t.titleSmall)),
+              Text('${secs > 0 ? '+' : ''}${secs.toStringAsFixed(1)} ث', style: t.titleSmall, textDirection: TextDirection.ltr),
+            ]),
+            Text('قدّم الترجمة إن ظهرت متأخرة، أو أخّرها إن سبقت الكلام.', style: t.bodySmall),
+            Slider(value: secs.clamp(-10, 10), min: -10, max: 10, divisions: 40,
+                onChanged: (v) { setState(() => subOffset = Duration(milliseconds: (v * 1000).round())); set(() {}); }),
+          ],
+          const SizedBox(height: 12),
+          Text('حجم الترجمة', style: t.titleSmall),
+          Slider(value: s.settings.subtitleScale, min: .8, max: 1.6, divisions: 4,
+              label: '${(s.settings.subtitleScale * 100).round()}%',
+              onChanged: (v) { s.settings.subtitleScale = v; s.saveSettings(); setState(() {}); set(() {}); }),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero, title: const Text('خلفية للترجمة'), value: s.settings.subtitleBackground,
+            onChanged: (v) { s.settings.subtitleBackground = v; s.saveSettings(); setState(() {}); set(() {}); },
+          ),
+        ]);
+      });
 
   Future<void> _more() async {
     final audio = await e.audioTracks();
