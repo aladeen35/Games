@@ -15,4 +15,5 @@
 - لا تستدعِ `notifyListeners` مباشرة أثناء البناء؛ `AppStore.notifyListeners` يؤجلها تلقائيًا، فلا تتجاوزه.
 - بيئة السحابة هنا تمنع `dl.google.com`، فلا يُبنى APK محليًا؛ يبنيه `.github/workflows/bushra.yml` على GitHub وينشره في Releases.
 - نسخة الويب المنشورة في `bushra/app/`: `flutter build web --release --no-web-resources-cdn --base-href /Games/bushra/app/` ثم انسخ `build/web` إليها واحذف من `canvaskit/` ملفات `skwasm*` و`wimp*` و`webparagraph` و`*.symbols`.
+- رابط التجربة المباشر: https://aladeen35.github.io/Games/bushra-player/ — من فرع `gh-pages` (موقع فيه مجلدات أخرى، فلا تلمس غير `bushra-player/`). للنشر: ابنِ بـ`--base-href /Games/bushra-player/` وانسخ الناتج (بعد تنظيف canvaskit) إلى `bushra-player/` في `gh-pages`.
 - ارفع `version` في `bushra/pubspec.yaml` مع كل إصدار.
