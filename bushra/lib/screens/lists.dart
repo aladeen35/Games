@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/store.dart';
-import '../player/player_screen.dart';
 import '../widgets/common.dart';
 import 'series.dart';
 import 'add_source.dart';
