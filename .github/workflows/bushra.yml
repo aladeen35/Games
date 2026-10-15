@@ -58,6 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: bushra-v${{ env.VERSION }}-${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
           name: البشرى ${{ env.VERSION }} (بناء ${{ github.run_number }})
           prerelease: ${{ github.ref_name != 'main' }}
           body: |
