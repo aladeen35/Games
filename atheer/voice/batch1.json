@@ -1,0 +1,261 @@
+[
+ {
+  "id": "well_done_f",
+  "emotion": "excited",
+  "text": "أَحْسَنْتِ!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "well_done_m",
+  "emotion": "excited",
+  "text": "أَحْسَنْتَ!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "try_again_f",
+  "emotion": "gently",
+  "text": "حاوِلي مَرَّةً أُخْرى.",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "try_again_m",
+  "emotion": "gently",
+  "text": "حاوِلْ مَرَّةً أُخْرى.",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "wow_cake",
+  "emotion": "excited",
+  "text": "واو! كَعْكَةٌ رائِعَة!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "happy_birthday",
+  "emotion": "cheerfully",
+  "text": "عيدُ ميلادٍ سَعيد!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "lets_count",
+  "emotion": "playfully",
+  "text": "لِنَعُدَّ مَعًا.",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "tie",
+  "emotion": "cheerfully",
+  "text": "تَعادُل!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "won_m",
+  "emotion": "excited",
+  "text": "فازَ",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "won_f",
+  "emotion": "excited",
+  "text": "فازَتْ",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "tetris_four",
+  "emotion": "excited",
+  "text": "رُباعِيَّة!",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "name_atheer",
+  "emotion": "happy",
+  "text": "أَثير",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "name_bushra",
+  "emotion": "happy",
+  "text": "بُشْرى",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "name_kuti",
+  "emotion": "happy",
+  "text": "كوتي",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "name_rila",
+  "emotion": "happy",
+  "text": "ريلا",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "name_sony",
+  "emotion": "happy",
+  "text": "سونى",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_0",
+  "emotion": "calm",
+  "text": "صِفْر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_1",
+  "emotion": "calm",
+  "text": "واحِد",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_2",
+  "emotion": "calm",
+  "text": "اِثْنان",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_3",
+  "emotion": "calm",
+  "text": "ثَلاثَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_4",
+  "emotion": "calm",
+  "text": "أَرْبَعَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_5",
+  "emotion": "calm",
+  "text": "خَمْسَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_6",
+  "emotion": "calm",
+  "text": "سِتَّة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_7",
+  "emotion": "calm",
+  "text": "سَبْعَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_8",
+  "emotion": "calm",
+  "text": "ثَمانِيَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_9",
+  "emotion": "calm",
+  "text": "تِسْعَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_10",
+  "emotion": "calm",
+  "text": "عَشَرَة",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_11",
+  "emotion": "calm",
+  "text": "أَحَدَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_12",
+  "emotion": "calm",
+  "text": "اِثْنا عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_13",
+  "emotion": "calm",
+  "text": "ثَلاثَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_14",
+  "emotion": "calm",
+  "text": "أَرْبَعَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_15",
+  "emotion": "calm",
+  "text": "خَمْسَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_16",
+  "emotion": "calm",
+  "text": "سِتَّةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_17",
+  "emotion": "calm",
+  "text": "سَبْعَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_18",
+  "emotion": "calm",
+  "text": "ثَمانِيَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_19",
+  "emotion": "calm",
+  "text": "تِسْعَةَ عَشَر",
+  "lang": "ar",
+  "batch": 1
+ },
+ {
+  "id": "num_20",
+  "emotion": "calm",
+  "text": "عِشْرون",
+  "lang": "ar",
+  "batch": 1
+ }
+]

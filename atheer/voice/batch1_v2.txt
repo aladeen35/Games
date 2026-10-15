@@ -1,0 +1,73 @@
+أَحْسَنْتِ!
+<break time="1.2s" />
+أَحْسَنْتَ!
+<break time="1.2s" />
+حاوِلي مَرَّةً أُخْرى.
+<break time="1.2s" />
+حاوِلْ مَرَّةً أُخْرى.
+<break time="1.2s" />
+واو! كَعْكَةٌ رائِعَة!
+<break time="1.2s" />
+عيدُ ميلادٍ سَعيد!
+<break time="1.2s" />
+لِنَعُدَّ مَعًا.
+<break time="1.2s" />
+تَعادُل!
+<break time="1.2s" />
+فازَ
+<break time="1.2s" />
+فازَتْ
+<break time="1.2s" />
+رُباعِيَّة!
+<break time="1.2s" />
+أَثير
+<break time="1.2s" />
+بُشْرى
+<break time="1.2s" />
+كوتي
+<break time="1.2s" />
+ريلا
+<break time="1.2s" />
+سونى
+<break time="1.2s" />
+صِفْر
+<break time="1.2s" />
+واحِد
+<break time="1.2s" />
+اِثْنان
+<break time="1.2s" />
+ثَلاثَة
+<break time="1.2s" />
+أَرْبَعَة
+<break time="1.2s" />
+خَمْسَة
+<break time="1.2s" />
+سِتَّة
+<break time="1.2s" />
+سَبْعَة
+<break time="1.2s" />
+ثَمانِيَة
+<break time="1.2s" />
+تِسْعَة
+<break time="1.2s" />
+عَشَرَة
+<break time="1.2s" />
+أَحَدَ عَشَر
+<break time="1.2s" />
+اِثْنا عَشَر
+<break time="1.2s" />
+ثَلاثَةَ عَشَر
+<break time="1.2s" />
+أَرْبَعَةَ عَشَر
+<break time="1.2s" />
+خَمْسَةَ عَشَر
+<break time="1.2s" />
+سِتَّةَ عَشَر
+<break time="1.2s" />
+سَبْعَةَ عَشَر
+<break time="1.2s" />
+ثَمانِيَةَ عَشَر
+<break time="1.2s" />
+تِسْعَةَ عَشَر
+<break time="1.2s" />
+عِشْرون
