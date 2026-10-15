@@ -1,0 +1,11 @@
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# مفتاح توقيع البشرى محفوظ في المستودع (كباقي تطبيقات المستودع) كي تُثبَّت التحديثات فوق النسخ القديمة.
+**/*.jks

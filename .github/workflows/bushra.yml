@@ -1,0 +1,66 @@
+# يبني تطبيق «البشرى» (Flutter) لأندرويد والويب عند أي تعديل في مجلد bushra/
+# ويرفع ملف APK كمرفق للتشغيل، وكإصدار (Release) يمكن تنزيله مباشرة على الجوال.
+name: Bushra — APK & Web
+
+on:
+  push:
+    paths: ['bushra/**', '.github/workflows/bushra.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bushra
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.7
+          cache: true
+
+      - name: Dependencies, analysis and tests
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: Build APK (signed with the Bushra key)
+        run: |
+          flutter build apk --release
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //; s/+.*//')
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-release.apk "dist/AlBushra-$VERSION.apk"
+
+      - name: Build web
+        run: |
+          flutter build web --release --base-href /Games/bushra/app/
+          cd build/web && zip -qr "../../dist/AlBushra-web-$VERSION.zip" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AlBushra-${{ env.VERSION }}
+          path: bushra/dist/*
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: bushra-v${{ env.VERSION }}-${{ github.run_number }}
+          name: البشرى ${{ env.VERSION }} (بناء ${{ github.run_number }})
+          prerelease: ${{ github.ref_name != 'main' }}
+          body: |
+            مشغل «البشرى» للفيديو و IPTV — من الفرع `${{ github.ref_name }}`.
+            ثبّت ملف APK على الجوال أو Android TV (اسمح بالتثبيت من مصادر غير معروفة).
+          files: bushra/dist/*

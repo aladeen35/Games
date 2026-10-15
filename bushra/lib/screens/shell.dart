@@ -1,0 +1,337 @@
+import 'package:flutter/material.dart';
+import '../core/brand.dart';
+import '../core/theme.dart';
+import '../data/models.dart';
+import 'continue.dart';
+import '../data/store.dart';
+import '../widgets/common.dart';
+import 'epg_screen.dart';
+import 'home.dart';
+import 'lists.dart';
+import 'live.dart';
+import 'local.dart';
+import 'search.dart';
+import 'settings.dart';
+
+/// التنقل: شريط سفلي من خمسة عناصر على الهاتف، وشريط جانبي ثابت (يمين) على اللوحي والتلفاز.
+/// في النمط السينمائي يصبح الشريط الجانبي لوحة زجاجية بالشعار الكبير وعنصر نشط متوهج.
+class Shell extends StatefulWidget {
+  const Shell({super.key});
+  static final globalKey = GlobalKey<_ShellState>();
+  /// انتقال برمجي إلى قسم بمعرّفه (مع مجموعة اختيارية في البث المباشر).
+  static void go(String id, {String? group}) => globalKey.currentState?._go(id, group: group);
+  @override
+  State<Shell> createState() => _ShellState();
+}
+
+class _Dest {
+  final String id;
+  final IconData icon, active;
+  final String label;
+  final bool phone;
+  const _Dest(this.id, this.icon, this.active, this.label, {this.phone = false});
+}
+
+const _all = [
+  _Dest('home', Icons.home_outlined, Icons.home_rounded, 'الرئيسية', phone: true),
+  _Dest('live', Icons.live_tv_outlined, Icons.live_tv_rounded, 'البث المباشر', phone: true),
+  _Dest('movies', Icons.movie_outlined, Icons.movie_rounded, 'الأفلام'),
+  _Dest('epg', Icons.calendar_view_week_outlined, Icons.calendar_view_week_rounded, 'دليل البرامج', phone: true),
+  _Dest('continue', Icons.history_rounded, Icons.history_rounded, 'المتابعة'),
+  _Dest('favorites', Icons.star_outline_rounded, Icons.star_rounded, 'المفضلة'),
+  _Dest('lists', Icons.playlist_play_outlined, Icons.playlist_play_rounded, 'قوائمي', phone: true),
+  _Dest('local', Icons.video_library_outlined, Icons.video_library_rounded, 'ملفاتي', phone: true),
+  _Dest('settings', Icons.settings_outlined, Icons.settings_rounded, 'الإعدادات'),
+];
+
+class _ShellState extends State<Shell> {
+  String current = 'home';
+  final liveKey = GlobalKey<LiveScreenState>();
+
+  void _go(String id, {String? group}) {
+    final phone = !context.isWide;
+    if (phone && !_all.firstWhere((d) => d.id == id).phone) {
+      // على الهاتف تُفتح الأقسام الإضافية كصفحات فوق الشريط السفلي
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => Scaffold(
+        appBar: AppBar(title: Text(_all.firstWhere((d) => d.id == id).label)),
+        body: _page(id, standalone: true),
+      )));
+      return;
+    }
+    setState(() => current = id);
+    if (group != null) WidgetsBinding.instance.addPostFrameCallback((_) => liveKey.currentState?.selectGroup(group));
+  }
+
+  Widget _page(String id, {bool standalone = false}) => switch (id) {
+        'live' => LiveScreen(key: standalone ? null : liveKey),
+        'movies' => const LiveScreen(initialKind: ChannelKind.vod),
+        'epg' => const EpgScreen(),
+        'continue' => const ContinueScreen(),
+        'favorites' => const LiveScreen(initialGroup: '★'),
+        'lists' => const ListsScreen(),
+        'local' => const LocalScreen(),
+        'settings' => const SettingsScreen(standalone: false),
+        _ => const HomeScreen(),
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final wide = context.isWide;
+    final p = context.bc;
+    final hasVod = AppStore.I.allChannels.any((c) => !c.isLive);
+    final dests = [for (final d in _all) if (wide ? (d.id != 'movies' || hasVod) : d.phone) d];
+    if (!dests.any((d) => d.id == current)) current = 'home';
+    final body = AnimatedSwitcher(
+      duration: AppStore.I.settings.reduceMotion ? Duration.zero : BMotion.page,
+      switchInCurve: Curves.easeOutCubic,
+      transitionBuilder: (c, a) => FadeTransition(opacity: a,
+          child: SlideTransition(position: Tween(begin: const Offset(0, .015), end: Offset.zero).animate(a), child: c)),
+      child: KeyedSubtree(key: ValueKey(current), child: _page(current)),
+    );
+    final index = dests.indexWhere((d) => d.id == current);
+    if (!wide) {
+      return Scaffold(
+        body: body,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: index,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          onDestinationSelected: (v) => setState(() => current = dests[v].id),
+          destinations: [
+            for (final d in dests) NavigationDestination(icon: Icon(d.icon), selectedIcon: Icon(d.active), label: d.id == 'epg' ? 'الدليل' : d.label),
+          ],
+        ),
+      );
+    }
+    final Widget nav = p.cinematic
+        ? _CineNav(dests: dests, current: current, onTap: (id) => setState(() => current = id))
+        : NavigationRail(
+            selectedIndex: index,
+            extended: context.isTv,
+            minExtendedWidth: 220,
+            labelType: context.isTv ? NavigationRailLabelType.none : NavigationRailLabelType.all,
+            onDestinationSelected: (v) => setState(() => current = dests[v].id),
+            leading: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: context.isTv ? const BushraLogo(size: 34) : const BushraMark(size: 38),
+            ),
+            destinations: [
+              for (final d in dests) NavigationRailDestination(icon: Icon(d.icon), selectedIcon: Icon(d.active), label: Text(d.label)),
+            ],
+          );
+    return Scaffold(
+      body: Row(children: [
+        FocusTraversalGroup(child: nav),
+        if (!p.cinematic) VerticalDivider(width: 1, color: p.border),
+        Expanded(child: body),
+      ]),
+    );
+  }
+}
+
+class _CineNav extends StatelessWidget {
+  final List<_Dest> dests;
+  final String current;
+  final ValueChanged<String> onTap;
+  const _CineNav({required this.dests, required this.current, required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    final p = context.bc;
+    final t = Theme.of(context).textTheme;
+    final compact = !context.isTv && MediaQuery.sizeOf(context).width < 1000;
+    return Container(
+      width: compact ? 96 : 236,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+            colors: [const Color(0xE60A1A26), const Color(0xF2050C14)]),
+        border: BorderDirectional(start: BorderSide(color: p.accent.withValues(alpha: .12))),
+      ),
+      child: SafeArea(
+        child: Column(children: [
+          const SizedBox(height: 24),
+          if (compact) const BushraMark(size: 48) else Column(children: [
+            const BushraMark(size: 84),
+            const SizedBox(height: 6),
+            Text('البشرى', style: t.headlineMedium!.copyWith(fontSize: 30, height: 1.1)),
+          ]),
+          const SizedBox(height: 22),
+          Expanded(child: ListView(padding: const EdgeInsets.symmetric(horizontal: 12), children: [
+            for (final d in dests)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: _CineItem(d: d, selected: d.id == current, compact: compact, onTap: () => onTap(d.id)),
+              ),
+          ])),
+        ]),
+      ),
+    );
+  }
+}
+
+class _CineItem extends StatefulWidget {
+  final _Dest d;
+  final bool selected, compact;
+  final VoidCallback onTap;
+  const _CineItem({required this.d, required this.selected, required this.compact, required this.onTap});
+  @override
+  State<_CineItem> createState() => _CineItemState();
+}
+
+class _CineItemState extends State<_CineItem> {
+  bool focus = false;
+  @override
+  Widget build(BuildContext context) {
+    final p = context.bc;
+    final sel = widget.selected;
+    final on = sel || focus;
+    return Tooltip(
+      message: widget.compact ? widget.d.label : '',
+      child: AnimatedContainer(
+        duration: BMotion.fast,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: on ? LinearGradient(colors: [p.accent.withValues(alpha: .20), p.accent.withValues(alpha: .05)]) : null,
+          border: Border.all(color: on ? p.accent.withValues(alpha: focus ? 1 : .7) : Colors.transparent, width: focus ? 2.5 : 1.4),
+          boxShadow: on ? [BoxShadow(color: p.accent.withValues(alpha: .22), blurRadius: 20)] : null,
+        ),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: widget.onTap,
+            onFocusChange: (f) => setState(() => focus = f),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: widget.compact ? 0 : 16, vertical: 14),
+              child: Row(mainAxisAlignment: widget.compact ? MainAxisAlignment.center : MainAxisAlignment.start, children: [
+                Icon(sel ? widget.d.active : widget.d.icon, color: on ? p.accent : p.text2, size: 26),
+                if (!widget.compact) ...[
+                  const SizedBox(width: 14),
+                  Text(widget.d.label, style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: on ? p.text : p.text2, fontWeight: sel ? FontWeight.w600 : FontWeight.w500)),
+                ],
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// رأس الشاشات: الشعار يمينًا، البحث في الوسط، والحالة والحساب يسارًا. على الهاتف صفّان.
+class TopHeader extends StatelessWidget {
+  final bool showLogo;
+  const TopHeader({super.key, this.showLogo = true});
+
+  @override
+  Widget build(BuildContext context) {
+    final wide = context.isWide;
+    final search = _SearchBox();
+    final status = const ConnectionPill();
+    final avatar = Tooltip(
+      message: 'الحساب والإعدادات',
+      child: BTap(
+        radius: 999,
+        onTap: () => wide ? Shell.go('settings') : Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+        child: CircleAvatar(
+          radius: 20, backgroundColor: context.bc.highlight,
+          child: Icon(Icons.person_rounded, color: context.bc.text2),
+        ),
+      ),
+    );
+    if (wide) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+        child: Row(children: [
+          if (showLogo && !context.isTv) ...[const BushraLogo(size: 32), const SizedBox(width: 24)],
+          Expanded(child: Align(alignment: Alignment.center, child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 560), child: search))),
+          const SizedBox(width: 16),
+          status,
+          const SizedBox(width: 10),
+          avatar,
+        ]),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
+      child: Column(children: [
+        Row(children: [
+          const BushraLogo(size: 30),
+          const Spacer(),
+          status,
+          const SizedBox(width: 8),
+          avatar,
+        ]),
+        const SizedBox(height: 12),
+        search,
+      ]),
+    );
+  }
+}
+
+class _SearchBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final p = context.bc;
+    return BTap(
+      radius: 14,
+      color: p.dark ? p.container : p.surface,
+      onTap: () => Navigator.of(context).push(PageRouteBuilder(
+        transitionDuration: BMotion.page,
+        pageBuilder: (_, _, _) => const SearchScreen(),
+        transitionsBuilder: (_, a, _, c) => FadeTransition(opacity: a, child: c),
+      )),
+      semantic: 'بحث',
+      child: Container(
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), border: p.dark ? null : Border.all(color: p.border)),
+        child: Row(children: [
+          Icon(Icons.search_rounded, color: p.text3),
+          const SizedBox(width: 10),
+          Expanded(child: Text('ابحث عن قناة أو برنامج أو مجموعة…', maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: p.text3))),
+          Icon(Icons.keyboard_voice_outlined, color: p.text3, size: 20),
+        ]),
+      ),
+    );
+  }
+}
+
+/// حالة الاتصال الإجمالية بالمصادر: نص + أيقونة.
+class ConnectionPill extends StatelessWidget {
+  const ConnectionPill({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final s = AppStore.I;
+    final p = context.bc;
+    if (s.sources.isEmpty) return const SizedBox.shrink();
+    if (s.status.values.any((v) => v == SourceStatus.updating)) {
+      return StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: !context.isWide);
+    }
+    final errs = s.sources.values.where((x) => x.lastError != null).toList();
+    if (errs.isNotEmpty) {
+      final auth = errs.any((x) => x.lastError!.contains('صلاحية'));
+      return StatusPill(
+        text: auth ? 'يحتاج إلى تسجيل الدخول' : (errs.every((x) => x.stale) ? 'بيانات قديمة' : 'لا يمكن الوصول للمصدر'),
+        icon: auth ? Icons.key_rounded : Icons.cloud_off_rounded, color: auth ? p.gold : p.danger, dense: !context.isWide,
+      );
+    }
+    return StatusPill(text: 'متصل', icon: Icons.check_circle_rounded, color: p.live, dense: !context.isWide);
+  }
+}
+
+IconData groupIcon(String g) {
+  final n = g.toLowerCase();
+  bool has(List<String> k) => k.any(n.contains);
+  if (has(['news', 'أخبار', 'اخبار', 'إخبار'])) return Icons.newspaper_rounded;
+  if (has(['sport', 'رياض', 'bein', 'ssc', 'كرة'])) return Icons.sports_soccer_rounded;
+  if (has(['kid', 'أطفال', 'اطفال', 'cartoon', 'كرتون'])) return Icons.child_care_rounded;
+  if (has(['movie', 'film', 'أفلام', 'افلام', 'cinema', 'سينما', 'vod'])) return Icons.movie_outlined;
+  if (has(['series', 'مسلسل', 'دراما', 'drama'])) return Icons.theaters_rounded;
+  if (has(['music', 'موسيق', 'أغاني', 'اغاني'])) return Icons.music_note_rounded;
+  if (has(['quran', 'قرآن', 'قران', 'islam', 'دين', 'إسلام'])) return Icons.menu_book_rounded;
+  if (has(['doc', 'وثائق', 'geo', 'discovery'])) return Icons.public_rounded;
+  return Icons.folder_outlined;
+}
+
+List<Playable> queueOf(List<Channel> l) => [for (final c in l.take(2000)) Playable.channel(c)];
