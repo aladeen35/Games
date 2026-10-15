@@ -4328,5 +4328,55 @@
   "emotion": "cheerful",
   "batch": 13,
   "note": "Z is for Zebra"
+ },
+ {
+  "id": "photo_1",
+  "text": "العَمُّ عَلاءُ الدّين",
+  "plain": "العم علاء الدين",
+  "lang": "ar",
+  "game": "memory,slide",
+  "emotion": "happy",
+  "batch": 14,
+  "note": "اسم صاحب الصورة العائلية"
+ },
+ {
+  "id": "photo_4",
+  "text": "العَمَّةُ إيثار",
+  "plain": "العمة إيثار",
+  "lang": "ar",
+  "game": "memory,slide",
+  "emotion": "happy",
+  "batch": 14,
+  "note": "اسم صاحب الصورة العائلية"
+ },
+ {
+  "id": "photo_5",
+  "text": "البُشْرى",
+  "plain": "البشرى",
+  "lang": "ar",
+  "game": "memory,slide",
+  "emotion": "happy",
+  "batch": 14,
+  "note": "اسم صاحب الصورة العائلية"
+ },
+ {
+  "id": "photo_6",
+  "text": "جِنان",
+  "plain": "جنان",
+  "lang": "ar",
+  "game": "memory,slide",
+  "emotion": "happy",
+  "batch": 14,
+  "note": "اسم صاحب الصورة العائلية"
+ },
+ {
+  "id": "photo_7",
+  "text": "العَمُّ ضِياء",
+  "plain": "العم ضياء",
+  "lang": "ar",
+  "game": "memory,slide",
+  "emotion": "happy",
+  "batch": 14,
+  "note": "اسم صاحب الصورة العائلية"
  }
 ]

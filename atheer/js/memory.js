@@ -33,10 +33,10 @@
       ['🍦', 'آيس كريم'], ['🎂', 'كعكة عيد ميلاد'], ['🍮', 'بودينغ'], ['🥧', 'فطيرة'], ['🍯', 'عسل'], ['🥞', 'بان كيك'], ['🍨', 'بوظة']] }
   };
   const DECK_KEYS = Object.keys(DECKS);
-  /* صور العائلة: صور حقيقية تُحمَّل من مجلد التطبيق (بلا أسماء، لذا لا نطق لها) */
+  /* صور العائلة: صور حقيقية تُحمَّل من مجلد التطبيق، مع اسم صاحب كل صورة */
   DECKS.photos = { t: 'صور العائلة', ic: '🖼️', c: ['#FFF8E6', '#FFE3A8', '#E9B93A', '#8A5A00'], items: [] };
   const PHOTOS = [1, 2, 3, 4, 5, 6, 7].map(n => {
-    const ph = { id: 'photo:' + n, img: new Image(), ok: false, bad: false };
+    const ph = { id: 'photo:' + n, name: App.PHOTO_NAMES[n - 1] || '', img: new Image(), ok: false, bad: false };
     ph.img.onload = () => { ph.ok = true; if (faces[ph.id] && faces[ph.id].tmp) { delete faces[ph.id]; if (cards.length) bakeFaces(); } };
     ph.img.onerror = () => { ph.bad = true; };
     ph.img.src = 'img/photos/p' + n + '.jpg';
@@ -216,6 +216,14 @@
     x.restore();
     x.strokeStyle = D[2]; x.lineWidth = Math.max(1.5, w * .02); x.beginPath(); x.roundRect(b, b, iw, ih, r * .65); x.stroke();
     x.strokeStyle = 'rgba(255,255,255,.8)'; x.lineWidth = 1; x.beginPath(); x.roundRect(b + 2, b + 2, iw - 4, ih - 4, r * .55); x.stroke();
+    // اسم صاحب الصورة على شريط أسفل البطاقة
+    if (it.n) {
+      let fs = Math.max(9, w * .12); x.font = `800 ${fs}px 'Baloo Bhaijaan 2',system-ui,sans-serif`;
+      while (x.measureText(it.n).width > iw - 10 && fs > 7) { fs -= .5; x.font = `800 ${fs}px 'Baloo Bhaijaan 2',system-ui,sans-serif`; }
+      const bh = fs * 1.5, by = h - b - bh - 2;
+      x.fillStyle = 'rgba(255,255,255,.88)'; x.beginPath(); x.roundRect(b + 3, by, iw - 6, bh, bh / 2); x.fill();
+      x.fillStyle = D[3]; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'rtl'; x.fillText(it.n, w / 2, by + bh / 2 + 1);
+    }
     // قلب صغير في الزاوية
     x.save(); x.translate(w - b - w * .1, b + w * .1); x.fillStyle = '#FF5C8A'; x.strokeStyle = '#fff'; x.lineWidth = 1.5; heartPath(x, w * .06); x.fill(); x.stroke(); x.restore();
     return c;
@@ -430,7 +438,7 @@
   function pickItems(d, n, ph) {
     if (d === 'photos') { ph = n; d = 'animals'; }
     if (ph) {
-      const phs = shuffle(PHOTOS.filter(p => !p.bad)).slice(0, Math.min(ph, n)).map(p => ({ e: p.id, n: '', d: 'photos', photo: p }));
+      const phs = shuffle(PHOTOS.filter(p => !p.bad)).slice(0, Math.min(ph, n)).map(p => ({ e: p.id, n: p.name, d: 'photos', photo: p }));
       return shuffle([...phs, ...pickItems(d, n - phs.length, 0)]);
     }
     if (!n) return [];
@@ -540,7 +548,7 @@
   function flipSound() { Sound.noise(.07, 1800, 3600, .05, 1.4); Sound.tone(760, .05, 'triangle', .06, 240); }
   function tapCard(c) {
     if (phase !== 'play' || paused) return;
-    if (c.matched) { c.pop = 1; if (c.it.photo) chime(); else { Sound.pop(); App.speak(c.it.n); } return; }
+    if (c.matched) { c.pop = 1; if (c.it.photo) { chime(); App.speak(c.it.n); } else { Sound.pop(); App.speak(c.it.n); } return; }
     if (c.tgt === 1) return;
     if (open.length >= 2) {
       if (!pend) return;           // ننتظر نتيجة المحاولة
@@ -561,7 +569,7 @@
       for (const c of [a, b]) { c.matched = true; c.mt = 0; c.pop = 1; sparkle(c.x, c.y, DECKS[c.it.d].c[2]); }
       streak++;
       Sound.star(); later(.08, () => Sound.merge(Math.min(10, streak + 2))); vibrate(25); shake = Math.max(shake, 2.5);
-      if (a.it.photo) chime(); else App.speak(a.it.n);
+      if (a.it.photo) { chime(); App.speak(a.it.n); } else App.speak(a.it.n);
       if (duo) { scores[turn]++; updDuo(turn); }
       const left = cards.some(c => !c.matched);
       if (!left) { phase = 'over'; later(.8, win); }

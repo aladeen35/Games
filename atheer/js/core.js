@@ -184,6 +184,8 @@ const Music = {
 const App = {
   games: {}, order: [], current: 'menu', profile: null, customLogo: false,
   EDITION: window.EDITION,
+  /** أسماء أصحاب الصور العائلية img/photos/p1..p7 (بالترتيب) */
+  PHOTO_NAMES: ['العم علاء الدين', 'كوتي', 'ريلا', 'العمة إيثار', 'البشرى', 'جنان', 'العم ضياء'],
   PROFILES: window.EDITION.profiles,
   shop: [], shopCats: {
     hero: { title: 'أبطال فارس السحاب', icon: '🛡️' },

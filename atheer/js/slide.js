@@ -656,7 +656,7 @@
   const photoImgs = [];
   for (let k = 0; k < NPHOTO; k++) {
     const id = PHOTO0 + k, im = new Image();
-    PICS.push({ n: 'صورتنا ' + (k + 1), photo: k });
+    PICS.push({ n: App.PHOTO_NAMES[k] || ('صورتنا ' + (k + 1)), photo: k });
     im.onload = () => { im.ok = true; invalidate(id); };
     im.src = 'img/photos/p' + (k + 1) + '.jpg';
     photoImgs.push(im);
