@@ -28,6 +28,10 @@ class Channel {
 
   bool get isLive => kind == ChannelKind.live;
 
+  Channel withKind(ChannelKind k) => k == kind ? this : Channel(
+        id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: logo,
+        tvgId: tvgId, userAgent: userAgent, referrer: referrer, kind: k, number: number);
+
   Map<String, dynamic> toJson() => {
         'i': id, 's': sourceId, 'n': name, 'g': group, 'u': url,
         if (altName != null) 'a': altName, if (logo != null) 'l': logo, if (tvgId != null) 't': tvgId,

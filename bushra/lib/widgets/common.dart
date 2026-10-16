@@ -65,7 +65,10 @@ class _BTapState extends State<BTap> {
 
 /// الحرف المميز للاسم: يتجاوز «ال» التعريف وكلمة «قناة» حتى لا تتشابه البدائل.
 String _initial(String name) {
-  final words = name.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty && w != 'قناة').toList();
+  // كلمات حقيقية فقط (يتجاهل الأقواس والرموز مثل «(بث)» و«|»)
+  final words = name.replaceAll(RegExp(r'\([^)]*\)|\[[^\]]*\]'), ' ').trim().split(RegExp(r'\s+'))
+      .map((w) => w.replaceAll(RegExp(r'[^\p{L}\p{N}]', unicode: true), ''))
+      .where((w) => w.isNotEmpty && w != 'قناة').toList();
   if (words.isEmpty) return '•';
   // الكلمة الأخيرة تميّز عادةً قنوات الشبكة الواحدة (الإخبارية، الرياضية…)
   var n = words.length > 1 ? words.last : words.first;

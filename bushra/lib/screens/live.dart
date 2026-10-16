@@ -22,9 +22,10 @@ class LiveScreen extends StatefulWidget {
 class LiveScreenState extends State<LiveScreen> {
   String? sourceId; // null = كل القوائم
   late String group = widget.initialGroup;
-  late ChannelKind kind = widget.initialKind;
-  /// مصدر العرض: قوائم المستخدم أو القنوات المفتوحة المضمّنة.
-  late bool open = AppStore.I.sources.isEmpty && widget.initialGroup.isEmpty;
+  ChannelKind get kind => widget.initialKind;
+  /// مصدر العرض: قوائم المستخدم أو القنوات المفتوحة المضمّنة (للبث المباشر فقط).
+  late bool open = widget.initialKind == ChannelKind.live && AppStore.I.sources.isEmpty && widget.initialGroup.isEmpty;
+  bool get _liveTab => widget.initialKind == ChannelKind.live;
   String filter = '';
   Channel? focused;
   final _filterCtl = TextEditingController();
@@ -37,12 +38,11 @@ class LiveScreenState extends State<LiveScreen> {
 
   void selectGroup(String g) => setState(() {
         open = false;
-        kind = ChannelKind.live;
         group = g;
       });
 
   void _setOpen(bool v) {
-    setState(() { open = v; group = ''; filter = ''; _filterCtl.clear(); focused = null; if (v) kind = ChannelKind.live; });
+    setState(() { open = v; group = ''; filter = ''; _filterCtl.clear(); focused = null; });
     if (v) AppStore.I.loadOpen();
   }
 
@@ -62,8 +62,8 @@ class LiveScreenState extends State<LiveScreen> {
     final wide = context.isWide;
     final hp = context.isTv ? MediaQuery.sizeOf(context).width * .04 : (wide ? 24.0 : 16.0);
 
-    // ——— اختيار المصدر في الأعلى ———
-    final switcher = Padding(
+    // ——— اختيار المصدر في الأعلى (البث المباشر فقط) ———
+    final Widget switcher = !_liveTab ? const SizedBox(height: 6) : Padding(
       padding: EdgeInsets.fromLTRB(hp, 14, hp, 4),
       child: Align(
         alignment: AlignmentDirectional.centerStart,
@@ -112,6 +112,21 @@ class LiveScreenState extends State<LiveScreen> {
         ]),
       );
     } else {
+      if (!_liveTab && !s.allChannels.any(_match)) {
+        final movies = kind == ChannelKind.vod;
+        return SafeArea(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Padding(padding: EdgeInsets.fromLTRB(hp, 18, hp, 0), child: Text(movies ? 'الأفلام' : 'المسلسلات', style: t.headlineSmall)),
+          Expanded(child: EmptyState(
+            icon: movies ? Icons.movie_outlined : Icons.theaters_rounded,
+            title: movies ? 'لا توجد أفلام في قوائمك بعد' : 'لا توجد مسلسلات في قوائمك بعد',
+            body: movies
+                ? 'تظهر هنا الأفلام الثابتة فقط (ملفات تُشاهَد من البداية)، لا قنوات التلفاز التي تعرض أفلامًا. أضف حساب مزود أو قائمة فيها أفلام.'
+                : 'تظهر هنا مسلسلات حسابات المزودين بمواسمها وحلقاتها. أضف حساب مزود (Xtream) يحوي مسلسلات.',
+            action: 'إضافة حساب أو قائمة',
+            onAction: () => openAddSource(context),
+          )),
+        ]));
+      }
       if (s.sources.isEmpty) {
         return SafeArea(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           switcher,
@@ -176,10 +191,6 @@ class LiveScreenState extends State<LiveScreen> {
       list = list.where((c) => c.name.toLowerCase().contains(f) || (c.altName?.toLowerCase().contains(f) ?? false)).toList();
     }
 
-    final kinds = open ? const <ChannelKind>[] : [
-      for (final k in ChannelKind.values) if (s.allChannels.any((c) => c.kind == k)) k,
-    ];
-
     final Widget grid;
     if (list.isEmpty && open && s.openLoading) {
       grid = Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -229,20 +240,6 @@ class LiveScreenState extends State<LiveScreen> {
         switcher,
         Padding(padding: EdgeInsets.fromLTRB(hp, 8, hp, 6), child: status),
         ?notice,
-        if (kinds.length > 1)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: hp),
-            child: Align(alignment: AlignmentDirectional.centerStart, child: SegmentedButton<ChannelKind>(
-              showSelectedIcon: false,
-              segments: [
-                for (final k in kinds)
-                  ButtonSegment(value: k, label: Text(switch (k) { ChannelKind.live => 'قنوات', ChannelKind.vod => 'أفلام', ChannelKind.series => 'مسلسلات' }),
-                      icon: Icon(switch (k) { ChannelKind.live => Icons.sensors_rounded, ChannelKind.vod => Icons.movie_outlined, ChannelKind.series => Icons.theaters_rounded })),
-              ],
-              selected: {kinds.contains(kind) ? kind : kinds.first},
-              onSelectionChanged: (v) => setState(() { kind = v.first; group = ''; }),
-            )),
-          ),
         // المجموعات: اسم + أيقونة صغيرة، لا ألوان مستقلة
         SizedBox(
           height: 58,

@@ -7,9 +7,8 @@ import '../data/store.dart';
 import '../widgets/common.dart';
 import 'epg_screen.dart';
 import 'home.dart';
-import 'lists.dart';
+import 'library.dart';
 import 'live.dart';
-import 'local.dart';
 import 'search.dart';
 import 'settings.dart';
 
@@ -32,16 +31,16 @@ class _Dest {
   const _Dest(this.id, this.icon, this.active, this.label, {this.phone = false});
 }
 
+/// الشريط الثابت: الرئيسية، الأفلام، المسلسلات، البث المباشر، الدليل — ثم «قوائمي» (القوائم + ملفاتي).
 const _all = [
   _Dest('home', Icons.home_outlined, Icons.home_rounded, 'الرئيسية', phone: true),
+  _Dest('movies', Icons.movie_outlined, Icons.movie_rounded, 'الأفلام', phone: true),
+  _Dest('series', Icons.theaters_outlined, Icons.theaters_rounded, 'المسلسلات', phone: true),
   _Dest('live', Icons.live_tv_outlined, Icons.live_tv_rounded, 'البث المباشر', phone: true),
-  _Dest('movies', Icons.movie_outlined, Icons.movie_rounded, 'الأفلام'),
-  _Dest('series', Icons.theaters_outlined, Icons.theaters_rounded, 'المسلسلات'),
-  _Dest('epg', Icons.calendar_view_week_outlined, Icons.calendar_view_week_rounded, 'دليل البرامج', phone: true),
+  _Dest('epg', Icons.calendar_view_week_outlined, Icons.calendar_view_week_rounded, 'الدليل', phone: true),
+  _Dest('library', Icons.video_library_outlined, Icons.video_library_rounded, 'قوائمي', phone: true),
   _Dest('continue', Icons.history_rounded, Icons.history_rounded, 'المتابعة'),
   _Dest('favorites', Icons.star_outline_rounded, Icons.star_rounded, 'المفضلة'),
-  _Dest('lists', Icons.playlist_play_outlined, Icons.playlist_play_rounded, 'قوائمي', phone: true),
-  _Dest('local', Icons.video_library_outlined, Icons.video_library_rounded, 'ملفاتي', phone: true),
   _Dest('settings', Icons.settings_outlined, Icons.settings_rounded, 'الإعدادات'),
 ];
 
@@ -49,7 +48,14 @@ class _ShellState extends State<Shell> {
   String current = 'home';
   final liveKey = GlobalKey<LiveScreenState>();
 
+  int libraryTab = 0;
+
   void _go(String id, {String? group}) {
+    // «قوائمي» و«ملفاتي» صارا تبويبين داخل قسم واحد
+    if (id == 'lists' || id == 'local') {
+      libraryTab = id == 'local' ? 1 : 0;
+      id = 'library';
+    }
     final phone = !context.isWide;
     if (phone && !_all.firstWhere((d) => d.id == id).phone) {
       // على الهاتف تُفتح الأقسام الإضافية كصفحات فوق الشريط السفلي
@@ -70,8 +76,7 @@ class _ShellState extends State<Shell> {
         'epg' => const EpgScreen(),
         'continue' => const ContinueScreen(),
         'favorites' => const LiveScreen(initialGroup: '★'),
-        'lists' => const ListsScreen(),
-        'local' => const LocalScreen(),
+        'library' => LibraryScreen(key: ValueKey('lib$libraryTab'), initialTab: libraryTab),
         'settings' => const SettingsScreen(standalone: false),
         _ => const HomeScreen(),
       };
@@ -80,13 +85,7 @@ class _ShellState extends State<Shell> {
   Widget build(BuildContext context) {
     final wide = context.isWide;
     final p = context.bc;
-    final all = AppStore.I.allChannels;
-    final hasVod = all.any((c) => c.kind == ChannelKind.vod);
-    final hasSeries = all.any((c) => c.kind == ChannelKind.series);
-    final dests = [
-      for (final d in _all)
-        if (wide ? ((d.id != 'movies' || hasVod) && (d.id != 'series' || hasSeries)) : d.phone) d
-    ];
+    final dests = [for (final d in _all) if (wide || d.phone) d];
     if (!dests.any((d) => d.id == current)) current = 'home';
     final body = AnimatedSwitcher(
       duration: AppStore.I.settings.reduceMotion ? Duration.zero : BMotion.page,
@@ -102,9 +101,10 @@ class _ShellState extends State<Shell> {
         bottomNavigationBar: NavigationBar(
           selectedIndex: index,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          onDestinationSelected: (v) => setState(() => current = dests[v].id),
+          onDestinationSelected: (v) => setState(() { current = dests[v].id; libraryTab = 0; }),
           destinations: [
-            for (final d in dests) NavigationDestination(icon: Icon(d.icon), selectedIcon: Icon(d.active), label: d.id == 'epg' ? 'الدليل' : d.label),
+            for (final d in dests)
+              NavigationDestination(icon: Icon(d.icon), selectedIcon: Icon(d.active), label: d.id == 'live' ? 'مباشر' : d.label, tooltip: d.label),
           ],
         ),
       );

@@ -9,13 +9,18 @@ class M3uResult {
 final _attr = RegExp(r'([a-zA-Z0-9\-_]+)="([^"]*)"');
 final _vodExt = RegExp(r'\.(mp4|mkv|avi|mov|wmv|flv|webm|m4v|mpg|mpeg|3gp)(\?|$)', caseSensitive: false);
 
-ChannelKind guessKind(String url, String group) {
-  final u = url.toLowerCase();
+/// نوع العنصر من رابطه فقط: الأفلام والحلقات ملفات ثابتة (mp4/mkv… أو مسار /movie/ و /series/).
+/// اسم المجموعة لا يُعتد به، فقناة تلفزيونية في مجموعة «أفلام» تبقى بثًا مباشرًا.
+ChannelKind guessKind(String url, [String group = '']) {
+  final u = url.toLowerCase().split('?').first;
+  if (u.contains('.m3u8') || u.endsWith('.ts') || u.endsWith('.mpd')) {
+    // قوائم HLS تحت /movie/ أو /series/ (بعض المزودين) تبقى أفلامًا وحلقات
+    if (u.contains('/series/')) return ChannelKind.series;
+    if (u.contains('/movie/')) return ChannelKind.vod;
+    return ChannelKind.live;
+  }
   if (u.contains('/series/')) return ChannelKind.series;
   if (u.contains('/movie/') || _vodExt.hasMatch(u)) return ChannelKind.vod;
-  final g = group.toLowerCase();
-  if (g.contains('vod') || g.contains('movie') || g.contains('أفلام') || g.contains('افلام')) return ChannelKind.vod;
-  if (g.contains('series') || g.contains('مسلسل')) return ChannelKind.series;
   return ChannelKind.live;
 }
 

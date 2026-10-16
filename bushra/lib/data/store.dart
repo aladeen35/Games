@@ -136,7 +136,9 @@ class AppStore extends ChangeNotifier {
     for (final id in sources.keys) {
       final raw = await _channelsBox.get(id);
       if (raw != null) {
-        _channels[id] = [for (final c in jsonDecode(raw) as List) Channel.fromJson(Map<String, dynamic>.from(c))];
+        final list = [for (final c in jsonDecode(raw) as List) Channel.fromJson(Map<String, dynamic>.from(c))];
+        // قوائم M3U المحفوظة قبل 1.2 صُنّفت بالمجموعة؛ نعيد تصنيفها بالرابط
+        _channels[id] = sources[id]!.type == SourceType.xtream ? list : [for (final c in list) c.withKind(guessKind(c.url))];
       }
       final ep = await _epgBox.get(id);
       if (ep != null) _indexEpg([for (final p in jsonDecode(ep) as List) EpgProgram.fromJson(Map<String, dynamic>.from(p))]);
@@ -144,6 +146,13 @@ class AppStore extends ChangeNotifier {
     for (final v in (_userBox.get('fav', defaultValue: const []) as List)) {
       final c = Channel.fromJson(Map<String, dynamic>.from(jsonDecode(v)));
       favorites[c.id] = c;
+    }
+    // المفضلة نسخ محفوظة؛ نحدّثها من القوائم الحالية (لتطابق التصنيف الجديد)
+    for (final id in favorites.keys.toList()) {
+      for (final l in _channels.values) {
+        final i = l.indexWhere((c) => c.id == id);
+        if (i >= 0) { favorites[id] = l[i]; break; }
+      }
     }
     for (final v in (_userBox.get('history', defaultValue: const []) as List)) {
       history.add(HistoryEntry.fromJson(Map<String, dynamic>.from(jsonDecode(v))));

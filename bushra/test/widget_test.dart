@@ -28,6 +28,15 @@ http://s.example/movie/u/p/9.mp4
     expect(r.channels[1].kind, ChannelKind.vod);
   });
 
+  test('Kind comes from the URL, not the group name', () {
+    expect(guessKind('http://x/live/MBC2.m3u8', 'أفلام'), ChannelKind.live);
+    expect(guessKind('http://x/stream/12.ts', 'Movies'), ChannelKind.live);
+    expect(guessKind('http://x/films/a.mkv'), ChannelKind.vod);
+    expect(guessKind('http://x/movie/u/p/9.mp4'), ChannelKind.vod);
+    expect(guessKind('http://x/series/u/p/77.mp4'), ChannelKind.series);
+    expect(guessKind('http://x/movie/u/p/9.m3u8'), ChannelKind.vod);
+  });
+
   test('Arabic search normalizes and tolerates one typo', () {
     expect(normalize('القُرْآن الكريم'), 'القران الكريم');
     expect(score(normalize('قناة الرياضة'), expand('رياضه')), greaterThan(0));
