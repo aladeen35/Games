@@ -109,10 +109,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
               children: [for (final h in resume.take(10)) WatchCard(entry: h, width: context.isTv ? 340 : 270)],
             ),
       if (favs.isNotEmpty)
-        () => _PosterRow(title: 'مفضلتي', icon: Icons.star_rounded, items: favs, hp: hp, onMore: () => _openGroup('مفضلتي', favs)),
-      () => _PosterRow(title: 'أضيفت حديثًا', icon: Icons.fiber_new_rounded, items: recent, hp: hp),
+        () => PosterRow(title: 'مفضلتي', icon: Icons.star_rounded, items: favs, hp: hp, onMore: () => _openGroup('مفضلتي', favs)),
+      () => PosterRow(title: 'أضيفت حديثًا', icon: Icons.fiber_new_rounded, items: recent, hp: hp),
       for (final g in groups.entries)
-        () => _PosterRow(title: g.key, items: g.value, hp: hp, onMore: () => _openGroup(g.key, g.value)),
+        () => PosterRow(title: g.key, items: g.value, hp: hp, onMore: () => _openGroup(g.key, g.value)),
     ];
 
     return SafeArea(
@@ -144,7 +144,7 @@ class _Section extends StatelessWidget {
     final p = context.bc;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: EdgeInsets.fromLTRB(hp, 22, hp - 6, 10),
+        padding: EdgeInsets.fromLTRB(hp, 22, hp > 6 ? hp - 6 : 0, 10),
         child: Row(children: [
           if (icon != null) ...[Icon(icon, size: 20, color: p.cinematic ? p.gold : p.accent), const SizedBox(width: 8)],
           Expanded(child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.titleLarge)),
@@ -170,13 +170,13 @@ class _Section extends StatelessWidget {
 }
 
 /// صف ملصقات: أول 10 عناصر ثم بطاقة «عرض المزيد».
-class _PosterRow extends StatelessWidget {
+class PosterRow extends StatelessWidget {
   final String title;
   final IconData? icon;
   final List<Channel> items;
   final double hp;
   final VoidCallback? onMore;
-  const _PosterRow({required this.title, this.icon, required this.items, required this.hp, this.onMore});
+  const PosterRow({super.key, required this.title, this.icon, required this.items, required this.hp, this.onMore});
 
   @override
   Widget build(BuildContext context) {

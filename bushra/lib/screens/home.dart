@@ -7,6 +7,7 @@ import '../player/player_screen.dart';
 import '../widgets/common.dart';
 import 'series.dart';
 import 'add_source.dart';
+import 'catalog.dart';
 import 'continue.dart';
 import 'shell.dart';
 
@@ -68,13 +69,39 @@ class HomeScreen extends StatelessWidget {
             for (final c in live.take(20)) _ChannelTile(channel: c, queue: live),
         ]));
     }
+    final favLive = s.favorites.values.where((c) => c.isLive).toList();
     out.add(SectionHeader('قنواتك المفضلة', icon: Icons.star_rounded,
-        onSeeAll: s.favorites.isEmpty ? null : () => Shell.go('live', group: '★')));
-    if (s.favorites.isEmpty) {
+        onSeeAll: favLive.isEmpty ? null : () => Shell.go('live', group: '★')));
+    if (favLive.isEmpty) {
       out.add(_InlineEmpty(text: 'لم تضف قنوات مفضلة بعد', hint: 'اضغط على النجمة أثناء المشاهدة لتجدها هنا.'));
     } else {
-      final favs = s.favorites.values.toList();
-      out.add(_Row(children: [for (final c in favs) _ChannelTile(channel: c, queue: favs)]));
+      out.add(_Row(children: [for (final c in favLive) _ChannelTile(channel: c, queue: favLive)]));
+    }
+
+    // الأفلام والمسلسلات: المفضلة أولًا، ثم صفوف للمشاهدة (الجديد وأكبر المجموعات)
+    void more(String title, List<Channel> items) =>
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => GroupGridScreen(title: title, items: items)));
+    for (final (kind, favTitle, newTitle, tab) in [
+      (ChannelKind.vod, 'أفلامي المفضلة', 'أفلام جديدة', 'movies'),
+      (ChannelKind.series, 'مسلسلاتي المفضلة', 'مسلسلات جديدة', 'series'),
+    ]) {
+      final favs = s.favorites.values.where((c) => c.kind == kind).toList();
+      if (favs.isNotEmpty) {
+        out.add(PosterRow(title: favTitle, icon: Icons.star_rounded, items: favs, hp: 0, onMore: () => more(favTitle, favs)));
+      }
+      final all = s.visible(kind: kind);
+      if (all.isEmpty) continue;
+      final fresh = all.reversed.toList();
+      out.add(PosterRow(title: newTitle, icon: kind == ChannelKind.vod ? Icons.movie_outlined : Icons.theaters_rounded,
+          items: fresh, hp: 0, onMore: () => Shell.go(tab)));
+      final groups = <String, List<Channel>>{};
+      for (final c in all) {
+        (groups[c.group] ??= []).add(c);
+      }
+      final top = groups.entries.toList()..sort((a, b) => b.value.length.compareTo(a.value.length));
+      for (final g in top.take(2)) {
+        out.add(PosterRow(title: g.key, items: g.value, hp: 0, onMore: () => more(g.key, g.value)));
+      }
     }
     final most = s.mostWatched;
     if (most.isNotEmpty) {
@@ -88,7 +115,8 @@ class HomeScreen extends StatelessWidget {
       final newest = (s.sources.values.toList()..sort((a, b) => (b.lastUpdated ?? DateTime(0)).compareTo(a.lastUpdated ?? DateTime(0)))).first;
       final vod = s.visible(sourceId: newest.id, kind: ChannelKind.vod);
       final recent = (vod.isNotEmpty ? vod.reversed : s.visible(sourceId: newest.id)).take(20).toList();
-      if (recent.isNotEmpty) {
+      // الأفلام الجديدة لها صفوفها أعلاه؛ هنا للقوائم التي فيها قنوات فقط
+      if (recent.isNotEmpty && recent.first.isLive) {
         out
           ..add(SectionHeader('أضيفت حديثًا', subtitle: newest.name, icon: Icons.fiber_new_rounded))
           ..add(recent.first.isLive
