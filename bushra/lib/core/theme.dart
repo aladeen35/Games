@@ -148,10 +148,11 @@ ThemeData buildTheme(BPalette p) {
     ),
     filledButtonTheme: FilledButtonThemeData(style: FilledButton.styleFrom(
       backgroundColor: p.cinematic ? p.gold : p.accent, foregroundColor: p.dark ? BColors.midnight950 : Colors.white,
-      elevation: p.cinematic ? 6 : 0, shadowColor: p.cinematic ? p.gold.withValues(alpha: .45) : null,
       minimumSize: const Size(44, 48), padding: const EdgeInsets.symmetric(horizontal: 20),
       textStyle: text.labelLarge,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(BRadius.button)),
+      // النمط السينمائي: زر ذهبي بتدرج ولمعة وتوهج خفيف كما في التصميم
+      backgroundBuilder: p.cinematic ? (ctx, states, child) => glowButton(states, child, gold: true) : null,
     )),
     outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(
       foregroundColor: p.text, side: BorderSide(color: p.cinematic ? p.accent.withValues(alpha: .45) : p.border, width: 1.2),
@@ -234,3 +235,31 @@ ThemeData buildTheme(BPalette p) {
     }),
   );
 }
+
+
+/// خلفية الأزرار المتوهجة (ذهبي للإجراء الرئيسي، فيروزي للثانوي).
+Widget glowButton(Set<WidgetState> states, Widget? child, {required bool gold}) {
+  final off = states.contains(WidgetState.disabled);
+  final hot = states.contains(WidgetState.hovered) || states.contains(WidgetState.focused) || states.contains(WidgetState.pressed);
+  final colors = off
+      ? const [Color(0xFF2A3747), Color(0xFF1E2938)]
+      : gold
+          ? const [Color(0xFFFFE08A), Color(0xFFF7C04F), Color(0xFFD9982C)]
+          : const [Color(0xFF2BD9C9), Color(0xFF0E9C98), Color(0xFF0A6F72)];
+  final glow = gold ? const Color(0xFFF7C04F) : const Color(0xFF2EE6D6);
+  return DecoratedBox(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(BRadius.button),
+      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: colors),
+      border: Border.all(color: Colors.white.withValues(alpha: off ? .05 : .28), width: 1),
+      boxShadow: off ? null : [BoxShadow(color: glow.withValues(alpha: hot ? .55 : .3), blurRadius: hot ? 22 : 14, spreadRadius: -2)],
+    ),
+    child: child,
+  );
+}
+
+/// زر فيروزي ثانوي («اختيار ملف»، «تحديث») في النمط السينمائي.
+ButtonStyle tealButtonStyle(BPalette p) => FilledButton.styleFrom(
+      backgroundColor: p.accentDeep, foregroundColor: Colors.white,
+      backgroundBuilder: p.cinematic ? (ctx, states, child) => glowButton(states, child, gold: false) : null,
+    );

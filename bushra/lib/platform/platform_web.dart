@@ -61,3 +61,33 @@ Future<bool> enterPip() async => false;
 Future<void> setAutoPip(bool on) async {}
 
 bool get isWebHttps => web.window.location.protocol == 'https:';
+
+/// على المتصفح: صوت المشغل نفسه، والإضاءة تُحاكى بتعتيم فوق الفيديو.
+bool get systemVolume => false;
+Future<double> getVolume() async => 1;
+Future<void> setVolume(double v) async {}
+bool get realBrightness => false;
+Future<double> getBrightness() async => 1;
+Future<void> setBrightness(double v) async {}
+Future<void> resetBrightness() async {}
+
+Future<bool> saveTextFile(String name, String text) async {
+  final blob = web.Blob([text.toJS].toJS, web.BlobPropertyBag(type: 'application/json'));
+  final url = web.URL.createObjectURL(blob);
+  final a = web.document.createElement('a') as web.HTMLAnchorElement
+    ..href = url
+    ..download = name;
+  a.click();
+  web.URL.revokeObjectURL(url);
+  return true;
+}
+
+Future<String?> pickTextFile() async {
+  final files = await _pick('.json,application/json');
+  if (files.isEmpty) return null;
+  return (await files.first.text().toDart).toDart;
+}
+
+bool get isPhone => false;
+Future<void> appOrientation() async {}
+Future<void> playerOrientation({required bool portraitVideo}) async {}

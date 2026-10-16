@@ -2,6 +2,8 @@ import 'package:bushra/data/m3u.dart';
 import 'package:bushra/data/models.dart';
 import 'package:bushra/data/open_channels.dart';
 import 'package:bushra/data/search.dart';
+import 'package:bushra/data/store.dart';
+import 'package:bushra/data/epg.dart';
 import 'package:bushra/player/subtitles.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -77,5 +79,38 @@ https://example.com/m.m3u8
     expect(OpenChannels.isArab(l[1]), isFalse);
     // تصنيف «أفلام» يبقى بثًا مباشرًا لا فيلمًا
     expect(l[2].kind, ChannelKind.live);
+  });
+
+  test('Xtream account detected inside get.php links, EPG guessed', () {
+    expect(xtreamFromUrl('http://srv.tv:8080/get.php?username=ali&password=123&type=m3u_plus&output=ts'),
+        ('http://srv.tv:8080', 'ali', '123'));
+    expect(xtreamFromUrl('https://x.com/list.m3u'), isNull);
+    expect(guessEpgUrl('http://srv.tv:8080/get.php?username=ali&password=123'),
+        'http://srv.tv:8080/xmltv.php?username=ali&password=123');
+  });
+
+  test('Catch-up timeshift URL uses the server time offset', () {
+    final c = Channel(sourceId: 's', name: 'News', group: 'g', url: 'http://srv.tv:8080/live/ali/123/456.m3u8', catchupDays: 3);
+    final start = DateTime.now().subtract(const Duration(hours: 2));
+    final p = EpgProgram(channel: 'x', title: 't', start: start, stop: start.add(const Duration(minutes: 60)));
+    final url = catchupUrl(c, p, 180)!;
+    final t = start.toUtc().add(const Duration(minutes: 180));
+    String two(int v) => v.toString().padLeft(2, '0');
+    expect(url, 'http://srv.tv:8080/timeshift/ali/123/60/${t.year}-${two(t.month)}-${two(t.day)}:${two(t.hour)}-${two(t.minute)}/456.ts');
+    // لا إعادة لقناة بلا أرشيف
+    expect(catchupUrl(Channel(sourceId: 's', name: 'n', group: 'g', url: c.url), p, 0), isNull);
+  });
+
+  test('EPG name matching ignores quality tags and country prefixes', () {
+    expect(epgNameKey('AR: MBC 2 HD'), epgNameKey('MBC 2'));
+    expect(epgNameKey('الجزيرة FHD'), epgNameKey('الجزيره'));
+    final now = DateTime.now().toUtc();
+    String f(DateTime t) => '${t.year}${t.month.toString().padLeft(2, '0')}${t.day.toString().padLeft(2, '0')}'
+        '${t.hour.toString().padLeft(2, '0')}0000 +0000';
+    final xml = '<tv><channel id="mbc2.ae"><display-name>MBC 2</display-name></channel>'
+        '<programme start="${f(now.subtract(const Duration(hours: 1)))}" stop="${f(now.add(const Duration(hours: 1)))}" channel="mbc2.ae"><title>Film</title></programme></tv>';
+    final r = parseXmltvMatched({'text': xml, 'ids': <String>[], 'names': [['ch1', 'AR: MBC 2 HD']]});
+    expect(r['matches'], {'ch1': 'mbc2.ae'});
+    expect((r['programs'] as List).length, 1);
   });
 }

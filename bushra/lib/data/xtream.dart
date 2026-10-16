@@ -16,6 +16,18 @@ class XtreamClient {
   String get _api => '$server/player_api.php?username=${Uri.encodeComponent(user)}&password=${Uri.encodeComponent(pass)}';
   String get epgUrl => '$server/xmltv.php?username=${Uri.encodeComponent(user)}&password=${Uri.encodeComponent(pass)}';
 
+  /// فرق توقيت الخادم عن UTC بالدقائق، من time_now (محلي للخادم) و timestamp_now (UTC).
+  static int tzOffsetOf(Map<String, dynamic> info) {
+    try {
+      final si = Map<String, dynamic>.from(info['server_info'] ?? {});
+      final local = DateTime.parse('${'${si['time_now']}'.replaceFirst(' ', 'T')}Z');
+      final utc = DateTime.fromMillisecondsSinceEpoch(int.parse('${si['timestamp_now']}') * 1000, isUtc: true);
+      return ((local.difference(utc).inMinutes / 15).round() * 15);
+    } catch (_) {
+      return 0;
+    }
+  }
+
   Future<Map<String, dynamic>> login() async {
     final j = await Net.json(_api);
     if (j is! Map || j['user_info'] == null) throw NetError(NetErrorKind.badFormat, 'no user_info');
@@ -46,6 +58,7 @@ class XtreamClient {
           logo: (s['stream_icon'] as String?)?.isNotEmpty == true ? s['stream_icon'] : null,
           tvgId: (s['epg_channel_id'] as String?)?.isNotEmpty == true ? s['epg_channel_id'] : null,
           number: int.tryParse('${s['num']}'), kind: ChannelKind.live,
+          catchupDays: '${s['tv_archive']}' == '1' ? (int.tryParse('${s['tv_archive_duration']}') ?? 0) : 0,
         ));
       }
     }

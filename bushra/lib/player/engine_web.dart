@@ -165,10 +165,11 @@ class WebEngine extends Engine {
     } else if (protocol == 'MPEG-TS' && mpegts != null &&
         (mpegts.callMethod('isSupported'.toJS) as JSBoolean).toDart) {
       pipeline = 'mpegts.js (MediaSource)';
-      _live = true;
+      // أرشيف إعادة المشاهدة ملف TS ثابت، لا بث حي
+      _live = p.isLive;
       final cfg = JSObject()
         ..['type'] = 'mpegts'.toJS
-        ..['isLive'] = true.toJS
+        ..['isLive'] = p.isLive.toJS
         ..['url'] = _route(p.url).toJS;
       final opt = JSObject()..['enableStashBuffer'] = false.toJS..['liveBufferLatencyChasing'] = true.toJS;
       final t = mpegts.callMethod<JSObject>('createPlayer'.toJS, cfg, opt);

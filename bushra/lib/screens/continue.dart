@@ -46,9 +46,17 @@ class WatchCard extends StatelessWidget {
                     colors: [p.accent.withValues(alpha: .22), p.highlight.withValues(alpha: .4), p.container]),
               ),
               child: Stack(children: [
-                Center(child: item.logo != null
-                    ? ChannelLogo(url: item.logo, name: item.title, size: 64)
-                    : Icon(item.isLocal ? Icons.smartphone_rounded : Icons.movie_outlined, size: 44, color: p.text3)),
+                // الأفلام والحلقات: الصورة تملأ البطاقة؛ القنوات: الشعار في الوسط
+                if (!item.isLive && item.logo != null)
+                  Positioned.fill(child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(BRadius.card)),
+                    child: Opacity(opacity: .85, child: Image.network(item.logo!, fit: BoxFit.cover, cacheWidth: 600,
+                        errorBuilder: (_, _, _) => const SizedBox())),
+                  ))
+                else
+                  Center(child: item.logo != null
+                      ? ChannelLogo(url: item.logo, name: item.title, size: 64)
+                      : Icon(item.isLocal ? Icons.smartphone_rounded : Icons.movie_outlined, size: 44, color: p.text3)),
                 PositionedDirectional(bottom: 10, end: 10, child: Container(
                   width: 44, height: 44,
                   decoration: BoxDecoration(shape: BoxShape.circle,

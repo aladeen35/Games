@@ -255,7 +255,9 @@ class ChannelCard extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Column(mainAxisSize: MainAxisSize.min, children: [
-          if (channel.isLive) Icon(Icons.sensors_rounded, size: 16, color: p.live, semanticLabel: 'يبث'),
+          if (channel.isLive && s.isBroken(channel.id))
+            StatusPill(text: 'غير متاح', icon: Icons.portable_wifi_off_rounded, color: p.danger, dense: true)
+          else if (channel.isLive) Icon(Icons.sensors_rounded, size: 16, color: p.live, semanticLabel: 'يبث'),
           if (fav) ...[const SizedBox(height: 6), Icon(Icons.star_rounded, size: 16, color: p.gold, semanticLabel: 'مفضلة')],
         ]),
       ]),
@@ -315,4 +317,61 @@ Future<bool> askPin(BuildContext context, {String title = 'أدخل الرمز �
   );
   if (ok == false && context.mounted) toast(context, 'الرمز غير صحيح', icon: Icons.lock_rounded);
   return ok ?? false;
+}
+
+
+/// بطاقة ملصق للأفلام والمسلسلات (2:3) مع شريط التقدم إن بدأت مشاهدته.
+class PosterCard extends StatelessWidget {
+  final Channel channel;
+  final VoidCallback onTap;
+  final VoidCallback? onLongPress;
+  final double progress;
+  const PosterCard({super.key, required this.channel, required this.onTap, this.onLongPress, this.progress = 0});
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.bc;
+    final t = Theme.of(context).textTheme;
+    final fav = AppStore.I.isFav(channel.id);
+    final placeholder = Container(
+      decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft,
+          colors: [p.highlight, p.container])),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(10),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(channel.kind == ChannelKind.series ? Icons.theaters_rounded : Icons.movie_outlined, color: p.text3, size: 34),
+        const SizedBox(height: 8),
+        Text(channel.name, maxLines: 3, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, style: t.labelLarge),
+      ]),
+    );
+    return BTap(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      semantic: channel.name,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(BRadius.card),
+            child: Stack(fit: StackFit.expand, children: [
+              channel.logo == null
+                  ? placeholder
+                  : Image.network(channel.logo!, fit: BoxFit.cover, cacheWidth: 360, errorBuilder: (_, _, _) => placeholder),
+              const DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                  colors: [Color(0x00000000), Color(0x00000000), Color(0x99000000)]))),
+              if (fav) PositionedDirectional(top: 6, end: 6, child: Icon(Icons.star_rounded, color: p.gold, size: 20)),
+              if (channel.kind == ChannelKind.series)
+                PositionedDirectional(top: 6, start: 6, child: StatusPill(text: 'مسلسل', icon: Icons.theaters_rounded, color: p.accent, dense: true)),
+              if (progress > 0)
+                Positioned(left: 0, right: 0, bottom: 0, child: Directionality(textDirection: TextDirection.ltr,
+                    child: LinearProgressIndicator(value: progress, minHeight: 4, backgroundColor: Colors.black45))),
+            ]),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, 8, 4, 2),
+          child: Text(channel.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall),
+        ),
+      ]),
+    );
+  }
 }

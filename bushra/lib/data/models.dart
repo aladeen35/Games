@@ -19,30 +19,36 @@ class Channel {
   final String? altName, logo, tvgId, userAgent, referrer;
   final ChannelKind kind;
   final int? number;
+  /// أيام إعادة المشاهدة التي يتيحها المزود (0 = غير متاحة).
+  final int catchupDays;
 
   Channel({
     required this.sourceId, required this.name, required this.group, required this.url,
     this.altName, this.logo, this.tvgId, this.userAgent, this.referrer,
-    this.kind = ChannelKind.live, this.number, String? id,
+    this.kind = ChannelKind.live, this.number, this.catchupDays = 0, String? id,
   }) : id = id ?? stableId('$sourceId|$url|$name');
 
   bool get isLive => kind == ChannelKind.live;
 
+  Channel withTvgId(String t) => Channel(
+        id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: logo,
+        tvgId: t, userAgent: userAgent, referrer: referrer, kind: kind, number: number, catchupDays: catchupDays);
+
   Channel withKind(ChannelKind k) => k == kind ? this : Channel(
         id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: logo,
-        tvgId: tvgId, userAgent: userAgent, referrer: referrer, kind: k, number: number);
+        tvgId: tvgId, userAgent: userAgent, referrer: referrer, kind: k, number: number, catchupDays: catchupDays);
 
   Map<String, dynamic> toJson() => {
         'i': id, 's': sourceId, 'n': name, 'g': group, 'u': url,
         if (altName != null) 'a': altName, if (logo != null) 'l': logo, if (tvgId != null) 't': tvgId,
         if (userAgent != null) 'ua': userAgent, if (referrer != null) 'rf': referrer,
-        'k': kind.index, if (number != null) 'no': number,
+        'k': kind.index, if (number != null) 'no': number, if (catchupDays > 0) 'cu': catchupDays,
       };
 
   factory Channel.fromJson(Map<String, dynamic> j) => Channel(
         id: j['i'], sourceId: j['s'], name: j['n'], group: j['g'] ?? '', url: j['u'],
         altName: j['a'], logo: j['l'], tvgId: j['t'], userAgent: j['ua'], referrer: j['rf'],
-        kind: ChannelKind.values[j['k'] ?? 0], number: j['no'],
+        kind: ChannelKind.values[j['k'] ?? 0], number: j['no'], catchupDays: j['cu'] ?? 0,
       );
 
   Map<String, String> get headers => {
@@ -58,6 +64,9 @@ class Source {
   /// للعرض فقط: نطاق المصدر دون أي بيانات سرية.
   String displayHost;
   String? epgUrl;
+  /// رابط الدليل اكتُشف تلقائيًا (لا نزعج المستخدم إن فشل).
+  bool epgAuto;
+  DateTime? epgUpdated;
   DateTime? lastUpdated;
   String? lastError;
   DateTime? lastErrorAt;
@@ -65,12 +74,14 @@ class Source {
   List<String> groups;
   bool hasLogos, hasEpg;
   int autoRefreshHours;
+  /// فرق توقيت خادم المزود عن UTC بالدقائق (لروابط إعادة المشاهدة).
+  int tzOffset;
 
   Source({
     required this.id, required this.name, required this.type, required this.displayHost,
-    this.epgUrl, this.lastUpdated, this.lastError, this.lastErrorAt, this.liveCount = 0,
+    this.epgUrl, this.epgAuto = false, this.epgUpdated, this.lastUpdated, this.lastError, this.lastErrorAt, this.liveCount = 0,
     this.vodCount = 0, this.groups = const [], this.hasLogos = false, this.hasEpg = false,
-    this.autoRefreshHours = 24,
+    this.autoRefreshHours = 24, this.tzOffset = 0,
   });
 
   int get total => liveCount + vodCount;
@@ -79,20 +90,22 @@ class Source {
 
   Map<String, dynamic> toJson() => {
         'id': id, 'name': name, 'type': type.index, 'host': displayHost, 'epg': epgUrl,
+        'epgAuto': epgAuto, 'epgUpd': epgUpdated?.millisecondsSinceEpoch,
         'upd': lastUpdated?.millisecondsSinceEpoch, 'err': lastError,
         'errAt': lastErrorAt?.millisecondsSinceEpoch, 'live': liveCount, 'vod': vodCount,
-        'groups': groups, 'logos': hasLogos, 'hasEpg': hasEpg, 'auto': autoRefreshHours,
+        'groups': groups, 'logos': hasLogos, 'hasEpg': hasEpg, 'auto': autoRefreshHours, 'tz': tzOffset,
       };
 
   factory Source.fromJson(Map<String, dynamic> j) => Source(
         id: j['id'], name: j['name'], type: SourceType.values[j['type']], displayHost: j['host'] ?? '',
-        epgUrl: j['epg'],
+        epgUrl: j['epg'], epgAuto: j['epgAuto'] ?? false,
+        epgUpdated: j['epgUpd'] == null ? null : DateTime.fromMillisecondsSinceEpoch(j['epgUpd']),
         lastUpdated: j['upd'] == null ? null : DateTime.fromMillisecondsSinceEpoch(j['upd']),
         lastError: j['err'],
         lastErrorAt: j['errAt'] == null ? null : DateTime.fromMillisecondsSinceEpoch(j['errAt']),
         liveCount: j['live'] ?? 0, vodCount: j['vod'] ?? 0,
         groups: List<String>.from(j['groups'] ?? const []), hasLogos: j['logos'] ?? false,
-        hasEpg: j['hasEpg'] ?? false, autoRefreshHours: j['auto'] ?? 24,
+        hasEpg: j['hasEpg'] ?? false, autoRefreshHours: j['auto'] ?? 24, tzOffset: j['tz'] ?? 0,
       );
 }
 
@@ -220,4 +233,18 @@ class SeriesInfo {
   final String? plot, cover, genre, year;
   final Map<int, List<Episode>> seasons;
   SeriesInfo({required this.name, required this.seasons, this.plot, this.cover, this.genre, this.year});
+}
+
+
+/// رابط إعادة مشاهدة برنامج من أرشيف مزود Xtream (timeshift)، أو null إن لم يكن ممكنًا.
+String? catchupUrl(Channel c, EpgProgram p, int tzOffsetMinutes) {
+  if (c.catchupDays <= 0) return null;
+  if (DateTime.now().difference(p.start).inDays >= c.catchupDays || p.start.isAfter(DateTime.now())) return null;
+  final m = RegExp(r'^(https?://[^/]+)/(?:live/)?([^/]+)/([^/]+)/(\d+)(\.\w+)?$').firstMatch(c.url);
+  if (m == null) return null;
+  final t = p.start.toUtc().add(Duration(minutes: tzOffsetMinutes));
+  String two(int v) => v.toString().padLeft(2, '0');
+  final start = '${t.year}-${two(t.month)}-${two(t.day)}:${two(t.hour)}-${two(t.minute)}';
+  final mins = p.stop.difference(p.start).inMinutes.clamp(1, 24 * 60);
+  return '${m.group(1)}/timeshift/${m.group(2)}/${m.group(3)}/$mins/$start/${m.group(4)}.ts';
 }

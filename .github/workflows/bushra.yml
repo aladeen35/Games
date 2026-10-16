@@ -36,13 +36,18 @@ jobs:
           flutter analyze
           flutter test
 
-      - name: Build APK (signed with the Bushra key)
+      # ملفات أصغر: نسخة لكل نوع معالج + ضغط الشيفرة (رموز التصحيح تُحفظ خارج الملف)
+      - name: Build APKs (signed with the Bushra key)
         run: |
-          flutter build apk --release
           VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //; s/+.*//')
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           mkdir -p dist
+          flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/symbols
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk "dist/AlBushra-$VERSION-arm64.apk"
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk "dist/AlBushra-$VERSION-armv7.apk"
+          flutter build apk --release --obfuscate --split-debug-info=build/symbols
           cp build/app/outputs/flutter-apk/app-release.apk "dist/AlBushra-$VERSION.apk"
+          ls -la dist
 
       - name: Build web
         run: |
@@ -63,5 +68,8 @@ jobs:
           prerelease: ${{ github.ref_name != 'main' }}
           body: |
             مشغل «البشرى» للفيديو و IPTV — من الفرع `${{ github.ref_name }}`.
-            ثبّت ملف APK على الجوال أو Android TV (اسمح بالتثبيت من مصادر غير معروفة).
+            • `-arm64.apk`: أصغر حجمًا، لمعظم الجوالات الحديثة.
+            • `-armv7.apk`: لأجهزة التلفاز والرسيفرات والجوالات القديمة (32-bit).
+            • بلا لاحقة: الملف الشامل لكل الأجهزة.
+            التزم بنوع واحد على الجهاز نفسه حتى تُثبَّت التحديثات فوقه.
           files: bushra/dist/*

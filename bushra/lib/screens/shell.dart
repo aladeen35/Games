@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/brand.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
+import 'catalog.dart';
 import 'continue.dart';
 import '../data/store.dart';
 import '../widgets/common.dart';
@@ -71,8 +72,8 @@ class _ShellState extends State<Shell> {
 
   Widget _page(String id, {bool standalone = false}) => switch (id) {
         'live' => LiveScreen(key: standalone ? null : liveKey),
-        'movies' => const LiveScreen(initialKind: ChannelKind.vod),
-        'series' => const LiveScreen(initialKind: ChannelKind.series),
+        'movies' => const CatalogScreen(kind: ChannelKind.vod),
+        'series' => const CatalogScreen(kind: ChannelKind.series),
         'epg' => const EpgScreen(),
         'continue' => const ContinueScreen(),
         'favorites' => const LiveScreen(initialGroup: '★'),

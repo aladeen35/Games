@@ -81,6 +81,8 @@ M3uResult parseM3u(Map<String, String> args) {
         tvgId: (attrs['tvg-id']?.isNotEmpty ?? false) ? attrs['tvg-id'] : null,
         userAgent: ua ?? attrs['http-user-agent'], referrer: ref ?? attrs['http-referrer'],
         kind: guessKind(l, group), number: int.tryParse(attrs['tvg-chno'] ?? '') ?? n,
+        catchupDays: (attrs['catchup'] != null || attrs['catchup-days'] != null || attrs['tvg-rec'] != null)
+            ? (int.tryParse(attrs['catchup-days'] ?? attrs['tvg-rec'] ?? '') ?? 0) : 0,
       ));
       attrs = {}; name = null; grp = null; ua = null; ref = null;
     }

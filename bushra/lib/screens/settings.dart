@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/brand.dart';
 import '../core/theme.dart';
 import '../data/store.dart';
+import '../platform/platform.dart' as plat;
 import '../widgets/common.dart';
 
 /// الإعدادات: مركز تحكم لا صفحة اجتماعية. بطاقات أقسام تفتح صفحاتها.
@@ -23,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
       (Icons.palette_outlined, 'المظهر', 'نمط التصميم، الألوان، وحجم النص', _Section.look, p.gold),
       (Icons.shield_outlined, 'الرقابة الأبوية', 'إدارة المحتوى وحماية الأطفال', _Section.parental, p.gold),
       if (kIsWeb) (Icons.lan_outlined, 'الشبكة', 'وسيط الويب للمصادر التي تمنع المتصفح', _Section.network, p.accent),
-      (Icons.storage_rounded, 'البيانات والخصوصية', 'السجل وما يُحفظ على جهازك', _Section.data, p.accent),
+      (Icons.cloud_sync_outlined, 'النسخ الاحتياطي والبيانات', 'انقل قوائمك ومفضلتك لجهاز آخر، والسجل', _Section.data, p.accent),
     ];
     final body = ListView(padding: EdgeInsets.fromLTRB(hp, 14, hp, 32), children: [
       if (!isRoute) Text('الإعدادات', style: t.headlineSmall),
@@ -143,6 +144,18 @@ class _SectionPageState extends State<_SectionPage> {
           sw('إعادة الاتصال تلقائيًا', 'يحاول مجددًا بعد 5 ثوانٍ عند انقطاع البث', st.autoReconnect, (v) => st.autoReconnect = v),
           seg('العرض الافتراضي', st.fillScreen, const [(false, 'ملاءمة'), (true, 'ملء الشاشة')], (v) => st.fillScreen = v),
           sw('معلومات البث على الشاشة', 'الجودة الحالية وحالة الاتصال أثناء المشاهدة', st.showStreamInfo, (v) => st.showStreamInfo = v),
+          sw('إخفاء القنوات المعطلة', 'القنوات التي فشل فحصها أو تشغيلها تختفي من القوائم', st.hideBroken, (v) => st.hideBroken = v),
+          if (!kIsWeb)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.health_and_safety_outlined),
+              title: const Text('فحص القنوات الآن'),
+              subtitle: Text(s.healthChecking
+                  ? 'جارٍ الفحص… ${s.healthDone} من ${s.healthTotal}'
+                  : '${s.health.values.where((v) => !v).length} قناة لا تعمل من ${s.health.length} مفحوصة'),
+              trailing: s.healthChecking ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)) : null,
+              onTap: s.healthChecking ? null : () async { setState(() {}); await s.checkHealth(); if (mounted) setState(() {}); },
+            ),
           const SizedBox(height: 8),
           Text('الجودة تُختار تلقائيًا حسب سرعة الاتصال، ويمكن تغييرها يدويًا من المشغل.', style: t.bodySmall),
         ]);
@@ -217,8 +230,42 @@ class _SectionPageState extends State<_SectionPage> {
         ]);
       case _Section.data:
         items.addAll([
-          Text('كل ما يلي محفوظ على هذا الجهاز فقط: القوائم، المفضلة، السجل، والإعدادات. بيانات الدخول في التخزين الآمن.', style: t.bodyMedium),
+          Text('كل بياناتك محفوظة على هذا الجهاز فقط. لنقلها إلى جوال أو تلفاز آخر: احفظ نسخة احتياطية ثم افتحها هناك.', style: t.bodyMedium),
           const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: () async {
+              final text = await s.exportBackup();
+              final d = DateTime.now();
+              final ok = await plat.saveTextFile('bushra-backup-${d.year}-${d.month}-${d.day}.json', text);
+              if (mounted && ok) toast(this.context, 'حُفظت النسخة الاحتياطية');
+            },
+            icon: const Icon(Icons.download_rounded), label: const Text('حفظ نسخة احتياطية'),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: p.gold.withValues(alpha: .1), borderRadius: BorderRadius.circular(10)),
+            child: Row(children: [
+              Icon(Icons.info_outline_rounded, size: 16, color: p.gold),
+              const SizedBox(width: 6),
+              Expanded(child: Text('الملف يحتوي بيانات دخول حساباتك، فاحفظه في مكان آمن ولا ترسله لأحد.', style: t.bodySmall)),
+            ]),
+          ),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            onPressed: () async {
+              final text = await plat.pickTextFile();
+              if (text == null) return;
+              try {
+                final n = await s.importBackup(text);
+                if (mounted) { setState(() {}); toast(this.context, 'استُعيدت النسخة: $n قائمة، والمفضلة والسجل والتذكيرات'); }
+              } catch (_) {
+                if (mounted) toast(this.context, 'هذا الملف ليس نسخة احتياطية من البشرى', icon: Icons.error_outline_rounded);
+              }
+            },
+            icon: const Icon(Icons.upload_rounded), label: const Text('استعادة من نسخة احتياطية'),
+          ),
+          const SizedBox(height: 20),
           ListTile(contentPadding: EdgeInsets.zero, leading: const Icon(Icons.history_rounded),
               title: const Text('مسح سجل المشاهدة'), subtitle: Text('${s.history.length} عنصر'),
               onTap: () { s.clearHistory(); setState(() {}); toast(context, 'مُسح السجل'); }),

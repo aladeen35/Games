@@ -5,6 +5,7 @@ import 'core/theme.dart';
 import 'data/models.dart';
 import 'data/reminders.dart';
 import 'data/store.dart';
+import 'platform/platform.dart' as plat;
 import 'player/player_screen.dart';
 import 'screens/onboarding.dart';
 import 'screens/shell.dart';
@@ -15,6 +16,8 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, systemNavigationBarColor: BColors.midnight950,
   ));
+  // الواجهة بالطول على الهاتف؛ المشغل وحده يدور للعرض
+  await plat.appOrientation();
   Reminders.onFire = _onReminder;
   Reminders.onOpen = _openChannelById;
   await AppStore.I.init();

@@ -91,7 +91,14 @@ class HomeScreen extends StatelessWidget {
       if (recent.isNotEmpty) {
         out
           ..add(SectionHeader('أضيفت حديثًا', subtitle: newest.name, icon: Icons.fiber_new_rounded))
-          ..add(_Row(children: [for (final c in recent) _ChannelTile(channel: c, queue: recent)]));
+          ..add(recent.first.isLive
+              ? _Row(children: [for (final c in recent) _ChannelTile(channel: c, queue: recent)])
+              : SizedBox(height: context.isTv ? 330 : 260, child: ListView.separated(
+                  scrollDirection: Axis.horizontal, clipBehavior: Clip.none, itemCount: recent.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                  itemBuilder: (_, i) => SizedBox(width: context.isTv ? 170 : 130,
+                      child: PosterCard(channel: recent[i], onTap: () => openChannel(context, recent[i], recent))),
+                )));
       }
       final groups = s.groupsOf(live)..sort((a, b) => b.value.compareTo(a.value));
       if (groups.isNotEmpty) {

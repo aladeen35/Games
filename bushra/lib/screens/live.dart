@@ -1,4 +1,7 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/net.dart';
@@ -6,6 +9,7 @@ import '../data/open_channels.dart';
 import '../data/store.dart';
 import '../widgets/common.dart';
 import 'series.dart';
+import '../player/player_screen.dart';
 import 'add_source.dart';
 import 'home.dart';
 import 'shell.dart';
@@ -173,6 +177,14 @@ class LiveScreenState extends State<LiveScreen> {
           icon: const Icon(Icons.refresh_rounded, size: 20),
           label: const Text('تحديث القائمة'),
         ),
+        if (!kIsWeb && _liveTab)
+          TextButton.icon(
+            onPressed: s.healthChecking ? null : () => s.checkHealth(sourceId: sourceId),
+            icon: s.healthChecking
+                ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                : const Icon(Icons.health_and_safety_outlined, size: 20),
+            label: Text(s.healthChecking ? 'فحص ${s.healthDone}/${s.healthTotal}' : 'فحص القنوات'),
+          ),
       ]);
     }
 
@@ -206,6 +218,23 @@ class LiveScreenState extends State<LiveScreen> {
           icon: group == '★' ? Icons.star_outline_rounded : Icons.search_off_rounded,
           title: group == '★' ? 'لم تضف قنوات مفضلة بعد' : 'لا توجد قنوات هنا',
           body: group == '★' ? 'اضغط على النجمة أثناء المشاهدة لتجدها هنا.' : 'جرّب مجموعة أخرى أو امسح التصفية.');
+    } else if (!_liveTab) {
+      grid = GridView.builder(
+        padding: EdgeInsets.fromLTRB(hp, 8, hp, 24),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: context.isTv ? 210 : 170, childAspectRatio: .52, crossAxisSpacing: 14, mainAxisSpacing: 16,
+        ),
+        itemCount: list.length,
+        itemBuilder: (_, i) {
+          final c = list[i];
+          return PosterCard(
+            channel: c,
+            progress: s.historyOf(Playable.channel(c).key)?.progress ?? 0,
+            onTap: () => openChannel(context, c, list),
+            onLongPress: () => showChannelSheet(context, c, list),
+          );
+        },
+      );
     } else {
       grid = GridView.builder(
         padding: EdgeInsets.fromLTRB(hp, 8, hp, 24),
@@ -234,7 +263,9 @@ class LiveScreenState extends State<LiveScreen> {
       );
     }
 
-    return SafeArea(
+    return Focus(
+      onKeyEvent: (_, ev) => _onDigit(ev, list),
+      child: SafeArea(
       bottom: false,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         switcher,
@@ -283,7 +314,36 @@ class LiveScreenState extends State<LiveScreen> {
               : grid,
         ),
       ]),
-    );
+    ));
+  }
+
+  // ——— رقم القناة من الريموت: 1 ثم 2 ثم 5 = القناة 125 ———
+  String _digits = '';
+  Timer? _digitT;
+
+  KeyEventResult _onDigit(KeyEvent ev, List<Channel> list) {
+    if (ev is! KeyDownEvent || !_liveTab || list.isEmpty) return KeyEventResult.ignored;
+    final label = ev.logicalKey.keyLabel;
+    final d = int.tryParse(label.replaceAll('Numpad ', ''));
+    if (d == null || label.length > 8 || _digits.length >= 4) return KeyEventResult.ignored;
+    _digits += '$d';
+    toast(context, 'القناة $_digits', icon: Icons.dialpad_rounded);
+    _digitT?.cancel();
+    _digitT = Timer(const Duration(milliseconds: 1500), () {
+      final n = int.parse(_digits);
+      _digits = '';
+      final q = queueOf(list);
+      final i = queueIndexForNumber(q, n);
+      if (i != null && mounted) openPlayer(context, q[i], queue: q);
+    });
+    return KeyEventResult.handled;
+  }
+
+  @override
+  void dispose() {
+    _digitT?.cancel();
+    _filterCtl.dispose();
+    super.dispose();
   }
 }
 

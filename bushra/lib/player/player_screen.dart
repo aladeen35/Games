@@ -45,7 +45,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   late Playable item = widget.item;
   late bool fill = s.settings.fillScreen;
   bool overlay = true, locked = false, fullscreen = false;
-  Timer? _hide, _retry, _slow, _clock;
+  Timer? _hide, _retry, _slow, _clock, _connectT;
   int retryIn = 0, reconnects = 0;
   bool slow = false;
   String? qualityLabel; // null = تلقائي
@@ -56,14 +56,36 @@ class _PlayerScreenState extends State<PlayerScreen> {
   SubtitleTrack? sub;
   Duration subOffset = Duration.zero;
 
+  // ——— الإيماءات ———
+  double _vol = 1, _bright = 1, _dim = 0; // _dim: تعتيم محاكى على الويب
+  Offset _dtPos = Offset.zero;
+  int _dtSide = 0, _dtSum = 0;
+  DateTime _dtAt = DateTime(0);
+  String _gMode = ''; // '', 'seek', 'vol', 'bright', 'pinch', 'zap'
+  Offset _gStart = Offset.zero;
+  double _gStartVal = 0;
+  Duration _gStartPos = Duration.zero, _gTarget = Duration.zero;
+  ({IconData icon, String text, double? value})? _hud;
+  Timer? _hudT;
+  bool _boost = false;
+  bool _orientDone = false;
+  // مؤقت النوم وإدخال رقم القناة
+  Timer? _sleepT, _digitT;
+  DateTime? _sleepAt;
+  String _digits = '';
+
   @override
   void initState() {
     super.initState();
     WakelockPlus.enable().catchError((_) {});
     plat.enterPlayerMode();
+    plat.playerOrientation(portraitVideo: false);
+    fullscreen = plat.isPhone;
     plat.setAutoPip(true);
     e.addListener(_onEngine);
     _open(item);
+    plat.getVolume().then((v) => _vol = v);
+    plat.getBrightness().then((v) => _bright = v);
     _clock = Timer.periodic(const Duration(seconds: 30), (_) { if (mounted) setState(() {}); });
   }
 
@@ -72,6 +94,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     retryIn = 0;
     slow = false;
     if (!reconnect && p.key != item.key) {
+      _orientDone = false;
       sub = null;
       subOffset = Duration.zero;
     }
@@ -80,6 +103,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final h = s.historyOf(p.key);
     final startAt = resume && s.settings.resume && h != null && h.resumable ? Duration(milliseconds: h.positionMs) : null;
     e.open(p, startAt: startAt);
+    // لا يبقى المشغل معلقًا على «جارٍ الاتصال»: بعد 25 ثانية بلا صورة نعرض السبب ونعيد المحاولة
+    _connectT?.cancel();
+    _connectT = Timer(const Duration(seconds: 25), () {
+      if (mounted && e.phase == Phase.connecting) {
+        e.fail = FailKind.network;
+        e.technicalError = 'timeout: no media after 25s';
+        e.phase = Phase.error;
+        _onEngine();
+      }
+    });
     _poke();
     setState(() {});
   }
@@ -94,11 +127,24 @@ class _PlayerScreenState extends State<PlayerScreen> {
         if (mounted && e.phase == Phase.buffering) setState(() => slow = true);
       });
     }
+    // فيديو طولي (مثل فيديوهات الجوال) يعود بالطول تلقائيًا
+    if (!_orientDone && e.videoSize.width > 0) {
+      _orientDone = true;
+      if (e.videoSize.height > e.videoSize.width * 1.1) {
+        plat.playerOrientation(portraitVideo: true);
+        fullscreen = false;
+      }
+    }
     if (e.phase == Phase.playing) {
       slow = false;
       _slow?.cancel();
     }
-    if (e.phase == Phase.error && _last != Phase.error) _scheduleRetry();
+    if (e.phase == Phase.error && _last != Phase.error) {
+      _scheduleRetry();
+      // تُعلَّم القناة معطلة فقط لأسباب تخص المصدر (لا قيود المتصفح)
+      if (item.channelId != null && (e.fail == FailKind.network || e.fail == FailKind.unsupported)) s.markHealth(item.channelId!, false);
+    }
+    if (e.phase == Phase.playing && _last != Phase.playing && item.channelId != null) s.markHealth(item.channelId!, true);
     if (e.phase == Phase.ended && _last != Phase.ended && s.settings.autoplayNext && !item.isLive) _next(1);
     if (!item.isLive && e.duration > Duration.zero) s.updateProgress(item.key, e.position, e.duration);
     _last = e.phase;
@@ -166,9 +212,240 @@ class _PlayerScreenState extends State<PlayerScreen> {
     setState(() {});
   }
 
+  // ———————————————————— رقم القناة من الريموت ————————————————————
+  static int? _digitOf(LogicalKeyboardKey k) {
+    const keys = [
+      LogicalKeyboardKey.digit0, LogicalKeyboardKey.digit1, LogicalKeyboardKey.digit2, LogicalKeyboardKey.digit3,
+      LogicalKeyboardKey.digit4, LogicalKeyboardKey.digit5, LogicalKeyboardKey.digit6, LogicalKeyboardKey.digit7,
+      LogicalKeyboardKey.digit8, LogicalKeyboardKey.digit9,
+    ];
+    const pad = [
+      LogicalKeyboardKey.numpad0, LogicalKeyboardKey.numpad1, LogicalKeyboardKey.numpad2, LogicalKeyboardKey.numpad3,
+      LogicalKeyboardKey.numpad4, LogicalKeyboardKey.numpad5, LogicalKeyboardKey.numpad6, LogicalKeyboardKey.numpad7,
+      LogicalKeyboardKey.numpad8, LogicalKeyboardKey.numpad9,
+    ];
+    final i = keys.indexOf(k);
+    if (i >= 0) return i;
+    final j = pad.indexOf(k);
+    return j >= 0 ? j : null;
+  }
+
+  /// تكتب 1 ثم 2 ثم 5 فينتقل للقناة 125 بعد ثانية ونصف.
+  void _typeDigit(int d) {
+    final q = widget.queue;
+    if (q == null || q.length < 2 || _digits.length >= 4) return;
+    _digits += '$d';
+    _digitT?.cancel();
+    _hudT?.cancel();
+    setState(() => _hud = (icon: Icons.dialpad_rounded, text: 'القناة $_digits', value: null));
+    _digitT = Timer(const Duration(milliseconds: 1500), () {
+      final n = int.parse(_digits);
+      _digits = '';
+      final target = queueIndexForNumber(q, n);
+      if (target == null) {
+        _showHud(Icons.error_outline_rounded, 'لا توجد القناة $n');
+      } else {
+        _open(q[target]);
+        _showHud(Icons.live_tv_rounded, '$n · ${q[target].title}');
+      }
+    });
+  }
+
+  // ———————————————————— مؤقت النوم ————————————————————
+  void _setSleep(Duration? d) {
+    _sleepT?.cancel();
+    if (d == null) {
+      setState(() => _sleepAt = null);
+      return;
+    }
+    setState(() => _sleepAt = DateTime.now().add(d));
+    _sleepT = Timer(d, () {
+      if (!mounted) return;
+      e.pause();
+      setState(() { _sleepAt = null; overlay = true; });
+      toast(context, 'توقف التشغيل بمؤقت النوم', icon: Icons.bedtime_rounded);
+    });
+  }
+
+  // ———————————————————— الإيماءات الذكية ————————————————————
+  Size get _size => MediaQuery.sizeOf(context);
+
+  void _showHud(IconData icon, String text, [double? value]) {
+    _hudT?.cancel();
+    setState(() => _hud = (icon: icon, text: text, value: value));
+    _hudT = Timer(const Duration(milliseconds: 900), () { if (mounted) setState(() => _hud = null); });
+  }
+
+  /// كشف الضغط المزدوج يدويًا: الضغطة الثانية خلال 300 ملّي ث قرب الأولى = مزدوجة،
+  /// والضغطات المتتالية على الجانب نفسه تواصل التقديم (مثل يوتيوب). الضغطة المفردة تُنفَّذ بعد مهلة قصيرة.
+  Timer? _tapT;
+  DateTime _lastTap = DateTime(0);
+  void _tapUp(Offset p) {
+    final now = DateTime.now();
+    final quick = now.difference(_lastTap).inMilliseconds < 300 && (p - _dtPos).distance < 80;
+    final chaining = now.difference(_dtAt).inMilliseconds < 700 && _dtSide != 0 && (p.dx < _size.width / 2 ? -1 : 1) == _dtSide;
+    _lastTap = now;
+    _dtPos = p;
+    if (quick || chaining) {
+      _tapT?.cancel();
+      _onDoubleTap(p);
+      return;
+    }
+    _tapT?.cancel();
+    _tapT = Timer(const Duration(milliseconds: 280), () { if (mounted) _onTap(p); });
+  }
+
+  /// ضغطة في الوسط = تشغيل/إيقاف، وفي غيره = إظهار/إخفاء الأدوات.
+  void _onTap(Offset p) {
+    if (locked) return _poke();
+    final w = _size.width, h = _size.height;
+    final center = p.dx > w * .3 && p.dx < w * .7 && p.dy > h * .25 && p.dy < h * .75;
+    if (center && e.phase != Phase.error && e.phase != Phase.connecting) {
+      final wasPlaying = e.phase == Phase.playing || e.phase == Phase.buffering;
+      _toggle();
+      _showHud(wasPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded, wasPlaying ? 'إيقاف مؤقت' : 'تشغيل');
+      return;
+    }
+    if (overlay && e.phase == Phase.playing) {
+      setState(() => overlay = false);
+    } else {
+      _poke();
+    }
+  }
+
+  /// ضغط مزدوج يسار/يمين = ±10 ث تتراكم مع كل ضغطة، وفي الوسط = ملاءمة/ملء.
+  void _onDoubleTap(Offset p) {
+    if (locked) return;
+    final w = _size.width;
+    if (p.dx > w * .35 && p.dx < w * .65) {
+      setState(() => fill = !fill);
+      _showHud(fill ? Icons.crop_free_rounded : Icons.fit_screen_rounded, fill ? 'ملء الشاشة' : 'ملاءمة');
+      return;
+    }
+    if (!e.canSeek) return;
+    final side = p.dx < w / 2 ? -1 : 1; // الزمن من اليسار لليمين
+    final now = DateTime.now();
+    _dtSum = (side == _dtSide && now.difference(_dtAt).inMilliseconds < 1200) ? _dtSum + 10 : 10;
+    _dtSide = side;
+    _dtAt = now;
+    e.seek(e.position + Duration(seconds: 10 * side));
+    _showHud(side < 0 ? Icons.fast_rewind_rounded : Icons.fast_forward_rounded, '${side < 0 ? '−' : '+'}$_dtSum ث');
+  }
+
+  void _boostOn() {
+    if (locked || e.isLive || e.phase != Phase.playing) return;
+    _boost = true;
+    e.setSpeed(2);
+    _hudT?.cancel();
+    setState(() => _hud = (icon: Icons.fast_forward_rounded, text: 'سرعة ×2', value: null));
+  }
+
+  void _boostOff() {
+    if (!_boost) return;
+    _boost = false;
+    e.setSpeed(1);
+    _showHud(Icons.play_arrow_rounded, 'سرعة عادية');
+  }
+
+  void _gStartFn(ScaleStartDetails d) {
+    _gMode = d.pointerCount >= 2 ? 'pinch' : '';
+    _gStart = d.localFocalPoint;
+    _gStartPos = e.position;
+  }
+
+  void _gUpdate(ScaleUpdateDetails d) {
+    if (locked) return;
+    final sz = _size;
+    if (d.pointerCount >= 2 || _gMode == 'pinch') {
+      _gMode = 'pinch';
+      if (d.scale > 1.15 && !fill) {
+        setState(() => fill = true);
+        _showHud(Icons.crop_free_rounded, 'ملء الشاشة');
+      } else if (d.scale < .87 && fill) {
+        setState(() => fill = false);
+        _showHud(Icons.fit_screen_rounded, 'ملاءمة');
+      }
+      return;
+    }
+    final delta = d.localFocalPoint - _gStart;
+    if (_gMode.isEmpty) {
+      if (delta.distance < 14) return;
+      if (delta.dx.abs() > delta.dy.abs()) {
+        _gMode = e.canSeek ? 'seek' : (item.isLive && (widget.queue?.length ?? 0) > 1 ? 'zap' : 'x');
+      } else {
+        // يمين الشاشة = الصوت، يسارها = الإضاءة
+        _gMode = _gStart.dx > sz.width / 2 ? 'vol' : 'bright';
+        _gStartVal = _gMode == 'vol' ? (plat.systemVolume ? _vol : e.volume) : (plat.realBrightness ? _bright : 1 - _dim / .8);
+      }
+    }
+    switch (_gMode) {
+      case 'vol':
+        final v = (_gStartVal - delta.dy / (sz.height * .6)).clamp(0.0, 1.0);
+        _vol = v;
+        plat.systemVolume ? plat.setVolume(v) : e.setVolume(v);
+        _showHud(v == 0 ? Icons.volume_off_rounded : (v < .5 ? Icons.volume_down_rounded : Icons.volume_up_rounded), 'الصوت ${(v * 100).round()}%', v);
+      case 'bright':
+        final v = (_gStartVal - delta.dy / (sz.height * .6)).clamp(0.05, 1.0);
+        _bright = v;
+        if (plat.realBrightness) {
+          plat.setBrightness(v);
+        } else {
+          setState(() => _dim = (1 - v) * .8);
+        }
+        _showHud(v < .5 ? Icons.brightness_low_rounded : Icons.brightness_high_rounded, 'الإضاءة ${(v * 100).round()}%', v);
+      case 'seek':
+        final span = e.duration.inSeconds < 600 ? e.duration.inSeconds.toDouble() : 300.0;
+        final secs = (delta.dx / sz.width * span).round();
+        _gTarget = Duration(seconds: (_gStartPos.inSeconds + secs).clamp(0, e.duration.inSeconds));
+        _showHud(secs < 0 ? Icons.fast_rewind_rounded : Icons.fast_forward_rounded,
+            '${secs < 0 ? '−' : '+'}${fmtDur(Duration(seconds: secs.abs()))}  ·  ${fmtDur(_gTarget)}',
+            e.duration.inMilliseconds == 0 ? null : _gTarget.inMilliseconds / e.duration.inMilliseconds);
+      case 'zap':
+        final next = delta.dx < 0;
+        _showHud(next ? Icons.skip_next_rounded : Icons.skip_previous_rounded,
+            delta.dx.abs() > sz.width * .2 ? (next ? 'أفلت للقناة التالية' : 'أفلت للقناة السابقة') : 'اسحب للتنقل بين القنوات');
+    }
+  }
+
+  void _gEnd(ScaleEndDetails d) {
+    if (_gMode == 'seek') e.seek(_gTarget);
+    if (_gMode == 'zap') {
+      final dx = (_hud?.text.contains('أفلت') ?? false);
+      if (dx) _next(_hud!.text.contains('التالية') ? 1 : -1);
+    }
+    _gMode = '';
+  }
+
+  Widget _hudView() {
+    final h = _hud!;
+    return _Glass(child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(h.icon, color: Colors.white, size: 26),
+          const SizedBox(width: 10),
+          Text(h.text, textDirection: TextDirection.rtl,
+              style: const TextStyle(fontFamily: kFont, fontSize: 17, color: Colors.white, fontWeight: FontWeight.w600)),
+        ]),
+        if (h.value != null) ...[
+          const SizedBox(height: 10),
+          SizedBox(width: 180, child: Directionality(textDirection: TextDirection.ltr, child: ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: LinearProgressIndicator(value: h.value, minHeight: 5, color: BColors.teal, backgroundColor: Colors.white24),
+          ))),
+        ],
+      ]),
+    ));
+  }
+
   KeyEventResult _onKey(FocusNode n, KeyEvent ev) {
     if (ev is! KeyDownEvent && ev is! KeyRepeatEvent) return KeyEventResult.ignored;
     final k = ev.logicalKey;
+    final digit = _digitOf(k);
+    if (digit != null) {
+      _typeDigit(digit);
+      return KeyEventResult.handled;
+    }
     if (k == LogicalKeyboardKey.space || k == LogicalKeyboardKey.mediaPlayPause || k == LogicalKeyboardKey.keyK) {
       _toggle();
     } else if (k == LogicalKeyboardKey.mediaPlay) {
@@ -204,7 +481,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   void dispose() {
-    for (final t in [_hide, _retry, _slow, _clock, _flashT]) {
+    for (final t in [_hide, _retry, _slow, _clock, _flashT, _connectT, _tapT]) {
       t?.cancel();
     }
     if (!item.isLive && e.duration > Duration.zero) s.updateProgress(item.key, e.position, e.duration);
@@ -212,6 +489,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     e.dispose();
     _focus.dispose();
     WakelockPlus.disable().catchError((_) {});
+    _hudT?.cancel();
+    _sleepT?.cancel();
+    _digitT?.cancel();
+    plat.resetBrightness();
     plat.setAutoPip(false);
     plat.exitPlayerMode();
     super.dispose();
@@ -238,14 +519,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
             onHover: (_) => _poke(),
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => overlay && e.phase == Phase.playing ? setState(() => overlay = false) : _poke(),
-              onDoubleTapDown: (d) {
-                final w = MediaQuery.sizeOf(context).width;
-                // شريط الزمن من اليسار لليمين: يسار = رجوع، يمين = تقديم
-                _seekBy(d.localPosition.dx < w / 2 ? -10 : 10);
-              },
+              onTapUp: (d) => _tapUp(d.localPosition),
+              onLongPressStart: (_) => _boostOn(),
+              onLongPressEnd: (_) => _boostOff(),
+              onScaleStart: _gStartFn,
+              onScaleUpdate: _gUpdate,
+              onScaleEnd: _gEnd,
               child: Stack(fit: StackFit.expand, children: [
                 Positioned.fill(child: IgnorePointer(child: e.view(fill: fill))),
+                if (_dim > 0) Positioned.fill(child: IgnorePointer(child: ColoredBox(color: Colors.black.withValues(alpha: _dim)))),
+                if (_hud != null) Positioned(top: 70, left: 0, right: 0, child: IgnorePointer(child: Center(child: _hudView()))),
                 // علامة مائية صغيرة شفافة في الزاوية
                 Positioned(top: 18, left: 18, child: IgnorePointer(
                     child: Opacity(opacity: overlay ? 0 : .18, child: const BushraMark(size: 22, style: MarkStyle.mono)))),
@@ -408,6 +691,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
               if (ch != null)
                 _CtrlBtn(icon: fav ? Icons.star_rounded : Icons.star_outline_rounded, tip: fav ? 'إزالة من المفضلة' : 'إضافة للمفضلة',
                     color: fav ? BColors.gold : null, onTap: () { s.toggleFav(ch); _poke(); }),
+              if (_sleepAt != null)
+                _CtrlBtn(icon: Icons.bedtime_rounded, tip: 'مؤقت النوم', color: BColors.gold, onTap: _more,
+                    label: '${_sleepAt!.difference(DateTime.now()).inMinutes + 1} د'),
               _CtrlBtn(icon: Icons.lock_outline_rounded, tip: 'قفل الشاشة', onTap: () => setState(() => locked = true)),
             ]),
             if (s.settings.showStreamInfo) Align(alignment: AlignmentDirectional.centerStart, child: _infoChip()),
@@ -451,6 +737,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     ]);
   }
+
+  String? _restartUrl(EpgProgram p) {
+    final c = item.channelId == null ? null : s.channelById(item.channelId!);
+    if (c == null) return null;
+    return catchupUrl(c, p, s.sources[c.sourceId]?.tzOffset ?? 0);
+  }
+
+  Playable _catchupPlayable(EpgProgram p, String url) => Playable(
+        key: 'cu:${item.channelId}:${p.start.millisecondsSinceEpoch}', title: '${p.title} — إعادة', url: url,
+        subtitle: '${item.title} · ${hhmm(p.start)}', logo: item.logo, sourceId: item.sourceId, channelId: item.channelId,
+      );
 
   Widget _infoChip() {
     final q = e.currentQuality;
@@ -506,6 +803,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
         Text(hhmm(now.stop), style: t.labelMedium!.copyWith(color: Colors.white70)),
       ] else
         Expanded(child: Text(item.isLocal ? '' : 'بث مباشر', style: t.labelMedium!.copyWith(color: Colors.white70))),
+      if (now != null && _restartUrl(now) != null)
+        TextButton.icon(
+          onPressed: () => _open(_catchupPlayable(now, _restartUrl(now)!)),
+          icon: const Icon(Icons.replay_rounded, size: 18),
+          label: const Text('من البداية'),
+        ),
       if (!item.isLocal)
         TextButton.icon(
           onPressed: () { e.goLive(); _poke(); },
@@ -698,6 +1001,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
           ]),
         ],
         const SizedBox(height: 16),
+        Text('مؤقت النوم', style: t.titleSmall),
+        const SizedBox(height: 8),
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          for (final m in [15, 30, 60, 90])
+            ChoiceChip(label: Text('$m د'), selected: false, onSelected: (_) { _setSleep(Duration(minutes: m)); Navigator.pop(c); }),
+          if (s.nowNext(item.tvgId).$1 != null)
+            ChoiceChip(label: const Text('نهاية البرنامج'), selected: false, onSelected: (_) {
+              _setSleep(s.nowNext(item.tvgId).$1!.stop.difference(DateTime.now()));
+              Navigator.pop(c);
+            }),
+          if (_sleepAt != null)
+            ActionChip(avatar: const Icon(Icons.close_rounded, size: 16), label: const Text('إلغاء المؤقت'),
+                onPressed: () { _setSleep(null); Navigator.pop(c); }),
+        ]),
+        if (_sleepAt != null) ...[
+          const SizedBox(height: 6),
+          Text('يتوقف التشغيل الساعة ${hhmm(_sleepAt!)}', style: t.bodySmall),
+        ],
+        const SizedBox(height: 16),
         Text('معلومات البث', style: t.titleSmall),
         const SizedBox(height: 8),
         _info('الجودة الحالية', e.currentQuality ?? 'غير معروفة بعد'),
@@ -865,4 +1187,14 @@ class _Note extends StatelessWidget {
           Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium)),
         ]),
       );
+}
+
+
+/// موقع القناة ذات الرقم n في الطابور: بالرقم الحقيقي للقناة إن وُجد، وإلا بترتيبها.
+int? queueIndexForNumber(List<Playable> q, int n) {
+  for (var i = 0; i < q.length; i++) {
+    final c = q[i].channelId == null ? null : AppStore.I.channelById(q[i].channelId!);
+    if (c?.number == n) return i;
+  }
+  return n >= 1 && n <= q.length ? n - 1 : null;
 }

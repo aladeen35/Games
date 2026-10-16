@@ -44,7 +44,11 @@ class _EpgScreenState extends State<EpgScreen> {
         if (chans.isNotEmpty) ...[
           SegmentedButton<int>(
             showSelectedIcon: false,
-            segments: const [ButtonSegment(value: 0, label: Text('اليوم')), ButtonSegment(value: 1, label: Text('غدًا'))],
+            segments: [
+              if (s.allChannels.any((c) => c.catchupDays > 0)) const ButtonSegment(value: -1, label: Text('أمس')),
+              const ButtonSegment(value: 0, label: Text('اليوم')),
+              const ButtonSegment(value: 1, label: Text('غدًا')),
+            ],
             selected: {day},
             onSelectionChanged: (v) => setState(() { day = v.first; if (_h.hasClients) _h.jumpTo(0); }),
           ),
@@ -100,13 +104,10 @@ class _EpgScreenState extends State<EpgScreen> {
     _h.animateTo(x.clamp(0, _h.position.maxScrollExtent), duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
   }
 
+  /// يوم كامل يبدأ منتصف الليل (أمس/اليوم/غدًا)، ويُمرَّر تلقائيًا إلى «الآن».
   DateTime _windowStart() {
-    if (day == 1) {
-      final n = DateTime.now().add(const Duration(days: 1));
-      return DateTime(n.year, n.month, n.day);
-    }
-    final n = DateTime.now().subtract(const Duration(hours: 1));
-    return DateTime(n.year, n.month, n.day, n.hour, n.minute >= 30 ? 30 : 0);
+    final n = DateTime.now().add(Duration(days: day));
+    return DateTime(n.year, n.month, n.day);
   }
 
   static const _days = ['الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'];
@@ -165,6 +166,11 @@ class _EpgScreenState extends State<EpgScreen> {
           label: Text(live ? 'شاهد الآن' : 'شاهد القناة'),
         ),
         if (pr.start.isAfter(now)) ...[const SizedBox(height: 10), ReminderButton(channel: c, program: pr)],
+        if (!pr.start.isAfter(now) && catchupFor(c, pr) != null) ...[
+          const SizedBox(height: 10),
+          OutlinedButton.icon(onPressed: () => playCatchup(context, c, pr),
+              icon: const Icon(Icons.replay_rounded), label: Text(live ? 'شاهد من البداية' : 'شاهد الإعادة')),
+        ],
       ])),
     );
   }
@@ -174,11 +180,11 @@ class _EpgScreenState extends State<EpgScreen> {
     final p = context.bc;
     final t = Theme.of(context).textTheme;
     final start = _windowStart();
-    final end = start.add(const Duration(hours: 12));
+    final end = start.add(const Duration(hours: 24));
     final width = end.difference(start).inMinutes * pxPerMin;
     const rowH = 64.0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_h.hasClients && _h.offset == 0) _jumpNow();
+      if (_h.hasClients && _h.offset == 0 && day == 0) _jumpNow();
     });
     final nowX = DateTime.now().difference(start).inMinutes * pxPerMin;
     return SingleChildScrollView(
@@ -268,6 +274,8 @@ class _EpgScreenState extends State<EpgScreen> {
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(children: [
+                if (pr.stop.isBefore(DateTime.now()) && c.catchupDays > 0) ...[
+                  Icon(Icons.replay_rounded, size: 14, color: p.accent), const SizedBox(width: 4)],
                 if (AppStore.I.reminderFor(c.id, pr.start) != null) ...[
                   Icon(Icons.notifications_active_rounded, size: 14, color: p.gold), const SizedBox(width: 4)],
                 Expanded(child: Text(pr.title, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.labelLarge)),
@@ -340,6 +348,19 @@ class _EpgScreenState extends State<EpgScreen> {
   }
 }
 
+/// إعادة مشاهدة برنامج انتهى (أو من بداية الحالي) إن كان المزود يحفظ أرشيفًا للقناة.
+String? catchupFor(Channel c, EpgProgram p) => catchupUrl(c, p, AppStore.I.sources[c.sourceId]?.tzOffset ?? 0);
+
+void playCatchup(BuildContext context, Channel c, EpgProgram p) {
+  final url = catchupFor(c, p);
+  if (url == null) return;
+  openPlayer(context, Playable(
+    key: 'cu:${c.id}:${p.start.millisecondsSinceEpoch}', title: '${p.title} — إعادة', url: url,
+    subtitle: '${c.name} · ${p.start.day}/${p.start.month} ${hhmm(p.start)}', logo: c.logo,
+    sourceId: c.sourceId, channelId: c.id,
+  ));
+}
+
 /// صفحة البرنامج المختصرة. لا وعود بالتسجيل أو التذكير لأن المصدر لا يضمنهما.
 Future<void> showProgramSheet(BuildContext context, Channel c, EpgProgram pr, List<Channel> chans) {
   final t = Theme.of(context).textTheme;
@@ -364,12 +385,23 @@ Future<void> showProgramSheet(BuildContext context, Channel c, EpgProgram pr, Li
         ]),
         if (pr.desc != null) ...[const SizedBox(height: 12), Text(pr.desc!, style: t.bodyLarge)],
         const SizedBox(height: 18),
-        if (now)
+        if (now) ...[
           FilledButton.icon(
             onPressed: () { Navigator.pop(ctx); openPlayer(context, Playable.channel(c), queue: queueOf(chans)); },
             icon: const Icon(Icons.play_arrow_rounded), label: const Text('شاهد الآن'),
-          )
-        else ...[
+          ),
+          if (catchupFor(c, pr) != null) ...[
+            const SizedBox(height: 8),
+            OutlinedButton.icon(onPressed: () { Navigator.pop(ctx); playCatchup(context, c, pr); },
+                icon: const Icon(Icons.replay_rounded), label: const Text('شاهد من البداية')),
+          ],
+        ] else if (pr.stop.isBefore(DateTime.now())) ...[
+          if (catchupFor(c, pr) != null)
+            FilledButton.icon(onPressed: () { Navigator.pop(ctx); playCatchup(context, c, pr); },
+                icon: const Icon(Icons.replay_rounded), label: const Text('شاهد الإعادة'))
+          else
+            Text('انتهى البرنامج، ولا يتيح المزود إعادة مشاهدته.', style: t.bodySmall, textAlign: TextAlign.center),
+        ] else ...[
           Text('يبدأ ${pr.start.day}/${pr.start.month} الساعة ${hhmm(pr.start)}', style: t.bodySmall, textAlign: TextAlign.center),
           const SizedBox(height: 10),
           ReminderButton(channel: c, program: pr),

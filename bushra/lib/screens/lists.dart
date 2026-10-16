@@ -115,7 +115,7 @@ class _AddCard extends StatelessWidget {
           child: gold || !p.cinematic
               ? FilledButton.icon(onPressed: onTap, icon: Icon(actionIcon), label: Text(action))
               : FilledButton.icon(
-                  style: FilledButton.styleFrom(backgroundColor: p.accentDeep, foregroundColor: Colors.white),
+                  style: tealButtonStyle(p),
                   onPressed: onTap, icon: Icon(actionIcon), label: Text(action)),
         ),
       ]),
@@ -166,11 +166,6 @@ class _SourceCard extends StatelessWidget {
     final p = context.bc;
     final t = Theme.of(context).textTheme;
     final updating = s.status[src.id] == SourceStatus.updating;
-    final (IconData icon, String type) = switch (src.type) {
-      SourceType.m3uUrl => (Icons.link_rounded, 'رابط قائمة'),
-      SourceType.m3uFile => (Icons.insert_drive_file_outlined, 'ملف من الجهاز'),
-      SourceType.xtream => (Icons.account_circle_outlined, 'حساب مزود'),
-    };
     final Widget status = updating
         ? StatusPill(text: 'يتم التحديث', icon: Icons.sync_rounded, color: p.accent, dense: true)
         : src.lastError == null
@@ -178,74 +173,108 @@ class _SourceCard extends StatelessWidget {
             : src.lastError!.contains('صلاحية')
                 ? StatusPill(text: 'يحتاج إلى تسجيل الدخول', icon: Icons.key_rounded, color: p.gold, dense: true)
                 : StatusPill(text: 'بيانات قديمة', icon: Icons.history_toggle_off_rounded, color: p.gold, dense: true);
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: p.container, borderRadius: BorderRadius.circular(BRadius.card)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Container(
-            width: 44, height: 44,
-            decoration: BoxDecoration(color: p.accent.withValues(alpha: .12), borderRadius: BorderRadius.circular(12)),
-            child: Icon(icon, color: p.accent),
-          ),
-          const SizedBox(width: 12),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(src.name, style: t.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
-            Text('$type · ${src.displayHost}', style: t.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-          ])),
-          PopupMenuButton<String>(
-            tooltip: 'خيارات القائمة',
-            onSelected: (v) => _guarded(context, () => _action(context, v)),
-            itemBuilder: (_) => [
-              if (src.type != SourceType.m3uFile) const PopupMenuItem(value: 'refresh', child: Text('تحديث القائمة')),
-              const PopupMenuItem(value: 'rename', child: Text('إعادة التسمية')),
-              const PopupMenuItem(value: 'epg', child: Text('رابط دليل البرامج (XMLTV)')),
-              if (src.type != SourceType.m3uFile) const PopupMenuItem(value: 'edit', child: Text('تعديل المصدر')),
-              const PopupMenuItem(value: 'delete', child: Text('حذف')),
-            ],
-          ),
-        ]),
-        const SizedBox(height: 12),
-        Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
-          status,
-          _Meta(icon: Icons.sensors_rounded, text: '${src.liveCount} قناة'),
-          if (src.vodCount > 0) _Meta(icon: Icons.movie_outlined, text: '${src.vodCount} فيلم'),
-          _Meta(icon: Icons.category_outlined, text: '${src.groups.length} مجموعة'),
-          if (src.hasEpg) const _Meta(icon: Icons.calendar_month_outlined, text: 'دليل برامج'),
-          if (src.lastUpdated != null) _Meta(icon: Icons.schedule_rounded, text: 'آخر تحديث ${src.lastUpdated!.year}/${src.lastUpdated!.month.toString().padLeft(2, '0')}/${src.lastUpdated!.day.toString().padLeft(2, '0')} ${hhmm(src.lastUpdated!)}'),
-        ]),
-        const SizedBox(height: 12),
-        Row(children: [
-          if (src.type != SourceType.m3uFile) ...[
-            FilledButton.icon(
-              style: FilledButton.styleFrom(backgroundColor: p.accentDeep, foregroundColor: Colors.white),
-              onPressed: updating ? null : () => _guarded(context, () => _action(context, 'refresh')),
-              icon: updating
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : const Icon(Icons.sync_rounded),
-              label: const Text('تحديث'),
-            ),
-            const SizedBox(width: 10),
-            OutlinedButton.icon(
-              onPressed: () => _guarded(context, () => _action(context, 'edit')),
-              icon: const Icon(Icons.edit_outlined), label: const Text('تعديل'),
-            ),
-          ],
-        ]),
-        if (src.lastError != null) ...[
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: p.gold.withValues(alpha: .08), borderRadius: BorderRadius.circular(12)),
-            child: Row(children: [
-              Icon(Icons.info_outline_rounded, color: p.gold, size: 20),
-              const SizedBox(width: 10),
-              Expanded(child: Text('تعذر تحديث هذه القائمة: ${src.lastError}. ستظل النسخة السابقة متاحة.', style: t.bodySmall!.copyWith(color: p.text2))),
-            ]),
-          ),
-        ],
+    final menu = PopupMenuButton<String>(
+      tooltip: 'خيارات القائمة',
+      icon: Icon(Icons.more_vert_rounded, color: p.text2),
+      onSelected: (v) => _guarded(context, () => _action(context, v)),
+      itemBuilder: (_) => [
+        if (src.type != SourceType.m3uFile) const PopupMenuItem(value: 'refresh', child: Text('تحديث القائمة')),
+        const PopupMenuItem(value: 'rename', child: Text('إعادة التسمية')),
+        const PopupMenuItem(value: 'epg', child: Text('رابط دليل البرامج (XMLTV)')),
+        if (src.type != SourceType.m3uFile) const PopupMenuItem(value: 'edit', child: Text('تعديل المصدر')),
+        const PopupMenuItem(value: 'delete', child: Text('حذف')),
+      ],
+    );
+    // أيقونة دائرية متوهجة كما في التصميم
+    final badge = Container(
+      width: 56, height: 56,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(colors: [p.accent.withValues(alpha: .28), p.accent.withValues(alpha: .06)]),
+        border: Border.all(color: p.accent.withValues(alpha: .3)),
+        boxShadow: p.cinematic ? [BoxShadow(color: p.accent.withValues(alpha: .2), blurRadius: 16)] : null,
+      ),
+      child: Icon(src.type == SourceType.xtream ? Icons.manage_accounts_outlined : Icons.storage_rounded, color: p.accent, size: 28),
+    );
+    final title = Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+      Text(src.name, style: t.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+      const SizedBox(height: 4),
+      status,
+    ]);
+    final upd = src.lastUpdated;
+    String two(int v) => v.toString().padLeft(2, '0');
+    Widget stat(IconData i, String value, String label) => Column(mainAxisSize: MainAxisSize.min, children: [
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(value, style: t.titleSmall, textDirection: TextDirection.ltr),
+            const SizedBox(width: 8),
+            Icon(i, size: 22, color: p.text2),
+          ]),
+          const SizedBox(height: 2),
+          Text(label, style: t.bodySmall),
+        ]);
+    final stats = [
+      stat(Icons.schedule_rounded, upd == null ? '—' : '${upd.year}/${two(upd.month)}/${two(upd.day)}  ${hhmm(upd)}', 'آخر تحديث'),
+      stat(Icons.live_tv_rounded, '${src.liveCount}', 'قناة'),
+      if (src.vodCount > 0) stat(Icons.movie_outlined, '${src.vodCount}', 'فيلم ومسلسل'),
+    ];
+    final buttons = [
+      if (src.type != SourceType.m3uFile) ...[
+        OutlinedButton.icon(
+          onPressed: () => _guarded(context, () => _action(context, 'edit')),
+          icon: const Icon(Icons.edit_outlined), label: const Text('تعديل'),
+        ),
+        const SizedBox(width: 10),
+        FilledButton.icon(
+          style: tealButtonStyle(p),
+          onPressed: updating ? null : () => _guarded(context, () => _action(context, 'refresh')),
+          icon: updating
+              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+              : const Icon(Icons.sync_rounded),
+          label: const Text('تحديث'),
+        ),
+      ],
+    ];
+    Widget divider() => Container(width: 1, height: 44, margin: const EdgeInsets.symmetric(horizontal: 20), color: p.border);
+    final error = src.lastError == null ? null : Container(
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: p.gold.withValues(alpha: .08), borderRadius: BorderRadius.circular(12)),
+      child: Row(children: [
+        Icon(Icons.info_outline_rounded, color: p.gold, size: 20),
+        const SizedBox(width: 10),
+        Expanded(child: Text('تعذر تحديث هذه القائمة: ${src.lastError}. ستظل النسخة السابقة متاحة.', style: t.bodySmall!.copyWith(color: p.text2))),
       ]),
     );
+    return LayoutBuilder(builder: (context, box) {
+      final wide = box.maxWidth >= 820;
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: wide ? 18 : 14),
+        decoration: BoxDecoration(
+          color: p.container, borderRadius: BorderRadius.circular(BRadius.card + 4),
+          border: Border.all(color: p.cinematic ? p.border : Colors.transparent),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          if (wide)
+            Row(children: [
+              menu, badge, const SizedBox(width: 14),
+              Expanded(child: title),
+              for (final st in stats) ...[divider(), st],
+              const SizedBox(width: 24),
+              ...buttons,
+            ])
+          else ...[
+            Row(children: [badge, const SizedBox(width: 12), Expanded(child: title), menu]),
+            const SizedBox(height: 14),
+            Wrap(spacing: 24, runSpacing: 12, alignment: WrapAlignment.spaceAround, children: stats),
+            if (buttons.isNotEmpty) ...[
+              const SizedBox(height: 14),
+              Row(children: [for (final b in buttons) b is SizedBox ? b : Expanded(child: b)]),
+            ],
+          ],
+          ?error,
+        ]),
+      );
+    });
   }
 
   Future<void> _action(BuildContext context, String v) async {
@@ -272,7 +301,9 @@ class _SourceCard extends StatelessWidget {
           content: Text('ستُحذف «${src.name}» وقنواتها من هذا الجهاز. المفضلة تبقى.'),
           actions: [
             TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('إلغاء')),
-            FilledButton(style: FilledButton.styleFrom(backgroundColor: context.bc.danger),
+            FilledButton(style: FilledButton.styleFrom(backgroundColor: context.bc.danger, foregroundColor: Colors.white,
+                    backgroundBuilder: (_, _, child) => DecoratedBox(decoration: BoxDecoration(color: context.bc.danger,
+                        borderRadius: BorderRadius.circular(BRadius.button)), child: child)),
                 onPressed: () => Navigator.pop(c, true), child: const Text('حذف')),
           ],
         ));
@@ -292,16 +323,4 @@ Future<String?> _prompt(BuildContext context, String title, String initial, Stri
       FilledButton(onPressed: () => Navigator.pop(ctx, c.text), child: const Text('حفظ')),
     ],
   ));
-}
-
-class _Meta extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  const _Meta({required this.icon, required this.text});
-  @override
-  Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 15, color: context.bc.text3),
-        const SizedBox(width: 4),
-        Text(text, style: Theme.of(context).textTheme.labelMedium),
-      ]);
 }

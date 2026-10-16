@@ -85,6 +85,20 @@ class Net {
     }
   }
 
+  /// فحص سريع لقناة: هل يرد الرابط بنجاح؟ (يقرأ الرأس فقط ثم يغلق الاتصال)
+  static Future<bool> probe(String url, [Map<String, String>? headers]) async {
+    final client = http.Client();
+    try {
+      final req = http.Request('GET', wrap(url))..headers.addAll({'User-Agent': ua, ...?headers});
+      final r = await client.send(req).timeout(const Duration(seconds: 8));
+      return r.statusCode < 400;
+    } catch (_) {
+      return false;
+    } finally {
+      client.close();
+    }
+  }
+
   /// يعرض نطاق المصدر فقط دون اسم المستخدم أو كلمة المرور أو المعاملات.
   static String safeHost(String url) {
     final u = Uri.tryParse(url.trim());

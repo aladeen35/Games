@@ -40,14 +40,16 @@ class Settings {
   String corsProxy = '';
   bool onboarded = false;
   /// نمط التصميم: false = الهادئ الأساسي، true = السينمائي البديل.
-  bool cinematic = false;
+  bool cinematic = true;
+  /// إخفاء القنوات التي تبيّن أنها لا تعمل.
+  bool hideBroken = false;
 
   Map<String, dynamic> toJson() => {
         'theme': theme.index, 'hc': highContrast, 'rm': reduceMotion, 'orig': showOriginalNames,
         'ts': textScale, 'fill': fillScreen, 'resume': resume, 'reconnect': autoReconnect,
         'next': autoplayNext, 'info': showStreamInfo, 'audio': preferredAudio, 'sub': subtitleScale,
         'subBg': subtitleBackground, 'pin': parentalPin, 'locked': lockedGroups.toList(),
-        'cors': corsProxy, 'onb': onboarded, 'cine': cinematic,
+        'cors': corsProxy, 'onb': onboarded, 'cine': cinematic, 'hideBroken': hideBroken, 'v': 2,
       };
 
   void load(Map j) {
@@ -68,7 +70,9 @@ class Settings {
     lockedGroups = Set<String>.from(j['locked'] ?? const []);
     corsProxy = j['cors'] ?? '';
     onboarded = j['onb'] ?? false;
-    cinematic = j['cine'] ?? false;
+    // من الإصدار 1.3 صار النمط السينمائي هو الافتراضي (إعدادات ما قبل v2 تنتقل إليه مرة واحدة)
+    cinematic = (j['v'] ?? 1) >= 2 ? (j['cine'] ?? true) : true;
+    hideBroken = j['hideBroken'] ?? false;
   }
 }
 
@@ -90,6 +94,11 @@ class AppStore extends ChangeNotifier {
   final List<HistoryEntry> history = [];
   final List<LocalVideo> localVideos = [];
   final List<Reminder> reminders = [];
+
+  /// حالة القنوات: true تعمل، false لا تعمل (من الفحص أو من آخر محاولة تشغيل).
+  final Map<String, bool> health = {};
+  bool healthChecking = false;
+  int healthDone = 0, healthTotal = 0;
 
   /// القنوات المفتوحة المصدر (iptv-org) — منفصلة عن قوائم المستخدم.
   List<Channel> openChannels = [];
@@ -168,6 +177,7 @@ class AppStore extends ChangeNotifier {
       final t = _metaBox.get('openUpd');
       if (t is int) openUpdated = DateTime.fromMillisecondsSinceEpoch(t);
     }
+    health.addAll(Map<String, bool>.from(_userBox.get('health', defaultValue: const {}) as Map));
     for (final v in (_userBox.get('reminders', defaultValue: const []) as List)) {
       final r = Reminder.fromJson(Map<String, dynamic>.from(jsonDecode(v)));
       if (r.start.isAfter(DateTime.now().subtract(const Duration(minutes: 30)))) reminders.add(r);
@@ -180,10 +190,19 @@ class AppStore extends ChangeNotifier {
   }
 
   void _autoRefresh() {
+    // فحص صحة القنوات مرة يوميًا على الجوال (في الخلفية)
+    final last = _metaBox.get('healthAt');
+    if (!kIsWeb && sources.isNotEmpty && (last is! int || DateTime.now().millisecondsSinceEpoch - last > 86400000)) {
+      _metaBox.put('healthAt', DateTime.now().millisecondsSinceEpoch);
+      Future.delayed(const Duration(seconds: 20), () => checkHealth(limit: 300));
+    }
     for (final s in sources.values) {
       final age = s.lastUpdated == null ? null : DateTime.now().difference(s.lastUpdated!);
       if (s.type != SourceType.m3uFile && s.autoRefreshHours > 0 && (age == null || age.inHours >= s.autoRefreshHours)) {
         refresh(s.id).catchError((_) {});
+      } else if (s.epgUrl != null && (s.epgUpdated == null || DateTime.now().difference(s.epgUpdated!).inHours >= 20)) {
+        // الدليل يتجدد يوميًا تلقائيًا
+        loadEpg(s.id);
       }
     }
   }
@@ -201,9 +220,47 @@ class AppStore extends ChangeNotifier {
 
   bool isLocked(Channel c) => settings.parentalPin != null && !parentalUnlocked && settings.lockedGroups.contains(c.group);
 
+  bool isBroken(String id) => health[id] == false;
+  bool _hidden(Channel c) => isLocked(c) || (settings.hideBroken && c.isLive && isBroken(c.id));
+
+  Timer? _healthSave;
+  void markHealth(String id, bool ok) {
+    if (health[id] == ok) return;
+    health[id] = ok;
+    _healthSave?.cancel();
+    _healthSave = Timer(const Duration(seconds: 2), () {
+      _userBox.put('health', Map<String, bool>.from(health));
+      notifyListeners();
+    });
+  }
+
+  /// يفحص القنوات المباشرة في الخلفية (طلب خفيف لكل قناة، 6 في وقت واحد).
+  /// على الويب لا يُستخدم لأن المتصفح يمنع كثيرًا من الطلبات (CORS) فتظهر نتائج خاطئة.
+  Future<void> checkHealth({String? sourceId, int limit = 400}) async {
+    if (healthChecking || kIsWeb) return;
+    final list = [for (final c in (sourceId == null ? allChannels : channelsOf(sourceId))) if (c.isLive) c].take(limit).toList();
+    healthChecking = true;
+    healthDone = 0;
+    healthTotal = list.length;
+    notifyListeners();
+    var i = 0;
+    Future<void> worker() async {
+      while (i < list.length) {
+        final c = list[i++];
+        markHealth(c.id, await Net.probe(c.url, c.headers));
+        healthDone++;
+        if (healthDone % 10 == 0) notifyListeners();
+      }
+    }
+    await Future.wait([for (var k = 0; k < 6; k++) worker()]);
+    healthChecking = false;
+    _userBox.put('health', Map<String, bool>.from(health));
+    notifyListeners();
+  }
+
   List<Channel> visible({ChannelKind? kind, String? sourceId}) {
     final base = sourceId == null ? allChannels : channelsOf(sourceId);
-    return [for (final c in base) if ((kind == null || c.kind == kind) && !isLocked(c)) c];
+    return [for (final c in base) if ((kind == null || c.kind == kind) && !_hidden(c)) c];
   }
 
   /// المجموعات بترتيب ظهورها مع عدد قنوات كل منها.
@@ -252,7 +309,7 @@ class AppStore extends ChangeNotifier {
     }
   }
 
-  List<Channel> visibleOpen() => [for (final c in openChannels) if (!isLocked(c)) c];
+  List<Channel> visibleOpen() => [for (final c in openChannels) if (!_hidden(c)) c];
 
   // ———————————————————— التذكير بالبرامج ————————————————————
   Reminder? reminderFor(String channelId, DateTime start) {
@@ -317,16 +374,35 @@ class AppStore extends ChangeNotifier {
     final sw = Stopwatch()..start();
     List<Channel> chans;
     String? epg, note;
+    var epgAuto = false;
+    var tz = 0;
     SourceSecret secret;
     String host;
     switch (type) {
       case SourceType.m3uUrl:
-        final text = await Net.text(url!);
+        // روابط المزودين get.php?username=…&password=… هي حسابات Xtream: نستخدم الحساب مباشرة
+        // فتظهر الأفلام والمسلسلات ودليل البرامج تلقائيًا
+        final xt = xtreamFromUrl(url!);
+        if (xt != null) {
+          try {
+            final p = await testSource(type: SourceType.xtream, name: name, server: xt.$1, username: xt.$2,
+                password: xt.$3, existingId: existingId ?? id);
+            return SourcePreview(p.source, p.secret, p.channels, p.latency,
+                [if (p.accountNote != null) p.accountNote!, 'اكتُشف حساب مزود: الأفلام والمسلسلات والدليل تلقائيًا'].join(' · '));
+          } catch (_) {
+            // ليس حساب Xtream فعليًا؛ نكمل كقائمة M3U عادية
+          }
+        }
+        final text = await Net.text(url);
         sw.stop();
         final r = await _parse(text, id);
         chans = r.channels; epg = r.epgUrl;
         secret = SourceSecret(url: url.trim());
         host = Net.safeHost(url);
+        if (epg == null) {
+          epg = guessEpgUrl(url);
+          epgAuto = epg != null;
+        }
       case SourceType.m3uFile:
         final r = await _parse(fileText!, id);
         sw.stop();
@@ -339,6 +415,7 @@ class AppStore extends ChangeNotifier {
         sw.stop();
         chans = await x.fetchAll(id);
         epg = x.epgUrl;
+        tz = XtreamClient.tzOffsetOf(info);
         final exp = int.tryParse('${info['user_info']?['exp_date']}');
         if (exp != null) {
           final d = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
@@ -351,10 +428,10 @@ class AppStore extends ChangeNotifier {
     final live = chans.where((c) => c.isLive).length;
     final src = Source(
       id: id, name: (name?.trim().isNotEmpty ?? false) ? name!.trim() : (type == SourceType.xtream ? 'حساب $host' : host),
-      type: type, displayHost: host, epgUrl: epg, lastUpdated: DateTime.now(),
+      type: type, displayHost: host, epgUrl: epg, epgAuto: epgAuto, lastUpdated: DateTime.now(), tzOffset: tz,
       liveCount: live, vodCount: chans.length - live,
       groups: groupsOf(chans).map((e) => e.key).toList(),
-      hasLogos: chans.any((c) => c.logo != null), hasEpg: epg != null || chans.any((c) => c.tvgId != null),
+      hasLogos: chans.any((c) => c.logo != null), hasEpg: epg != null,
     );
     return SourcePreview(src, secret, chans, sw.elapsed, note);
   }
@@ -399,7 +476,9 @@ class AppStore extends ChangeNotifier {
       );
       p.source
         ..autoRefreshHours = s.autoRefreshHours
-        ..epgUrl = s.epgUrl ?? p.source.epgUrl;
+        ..epgUrl = s.epgUrl ?? p.source.epgUrl
+        ..epgAuto = s.epgUrl == null ? p.source.epgAuto : s.epgAuto
+        ..epgUpdated = s.epgUpdated;
       await commit(p);
     } catch (e) {
       s.lastError = e is NetError ? e.message : 'تعذر تحديث هذه القائمة';
@@ -439,6 +518,7 @@ class AppStore extends ChangeNotifier {
 
   Future<void> setEpgUrl(String id, String? url) async {
     sources[id]?.epgUrl = (url?.trim().isEmpty ?? true) ? null : url!.trim();
+    sources[id]?.epgAuto = false;
     _persistSources();
     notifyListeners();
     await loadEpg(id);
@@ -451,18 +531,35 @@ class AppStore extends ChangeNotifier {
     epgError = null;
     notifyListeners();
     try {
-      final ids = {for (final c in channelsOf(id)) if (c.tvgId != null) c.tvgId!}.toList();
+      final chans = channelsOf(id);
+      final ids = {for (final c in chans) if (c.tvgId != null) c.tvgId!}.toList();
+      // القنوات الحية بلا tvg-id تُطابَق بأسمائها تلقائيًا
+      final names = [for (final c in chans) if (c.tvgId == null && c.isLive) [c.id, c.name]];
       final text = await Net.text(s.epgUrl!, timeout: const Duration(seconds: 90));
-      final progs = await compute(parseXmltv, {'text': text, 'ids': ids});
+      final res = await compute(parseXmltvMatched, {'text': text, 'ids': ids, 'names': names});
+      final progs = res['programs'] as List<EpgProgram>;
+      final matches = Map<String, String>.from(res['matches'] as Map);
+      if (matches.isNotEmpty) {
+        _channels[id] = [for (final c in chans) matches[c.id] != null ? c.withTvgId(matches[c.id]!) : c];
+        await _channelsBox.put(id, jsonEncode([for (final c in _channels[id]!) c.toJson()]));
+      }
       await _epgBox.put(id, jsonEncode([for (final p in progs) p.toJson()]));
-      for (final tid in ids) {
+      for (final tid in {...ids, ...matches.values}) {
         _epg.remove(tid);
       }
       _indexEpg(progs);
       s.hasEpg = progs.isNotEmpty;
+      s.epgUpdated = DateTime.now();
       _persistSources();
     } catch (e) {
-      epgError = e is NetError ? e.message : 'تعذر تحميل دليل البرامج';
+      if (s.epgAuto) {
+        // رابط خمّناه ولم ينجح: لا نزعج المستخدم ولا نكرر المحاولة
+        s.epgUrl = null;
+        s.epgAuto = false;
+        _persistSources();
+      } else {
+        epgError = e is NetError ? e.message : 'تعذر تحميل دليل البرامج';
+      }
     } finally {
       epgLoading = false;
       notifyListeners();
@@ -575,6 +672,76 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ———————————————————— النسخ الاحتياطي ————————————————————
+  /// ملف واحد فيه القوائم (مع بيانات الدخول) والمفضلة والسجل والتذكيرات والإعدادات.
+  Future<String> exportBackup() async {
+    final srcs = <Map<String, dynamic>>[];
+    for (final src in sources.values) {
+      srcs.add({
+        'source': src.toJson(),
+        'secret': (await secretOf(src.id)).toJson(),
+        // ملفات M3U من الجهاز لا يمكن إعادة تحميلها، فنحفظ قنواتها
+        if (src.type == SourceType.m3uFile) 'channels': [for (final c in channelsOf(src.id)) c.toJson()],
+      });
+    }
+    return const JsonEncoder.withIndent(' ').convert({
+      'app': 'bushra', 'v': 1, 'at': DateTime.now().toIso8601String(),
+      'settings': settings.toJson()..remove('pin'),
+      'sources': srcs,
+      'favorites': [for (final f in favorites.values) f.toJson()],
+      'history': [for (final h in history) h.toJson()],
+      'reminders': [for (final r in reminders) r.toJson()],
+    });
+  }
+
+  /// يستعيد نسخة احتياطية (دمج: لا يحذف ما هو موجود). يعيد عدد القوائم المستعادة.
+  Future<int> importBackup(String text) async {
+    final j = jsonDecode(text);
+    if (j is! Map || j['app'] != 'bushra') throw const FormatException('not a bushra backup');
+    final pin = settings.parentalPin;
+    settings.load(Map<String, dynamic>.from(j['settings'] ?? {}));
+    settings.parentalPin = pin;
+    _settingsBox.put('s', settings.toJson());
+    var n = 0;
+    for (final e in (j['sources'] as List? ?? const [])) {
+      final src = Source.fromJson(Map<String, dynamic>.from(e['source']));
+      sources[src.id] = src;
+      await _saveSecret(src.id, SourceSecret.fromJson(Map<String, dynamic>.from(e['secret'] ?? {})));
+      if (e['channels'] != null) {
+        _channels[src.id] = [for (final c in e['channels'] as List) Channel.fromJson(Map<String, dynamic>.from(c))];
+        await _channelsBox.put(src.id, jsonEncode(e['channels']));
+      }
+      n++;
+    }
+    _persistSources();
+    for (final f in (j['favorites'] as List? ?? const [])) {
+      final c = Channel.fromJson(Map<String, dynamic>.from(f));
+      favorites.putIfAbsent(c.id, () => c);
+    }
+    _userBox.put('fav', [for (final f in favorites.values) jsonEncode(f.toJson())]);
+    for (final h in (j['history'] as List? ?? const [])) {
+      final e = HistoryEntry.fromJson(Map<String, dynamic>.from(h));
+      if (historyOf(e.item.key) == null) history.add(e);
+    }
+    history.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    _saveHistory();
+    for (final r in (j['reminders'] as List? ?? const [])) {
+      final rem = Reminder.fromJson(Map<String, dynamic>.from(r));
+      if (rem.start.isAfter(DateTime.now()) && !reminders.any((x) => x.id == rem.id)) {
+        reminders.add(rem);
+        unawaited(Reminders.schedule(rem));
+      }
+    }
+    _saveReminders();
+    Net.corsProxy = settings.corsProxy;
+    notifyListeners();
+    // نعيد تحميل قنوات القوائم والحسابات من مصادرها
+    for (final src in sources.values) {
+      if (src.type != SourceType.m3uFile && channelsOf(src.id).isEmpty) unawaited(refresh(src.id).catchError((_) {}));
+    }
+    return n;
+  }
+
   // ———————————————————— البحث ————————————————————
   ({List<Channel> channels, List<(Channel, EpgProgram)> programs, List<Source> lists, List<LocalVideo> local}) search(String q) {
     final qs = expand(q);
@@ -613,4 +780,27 @@ class AppStore extends ChangeNotifier {
       local: localVideos.where((v) => score(normalize(v.name), qs) > 0).toList(),
     );
   }
+}
+
+/// يستخرج (الخادم، المستخدم، كلمة المرور) من روابط المزودين get.php أو player_api.php.
+(String, String, String)? xtreamFromUrl(String url) {
+  final u = Uri.tryParse(url.trim());
+  if (u == null || !u.hasScheme) return null;
+  final q = u.queryParameters;
+  final user = q['username'], pass = q['password'];
+  if (user == null || pass == null || user.isEmpty) return null;
+  if (!RegExp(r'/(get|player_api|panel_api)\.php$').hasMatch(u.path)) return null;
+  return ('${u.scheme}://${u.host}${u.hasPort ? ':${u.port}' : ''}', user, pass);
+}
+
+/// رابط دليل محتمل على نفس خادم القائمة حين لا تذكر القائمة دليلها.
+String? guessEpgUrl(String url) {
+  final u = Uri.tryParse(url.trim());
+  if (u == null || !u.hasScheme) return null;
+  final q = u.queryParameters;
+  final origin = '${u.scheme}://${u.host}${u.hasPort ? ':${u.port}' : ''}';
+  if (q['username'] != null && q['password'] != null) {
+    return '$origin/xmltv.php?username=${Uri.encodeComponent(q['username']!)}&password=${Uri.encodeComponent(q['password']!)}';
+  }
+  return null;
 }
