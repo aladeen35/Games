@@ -59,9 +59,27 @@
     $('modeBanner').innerHTML = S.mode === 'cloud'
       ? '<div class="banner">متصل بالخادم — كل تعديل يظهر فورًا لجميع الزوّار.</div>'
       : '<div class="banner warn"><b>الوضع المحلي:</b> لم يُربط الموقع بخادم بعد، لذا تُحفظ تعديلاتك والاقتراحات في هذا المتصفح فقط. لنشرها للجميع: اربط خادم Cloudflare (انظر README)، أو صدّر JSON من «الإعدادات» وارفعه مكان <code>data/catalog.json</code>.</div>';
+    await syncCatalog();
     renderApps();
     renderSugg();
     fillSettings();
+  }
+
+  // يضيف التطبيقات الجديدة من data/catalog.json ويحفظها فتظهر للزوّار
+  let fileIds = new Set();
+  async function syncCatalog() {
+    try {
+      const file = await S.loadFile();
+      fileIds = new Set(file.apps.map((a) => a.id));
+      const r = S.mergeCatalog(state.apps, file.apps);
+      if (!r.added.length && !r.updated.length) return;
+      state.apps = r.apps;
+      await S.saveApps(state.apps);
+      const parts = [];
+      if (r.added.length) parts.push('أُضيفت تطبيقات جديدة: <b>' + r.added.map(esc).join('، ') + '</b>');
+      if (r.updated.length) parts.push('حُدّثت بيانات: ' + r.updated.map(esc).join('، '));
+      $('modeBanner').insertAdjacentHTML('beforeend', '<div class="banner">' + parts.join('<br>') + ' — وحُفظت للزوّار.</div>');
+    } catch (e) { console.warn('catalog sync failed', e); }
   }
 
   $('logout').addEventListener('click', (e) => { e.preventDefault(); S.logout(); location.reload(); });
@@ -106,8 +124,14 @@
     const op = el.dataset.op;
     if (op === 'edit') return openDlg(state.apps[i]);
     if (op === 'del') {
-      if (!confirm('حذف «' + state.apps[i].name + '» نهائيًا؟ (يمكنك إخفاؤه بدل الحذف)')) return;
-      state.apps.splice(i, 1);
+      if (fileIds.has(id)) {
+        // تطبيقات الكتالوج الأساسي تُخفى بدل الحذف حتى لا تعود عند المزامنة
+        if (!confirm('«' + state.apps[i].name + '» من الكتالوج الأساسي، لذلك سيُخفى من الموقع بدل حذفه. متابعة؟')) return;
+        state.apps[i].visible = false;
+      } else {
+        if (!confirm('حذف «' + state.apps[i].name + '» نهائيًا؟ (يمكنك إخفاؤه بدل الحذف)')) return;
+        state.apps.splice(i, 1);
+      }
     }
     if (op === 'up' && i > 0) [state.apps[i - 1], state.apps[i]] = [state.apps[i], state.apps[i - 1]];
     if (op === 'down' && i < state.apps.length - 1) [state.apps[i + 1], state.apps[i]] = [state.apps[i], state.apps[i + 1]];
@@ -132,6 +156,7 @@
     for (const k in F) $(F[k]).value = (app && app[k]) || (k === 'category' ? 'apps' : '');
     $('fVisible').checked = app ? app.visible !== false : true;
     $('fFeatured').checked = !!(app && app.featured);
+    $('fNew').checked = app ? !!app.isNew : true;
     $('dlgMsg').className = 'msg';
     previewLogo();
     $('appDlg').showModal();
@@ -159,6 +184,7 @@
     if (d.logo && !safeUrl(d.logo, true)) return showMsg($('dlgMsg'), 'رابط الشعار غير صالح', false);
     d.visible = $('fVisible').checked;
     d.featured = $('fFeatured').checked;
+    d.isNew = $('fNew').checked;
     if (editing) Object.assign(state.apps.find((a) => a.id === editing), d);
     else state.apps.unshift(Object.assign({ id: S.uid() }, d));
     $('dlgSave').disabled = true;

@@ -48,7 +48,8 @@ async function route(req, env) {
     const catalog = (await KV.get('catalog', 'json')) || {};
     const suggestions = (await listSuggestions(KV)).map(({ contact, ...s }) => s);
     const apps = catalog.apps ? catalog.apps.filter((a) => a.visible !== false) : null;
-    return json({ settings: catalog.settings || null, apps, suggestions });
+    const ids = catalog.apps ? catalog.apps.map((a) => a.id) : null; // كل المعرّفات (بلا بيانات المخفي) ليعرف الموقع ما هو جديد فعلًا
+    return json({ settings: catalog.settings || null, apps, ids, suggestions });
   }
 
   if (p === '/api/suggestions' && m === 'POST') {
@@ -189,6 +190,8 @@ function cleanApp(a) {
     playUrl: url(a.playUrl),
     badge: str(a.badge, 30),
     featured: !!a.featured,
+    isNew: !!a.isNew,
+    rev: Math.max(0, Math.min(1e6, parseInt(a.rev, 10) || 0)),
     visible: a.visible !== false
   };
 }
