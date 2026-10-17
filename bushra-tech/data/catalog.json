@@ -24,7 +24,7 @@
     },
     {
       "id": "bushra-player",
-      "name": "البشرى — مشغّل الفيديو و IPTV",
+      "name": "البشرى فيديو — مشغّل الفيديو و IPTV",
       "category": "apps",
       "description": "غرفة مشاهدة عربية تجمع البث المباشر والأفلام والمسلسلات ودليل البرامج وفيديوهات جوالك: قوائم M3U وحسابات Xtream، تذكير بالبرامج، ترجمة، ورقابة أبوية — للجوال والتلفاز والمتصفح.",
       "logo": "assets/logos/bushra-player.webp",
@@ -35,7 +35,7 @@
       "featured": false,
       "visible": true,
       "isNew": true,
-      "rev": 1
+      "rev": 2
     },
     {
       "id": "atheer",
