@@ -20,7 +20,7 @@
   let fileCache = null;
   async function loadFile() {
     if (fileCache) return clone(fileCache);
-    const r = await fetch('data/catalog.json', { cache: 'no-cache' });
+    const r = await fetch('data/catalog.json?v=6', { cache: 'no-cache' });
     if (!r.ok) throw new Error('تعذّر تحميل ملف الكتالوج');
     fileCache = await r.json();
     return clone(fileCache);
@@ -175,7 +175,8 @@
         // ids: كل معرّفات الخادم (الإصدار الأحدث من كود الخادم يرسلها) — ما ليس فيها جديد فعلًا فيُعرض
         const shown = new Set(st.apps.map((a) => a.id));
         const all = Array.isArray(st.ids) ? new Set(st.ids) : null;
-        const apps = mergeCatalog(st.apps, f.apps).apps.filter((a) => shown.has(a.id) || (all && !all.has(a.id) && a.visible !== false));
+        const fresh = (a) => a.visible !== false && (all ? !all.has(a.id) : !!a.isNew); // كود الخادم القديم لا يرسل ids: نعرض ما هو مُعلَّم «جديد»
+        const apps = mergeCatalog(st.apps, f.apps).apps.filter((a) => shown.has(a.id) || fresh(a));
         return publicView({ ...st, apps, settings: st.settings || f.settings });
       } catch (e) {
         // الخادم لا يستجيب: اعرض الكتالوج من الملف حتى لا تتعطل الصفحة
