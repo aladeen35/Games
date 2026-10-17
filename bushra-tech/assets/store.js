@@ -28,6 +28,30 @@
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
+  /* دمج الكتالوج المحفوظ (الخادم/المتصفح) مع ملف data/catalog.json:
+     - تطبيق جديد في الملف (معرّفه غير موجود) يُضاف في أعلى القائمة.
+     - تطبيق رفعتُ رقم مراجعته (rev) في الملف تُحدَّث بياناته مع الإبقاء على ظهوره/إخفائه كما اختاره المطوّر. */
+  const FIELDS = ['name', 'category', 'description', 'logo', 'url', 'apkUrl', 'playUrl', 'badge', 'featured', 'isNew', 'rev'];
+  function mergeCatalog(saved, file) {
+    if (!saved) return { apps: file, added: [], updated: [] };
+    const known = new Set(saved.map((a) => a.id));
+    const added = file.filter((f) => !known.has(f.id));
+    const updated = [];
+    const apps = saved.map((a) => {
+      const f = file.find((x) => x.id === a.id);
+      if (!f || (f.rev || 0) <= (a.rev || 0)) return a;
+      const m = { ...a };
+      FIELDS.forEach((k) => { if (k in f) m[k] = f[k]; });
+      if (FIELDS.some((k) => k !== 'rev' && JSON.stringify(m[k]) !== JSON.stringify(a[k]))) updated.push(m.name);
+      return m;
+    });
+    // التطبيقات الجديدة تأتي بعد المميّزة مباشرة
+    const lead = apps.filter((a) => a.featured).length ? apps.findIndex((a) => !a.featured) : 0;
+    const at = lead < 0 ? apps.length : lead;
+    apps.splice(at, 0, ...added);
+    return { apps, added: added.map((a) => a.name), updated };
+  }
+
   function publicView(state) {
     return {
       settings: state.settings || {},
@@ -144,7 +168,15 @@
   const cloudApi = {
     async getPublic() {
       try {
-        return publicView(await withFileDefaults(await call('/api/catalog')));
+        const st = await call('/api/catalog');
+        const f = await loadFile();
+        if (!st.apps) return publicView({ ...st, apps: f.apps, settings: st.settings || f.settings });
+        // الخادم يرسل الظاهر فقط، لذا نحدّث بيانات الموجود دون إضافة تطبيقات (الإضافة تتم من صفحة المطوّر)
+        // ids: كل معرّفات الخادم (الإصدار الأحدث من كود الخادم يرسلها) — ما ليس فيها جديد فعلًا فيُعرض
+        const shown = new Set(st.apps.map((a) => a.id));
+        const all = Array.isArray(st.ids) ? new Set(st.ids) : null;
+        const apps = mergeCatalog(st.apps, f.apps).apps.filter((a) => shown.has(a.id) || (all && !all.has(a.id) && a.visible !== false));
+        return publicView({ ...st, apps, settings: st.settings || f.settings });
       } catch (e) {
         // الخادم لا يستجيب: اعرض الكتالوج من الملف حتى لا تتعطل الصفحة
         console.warn('API unavailable, using data/catalog.json', e);
@@ -198,5 +230,5 @@
     return out;
   }
 
-  window.BushraStore = Object.assign(MODE === 'cloud' ? cloudApi : localApi, { mode: MODE, loadFile, uid });
+  window.BushraStore = Object.assign(MODE === 'cloud' ? cloudApi : localApi, { mode: MODE, loadFile, uid, mergeCatalog });
 })();

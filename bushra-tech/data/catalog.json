@@ -15,11 +15,87 @@
       "description": "قارئ القرآن الكريم بتخطيط مصحف المدينة النبوية مع الاستماع لكبار القرّاء والتتبّع كلمة بكلمة، ومواقيت الصلاة والأذان، والرقية الشرعية والأذكار وأحاديث الصحيحين. بلا إعلانات ولا حسابات.",
       "logo": "assets/logos/bushra.webp",
       "url": "https://aladeen35.github.io/mushaf/",
-      "apkUrl": "https://bushra-sync.aladeen35.workers.dev/dl?v=2.5.1",
+      "apkUrl": "https://bushra-sync.aladeen35.workers.dev/dl?v=2.6.0",
       "playUrl": "",
-      "badge": "الإصدار 2.5.1",
+      "badge": "الإصدار 2.6.0",
       "featured": true,
-      "visible": true
+      "visible": true,
+      "rev": 1
+    },
+    {
+      "id": "bushra-player",
+      "name": "البشرى — مشغّل الفيديو و IPTV",
+      "category": "apps",
+      "description": "غرفة مشاهدة عربية تجمع البث المباشر والأفلام والمسلسلات ودليل البرامج وفيديوهات جوالك: قوائم M3U وحسابات Xtream، تذكير بالبرامج، ترجمة، ورقابة أبوية — للجوال والتلفاز والمتصفح.",
+      "logo": "assets/logos/bushra-player.webp",
+      "url": "https://aladeen35.github.io/Games/bushra-player/",
+      "apkUrl": "",
+      "playUrl": "",
+      "badge": "الإصدار 1.3.1",
+      "featured": false,
+      "visible": true,
+      "isNew": true,
+      "rev": 1
+    },
+    {
+      "id": "atheer",
+      "name": "ألعاب أثير وبشرى",
+      "category": "kids",
+      "description": "ثلاث عشرة لعبة في تطبيق واحد: فارس السحاب، دمج الأجرام، إكس أو، قلعة المكعبات، مدفع الفقاعات وغيرها — لكل طفل ملفه ونجومه وإنجازاته، بثيم بناتي وولادي، دون إنترنت ولا إعلانات.",
+      "logo": "assets/logos/atheer.webp",
+      "url": "https://github.com/aladeen35/Games/tree/ccr-dbf0fb7b-pe4025/atheer",
+      "apkUrl": "https://github.com/aladeen35/Games/raw/ccr-dbf0fb7b-pe4025/atheer/dist/AtheerBushra-3.0.apk",
+      "playUrl": "",
+      "badge": "13 لعبة",
+      "featured": false,
+      "visible": true,
+      "isNew": true,
+      "rev": 1
+    },
+    {
+      "id": "albushra-news",
+      "name": "البشرى للأخبار",
+      "category": "apps",
+      "description": "منصة إخبارية بالعربية والإنجليزية تتحدّث كل ساعة من أكثر من 18 مصدرًا موثوقًا، مع لوحة أرقام إنسانية توضّح مصدر كل رقم وفترته، ونشر تلقائي في قنوات تلجرام.",
+      "logo": "assets/logos/albushra-news.webp",
+      "url": "https://aladeen35.github.io/albushra-news/",
+      "apkUrl": "",
+      "playUrl": "",
+      "badge": "تتحدّث كل ساعة",
+      "featured": false,
+      "visible": true,
+      "isNew": true,
+      "rev": 1
+    },
+    {
+      "id": "maab",
+      "name": "أكاديمية مآب لتحفيظ القرآن",
+      "category": "apps",
+      "description": "منصة عربية لتحفيظ القرآن الكريم عن بُعد للأطفال والنساء، بمعلمات فقط وحصص عبر Google Meet — بواجهات لولي الأمر والمعلمة والإدارة.",
+      "logo": "assets/logos/maab.webp",
+      "url": "https://aladeen35.github.io/Maab/",
+      "apkUrl": "",
+      "playUrl": "",
+      "badge": "نسخة العرض",
+      "featured": false,
+      "visible": true,
+      "isNew": true,
+      "rev": 1
+    },
+    {
+      "id": "amir-tools",
+      "name": "أدوات أمير",
+      "category": "tools",
+      "description": "أكثر من 40 أداة يومية للمواطن السوداني بكلمات سودانية: سعر الدولار الموازي والرسمي، الذهب والزكاة، مواقيت الصلاة لـ32 مدينة والقبلة، الطقس وتنبيه الهبوب، ومحوّل الوحدات والتواريخ.",
+      "logo": "assets/logos/amir-tools.webp",
+      "url": "https://github.com/aladeen35/test/tree/ccr-56d19381-tk4i0e/amir_tools",
+      "apkUrl": "",
+      "playUrl": "",
+      "badge": "قريبًا على Google Play",
+      "featured": false,
+      "visible": true,
+      "isNew": true,
+      "rev": 1
     },
     {
       "id": "abujanan",
@@ -45,7 +121,8 @@
       "playUrl": "",
       "badge": "8 ألعاب",
       "featured": false,
-      "visible": true
+      "visible": true,
+      "rev": 1
     },
     {
       "id": "keyboard",
@@ -58,7 +135,8 @@
       "playUrl": "",
       "badge": "",
       "featured": false,
-      "visible": true
+      "visible": true,
+      "rev": 1
     },
     {
       "id": "wolaat",
@@ -110,7 +188,8 @@
       "playUrl": "",
       "badge": "للأطفال",
       "featured": false,
-      "visible": true
+      "visible": true,
+      "rev": 1
     },
     {
       "id": "fullmark",
