@@ -558,17 +558,17 @@
     top = pb + 6;
   }
   function layoutChoose() {
-    const PW = Math.min(W - 24, 760), land = W > H * 1.15;
+    const land = W > H * 1.15, PW = Math.min(W - 24, land ? 1100 : 760);
     const qh = 56, sb = 90; // مساحة السؤال، وزر الصوت في الأسفل
-    const avail = H - top - qh - (land ? 20 : sb);
+    const avail = H - top - qh - (land ? 24 : sb);
     const n = R && R.opts.length ? R.opts.length : L.opts;
     let cw, ow;
     if (land) {
       // الزوج على جانب والخيارات على الجانب الآخر
-      cw = Math.min((PW * .56 - 30) / 2, avail / 1.25, 240);
-      ow = Math.min((PW * .44 - 20) / Math.min(n, 2) - 14, (avail - 14) / (n > 2 ? 2 : 1) / 1.25 - 10, cw * .85);
+      cw = Math.min((PW * .55 - 40) / 2, avail / 1.25, 260);
+      ow = Math.min((PW * .42 - 20) / Math.min(n, 2) - 16, (avail - 14) / (n > 2 ? 2 : 1) / 1.25 - 10, cw * .85);
       G = { land, cw, ch: cw * 1.25, ow, oh: ow * 1.25 };
-      const pcx = W / 2 + (isAr() ? 1 : -1) * PW * .22, ocx = W / 2 - (isAr() ? 1 : -1) * PW * .25, cy = top + qh + avail / 2;
+      const pcx = W / 2 + (isAr() ? 1 : -1) * PW * .22, ocx = W / 2 - (isAr() ? 1 : -1) * PW * .27, cy = top + qh + avail / 2;
       G.main = { x: pcx + (isAr() ? 1 : -1) * (cw / 2 + 14), y: cy };
       G.slot = { x: pcx - (isAr() ? 1 : -1) * (cw / 2 + 14), y: cy };
       G.opts = Array.from({ length: n }, (_, i) => {

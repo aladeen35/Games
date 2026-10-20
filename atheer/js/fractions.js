@@ -94,7 +94,7 @@
   #fractions .prog i.on{background:linear-gradient(#FFE07A,#FFA51F);box-shadow:0 2px 0 #D98100}
   #fractions .prog i.cur{background:#FFB8D3;animation:frPul 1s ease-in-out infinite}
   @keyframes frPul{50%{opacity:.5}}
-  #fractions .ptxt{display:block;font-size:clamp(19px,5.3vw,27px);font-weight:900;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #fractions .ptxt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:clamp(18px,5vw,27px);font-weight:900;line-height:1.15;overflow:hidden}
   #fractions .psub{display:block;font-size:14px;font-weight:700;opacity:.72;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #fractions .fr{flex:0 0 auto;width:50px;height:62px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;
     background:linear-gradient(#FFF3C4,#FFD45A);box-shadow:0 4px 0 #E0A21A,inset 0 2px 0 rgba(255,255,255,.7);color:#8A3A00;font-weight:900;font-size:22px;line-height:1}
