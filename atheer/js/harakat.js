@@ -950,6 +950,7 @@
   function defaultLevel() {
     const pr = loadProg();
     if (pr.last) { const [c, i] = pr.last.split('-').map(Number); if (CH[c] && i < CH[c].n && isOpen(pr, c, i)) return pr.s[pr.last] ? (nextOf(pr, c, i) || { c, i }) : { c, i }; }
+    for (let c = 0; c < CH.length; c++) for (let i = 0; i < CH[c].n; i++) if (isOpen(pr, c, i) && !pr.s[lkey(c, i)]) return { c, i };
     return { c: 0, i: 0 };
   }
   function nextOf(pr, c, i) { return i + 1 < CH[c].n && isOpen(pr, c, i + 1) ? { c, i: i + 1 } : null; }

@@ -215,13 +215,13 @@
   ${S_} .seg button{padding:6px 18px;border-radius:99px;font-weight:900;font-size:18px;background:transparent;color:#B0703A;line-height:1.2}
   ${S_} .seg button.on{background:linear-gradient(#FFA25E,#FF7A2A);color:#fff;box-shadow:0 3px 0 #CF5F12}
   ${S_} .lvh{font-weight:900;font-size:14px;color:#B0703A;margin:10px 4px 0;text-align:start}
-  ${S_} .lvg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:8px 0 12px}
+  ${S_} .lvg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:8px 0 12px}
   ${S_} .lvb{position:relative;aspect-ratio:1;border-radius:20px;background:linear-gradient(#FFD9A8,#F2B572);box-shadow:0 4px 0 #C98744,inset 0 2px 0 rgba(255,255,255,.6);
     display:flex;flex-direction:column;align-items:center;justify-content:center;color:#6B3510;font-weight:900;padding:2px}
   ${S_} .lvb:active{transform:translateY(3px);box-shadow:0 1px 0 #C98744}
   ${S_} .lvb .n{font-size:12px;position:absolute;top:3px;right:8px;opacity:.7}
-  ${S_} .lvb .e{font-size:19px;line-height:1.15;white-space:nowrap;direction:ltr;letter-spacing:.5px;text-shadow:0 2px 0 rgba(255,255,255,.6)}
-  ${S_} .lvb .e i{font-style:normal;display:inline-block;margin:0 1px}
+  ${S_} .lvb .e{font-size:clamp(13px,4.1vw,19px);max-width:100%;overflow:hidden;line-height:1.15;white-space:nowrap;direction:ltr;letter-spacing:.5px;text-shadow:0 2px 0 rgba(255,255,255,.6)}
+  ${S_} .lvb .e i{font-style:normal;display:inline-block;margin:0 .5px}
   ${S_} .lvb .s{font-size:11px;letter-spacing:-1px;line-height:1;height:12px}
   ${S_} .lvb .s i{font-style:normal}
   ${S_} .lvb .s i.off{filter:grayscale(1);opacity:.3}

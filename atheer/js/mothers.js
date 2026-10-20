@@ -530,9 +530,9 @@
     }
     sparkle(b.x, b.y - BS * .5, '#FFD84A');
     done++; bumpProg();
-    const my = ++sayTok;
-    const go = () => { if (my === sayTok) { sayPair(m.a); later(2.4, () => { if (my === sayTok || !baby || baby.state === 'hug') nextBaby(); }); } };
+    const go = () => sayPair(m.a);
     if (hasSnd(m.a)) animalSound(m.a, false, go); else { Sound.tone(880, .3, 'sine', .08, 200); later(.3, go); }
+    later(hasSnd(m.a) ? 4.4 : 3, nextBaby);
     m.label = 2.5;
   }
 
@@ -566,9 +566,9 @@
       const want = -(m.a.d || 1); b.flip = b.a.bd !== 0 && b.a.bd !== want; nestle(m, b, true); m.att = b;
       Sound.star(); vibrate(25);
       for (let i = 0; i < 12; i++) { const a = -Math.PI / 2 + rand(-1.1, 1.1), v = rand(70, 180); parts.push({ t: 'heart', x: m.x, y: m.y - m.s * .6, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: rand(1, 1.5), age: 0, s: rand(7, 13), rot: 0, c: ['#FF5C8A', '#FF8FB1', '#FFC93C'][i % 3] }); }
-      const my = ++sayTok;
       sayMom(m.a);
-      later(1.5, () => { if (my === sayTok) animalSound(m.a, false, () => later(.5, nextQuestion)); });
+      later(1.4, () => animalSound(m.a, false, null));
+      later(3.9, nextQuestion);
     } else {
       mistakes++; quiz.tries++; m.shake = 1; shake = Math.max(shake, 3);
       Sound.error(); vibrate(30);

@@ -296,7 +296,7 @@
     let u = Math.min((PW - 8) / TLu, 104);
     const avail = trayTop - top - 26;
     u = Math.min(u, avail / 3.3);
-    let P = clamp(Math.min(u * 1.9, avail - u * 1.9 - 20), 70, land ? 130 : 150);
+    let P = clamp(Math.min(u * (land ? 1.9 : 2.9), avail - u * 1.9 - 40), 70, land ? 130 : 190);
     const trackY = Math.min(trayTop - Math.max(18, u * .35), top + P + u * 1.55 + 30 + (avail - P - u * 1.6) * .55);
     G = { PW, cols, rows, b, trayH, trayTop, u, EL: EL * u, WS: WS * u, GAP: GAP * u, TL: TLu * u, n, P, trackY, cx: W / 2, land };
     // أماكن الحروف في الصينية
@@ -542,7 +542,7 @@
       const pulse = cur ? .5 + .5 * Math.sin(T * 5) : 0;
       const hl = drag && drag.over === s;
       c.save();
-      c.fillStyle = hl ? 'rgba(255,255,255,.75)' : `rgba(255,255,255,${.35 + pulse * .2})`;
+      c.fillStyle = hl ? 'rgba(255,255,255,.75)' : `rgba(255,255,255,${.6 + pulse * .2})`;
       c.strokeStyle = hl ? '#FFB020' : cur ? `rgba(255,${170 + pulse * 60},40,1)` : 'rgba(255,255,255,.95)';
       c.lineWidth = hl || cur ? 4 : 3; c.setLineDash([u * .1, u * .07]);
       c.beginPath(); c.roundRect(x - bs / 2, by - bs / 2, bs, bs, bs * .22); c.fill(); c.stroke();
@@ -670,7 +670,7 @@
   function drawParts(c, front) {
     const puff = getPuff();
     for (const p of parts) {
-      if ((p.t === 'smoke') === front) continue;
+      if ((p.t === 'smoke') !== front) continue;
       const a = 1 - p.age / p.life;
       c.save(); c.translate(p.x, p.y);
       if (p.t === 'smoke') {
@@ -688,6 +688,7 @@
 
   /* ---------- اللعب ---------- */
   function renderProg() {
+    progEl.style.direction = isAr() ? 'rtl' : 'ltr';
     progEl.innerHTML = words.map((_, i) => `<i class="${i < wi ? 'on' : i === wi ? 'cur' : ''}"></i>`).join('');
   }
   function startLevel(n) {

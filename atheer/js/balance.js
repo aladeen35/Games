@@ -154,7 +154,7 @@
   let theta = 0, omega = 0, prevOmega = 0, supp = 0, suppTarget = 0, balHold = 0, creakT = 0;
   const pans = { L: { x: 0, y: 0, phi: 0, pv: 0, glow: 0, glowC: '#7CFF8A', mark: 0, ex: 0, ey: 0 }, R: { x: 0, y: 0, phi: 0, pv: 0, glow: 0, glowC: '#7CFF8A', mark: 0, ex: 0, ey: 0 } };
   let slot = null;         // خانة رمز المقارنة
-  let eqBadge = 0, idle = 0, hintOn = false;
+  let eqBadge = 0, idle = 0, hintOn = false, trayMode = true;
   const emoCache = new Map();
 
   /* ---------- التخطيط ---------- */
@@ -164,7 +164,7 @@
     const top = prm.getBoundingClientRect().bottom + 8, pad = Math.max(10, H * .012);
     const aw = Math.min(W - 20, 760), ax = (W - aw) / 2, avail = H - top - pad;
     const wide = W / H > 1.1;
-    const balH = avail * (wide ? .64 : .6);
+    const balH = avail * (trayMode ? (wide ? .64 : .6) : (wide ? .8 : .74));
     const tableY = top + balH;
     const Lb = Math.min(aw * .36, balH * .62, 250);
     const pr = Lb * .42, bd = pr * .42, ry = pr * .28;
@@ -242,7 +242,7 @@
     g = x.createLinearGradient(0, ty - 26, 0, ty); g.addColorStop(0, 'rgba(90,40,120,0)'); g.addColorStop(1, 'rgba(90,40,120,.14)');
     x.fillStyle = g; x.fillRect(0, ty - 26, W, 26);
     // حصيرة الأوزان (لبّاد)
-    if (tr.h > 30) {
+    if (tr.h > 30 && trayMode) {
       x.save(); x.shadowColor = 'rgba(90,50,10,.35)'; x.shadowBlur = 14; x.shadowOffsetY = 7;
       x.fillStyle = '#5C9E8E'; x.beginPath(); x.roundRect(tr.x, tr.y + 5, tr.w, tr.h - 2, 26); x.fill(); x.restore();
       g = x.createLinearGradient(0, tr.y, 0, tr.y + tr.h); g.addColorStop(0, '#8FE3CF'); g.addColorStop(1, '#5FC6B0');
@@ -574,6 +574,8 @@
     for (const s of ['L', 'R']) { pans[s].glow = 0; pans[s].mark = 0; }
     const { m, L } = roundMode();
     q = { m, L };
+    const tm = m !== 'heavy';
+    if (tm !== trayMode) { trayMode = tm; layout(); updPans(); }
     let delay = .1;
     if (m === 'heavy') {
       q.ask = L.ask === 'both' ? (Math.random() < .5 ? 'heavy' : 'light') : L.ask;
