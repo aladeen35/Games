@@ -95,14 +95,18 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 .sub{margin:-4px 0 0;font-size:16px;font-weight:700;opacity:.8}
 
 /* أقسام الألعاب */
-.cats{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+.cats{position:sticky;top:calc(-1 * max(10px,env(safe-area-inset-top)));z-index:5;width:calc(100% + 28px);margin:4px -14px 0;display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;touch-action:pan-x pan-y;
+  padding:8px 14px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:linear-gradient(180deg,var(--t-sky2) 70%,rgba(255,255,255,0));scroll-snap-type:x proximity}
+.cats::-webkit-scrollbar{display:none}
+.cats button{flex:0 0 auto;scroll-snap-align:start}
+@media (min-width:720px){.cats{justify-content:center;flex-wrap:wrap;background:none;position:static;width:100%;margin:4px 0 0}}
 .cats button{position:relative;display:flex;align-items:center;gap:4px;padding:5px 11px;border-radius:99px;font-weight:800;font-size:14px;white-space:nowrap;color:#fff;
   background:linear-gradient(180deg,var(--cl),var(--c));box-shadow:0 4px 0 var(--cd),0 7px 12px rgba(0,0,0,.12);border:2px solid rgba(255,255,255,.75);
   text-shadow:0 1px 0 rgba(0,0,0,.2);transition:transform .14s var(--press)}
 .cats button::after{content:'';position:absolute;top:3px;left:14%;right:14%;height:40%;border-radius:99px;background:var(--gloss);opacity:.7}
 .cats button:active{transform:translateY(3px) scale(1.04,.94);box-shadow:0 1px 0 var(--cd)}
 #cards{width:100%;display:flex;flex-direction:column;gap:20px}
-.grp{scroll-margin-top:12px}
+.grp{scroll-margin-top:70px}
 .gh{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:21px;font-weight:900;color:var(--cd)}
 .gh .gi{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:linear-gradient(180deg,var(--cl),var(--c));
   box-shadow:0 4px 0 var(--cd),inset 0 2px 0 rgba(255,255,255,.5);border:2px solid #fff}

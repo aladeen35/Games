@@ -399,22 +399,32 @@ const App = {
 
   /* ---------- أقسام القائمة: كل لعبة ← قسم (المجهولة تذهب إلى آخر القائمة) ---------- */
   CATS: [
-    { id: 'edu',   t: 'ألعاب تعليمية',   s: 'تعليمية',   i: '📚', c: '#1FB37A' },
-    { id: 'brain', t: 'ألعاب ذكاء',      s: 'ذكاء',      i: '🧠', c: '#8B5CF6' },
-    { id: 'fun',   t: 'ألعاب حركة ومرح', s: 'حركة ومرح', i: '🎈', c: '#FF8A1F' },
-    { id: 'more',  t: 'ألعاب أخرى',      s: 'أخرى',      i: '🎮', c: '#2E9BE6' }
+    { id: 'lang',  t: 'لغة وحروف',     s: 'لغة وحروف',  i: '🔤', c: '#F2484B' },
+    { id: 'math',  t: 'أرقام وحساب',   s: 'أرقام وحساب', i: '🔢', c: '#2F8CF0' },
+    { id: 'brain', t: 'ذكاء وتفكير',   s: 'ذكاء وتفكير', i: '🧠', c: '#8B5CF6' },
+    { id: 'sci',   t: 'علوم ومعرفة',   s: 'علوم ومعرفة', i: '🌍', c: '#1FB37A' },
+    { id: 'values', t: 'قيم وآداب',    s: 'قيم وآداب',  i: '🕌', c: '#14A3A0' },
+    { id: 'fun',   t: 'مغامرة وحركة',  s: 'مغامرة وحركة', i: '🎮', c: '#FF8A1F' },
+    { id: 'art',   t: 'إبداع',          s: 'إبداع',       i: '🎨', c: '#F0609E' },
+    { id: 'more',  t: 'ألعاب أخرى',     s: 'أخرى',        i: '✨', c: '#2E9BE6' }
   ],
   CAT_OF: {
-    letters: 'edu', numbers: 'edu', shapes: 'edu', harakat: 'edu', tower: 'edu', penguins: 'edu', numpuzzle: 'edu', arpuzzle: 'edu', enpuzzle: 'edu',
-    chalk: 'brain', cosmos: 'brain', blocks: 'brain', candy: 'brain', memory: 'brain', tubes: 'brain', slide: 'brain', maze: 'brain', diff: 'brain',
-    jump: 'fun', bubbles: 'fun', balls: 'fun', snake: 'fun', butterfly: 'fun', taxi: 'fun', cake: 'fun'
+    letters: 'lang', harakat: 'lang', wordtrain: 'lang', arpuzzle: 'lang', enpuzzle: 'lang', opposites: 'lang',
+    numbers: 'math', tower: 'math', penguins: 'math', numpuzzle: 'math', balance: 'math', fractions: 'math',
+    shapes: 'brain', pattern: 'brain', shadows: 'brain', memory: 'brain', maze: 'brain', diff: 'brain', tubes: 'brain', slide: 'brain', cosmos: 'brain', chalk: 'brain',
+    mothers: 'sci', sudanmap: 'sci', butterfly: 'sci',
+    duas: 'values',
+    jump: 'fun', taxi: 'fun', snake: 'fun', blocks: 'fun', bubbles: 'fun', balls: 'fun', candy: 'fun',
+    cake: 'art'
   },
   /** لون مميّز لبطاقة كل لعبة */
   ACCENT: {
     jump: '#3D9BFF', cosmos: '#6A4BDB', chalk: '#27A06A', blocks: '#FF9A1F', bubbles: '#1FB4E8', balls: '#8E44E0', shapes: '#E8772E',
     candy: '#FF4F9A', memory: '#9A6BFF', tubes: '#14B3A0', snake: '#5DB52F', slide: '#F2A007', butterfly: '#FF6F91', letters: '#F2484B',
     numbers: '#2F8CF0', maze: '#45A84A', diff: '#1E9BD7', taxi: '#F7B500', cake: '#F0609E',
-    harakat: '#7E57C2', tower: '#FF7A1A', penguins: '#3A6FD8', numpuzzle: '#00A3A3', arpuzzle: '#E64980', enpuzzle: '#4263EB'
+    harakat: '#7E57C2', tower: '#FF7A1A', penguins: '#3A6FD8', numpuzzle: '#00A3A3', arpuzzle: '#E64980', enpuzzle: '#4263EB',
+    wordtrain: '#E8590C', opposites: '#D6336C', balance: '#0CA678', fractions: '#F06595', pattern: '#7048E8', shadows: '#495EB8',
+    mothers: '#37B24D', sudanmap: '#1C7ED6', duas: '#12B886'
   },
   shade(hex, f) { // f>0 تفتيح نحو الأبيض، f<0 تغميق
     const n = parseInt(hex.slice(1), 16), ch = [n >> 16, n >> 8 & 255, n & 255].map(v => Math.round(f > 0 ? v + (255 - v) * f : v * (1 + f)));
@@ -425,6 +435,8 @@ const App = {
     if (!a) { const P = ['#FF6F91', '#3D9BFF', '#1FB37A', '#FF9A1F', '#8E44E0', '#14B3A0']; let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; a = P[h % P.length]; }
     return { a, ad: this.shade(a, -.25), al: this.shade(a, .78) };
   },
+  /** ترتيب اللعبة داخل قسمها كما في CAT_OF */
+  catRank(id) { const i = Object.keys(this.CAT_OF).indexOf(id); return i < 0 ? 1e9 : i; },
   iconCache: new Map(),
 
   /* ---------- أدوات عامة للألعاب ---------- */
@@ -657,7 +669,7 @@ const App = {
     $('#sub').textContent = this.g('اختاري لعبتك المفضّلة', 'اختر لعبتك المفضّلة');
     const played = store.get('played', []);
     const catIds = this.CATS.map(c => c.id);
-    const groups = this.CATS.map(c => ({ ...c, ids: this.order.filter(id => (catIds.includes(this.CAT_OF[id]) ? this.CAT_OF[id] : 'more') === c.id) })).filter(g => g.ids.length);
+    const groups = this.CATS.map(c => ({ ...c, ids: this.order.filter(id => (catIds.includes(this.CAT_OF[id]) ? this.CAT_OF[id] : 'more') === c.id).sort((x, y) => this.catRank(x) - this.catRank(y)) })).filter(g => g.ids.length);
     const cv = c => `--c:${c.c};--cd:${this.shade(c.c, -.22)};--cl:${this.shade(c.c, .3)}`;
     const card = id => {
       const g = this.games[id], A = this.accent(id); let best = '', desc = '';
