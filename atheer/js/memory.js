@@ -835,22 +835,23 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#8C78EE'); g.addColorStop(1, '#FFB4D8');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    for (let i = 0; i < 7; i++) { c.save(); c.translate(s * [.15, .85, .1, .9, .5, .25, .78][i], s * [.18, .2, .7, .62, .1, .9, .9][i]); c.fillStyle = 'rgba(255,240,180,.7)'; starPath(c, s * .025, .4); c.fill(); c.restore(); }
-    const w = s * .36, h = w * ASP;
+    IK.bg(c, s, ['#E4D8FF', '#A58BFF', '#6E4FE0'], { seed: 12 });
+    const w = s * .4, h = w * ASP;
     const savedDpr = dpr; dpr = 2;
     const back = bakeBack(w, h);
     dpr = savedDpr;
-    const draw = (img, x, y, r) => {
-      c.save(); c.translate(x, y); c.rotate(r);
-      c.save(); c.shadowColor = 'rgba(40,10,80,.45)'; c.shadowBlur = 8; c.shadowOffsetY = 4; c.fillStyle = '#000'; c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, w * .13); c.fill(); c.restore();
-      if (img) c.drawImage(img, -w / 2, -h / 2, w, h); else faceCard(c, w, h);
-      c.restore();
-    };
-    draw(back, s * .3, s * .56, -.42);
-    draw(back, s * .7, s * .56, .42);
-    draw(null, s * .5, s * .5, 0);
+    IK.sticker(c, s, c => {
+      const draw = (img, x, y, r) => {
+        c.save(); c.translate(x, y); c.rotate(r);
+        c.save(); c.shadowColor = 'rgba(40,10,80,.35)'; c.shadowBlur = 6; c.shadowOffsetY = 3; c.fillStyle = '#fff'; c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, w * .13); c.fill(); c.restore();
+        if (img) c.drawImage(img, -w / 2, -h / 2, w, h); else faceCard(c, w, h);
+        c.restore();
+      };
+      draw(back, s * .27, s * .55, -.4);
+      draw(back, s * .73, s * .55, .4);
+      draw(null, s * .5, s * .5, 0);
+    });
+    IK.sparkle(c, s * .14, s * .16, 9, '#FFF4B8'); IK.sparkle(c, s * .87, s * .17, 7, '#FFF4B8'); IK.sparkle(c, s * .5, s * .92, 6);
   }
   /* بطاقة بوجه لطيف للأيقونة */
   function faceCard(c, w, h) {

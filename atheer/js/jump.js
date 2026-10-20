@@ -682,11 +682,12 @@
     resume() { if (state === 'held') { state = 'play'; last = 0; } },
     back() { if (state === 'pause') { togglePause(); return true; } return false; },
     icon(c) {
-      const g = c.createLinearGradient(0, 0, 0, 152); g.addColorStop(0, '#C9E8FF'); g.addColorStop(1, '#FFE0F0');
-      c.fillStyle = g; c.fillRect(0, 0, 152, 152);
-      c.fillStyle = 'rgba(255,255,255,.95)'; cloudShape(c, 30, 104, 92, 26); c.fill();
-      c.save(); c.translate(76, 72); c.scale(1.6, 1.6); drawHero(c, App.equipped('hero') || 'hero_knight', 0); c.restore();
-      drawStar(c, 120, 36, 9, '#FFD84D', '#E89B0C', 0);
+      const s = 152;
+      IK.bg(c, s, ['#D6F0FF', '#7CC4FF', '#3F86EC'], { seed: 4 });
+      IK.cloud(c, 4, 120, 70); IK.cloud(c, 84, 128, 76);
+      IK.shadow(c, 76, 118, 40, 9, .25);
+      IK.sticker(c, s, c => { c.save(); c.translate(76, 70); c.scale(2.05, 2.05); drawHero(c, App.equipped('hero') || 'hero_knight', 0); c.restore(); });
+      drawStar(c, 124, 32, 12, '#FFD84D', '#E89B0C', .2); IK.sparkle(c, 26, 34, 9); IK.sparkle(c, 132, 74, 6);
     }
   });
 })();

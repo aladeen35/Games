@@ -34,6 +34,80 @@ function fitCanvas(cv) {
 }
 function vibrate(ms) { if (!gstore.get('vib', true)) return; try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} }
 
+
+/* =====================================================================
+   أدوات رسم أيقونات القائمة بأسلوب «لعبة ثلاثية الأبعاد» لامعة
+   (خلفية متدرّجة غنية + موضوع مكتنز بحافة بيضاء وظل ناعم)
+   ===================================================================== */
+const IK = {
+  TAU: Math.PI * 2,
+  canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h || w; return c; },
+  /** خلفية متدرّجة شعاعية من الأعلى، مع أشعة خفيفة وفقاعات ضوء */
+  bg(c, s, stops, o = {}) {
+    const g = c.createRadialGradient(s * .5, s * .28, s * .04, s * .5, s * .5, s * .86);
+    stops.forEach((col, i) => g.addColorStop(i / (stops.length - 1), col));
+    c.fillStyle = g; c.fillRect(0, 0, s, s);
+    if (o.rays !== false) {
+      c.save(); c.translate(s * .5, s * (o.ry || .42)); c.fillStyle = `rgba(255,255,255,${o.rays || .1})`;
+      const n = 14; for (let i = 0; i < n; i++) { c.rotate(this.TAU / n); c.beginPath(); c.moveTo(0, 0); c.lineTo(-s * .09, -s); c.lineTo(s * .09, -s); c.closePath(); c.fill(); }
+      c.restore();
+    }
+    if (o.dots !== false) {
+      let sd = o.seed || 3; const r = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+      for (let i = 0; i < 7; i++) { c.fillStyle = `rgba(255,255,255,${.12 + r() * .2})`; c.beginPath(); c.arc(r() * s, r() * s, s * (.015 + r() * .035), 0, this.TAU); c.fill(); }
+    }
+  },
+  /** ظل بيضاوي ناعم تحت الموضوع */
+  shadow(c, x, y, w, h, a = .28) {
+    const g = c.createRadialGradient(x, y, 0, x, y, w);
+    g.addColorStop(0, `rgba(30,10,60,${a})`); g.addColorStop(1, 'rgba(30,10,60,0)');
+    c.save(); c.translate(x, y); c.scale(1, h / w); c.translate(-x, -y); c.fillStyle = g; c.beginPath(); c.arc(x, y, w, 0, this.TAU); c.fill(); c.restore();
+  },
+  /** نجمة بريق رباعية */
+  sparkle(c, x, y, r, col = '#fff') {
+    c.save(); c.translate(x, y); c.fillStyle = col; c.beginPath();
+    for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2; c.quadraticCurveTo(Math.cos(a + Math.PI / 4) * r * .18, Math.sin(a + Math.PI / 4) * r * .18, Math.cos(a + Math.PI / 2) * r, Math.sin(a + Math.PI / 2) * r); }
+    c.closePath(); c.fill(); c.restore();
+  },
+  /** غيمة منفوخة بظل سفلي */
+  cloud(c, x, y, w, col = '#fff', shade = 'rgba(160,180,230,.45)') {
+    const puff = () => { c.beginPath(); c.arc(x + w * .22, y, w * .2, 0, this.TAU); c.arc(x + w * .45, y - w * .12, w * .26, 0, this.TAU); c.arc(x + w * .72, y - w * .02, w * .2, 0, this.TAU); c.roundRect(x + w * .05, y - w * .04, w * .9, w * .2, w * .1); c.fill(); };
+    c.save(); c.fillStyle = shade; c.translate(0, w * .05); puff(); c.restore();
+    c.fillStyle = col; puff();
+  },
+  /** يرسم الموضوع في طبقة منفصلة ثم يضيف حوله حافة بيضاء سميكة وظلًا ناعمًا (شكل الملصق/اللعبة) */
+  sticker(c, s, draw, o = {}) {
+    const k = 2, W = Math.ceil(s * k), line = (o.line == null ? 4.5 : o.line) * k;
+    const a = this.canvas(W), ac = a.getContext('2d'); ac.scale(k, k);
+    try { draw(ac); } catch (e) { console.warn(e); }
+    if (line > 0) {
+      const ol = this.canvas(W), oc = ol.getContext('2d');
+      for (let i = 0; i < 16; i++) { const t = i / 16 * this.TAU; oc.drawImage(a, Math.cos(t) * line, Math.sin(t) * line); }
+      oc.globalCompositeOperation = 'source-in'; oc.fillStyle = o.col || '#fff'; oc.fillRect(0, 0, W, W);
+      c.save(); c.shadowColor = o.shadow || 'rgba(40,10,70,.35)'; c.shadowBlur = o.blur || 10; c.shadowOffsetY = o.dy == null ? 5 : o.dy;
+      c.drawImage(ol, 0, 0, s, s); c.restore();
+    } else {
+      c.save(); c.shadowColor = o.shadow || 'rgba(40,10,70,.35)'; c.shadowBlur = o.blur || 10; c.shadowOffsetY = o.dy == null ? 5 : o.dy; c.drawImage(a, 0, 0, s, s); c.restore();
+    }
+    c.drawImage(a, 0, 0, s, s);
+    // لمعة علوية خفيفة فوق الموضوع وحده
+    if (o.gloss !== false) {
+      const gl = this.canvas(W), gc = gl.getContext('2d'); gc.drawImage(a, 0, 0);
+      gc.globalCompositeOperation = 'source-atop';
+      const g = gc.createLinearGradient(0, 0, 0, W); g.addColorStop(0, 'rgba(255,255,255,.28)'); g.addColorStop(.5, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.08)');
+      gc.fillStyle = g; gc.fillRect(0, 0, W, W);
+      gc.globalCompositeOperation = 'destination-in'; gc.drawImage(a, 0, 0);
+      c.drawImage(gl, 0, 0, s, s);
+    }
+  },
+  /** تلة/أرضية مستديرة في أسفل الأيقونة */
+  ground(c, s, y, top, bot) {
+    const g = c.createLinearGradient(0, y, 0, s); g.addColorStop(0, top); g.addColorStop(1, bot);
+    c.fillStyle = g; c.beginPath(); c.ellipse(s * .5, y + s * .5, s * .9, s * .5, 0, 0, this.TAU); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.3)'; c.beginPath(); c.ellipse(s * .5, y + s * .5, s * .9, s * .5, 0, Math.PI * 1.3, Math.PI * 1.7); c.lineTo(s * .5, y + s * .06); c.fill();
+  }
+};
+
 /* =====================================================================
    المؤثرات الصوتية (مولّدة بالكامل داخل التطبيق)
    ===================================================================== */
@@ -323,6 +397,36 @@ const App = {
     { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }
   ],
 
+  /* ---------- أقسام القائمة: كل لعبة ← قسم (المجهولة تذهب إلى آخر القائمة) ---------- */
+  CATS: [
+    { id: 'edu',   t: 'ألعاب تعليمية',   s: 'تعليمية',   i: '📚', c: '#1FB37A' },
+    { id: 'brain', t: 'ألعاب ذكاء',      s: 'ذكاء',      i: '🧠', c: '#8B5CF6' },
+    { id: 'fun',   t: 'ألعاب حركة ومرح', s: 'حركة ومرح', i: '🎈', c: '#FF8A1F' },
+    { id: 'more',  t: 'ألعاب أخرى',      s: 'أخرى',      i: '🎮', c: '#2E9BE6' }
+  ],
+  CAT_OF: {
+    letters: 'edu', numbers: 'edu', shapes: 'edu', harakat: 'edu', tower: 'edu', penguins: 'edu', numpuzzle: 'edu', arpuzzle: 'edu', enpuzzle: 'edu',
+    chalk: 'brain', cosmos: 'brain', blocks: 'brain', candy: 'brain', memory: 'brain', tubes: 'brain', slide: 'brain', maze: 'brain', diff: 'brain',
+    jump: 'fun', bubbles: 'fun', balls: 'fun', snake: 'fun', butterfly: 'fun', taxi: 'fun', cake: 'fun'
+  },
+  /** لون مميّز لبطاقة كل لعبة */
+  ACCENT: {
+    jump: '#3D9BFF', cosmos: '#6A4BDB', chalk: '#27A06A', blocks: '#FF9A1F', bubbles: '#1FB4E8', balls: '#8E44E0', shapes: '#E8772E',
+    candy: '#FF4F9A', memory: '#9A6BFF', tubes: '#14B3A0', snake: '#5DB52F', slide: '#F2A007', butterfly: '#FF6F91', letters: '#F2484B',
+    numbers: '#2F8CF0', maze: '#45A84A', diff: '#1E9BD7', taxi: '#F7B500', cake: '#F0609E',
+    harakat: '#7E57C2', tower: '#FF7A1A', penguins: '#3A6FD8', numpuzzle: '#00A3A3', arpuzzle: '#E64980', enpuzzle: '#4263EB'
+  },
+  shade(hex, f) { // f>0 تفتيح نحو الأبيض، f<0 تغميق
+    const n = parseInt(hex.slice(1), 16), ch = [n >> 16, n >> 8 & 255, n & 255].map(v => Math.round(f > 0 ? v + (255 - v) * f : v * (1 + f)));
+    return '#' + ch.map(v => v.toString(16).padStart(2, '0')).join('');
+  },
+  accent(id) {
+    let a = this.ACCENT[id];
+    if (!a) { const P = ['#FF6F91', '#3D9BFF', '#1FB37A', '#FF9A1F', '#8E44E0', '#14B3A0']; let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; a = P[h % P.length]; }
+    return { a, ad: this.shade(a, -.25), al: this.shade(a, .78) };
+  },
+  iconCache: new Map(),
+
   /* ---------- أدوات عامة للألعاب ---------- */
   get theme() { return document.documentElement.dataset.theme; },
   /** نص بصيغة المؤنث أو المذكر حسب ثيم اللاعب */
@@ -552,16 +656,34 @@ const App = {
     $('#hello').textContent = `أهلًا يا ${P.name}! ${this.theme === 'boys' ? '🚀' : '👑'}`;
     $('#sub').textContent = this.g('اختاري لعبتك المفضّلة', 'اختر لعبتك المفضّلة');
     const played = store.get('played', []);
-    $('#cards').innerHTML = this.order.map(id => {
-      const g = this.games[id]; let best = '';
+    const catIds = this.CATS.map(c => c.id);
+    const groups = this.CATS.map(c => ({ ...c, ids: this.order.filter(id => (catIds.includes(this.CAT_OF[id]) ? this.CAT_OF[id] : 'more') === c.id) })).filter(g => g.ids.length);
+    const cv = c => `--c:${c.c};--cd:${this.shade(c.c, -.22)};--cl:${this.shade(c.c, .3)}`;
+    const card = id => {
+      const g = this.games[id], A = this.accent(id); let best = '', desc = '';
       try { best = g.best ? g.best() || '' : ''; } catch (e) {}
-      return `<button class="card" data-go="${id}">${g.isNew && !played.includes(id) ? '<span class="newtag">جديدة</span>' : ''}
-        <div class="ic"><canvas width="168" height="168" data-ic="${id}"></canvas></div>
-        <h2>${g.title}</h2><p>${typeof g.desc === 'function' ? g.desc() : g.desc}</p><div class="best">${best}</div></button>`;
-    }).join('');
+      try { desc = typeof g.desc === 'function' ? g.desc() : g.desc || ''; } catch (e) {}
+      return `<button class="card" data-go="${id}" style="--a:${A.a};--ad:${A.ad};--al:${A.al}">${g.isNew && !played.includes(id) ? '<span class="newtag">جديدة</span>' : ''}
+        <div class="ic"><canvas width="240" height="240" data-ic="${id}"></canvas></div>
+        <h2>${g.title}</h2><p>${desc}</p><div class="best">${best}</div></button>`;
+    };
+    $('#cats').innerHTML = groups.length > 1 ? groups.map(c => `<button data-cat="${c.id}" style="${cv(c)}">${c.i} ${c.s || c.t}</button>`).join('') : '';
+    $('#cards').innerHTML = groups.map(c => `<section class="grp" id="grp-${c.id}" style="${cv(c)}">
+      <h2 class="gh"><span class="gi">${c.i}</span>${c.t}<small>${c.ids.length}</small></h2>
+      <div class="cards">${c.ids.map(card).join('')}</div></section>`).join('');
+    $('#cats').querySelectorAll('[data-cat]').forEach(b => b.onclick = () => {
+      Sound.tap(); const el = $('#grp-' + b.dataset.cat); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    const eqKey = ['hero', 'xo', 'ball'].map(k => this.equipped(k)).join('|') + '|' + P.id;
     $('#cards').querySelectorAll('canvas[data-ic]').forEach(cv => {
-      const c = cv.getContext('2d'); c.scale(168 / 152, 168 / 152);
-      try { this.games[cv.dataset.ic].icon(c, 152); } catch (e) { console.warn(e); }
+      const id = cv.dataset.ic, key = id + '|' + eqKey, c = cv.getContext('2d');
+      let img = this.iconCache.get(key);
+      if (!img) {
+        img = IK.canvas(240); const ic = img.getContext('2d'); ic.scale(240 / 152, 240 / 152);
+        ic.save(); try { this.games[id].icon(ic, 152); } catch (e) { console.warn(e); } ic.restore();
+        this.iconCache.set(key, img);
+      }
+      c.drawImage(img, 0, 0);
     });
     $('#cards').querySelectorAll('[data-go]').forEach(b => b.onclick = () => { Sound.tap(); this.show(b.dataset.go); });
     $('#mAchN').textContent = store.get('ach', []).length || '';
@@ -591,7 +713,7 @@ const App = {
       else if (Sound.ctx) Sound.ctx.resume();
     });
     this.setProfile(gstore.get('profile', this.PROFILES[0].id));
-    if (document.fonts) document.fonts.ready.then(() => this.renderMenu());
+    if (document.fonts) document.fonts.ready.then(() => { this.iconCache.clear(); this.renderMenu(); });
     const start = location.hash.slice(1);
     if (this.games[start]) this.show(start);
     window.addEventListener('popstate', () => { if (this.current !== 'menu') this.show('menu'); });

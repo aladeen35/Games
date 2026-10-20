@@ -491,12 +491,21 @@
       return false;
     },
     icon(c) {
-      const g0 = c.createRadialGradient(76, 60, 10, 76, 76, 110); g0.addColorStop(0, '#3B2C7A'); g0.addColorStop(1, '#120B2E');
-      c.fillStyle = g0; c.fillRect(0, 0, 152, 152);
-      const draw = (x, y, r, a, b, glow) => { c.save(); if (glow) { c.shadowColor = glow; c.shadowBlur = 18; } const g = c.createRadialGradient(x - r * .3, y - r * .3, 1, x, y, r); g.addColorStop(0, a); g.addColorStop(1, b); c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.restore(); };
-      let s = 7; const rr = () => (s = (s * 9301 + 49297) % 233280) / 233280;
-      for (let i = 0; i < 30; i++) { c.fillStyle = `rgba(255,255,255,${rr() * .8})`; c.fillRect(rr() * 152, rr() * 152, 1.5, 1.5); }
-      draw(98, 56, 30, '#FFFFFF', '#FF8A00', '#FFB21E'); draw(46, 100, 22, '#7FD8FF', '#1E5FB8', '#5AB4FF'); draw(110, 116, 11, '#F2F0E6', '#9C988A'); draw(40, 40, 7, '#B8A08A', '#5E4A3C');
+      const s = 152;
+      IK.bg(c, s, ['#8A6BFF', '#4B2AB0', '#1B0E52'], { rays: .07, seed: 9 });
+      let sd = 7; const rr = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+      for (let i = 0; i < 26; i++) { c.fillStyle = `rgba(255,255,255,${.3 + rr() * .6})`; c.beginPath(); c.arc(rr() * s, rr() * s, .6 + rr() * 1.3, 0, 7); c.fill(); }
+      const ball = (c, x, y, r, a, b, d) => { const g = c.createRadialGradient(x - r * .35, y - r * .4, r * .05, x, y, r); g.addColorStop(0, a); g.addColorStop(.6, b); g.addColorStop(1, d); c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+        c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(x - r * .35, y - r * .45, r * .3, r * .17, -.5, 0, 7); c.fill(); };
+      c.save(); c.globalAlpha = .55; const gl = c.createRadialGradient(96, 58, 10, 96, 58, 62); gl.addColorStop(0, '#FFD45A'); gl.addColorStop(1, 'rgba(255,160,40,0)'); c.fillStyle = gl; c.fillRect(0, 0, s, s); c.restore();
+      IK.sticker(c, s, c => {
+        ball(c, 96, 58, 34, '#FFF6C0', '#FFB21E', '#F06A00');
+        ball(c, 46, 104, 25, '#C8F0FF', '#3A9BF0', '#1C4FB0');
+        c.strokeStyle = '#7ED957'; c.lineWidth = 5; c.beginPath(); c.ellipse(46, 104, 38, 9, -.35, .15, Math.PI - .3); c.stroke();
+        ball(c, 116, 118, 13, '#FFFFFF', '#D6D2C4', '#9C988A');
+        ball(c, 34, 40, 9, '#FFD6F0', '#E879C4', '#A0407F');
+      }, { line: 3.5, shadow: 'rgba(0,0,0,.45)' });
+      IK.sparkle(c, 128, 22, 8); IK.sparkle(c, 70, 128, 6);
     }
   });
 })();

@@ -1069,18 +1069,18 @@
 
   /* ---------- أيقونة القائمة: متاهة شجيرات صغيرة مع أرنب وجزرة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#C8EEFF'); g.addColorStop(.5, '#D9F3C2'); g.addColorStop(1, '#8ECF6E');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
+    IK.bg(c, s, ['#E8FFD6', '#8ED86A', '#3E9E3A'], { seed: 19 });
     const Mi = { C: 4, R: 4, n: 1, g: new Uint8Array([2 | 4, 8 | 2, 8 | 2, 8 | 4, 1 | 4, 2 | 4, 8, 1 | 4, 1 | 4, 1 | 2, 8 | 4, 1 | 4, 1 | 2, 8 | 2, 1 | 8 | 2, 1 | 8]) };
-    const S0 = s * .19, o0 = (s - S0 * 4) / 2;
-    c.fillStyle = '#7A4F2A'; c.beginPath(); c.roundRect(o0 - S0 * .3, o0 - S0 * .3, S0 * 4.6, S0 * 4.6, S0 * .4); c.fill();
-    c.fillStyle = '#F6E9C6'; c.fillRect(o0, o0, S0 * 4, S0 * 4);
-    // مسار
-    c.save(); c.lineCap = 'round'; c.lineJoin = 'round'; c.strokeStyle = '#FF8A2A'; c.lineWidth = S0 * .3;
-    c.beginPath(); [[3, 0], [3, 1], [3, 2], [2, 2]].forEach(([x, y], i) => { const px = o0 + (x + .5) * S0, py = o0 + (y + .5) * S0; i ? c.lineTo(px, py) : c.moveTo(px, py); }); c.stroke(); c.restore();
-    drawWalls(c, Mi, S0, o0, o0, 'hedge', 12);
-    c.save(); c.translate(o0 + .5 * S0, o0 + 3.5 * S0); drawCarrot(c, S0 * .5, 0); c.restore();
-    c.save(); c.translate(o0 + 2.5 * S0, o0 + 2.45 * S0); drawBunny(c, S0 * .5, { t: 0, face: -1, moving: false, blink: 1 }); c.restore();
+    const S0 = s * .17, o0 = (s - S0 * 4) / 2;
+    IK.sticker(c, s, c => {
+      const wg = c.createLinearGradient(0, o0, 0, o0 + S0 * 4); wg.addColorStop(0, '#A86E3C'); wg.addColorStop(1, '#7A4F2A'); c.fillStyle = wg; c.beginPath(); c.roundRect(o0 - S0 * .3, o0 - S0 * .3, S0 * 4.6, S0 * 4.6, S0 * .5); c.fill();
+      c.fillStyle = '#F6E9C6'; c.fillRect(o0, o0, S0 * 4, S0 * 4);
+      c.save(); c.lineCap = 'round'; c.lineJoin = 'round'; c.strokeStyle = '#FF8A2A'; c.lineWidth = S0 * .3; c.setLineDash([S0 * .02, S0 * .45]);
+      c.beginPath(); [[3, 0], [3, 1], [3, 2], [2, 2]].forEach(([x, y], i) => { const px = o0 + (x + .5) * S0, py = o0 + (y + .5) * S0; i ? c.lineTo(px, py) : c.moveTo(px, py); }); c.stroke(); c.restore();
+      drawWalls(c, Mi, S0, o0, o0, 'hedge', 12);
+      c.save(); c.translate(o0 + .5 * S0, o0 + 3.5 * S0); drawCarrot(c, S0 * .55, 0); c.restore();
+      c.save(); c.translate(o0 + 2.5 * S0, o0 + 2.45 * S0); drawBunny(c, S0 * .6, { t: 0, face: -1, moving: false, blink: 1 }); c.restore();
+    });
   }
 
   /* ---------- التسجيل ---------- */

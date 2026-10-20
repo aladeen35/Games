@@ -1376,15 +1376,15 @@
     _kill() { hearts = 1; taxi.inv = 0; taxi.nitro = 0; taxi.shield = false; hitTaxi({ type: 'cone', x: taxi.x, y: 0, w: 36, h: 46 }); },
     _warp(m) { taxi.x = m * 10; distM = m; camX = taxi.x - TX; nextSpawnX = taxi.x + 600; nextMissionX = taxi.x + 400; zoneI = Math.floor(m / ZONE_LEN); },
     icon(c) {
-      const g = c.createLinearGradient(0, 0, 0, 152); g.addColorStop(0, '#7CC8FF'); g.addColorStop(1, '#DDF3FF');
-      c.fillStyle = g; c.fillRect(0, 0, 152, 152);
-      c.fillStyle = 'rgba(255,255,255,.9)'; cloud(c, 18, 40, .7);
-      c.fillStyle = '#5A5F6E'; c.fillRect(0, 112, 152, 40);
-      c.fillStyle = '#FFE066'; for (let x = 4; x < 152; x += 40) c.fillRect(x, 128, 24, 4);
-      c.fillStyle = 'rgba(0,0,0,.2)'; c.beginPath(); c.ellipse(78, 118, 56, 6, 0, 0, TAU); c.fill();
-      c.save(); c.translate(78, 116); c.scale(.86, .86); drawTaxi(c, iconTaxi, 0, null); c.restore();
-      star(c, 124, 34, 15, '#FFD84D', '#E89B0C', .2);
-      c.fillStyle = 'rgba(255,255,255,.85)'; c.beginPath(); c.arc(120, 30, 3, 0, TAU); c.fill();
+      const s = 152;
+      IK.bg(c, s, ['#E3F5FF', '#86CCFF', '#4596EE'], { seed: 21 });
+      IK.cloud(c, 10, 40, 52); IK.cloud(c, 96, 58, 40);
+      c.fillStyle = '#6A7184'; c.beginPath(); c.roundRect(-10, 108, 172, 60, 18); c.fill();
+      c.fillStyle = '#545A6B'; c.fillRect(0, 140, 152, 12);
+      c.fillStyle = '#FFE066'; for (let x = 4; x < 152; x += 40) { c.beginPath(); c.roundRect(x, 126, 24, 5, 2.5); c.fill(); }
+      IK.shadow(c, 78, 118, 58, 8, .35);
+      IK.sticker(c, s, c => { c.save(); c.translate(74, 114); c.scale(.9, .9); drawTaxi(c, iconTaxi, 0, null); c.restore(); });
+      star(c, 128, 26, 13, '#FFD84D', '#E89B0C', .2); IK.sparkle(c, 22, 20, 7);
     }
   });
 })();

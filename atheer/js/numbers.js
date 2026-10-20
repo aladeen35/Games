@@ -1085,20 +1085,19 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#BFEAFF'); g.addColorStop(1, '#FFE6B8');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    c.fillStyle = 'rgba(255,255,255,.55)'; [[.2, .18, .07], [.82, .2, .05], [.9, .45, .04]].forEach(([x, y, r]) => { c.beginPath(); c.arc(x * s, y * s, r * s, 0, TAU); c.fill(); });
-    g = c.createLinearGradient(0, s * .78, 0, s); g.addColorStop(0, '#E7BE89'); g.addColorStop(1, '#C88E55');
-    c.fillStyle = g; c.fillRect(0, s * .8, s, s * .2);
+    IK.bg(c, s, ['#DDF3FF', '#78C2FF', '#3477E6'], { seed: 18 });
+    IK.ground(c, s, s * .8, '#F2CF9A', '#D19A5C');
     const sv = dpr; dpr = 2;
-    const bs = s * .33;
-    drawBlock(c, s * .68, s * .65, bs, 1, 0);
-    drawBlock(c, s * .32, s * .65, bs, 2, 4);
-    drawBlock(c, s * .5, s * .65 - bs * 1.04, bs, 3, 2);
+    const bs = s * .36;
+    IK.sticker(c, s, c => {
+      drawBlock(c, s * .7, s * .66, bs, 1, 0);
+      drawBlock(c, s * .3, s * .66, bs, 2, 4);
+      drawBlock(c, s * .5, s * .66 - bs * 1.04, bs, 3, 2);
+      c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
+      c.font = `${s * .2}px ${EMOJI_FONT}`; c.fillText('🍎', s * .15, s * .27); c.fillText('🍎', s * .86, s * .3);
+    });
     dpr = sv;
-    c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
-    c.font = `${s * .2}px ${EMOJI_FONT}`; c.fillText('🍎', s * .16, s * .3); c.fillText('🍎', s * .86, s * .32);
-    c.font = `${s * .15}px ${EMOJI_FONT}`; c.fillText('🍏', s * .2, s * .86);
+    IK.sparkle(c, s * .5, s * .08, 7);
   }
 
   /* ---------- التسجيل ---------- */

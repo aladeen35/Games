@@ -865,26 +865,25 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#D7F5EE'); g.addColorStop(.6, '#E9E6FF'); g.addColorStop(1, '#F8DDF0');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    g = c.createRadialGradient(s * .75, s * .15, 2, s * .75, s * .15, s * .6); g.addColorStop(0, 'rgba(255,255,235,.9)'); g.addColorStop(1, 'rgba(255,255,235,0)');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    c.fillStyle = '#E9D8BF'; c.beginPath(); c.roundRect(s * .12, s * .79, s * .76, s * .06, s * .03); c.fill();
-    c.fillStyle = 'rgba(60,110,130,.15)'; c.beginPath(); c.ellipse(s * .5, s * .87, s * .36, s * .03, 0, 0, TAU); c.fill();
-    const Gi = geo(s * .2);
+    IK.bg(c, s, ['#D9FFF6', '#62DCC6', '#13A08F'], { seed: 13 });
+    const Gi = geo(s * .22);
     const tubesI = [
-      { x: .31, L: [{ c: 2, h: 1 }, { c: 0, h: 1 }, { c: 1, h: 2 }], th: -.06 },
+      { x: .28, L: [{ c: 2, h: 1 }, { c: 0, h: 1 }, { c: 1, h: 2 }], th: -.08 },
       { x: .5, L: [{ c: 3, h: 4 }], th: 0, cork: 1 },
-      { x: .69, L: [{ c: 4, h: 1 }, { c: 6, h: 1 }, { c: 2, h: 1 }], th: .06 }
+      { x: .72, L: [{ c: 4, h: 1 }, { c: 6, h: 1 }, { c: 2, h: 1 }], th: .08 }
     ];
-    const sc = (s * .6) / Gi.bottom;
-    for (const t of tubesI) {
-      c.save(); c.translate(s * t.x, s * .795 - Gi.bottom * sc); c.scale(sc, sc);
-      drawTube(c, Gi, { x: 0, y: 0, th: t.th, layers: t.L, wave: Gi.tw * .03, phase: t.x * 9, cork: t.cork || null });
-      c.restore();
-    }
-    c.fillStyle = '#fff';
-    [[.5, .1, .035], [.13, .25, .025], [.88, .4, .02]].forEach(([x, y, r]) => { c.save(); c.translate(s * x, s * y); c.beginPath(); for (let i = 0; i < 8; i++) { const rr = i % 2 ? s * r * .35 : s * r, t = i * Math.PI / 4; c.lineTo(Math.cos(t) * rr, Math.sin(t) * rr); } c.closePath(); c.fill(); c.restore(); });
+    const sc = (s * .66) / Gi.bottom;
+    IK.shadow(c, s * .5, s * .86, s * .4, s * .05, .3);
+    IK.sticker(c, s, c => {
+      c.fillStyle = '#F2D3A4'; c.beginPath(); c.roundRect(s * .1, s * .8, s * .8, s * .07, s * .035); c.fill();
+      c.fillStyle = '#D9A866'; c.fillRect(s * .12, s * .845, s * .76, s * .02);
+      for (const t of tubesI) {
+        c.save(); c.translate(s * t.x, s * .805 - Gi.bottom * sc); c.scale(sc, sc);
+        drawTube(c, Gi, { x: 0, y: 0, th: t.th, layers: t.L, wave: Gi.tw * .03, phase: t.x * 9, cork: t.cork || null });
+        c.restore();
+      }
+    });
+    IK.sparkle(c, s * .14, s * .2, 9); IK.sparkle(c, s * .87, s * .16, 7);
   }
 
   /* ---------- التسجيل ---------- */

@@ -1270,17 +1270,17 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createRadialGradient(s * .5, s * .35, s * .1, s * .5, s * .5, s * .75); g.addColorStop(0, '#FFF0F8'); g.addColorStop(.55, '#FFC6E4'); g.addColorStop(1, '#C9A8FF');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    cloud(c, s * .22, s * .2, s * .13, .85);
-    c.fillStyle = '#A9EBD2'; c.beginPath(); c.ellipse(s * .5, s * 1.02, s * .75, s * .3, 0, 0, TAU); c.fill();
-    drawLolly(c, s * .66, s * .3, s * .21, .3);
-    const put = (t, sp, x, y, r, rot) => { c.save(); c.translate(x, y); c.rotate(rot); drawCandy(c, t, sp, r); c.restore(); };
-    put(4, '', s * .27, s * .5, s * .17, -.15);
-    put(2, '', s * .2, s * .79, s * .15, -.3);
-    put(5, 'w', s * .5, s * .76, s * .2, .08);
-    put(0, 'h', s * .8, s * .73, s * .17, .25);
-    c.fillStyle = '#fff'; [[.42, .2, .025], [.88, .52, .02], [.1, .4, .018]].forEach(([x, y, r]) => { c.save(); c.translate(s * x, s * y); starPath(c, s * r * 2); c.fill(); c.restore(); });
+    IK.bg(c, s, ['#FFF0F8', '#FF9CCF', '#D85BC4'], { seed: 11 });
+    IK.ground(c, s, s * .8, '#B5F0DA', '#5FCFA6');
+    IK.sticker(c, s, c => {
+      drawLolly(c, s * .68, s * .3, s * .23, .3);
+      const put = (t, sp, x, y, r, rot) => { c.save(); c.translate(x, y); c.rotate(rot); drawCandy(c, t, sp, r); c.restore(); };
+      put(4, '', s * .26, s * .44, s * .19, -.15);
+      put(2, '', s * .19, s * .76, s * .17, -.3);
+      put(5, 'w', s * .5, s * .72, s * .23, .08);
+      put(0, 'h', s * .81, s * .73, s * .18, .25);
+    });
+    IK.sparkle(c, s * .42, s * .14, 8); IK.sparkle(c, s * .9, s * .5, 6);
   }
 
   /* ---------- التسجيل ---------- */

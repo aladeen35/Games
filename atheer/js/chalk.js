@@ -540,13 +540,25 @@
     pause() { paused = true; }, resume() { paused = false; },
     back() { const o = root.querySelector('#tSetupO'); if (o.classList.contains('on')) { o.classList.remove('on'); return true; } return false; },
     icon(c) {
-      c.fillStyle = '#2F4A3A'; c.fillRect(0, 0, 152, 152);
-      const save = strokes; strokes = []; instant = true;
-      const sk = (pts, col, w) => addStroke(pts, col, w, 1000, 0, false);
-      for (let k = 1; k <= 2; k++) { sk([[26 + k * 33, 22], [26 + k * 33, 130]], CHALK, 3.5); sk([[22, 26 + k * 33], [130, 26 + k * 33]], CHALK, 3.5); }
-      const set = SETS[App.equipped('xo')] || SETS.xo_classic;
-      symbolStrokes(set[0], 43, 43, 10, COL.A, 4.5); symbolStrokes(set[1], 76, 76, 11, COL.B, 4.5); symbolStrokes(set[0], 109, 109, 10, COL.A, 4.5);
-      strokes.forEach(st => renderStroke(c, st)); strokes = save; instant = false;
+      const s = 152;
+      IK.bg(c, s, ['#FFF3B8', '#FFC542', '#F08A00'], { seed: 5 });
+      IK.sticker(c, s, c => {
+        let g = c.createLinearGradient(0, 16, 0, 136); g.addColorStop(0, '#D9925A'); g.addColorStop(1, '#9A5626');
+        c.fillStyle = g; c.beginPath(); c.roundRect(20, 18, 112, 112, 22); c.fill();
+        g = c.createLinearGradient(0, 24, 0, 128); g.addColorStop(0, '#3F6E54'); g.addColorStop(1, '#244534');
+        c.fillStyle = g; c.beginPath(); c.roundRect(29, 27, 94, 94, 13); c.fill();
+        c.fillStyle = 'rgba(255,255,255,.08)'; c.beginPath(); c.roundRect(29, 27, 94, 36, [13, 13, 0, 0]); c.fill();
+        c.save(); c.translate(76, 74); c.scale(.72, .72); c.translate(-76, -76);
+        const save = strokes; strokes = []; instant = true;
+        const sk = (pts, col, w) => addStroke(pts, col, w, 1000, 0, false);
+        for (let k = 1; k <= 2; k++) { sk([[26 + k * 33, 22], [26 + k * 33, 130]], CHALK, 4); sk([[22, 26 + k * 33], [130, 26 + k * 33]], CHALK, 4); }
+        const set = SETS[App.equipped('xo')] || SETS.xo_classic;
+        symbolStrokes(set[0], 43, 43, 11, COL.A, 6); symbolStrokes(set[1], 76, 76, 12, COL.B, 6); symbolStrokes(set[0], 109, 109, 11, COL.A, 6);
+        strokes.forEach(st => renderStroke(c, st)); strokes = save; instant = false;
+        c.restore();
+        c.fillStyle = '#fff'; c.beginPath(); c.roundRect(92, 116, 24, 8, 4); c.fill();
+      });
+      IK.sparkle(c, 136, 18, 9);
     }
   });
 })();

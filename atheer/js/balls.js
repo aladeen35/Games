@@ -919,25 +919,25 @@
       `⚠️ إذا وصل مربع إلى الأسفل تنتهي اللعبة، ${App.g('غيّري', 'غيّر')} شكل كرتك من المتجر 🛍️`
     ],
     icon(c, s) {
-      const bg = c.createRadialGradient(s * .5, s * .35, 0, s * .5, s * .5, s * .75);
-      bg.addColorStop(0, '#3d2272'); bg.addColorStop(1, '#140b2c');
-      c.fillStyle = bg; c.fillRect(0, 0, s, s);
-      c.fillStyle = 'rgba(255,255,255,.6)';
-      [[.2, .12], [.8, .16], [.12, .55], [.88, .6], [.5, .08]].forEach(([x, y]) => { c.beginPath(); c.arc(s * x, s * y, 1.3, 0, TAU); c.fill(); });
-      const cs = s * .2;
-      [[.3, .27, 3, 330, -1], [.5, .27, 12, 280, -1], [.7, .27, 7, 300, 3], [.4, .46, 5, 312, -1], [.6, .46, 24, 230, -1]].forEach(([x, y, n, hue, tri]) =>
-        drawGlass(c, s * x, s * y, cs, hue, n, tri, n === 12 ? .5 : 1, 0, 7));
-      const lx = s * .5, ly = s * .86;
-      c.fillStyle = 'rgba(255,255,255,.55)';
-      [-.95, -.5, 0, .5, .95].forEach((d, i) => {
+      IK.bg(c, s, ['#9E7BFF', '#5631C9', '#22105E'], { rays: .07, seed: 10 });
+      const lx = s * .5, ly = s * .82;
+      IK.sticker(c, s, c => {
+        const cs = s * .22;
+        [[.27, .22, 3, 330, -1], [.5, .22, 12, 280, -1], [.73, .22, 7, 300, 3], [.385, .44, 5, 312, -1], [.615, .44, 24, 200, -1]].forEach(([x, y, n, hue, tri]) =>
+          drawGlass(c, s * x, s * y, cs, hue, n, tri, n === 12 ? .5 : 1, 0, 7));
+      }, { line: 3.5, shadow: 'rgba(0,0,0,.45)' });
+      c.fillStyle = 'rgba(255,255,255,.7)';
+      [-.95, -.5, 0, .5, .95].forEach(d => {
         const a = -Math.PI / 2 + d * .55;
-        for (let k = 1; k <= 3; k++) { c.beginPath(); c.arc(lx + Math.cos(a) * k * s * .06, ly + Math.sin(a) * k * s * .06, 1.2, 0, TAU); c.fill(); }
-        drawSkin(c, 'ball_white', lx + Math.cos(a) * s * .26, ly + Math.sin(a) * s * .26, s * .04);
+        for (let k = 1; k <= 3; k++) { c.beginPath(); c.arc(lx + Math.cos(a) * k * s * .055, ly + Math.sin(a) * k * s * .055, 1.5, 0, TAU); c.fill(); }
       });
-      const g = c.createRadialGradient(lx, ly, 0, lx, ly, s * .1);
-      g.addColorStop(0, 'rgba(255,170,230,.6)'); g.addColorStop(1, 'rgba(255,170,230,0)');
-      c.fillStyle = g; c.beginPath(); c.arc(lx, ly, s * .1, 0, TAU); c.fill();
-      drawSkin(c, 'ball_white', lx, ly, s * .05);
+      const g = c.createRadialGradient(lx, ly, 0, lx, ly, s * .14);
+      g.addColorStop(0, 'rgba(255,190,240,.8)'); g.addColorStop(1, 'rgba(255,170,230,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(lx, ly, s * .14, 0, TAU); c.fill();
+      IK.sticker(c, s, c => {
+        [-.95, -.5, 0, .5, .95].forEach(d => { const a = -Math.PI / 2 + d * .55; drawSkin(c, App.equipped('ball') || 'ball_white', lx + Math.cos(a) * s * .25, ly + Math.sin(a) * s * .25, s * .045); });
+        drawSkin(c, App.equipped('ball') || 'ball_white', lx, ly, s * .065);
+      }, { line: 2.5, shadow: 'rgba(0,0,0,.4)' });
     },
     best() { const b = store.get('ballsBest', 0); return b > 0 ? '🏆 أفضل جولة: ' + b : ''; },
     enter() {

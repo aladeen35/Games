@@ -164,6 +164,7 @@
   function tint(src, style) {
     const c = mk(src.width, src.height), x = c.getContext('2d');
     x.drawImage(src, 0, 0); x.globalCompositeOperation = 'source-in'; x.fillStyle = style; x.fillRect(0, 0, c.width, c.height);
+    x.globalCompositeOperation = 'source-over';
     return c;
   }
   function invert(src) {
@@ -386,7 +387,7 @@
     for (let i = 0; i < n; i++) {
       const row = Math.floor(i / gr.cols), inRow = row === gr.rows - 1 ? n - row * gr.cols : gr.cols;
       const col = i % gr.cols, off = (gr.cols - inRow) * cw / 2;
-      pts.push({ x: r.x + off + (col + .5) * cw, y: r.y + (row + .5) * ch });
+      pts.push({ x: Math.round((r.x + off + (col + .5) * cw) * dpr) / dpr, y: Math.round((r.y + (row + .5) * ch) * dpr) / dpr });
     }
     return pts;
   }
@@ -407,9 +408,9 @@
       tray = { x: ax + bw + 8, y: top, w: aw - bw - 8, h: ah };
     }
     const bi = { x: board.x + 22, y: board.y + 22, w: board.w - 44, h: board.h - 44 };
-    const ti = { x: tray.x + 20, y: tray.y + 20, w: tray.w - 40, h: tray.h - 40 };
+    const ti = { x: tray.x + 20, y: tray.y + 16, w: tray.w - 40, h: tray.h - 48 };
     const gb = bestGrid(n, bi.w, bi.h), gt = bestGrid(n, ti.w, ti.h);
-    S = Math.max(40, Math.min(gb.cell * .8, gt.cell * .82, 170));
+    S = Math.max(40, Math.min(gb.cell * .84, gt.cell * .86, 170));
     holesPos = gridPts(n, bi, gb); slotsPos = gridPts(n, ti, gt);
     hintEl.style.top = (portrait ? board.y + board.h - 2 : H - 40) + 'px';
     if (!portrait) { hintEl.style.left = board.x + 'px'; hintEl.style.right = (W - board.x - board.w) + 'px'; }
@@ -420,7 +421,7 @@
       p.b = bake(p.it, S, dpr);
       p.hx = holesPos[p.hi].x; p.hy = holesPos[p.hi].y;
       p.homeX = slotsPos[p.si].x; p.homeY = slotsPos[p.si].y;
-      if (p.state === 'done' || p.state === 'fly') { p.x = p.hx; p.y = p.hy; p.state = 'done'; }
+      if (p.state === 'done' || p.state === 'fly') { p.x = p.hx; p.y = p.hy; p.state = 'done'; p.sc = 1 / .97; p.rot = 0; p.pop = 0; }
       else if (p.state !== 'drag') { p.x = p.homeX; p.y = p.homeY; if (p.state === 'back' && p.a >= 0) p.state = 'tray'; }
     }
     buildBg();
@@ -486,17 +487,15 @@
     // لبّاد غائر
     const f = { x: t.x + 12, y: t.y + 12, w: t.w - 24, h: t.h - th - 24 };
     x.save(); x.beginPath(); x.roundRect(f.x, f.y, f.w, f.h, rad - 10); x.clip();
-    const g = x.createLinearGradient(0, f.y, 0, f.y + f.h); g.addColorStop(0, '#A9DCD2'); g.addColorStop(1, '#C3EAE1');
+    const g = x.createLinearGradient(0, f.y, 0, f.y + f.h); g.addColorStop(0, '#FFF6E6'); g.addColorStop(1, '#FBE9CC');
     x.fillStyle = g; x.fillRect(f.x, f.y, f.w, f.h);
-    const R = rng(5); x.fillStyle = 'rgba(255,255,255,.18)';
-    for (let i = 0; i < f.w * f.h / 60; i++) x.fillRect(f.x + R() * f.w, f.y + R() * f.h, 1, 1);
-    x.fillStyle = 'rgba(40,110,100,.08)';
-    for (let i = 0; i < f.w * f.h / 80; i++) x.fillRect(f.x + R() * f.w, f.y + R() * f.h, 1, 1);
+    const R = rng(5); x.fillStyle = 'rgba(190,140,80,.07)';
+    for (let i = 0; i < f.w * f.h / 90; i++) x.fillRect(f.x + R() * f.w, f.y + R() * f.h, 1, 1);
     // ظل داخلي
-    x.shadowColor = 'rgba(30,80,70,.45)'; x.shadowBlur = 10; x.shadowOffsetY = 4;
+    x.shadowColor = 'rgba(140,90,40,.4)'; x.shadowBlur = 10; x.shadowOffsetY = 4;
     x.lineWidth = 12; x.strokeStyle = '#000'; x.beginPath(); x.roundRect(f.x - 6, f.y - 6, f.w + 12, f.h + 12, rad - 4); x.stroke();
     x.restore();
-    x.setLineDash([7, 6]); x.lineWidth = 2; x.strokeStyle = 'rgba(255,255,255,.75)';
+    x.setLineDash([7, 6]); x.lineWidth = 2; x.strokeStyle = 'rgba(214,160,95,.55)';
     x.beginPath(); x.roundRect(f.x + 7, f.y + 7, f.w - 14, f.h - 14, rad - 16); x.stroke(); x.setLineDash([]);
   }
 
@@ -665,7 +664,7 @@
         p.x = p.fx + (p.hx - p.fx) * e; p.y = p.fy + (p.hy - p.fy) * e;
         p.rot *= 1 - k; p.sc = 1.14 - .14 * e; p.lift = 1 - e;
         if (t >= 1) {
-          p.state = 'done'; p.x = p.hx; p.y = p.hy; p.rot = 0; p.sc = 1; p.lift = 0; p.pop = 1;
+          p.state = 'done'; p.x = p.hx; p.y = p.hy; p.rot = 0; p.sc = 1 / .97; p.lift = 0; p.pop = 1;
           Sound.thud(); Sound.pop(); vibrate(25); shake = Math.max(shake, 3);
           sparkle(p.x, p.y, p.it.col[0]); App.speak(p.name);
           if (pieces.every(q => q.state === 'done')) win();
@@ -681,8 +680,8 @@
         p.lift += (0 - p.lift) * k * .5; p.sc += (1 - p.sc) * k * .5;
         if (t >= 1) { p.state = 'tray'; p.x = p.homeX; p.y = p.homeY; p.rot = 0; }
       } else if (p.state === 'tray') {
-        p.x = p.homeX; p.y = p.homeY + Math.sin(T * 2.2 + p.ph) * 2;
-        p.rot = Math.sin(T * 1.7 + p.ph) * .03; p.lift *= 1 - k; p.sc += (1 - p.sc) * k;
+        p.x = p.homeX; p.y = p.homeY + Math.sin(T * 2.2 + p.ph) * 1.5;
+        p.rot = 0; p.lift *= 1 - k; p.sc += (1 - p.sc) * k; if (Math.abs(p.sc - 1) < .003) p.sc = 1; if (p.lift < .005) p.lift = 0;
       }
     }
     for (let i = parts.length - 1; i >= 0; i--) {
@@ -700,16 +699,19 @@
   function drawPiece(p, inHole) {
     const b = p.b, sz = b.sz, h = sz / 2;
     const sq = Math.sin((1 - p.pop) * Math.PI * 3) * p.pop * .13;
-    ctx.save(); ctx.translate(p.x, p.y);
+    // محاذاة لبكسلات الجهاز: القطعة الساكنة تُرسم 1:1 بلا أي تكبير/تدوير فتبقى حادّة تمامًا
+    const still = !sq && Math.abs(p.rot) < .002 && Math.abs(p.sc - (inHole ? 1 / .97 : 1)) < .002 && (inHole || p.lift < .01);
+    const px = Math.round(p.x * dpr) / dpr, py = Math.round(p.y * dpr) / dpr;
+    ctx.save(); ctx.translate(px, py);
     if (!inHole) {
       const so = 3 + p.lift * 16;
       ctx.save(); ctx.globalAlpha = .55 - p.lift * .2; ctx.translate(so * .35, so);
       const ss = p.sc * (1 + p.lift * .06); ctx.rotate(p.rot); ctx.scale(ss, ss);
       ctx.drawImage(b.shadow, -h, -h, sz, sz); ctx.restore();
     }
-    ctx.rotate(p.rot); ctx.scale(p.sc * (inHole ? .97 : 1) * (1 + sq), p.sc * (inHole ? .97 : 1) * (1 - sq));
-    const th = inHole ? 2 : S * .075;
-    for (let i = th; i > 0; i -= 1.5) ctx.drawImage(b.side, -h, -h + i, sz, sz);
+    if (!still) { ctx.rotate(p.rot); ctx.scale(p.sc * (inHole ? .97 : 1) * (1 + sq), p.sc * (inHole ? .97 : 1) * (1 - sq)); }
+    const th = Math.round((inHole ? 2 : S * .085) * dpr), st = 1;
+    for (let i = th; i > 0; i -= st) ctx.drawImage(b.side, -h, -h + i / dpr, sz, sz);
     ctx.drawImage(b.top, -h, -h, sz, sz);
     ctx.restore();
   }

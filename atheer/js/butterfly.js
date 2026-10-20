@@ -991,23 +991,20 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#7CCBF6'); g.addColorStop(.6, '#D6F1FF'); g.addColorStop(1, '#FFF4D6');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    g = c.createRadialGradient(s * .82, s * .18, 2, s * .82, s * .18, s * .2); g.addColorStop(0, '#FFF6B0'); g.addColorStop(.5, '#FFD43B'); g.addColorStop(1, 'rgba(255,212,59,0)');
-    c.fillStyle = g; c.beginPath(); c.arc(s * .82, s * .18, s * .2, 0, TAU); c.fill();
-    c.fillStyle = '#7FCF62'; c.beginPath(); c.moveTo(0, s * .72); c.quadraticCurveTo(s * .3, s * .6, s * .6, s * .7); c.quadraticCurveTo(s * .85, s * .76, s, s * .66); c.lineTo(s, s); c.lineTo(0, s); c.fill();
-    c.fillStyle = '#56B544'; c.beginPath(); c.moveTo(0, s * .84); c.quadraticCurveTo(s * .5, s * .74, s, s * .86); c.lineTo(s, s); c.lineTo(0, s); c.fill();
-    const fl = [[.16, .86, '#FF5C8A'], [.4, .92, '#FFD23F'], [.64, .87, '#FFFFFF'], [.87, .92, '#B17CFF']];
+    IK.bg(c, s, ['#E6F7FF', '#8ED3FA', '#4AA6E8'], { seed: 16 });
+    let g = c.createRadialGradient(s * .84, s * .16, 2, s * .84, s * .16, s * .2); g.addColorStop(0, '#FFF6B0'); g.addColorStop(.5, '#FFD43B'); g.addColorStop(1, 'rgba(255,212,59,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(s * .84, s * .16, s * .2, 0, TAU); c.fill();
+    IK.ground(c, s, s * .76, '#8EE070', '#4FB33F');
+    const fl = [[.12, .9, '#FF5C8A'], [.36, .95, '#FFD23F'], [.64, .92, '#FFFFFF'], [.9, .9, '#B17CFF']];
     for (const [fx, fy, col] of fl) {
-      c.strokeStyle = '#3E9B3A'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(fx * s, s); c.lineTo(fx * s, fy * s); c.stroke();
-      c.fillStyle = col; for (let i = 0; i < 6; i++) { const a = i * TAU / 6; c.beginPath(); c.ellipse(fx * s + Math.cos(a) * 6, fy * s + Math.sin(a) * 6, 5, 3.4, a, 0, TAU); c.fill(); }
-      if (col === '#FFFFFF') { c.strokeStyle = 'rgba(150,160,180,.5)'; c.lineWidth = .8; }
-      c.fillStyle = '#F2A20C'; c.beginPath(); c.arc(fx * s, fy * s, 3.6, 0, TAU); c.fill();
+      c.fillStyle = col; for (let i = 0; i < 6; i++) { const a = i * TAU / 6; c.beginPath(); c.ellipse(fx * s + Math.cos(a) * 6, fy * s + Math.sin(a) * 6, 5.5, 3.6, a, 0, TAU); c.fill(); }
+      c.fillStyle = '#F2A20C'; c.beginPath(); c.arc(fx * s, fy * s, 3.8, 0, TAU); c.fill();
     }
-    drawButterflyDirect(c, s * .36, s * .42, s * .2, CK.pink, 'dots', -.25, .95);
-    drawButterflyDirect(c, s * .7, s * .56, s * .15, CK.blue, 'stripes', .3, .7);
-    c.fillStyle = '#FFE26B'; c.save(); c.translate(s * .62, s * .26); starPath(c, s * .035); c.fill(); c.restore();
-    c.save(); c.translate(s * .16, s * .62); starPath(c, s * .028); c.fill(); c.restore();
+    IK.sticker(c, s, c => {
+      drawButterflyDirect(c, s * .38, s * .42, s * .25, CK.pink, 'dots', -.25, .95);
+      drawButterflyDirect(c, s * .73, s * .6, s * .17, CK.blue, 'stripes', .3, .75);
+    });
+    IK.sparkle(c, s * .66, s * .24, 7); IK.sparkle(c, s * .14, s * .58, 6);
   }
 
   /* ---------- التسجيل ---------- */

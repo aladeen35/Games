@@ -1678,18 +1678,16 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function menuIcon(c, s) {
-    let g = c.createRadialGradient(s * .5, s * .38, s * .05, s * .5, s * .5, s * .78);
-    g.addColorStop(0, '#FFF7FA'); g.addColorStop(.5, '#FFCFE4'); g.addColorStop(1, '#F58CBF');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    c.fillStyle = 'rgba(255,255,255,.35)'; for (let x = -s; x < s * 2; x += s * .16) { c.save(); c.translate(x, 0); c.rotate(.5); c.fillRect(0, -s, s * .07, s * 3); c.restore(); }
+    IK.bg(c, s, ['#FFF2F8', '#FF9CCB', '#E9559E'], { seed: 22 });
     const ck = Object.assign(newCake(), { tiers: 2, frost: 1, flavor: 'straw' });
     const ring = (tier, R, n, col) => { const pts = []; for (let k = 0; k < n; k++) { const a = k / n * TAU; pts.push({ x: Math.cos(a) * R, z: Math.sin(a) * R, a: 0, t0: -9 }); } ck.pipes.push({ tier, tip: 'star', col, pts }); };
     ring(0, .87, 22, '#FFFDF8'); ring(1, .6, 16, '#FFFDF8');
-    const S = s * .335, by = s * .77;
-    drawScene(c, { cx: s * .5, by, S, th: 0 }, ck, { stand: 'plate', pr: 2, T: 99 });
-    c.save(); c.translate(s * .5, by - 1.095 * S + S * .03); itemDraw(c, 'cherry', 0, S * 1.9); c.restore();
-    c.fillStyle = '#fff';
-    [[.16, .24, .05], [.85, .3, .04], [.8, .12, .025]].forEach(([x, y, r]) => { c.save(); c.translate(s * x, s * y); starPath(c, s * r, .4); c.fill(); c.restore(); });
+    const S = s * .35, by = s * .74;
+    IK.sticker(c, s, c => {
+      drawScene(c, { cx: s * .5, by, S, th: 0 }, ck, { stand: 'plate', pr: 2, T: 99 });
+      c.save(); c.translate(s * .5, by - 1.095 * S + S * .03); itemDraw(c, 'cherry', 0, S * 1.9); c.restore();
+    });
+    IK.sparkle(c, s * .15, s * .2, 9); IK.sparkle(c, s * .86, s * .26, 7); IK.sparkle(c, s * .8, s * .1, 5);
   }
 
   /* ---------- التسجيل ---------- */

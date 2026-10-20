@@ -1246,26 +1246,26 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    c.fillStyle = G(c, 0, 0, s, s, '#E9E1FF', '#C9B8FF'); c.fillRect(0, 0, s, s);
+    IK.bg(c, s, ['#FFF4C9', '#FFC24A', '#F2860F'], { seed: 15 });
     const pic2 = mk(300, 300), px = pic2.getContext('2d'); px.scale(.3, .3); paintRainbow(px, rng(5));
-    const m = s * .17, L = s - m * 2, cs = L / 3, gp = 2.5;
-    c.save(); c.shadowColor = 'rgba(60,30,120,.4)'; c.shadowBlur = 8; c.shadowOffsetY = 4;
-    c.fillStyle = G(c, m, m, m + L, m + L, '#FFE79A', '#F7B733', '#E79A1E'); c.beginPath(); c.roundRect(m - 7, m - 7, L + 14, L + 14, 12); c.fill(); c.restore();
-    c.fillStyle = '#2E2063'; c.beginPath(); c.roundRect(m - 1, m - 1, L + 2, L + 2, 7); c.fill();
-    const empty = 8, place = [0, 1, 2, 3, 4, 5, 7, 6]; // قطعتان مبدّلتان
-    for (let i = 0; i < 9; i++) {
-      if (i === empty) continue;
-      const k = place[i], r = Math.floor(i / 3), cc = i % 3, sr = Math.floor(k / 3), sc = k % 3;
-      const x0 = m + cc * cs + gp / 2, y0 = m + r * cs + gp / 2, w = cs - gp;
-      c.save(); c.beginPath(); c.roundRect(x0, y0, w, w, 4); c.clip();
-      c.drawImage(pic2, sc * 100, sr * 100, 100, 100, x0, y0, w, w);
-      c.fillStyle = G(c, 0, y0, 0, y0 + w, 'rgba(255,255,255,.3)', 'rgba(255,255,255,0)', 'rgba(0,0,0,.2)'); c.fillRect(x0, y0, w, w);
-      c.restore();
-    }
-    // سهم صغير يشير إلى الفراغ
-    const ex = m + 2 * cs + cs / 2, ey = m + 2 * cs + cs / 2;
-    c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 3; c.setLineDash([4, 4]); c.beginPath(); c.roundRect(ex - cs / 2 + 4, ey - cs / 2 + 4, cs - 8, cs - 8, 4); c.stroke(); c.setLineDash([]);
-    c.fillStyle = '#fff'; c.beginPath(); c.moveTo(ex - 9, ey - 7); c.lineTo(ex + 7, ey); c.lineTo(ex - 9, ey + 7); c.closePath(); c.fill();
+    const m = s * .15, L = s - m * 2, cs = L / 3, gp = 3;
+    IK.sticker(c, s, c => {
+      c.fillStyle = G(c, m, m, m + L, m + L, '#B48CFF', '#7C5CFF', '#5636D6'); c.beginPath(); c.roundRect(m - 8, m - 8, L + 16, L + 16, 16); c.fill();
+      c.fillStyle = '#2E2063'; c.beginPath(); c.roundRect(m - 1, m - 1, L + 2, L + 2, 8); c.fill();
+      const empty = 8, place = [0, 1, 2, 3, 4, 5, 7, 6];
+      for (let i = 0; i < 9; i++) {
+        if (i === empty) continue;
+        const k = place[i], r = Math.floor(i / 3), cc = i % 3, sr = Math.floor(k / 3), sc = k % 3;
+        const x0 = m + cc * cs + gp / 2, y0 = m + r * cs + gp / 2, w = cs - gp;
+        c.save(); c.beginPath(); c.roundRect(x0, y0, w, w, 6); c.clip();
+        c.drawImage(pic2, sc * 100, sr * 100, 100, 100, x0, y0, w, w);
+        c.fillStyle = G(c, 0, y0, 0, y0 + w, 'rgba(255,255,255,.4)', 'rgba(255,255,255,0)', 'rgba(0,0,0,.25)'); c.fillRect(x0, y0, w, w);
+        c.restore();
+      }
+      const ex = m + 2 * cs + cs / 2, ey = m + 2 * cs + cs / 2;
+      c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 3; c.setLineDash([4, 4]); c.beginPath(); c.roundRect(ex - cs / 2 + 4, ey - cs / 2 + 4, cs - 8, cs - 8, 5); c.stroke(); c.setLineDash([]);
+      c.fillStyle = '#fff'; c.beginPath(); c.moveTo(ex - 9, ey - 8); c.lineTo(ex + 8, ey); c.lineTo(ex - 9, ey + 8); c.closePath(); c.fill();
+    });
   }
 
   /* ---------- التسجيل ---------- */

@@ -1000,25 +1000,19 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#D9F7B4'); g.addColorStop(1, '#8FD15A');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    const cs = s / 7;
-    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) if ((x + y) % 2) { c.fillStyle = 'rgba(255,255,255,.12)'; c.fillRect(x * cs, y * cs, cs, cs); }
-    for (const [x, y, col] of [[.15, .2, '#FF7EB9'], [.86, .14, '#FFFFFF'], [.1, .86, '#FFD43B']]) {
-      c.fillStyle = col; for (let k = 0; k < 5; k++) { const a = k * TAU / 5; c.beginPath(); c.arc(x * s + Math.cos(a) * 5, y * s + Math.sin(a) * 5, 4, 0, TAU); c.fill(); }
+    IK.bg(c, s, ['#E9FFC8', '#9BE05C', '#4FA82A'], { seed: 14 });
+    for (const [x, y, col] of [[.14, .17, '#FF7EB9'], [.88, .12, '#FFFFFF'], [.1, .9, '#FFD43B']]) {
+      c.fillStyle = col; for (let k = 0; k < 5; k++) { const a = k * TAU / 5; c.beginPath(); c.arc(x * s + Math.cos(a) * 5, y * s + Math.sin(a) * 5, 4.2, 0, TAU); c.fill(); }
       c.fillStyle = '#FFB300'; c.beginPath(); c.arc(x * s, y * s, 3, 0, TAU); c.fill();
     }
-    // التفاحة
-    c.save(); c.translate(s * .76, s * .7);
-    c.fillStyle = 'rgba(30,70,20,.25)'; c.beginPath(); c.ellipse(0, s * .13, s * .12, s * .035, 0, 0, TAU); c.fill();
-    drawFruit(c, 'apple', s * .14); c.restore();
-    // الجسم
-    const segs = [[.2, .74], [.3, .7], [.39, .62], [.45, .52]], r = s * .085;
-    c.save(); c.lineCap = 'round'; c.lineJoin = 'round'; c.strokeStyle = 'rgba(70,40,90,.35)'; c.lineWidth = r * 1.5;
-    c.beginPath(); segs.forEach(([x, y], i) => i ? c.lineTo(x * s, y * s) : c.moveTo(x * s, y * s)); c.lineTo(s * .5, s * .42); c.stroke(); c.restore();
-    segs.forEach(([x, y], i) => drawFeet(c, x * s, y * s, r * (.8 + i * .07), i));
-    segs.forEach(([x, y], i) => drawSeg(c, x * s, y * s, r * (.8 + i * .07), BODY[(3 - i + 7) % 7]));
-    drawHead(c, s * .52, s * .4, s * .16, { lx: .7, ly: .4, blink: 0, mouth: .8, happy: 0, t: 1.2, tilt: -.12 });
+    IK.shadow(c, s * .5, s * .86, s * .4, s * .06, .25);
+    IK.sticker(c, s, c => {
+      c.save(); c.translate(s * .78, s * .72); drawFruit(c, 'apple', s * .16); c.restore();
+      const segs = [[.16, .78], [.27, .74], [.37, .66], [.44, .55]], r = s * .095;
+      segs.forEach(([x, y], i) => drawFeet(c, x * s, y * s, r * (.8 + i * .07), i));
+      segs.forEach(([x, y], i) => drawSeg(c, x * s, y * s, r * (.8 + i * .07), BODY[(3 - i + 7) % 7]));
+      drawHead(c, s * .52, s * .4, s * .18, { lx: .7, ly: .4, blink: 0, mouth: .8, happy: 0, t: 1.2, tilt: -.12 });
+    });
   }
 
   /* ---------- التسجيل ---------- */

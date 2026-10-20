@@ -1325,29 +1325,30 @@
 
   /* ---------- أيقونة القائمة: صورتان صغيرتان وعدسة مكبّرة ---------- */
   function icon(c, s) {
-    c.fillStyle = G(c, 0, 0, 0, s, '#3AA0D8', '#8FDCCB'); c.fillRect(0, 0, s, s);
-    for (let i = 0; i < 6; i++) circ(c, s * [.12, .88, .2, .8, .5, .1][i], s * [.15, .2, .88, .85, .08, .55][i], s * .03, 'rgba(255,255,255,.35)');
-    const sc0 = SCENES[0], fw = s * .4, fh = fw * PH / PW;
-    const frame = (cx, cy, rot, objs) => {
-      c.save(); c.translate(cx, cy); c.rotate(rot);
-      c.save(); c.shadowColor = 'rgba(10,40,80,.4)'; c.shadowBlur = 6; c.shadowOffsetY = 3; rr(c, -fw / 2 - 4, -fh / 2 - 4, fw + 8, fh + 8, 6, '#fff'); c.restore();
-      c.save(); c.translate(-fw / 2, -fh / 2); c.beginPath(); c.rect(0, 0, fw, fh); c.clip();
-      const old = dpr; paint(c, sc0, objs, fw / PW, 138); dpr = old;
-      c.restore(); c.restore();
-    };
+    IK.bg(c, s, ['#D6F6FF', '#5EC4F0', '#1E86CF'], { seed: 20 });
+    const sc0 = SCENES[0], fw = s * .44, fh = fw * PH / PW;
     const base = sc0.it.map(mkObj), alt = base.map(o => Object.assign({}, o));
     alt[3].c = 1; alt.splice(12, 1);
-    frame(s * .3, s * .4, -.12, base);
-    frame(s * .68, s * .6, .1, alt);
-    // العدسة
-    const mx = s * .56, my = s * .44, r = s * .17;
-    c.save(); c.translate(mx, my);
-    c.save(); c.translate(r * .72, r * .72); c.rotate(-Math.PI / 4);
-    c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 4; rr(c, -r * .17, 0, r * .34, r * 1.15, r * .12, '#8A4B14'); c.restore();
-    c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fillStyle = 'rgba(220,245,255,.35)'; c.fill();
-    c.lineWidth = r * .22; c.strokeStyle = '#FFB300'; c.stroke();
-    c.lineWidth = r * .07; c.strokeStyle = '#FFF3B0'; c.beginPath(); c.arc(0, 0, r * .86, Math.PI * 1.1, Math.PI * 1.6); c.stroke();
-    c.restore();
+    IK.sticker(c, s, c => {
+      const frame = (cx, cy, rot, objs) => {
+        c.save(); c.translate(cx, cy); c.rotate(rot);
+        c.save(); c.shadowColor = 'rgba(10,40,80,.35)'; c.shadowBlur = 5; c.shadowOffsetY = 3; rr(c, -fw / 2 - 5, -fh / 2 - 5, fw + 10, fh + 10, 8, '#fff'); c.restore();
+        c.save(); c.translate(-fw / 2, -fh / 2); c.beginPath(); c.roundRect(0, 0, fw, fh, 4); c.clip();
+        const old = dpr; paint(c, sc0, objs, fw / PW, 138); dpr = old;
+        c.restore(); c.restore();
+      };
+      frame(s * .29, s * .38, -.12, base);
+      frame(s * .69, s * .6, .1, alt);
+    });
+    const mx = s * .55, my = s * .45, r = s * .18;
+    IK.sticker(c, s, c => {
+      c.save(); c.translate(mx, my);
+      c.save(); c.translate(r * .72, r * .72); c.rotate(-Math.PI / 4); rr(c, -r * .19, 0, r * .38, r * 1.2, r * .14, '#B5651D'); c.restore();
+      c.beginPath(); c.arc(0, 0, r, 0, TAU); c.fillStyle = 'rgba(225,248,255,.45)'; c.fill();
+      c.lineWidth = r * .25; c.strokeStyle = '#FFB300'; c.stroke();
+      c.lineWidth = r * .08; c.strokeStyle = '#FFF3B0'; c.beginPath(); c.arc(0, 0, r * .85, Math.PI * 1.1, Math.PI * 1.6); c.stroke();
+      c.restore();
+    }, { line: 3, gloss: false });
   }
 
   /* ---------- التسجيل ---------- */

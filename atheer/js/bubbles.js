@@ -1072,24 +1072,25 @@
 
   /* ---------- أيقونة القائمة ---------- */
   function icon(c, s) {
-    let g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#E4DCFF'); g.addColorStop(.6, '#BFE3FF'); g.addColorStop(1, '#A6EEDF');
-    c.fillStyle = g; c.fillRect(0, 0, s, s);
-    c.fillStyle = '#FFE9C8'; c.beginPath(); c.ellipse(s / 2, s * 1.02, s * .7, s * .2, 0, 0, TAU); c.fill();
-    const r = s * .105;
-    const cluster = [[.29, .2, 0], [.5, .2, 1], [.71, .2, 3], [.4, .37, 5], [.61, .37, 0], [.5, .54, 2]];
-    for (const [x, y, ci] of cluster) { c.save(); c.translate(x * s, y * s + s * .02); paintBubble(c, ci, ci === 1 ? 0 : -1, r); c.restore(); }
-    // مدفع صغير
-    const cx = s * .5, cy = s * .83;
-    c.save(); c.translate(cx, cy - s * .04); c.rotate(-.35);
-    g = c.createLinearGradient(-s * .07, 0, s * .07, 0); g.addColorStop(0, '#4D8BEA'); g.addColorStop(.35, '#D4ECFF'); g.addColorStop(1, '#3466CC');
-    c.fillStyle = g; c.beginPath(); c.roundRect(-s * .065, -s * .2, s * .13, s * .2, s * .04); c.fill();
-    c.fillStyle = '#FFC93C'; c.beginPath(); c.roundRect(-s * .085, -s * .22, s * .17, s * .055, s * .025); c.fill();
-    c.restore();
-    g = c.createRadialGradient(cx - s * .05, cy - s * .04, 2, cx, cy, s * .17);
-    g.addColorStop(0, '#FFD6EA'); g.addColorStop(.55, '#FF8EC0'); g.addColorStop(1, '#E2508F');
-    c.fillStyle = g; c.beginPath(); c.ellipse(cx, cy + s * .05, s * .21, s * .13, 0, 0, TAU); c.fill();
-    for (const k of [-1, 1]) { c.fillStyle = '#fff'; c.beginPath(); c.arc(cx + k * s * .07, cy + s * .06, s * .03, 0, TAU); c.fill(); c.fillStyle = '#2A1B3C'; c.beginPath(); c.arc(cx + k * s * .07, cy + s * .055, s * .017, 0, TAU); c.fill(); }
-    c.save(); c.translate(cx, cy - s * .04); paintBubble(c, 3, -1, s * .06); c.restore();
+    IK.bg(c, s, ['#D8F7FF', '#6ED3F7', '#2A8FE0'], { seed: 8 });
+    IK.ground(c, s, s * .84, '#FFE6B3', '#F7C46B');
+    const r = s * .118;
+    const cluster = [[.27, .2, 0], [.5, .19, 1], [.73, .2, 3], [.385, .39, 5], [.615, .39, 0], [.5, .58, 2]];
+    const cx = s * .5, cy = s * .82;
+    IK.shadow(c, cx, cy + s * .12, s * .22, s * .04, .3);
+    IK.sticker(c, s, c => {
+      for (const [x, y, ci] of cluster) { c.save(); c.translate(x * s, y * s); paintBubble(c, ci, ci === 1 ? 0 : -1, r); c.restore(); }
+      c.save(); c.translate(cx, cy - s * .04); c.rotate(-.35);
+      let g = c.createLinearGradient(-s * .07, 0, s * .07, 0); g.addColorStop(0, '#4D8BEA'); g.addColorStop(.35, '#D4ECFF'); g.addColorStop(1, '#3466CC');
+      c.fillStyle = g; c.beginPath(); c.roundRect(-s * .07, -s * .21, s * .14, s * .21, s * .045); c.fill();
+      c.fillStyle = '#FFC93C'; c.beginPath(); c.roundRect(-s * .09, -s * .235, s * .18, s * .06, s * .028); c.fill();
+      c.restore();
+      g = c.createRadialGradient(cx - s * .05, cy - s * .02, 2, cx, cy + s * .04, s * .2);
+      g.addColorStop(0, '#FFE0F0'); g.addColorStop(.55, '#FF8EC0'); g.addColorStop(1, '#E2508F');
+      c.fillStyle = g; c.beginPath(); c.ellipse(cx, cy + s * .05, s * .23, s * .14, 0, 0, IK.TAU); c.fill();
+      for (const k of [-1, 1]) { c.fillStyle = '#fff'; c.beginPath(); c.arc(cx + k * s * .075, cy + s * .06, s * .034, 0, IK.TAU); c.fill(); c.fillStyle = '#2A1B3C'; c.beginPath(); c.arc(cx + k * s * .075, cy + s * .055, s * .019, 0, IK.TAU); c.fill(); }
+      c.save(); c.translate(cx, cy - s * .045); paintBubble(c, 3, -1, s * .065); c.restore();
+    });
   }
 
   /* ---------- التسجيل ---------- */

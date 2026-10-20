@@ -1189,19 +1189,18 @@
       `🎯 زر التحديات: ${App.g('أزيلي', 'أزِل')} الحجارة أو ${App.g('أكملي', 'أكمل')} الصفوف بعدد محدود من القطع واربح النجوم ⭐`
     ],
     icon(g, s) {
-      const sk = g.createLinearGradient(0, 0, 0, s);
-      sk.addColorStop(0, '#9CC3FF'); sk.addColorStop(.6, '#E2C9FF'); sk.addColorStop(1, '#FFD9E8');
-      g.fillStyle = sk; g.fillRect(0, 0, s, s);
-      g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.arc(s * .2, s * .3, s * .07, 0, 7); g.arc(s * .28, s * .32, s * .055, 0, 7); g.arc(s * .13, s * .33, s * .05, 0, 7); g.fill();
-      g.fillStyle = '#A9E6BE'; g.beginPath(); g.ellipse(s * .5, s * 1.02, s * .75, s * .22, 0, 0, 7); g.fill();
-      const full = Array(12).fill(1);
-      drawCastle(g, s * .5, s * .86, s / 38, 8, full, 0);
-      const b = s * .13;
-      const piece = (t, r, x, y) => { for (const [cx, cy] of CELLS[t][r]) drawBlock(g, x + cx * b, y + cy * b, b, PAL[t]); };
-      piece('T', 0, s * .1, s * .08);
-      piece('L', 1, s * .6, s * .05);
-      piece('Z', 0, s * .03, s * .55);
-      piece('O', 0, s * .72, s * .58);
+      const c = g;
+      IK.bg(c, s, ['#E9DCFF', '#A98BFF', '#6C4EE6'], { seed: 6 });
+      IK.cloud(c, s * .04, s * .3, s * .3);
+      IK.ground(c, s, s * .8, '#9BE08C', '#4FAE55');
+      const b = s * .14;
+      const piece = (c, t, r, x, y) => { for (const [cx, cy] of CELLS[t][r]) drawBlock(c, x + cx * b, y + cy * b, b, PAL[t]); };
+      IK.sticker(c, s, c => {
+        drawCastle(c, s * .5, s * .86, s / 33, 8, Array(12).fill(1), 0);
+        piece(c, 'T', 0, s * .1, s * .08);
+        piece(c, 'L', 1, s * .55, s * .07);
+        piece(c, 'O', 0, s * .64, s * .56);
+      });
     },
     best() { const b = store.get('blocksBest', 0); return b ? '🏆 أفضل نتيجة: ' + b : ''; },
     enter() {
