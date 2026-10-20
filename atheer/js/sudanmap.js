@@ -449,7 +449,7 @@
     const pillT = 18, pillB = 22; // مساحة شارة العنوان وشريط التقدّم
     if (portrait) {
       const aw = Math.min(W - pad * 2, 640), ax = (W - aw) / 2, ah = bottom - top;
-      const minTray = quizMode ? 150 : 170;
+      const minTray = quizMode ? 150 : clamp(H * .3, 190, 240);
       let kk = (aw - 16 - 14) / (W0 + .6);
       let bh = Math.round(H0 * kk + 16 + pillT + pillB + 18);
       if (bh > ah - minTray - 14) { bh = ah - minTray - 14; kk = (bh - 16 - pillT - pillB - 18) / (H0 + .5); }
@@ -656,7 +656,7 @@
   function fitToCell(pc) {
     const cl = cells[pc.cell]; if (!cl) return;
     const p = P[pc.s.k], lab = 22;
-    pc.tsc = Math.min((cl.w - 14) / p.w, (cl.h - lab - 18 - D * 1.5) / p.h, 2.4);
+    pc.tsc = Math.min((cl.w - 14) / p.w, (cl.h - lab - 10 - D) / p.h, 2.4);
     pc.homeX = cl.x; pc.homeY = cl.y - lab / 2 - D * .6;
   }
 
@@ -871,6 +871,7 @@
   const endDrag = e => {
     if (!drag || e.pointerId !== drag.id) return;
     const d = drag, pc = d.pc, p = P[pc.s.k]; drag = null;
+    if (d.moved) { pc.x = d.tx; pc.y = d.ty; }
     if (!d.moved && performance.now() - d.t0 < 400) { say(nm(pc.s)); pc.pop = 1; Sound.pop(); toTray(pc, false); return; }
     const tol = clamp(Math.min(p.w, p.h) * .35, 16, 34) + 8;
     if (Math.hypot(pc.x - p.hx, pc.y - p.hy) < tol) { snap(pc); return; }
