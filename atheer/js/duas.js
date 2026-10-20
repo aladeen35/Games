@@ -280,7 +280,7 @@
       room(c, ['#FFF1D6', '#FFE2B0'], ['#E8C79A', '#D3A877']);
       windowFrame(c, 278, 40, 86, 70, () => { sky(c, '#8FD3FF', '#E1F5FF', 110); puff(c, 320, 72, 14); });
       const up = Math.sin(t * 2.4) * .1;
-      kid(c, 200, 222, 29, { T: t, hR: [1.15, -2.0 + up], hL: [-1.15, -2.0 + up], eyes: 'happy', mouth: 'open', legs: 'none' });
+      kid(c, 200, 222, 29, { T: t, hR: [1.5, -1.95 + up], hL: [-1.5, -1.95 + up], eyes: 'happy', mouth: 'open', legs: 'none' });
       table(c, 226);
       plate(c, 200, 230, 44, null);
       c.fillStyle = '#E6B26A'; for (const [dx, dy] of [[-12, 0], [6, 2], [16, -2]]) { c.beginPath(); c.arc(200 + dx, 228 + dy, 2, 0, TAU); c.fill(); }
