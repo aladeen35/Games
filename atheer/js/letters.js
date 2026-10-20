@@ -1085,7 +1085,7 @@
   bakeBrushes();
 
   App.register({
-    id: ID, title: 'حروفي', icon2: '✍️', isNew: true, music: 'letters',
+    id: ID, title: 'حروفي', icon2: '✍️', isNew: false, music: 'letters',
     desc: () => App.g('تتبّعي الحروف العربية والإنجليزية بإصبعك', 'تتبّع الحروف العربية والإنجليزية بإصبعك'),
     help: () => [
       '✍️ ' + App.g('ابدئي', 'ابدأ') + ' من الرقم 1 ' + App.g('واسحبي', 'واسحب') + ' إصبعك على النقاط باتجاه الأسهم',

@@ -1285,7 +1285,7 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, get title() { return 'حلويات ' + (App.profile ? App.profile.name : ''); }, icon2: '🍬', isNew: true, music: 'candy',
+    id: ID, get title() { return 'حلويات ' + (App.profile ? App.profile.name : ''); }, icon2: '🍬', isNew: false, music: 'candy',
     desc: () => App.g('طابقي ثلاث حلويات أو أكثر', 'طابق ثلاث حلويات أو أكثر'),
     help: () => [
       '👆 ' + App.g('اسحبي', 'اسحب') + ' حلوى نحو جارتها لتبديلهما، ' + App.g('وطابقي', 'وطابق') + ' 3 من اللون نفسه',

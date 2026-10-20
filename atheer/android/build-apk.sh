@@ -12,8 +12,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=6
-VERSION_NAME=4.1
+VERSION_CODE=7
+VERSION_NAME=5.0
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
@@ -25,7 +25,7 @@ build() {
   rm -rf "$OUT"; mkdir -p "$OUT/compiled" "$OUT/gen" "$OUT/classes" "$OUT/assets"
 
   echo "① نسخ ملفات التطبيق ثم ملفات النسخة (الأسماء والشعار)"
-  for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js img; do
+  for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js img sounds; do
     cp -r "$ROOT/$item" "$OUT/assets/"
   done
   # الأصوات المسجّلة فقط (دون ملفات النصوص والدفعات)

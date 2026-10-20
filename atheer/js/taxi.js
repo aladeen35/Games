@@ -1355,7 +1355,7 @@
   const iconTaxi = { y: 0, vy: 0, ground: true, hurt: 0, happy: 0, sad: 0, honk: 0, nitro: 0, blink: 0, wheel: .4, eyes: [{ x: 3, y: -1.5 }, { x: 3, y: -1.5 }] };
 
   App.register({
-    id: ID, title: 'التاكسي المرح', icon2: '🚕', isNew: true, music: 'taxi',
+    id: ID, title: 'التاكسي المرح', icon2: '🚕', isNew: false, music: 'taxi',
     desc: () => App.g('قودي التاكسي ووصّلي الركّاب!', 'قُد التاكسي ووصّل الركّاب!'),
     help: () => [
       App.g('⬆️ المسي الشاشة أو اضغطي «قفز» ليقفز التاكسي — اضغطي مرتين لقفزة مزدوجة!', '⬆️ المس الشاشة أو اضغط «قفز» ليقفز التاكسي — اضغط مرتين لقفزة مزدوجة!'),

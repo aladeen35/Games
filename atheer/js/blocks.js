@@ -1177,7 +1177,7 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'قلعة المكعبات', icon2: '🧱', isNew: true,
+    id: ID, title: 'قلعة المكعبات', icon2: '🧱', isNew: false,
     desc: () => App.g('رتّبي المكعبات وابني القلعة', 'رتّب المكعبات وابنِ القلعة'),
     music: 'blocks',
     help: () => [

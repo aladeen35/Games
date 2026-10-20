@@ -125,6 +125,7 @@ const Voice = {
       this.idx = { ar: new Map(), en: new Map() }; this.maxW = { ar: 1, en: 1 };
       const V = window.VOICE || {};
       for (const lg of ['ar', 'en']) for (const [id, plain] of Object.entries(V[lg] || {})) {
+        if (/^harakat_[a-z]+_(a|u|i|aa|uu|ii|s|an|un|in)$/.test(id)) continue; // مقاطع الحركات تُشغَّل بمعرّفها مباشرة
         const k = this.norm(plain, lg); if (!k) continue;
         if (!this.idx[lg].has(k)) this.idx[lg].set(k, []);
         this.idx[lg].get(k).push(id);
@@ -392,9 +393,59 @@ const App = {
     { id: 'cake_first',  g: 'cake',    i: '🎂', t: 'أول كعكة',           d: 'تزيين أول كعكة' },
     { id: 'cake_order',  g: 'cake',    i: '📋', t: 'طاهٍ ماهر',           d: 'إنجاز 10 طلبات للزبائن' },
     { id: 'cake_artist', g: 'cake',    i: '🎨', t: 'فنان الكريمة',       d: 'رسم 20 خطًا بالكريمة على كعكة واحدة' },
+    { id: 'harakat_first', g: 'harakat', i: '🏎️', t: 'أول سباق', d: 'إنهاء أول سباق حركات' },
+    { id: 'harakat_perfect', g: 'harakat', i: '💯', t: 'سباق مثالي', d: '10 من 10 في سباق واحد' },
+    { id: 'harakat_gems', g: 'harakat', i: '💎', t: 'جامع الألماس', d: 'جمع 100 ماسة' },
+    { id: 'harakat_mix', g: 'harakat', i: '🔤', t: 'خبير الحروف', d: 'إنهاء مستوى خلط الحروف' },
+    { id: 'harakat_short_all', g: 'harakat', i: '🏁', t: 'بطل الحركات', d: 'إنهاء كل مستويات الفتحة والضمة والكسرة' },
+    { id: 'tower_first', g: 'tower', i: '🏙️', t: 'أول برج', d: 'بناء أول برج' },
+    { id: 'tower_20', g: 'tower', i: '🔢', t: 'عدّاد العشرين', d: 'إنهاء مستوى حتى العشرين' },
+    { id: 'tower_all', g: 'tower', i: '👷', t: 'مهندس الأبراج', d: 'إنهاء كل مستويات البرج' },
+    { id: 'penguins_first', g: 'penguins', i: '🐧', t: 'أول مستوى بطاريق', d: 'إنهاء أول مستوى' },
+    { id: 'penguins_all', g: 'penguins', i: '👑', t: 'ملك البطاريق', d: 'نجوم في كل المستويات' },
+    { id: 'penguins_ten', g: 'penguins', i: '🔟', t: 'عشرة بطاريق مرتّبة', d: 'ترتيب 10 بطاريق من أول محاولة' },
+    { id: 'penguins_en', g: 'penguins', i: '🇬🇧', t: 'الأرقام بالإنجليزية', d: 'إنهاء مستوى بالإنجليزية' },
+    { id: 'numpuzzle_first', g: 'numpuzzle', i: '🔢', t: 'أول لغز أرقام', d: 'إنهاء أول لغز' },
+    { id: 'numpuzzle_perfect', g: 'numpuzzle', i: '✨', t: 'لغز أرقام بلا أخطاء', d: 'إنهاء لغز بلا أخطاء' },
+    { id: 'numpuzzle_all', g: 'numpuzzle', i: '🏆', t: 'بطل ألغاز الأرقام', d: 'إنهاء كل المستويات' },
+    { id: 'arpuzzle_first', g: 'arpuzzle', i: '🔤', t: 'أول لغز حروف', d: 'إنهاء أول لغز' },
+    { id: 'arpuzzle_perfect', g: 'arpuzzle', i: '✨', t: 'لغز حروف بلا أخطاء', d: 'إنهاء لغز بلا أخطاء' },
+    { id: 'arpuzzle_all', g: 'arpuzzle', i: '🏆', t: 'بطل الحروف العربية', d: 'إنهاء كل المستويات' },
+    { id: 'enpuzzle_first', g: 'enpuzzle', i: '🔠', t: 'أول لغز ABC', d: 'إنهاء أول لغز' },
+    { id: 'enpuzzle_perfect', g: 'enpuzzle', i: '✨', t: 'لغز ABC بلا أخطاء', d: 'إنهاء لغز بلا أخطاء' },
+    { id: 'enpuzzle_all', g: 'enpuzzle', i: '🏆', t: 'بطل الحروف الإنجليزية', d: 'إنهاء كل المستويات' },
+    { id: 'sudanmap_first', g: 'sudanmap', i: '🗺️', t: 'أول خريطة للسودان', d: 'إكمال أول خريطة' },
+    { id: 'sudanmap_perfect', g: 'sudanmap', i: '🎯', t: 'خريطة بلا أخطاء', d: 'إكمال الخريطة كاملة بلا أخطاء' },
+    { id: 'sudanmap_quiz', g: 'sudanmap', i: '📍', t: 'أعرف ولايات السودان', d: '10 من 10 في سؤال الولايات' },
+    { id: 'sudanmap_landmarks', g: 'sudanmap', i: '🏛️', t: 'مستكشف المعالم', d: '10 من 10 في سؤال المعالم' },
+    { id: 'sudanmap_en', g: 'sudanmap', i: '🇬🇧', t: 'السودان بالإنجليزية', d: 'إنهاء أي وضع بالإنجليزية' },
+    { id: 'pattern_first', g: 'pattern', i: '📿', t: 'أول نمط', d: 'إنهاء أول مستوى' },
+    { id: 'pattern_perfect', g: 'pattern', i: '✨', t: 'نمط بلا أخطاء', d: 'إنهاء مستوى بلا أخطاء' },
+    { id: 'pattern_all', g: 'pattern', i: '🏆', t: 'سيد الأنماط', d: 'إنهاء كل المستويات' },
+    { id: 'shadows_first', g: 'shadows', i: '👤', t: 'أول ظل', d: 'إنهاء أول مستوى' },
+    { id: 'shadows_perfect', g: 'shadows', i: '🦅', t: 'عين الصقر', d: 'إنهاء مستوى بلا أخطاء' },
+    { id: 'shadows_all', g: 'shadows', i: '🏆', t: 'خبير الظلال', d: 'إنهاء كل المستويات' },
+    { id: 'balance_first', g: 'balance', i: '⚖️', t: 'أول ميزان', d: 'إنهاء أول مستوى' },
+    { id: 'balance_perfect', g: 'balance', i: '🎯', t: 'ميزان دقيق', d: 'إنهاء مستوى بلا أخطاء' },
+    { id: 'balance_all', g: 'balance', i: '🏆', t: 'خبير الموازين', d: 'نجوم في كل المستويات' },
+    { id: 'fractions_first', g: 'fractions', i: '🧁', t: 'أول كسر', d: 'إنهاء أول مستوى' },
+    { id: 'fractions_all', g: 'fractions', i: '🏆', t: 'خبير الكسور', d: 'نجوم في كل المستويات' },
+    { id: 'wordtrain_first', g: 'wordtrain', i: '🚂', t: 'أول قطار', d: 'إكمال أول كلمة' },
+    { id: 'wordtrain_50', g: 'wordtrain', i: '🚃', t: '٥٠ كلمة في القطار', d: 'إكمال 50 كلمة' },
+    { id: 'wordtrain_ar', g: 'wordtrain', i: '🔤', t: 'كل قطارات العربي', d: 'إنهاء كل مستويات العربي' },
+    { id: 'wordtrain_en', g: 'wordtrain', i: '🔠', t: 'كل قطارات الإنجليزي', d: 'إنهاء كل مستويات الإنجليزي' },
+    { id: 'opposites_first', g: 'opposites', i: '🔀', t: 'عرفت الأضداد', d: 'إنهاء أول مستوى' },
+    { id: 'opposites_memory', g: 'opposites', i: '🧠', t: 'ذاكرة الأضداد', d: 'إنهاء مستوى في وضع الذاكرة' },
+    { id: 'opposites_all', g: 'opposites', i: '🏆', t: 'بطل الأضداد', d: 'إنهاء كل المستويات' },
+    { id: 'mothers_first', g: 'mothers', i: '🐄', t: 'أول لقاء', d: 'إعادة أول صغير إلى أمه' },
+    { id: 'mothers_ears', g: 'mothers', i: '👂', t: 'أذن ذهبية', d: 'معرفة الحيوانات من أصواتها' },
+    { id: 'mothers_all', g: 'mothers', i: '🏆', t: 'صديق الحيوانات', d: 'إنهاء كل المستويات' },
+    { id: 'duas_first', g: 'duas', i: '🤲', t: 'أول دعاء', d: 'اختيار أول دعاء صحيح' },
+    { id: 'duas_learn', g: 'duas', i: '📖', t: 'أتعلّم أدعيتي', d: 'الاستماع إلى كل الأدعية' },
+    { id: 'duas_all', g: 'duas', i: '🌙', t: 'حافظ الأدعية', d: 'إنهاء كل المستويات' },
     { id: 'daily_3',     g: '',        i: '🎁', t: 'وفاء يومي',          d: 'فتح الهدية اليومية 3 أيام متتالية' },
     { id: 'shop_first',  g: '',        i: '🛍️', t: 'أول مشتريات',       d: 'شراء أول عنصر من المتجر' },
-    { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة الألعاب السبع كلها' }
+    { id: 'all_games',   g: '',        i: '🎮', t: 'مستكشف الألعاب',     d: 'تجربة كل الألعاب' }
   ],
 
   /* ---------- أقسام القائمة: كل لعبة ← قسم (المجهولة تذهب إلى آخر القائمة) ---------- */
