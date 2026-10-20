@@ -1,0 +1,352 @@
+[
+ {
+  "id": "en_word_hen",
+  "text": "hen",
+  "plain": "hen",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_van",
+  "text": "van",
+  "plain": "van",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bat",
+  "text": "bat",
+  "plain": "bat",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_pen",
+  "text": "pen",
+  "plain": "pen",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_ear",
+  "text": "ear",
+  "plain": "ear",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bear",
+  "text": "bear",
+  "plain": "bear",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_cake",
+  "text": "cake",
+  "plain": "cake",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_tree",
+  "text": "tree",
+  "plain": "tree",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_milk",
+  "text": "milk",
+  "plain": "milk",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_shoe",
+  "text": "shoe",
+  "plain": "shoe",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_sock",
+  "text": "sock",
+  "plain": "sock",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bird",
+  "text": "bird",
+  "plain": "bird",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_rose",
+  "text": "rose",
+  "plain": "rose",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_hand",
+  "text": "hand",
+  "plain": "hand",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_door",
+  "text": "door",
+  "plain": "door",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bell",
+  "text": "bell",
+  "plain": "bell",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_book",
+  "text": "book",
+  "plain": "book",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_calf",
+  "text": "calf",
+  "plain": "calf",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_lamb",
+  "text": "lamb",
+  "plain": "lamb",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_chick",
+  "text": "chick",
+  "plain": "chick",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_kitten",
+  "text": "kitten",
+  "plain": "kitten",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_puppy",
+  "text": "puppy",
+  "plain": "puppy",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_foal",
+  "text": "foal",
+  "plain": "foal",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_cub",
+  "text": "cub",
+  "plain": "cub",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_duckling",
+  "text": "duckling",
+  "plain": "duckling",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_tadpole",
+  "text": "tadpole",
+  "plain": "tadpole",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_caterpillar",
+  "text": "caterpillar",
+  "plain": "caterpillar",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bunny",
+  "text": "bunny",
+  "plain": "bunny",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_kid",
+  "text": "kid",
+  "plain": "kid",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_and",
+  "text": "and",
+  "plain": "and",
+  "lang": "en",
+  "game": "en",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "mothers_en_where_mom",
+  "text": "Where is my mom?",
+  "plain": "Where is my mom?",
+  "lang": "en",
+  "game": "mothers",
+  "emotion": "sad",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "mothers_en_who_sound",
+  "text": "Who makes this sound?",
+  "plain": "Who makes this sound?",
+  "lang": "en",
+  "game": "mothers",
+  "emotion": "curious",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_bismillah",
+  "text": "In the name of Allah",
+  "plain": "In the name of Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_hamd",
+  "text": "All praise is for Allah",
+  "plain": "All praise is for Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_sleep",
+  "text": "In Your name, O Allah, I die and I live",
+  "plain": "In Your name, O Allah, I die and I live",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ }
+]

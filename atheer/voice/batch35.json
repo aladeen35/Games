@@ -1,0 +1,352 @@
+[
+ {
+  "id": "opposites_few",
+  "text": "قَليل",
+  "plain": "قليل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "opposites_near",
+  "text": "قَريب",
+  "plain": "قريب",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "opposites_far",
+  "text": "بَعيد",
+  "plain": "بعيد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cow",
+  "text": "البَقَرَةُ",
+  "plain": "البقرة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_calf",
+  "text": "العِجْلُ",
+  "plain": "العجل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_ewe",
+  "text": "النَّعْجَةُ",
+  "plain": "النعجة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_lamb",
+  "text": "الحَمَلُ",
+  "plain": "الحمل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_hen",
+  "text": "الدَّجَاجَةُ",
+  "plain": "الدجاجة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_chick",
+  "text": "الكَتْكُوتُ",
+  "plain": "الكتكوت",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cat",
+  "text": "القِطَّةُ",
+  "plain": "القطة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_kitten",
+  "text": "الهُرَيْرَةُ",
+  "plain": "الهريرة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_dog",
+  "text": "الكَلْبَةُ",
+  "plain": "الكلبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_puppy",
+  "text": "الجَرْوُ",
+  "plain": "الجرو",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_mare",
+  "text": "الفَرَسُ",
+  "plain": "الفرس",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_foal",
+  "text": "المُهْرُ",
+  "plain": "المهر",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_camel",
+  "text": "النَّاقَةُ",
+  "plain": "الناقة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_camel_calf",
+  "text": "الحُوَارُ",
+  "plain": "الحوار",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_lioness",
+  "text": "اللَّبُؤَةُ",
+  "plain": "اللبؤة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cub",
+  "text": "الشِّبْلُ",
+  "plain": "الشبل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_duck",
+  "text": "البَطَّةُ",
+  "plain": "البطة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_duckling",
+  "text": "الفَرْخُ",
+  "plain": "الفرخ",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_frog",
+  "text": "الضِّفْدَعَةُ",
+  "plain": "الضفدعة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_tadpole",
+  "text": "الشُّرْغُوفُ",
+  "plain": "الشرغوف",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_butterfly",
+  "text": "الفَرَاشَةُ",
+  "plain": "الفراشة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_caterpillar",
+  "text": "اليَرَقَةُ",
+  "plain": "اليرقة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bear",
+  "text": "الدُّبَّةُ",
+  "plain": "الدبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bear_cub",
+  "text": "الدَّيْسَمُ",
+  "plain": "الديسم",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_elephant",
+  "text": "الفِيلَةُ",
+  "plain": "الفيلة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_elephant_calf",
+  "text": "الدَّغْفَلُ",
+  "plain": "الدغفل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_rabbit",
+  "text": "الأَرْنَبَةُ",
+  "plain": "الأرنبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bunny",
+  "text": "الخِرْنِقُ",
+  "plain": "الخرنق",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_goat",
+  "text": "العَنْزَةُ",
+  "plain": "العنزة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_goat_kid",
+  "text": "الجَدْيُ",
+  "plain": "الجدي",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_and_her_young_m",
+  "text": "وَصَغِيرُهَا",
+  "plain": "وصغيرها",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_and_her_young_f",
+  "text": "وَصَغِيرَتُهَا",
+  "plain": "وصغيرتها",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ }
+]

@@ -1,0 +1,137 @@
+[curious] What is the opposite of
+
+...
+
+[cheerful] Match the opposites
+
+...
+
+[neutral] hot
+
+...
+
+[neutral] cold
+
+...
+
+[neutral] day
+
+...
+
+[neutral] night
+
+...
+
+[neutral] up
+
+...
+
+[neutral] down
+
+...
+
+[neutral] full
+
+...
+
+[neutral] empty
+
+...
+
+[neutral] fast
+
+...
+
+[neutral] slow
+
+...
+
+[neutral] happy
+
+...
+
+[neutral] sad
+
+...
+
+[neutral] open
+
+...
+
+[neutral] closed
+
+...
+
+[neutral] long
+
+...
+
+[neutral] short
+
+...
+
+[neutral] wet
+
+...
+
+[neutral] dry
+
+...
+
+[neutral] heavy
+
+...
+
+[neutral] light
+
+...
+
+[neutral] in
+
+...
+
+[neutral] out
+
+...
+
+[neutral] clean
+
+...
+
+[neutral] dirty
+
+...
+
+[neutral] many
+
+...
+
+[neutral] few
+
+...
+
+[neutral] near
+
+...
+
+[neutral] far
+
+...
+
+[neutral] fox
+
+...
+
+[neutral] ant
+
+...
+
+[neutral] bed
+
+...
+
+[neutral] cup
+
+...
+
+[neutral] box

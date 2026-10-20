@@ -1,0 +1,137 @@
+[neutral] hen
+
+...
+
+[neutral] van
+
+...
+
+[neutral] bat
+
+...
+
+[neutral] pen
+
+...
+
+[neutral] ear
+
+...
+
+[neutral] bear
+
+...
+
+[neutral] cake
+
+...
+
+[neutral] tree
+
+...
+
+[neutral] milk
+
+...
+
+[neutral] shoe
+
+...
+
+[neutral] sock
+
+...
+
+[neutral] bird
+
+...
+
+[neutral] rose
+
+...
+
+[neutral] hand
+
+...
+
+[neutral] door
+
+...
+
+[neutral] bell
+
+...
+
+[neutral] book
+
+...
+
+[warm] calf
+
+...
+
+[warm] lamb
+
+...
+
+[warm] chick
+
+...
+
+[warm] kitten
+
+...
+
+[warm] puppy
+
+...
+
+[warm] foal
+
+...
+
+[warm] cub
+
+...
+
+[warm] duckling
+
+...
+
+[warm] tadpole
+
+...
+
+[warm] caterpillar
+
+...
+
+[warm] bunny
+
+...
+
+[warm] kid
+
+...
+
+[neutral] and
+
+...
+
+[sad] Where is my mom?
+
+...
+
+[curious] Who makes this sound?
+
+...
+
+[calm] In the name of Allah
+
+...
+
+[calm] All praise is for Allah
+
+...
+
+[calm] In Your name, O Allah, I die and I live

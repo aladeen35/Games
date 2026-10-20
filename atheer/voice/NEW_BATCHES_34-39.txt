@@ -1,0 +1,792 @@
+دفعات التسجيل الجديدة 34–39 (Eleven v3، نفس صوت الطفلة)
+تُنسخ كل دفعة كما هي إلى ElevenLabs v3، ويُرسل ملف MP3 لكل دفعة باسم رقمها (مثل 34.mp3).
+الأدعية (الدفعة 36) بصوت هادئ وخاشع.
+
+════════════ الدفعة 34 (35 مقطعًا) ════════════
+
+[neutral] فَم
+
+...
+
+[neutral] قِطّ
+
+...
+
+[neutral] رُزّ
+
+...
+
+[warm] جَدّ
+
+...
+
+[neutral] سِنّ
+
+...
+
+[warm] أُمّ
+
+...
+
+[warm] أَب
+
+...
+
+[neutral] تاءٌ مَرْبوطَة
+
+...
+
+[curious] ما عَكْسُ
+
+...
+
+[cheerful] طابِقِ الأَضْداد
+
+...
+
+[neutral] حارّ
+
+...
+
+[neutral] بارِد
+
+...
+
+[neutral] نَهار
+
+...
+
+[neutral] لَيْل
+
+...
+
+[neutral] فَوْق
+
+...
+
+[neutral] تَحْت
+
+...
+
+[neutral] مُمْتَلِئ
+
+...
+
+[neutral] فارِغ
+
+...
+
+[neutral] سَريع
+
+...
+
+[neutral] بَطيء
+
+...
+
+[neutral] سَعيد
+
+...
+
+[neutral] حَزين
+
+...
+
+[neutral] مَفْتوح
+
+...
+
+[neutral] مُغْلَق
+
+...
+
+[neutral] طَويل
+
+...
+
+[neutral] قَصير
+
+...
+
+[neutral] مُبَلَّل
+
+...
+
+[neutral] جافّ
+
+...
+
+[neutral] ثَقيل
+
+...
+
+[neutral] خَفيف
+
+...
+
+[neutral] داخِل
+
+...
+
+[neutral] خارِج
+
+...
+
+[neutral] نَظيف
+
+...
+
+[neutral] مُتَّسِخ
+
+...
+
+[neutral] كَثير
+
+════════════ الدفعة 35 (35 مقطعًا) ════════════
+
+[neutral] قَليل
+
+...
+
+[neutral] قَريب
+
+...
+
+[neutral] بَعيد
+
+...
+
+[warm] البَقَرَةُ
+
+...
+
+[warm] العِجْلُ
+
+...
+
+[warm] النَّعْجَةُ
+
+...
+
+[warm] الحَمَلُ
+
+...
+
+[warm] الدَّجَاجَةُ
+
+...
+
+[warm] الكَتْكُوتُ
+
+...
+
+[warm] القِطَّةُ
+
+...
+
+[warm] الهُرَيْرَةُ
+
+...
+
+[warm] الكَلْبَةُ
+
+...
+
+[warm] الجَرْوُ
+
+...
+
+[warm] الفَرَسُ
+
+...
+
+[warm] المُهْرُ
+
+...
+
+[warm] النَّاقَةُ
+
+...
+
+[warm] الحُوَارُ
+
+...
+
+[warm] اللَّبُؤَةُ
+
+...
+
+[warm] الشِّبْلُ
+
+...
+
+[warm] البَطَّةُ
+
+...
+
+[warm] الفَرْخُ
+
+...
+
+[warm] الضِّفْدَعَةُ
+
+...
+
+[warm] الشُّرْغُوفُ
+
+...
+
+[warm] الفَرَاشَةُ
+
+...
+
+[warm] اليَرَقَةُ
+
+...
+
+[warm] الدُّبَّةُ
+
+...
+
+[warm] الدَّيْسَمُ
+
+...
+
+[warm] الفِيلَةُ
+
+...
+
+[warm] الدَّغْفَلُ
+
+...
+
+[warm] الأَرْنَبَةُ
+
+...
+
+[warm] الخِرْنِقُ
+
+...
+
+[warm] العَنْزَةُ
+
+...
+
+[warm] الجَدْيُ
+
+...
+
+[warm] وَصَغِيرُهَا
+
+...
+
+[warm] وَصَغِيرَتُهَا
+
+════════════ الدفعة 36 (31 مقطعًا) ════════════
+
+[sad] أَيْنَ أُمِّي؟
+
+...
+
+[curious] مَنْ صَاحِبُ هَذَا الصَّوْتِ؟
+
+...
+
+[calm] بِسْمِ اللَّهِ
+
+...
+
+[calm] الْحَمْدُ لِلَّهِ
+
+...
+
+[calm] بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا
+
+...
+
+[calm] الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ
+
+...
+
+[calm] بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ
+
+...
+
+[calm] اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ
+
+...
+
+[calm] غُفْرَانَكَ
+
+...
+
+[calm] الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ
+
+...
+
+[calm] يَرْحَمُكَ اللَّهُ
+
+...
+
+[calm] يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ
+
+...
+
+[calm] سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ
+
+...
+
+[calm] اللَّهُمَّ صَيِّبًا نَافِعًا
+
+...
+
+[calm] رَبِّ زِدْنِي عِلْمًا
+
+...
+
+[gentle] قَبْلَ الْأَكْلِ
+
+...
+
+[gentle] بَعْدَ الْأَكْلِ
+
+...
+
+[gentle] قَبْلَ النَّوْمِ
+
+...
+
+[gentle] عِنْدَ الِاسْتِيقَاظِ
+
+...
+
+[gentle] عِنْدَ الْخُرُوجِ مِنَ الْبَيْتِ
+
+...
+
+[gentle] عِنْدَ دُخُولِ الْبَيْتِ
+
+...
+
+[gentle] عِنْدَ دُخُولِ الْخَلَاءِ
+
+...
+
+[gentle] عِنْدَ الْخُرُوجِ مِنَ الْخَلَاءِ
+
+...
+
+[gentle] عِنْدَ لُبْسِ الثَّوْبِ
+
+...
+
+[gentle] إِذَا عَطَسْتُ
+
+...
+
+[gentle] إِذَا عَطَسَ أَخِي وَقَالَ: الْحَمْدُ لِلَّهِ
+
+...
+
+[gentle] إِذَا قَالَ لِي أَخِي: يَرْحَمُكَ اللَّهُ
+
+...
+
+[gentle] عِنْدَ رُكُوبِ السَّيَّارَةِ
+
+...
+
+[gentle] عِنْدَ نُزُولِ الْمَطَرِ
+
+...
+
+[gentle] قَبْلَ الْمُذَاكَرَةِ
+
+...
+
+[curious] مَاذَا نَقُولُ؟
+
+════════════ الدفعة 37 (35 مقطعًا) ════════════
+
+[curious] What is the opposite of
+
+...
+
+[cheerful] Match the opposites
+
+...
+
+[neutral] hot
+
+...
+
+[neutral] cold
+
+...
+
+[neutral] day
+
+...
+
+[neutral] night
+
+...
+
+[neutral] up
+
+...
+
+[neutral] down
+
+...
+
+[neutral] full
+
+...
+
+[neutral] empty
+
+...
+
+[neutral] fast
+
+...
+
+[neutral] slow
+
+...
+
+[neutral] happy
+
+...
+
+[neutral] sad
+
+...
+
+[neutral] open
+
+...
+
+[neutral] closed
+
+...
+
+[neutral] long
+
+...
+
+[neutral] short
+
+...
+
+[neutral] wet
+
+...
+
+[neutral] dry
+
+...
+
+[neutral] heavy
+
+...
+
+[neutral] light
+
+...
+
+[neutral] in
+
+...
+
+[neutral] out
+
+...
+
+[neutral] clean
+
+...
+
+[neutral] dirty
+
+...
+
+[neutral] many
+
+...
+
+[neutral] few
+
+...
+
+[neutral] near
+
+...
+
+[neutral] far
+
+...
+
+[neutral] fox
+
+...
+
+[neutral] ant
+
+...
+
+[neutral] bed
+
+...
+
+[neutral] cup
+
+...
+
+[neutral] box
+
+════════════ الدفعة 38 (35 مقطعًا) ════════════
+
+[neutral] hen
+
+...
+
+[neutral] van
+
+...
+
+[neutral] bat
+
+...
+
+[neutral] pen
+
+...
+
+[neutral] ear
+
+...
+
+[neutral] bear
+
+...
+
+[neutral] cake
+
+...
+
+[neutral] tree
+
+...
+
+[neutral] milk
+
+...
+
+[neutral] shoe
+
+...
+
+[neutral] sock
+
+...
+
+[neutral] bird
+
+...
+
+[neutral] rose
+
+...
+
+[neutral] hand
+
+...
+
+[neutral] door
+
+...
+
+[neutral] bell
+
+...
+
+[neutral] book
+
+...
+
+[warm] calf
+
+...
+
+[warm] lamb
+
+...
+
+[warm] chick
+
+...
+
+[warm] kitten
+
+...
+
+[warm] puppy
+
+...
+
+[warm] foal
+
+...
+
+[warm] cub
+
+...
+
+[warm] duckling
+
+...
+
+[warm] tadpole
+
+...
+
+[warm] caterpillar
+
+...
+
+[warm] bunny
+
+...
+
+[warm] kid
+
+...
+
+[neutral] and
+
+...
+
+[sad] Where is my mom?
+
+...
+
+[curious] Who makes this sound?
+
+...
+
+[calm] In the name of Allah
+
+...
+
+[calm] All praise is for Allah
+
+...
+
+[calm] In Your name, O Allah, I die and I live
+
+════════════ الدفعة 39 (26 مقطعًا) ════════════
+
+[calm] Praise be to Allah who gave us life after He took it, and to Him is the return
+
+...
+
+[calm] In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah
+
+...
+
+[calm] O Allah, I seek refuge in You from all evil and evil ones
+
+...
+
+[calm] I ask for Your forgiveness
+
+...
+
+[calm] Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me
+
+...
+
+[calm] May Allah have mercy on you
+
+...
+
+[calm] May Allah guide you and set your affairs right
+
+...
+
+[calm] Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return
+
+...
+
+[calm] O Allah, make it a helpful rain
+
+...
+
+[calm] My Lord, increase me in knowledge
+
+...
+
+[gentle] Before eating
+
+...
+
+[gentle] After eating
+
+...
+
+[gentle] Before sleeping
+
+...
+
+[gentle] When waking up
+
+...
+
+[gentle] Leaving home
+
+...
+
+[gentle] Entering home
+
+...
+
+[gentle] Entering the bathroom
+
+...
+
+[gentle] Leaving the bathroom
+
+...
+
+[gentle] Getting dressed
+
+...
+
+[gentle] When I sneeze
+
+...
+
+[gentle] When my brother sneezes and says Alhamdulillah
+
+...
+
+[gentle] When my brother says: Yarhamukallah
+
+...
+
+[gentle] Riding in a car
+
+...
+
+[gentle] When it rains
+
+...
+
+[gentle] Before studying
+
+...
+
+[curious] What do we say?
+

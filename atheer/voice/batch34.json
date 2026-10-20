@@ -1,0 +1,352 @@
+[
+ {
+  "id": "wordtrain_w_mouth",
+  "text": "فَم",
+  "plain": "فم",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_cat_qit",
+  "text": "قِطّ",
+  "plain": "قط",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_rice",
+  "text": "رُزّ",
+  "plain": "رز",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_grandpa",
+  "text": "جَدّ",
+  "plain": "جد",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_tooth",
+  "text": "سِنّ",
+  "plain": "سن",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_mom",
+  "text": "أُمّ",
+  "plain": "أم",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_dad",
+  "text": "أَب",
+  "plain": "أب",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_ta_marbuta",
+  "text": "تاءٌ مَرْبوطَة",
+  "plain": "تاء مربوطة",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_what_opposite",
+  "text": "ما عَكْسُ",
+  "plain": "ما عكس",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "curious",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_match_ar",
+  "text": "طابِقِ الأَضْداد",
+  "plain": "طابق الأضداد",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "cheerful",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_hot",
+  "text": "حارّ",
+  "plain": "حار",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_cold",
+  "text": "بارِد",
+  "plain": "بارد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_day",
+  "text": "نَهار",
+  "plain": "نهار",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_night",
+  "text": "لَيْل",
+  "plain": "ليل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_up",
+  "text": "فَوْق",
+  "plain": "فوق",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_down",
+  "text": "تَحْت",
+  "plain": "تحت",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_full",
+  "text": "مُمْتَلِئ",
+  "plain": "ممتلئ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_empty",
+  "text": "فارِغ",
+  "plain": "فارغ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_fast",
+  "text": "سَريع",
+  "plain": "سريع",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_slow",
+  "text": "بَطيء",
+  "plain": "بطيء",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_happy",
+  "text": "سَعيد",
+  "plain": "سعيد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_sad",
+  "text": "حَزين",
+  "plain": "حزين",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_open",
+  "text": "مَفْتوح",
+  "plain": "مفتوح",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_closed",
+  "text": "مُغْلَق",
+  "plain": "مغلق",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_long",
+  "text": "طَويل",
+  "plain": "طويل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_short",
+  "text": "قَصير",
+  "plain": "قصير",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_wet",
+  "text": "مُبَلَّل",
+  "plain": "مبلل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_dry",
+  "text": "جافّ",
+  "plain": "جاف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_heavy",
+  "text": "ثَقيل",
+  "plain": "ثقيل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_light",
+  "text": "خَفيف",
+  "plain": "خفيف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_in",
+  "text": "داخِل",
+  "plain": "داخل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_out",
+  "text": "خارِج",
+  "plain": "خارج",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_clean",
+  "text": "نَظيف",
+  "plain": "نظيف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_dirty",
+  "text": "مُتَّسِخ",
+  "plain": "متسخ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_many",
+  "text": "كَثير",
+  "plain": "كثير",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ }
+]

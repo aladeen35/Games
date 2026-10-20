@@ -82,7 +82,7 @@
   function rr(c, x, y, w, h, r) { c.beginPath(); c.roundRect(x, y, w, h, r); }
   function grad(c, x0, y0, x1, y1, stops) { const g = c.createLinearGradient(x0, y0, x1, y1); stops.forEach((s, i) => g.addColorStop(i / (stops.length - 1), s)); return g; }
   function rgrad(c, x, y, r, stops) { const g = c.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r * 1.05); stops.forEach((s, i) => g.addColorStop(i / (stops.length - 1), s)); return g; }
-  function emo(c, e, x, y, s, rot) { c.save(); c.translate(x, y); if (rot) c.rotate(rot); c.font = `${s}px ${EMOJI_FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, 0, 0); c.restore(); }
+  function emo(c, e, x, y, s, rot) { c.save(); c.translate(x, y); if (rot) c.rotate(rot); c.font = `${s}px ${EMOJI_FONT}`; c.fillStyle = '#000'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, 0, 0); c.restore(); }
   function shadow(c, x, y, rx, ry, a = .18) { c.fillStyle = `rgba(40,30,60,${a})`; c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, TAU); c.fill(); }
 
   /* ألوان الطفلين: البطل حسب ثيم اللاعب، والصديق بالألوان الأخرى */
@@ -543,6 +543,7 @@
     #duas .main{flex-direction:row;justify-content:center;align-items:center;gap:26px;padding-top:6px}
     #duas .stage{width:min(46vw,calc((100vh - 150px) * 1.33),560px)}
     #duas .side{width:min(42vw,480px)}
+    #duas .main>*{margin-top:auto!important;margin-bottom:auto!important}
   }
   `);
   const root = App.section(ID, `
@@ -659,7 +660,7 @@
     const lastOne = li >= list.length - 1;
     goBtn.textContent = mode === 'intro' ? (lastOne ? 'هيا نختبر! ◀' : 'التالي ◀') : (lastOne ? 'إغلاق ✓' : 'التالي ◀');
     goBtn.classList.remove('glow');
-    cntEl.textContent = `${num(li + 1)} / ${num(list.length)}`;
+    cntEl.textContent = `${num(li + 1)} / ${num(list.length)}`; cntEl.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
     if (mode === 'book') { const seen = store.get('duasSeen', []); if (!seen.includes(d.id)) { seen.push(d.id); store.set('duasSeen', seen); if (seen.length >= DUAS.length) App.achieve('duas_learn'); } }
     sayCap(d);
     later(lang === 'ar' ? 1.5 : 1.6, () => readDua(d, () => goBtn.classList.add('glow')));
@@ -859,7 +860,7 @@
     c.fillStyle = '#FFE08A'; c.beginPath(); c.arc(s * .74, s * .26, s * .12, 0, TAU); c.fill();
     c.fillStyle = '#3C4BA8'; c.beginPath(); c.arc(s * .79, s * .22, s * .11, 0, TAU); c.fill();
     c.fillStyle = 'rgba(255,255,255,.12)'; c.beginPath(); c.ellipse(s * .5, s * 1.05, s * .7, s * .4, 0, 0, TAU); c.fill();
-    c.save(); c.translate(s * .5, s * .98); kid(c, 0, 0, s * .13, { T: 0, hL: [-.75, -1.9], hR: [.75, -1.9], eyes: 'happy', mouth: 'smile' }); c.restore();
+    c.save(); c.translate(s * .5, s * .98); kid(c, 0, 0, s * .13, { T: 0, hL: [-.5, -1.25], hR: [.5, -1.25], eyes: 'happy', mouth: 'smile' }); c.restore();
     c.save(); c.shadowColor = 'rgba(255,220,120,.8)'; c.shadowBlur = 12;
     emo(c, '✨', s * .22, s * .3, s * .14); c.restore();
   }

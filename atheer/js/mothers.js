@@ -849,7 +849,7 @@
     ctx.shadowColor = 'transparent';
     ball(ctx, 0, 0, r, '#FFF2A8', '#FFC93C', '#F2A90F');
     ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, r - 2, 0, TAU); ctx.stroke();
-    ctx.font = `${r * 1.05}px ${EMOJI_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🔊', 0, r * .05);
+    ctx.font = `${r * 1.05}px ${EMOJI_FONT}`; ctx.fillStyle = '#000'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🔊', 0, r * .05);
     ctx.restore();
   }
   function drawHand() {
@@ -858,7 +858,7 @@
     const t = (T * .55) % 1, e = ease.inOut(clamp(t * 1.4, 0, 1));
     const x = lerp(baby.x, r.x, e), y = lerp(baby.y - BS * .3, r.y - r.s * .4, e);
     ctx.save(); ctx.globalAlpha = t > .85 ? (1 - t) / .15 : 1;
-    ctx.font = `${BS * .6}px ${EMOJI_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText('👆', x + 6, y); ctx.restore();
+    ctx.font = `${BS * .6}px ${EMOJI_FONT}`; ctx.fillStyle = '#000'; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText('👆', x + 6, y); ctx.restore();
   }
   function render() {
     ctx.save();
@@ -925,7 +925,7 @@
     c.fillStyle = g; c.fillRect(0, 0, s, s);
     c.fillStyle = '#8FD86A'; c.beginPath(); c.ellipse(s * .2, s * .58, s * .45, s * .12, 0, 0, TAU); c.ellipse(s * .85, s * .6, s * .4, s * .1, 0, 0, TAU); c.fill();
     c.fillStyle = 'rgba(30,60,10,.25)'; c.beginPath(); c.ellipse(s * .5, s * .86, s * .38, s * .07, 0, 0, TAU); c.fill();
-    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000';
     c.save(); c.shadowColor = 'rgba(0,0,0,.25)'; c.shadowBlur = 6; c.shadowOffsetY = 3;
     c.font = `${s * .5}px ${EMOJI_FONT}`; c.fillText('🐄', s * .58, s * .62);
     c.font = `${s * .3}px ${EMOJI_FONT}`; c.fillText('🐮', s * .26, s * .74);

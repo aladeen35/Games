@@ -1,0 +1,35 @@
+1. wordtrain_w_mouth — فَم
+2. wordtrain_w_cat_qit — قِطّ
+3. wordtrain_w_rice — رُزّ
+4. wordtrain_w_grandpa — جَدّ
+5. wordtrain_w_tooth — سِنّ
+6. wordtrain_w_mom — أُمّ
+7. wordtrain_w_dad — أَب
+8. wordtrain_ta_marbuta — تاءٌ مَرْبوطَة
+9. opposites_what_opposite — ما عَكْسُ
+10. opposites_match_ar — طابِقِ الأَضْداد
+11. opposites_hot — حارّ
+12. opposites_cold — بارِد
+13. opposites_day — نَهار
+14. opposites_night — لَيْل
+15. opposites_up — فَوْق
+16. opposites_down — تَحْت
+17. opposites_full — مُمْتَلِئ
+18. opposites_empty — فارِغ
+19. opposites_fast — سَريع
+20. opposites_slow — بَطيء
+21. opposites_happy — سَعيد
+22. opposites_sad — حَزين
+23. opposites_open — مَفْتوح
+24. opposites_closed — مُغْلَق
+25. opposites_long — طَويل
+26. opposites_short — قَصير
+27. opposites_wet — مُبَلَّل
+28. opposites_dry — جافّ
+29. opposites_heavy — ثَقيل
+30. opposites_light — خَفيف
+31. opposites_in — داخِل
+32. opposites_out — خارِج
+33. opposites_clean — نَظيف
+34. opposites_dirty — مُتَّسِخ
+35. opposites_many — كَثير

@@ -1,0 +1,137 @@
+[neutral] فَم
+
+...
+
+[neutral] قِطّ
+
+...
+
+[neutral] رُزّ
+
+...
+
+[warm] جَدّ
+
+...
+
+[neutral] سِنّ
+
+...
+
+[warm] أُمّ
+
+...
+
+[warm] أَب
+
+...
+
+[neutral] تاءٌ مَرْبوطَة
+
+...
+
+[curious] ما عَكْسُ
+
+...
+
+[cheerful] طابِقِ الأَضْداد
+
+...
+
+[neutral] حارّ
+
+...
+
+[neutral] بارِد
+
+...
+
+[neutral] نَهار
+
+...
+
+[neutral] لَيْل
+
+...
+
+[neutral] فَوْق
+
+...
+
+[neutral] تَحْت
+
+...
+
+[neutral] مُمْتَلِئ
+
+...
+
+[neutral] فارِغ
+
+...
+
+[neutral] سَريع
+
+...
+
+[neutral] بَطيء
+
+...
+
+[neutral] سَعيد
+
+...
+
+[neutral] حَزين
+
+...
+
+[neutral] مَفْتوح
+
+...
+
+[neutral] مُغْلَق
+
+...
+
+[neutral] طَويل
+
+...
+
+[neutral] قَصير
+
+...
+
+[neutral] مُبَلَّل
+
+...
+
+[neutral] جافّ
+
+...
+
+[neutral] ثَقيل
+
+...
+
+[neutral] خَفيف
+
+...
+
+[neutral] داخِل
+
+...
+
+[neutral] خارِج
+
+...
+
+[neutral] نَظيف
+
+...
+
+[neutral] مُتَّسِخ
+
+...
+
+[neutral] كَثير

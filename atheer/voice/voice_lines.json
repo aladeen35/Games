@@ -10218,5 +10218,1975 @@
   "emotion": "calm",
   "batch": 33,
   "note": ""
+ },
+ {
+  "id": "wordtrain_w_mouth",
+  "text": "فَم",
+  "plain": "فم",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_cat_qit",
+  "text": "قِطّ",
+  "plain": "قط",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_rice",
+  "text": "رُزّ",
+  "plain": "رز",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_grandpa",
+  "text": "جَدّ",
+  "plain": "جد",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_tooth",
+  "text": "سِنّ",
+  "plain": "سن",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_mom",
+  "text": "أُمّ",
+  "plain": "أم",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_w_dad",
+  "text": "أَب",
+  "plain": "أب",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "warm",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "wordtrain_ta_marbuta",
+  "text": "تاءٌ مَرْبوطَة",
+  "plain": "تاء مربوطة",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_what_opposite",
+  "text": "ما عَكْسُ",
+  "plain": "ما عكس",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "curious",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_match_ar",
+  "text": "طابِقِ الأَضْداد",
+  "plain": "طابق الأضداد",
+  "lang": "ar",
+  "game": "wordtrain,opposites",
+  "emotion": "cheerful",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_hot",
+  "text": "حارّ",
+  "plain": "حار",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_cold",
+  "text": "بارِد",
+  "plain": "بارد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_day",
+  "text": "نَهار",
+  "plain": "نهار",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_night",
+  "text": "لَيْل",
+  "plain": "ليل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_up",
+  "text": "فَوْق",
+  "plain": "فوق",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_down",
+  "text": "تَحْت",
+  "plain": "تحت",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_full",
+  "text": "مُمْتَلِئ",
+  "plain": "ممتلئ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_empty",
+  "text": "فارِغ",
+  "plain": "فارغ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_fast",
+  "text": "سَريع",
+  "plain": "سريع",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_slow",
+  "text": "بَطيء",
+  "plain": "بطيء",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_happy",
+  "text": "سَعيد",
+  "plain": "سعيد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_sad",
+  "text": "حَزين",
+  "plain": "حزين",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_open",
+  "text": "مَفْتوح",
+  "plain": "مفتوح",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_closed",
+  "text": "مُغْلَق",
+  "plain": "مغلق",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_long",
+  "text": "طَويل",
+  "plain": "طويل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_short",
+  "text": "قَصير",
+  "plain": "قصير",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_wet",
+  "text": "مُبَلَّل",
+  "plain": "مبلل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_dry",
+  "text": "جافّ",
+  "plain": "جاف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_heavy",
+  "text": "ثَقيل",
+  "plain": "ثقيل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_light",
+  "text": "خَفيف",
+  "plain": "خفيف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_in",
+  "text": "داخِل",
+  "plain": "داخل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_out",
+  "text": "خارِج",
+  "plain": "خارج",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_clean",
+  "text": "نَظيف",
+  "plain": "نظيف",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_dirty",
+  "text": "مُتَّسِخ",
+  "plain": "متسخ",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_many",
+  "text": "كَثير",
+  "plain": "كثير",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 34,
+  "note": ""
+ },
+ {
+  "id": "opposites_few",
+  "text": "قَليل",
+  "plain": "قليل",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "opposites_near",
+  "text": "قَريب",
+  "plain": "قريب",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "opposites_far",
+  "text": "بَعيد",
+  "plain": "بعيد",
+  "lang": "ar",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cow",
+  "text": "البَقَرَةُ",
+  "plain": "البقرة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_calf",
+  "text": "العِجْلُ",
+  "plain": "العجل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_ewe",
+  "text": "النَّعْجَةُ",
+  "plain": "النعجة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_lamb",
+  "text": "الحَمَلُ",
+  "plain": "الحمل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_hen",
+  "text": "الدَّجَاجَةُ",
+  "plain": "الدجاجة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_chick",
+  "text": "الكَتْكُوتُ",
+  "plain": "الكتكوت",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cat",
+  "text": "القِطَّةُ",
+  "plain": "القطة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_kitten",
+  "text": "الهُرَيْرَةُ",
+  "plain": "الهريرة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_dog",
+  "text": "الكَلْبَةُ",
+  "plain": "الكلبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_puppy",
+  "text": "الجَرْوُ",
+  "plain": "الجرو",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_mare",
+  "text": "الفَرَسُ",
+  "plain": "الفرس",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_foal",
+  "text": "المُهْرُ",
+  "plain": "المهر",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_camel",
+  "text": "النَّاقَةُ",
+  "plain": "الناقة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_camel_calf",
+  "text": "الحُوَارُ",
+  "plain": "الحوار",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_lioness",
+  "text": "اللَّبُؤَةُ",
+  "plain": "اللبؤة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_cub",
+  "text": "الشِّبْلُ",
+  "plain": "الشبل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_duck",
+  "text": "البَطَّةُ",
+  "plain": "البطة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_duckling",
+  "text": "الفَرْخُ",
+  "plain": "الفرخ",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_frog",
+  "text": "الضِّفْدَعَةُ",
+  "plain": "الضفدعة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_tadpole",
+  "text": "الشُّرْغُوفُ",
+  "plain": "الشرغوف",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_butterfly",
+  "text": "الفَرَاشَةُ",
+  "plain": "الفراشة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_caterpillar",
+  "text": "اليَرَقَةُ",
+  "plain": "اليرقة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bear",
+  "text": "الدُّبَّةُ",
+  "plain": "الدبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bear_cub",
+  "text": "الدَّيْسَمُ",
+  "plain": "الديسم",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_elephant",
+  "text": "الفِيلَةُ",
+  "plain": "الفيلة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_elephant_calf",
+  "text": "الدَّغْفَلُ",
+  "plain": "الدغفل",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_rabbit",
+  "text": "الأَرْنَبَةُ",
+  "plain": "الأرنبة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_bunny",
+  "text": "الخِرْنِقُ",
+  "plain": "الخرنق",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_goat",
+  "text": "العَنْزَةُ",
+  "plain": "العنزة",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_goat_kid",
+  "text": "الجَدْيُ",
+  "plain": "الجدي",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_and_her_young_m",
+  "text": "وَصَغِيرُهَا",
+  "plain": "وصغيرها",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_and_her_young_f",
+  "text": "وَصَغِيرَتُهَا",
+  "plain": "وصغيرتها",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "warm",
+  "batch": 35,
+  "note": ""
+ },
+ {
+  "id": "mothers_where_mom",
+  "text": "أَيْنَ أُمِّي؟",
+  "plain": "أين أمي؟",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "sad",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "mothers_who_sound",
+  "text": "مَنْ صَاحِبُ هَذَا الصَّوْتِ؟",
+  "plain": "من صاحب هذا الصوت؟",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "curious",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_bismillah",
+  "text": "بِسْمِ اللَّهِ",
+  "plain": "بسم الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_alhamdulillah",
+  "text": "الْحَمْدُ لِلَّهِ",
+  "plain": "الحمد لله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_sleep",
+  "text": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+  "plain": "باسمك اللهم أموت وأحيا",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wake",
+  "text": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+  "plain": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_leave_home",
+  "text": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+  "plain": "بسم الله توكلت على الله ولا حول ولا قوة إلا بالله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wc_enter",
+  "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+  "plain": "اللهم إني أعوذ بك من الخبث والخبائث",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wc_leave",
+  "text": "غُفْرَانَكَ",
+  "plain": "غفرانك",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_dress",
+  "text": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+  "plain": "الحمد لله الذي كساني هذا ورزقنيه من غير حول مني ولا قوة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_yarhamuk",
+  "text": "يَرْحَمُكَ اللَّهُ",
+  "plain": "يرحمك الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_yahdikum",
+  "text": "يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ",
+  "plain": "يهديكم الله ويصلح بالكم",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_ride",
+  "text": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+  "plain": "سبحان الذي سخر لنا هذا وما كنا له مقرنين وإنا إلى ربنا لمنقلبون",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_rain",
+  "text": "اللَّهُمَّ صَيِّبًا نَافِعًا",
+  "plain": "اللهم صيبا نافعا",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_study",
+  "text": "رَبِّ زِدْنِي عِلْمًا",
+  "plain": "رب زدني علما",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_before_eat",
+  "text": "قَبْلَ الْأَكْلِ",
+  "plain": "قبل الأكل",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_after_eat",
+  "text": "بَعْدَ الْأَكْلِ",
+  "plain": "بعد الأكل",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_before_sleep",
+  "text": "قَبْلَ النَّوْمِ",
+  "plain": "قبل النوم",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wake",
+  "text": "عِنْدَ الِاسْتِيقَاظِ",
+  "plain": "عند الاستيقاظ",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_leave_home",
+  "text": "عِنْدَ الْخُرُوجِ مِنَ الْبَيْتِ",
+  "plain": "عند الخروج من البيت",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_enter_home",
+  "text": "عِنْدَ دُخُولِ الْبَيْتِ",
+  "plain": "عند دخول البيت",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wc_enter",
+  "text": "عِنْدَ دُخُولِ الْخَلَاءِ",
+  "plain": "عند دخول الخلاء",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wc_leave",
+  "text": "عِنْدَ الْخُرُوجِ مِنَ الْخَلَاءِ",
+  "plain": "عند الخروج من الخلاء",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_dress",
+  "text": "عِنْدَ لُبْسِ الثَّوْبِ",
+  "plain": "عند لبس الثوب",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_sneeze",
+  "text": "إِذَا عَطَسْتُ",
+  "plain": "إذا عطستُ",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_hear",
+  "text": "إِذَا عَطَسَ أَخِي وَقَالَ: الْحَمْدُ لِلَّهِ",
+  "plain": "إذا عطس أخي وقال: الحمد لله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_reply",
+  "text": "إِذَا قَالَ لِي أَخِي: يَرْحَمُكَ اللَّهُ",
+  "plain": "إذا قال لي أخي: يرحمك الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_car",
+  "text": "عِنْدَ رُكُوبِ السَّيَّارَةِ",
+  "plain": "عند ركوب السيارة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_rain",
+  "text": "عِنْدَ نُزُولِ الْمَطَرِ",
+  "plain": "عند نزول المطر",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_study",
+  "text": "قَبْلَ الْمُذَاكَرَةِ",
+  "plain": "قبل المذاكرة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_what_say",
+  "text": "مَاذَا نَقُولُ؟",
+  "plain": "ماذا نقول؟",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "curious",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "opposites_en_what_opposite",
+  "text": "What is the opposite of",
+  "plain": "What is the opposite of",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "curious",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "opposites_en_match",
+  "text": "Match the opposites",
+  "plain": "Match the opposites",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "cheerful",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_hot",
+  "text": "hot",
+  "plain": "hot",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_cold",
+  "text": "cold",
+  "plain": "cold",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_day",
+  "text": "day",
+  "plain": "day",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_night",
+  "text": "night",
+  "plain": "night",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_up",
+  "text": "up",
+  "plain": "up",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_down",
+  "text": "down",
+  "plain": "down",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_full",
+  "text": "full",
+  "plain": "full",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_empty",
+  "text": "empty",
+  "plain": "empty",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_fast",
+  "text": "fast",
+  "plain": "fast",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_slow",
+  "text": "slow",
+  "plain": "slow",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_happy",
+  "text": "happy",
+  "plain": "happy",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_sad",
+  "text": "sad",
+  "plain": "sad",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_open",
+  "text": "open",
+  "plain": "open",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_closed",
+  "text": "closed",
+  "plain": "closed",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_long",
+  "text": "long",
+  "plain": "long",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_short",
+  "text": "short",
+  "plain": "short",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_wet",
+  "text": "wet",
+  "plain": "wet",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_dry",
+  "text": "dry",
+  "plain": "dry",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_heavy",
+  "text": "heavy",
+  "plain": "heavy",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_light",
+  "text": "light",
+  "plain": "light",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_in",
+  "text": "in",
+  "plain": "in",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_out",
+  "text": "out",
+  "plain": "out",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_clean",
+  "text": "clean",
+  "plain": "clean",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_dirty",
+  "text": "dirty",
+  "plain": "dirty",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_many",
+  "text": "many",
+  "plain": "many",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_few",
+  "text": "few",
+  "plain": "few",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_near",
+  "text": "near",
+  "plain": "near",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_far",
+  "text": "far",
+  "plain": "far",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_fox",
+  "text": "fox",
+  "plain": "fox",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_ant",
+  "text": "ant",
+  "plain": "ant",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_bed",
+  "text": "bed",
+  "plain": "bed",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_cup",
+  "text": "cup",
+  "plain": "cup",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_box",
+  "text": "box",
+  "plain": "box",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_hen",
+  "text": "hen",
+  "plain": "hen",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_van",
+  "text": "van",
+  "plain": "van",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bat",
+  "text": "bat",
+  "plain": "bat",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_pen",
+  "text": "pen",
+  "plain": "pen",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_ear",
+  "text": "ear",
+  "plain": "ear",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bear",
+  "text": "bear",
+  "plain": "bear",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_cake",
+  "text": "cake",
+  "plain": "cake",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_tree",
+  "text": "tree",
+  "plain": "tree",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_milk",
+  "text": "milk",
+  "plain": "milk",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_shoe",
+  "text": "shoe",
+  "plain": "shoe",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_sock",
+  "text": "sock",
+  "plain": "sock",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bird",
+  "text": "bird",
+  "plain": "bird",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_rose",
+  "text": "rose",
+  "plain": "rose",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_hand",
+  "text": "hand",
+  "plain": "hand",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_door",
+  "text": "door",
+  "plain": "door",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bell",
+  "text": "bell",
+  "plain": "bell",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_book",
+  "text": "book",
+  "plain": "book",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_calf",
+  "text": "calf",
+  "plain": "calf",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_lamb",
+  "text": "lamb",
+  "plain": "lamb",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_chick",
+  "text": "chick",
+  "plain": "chick",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_kitten",
+  "text": "kitten",
+  "plain": "kitten",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_puppy",
+  "text": "puppy",
+  "plain": "puppy",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_foal",
+  "text": "foal",
+  "plain": "foal",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_cub",
+  "text": "cub",
+  "plain": "cub",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_duckling",
+  "text": "duckling",
+  "plain": "duckling",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_tadpole",
+  "text": "tadpole",
+  "plain": "tadpole",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_caterpillar",
+  "text": "caterpillar",
+  "plain": "caterpillar",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_bunny",
+  "text": "bunny",
+  "plain": "bunny",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_word_kid",
+  "text": "kid",
+  "plain": "kid",
+  "lang": "en",
+  "game": "en",
+  "emotion": "warm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "en_and",
+  "text": "and",
+  "plain": "and",
+  "lang": "en",
+  "game": "en",
+  "emotion": "neutral",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "mothers_en_where_mom",
+  "text": "Where is my mom?",
+  "plain": "Where is my mom?",
+  "lang": "en",
+  "game": "mothers",
+  "emotion": "sad",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "mothers_en_who_sound",
+  "text": "Who makes this sound?",
+  "plain": "Who makes this sound?",
+  "lang": "en",
+  "game": "mothers",
+  "emotion": "curious",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_bismillah",
+  "text": "In the name of Allah",
+  "plain": "In the name of Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_hamd",
+  "text": "All praise is for Allah",
+  "plain": "All praise is for Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_sleep",
+  "text": "In Your name, O Allah, I die and I live",
+  "plain": "In Your name, O Allah, I die and I live",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 38,
+  "note": ""
+ },
+ {
+  "id": "duas_en_wake",
+  "text": "Praise be to Allah who gave us life after He took it, and to Him is the return",
+  "plain": "Praise be to Allah who gave us life after He took it, and to Him is the return",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_leave_home",
+  "text": "In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah",
+  "plain": "In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_wc_enter",
+  "text": "O Allah, I seek refuge in You from all evil and evil ones",
+  "plain": "O Allah, I seek refuge in You from all evil and evil ones",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_wc_leave",
+  "text": "I ask for Your forgiveness",
+  "plain": "I ask for Your forgiveness",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_dress",
+  "text": "Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me",
+  "plain": "Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_yarhamuk",
+  "text": "May Allah have mercy on you",
+  "plain": "May Allah have mercy on you",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_yahdikum",
+  "text": "May Allah guide you and set your affairs right",
+  "plain": "May Allah guide you and set your affairs right",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_ride",
+  "text": "Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return",
+  "plain": "Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_rain",
+  "text": "O Allah, make it a helpful rain",
+  "plain": "O Allah, make it a helpful rain",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_study",
+  "text": "My Lord, increase me in knowledge",
+  "plain": "My Lord, increase me in knowledge",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_before_eat",
+  "text": "Before eating",
+  "plain": "Before eating",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_after_eat",
+  "text": "After eating",
+  "plain": "After eating",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_before_sleep",
+  "text": "Before sleeping",
+  "plain": "Before sleeping",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wake",
+  "text": "When waking up",
+  "plain": "When waking up",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_leave_home",
+  "text": "Leaving home",
+  "plain": "Leaving home",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_enter_home",
+  "text": "Entering home",
+  "plain": "Entering home",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wc_enter",
+  "text": "Entering the bathroom",
+  "plain": "Entering the bathroom",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wc_leave",
+  "text": "Leaving the bathroom",
+  "plain": "Leaving the bathroom",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_dress",
+  "text": "Getting dressed",
+  "plain": "Getting dressed",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_sneeze",
+  "text": "When I sneeze",
+  "plain": "When I sneeze",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_hear",
+  "text": "When my brother sneezes and says Alhamdulillah",
+  "plain": "When my brother sneezes and says Alhamdulillah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_reply",
+  "text": "When my brother says: Yarhamukallah",
+  "plain": "When my brother says: Yarhamukallah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_car",
+  "text": "Riding in a car",
+  "plain": "Riding in a car",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_rain",
+  "text": "When it rains",
+  "plain": "When it rains",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_study",
+  "text": "Before studying",
+  "plain": "Before studying",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_what_say",
+  "text": "What do we say?",
+  "plain": "What do we say?",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "curious",
+  "batch": 39,
+  "note": ""
  }
 ]

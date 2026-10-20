@@ -1,0 +1,352 @@
+[
+ {
+  "id": "opposites_en_what_opposite",
+  "text": "What is the opposite of",
+  "plain": "What is the opposite of",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "curious",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "opposites_en_match",
+  "text": "Match the opposites",
+  "plain": "Match the opposites",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "cheerful",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_hot",
+  "text": "hot",
+  "plain": "hot",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_cold",
+  "text": "cold",
+  "plain": "cold",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_day",
+  "text": "day",
+  "plain": "day",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_night",
+  "text": "night",
+  "plain": "night",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_up",
+  "text": "up",
+  "plain": "up",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_down",
+  "text": "down",
+  "plain": "down",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_full",
+  "text": "full",
+  "plain": "full",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_empty",
+  "text": "empty",
+  "plain": "empty",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_fast",
+  "text": "fast",
+  "plain": "fast",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_slow",
+  "text": "slow",
+  "plain": "slow",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_happy",
+  "text": "happy",
+  "plain": "happy",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_sad",
+  "text": "sad",
+  "plain": "sad",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_open",
+  "text": "open",
+  "plain": "open",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_closed",
+  "text": "closed",
+  "plain": "closed",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_long",
+  "text": "long",
+  "plain": "long",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_short",
+  "text": "short",
+  "plain": "short",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_wet",
+  "text": "wet",
+  "plain": "wet",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_dry",
+  "text": "dry",
+  "plain": "dry",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_heavy",
+  "text": "heavy",
+  "plain": "heavy",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_light",
+  "text": "light",
+  "plain": "light",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_in",
+  "text": "in",
+  "plain": "in",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_out",
+  "text": "out",
+  "plain": "out",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_clean",
+  "text": "clean",
+  "plain": "clean",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_dirty",
+  "text": "dirty",
+  "plain": "dirty",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_many",
+  "text": "many",
+  "plain": "many",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_few",
+  "text": "few",
+  "plain": "few",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_near",
+  "text": "near",
+  "plain": "near",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_far",
+  "text": "far",
+  "plain": "far",
+  "lang": "en",
+  "game": "opposites",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_fox",
+  "text": "fox",
+  "plain": "fox",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_ant",
+  "text": "ant",
+  "plain": "ant",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_bed",
+  "text": "bed",
+  "plain": "bed",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_cup",
+  "text": "cup",
+  "plain": "cup",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ },
+ {
+  "id": "en_word_box",
+  "text": "box",
+  "plain": "box",
+  "lang": "en",
+  "game": "wordtrain",
+  "emotion": "neutral",
+  "batch": 37,
+  "note": ""
+ }
+]

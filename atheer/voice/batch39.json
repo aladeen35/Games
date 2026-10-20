@@ -1,0 +1,262 @@
+[
+ {
+  "id": "duas_en_wake",
+  "text": "Praise be to Allah who gave us life after He took it, and to Him is the return",
+  "plain": "Praise be to Allah who gave us life after He took it, and to Him is the return",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_leave_home",
+  "text": "In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah",
+  "plain": "In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_wc_enter",
+  "text": "O Allah, I seek refuge in You from all evil and evil ones",
+  "plain": "O Allah, I seek refuge in You from all evil and evil ones",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_wc_leave",
+  "text": "I ask for Your forgiveness",
+  "plain": "I ask for Your forgiveness",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_dress",
+  "text": "Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me",
+  "plain": "Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_yarhamuk",
+  "text": "May Allah have mercy on you",
+  "plain": "May Allah have mercy on you",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_yahdikum",
+  "text": "May Allah guide you and set your affairs right",
+  "plain": "May Allah guide you and set your affairs right",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_ride",
+  "text": "Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return",
+  "plain": "Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_rain",
+  "text": "O Allah, make it a helpful rain",
+  "plain": "O Allah, make it a helpful rain",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_study",
+  "text": "My Lord, increase me in knowledge",
+  "plain": "My Lord, increase me in knowledge",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_before_eat",
+  "text": "Before eating",
+  "plain": "Before eating",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_after_eat",
+  "text": "After eating",
+  "plain": "After eating",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_before_sleep",
+  "text": "Before sleeping",
+  "plain": "Before sleeping",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wake",
+  "text": "When waking up",
+  "plain": "When waking up",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_leave_home",
+  "text": "Leaving home",
+  "plain": "Leaving home",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_enter_home",
+  "text": "Entering home",
+  "plain": "Entering home",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wc_enter",
+  "text": "Entering the bathroom",
+  "plain": "Entering the bathroom",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_wc_leave",
+  "text": "Leaving the bathroom",
+  "plain": "Leaving the bathroom",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_dress",
+  "text": "Getting dressed",
+  "plain": "Getting dressed",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_sneeze",
+  "text": "When I sneeze",
+  "plain": "When I sneeze",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_hear",
+  "text": "When my brother sneezes and says Alhamdulillah",
+  "plain": "When my brother sneezes and says Alhamdulillah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_reply",
+  "text": "When my brother says: Yarhamukallah",
+  "plain": "When my brother says: Yarhamukallah",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_car",
+  "text": "Riding in a car",
+  "plain": "Riding in a car",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_rain",
+  "text": "When it rains",
+  "plain": "When it rains",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_cap_study",
+  "text": "Before studying",
+  "plain": "Before studying",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 39,
+  "note": ""
+ },
+ {
+  "id": "duas_en_what_say",
+  "text": "What do we say?",
+  "plain": "What do we say?",
+  "lang": "en",
+  "game": "duas",
+  "emotion": "curious",
+  "batch": 39,
+  "note": ""
+ }
+]

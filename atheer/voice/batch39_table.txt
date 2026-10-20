@@ -1,0 +1,26 @@
+1. duas_en_wake — Praise be to Allah who gave us life after He took it, and to Him is the return
+2. duas_en_leave_home — In the name of Allah, I trust in Allah, and there is no power and no strength except with Allah
+3. duas_en_wc_enter — O Allah, I seek refuge in You from all evil and evil ones
+4. duas_en_wc_leave — I ask for Your forgiveness
+5. duas_en_dress — Praise be to Allah who clothed me with this and gave it to me, without any power or strength from me
+6. duas_en_yarhamuk — May Allah have mercy on you
+7. duas_en_yahdikum — May Allah guide you and set your affairs right
+8. duas_en_ride — Glory be to Him who made this serve us, we could not have done it ourselves, and to our Lord we will return
+9. duas_en_rain — O Allah, make it a helpful rain
+10. duas_en_study — My Lord, increase me in knowledge
+11. duas_en_cap_before_eat — Before eating
+12. duas_en_cap_after_eat — After eating
+13. duas_en_cap_before_sleep — Before sleeping
+14. duas_en_cap_wake — When waking up
+15. duas_en_cap_leave_home — Leaving home
+16. duas_en_cap_enter_home — Entering home
+17. duas_en_cap_wc_enter — Entering the bathroom
+18. duas_en_cap_wc_leave — Leaving the bathroom
+19. duas_en_cap_dress — Getting dressed
+20. duas_en_cap_sneeze — When I sneeze
+21. duas_en_cap_hear — When my brother sneezes and says Alhamdulillah
+22. duas_en_cap_reply — When my brother says: Yarhamukallah
+23. duas_en_cap_car — Riding in a car
+24. duas_en_cap_rain — When it rains
+25. duas_en_cap_study — Before studying
+26. duas_en_what_say — What do we say?

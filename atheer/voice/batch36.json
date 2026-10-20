@@ -1,0 +1,312 @@
+[
+ {
+  "id": "mothers_where_mom",
+  "text": "أَيْنَ أُمِّي؟",
+  "plain": "أين أمي؟",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "sad",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "mothers_who_sound",
+  "text": "مَنْ صَاحِبُ هَذَا الصَّوْتِ؟",
+  "plain": "من صاحب هذا الصوت؟",
+  "lang": "ar",
+  "game": "mothers",
+  "emotion": "curious",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_bismillah",
+  "text": "بِسْمِ اللَّهِ",
+  "plain": "بسم الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_alhamdulillah",
+  "text": "الْحَمْدُ لِلَّهِ",
+  "plain": "الحمد لله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_sleep",
+  "text": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+  "plain": "باسمك اللهم أموت وأحيا",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wake",
+  "text": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+  "plain": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_leave_home",
+  "text": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+  "plain": "بسم الله توكلت على الله ولا حول ولا قوة إلا بالله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wc_enter",
+  "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+  "plain": "اللهم إني أعوذ بك من الخبث والخبائث",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_wc_leave",
+  "text": "غُفْرَانَكَ",
+  "plain": "غفرانك",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_dress",
+  "text": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+  "plain": "الحمد لله الذي كساني هذا ورزقنيه من غير حول مني ولا قوة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_yarhamuk",
+  "text": "يَرْحَمُكَ اللَّهُ",
+  "plain": "يرحمك الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_yahdikum",
+  "text": "يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ",
+  "plain": "يهديكم الله ويصلح بالكم",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_ride",
+  "text": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+  "plain": "سبحان الذي سخر لنا هذا وما كنا له مقرنين وإنا إلى ربنا لمنقلبون",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_rain",
+  "text": "اللَّهُمَّ صَيِّبًا نَافِعًا",
+  "plain": "اللهم صيبا نافعا",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_study",
+  "text": "رَبِّ زِدْنِي عِلْمًا",
+  "plain": "رب زدني علما",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "calm",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_before_eat",
+  "text": "قَبْلَ الْأَكْلِ",
+  "plain": "قبل الأكل",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_after_eat",
+  "text": "بَعْدَ الْأَكْلِ",
+  "plain": "بعد الأكل",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_before_sleep",
+  "text": "قَبْلَ النَّوْمِ",
+  "plain": "قبل النوم",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wake",
+  "text": "عِنْدَ الِاسْتِيقَاظِ",
+  "plain": "عند الاستيقاظ",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_leave_home",
+  "text": "عِنْدَ الْخُرُوجِ مِنَ الْبَيْتِ",
+  "plain": "عند الخروج من البيت",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_enter_home",
+  "text": "عِنْدَ دُخُولِ الْبَيْتِ",
+  "plain": "عند دخول البيت",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wc_enter",
+  "text": "عِنْدَ دُخُولِ الْخَلَاءِ",
+  "plain": "عند دخول الخلاء",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_wc_leave",
+  "text": "عِنْدَ الْخُرُوجِ مِنَ الْخَلَاءِ",
+  "plain": "عند الخروج من الخلاء",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_dress",
+  "text": "عِنْدَ لُبْسِ الثَّوْبِ",
+  "plain": "عند لبس الثوب",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_sneeze",
+  "text": "إِذَا عَطَسْتُ",
+  "plain": "إذا عطستُ",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_hear",
+  "text": "إِذَا عَطَسَ أَخِي وَقَالَ: الْحَمْدُ لِلَّهِ",
+  "plain": "إذا عطس أخي وقال: الحمد لله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_reply",
+  "text": "إِذَا قَالَ لِي أَخِي: يَرْحَمُكَ اللَّهُ",
+  "plain": "إذا قال لي أخي: يرحمك الله",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_car",
+  "text": "عِنْدَ رُكُوبِ السَّيَّارَةِ",
+  "plain": "عند ركوب السيارة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_rain",
+  "text": "عِنْدَ نُزُولِ الْمَطَرِ",
+  "plain": "عند نزول المطر",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_cap_study",
+  "text": "قَبْلَ الْمُذَاكَرَةِ",
+  "plain": "قبل المذاكرة",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "gentle",
+  "batch": 36,
+  "note": ""
+ },
+ {
+  "id": "duas_what_say",
+  "text": "مَاذَا نَقُولُ؟",
+  "plain": "ماذا نقول؟",
+  "lang": "ar",
+  "game": "duas",
+  "emotion": "curious",
+  "batch": 36,
+  "note": ""
+ }
+]
