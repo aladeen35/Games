@@ -171,7 +171,7 @@
   #mothers .sayb{position:absolute;z-index:5;width:66px;height:66px;flex:none;font-size:30px;bottom:max(16px,env(safe-area-inset-bottom));left:max(16px,env(safe-area-inset-left))}
   #mothers .sayb.pulse{animation:moPulse 1s ease-in-out infinite}
   @keyframes moPulse{50%{transform:scale(1.12)}}
-  #mothers .hint{top:auto;bottom:max(92px,calc(env(safe-area-inset-bottom) + 92px))}
+  #mothers .hint{top:calc(max(10px,env(safe-area-inset-top)) + 96px)}
   #mothers .hint span{color:#2E6B1F}
   #mothers .overlay{background:radial-gradient(circle at 50% 45%,rgba(30,80,40,.25),rgba(20,50,30,.5))}
   #mothers .panel{border:5px solid #CDEFB8;box-shadow:0 8px 0 #8FCB6E,0 20px 40px rgba(20,60,20,.3);color:#33461F}
@@ -179,7 +179,7 @@
   #mothers .btn{background:linear-gradient(#86DB57,#3FA52E);box-shadow:0 5px 0 #2B7A1D,0 8px 12px rgba(40,120,30,.25)}
   #mothers .btn:active{box-shadow:0 1px 0 #2B7A1D}
   #mothers .btn.alt{background:#fff;color:#3A8A2A;box-shadow:0 5px 0 #B9E3A0;border:3px solid #DDF3CF}
-  #mothers .wpair{font-size:56px;line-height:1.1;margin:2px 0;font-family:${EMOJI_FONT}}
+  #mothers .wpair{white-space:nowrap;font-size:44px;line-height:1.1;margin:2px 0;font-family:${EMOJI_FONT}}
   #mothers .lvp{width:min(94vw,440px);max-height:88vh;overflow-y:auto;touch-action:pan-y}
   #mothers .lvg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:10px 0 12px}
   #mothers .lvb{position:relative;aspect-ratio:.9;border-radius:20px;background:#fff;border:3px solid #CDEFB8;box-shadow:0 5px 0 #A8DB8A;
