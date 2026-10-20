@@ -812,6 +812,7 @@
     pause() { paused = true; if (drag) { const p = drag.p; drag = null; toTray(p, false); } },
     resume() { paused = false; last = performance.now(); },
     /* للاختبار الآلي فقط */
+    _bake: bake,
     _state() { return { lvl, mistakes, S, pieces: pieces.map(p => ({ name: p.name, state: p.state, x: p.x, y: p.y, hx: p.hx, hy: p.hy })) }; },
     back() {
       if (lvOv.classList.contains('on')) { act('close'); return true; }
