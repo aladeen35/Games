@@ -171,94 +171,106 @@
     x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height); x.globalCompositeOperation = 'destination-out'; x.drawImage(src, 0, 0);
     return c;
   }
-  /* ظل داخلي/إضاءة حافة: يرسم ظل القناع المعكوس داخل الشكل */
-  function innerGlow(x, inv, color, blur, ox, oy) {
-    x.save(); x.globalCompositeOperation = 'source-atop';
-    x.shadowColor = color; x.shadowBlur = blur; x.shadowOffsetX = ox + inv.width * 2; x.shadowOffsetY = oy;
-    x.drawImage(inv, -inv.width * 2, 0); x.restore();
+  /* ظل داخلي/إضاءة حافة داخل الشكل.
+     (الإصدار السابق كان يرسم الظل مباشرة بوضع source-atop، وهذا في كروم/أندرويد يمسح وجه القطعة
+      فيظهر الجانب البنّي من خلالها وتبدو القطعة باهتة وضبابية — لذا نحسبه في لوحة منفصلة ثم نقصّه بالقناع) */
+  function innerGlow(x, inv, mask, color, blur, ox, oy) {
+    const P = inv.width, t = mk(P, inv.height), c = t.getContext('2d');
+    c.shadowColor = color; c.shadowBlur = blur; c.shadowOffsetX = ox + P * 2; c.shadowOffsetY = oy;
+    c.drawImage(inv, -P * 2, 0);
+    c.shadowColor = 'transparent'; c.globalCompositeOperation = 'destination-in'; c.drawImage(mask, 0, 0);
+    x.drawImage(t, 0, 0);
+  }
+  /* حافة حادّة: الجزء من الشكل الذي لا يغطيه الشكل نفسه بعد إزاحته (ox,oy) */
+  function rim(x, mask, color, ox, oy) {
+    const t = mk(mask.width, mask.height), c = t.getContext('2d');
+    c.drawImage(mask, 0, 0); c.globalCompositeOperation = 'destination-out'; c.drawImage(mask, ox, oy);
+    c.globalCompositeOperation = 'source-in'; c.fillStyle = color; c.fillRect(0, 0, t.width, t.height);
+    x.drawImage(t, 0, 0);
+  }
+  /* تمديد القناع (حواف أعرض ومستديرة) */
+  function dilate(src, d) {
+    const c = mk(src.width, src.height), x = c.getContext('2d');
+    if (d <= 0) { x.drawImage(src, 0, 0); return c; }
+    for (const f of [1, .5]) for (let i = 0; i < 24; i++) { const a = i * TAU / 24; x.drawImage(src, Math.cos(a) * d * f, Math.sin(a) * d * f); }
+    x.drawImage(src, 0, 0);
+    return tint(c, '#000');
   }
 
-  /* صورة الإيموجي متمركزة */
+  /* صورة الإيموجي متمركزة بدقّة داخل مربع ضلعه size (بكسلات الجهاز) */
   function emojiCanvas(e, size, dpr) {
-    const P = Math.ceil(size * 1.5 * dpr), c = mk(P, P), x = c.getContext('2d');
+    const P = 2 * Math.ceil(size * .75 * dpr), c = mk(P, P), x = c.getContext('2d');
+    x.direction = 'ltr'; x.textAlign = 'left'; x.textBaseline = 'alphabetic';
     let fs = size * dpr;
     x.font = `${fs}px ${EMOJI_FONT}`;
     let m = x.measureText(e);
-    let w = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || m.width), h = (m.actualBoundingBoxAscent || fs * .8) + (m.actualBoundingBoxDescent || fs * .2);
-    const k = Math.min(1.25, size * dpr / Math.max(w, h, 1));
-    fs *= k; x.font = `${fs}px ${EMOJI_FONT}`; m = x.measureText(e);
-    const L = m.actualBoundingBoxLeft || m.width / 2, R = m.actualBoundingBoxRight || m.width / 2;
+    const bw = m2 => (m2.actualBoundingBoxLeft || 0) + (m2.actualBoundingBoxRight || m2.width), bh = m2 => (m2.actualBoundingBoxAscent || fs * .8) + (m2.actualBoundingBoxDescent || fs * .2);
+    fs *= Math.min(1.4, size * dpr / Math.max(bw(m), bh(m), 1));
+    x.font = `${fs}px ${EMOJI_FONT}`; m = x.measureText(e);
+    const L = m.actualBoundingBoxLeft || 0, R = m.actualBoundingBoxRight || m.width;
     const A = m.actualBoundingBoxAscent || fs * .8, D = m.actualBoundingBoxDescent || fs * .2;
-    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
-    x.fillText(e, P / 2 + (L - R) / 2, P / 2 + (A - D) / 2);
+    x.fillText(e, Math.round((P - (L + R)) / 2 + L), Math.round((P - (A + D)) / 2 + A));
     return c;
   }
 
-  /* تجهيز صور القطعة والفتحة بحجم S */
+  /* تجهيز صور القطعة والفتحة بحجم S — كل شيء بدقة شاشة الجهاز (dpr) */
   function bake(item, S, dpr) {
-    const P = Math.ceil(S * 1.5 * dpr), r = S / 2;
-    const mask = mk(P, P), mx = mask.getContext('2d');
-    let emo = null;
+    const P = 2 * Math.ceil(S * .75 * dpr), r = S / 2;
+    let mask = mk(P, P);
+    const mx = mask.getContext('2d');
+    let emo = null, sticker = null;
     if (item.geo) {
       mx.translate(P / 2, P / 2); mx.scale(dpr, dpr); mx.fillStyle = mx.strokeStyle = '#000';
       geoFill(mx, item.k, r);
     } else {
-      emo = emojiCanvas(item.k, S * .74, dpr);
-      const d = S * .075 * dpr, o = (P - emo.width) / 2;
-      for (let i = 0; i < 16; i++) { const a = i * TAU / 16; mx.drawImage(emo, o + Math.cos(a) * d, o + Math.sin(a) * d); }
-      mx.drawImage(emo, o, o);
-      // تنعيم: ملء الشقوق الصغيرة
-      const t2 = tint(mask, '#000'); mx.globalCompositeOperation = 'source-over';
-      for (let i = 0; i < 8; i++) { const a = i * TAU / 8; mx.drawImage(t2, Math.cos(a) * d * .3, Math.sin(a) * d * .3); }
-      const solid = tint(mask, '#000'); mx.clearRect(0, 0, P, P); mx.drawImage(solid, 0, 0);
+      emo = emojiCanvas(item.k, S * .84, dpr);
+      const o = (P - emo.width) / 2, base = mk(P, P);
+      base.getContext('2d').drawImage(emo, o, o);
+      sticker = dilate(base, S * .035 * dpr);              // حدّ أبيض رفيع حول الصورة
+      mask = dilate(sticker, S * .045 * dpr);               // جسم القطعة الملوّن
     }
     const inv = invert(mask);
     const col = item.col;
-    // الوجه العلوي
-    let topStyle;
-    { const g = mx.createRadialGradient(P * .38, P * .3, 0, P * .5, P * .5, P * .55);
-      if (item.geo) { g.addColorStop(0, col[2]); g.addColorStop(.45, col[0]); g.addColorStop(1, col[1]); }
-      else { g.addColorStop(0, '#FFF9EC'); g.addColorStop(.6, '#FBE7C4'); g.addColorStop(1, '#EBC994'); }
-      topStyle = g; }
-    const top = tint(mask, topStyle), tx = top.getContext('2d');
-    if (!item.geo) { // عروق خشب خفيفة على القطعة
-      tx.save(); tx.globalCompositeOperation = 'source-atop'; tx.strokeStyle = 'rgba(170,110,50,.13)';
-      const R = rng(item.k.codePointAt(0));
-      for (let i = 0; i < 14; i++) { const y0 = R() * P; tx.lineWidth = (.6 + R() * 1.4) * dpr; tx.beginPath();
-        for (let xx = 0; xx <= P; xx += 6 * dpr) tx.lineTo(xx, y0 + Math.sin(xx * .02 / dpr + i) * 4 * dpr); tx.stroke(); }
-      tx.restore();
-    }
-    innerGlow(tx, inv, 'rgba(255,255,255,.95)', 3 * dpr, 2.5 * dpr, 2.5 * dpr);
-    innerGlow(tx, inv, item.geo ? 'rgba(0,0,0,.35)' : 'rgba(120,70,20,.35)', 4 * dpr, -2.5 * dpr, -3 * dpr);
+    // الوجه العلوي: لون زاهٍ كامل مع تدرّج
+    const g = mx.createRadialGradient(P * .36, P * .28, 0, P * .5, P * .5, P * .56);
+    if (item.geo) { g.addColorStop(0, col[2]); g.addColorStop(.45, col[0]); g.addColorStop(1, col[1]); }
+    else { g.addColorStop(0, col[2]); g.addColorStop(.35, col[0]); g.addColorStop(1, col[1]); }
+    const top = tint(mask, g), tx = top.getContext('2d');
+    innerGlow(tx, inv, mask, 'rgba(0,0,0,.28)', 4 * dpr, -2 * dpr, -2.5 * dpr);
+    rim(tx, mask, 'rgba(255,255,255,.75)', 1.6 * dpr, 1.8 * dpr);
+    rim(tx, mask, 'rgba(0,0,0,.18)', -1.4 * dpr, -1.6 * dpr);
     if (item.geo) { // لمعة
       tx.save(); tx.globalCompositeOperation = 'source-atop';
       tx.translate(P * .4, P * .33); tx.rotate(-.5);
-      const g = tx.createRadialGradient(0, 0, 0, 0, 0, P * .28);
-      g.addColorStop(0, 'rgba(255,255,255,.75)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-      tx.scale(1, .55); tx.fillStyle = g; tx.beginPath(); tx.arc(0, 0, P * .28, 0, TAU); tx.fill();
+      const gg = tx.createRadialGradient(0, 0, 0, 0, 0, P * .28);
+      gg.addColorStop(0, 'rgba(255,255,255,.7)'); gg.addColorStop(1, 'rgba(255,255,255,0)');
+      tx.scale(1, .55); tx.fillStyle = gg; tx.beginPath(); tx.arc(0, 0, P * .28, 0, TAU); tx.fill();
       tx.restore();
       tx.save(); tx.globalCompositeOperation = 'source-atop'; tx.fillStyle = 'rgba(255,255,255,.9)';
       tx.beginPath(); tx.ellipse(P * .36, P * .3, P * .045, P * .025, -.6, 0, TAU); tx.fill(); tx.restore();
     } else {
-      tx.save(); tx.shadowColor = 'rgba(90,50,10,.35)'; tx.shadowBlur = 3 * dpr; tx.shadowOffsetY = 1.5 * dpr;
-      tx.drawImage(emo, (P - emo.width) / 2, (P - emo.height) / 2); tx.restore();
+      // ملصق أبيض ناصع ثم الصورة بألوانها الكاملة وبلا أي طبقة فوقها
+      const st = tint(sticker, '#FFFFFF');
+      { const sx2 = st.getContext('2d'); sx2.globalCompositeOperation = 'source-atop'; const sg = sx2.createLinearGradient(0, 0, 0, P); sg.addColorStop(0, 'rgba(255,255,255,0)'); sg.addColorStop(1, 'rgba(120,90,60,.12)'); sx2.fillStyle = sg; sx2.fillRect(0, 0, P, P); }
+      tx.save(); tx.shadowColor = 'rgba(0,0,0,.25)'; tx.shadowBlur = 2 * dpr; tx.shadowOffsetY = 1 * dpr; tx.drawImage(st, 0, 0); tx.restore();
+      tx.drawImage(emo, (P - emo.width) / 2, (P - emo.height) / 2);
     }
-    const side = tint(mask, item.geo ? col[1] : '#C8955B');
-    { const sx = side.getContext('2d'); sx.globalCompositeOperation = 'source-atop'; sx.fillStyle = 'rgba(0,0,0,.18)'; sx.fillRect(0, 0, P, P); }
+    const side = tint(mask, col[1]);
+    { const sx = side.getContext('2d'); sx.globalCompositeOperation = 'source-atop'; sx.fillStyle = 'rgba(0,0,0,.22)'; sx.fillRect(0, 0, P, P); }
     // الظل
     const shadow = mk(P, P), shx = shadow.getContext('2d');
-    shx.shadowColor = 'rgba(60,30,5,.55)'; shx.shadowBlur = 7 * dpr; shx.shadowOffsetX = P * 2;
+    shx.shadowColor = 'rgba(60,30,5,.5)'; shx.shadowBlur = 6 * dpr; shx.shadowOffsetX = P * 2;
     shx.drawImage(tint(mask, '#000'), -P * 2, 0);
     // الفتحة المحفورة
     const hole = mk(P, P), hx = hole.getContext('2d');
-    hx.drawImage(tint(mask, 'rgba(255,226,180,.55)'), 0, 2 * dpr);                  // حافة مضيئة أسفل الفتحة
-    hx.drawImage(tint(mask, 'rgba(70,35,10,.6)'), 0, -1.2 * dpr);                     // حافة داكنة أعلى
+    hx.drawImage(tint(mask, 'rgba(255,226,180,.65)'), 0, Math.round(2 * dpr));          // حافة مضيئة أسفل الفتحة
+    hx.drawImage(tint(mask, 'rgba(70,35,10,.6)'), 0, -Math.round(1.2 * dpr));           // حافة داكنة أعلى
     const hIn = tint(mask, '#4A2810'), hix = hIn.getContext('2d');
-    { const g = hix.createLinearGradient(0, 0, 0, P); g.addColorStop(0, '#2E180A'); g.addColorStop(1, '#5C3416');
-      hix.globalCompositeOperation = 'source-atop'; hix.fillStyle = g; hix.fillRect(0, 0, P, P); hix.globalCompositeOperation = 'source-over'; }
-    if (emo) { hix.save(); hix.globalCompositeOperation = 'source-atop'; hix.globalAlpha = .55; hix.drawImage(tint(emo, '#1E0E04'), (P - emo.width) / 2, (P - emo.height) / 2); hix.restore(); }
-    innerGlow(hix, inv, 'rgba(0,0,0,.85)', 6 * dpr, 0, 4 * dpr);
-    innerGlow(hix, inv, 'rgba(255,200,140,.3)', 2 * dpr, 0, -2 * dpr);
+    { const hg = hix.createLinearGradient(0, 0, 0, P); hg.addColorStop(0, '#2E180A'); hg.addColorStop(1, '#5C3416');
+      hix.globalCompositeOperation = 'source-atop'; hix.fillStyle = hg; hix.fillRect(0, 0, P, P); hix.globalCompositeOperation = 'source-over'; }
+    if (emo) { hix.save(); hix.globalCompositeOperation = 'source-atop'; hix.globalAlpha = .5; hix.drawImage(tint(emo, '#1E0E04'), (P - emo.width) / 2, (P - emo.height) / 2); hix.restore(); }
+    innerGlow(hix, inv, mask, 'rgba(0,0,0,.85)', 6 * dpr, 0, 4 * dpr);
+    innerGlow(hix, inv, mask, 'rgba(255,200,140,.3)', 2 * dpr, 0, -2 * dpr);
     hx.drawImage(hIn, 0, 0);
     // توهج للتلميح
     const glow = mk(P, P), gx = glow.getContext('2d');
@@ -812,7 +824,6 @@
     pause() { paused = true; if (drag) { const p = drag.p; drag = null; toTray(p, false); } },
     resume() { paused = false; last = performance.now(); },
     /* للاختبار الآلي فقط */
-    _bake: bake,
     _state() { return { lvl, mistakes, S, pieces: pieces.map(p => ({ name: p.name, state: p.state, x: p.x, y: p.y, hx: p.hx, hy: p.hy })) }; },
     back() {
       if (lvOv.classList.contains('on')) { act('close'); return true; }
