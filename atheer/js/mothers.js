@@ -229,7 +229,7 @@
   let moms = [], baby = null, queue = [], done = 0, total = 0, mistakes = 0, over = false;
   let quiz = null;                 // وضع الصوت: { q, target, used }
   let parts = [], tasks = [], sayTok = 0, drag = null, idleT = 0, shake = 0;
-  let horizon = 0, home = { x: 0, y: 0 }, M = 100, BS = 60;
+  let spkPop = 0, horizon = 0, home = { x: 0, y: 0 }, M = 100, BS = 60;
 
   function later(s, fn) { tasks.push({ t: s, fn }); }
 
@@ -239,29 +239,26 @@
     portrait = W / H < 1.05;
     const top = progEl.getBoundingClientRect().bottom + 6;
     horizon = portrait ? Math.max(top + 70, H * .3) : Math.max(top + 60, H * .34);
-    home = { x: W / 2, y: portrait ? H * .84 : H * .87 };
+    home = { x: W / 2, y: portrait ? H * .87 : H * .88 };
     placeMoms();
     buildBg();
   }
   function placeMoms() {
     const n = moms.length; if (!n) return;
     const aw = Math.min(W - 20, portrait ? 640 : 1060), ax = (W - aw) / 2;
-    const rows = portrait ? (n <= 3 ? [n] : n === 4 ? [2, 2] : [2, 3]) : [n];
+    const rows = portrait ? (n <= 2 ? [n] : n === 3 ? [1, 2] : n === 4 ? [2, 2] : [2, 3]) : [n];
     const span = home.y - horizon;
     const maxRow = Math.max(...rows);
-    let base = Math.min(aw / maxRow * (rows.length > 1 ? .78 : .8), span * (rows.length > 1 ? .36 : .5), 210);
-    if (portrait && n <= 3) base = Math.min(base, aw / 3 * .86);
+    let base = Math.min(aw / maxRow * (rows.length > 1 ? .78 : .8), span * (rows.length > 1 ? .33 : .5), 210);
     M = base; BS = Math.max(46, M * .56);
-    const ys = rows.length === 1 ? [horizon + span * .46] : [horizon + span * .33, horizon + span * .7];
+    const ys = rows.length === 1 ? [horizon + span * .5] : [horizon + span * .27, horizon + span * .63];
     const sc = rows.length === 1 ? [1] : [.88, 1];
     let i = 0;
     rows.forEach((k, r) => {
       for (let j = 0; j < k; j++, i++) {
         const m = moms[i]; if (!m) continue;
         let fx = (j + .5) / k;
-        if (rows.length === 1 && k === 3 && portrait) fx = [.17, .5, .83][j];
         m.x = ax + aw * fx; m.y = ys[r] + (rows.length === 1 && k >= 3 ? (j % 2 ? -span * .06 : 0) : 0); m.s = M * sc[r];
-        if (rows.length === 1 && k === 3 && portrait) m.y += (j === 1 ? -span * .07 : 0);
         if (m.att) nestle(m, m.att, true);
       }
     });
@@ -476,7 +473,7 @@
       later(.4, () => { sayWho(); later(1.9, nextQuestion); });
       showHint('🔊 ' + App.g('اسمعي', 'اسمع') + ' الصوت ثم ' + App.g('المسي', 'المس') + ' صاحبه');
     }
-    sayBtn.classList.toggle('pulse', def.m === 'sound');
+    sayBtn.style.display = def.m === 'sound' ? 'none' : '';
     // تحميل الأصوات مسبقًا
     def.a.forEach(id => { const a = AN[id]; [sndOf(a), sndOf(a, true)].forEach(sp => { if (sp) Snd.load(sp[0]); }); });
     setProg();
@@ -552,9 +549,8 @@
   }
   function playTarget() {
     if (!quiz || !quiz.target) return;
-    sayBtn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 400 });
+    spkPop = 1;
     animalSound(AN[quiz.target], false, null);
-    rings.push({ x: 0, y: 0, age: 0, life: .8, dom: true });
   }
   function answer(m) {
     if (!quiz || quiz.answered) return;
@@ -630,7 +626,7 @@
   root.querySelector('.lvbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
   sayBtn.addEventListener('click', () => {
     if (paused) return;
-    if (def.m === 'sound') { if (quiz && quiz.target && !quiz.answered) playTarget(); }
+    if (def.m === 'sound') { if (quiz && quiz.target && !quiz.answered) playTarget(); return; }
     else if (baby && (baby.state === 'idle' || baby.state === 'back')) { baby.pop = 1; cryNow(); }
   });
   function setLang(l) {
@@ -668,6 +664,7 @@
       return;
     }
     const m = hitMom(p.x, p.y, .6);
+    if (!m && def.m === 'sound' && quiz && !quiz.answered && Math.hypot(p.x - home.x, p.y - (home.y - BS * .55)) < BS) { playTarget(); return; }
     if (!m) return;
     if (def.m === 'sound') { answer(m); return; }
     // لمس أم: صوتها واسمها
@@ -755,7 +752,7 @@
       q.x += q.vx * dt; q.y += q.vy * dt;
     }
     for (let i = rings.length - 1; i >= 0; i--) { rings[i].age += dt; if (rings[i].age > rings[i].life) rings.splice(i, 1); }
-    shake = Math.max(0, shake - dt * 16);
+    shake = Math.max(0, shake - dt * 16); spkPop = Math.max(0, spkPop - dt * 2.5);
   }
 
   /* ---------- الرسم ---------- */
@@ -840,7 +837,7 @@
   function drawSpeaker() {
     // في وضع الأصوات: سمّاعة كبيرة لطيفة في مكان الصغير
     const x = home.x, y = home.y - BS * .55, r = clamp(BS * .62, 34, 70);
-    const pul = 1 + Math.sin(T * 4) * .04;
+    const pul = 1 + Math.sin(T * 4) * .04 + Math.sin((1 - spkPop) * Math.PI * 3) * spkPop * .15;
     ctx.save(); ctx.translate(x, y); ctx.scale(pul, pul);
     for (let i = 0; i < 3; i++) {
       const t = ((T * .8 + i / 3) % 1);

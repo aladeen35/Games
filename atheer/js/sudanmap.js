@@ -60,7 +60,7 @@
       { ic: 'nuba', ar: 'جبال النوبة', en: 'Nuba Mountains', at: [30.5, 11.35], pl: 1 }] },
     { k: 'wkordofan', ar: 'غرب كردفان', en: 'West Kordofan', col: '#FFB0AE', lm: [
       { ic: 'oil', ar: 'حقول النفط', en: 'Oil Fields', at: [28.6, 11.0], pl: 1 }] },
-    { k: 'ndarfur', ar: 'شمال دارفور', en: 'North Darfur', col: '#A7D8F2', lm: [
+    { k: 'ndarfur', ar: 'شمال دارفور', en: 'North Darfur', col: '#8FCBF0', lp: [25.4, 17.2], lm: [
       { ic: 'palace', ar: 'قصر السلطان علي دينار', en: 'Sultan Ali Dinar Palace', sar: 'الفاشر', sen: 'El Fasher', at: [25.35, 13.75] }] },
     { k: 'sdarfur', ar: 'جنوب دارفور', en: 'South Darfur', col: '#FFB3D0', lm: [
       { ic: 'radom', ar: 'محمية الردوم', en: 'Radom National Park', at: [24.0, 10.0] }] },
@@ -159,7 +159,7 @@
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9, A = 0;
     for (let i = 0, j = r.length - 1; i < r.length; j = i++) { A += r[j][0] * r[i][1] - r[i][0] * r[j][1]; }
     for (const [x, y] of r) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
-    const pl = pole(r);
+    const pl = s.lp ? proj0(s.lp[0], s.lp[1]) : pole(r);
     PJ[s.k] = { r, x0, x1, y0, y1, area: Math.abs(A / 2), pole: pl };
     s.lm.forEach(l => { const p = proj0(l.at[0], l.at[1]); l.p = inPoly(p[0], p[1], r) ? p : pl.slice(); });
   }
@@ -1072,6 +1072,7 @@
   function drawRivers() {
     const w0 = clamp(k * .3, 3, 9);
     ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    roundRectPath(ctx, inner.x, inner.y, inner.w, inner.h, 22); ctx.clip();
     // خارج السودان: باهت
     ctx.save(); ctx.globalAlpha = .45;
     for (const r of RIVERS) { riverPath(r); ctx.strokeStyle = r.c; ctx.lineWidth = w0 * r.w; ctx.stroke(); }

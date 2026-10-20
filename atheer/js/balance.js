@@ -118,7 +118,8 @@
   #balance .lvb.lock{--c:#CFC6DD;--l:#E7E1F0;--d:#A99DBB;color:#8D82A0}
   #balance .lvb.lock .e{filter:grayscale(1);opacity:.4}
   #balance .lvb.lock::before{content:'🔒';position:absolute;bottom:4px;font-size:18px;z-index:2}
-  #balance .lvb.lock .s{visibility:hidden}
+  #balance .lvb.lock .s,#balance .lvb.lock .t{visibility:hidden}
+  #balance .lvb.lock::before{bottom:auto;top:50%;margin-top:4px}
   `);
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
@@ -164,7 +165,7 @@
     const top = prm.getBoundingClientRect().bottom + 8, pad = Math.max(10, H * .012);
     const aw = Math.min(W - 20, 760), ax = (W - aw) / 2, avail = H - top - pad;
     const wide = W / H > 1.1;
-    const balH = avail * (trayMode ? (wide ? .64 : .6) : (wide ? .8 : .74));
+    const balH = avail * (trayMode ? (wide ? .64 : .6) : (wide ? .8 : .68));
     const tableY = top + balH;
     const Lb = Math.min(aw * .36, balH * .62, 250);
     const pr = Lb * .42, bd = pr * .42, ry = pr * .28;
@@ -172,7 +173,7 @@
     const cs = Math.min(pr * .62, 52), ws = Math.min(pr * .9, 76);
     const panRest = tableY - bd - Lb * Math.sin(maxA) - Math.max(16, balH * .05);
     const dialR = Lb * .36;
-    let Ls = clamp(panRest - top - dialR - 26, 70, Math.max(70, cs * 3.4 + 20));
+    let Ls = clamp(panRest - top - dialR - 26, 70, Math.max(70, trayMode ? cs * 3.4 + 20 : avail * .3));
     const py = panRest - Ls;
     G = { top, pad, aw, ax, cx: W / 2, py, Lb, pr, bd, ry, Ls, tableY, maxA, cs, ws, dialR, bt: Math.max(9, Lb * .075), wide,
       tray: { x: ax + 6, y: tableY + 22, w: aw - 12, h: H - pad - tableY - 22 } };
@@ -607,7 +608,7 @@
         for (let i = 0; i < n; i++) items.push(mkItem('cube', 1, { col, ti: i, state: 'back' }));
         q.addSide = 'R';
       } else {
-        const a = ri(2, L.max), b = ri(0, Math.max(0, a - 2)); q.a = a; q.b = b;
+        const a = ri(2, L.max), b = ri(0, Math.max(0, a - 2)); q.a = a; q.b = b; q.unit = L.kind === 'cube' ? 'cubes' : 'fruit';
         const fr = pick(FRUITS), col = pick(CUBE_COLS);
         q.fruit = fr;
         const mkU = (o) => L.kind === 'cube' ? mkItem('cube', 1, Object.assign({ col }, o)) : mkItem('fruit', 1, Object.assign({ e: fr[0] }, o));
@@ -643,7 +644,7 @@
   }
 
   /* ---------- لوحة السؤال ---------- */
-  function eqHTML(a, b, c, fill) { return `<bdi>${N(a)} + ${fill ? N(b) : '؟'.replace('؟', en() ? '?' : '؟')} = ${N(c)}</bdi>`; }
+  function eqHTML(a, b, c, fill) { return `<bdi dir="ltr">${N(a)} + ${fill ? N(b) : '؟'.replace('؟', en() ? '?' : '؟')} = ${N(c)}</bdi>`; }
   function paintPrompt() {
     if (!q) return;
     const m = q.m; let main = '', sub = '';
@@ -653,13 +654,13 @@
       sub = '👆 ' + (hv ? App.g('المسي الكفّة الأثقل', 'المس الكفّة الأثقل') : App.g('المسي الكفّة الأخف', 'المس الكفّة الأخف'));
     } else if (m === 'equal') {
       main = en() ? 'Make both sides equal' : App.g('اجعلي الكفّتين متساويتين', 'اجعل الكفّتين متساويتين');
-      sub = '👆 ' + App.g('اسحبي', 'اسحب') + (q.unit === 'cube' ? ' المكعبات' : ' الفواكه') + ' إلى الكفّة';
+      sub = '👆 ' + App.g('اسحبي', 'اسحب') + (q.unit === 'fruit' ? ' الفواكه' : ' المكعبات') + ' إلى الكفّة';
     } else if (m === 'add') {
       main = eqHTML(q.a, q.b, q.c, phase === 'good');
       sub = (en() ? 'What is the missing weight? · ' : '') + '👆 ' + App.g('اسحبي', 'اسحب') + ' الوزن الناقص إلى الكفّة';
     } else if (m === 'cmp') {
       const s = phase === 'good' ? q.ans : '؟';
-      main = `<bdi>${N(q.a)} ${s === '؟' && en() ? '?' : s} ${N(q.b)}</bdi>`;
+      main = `<bdi dir="ltr">${N(q.a)} ${s === '؟' && en() ? '?' : s} ${N(q.b)}</bdi>`;
       sub = '👆 ' + App.g('اختاري', 'اختر') + ' الرمز الصحيح: <bdi>&gt; &lt; =</bdi>';
     }
     ptxt.innerHTML = main; ptxt.dir = en() && m !== 'add' && m !== 'cmp' ? 'ltr' : 'rtl';
@@ -968,7 +969,7 @@
       idle += dt;
       if (q.m === 'equal') {
         const busy = items.some(i => i.state === 'fly' || i.state === 'drag');
-        if (!busy && mL === mR && Math.abs(theta) < .03 && Math.abs(omega) < .12) { balHold += dt; if (balHold > .35) equalDone(); }
+        if (!busy && mL === mR && Math.abs(theta) < .06 && Math.abs(omega) < .3) { balHold += dt; if (balHold > .25) equalDone(); }
         else balHold = 0;
       }
       if (idle > 7 && !hintOn) showHint();

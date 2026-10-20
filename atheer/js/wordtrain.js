@@ -296,8 +296,8 @@
     let u = Math.min((PW - 8) / TLu, 104);
     const avail = trayTop - top - 26;
     u = Math.min(u, avail / 3.3);
-    let P = clamp(Math.min(u * (land ? 1.9 : 2.9), avail - u * 1.9 - 40), 70, land ? 130 : 190);
-    const trackY = Math.min(trayTop - Math.max(18, u * .35), top + P + u * 1.55 + 30 + (avail - P - u * 1.6) * .55);
+    let P = clamp(Math.min(u * (land ? 1.9 : 2.6), avail - u * 2.2 - 40), 70, land ? 130 : 190);
+    const trackY = Math.min(trayTop - Math.max(18, u * .35), top + P + u * 1.9 + 30 + (avail - P - u * 1.95) * .55);
     G = { PW, cols, rows, b, trayH, trayTop, u, EL: EL * u, WS: WS * u, GAP: GAP * u, TL: TLu * u, n, P, trackY, cx: W / 2, land };
     // أماكن الحروف في الصينية
     const sp = b * 1.12 + 10;
@@ -607,13 +607,19 @@
     const cabX = ox + train.engRear + d * u * .33;
     const P = G.P, cy = base - u * 1.32 - P * .5 - u * .08 + bob;
     const sway = train.speed > 5 ? Math.sin(T * 8) * .03 : Math.sin(T * 1.6) * .015;
-    c.save(); c.translate(cabX, base - u * 1.3 + bob); c.rotate(sway);
+    const lift = u * .32;
+    let ccx = clamp(cabX, P / 2 + 8, W - P / 2 - 8);
+    if (train.phase === 'arrive' || train.phase === 'leave') ccx = cabX;
+    const dx = ccx - cabX;
+    c.save(); c.translate(cabX, base - u * 1.3 + bob);
     // العمود
-    c.fillStyle = '#C98A00'; c.fillRect(-u * .04, -u * .14, u * .08, u * .16);
-    const cy2 = -u * .1 - P / 2;
+    let g = c.createLinearGradient(-u * .05, 0, u * .05, 0); g.addColorStop(0, '#C98A00'); g.addColorStop(.5, '#FFE07A'); g.addColorStop(1, '#C98A00');
+    c.fillStyle = g; c.beginPath(); c.moveTo(-u * .04, u * .02); c.lineTo(u * .04, u * .02); c.lineTo(dx * .9 + u * .04, -lift - u * .05); c.lineTo(dx * .9 - u * .04, -lift - u * .05); c.fill();
+    c.translate(dx, 0); c.rotate(sway);
+    const cy2 = -lift - P / 2;
     c.save(); c.shadowColor = 'rgba(30,20,60,.3)'; c.shadowBlur = 12; c.shadowOffsetY = 6;
     c.fillStyle = '#E8590C'; c.beginPath(); c.roundRect(-P / 2, cy2 - P / 2 + P * .05, P, P, P * .22); c.fill(); c.restore();
-    let g = c.createLinearGradient(0, cy2 - P / 2, 0, cy2 + P / 2); g.addColorStop(0, '#FFB676'); g.addColorStop(1, '#FF7A2E');
+    g = c.createLinearGradient(0, cy2 - P / 2, 0, cy2 + P / 2); g.addColorStop(0, '#FFB676'); g.addColorStop(1, '#FF7A2E');
     c.fillStyle = g; c.beginPath(); c.roundRect(-P / 2, cy2 - P / 2, P, P, P * .22); c.fill();
     g = c.createLinearGradient(0, cy2 - P / 2, 0, cy2 + P / 2); g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, '#FFF1E2');
     const bw = P * .075;
@@ -623,7 +629,7 @@
     drawEmoji(c, train.e, 0, Math.sin(T * 2.4) * P * .02, P * .66);
     c.restore();
     c.restore();
-    train.card = { x: cabX - P / 2, y: base - u * 1.3 - u * .1 - P, w: P, h: P };
+    train.card = { x: ccx - P / 2, y: base - u * 1.3 - lift - P, w: P, h: P };
     void cy;
   }
 

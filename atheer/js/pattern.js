@@ -433,7 +433,7 @@
     portrait = W / H < 1.1;
     if (portrait) {
       const cw = Math.min(W - 20, 640), x0 = (W - cw) / 2;
-      const sh = Math.round(avail * .39), stH = Math.round(avail * .25);
+      const sh = Math.round(avail * .38), stH = Math.round(avail * .28);
       scene = { x: x0, y: top, w: cw, h: sh };
       strR = { x: x0, y: top + sh, w: cw, h: stH };
       trayR = { x: x0, y: top + sh + stH, w: cw, h: avail - sh - stH };
@@ -458,7 +458,7 @@
     const n = slots.length;
     const x0 = strCard.x + 34, x1 = strCard.x + strCard.w - 34, dx = (x1 - x0) / n;
     R = Math.max(12, Math.min(dx * .47 / 1.05, strCard.h * .3, 46));
-    const yTop = strCard.y + strCard.h * .36, sag = Math.min(strCard.h * .28, (x1 - x0) * .07);
+    const sag = Math.min(strCard.h * .26, (x1 - x0) * .07), yTop = strCard.y + strCard.h * .5 - sag * .62;
     geo = { x0, x1, yTop, sag };
     slots.forEach((sl, i) => {
       const xx = rtl() ? x1 - dx * (i + .5) : x0 + dx * (i + .5);
@@ -468,7 +468,7 @@
     });
     const m = choices.length, inner = { x: card.x + 16, y: card.y + 16, w: card.w - 32, h: card.h - 30 };
     const gr = bestGrid(m, inner.w, inner.h);
-    CR = Math.max(16, Math.min(gr.cell * .36, inner.h / gr.rows * .36, 58));
+    CR = Math.max(16, Math.min(gr.cell * .34, inner.h / gr.rows * .34, R * 1.3 + 6, 50));
     const cw = inner.w / gr.cols, ch = inner.h / gr.rows;
     choices.forEach((c, i) => {
       const row = Math.floor(i / gr.cols), inRow = row === gr.rows - 1 ? m - row * gr.cols : gr.cols, col = i % gr.cols;
