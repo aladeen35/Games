@@ -89,10 +89,12 @@
     x.drawImage(src, 0, 0);
     return tint(c, '#000');
   }
+  /* قناع ناعم الحواف من الداخل (للّمعة): تمويه ثم قصّ بالقناع الأصلي */
   function erode(src, d) {
-    const inv = invert(src), c = mk(src.width, src.height), x = c.getContext('2d');
-    x.drawImage(src, 0, 0); x.globalCompositeOperation = 'destination-out';
-    for (let i = 0; i < 12; i++) { const a = i * TAU / 12; x.drawImage(inv, Math.cos(a) * d, Math.sin(a) * d); }
+    const c = mk(src.width, src.height), x = c.getContext('2d');
+    if ('filter' in x) { x.filter = `blur(${d}px)`; x.drawImage(src, 0, 0); x.filter = 'none'; x.drawImage(c, 0, 0); }
+    else x.drawImage(src, 0, 0);
+    x.globalCompositeOperation = 'destination-in'; x.drawImage(src, 0, 0);
     return c;
   }
   const glyphFont = fs => `900 ${fs}px ${GFONT}`;
@@ -128,9 +130,9 @@
     rim(tx, mask, 'rgba(255,255,255,.85)', 1.6 * dpr, 2 * dpr);
     rim(tx, mask, 'rgba(0,0,0,.16)', -1.4 * dpr, -1.6 * dpr);
     // لمعة زجاجية على النصف العلوي
-    { const er = erode(mask, S * .07 * dpr), gl = mk(P, P), gx = gl.getContext('2d');
+    { const er = erode(mask, S * .05 * dpr), gl = mk(P, P), gx = gl.getContext('2d');
       const h = gm.bot - gm.top, g = gx.createLinearGradient(0, gm.top, 0, gm.top + h * .55);
-      g.addColorStop(0, 'rgba(255,255,255,.62)'); g.addColorStop(.75, 'rgba(255,255,255,.12)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      g.addColorStop(0, 'rgba(255,255,255,.5)'); g.addColorStop(.7, 'rgba(255,255,255,.1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
       gx.fillStyle = g; gx.fillRect(0, 0, P, P);
       gx.globalCompositeOperation = 'destination-in'; gx.drawImage(er, 0, 0);
       tx.drawImage(gl, 0, 0);
@@ -222,7 +224,7 @@
   ${S_} .lvb:active{transform:translateY(3px);box-shadow:0 1px 0 #C98744}
   ${S_} .lvb .n{font-size:12px;position:absolute;top:3px;right:8px;opacity:.7}
   ${S_} .lvb .e{font-size:19px;line-height:1.15;white-space:nowrap;direction:ltr;letter-spacing:.5px;text-shadow:0 2px 0 rgba(255,255,255,.6)}
-  ${S_} .lvb .e i{font-style:normal}
+  ${S_} .lvb .e i{font-style:normal;display:inline-block;margin:0 1px}
   ${S_} .lvb .s{font-size:11px;letter-spacing:-1px;line-height:1;height:12px}
   ${S_} .lvb .s i{font-style:normal}
   ${S_} .lvb .s i.off{filter:grayscale(1);opacity:.3}
@@ -438,7 +440,7 @@
       if (sec) { if (open) html += '</div>'; html += `<div class="lvh">${sec}</div><div class="lvg">`; open = true; }
       else if (!open) { html += '<div class="lvg">'; open = true; }
       const s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${numStr(n)}</span><span class="e">${lvLabel(def)}</span>
+      html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${numStr(n)}</span><span class="e" style="direction:${trackDef().indic ? 'rtl' : 'ltr'}">${lvLabel(def)}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     });
     if (open) html += '</div>';

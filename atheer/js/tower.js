@@ -37,6 +37,7 @@
   /* ---------- اللغة والأرقام ---------- */
   let lang = 'ar';
   const dg = n => lang === 'ar' ? String(n).replace(/\d/g, d => AD[d]) : String(n);
+  const QM = () => lang === 'ar' ? '؟' : '?';
   const numWord = n => lang === 'ar' ? (AR_W[n] || String(n)) : (EN_W[n] || String(n));
   const sayNum = n => App.speak(numWord(n), lang === 'ar' ? 'ar' : 'en');
 
@@ -694,7 +695,7 @@
       const sc = (Hd * (portrait ? .62 : .66));
       camZT = Math.min(-3, D - cam.f * Ht / sc);
       const Dz2 = D - camZT;
-      camYT = (Hd * (portrait ? .84 : .88) - cam.hY) * Dz2 / cam.f;
+      camYT = (Hd * (portrait ? .82 : .8) - cam.hY) * Dz2 / cam.f;
     } else {
       camYT = Math.max(camHmin, towerTop() + FH * .8 + (topS - cam.hY) * Dz / cam.f);
     }
@@ -872,10 +873,10 @@
     let h = '';
     if (L.mode === 'miss') {
       const a = seq[si - 1], b = seq[si + 1];
-      h = (a != null ? box(dg(a)) : '') + box(phase === 'auto' ? dg(seq[si]) : '؟', phase === 'auto' ? 'dim' : 'q') + (b != null ? box(dg(b), 'dim') : '');
+      h = (a != null ? box(dg(a)) : '') + box(phase === 'auto' ? dg(seq[si]) : QM(), phase === 'auto' ? 'dim' : 'q') + (b != null ? box(dg(b), 'dim') : '');
     } else {
       const prev = seq.slice(Math.max(0, si - 3), si).map(v => box(dg(v)));
-      const cur = si < floorsN ? (done ? box(dg(target())) : box(L.show ? dg(target()) : '؟', 'q' + (L.show ? ' sh' : ''))) : '';
+      const cur = si < floorsN ? (done ? box(dg(target())) : box(L.show ? dg(target()) : QM(), 'q' + (L.show ? ' sh' : ''))) : '';
       h = prev.join('') + cur;
     }
     prm.innerHTML = h; prm.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
@@ -1053,7 +1054,7 @@
         if (dusk > 0) { c.fillStyle = `rgba(30,20,80,${dusk * .42})`; c.fillRect(0, 0, Wd, Hd); dimmed = true; searchlights(c, dusk); }
         const ghost = phase === 'play' || phase === 'anim' || phase === 'auto' ? (.45 + .25 * Math.sin(Tm * 4)) : 0;
         drawTower(c, L.tw, floorsN, fl, { shake: Math.sin(Tm * 50) * towerShake * .06, ghost: si < floorsN && fl.length < floorsN && fl.length === si ? ghost : 0,
-          ghostTxt: phase === 'play' ? (L.show ? dg(target()) : '؟') : '', crown: crownT >= 0 ? crownK : null, crownLit: dusk });
+          ghostTxt: phase === 'play' ? (L.show ? dg(target()) : QM()) : '', crown: crownT >= 0 ? crownK : null, crownLit: dusk });
       } else if (it[1] === 0) drawBuilding(c, it[2]);
       else if (it[1] === 1) drawPalm(c, it[2], dimmed ? dusk * .5 : 0);
       else if (it[1] === 2) drawCloud(c, it[2]);

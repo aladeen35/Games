@@ -151,7 +151,7 @@
   #harakat .btn:active{box-shadow:0 1px 0 #1E62D0}
   #harakat .btn.alt{background:#fff;color:#1E62D0;box-shadow:0 4px 0 #BBD6FF;border-color:#D4E7FF}
   #harakat .btn.go{background:#36C24A;box-shadow:0 4px 0 #23902F;font-size:21px;padding:11px 30px}
-  #harakat .wG{font-size:22px;font-weight:900;color:#1E62D0;margin:2px 0 4px}
+  #harakat .wG{direction:ltr;font-size:22px;font-weight:900;color:#1E62D0;margin:2px 0 4px}
   #harakat .lvp{width:min(94vw,460px);max-height:88vh;overflow-y:auto;touch-action:pan-y;padding:18px 14px 14px}
   #harakat .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 6px}
   #harakat .tab{border-radius:16px;padding:6px 2px 4px;background:#EEF5FF;color:#24406B;font-weight:900;font-size:17px;line-height:1.25;box-shadow:0 3px 0 #C9DDF7;border:3px solid transparent}
@@ -197,7 +197,7 @@
     <div class="overlay" id="hkWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><div class="wG"></div><p class="wP"></p>
       <button class="btn go" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn alt" data-a="again" aria-label="من جديد">🔄</button><button class="btn alt" data-a="levels" aria-label="المستويات">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.hc');
   const segs = [...root.querySelectorAll('.prog i')];
