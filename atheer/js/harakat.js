@@ -171,7 +171,7 @@
   #harakat .lvb.cur{outline:3px solid #FFC531;outline-offset:2px}
   #harakat .lvb.lock{background:#E9EEF6;border-color:#C9D3E2;box-shadow:0 4px 0 #B7C2D3;color:#8C98AB}
   #harakat .lvb.lock .e{opacity:.35}
-  #harakat .lvb.lock::after{content:'🔒';position:absolute;font-size:16px;bottom:2px}
+  #harakat .lvb.lock::after{content:'🔒';position:absolute;font-size:13px;bottom:3px;left:5px}
   #harakat .hpb{position:absolute;bottom:0;height:env(safe-area-inset-bottom);width:1px;visibility:hidden}
   `);
   const root = App.section(ID, `
@@ -644,8 +644,8 @@
     // اللوحة
     ctx.fillStyle = '#FFD43B'; rr(-u * .14, -u * .42, u * .28, u * .12, u * .03); ctx.fill();
     ctx.strokeStyle = '#E0A800'; ctx.lineWidth = Math.max(1, u * .012); ctx.stroke();
-    ctx.fillStyle = '#5A3A00'; ctx.font = `900 ${u * .1}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('حَ', 0, -u * .355);
+    ctx.fillStyle = '#5A3A00'; ctx.font = `900 ${u * .085}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('١٢٣', 0, -u * .355);
     // أنبوب العادم
     ctx.fillStyle = '#7B8396'; rr(-u * .36, -u * .14, u * .1, u * .06, u * .03); ctx.fill();
     ctx.fillStyle = '#2A2E38'; ctx.beginPath(); ctx.ellipse(-u * .31, -u * .11, u * .03, u * .02, 0, 0, TAU); ctx.fill();
@@ -822,7 +822,7 @@
         ctx.fillRect(-p.s / 2, -p.s * .3, p.s, p.s * .6 * Math.abs(Math.cos(p.rot * 1.3)) + 1);
       } else if (p.t === 'txt') {
         ctx.globalAlpha = Math.min(1, (1 - k) * 2.5); ctx.translate(p.x, p.y); const sc = k < .15 ? ease.outBack(k / .15) : 1; ctx.scale(sc, sc);
-        ctx.font = `900 ${p.s}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = `900 ${p.s}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'ltr';
         ctx.lineWidth = 6; ctx.strokeStyle = '#fff'; ctx.lineJoin = 'round'; ctx.strokeText(p.txt, 0, 0); ctx.fillStyle = p.c; ctx.fillText(p.txt, 0, 0);
       } else if (p.t === 'gem') {
         const e = ease.inOut(Math.min(1, k));
@@ -886,7 +886,7 @@
     sayLater(() => speakSyl(q.tgt), 220);
   }
   function spawnFinish() {
-    cur = { kind: 'finish', z: 38, n: 0, doors: [] }; gates.push(cur); phase = 'fin'; setSegs();
+    cur = { kind: 'finish', z: 26, n: 0, doors: [] }; gates.push(cur); phase = 'fin'; setSegs();
   }
   function resolve() {
     const g = cur, q = g.q, lane = car.lane, ok = lane === q.ans;
@@ -899,7 +899,7 @@
       boostT = 1.25; v = Math.max(v, 9); car.squash = 1;
       cardFx[lane].res = 'ok'; cardFx[lane].rt = 0;
       store.set('harakatGems', gems() + 1); roundGems++;
-      gemFly(dx, dy); textPop(dx, dy - 20, '+١ 💎', '#1E62D0');
+      gemFly(dx, dy); textPop(dx + 34, dy - 24, '+١', '#1E62D0');
       Sound.star(); Sound.whoosh(); vibrate(18);
       for (let k = 0; k < 14; k++) lines.push({ a: rand(0, TAU), r: rand(40, 160), v: rand(900, 1500), len: rand(40, 90), w: rand(2, 4) });
       const streak = (() => { let n = 0; for (let k = qi; k >= 0 && results[k] === true; k--) n++; return n; })();
@@ -962,7 +962,7 @@
     lvTab = tab;
     root.querySelector('#hkLv .tabs').innerHTML = CH.map((C, c) => `<button class="tab${c === tab ? ' on' : ''}${chapOpen(pr, c) ? '' : ' lock'}" data-t="${c}" style="--c:${C.col}">${C.tab}<small>${C.t}</small></button>`).join('');
     const C = CH[tab];
-    root.querySelector('#hkLv .chT').innerHTML = `${C.t} <small style="opacity:.6">(${AR(doneIn(pr, tab))}/${AR(C.n)})</small>` + (chapOpen(pr, tab) ? '' : `<br><small style="opacity:.7">🔒 ${App.g('أنهي', 'أنهِ')} ٣ مستويات من الفصل السابق</small>`);
+    root.querySelector('#hkLv .chT').innerHTML = `${C.t} <small style="opacity:.6">· ${AR(doneIn(pr, tab))} من ${AR(C.n)}</small>` + (chapOpen(pr, tab) ? '' : `<br><small style="opacity:.7">🔒 ${App.g('أنهي', 'أنهِ')} ٣ مستويات من الفصل السابق</small>`);
     const dark = { '#FF8A2A': '#D9620B', '#3D8BFF': '#1E62D0', '#9B5CF6': '#6F32CF', '#20B486': '#11815F' }[C.col];
     root.querySelector('#hkLv .lvg').innerHTML = Array.from({ length: C.n }, (_, i) => {
       const s = pr.s[lkey(tab, i)] || 0, open = isOpen(pr, tab, i), lab = levelLabel(tab, i);
@@ -1051,7 +1051,7 @@
   window.addEventListener('resize', () => { if (App.current === ID) resize(); });
 
   /* ---------- التحديث ---------- */
-  const BASE = 7.2, BOOST = 15, STOPD = 2.5;
+  const BASE = 7.2, BOOST = 15, STOPD = 1.7;
   function update(dt) {
     T += dt;
     // العدّ التنازلي

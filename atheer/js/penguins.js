@@ -77,9 +77,9 @@
   #penguins .done{pointer-events:auto;height:58px;padding:0 34px;border-radius:99px;font-size:25px;font-weight:900;color:#fff;letter-spacing:.5px;
     background:linear-gradient(#78E584,#2DB84A);box-shadow:0 6px 0 #1E8A35,0 12px 20px rgba(20,120,40,.28),inset 0 3px 0 rgba(255,255,255,.45);
     text-shadow:0 2px 0 rgba(0,90,20,.35);transition:transform .25s cubic-bezier(.3,1.6,.6,1),opacity .2s}
-  #penguins .done.off{opacity:0;transform:scale(.5);pointer-events:none}
   #penguins .done:active{transform:translateY(4px);box-shadow:0 2px 0 #1E8A35}
   #penguins .done.wait{filter:saturate(.4);opacity:.7}
+  #penguins .done.off{opacity:0;transform:scale(.5);pointer-events:none}
   #penguins .spk{pointer-events:auto;position:absolute;right:0;top:3px;width:58px;height:58px;border-radius:50%;
     background:radial-gradient(circle at 35% 28%,#FFF6B8,#FFD21E 48%,#F0A400);box-shadow:0 5px 0 #C98500,0 10px 18px rgba(160,100,0,.28),inset 0 2px 0 rgba(255,255,255,.6);
     font-size:25px;display:grid;place-items:center}
@@ -195,7 +195,7 @@
     if (topY < 60) topY = (root.querySelector('.bar').getBoundingClientRect().bottom || 60) + 64;
     botY = root.querySelector('.ctl').getBoundingClientRect().top - 6;
     aw = Math.min(W - 20, 1000); ax = (W - aw) / 2;
-    hz = Math.round(topY + (botY - topY) * (portrait ? .2 : .2));
+    hz = Math.round(topY + (botY - topY) * (portrait ? .25 : .2));
     chTop = botY - clamp(Math.min(W * .3, H * .17), 92, 128);
     bg = null;
     if (!flakes.length) for (let i = 0; i < 46; i++) flakes.push({ x: Math.random(), y: Math.random(), r: rand(1.2, 3.4), s: rand(.02, .06), ph: rand(0, TAU) });
@@ -205,12 +205,12 @@
     dirSign = isAr() ? -1 : 1;
     const hasCh = choices.length > 0;
     const zy = hz + 6, zb = (hasCh ? chTop : botY) - 6, zh = zb - zy;
-    const maxU = portrait ? 132 : 140;
+    const maxU = portrait ? 132 : 140, wf = R && R.type === 'count' ? 1.85 : 1.14;
     let best = null;
     for (const Rr of [1, 2]) {
       if (Rr === 2 && n < 4) continue;
       const C = Math.ceil(n / Rr);
-      const u = Math.min(aw / C * .82, zh / Rr / (Rr === 1 ? 1.5 : 1.32), maxU);
+      const u = Math.min(aw / C / wf, zh / Rr / (Rr === 1 ? 1.5 : 1.32), maxU);
       if (!best || u > best.u * 1.2) best = { Rr, C, u };
     }
     const { Rr, C, u } = best;
@@ -218,10 +218,13 @@
     for (let i = 0; i < n; i++) {
       const r = Math.floor(i / C), inRow = Math.min(C, n - r * C), col = i - r * C;
       const sc = Rr === 2 && r === 0 ? .88 : 1;
-      const cw = Math.min(aw / C, u * 1.32) * sc;
+      const cw = Math.min(aw / C, u * Math.max(1.32, wf)) * sc;
       let y;
       if (Rr === 1) y = Math.min(zb - u * .14, zy + zh * .5 + u * .66);
-      else y = r === 0 ? Math.min(zy + u * 1.28 * .88 + 4, zy + zh * .5) : zb - u * .14;
+      else {
+        const gap = u * (R && R.type === 'count' ? 1.62 : 1.42), bh = u * 1.15 + gap, top = zy + Math.max(0, (zh - bh - u * .1) / 2);
+        y = r === 0 ? top + u * 1.15 : Math.min(zb - u * .14, top + u * 1.15 + gap);
+      }
       slots.push({ x: ax + aw / 2 + (col - (inRow - 1) / 2) * cw * dirSign, y, u: u * sc, row: r });
     }
     // خيارات الأسماك
@@ -340,7 +343,7 @@
     grid.innerHTML = LV.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
       return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">${numTxt(n)}
-        <small>🐧${numTxt(L.n)} · ${numTxt(L.lo)}–${numTxt(L.hi)}</small>
+        <small><span dir="ltr">${numTxt(L.lo)}–${numTxt(L.hi)}</span> · 🐧${numTxt(L.n)}</small>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     grid.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -642,7 +645,7 @@
     if (p.coldT > 0) return .08;
     if (p.happyT > 0 || p.hopT >= 0) return 2.25 + Math.sin(T * 22 + p.ph) * .35;
     if (p.drag) return 1.3 + Math.sin(T * 18) * .5;
-    if (holding) return 2.05 + Math.sin(T * 3 + p.ph) * .08 + (p.flapT > 0 ? Math.sin(p.flapT * 16) * .25 * p.flapT : 0);
+    if (holding) return 2.5 + Math.sin(T * 3 + p.ph) * .08 + (p.flapT > 0 ? Math.sin(p.flapT * 16) * .25 * p.flapT : 0);
     if (p.flapT > 0) return .3 + Math.abs(Math.sin(p.flapT * 14)) * 1.1 * p.flapT;
     if (p.moving) return .45 + Math.sin(p.walk) * .15;
     return .3;
@@ -797,9 +800,9 @@
     if (counting) {
       for (let j = 0; j < p.fish; j++) {
         const f = fishLocal(p, j, u);
-        drawFish(c, f.x, f.y, u * .4, j + p.v, f.rot + (j === 2 ? Math.sin(T * 4 + p.ph) * .1 : 0));
+        drawFish(c, f.x, f.y, u * .5, j + p.v, f.rot + (j === 2 ? Math.sin(T * 4 + p.ph) * .1 : 0));
         if (j < p.cnt.length) {
-          const r = u * .12, s = numTxt(p.cnt[j]);
+          const r = u * .1, s = numTxt(p.cnt[j]);
           c.fillStyle = 'rgba(0,0,0,.15)'; c.beginPath(); c.arc(f.x, f.y + 2, r, 0, TAU); c.fill();
           c.fillStyle = '#FFE15A'; c.beginPath(); c.arc(f.x, f.y, r, 0, TAU); c.fill();
           c.strokeStyle = '#fff'; c.lineWidth = Math.max(1.5, u * .025); c.stroke();
@@ -848,7 +851,7 @@
       }
     });
     // راية البداية
-    const s0 = slots[0], fx = s0.x - dirSign * s0.u * .68, fy = s0.y + s0.u * .12, ph = s0.u * .7;
+    const s0 = slots[0], fx = clamp(s0.x - dirSign * s0.u * .66, 10, W - 10), fy = s0.y + s0.u * .12, ph = s0.u * .7;
     c.strokeStyle = '#8A5A33'; c.lineWidth = 3; c.lineCap = 'round';
     c.beginPath(); c.moveTo(fx, fy); c.lineTo(fx, fy - ph); c.stroke();
     const wv = Math.sin(T * 4) * 3;
