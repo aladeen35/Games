@@ -618,7 +618,7 @@
       c.save(); c.translate(0, D); c.strokeStyle = 'rgba(0,0,0,.18)'; c.lineWidth = 1; c.stroke(p.loc); c.restore();
       // الوجه العلوي
       c.save(); c.clip(p.loc);
-      const g = c.createLinearGradient(-p.w / 2, -p.h / 2, p.w / 3, p.h / 2); g.addColorStop(0, shade(s.col, .45)); g.addColorStop(.45, s.col); g.addColorStop(1, shade(s.col, -.08));
+      const g = c.createLinearGradient(-p.w / 2, -p.h / 2, p.w / 3, p.h / 2); g.addColorStop(0, shade(s.col, .28)); g.addColorStop(.35, s.col); g.addColorStop(1, shade(s.col, -.08));
       c.fillStyle = g; c.fill(p.loc);
       const R = Math.max(p.w, p.h) * .7, rgd = c.createRadialGradient(-p.w * .22, -p.h * .3, 0, -p.w * .22, -p.h * .3, R);
       rgd.addColorStop(0, 'rgba(255,255,255,.42)'); rgd.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = rgd; c.fillRect(-p.w, -p.h, p.w * 2, p.h * 2);
@@ -656,8 +656,8 @@
   function fitToCell(pc) {
     const cl = cells[pc.cell]; if (!cl) return;
     const p = P[pc.s.k], lab = 22;
-    pc.tsc = Math.min((cl.w - 14) / p.w, (cl.h - lab - 14) / p.h, 2.4);
-    pc.homeX = cl.x; pc.homeY = cl.y - lab / 2 + 2;
+    pc.tsc = Math.min((cl.w - 14) / p.w, (cl.h - lab - 18 - D * 1.5) / p.h, 2.4);
+    pc.homeX = cl.x; pc.homeY = cl.y - lab / 2 - D * .6;
   }
 
   /* ---------- بدء جولة ---------- */
@@ -702,7 +702,7 @@
     const it = quiz.pool[quiz.i]; quiz.tries = 0; quiz.lock = false;
     const isLm = mode === 'lmq';
     qcard.classList.toggle('lm', isLm);
-    qk.textContent = `${isLm ? '🏛️ المعالم' : '❓ الولايات'} · ${dig(quiz.i + 1)} / ${dig(QN)}`;
+    qk.textContent = `${isLm ? '🏛️ المعالم' : '❓ الولايات'} · السؤال ${dig(quiz.i + 1)} من ${dig(QN)}`;
     qt.classList.toggle('en', lang === 'en');
     qt.textContent = qText(it);
     qs.textContent = isLm ? lms(it) : '';
@@ -738,7 +738,7 @@
   }
   function finishQuiz() {
     const sc = quiz.score, stars = sc >= 9 ? 3 : sc >= 6 ? 2 : 1;
-    finish(stars, `${dig(sc)} / ${dig(QN)} ${sc >= 9 ? '🌟' : ''}`, mode === 'quiz' ? (sc >= QN ? 'sudanmap_quiz' : null) : (sc >= QN ? 'sudanmap_landmarks' : null));
+    finish(stars, `${dig(sc)} من ${dig(QN)} ${sc >= 9 ? "🌟" : ""}`, mode === 'quiz' ? (sc >= QN ? 'sudanmap_quiz' : null) : (sc >= QN ? 'sudanmap_landmarks' : null));
   }
 
   /* ---------- الفوز ---------- */
