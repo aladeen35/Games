@@ -432,8 +432,8 @@
     const avail = bottom - top;
     portrait = W / H < 1.1;
     if (portrait) {
-      const cw = Math.min(W - 20, 640), x0 = (W - cw) / 2;
-      const sh = Math.round(avail * .38), stH = Math.round(avail * .28);
+      const cw = Math.min(W - 12, 640), x0 = (W - cw) / 2;
+      const sh = Math.round(avail * .38), stH = Math.round(avail * .29);
       scene = { x: x0, y: top, w: cw, h: sh };
       strR = { x: x0, y: top + sh, w: cw, h: stH };
       trayR = { x: x0, y: top + sh + stH, w: cw, h: avail - sh - stH };
@@ -456,8 +456,8 @@
   /* مواقع الخرزات على الخيط (منحنى متدلٍّ) ومواقع الخيارات في الصينية */
   function placeRound() {
     const n = slots.length;
-    const x0 = strCard.x + 34, x1 = strCard.x + strCard.w - 34, dx = (x1 - x0) / n;
-    R = Math.max(12, Math.min(dx * .47 / 1.05, strCard.h * .3, 46));
+    const x0 = strCard.x + 26, x1 = strCard.x + strCard.w - 26, dx = (x1 - x0) / n;
+    R = Math.max(12, Math.min(dx * .49 / 1.05, strCard.h * .3, 46));
     const sag = Math.min(strCard.h * .26, (x1 - x0) * .07), yTop = strCard.y + strCard.h * .5 - sag * .62;
     geo = { x0, x1, yTop, sag };
     slots.forEach((sl, i) => {
@@ -574,8 +574,8 @@
     const len = pat.length;
     let reps = len === 2 ? (Math.random() < .5 ? 3 : 4) : len === 3 ? (Math.random() < .45 ? 3 : 2) : 2;
     let n = len * reps;
-    if (n < 9 && Math.random() < .35) n++;
-    n = Math.min(n, 10);
+    if (n < 8 && Math.random() < .35) n++;
+    n = Math.min(n, portrait ? 8 : 10);
     const seq = Array.from({ length: n }, (_, i) => pool.units[letters.indexOf(pat[i % len])]);
     const nb = Math.min(n - len, L.b[0] + Math.floor(Math.random() * (L.b[1] - L.b[0] + 1)));
     let blanks;
