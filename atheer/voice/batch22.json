@@ -1,0 +1,352 @@
+[
+ {
+  "id": "en_word_square",
+  "text": "Square!",
+  "plain": "Square",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_triangle",
+  "text": "Triangle!",
+  "plain": "Triangle",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_star",
+  "text": "Star!",
+  "plain": "Star",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_heart",
+  "text": "Heart!",
+  "plain": "Heart",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_diamond",
+  "text": "Diamond!",
+  "plain": "Diamond",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_small",
+  "text": "Small!",
+  "plain": "Small",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_medium",
+  "text": "Medium!",
+  "plain": "Medium",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_big",
+  "text": "Big!",
+  "plain": "Big",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_banana",
+  "text": "Banana!",
+  "plain": "Banana",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_strawberry",
+  "text": "Strawberry!",
+  "plain": "Strawberry",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_lemon",
+  "text": "Lemon!",
+  "plain": "Lemon",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_watermelon",
+  "text": "Watermelon!",
+  "plain": "Watermelon",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_cherries",
+  "text": "Cherries!",
+  "plain": "Cherries",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_pear",
+  "text": "Pear!",
+  "plain": "Pear",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_kiwi",
+  "text": "Kiwi!",
+  "plain": "Kiwi",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_peach",
+  "text": "Peach!",
+  "plain": "Peach",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_pineapple",
+  "text": "Pineapple!",
+  "plain": "Pineapple",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_carrot",
+  "text": "Carrot!",
+  "plain": "Carrot",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_corn",
+  "text": "Corn!",
+  "plain": "Corn",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_mango",
+  "text": "Mango!",
+  "plain": "Mango",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_coconut",
+  "text": "Coconut!",
+  "plain": "Coconut",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_rabbit",
+  "text": "Rabbit!",
+  "plain": "Rabbit",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_elephant",
+  "text": "Elephant!",
+  "plain": "Elephant",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_giraffe",
+  "text": "Giraffe!",
+  "plain": "Giraffe",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_turtle",
+  "text": "Turtle!",
+  "plain": "Turtle",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_butterfly",
+  "text": "Butterfly!",
+  "plain": "Butterfly",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_penguin",
+  "text": "Penguin!",
+  "plain": "Penguin",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_duck",
+  "text": "Duck!",
+  "plain": "Duck",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_owl",
+  "text": "Owl!",
+  "plain": "Owl",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_horse",
+  "text": "Horse!",
+  "plain": "Horse",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_cow",
+  "text": "Cow!",
+  "plain": "Cow",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_monkey",
+  "text": "Monkey!",
+  "plain": "Monkey",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_crocodile",
+  "text": "Crocodile!",
+  "plain": "Crocodile",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_camel",
+  "text": "Camel!",
+  "plain": "Camel",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ },
+ {
+  "id": "en_word_dolphin",
+  "text": "Dolphin!",
+  "plain": "Dolphin",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 22,
+  "note": ""
+ }
+]

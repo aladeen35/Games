@@ -1,0 +1,352 @@
+[
+ {
+  "id": "fractions_en_quarter",
+  "text": "quarter",
+  "plain": "quarter",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_where_is",
+  "text": "Where is",
+  "plain": "Where is",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "curious",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_where_are_the",
+  "text": "Where are the",
+  "plain": "Where are the",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "curious",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_complete",
+  "text": "The map of Sudan is complete!",
+  "plain": "The map of Sudan is complete!",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "excited",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_0",
+  "text": "zero",
+  "plain": "zero",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_1",
+  "text": "one",
+  "plain": "one",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_2",
+  "text": "two",
+  "plain": "two",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_3",
+  "text": "three",
+  "plain": "three",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_4",
+  "text": "four",
+  "plain": "four",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_5",
+  "text": "five",
+  "plain": "five",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_6",
+  "text": "six",
+  "plain": "six",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_7",
+  "text": "seven",
+  "plain": "seven",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_8",
+  "text": "eight",
+  "plain": "eight",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_9",
+  "text": "nine",
+  "plain": "nine",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_10",
+  "text": "ten",
+  "plain": "ten",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_11",
+  "text": "eleven",
+  "plain": "eleven",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_12",
+  "text": "twelve",
+  "plain": "twelve",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_13",
+  "text": "thirteen",
+  "plain": "thirteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_14",
+  "text": "fourteen",
+  "plain": "fourteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_15",
+  "text": "fifteen",
+  "plain": "fifteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_16",
+  "text": "sixteen",
+  "plain": "sixteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_17",
+  "text": "seventeen",
+  "plain": "seventeen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_18",
+  "text": "eighteen",
+  "plain": "eighteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_19",
+  "text": "nineteen",
+  "plain": "nineteen",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "en_num_20",
+  "text": "twenty",
+  "plain": "twenty",
+  "lang": "en",
+  "game": "tower,penguins,numpuzzle,balance",
+  "emotion": "cheerful",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_sudan",
+  "text": "Sudan",
+  "plain": "Sudan",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_khartoum",
+  "text": "Khartoum",
+  "plain": "Khartoum",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_river_nile",
+  "text": "River Nile",
+  "plain": "River Nile",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_northern",
+  "text": "Northern",
+  "plain": "Northern",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_red_sea",
+  "text": "Red Sea",
+  "plain": "Red Sea",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_gezira",
+  "text": "Gezira",
+  "plain": "Gezira",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_kassala",
+  "text": "Kassala",
+  "plain": "Kassala",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_gedaref",
+  "text": "Gedaref",
+  "plain": "Gedaref",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_sennar",
+  "text": "Sennar",
+  "plain": "Sennar",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_blue_nile",
+  "text": "Blue Nile",
+  "plain": "Blue Nile",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 20,
+  "note": ""
+ }
+]

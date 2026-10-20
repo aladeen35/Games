@@ -1,0 +1,17 @@
+1. sudanmap_lm_pyramids — أَهْرَامَاتُ البَجْرَاوِيَّة
+2. sudanmap_lm_barkal — جَبَلُ البَرْكَل
+3. sudanmap_lm_port — مِينَاءُ بُورْتْسُودَان
+4. sudanmap_lm_gezira — مَشْرُوعُ الجَزِيرَة
+5. sudanmap_lm_taka — جِبَالُ التَّاكَا
+6. sudanmap_lm_sorghum — مَزَارِعُ الذُّرَة
+7. sudanmap_lm_sennar_dam — خَزَّانُ سِنَّار
+8. sudanmap_lm_roseires — خَزَّانُ الرُّوصَيْرِص
+9. sudanmap_lm_kenana — سُكَّرُ كِنَانَة
+10. sudanmap_lm_gum — الصَّمْغُ العَرَبِيّ
+11. sudanmap_lm_nuba — جِبَالُ النُّوبَة
+12. sudanmap_lm_oil — حُقُولُ النِّفْط
+13. sudanmap_lm_palace — قَصْرُ السُّلْطَانِ عَلِي دِينَار
+14. sudanmap_lm_radom — مَحْمِيَّةُ الرَّدُوم
+15. sudanmap_lm_geneina — مَدِينَةُ الجُنَيْنَة
+16. sudanmap_lm_marra — جَبَلُ مَرَّة
+17. sudanmap_lm_cattle — قُطْعَانُ الأَبْقَار

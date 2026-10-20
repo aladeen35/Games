@@ -1,0 +1,35 @@
+1. sudanmap_en_white_nile — White Nile
+2. sudanmap_en_north_kordofan — North Kordofan
+3. sudanmap_en_south_kordofan — South Kordofan
+4. sudanmap_en_west_kordofan — West Kordofan
+5. sudanmap_en_north_darfur — North Darfur
+6. sudanmap_en_south_darfur — South Darfur
+7. sudanmap_en_west_darfur — West Darfur
+8. sudanmap_en_central_darfur — Central Darfur
+9. sudanmap_en_east_darfur — East Darfur
+10. sudanmap_en_al_fateh_tower — Al-Fateh Tower
+11. sudanmap_en_al_mogran — Al-Mogran
+12. sudanmap_en_meroe_pyramids — Meroe Pyramids
+13. sudanmap_en_jebel_barkal — Jebel Barkal
+14. sudanmap_en_port_sudan — Port Sudan
+15. sudanmap_en_gezira_scheme — Gezira Scheme
+16. sudanmap_en_taka_mountains — Taka Mountains
+17. sudanmap_en_sorghum_farms — Sorghum Farms
+18. sudanmap_en_sennar_dam — Sennar Dam
+19. sudanmap_en_roseires_dam — Roseires Dam
+20. sudanmap_en_kenana_sugar — Kenana Sugar
+21. sudanmap_en_gum_arabic — Gum Arabic
+22. sudanmap_en_nuba_mountains — Nuba Mountains
+23. sudanmap_en_oil_fields — Oil Fields
+24. sudanmap_en_sultan_ali_dinar_palace — Sultan Ali Dinar Palace
+25. sudanmap_en_radom_national_park — Radom National Park
+26. sudanmap_en_geneina_city — Geneina City
+27. sudanmap_en_jebel_marra — Jebel Marra
+28. sudanmap_en_cattle_herds — Cattle Herds
+29. en_word_red — Red!
+30. en_word_yellow — Yellow!
+31. en_word_blue — Blue!
+32. en_word_green — Green!
+33. en_word_purple — Purple!
+34. en_word_pink — Pink!
+35. en_word_circle — Circle!

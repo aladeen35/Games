@@ -1,0 +1,137 @@
+[happy] White Nile
+
+...
+
+[happy] North Kordofan
+
+...
+
+[happy] South Kordofan
+
+...
+
+[happy] West Kordofan
+
+...
+
+[happy] North Darfur
+
+...
+
+[happy] South Darfur
+
+...
+
+[happy] West Darfur
+
+...
+
+[happy] Central Darfur
+
+...
+
+[happy] East Darfur
+
+...
+
+[happy] Al-Fateh Tower
+
+...
+
+[happy] Al-Mogran
+
+...
+
+[happy] Meroe Pyramids
+
+...
+
+[happy] Jebel Barkal
+
+...
+
+[happy] Port Sudan
+
+...
+
+[happy] Gezira Scheme
+
+...
+
+[happy] Taka Mountains
+
+...
+
+[happy] Sorghum Farms
+
+...
+
+[happy] Sennar Dam
+
+...
+
+[happy] Roseires Dam
+
+...
+
+[happy] Kenana Sugar
+
+...
+
+[happy] Gum Arabic
+
+...
+
+[happy] Nuba Mountains
+
+...
+
+[happy] Oil Fields
+
+...
+
+[happy] Sultan Ali Dinar Palace
+
+...
+
+[happy] Radom National Park
+
+...
+
+[happy] Geneina City
+
+...
+
+[happy] Jebel Marra
+
+...
+
+[happy] Cattle Herds
+
+...
+
+[cheerful] Red!
+
+...
+
+[cheerful] Yellow!
+
+...
+
+[cheerful] Blue!
+
+...
+
+[cheerful] Green!
+
+...
+
+[cheerful] Purple!
+
+...
+
+[cheerful] Pink!
+
+...
+
+[cheerful] Circle!

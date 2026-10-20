@@ -1,0 +1,137 @@
+[excited] Great job!
+
+...
+
+[excited] Well done!
+
+...
+
+[gently] Try again!
+
+...
+
+[warm] Let's count together
+
+...
+
+[cheerful] Put the penguins in order
+
+...
+
+[curious] Find number
+
+...
+
+[curious] Which number is missing?
+
+...
+
+[curious] How many fish?
+
+...
+
+[curious] Which is heavier?
+
+...
+
+[curious] Which is lighter?
+
+...
+
+[encouraging] Make both sides equal
+
+...
+
+[curious] What is the missing weight?
+
+...
+
+[encouraging] Choose the right sign
+
+...
+
+[excited] Balanced!
+
+...
+
+[neutral] plus
+
+...
+
+[neutral] equals
+
+...
+
+[neutral] is greater than
+
+...
+
+[neutral] is less than
+
+...
+
+[encouraging] Cut the cake into
+
+...
+
+[encouraging] Cut the pizza into
+
+...
+
+[neutral] two halves
+
+...
+
+[neutral] three thirds
+
+...
+
+[neutral] four quarters
+
+...
+
+[encouraging] Share the cake fairly
+
+...
+
+[encouraging] Share the pizza fairly
+
+...
+
+[curious] What part is this?
+
+...
+
+[curious] Which piece is bigger?
+
+...
+
+[curious] Which piece is smaller?
+
+...
+
+[neutral] Each piece is
+
+...
+
+[cheerful] Each friend gets
+
+...
+
+[neutral] one half
+
+...
+
+[neutral] one third
+
+...
+
+[neutral] one quarter
+
+...
+
+[neutral] half
+
+...
+
+[neutral] third

@@ -1,0 +1,35 @@
+1. penguins_order_f — رَتِّبي البَطاريق
+2. penguins_order_m — رَتِّبِ البَطاريق
+3. penguins_missing — أَيُّ رَقْمٍ ناقِص؟
+4. tower_fateh — بُرْجُ الفاتِح
+5. tower_kingdom — بُرْجُ المَمْلَكَة
+6. tower_khalifa — بُرْجُ خَليفَة
+7. tower_eiffel — بُرْجُ إيفِل
+8. tower_clock — ساعَةُ مَكَّة
+9. tower_count_down — لِنَعُدَّ تَنازُلِيًّا
+10. tower_count_by2 — لِنَعُدَّ بِالاثْنَيْن
+11. tower_missing — ما الرَّقْمُ النّاقِص؟
+12. tower_we_built — بَنَيْنا
+13. harakat_listen_f — اِسْمَعِي وَاخْتَارِي الحَرَكَة
+14. harakat_listen_m — اِسْمَعْ وَاخْتَرِ الحَرَكَة
+15. harakat_listen_mix_f — اِسْمَعِي وَاخْتَارِي الصَّوْتَ الصَّحِيح
+16. harakat_listen_mix_m — اِسْمَعْ وَاخْتَرِ الصَّوْتَ الصَّحِيح
+17. balance_which_heavier — أَيُّهُما أَثْقَلُ؟
+18. balance_which_lighter — أَيُّهُما أَخَفُّ؟
+19. balance_make_equal_f — اِجْعَلي الكَفَّتَيْنِ مُتَساوِيَتَيْنِ
+20. balance_make_equal_m — اِجْعَلِ الكَفَّتَيْنِ مُتَساوِيَتَيْنِ
+21. balance_missing_weight — ما الوَزْنُ النّاقِصُ؟
+22. balance_choose_sign_f — اِخْتاري الرَّمْزَ الصَّحيحَ
+23. balance_choose_sign_m — اِخْتَرِ الرَّمْزَ الصَّحيحَ
+24. balance_balanced — مُتَساوِيَتانِ!
+25. balance_equals — يُساوي
+26. balance_greater — أَكْبَرُ مِنْ
+27. balance_less — أَصْغَرُ مِنْ
+28. fractions_cut_cake_f — قَسِّمي الكَعْكَةَ
+29. fractions_cut_cake_m — قَسِّمِ الكَعْكَةَ
+30. fractions_cut_pizza_f — قَسِّمي البيتْزا
+31. fractions_cut_pizza_m — قَسِّمِ البيتْزا
+32. fractions_into_halves — إِلى نِصْفَيْنِ
+33. fractions_into_thirds — إِلى ثَلاثَةِ أَثْلاثٍ
+34. fractions_into_quarters — إِلى أَرْبَعَةِ أَرْباعٍ
+35. fractions_halves — نِصْفَيْنِ

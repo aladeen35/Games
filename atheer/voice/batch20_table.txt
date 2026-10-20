@@ -1,0 +1,35 @@
+1. fractions_en_quarter — quarter
+2. sudanmap_en_where_is — Where is
+3. sudanmap_en_where_are_the — Where are the
+4. sudanmap_en_complete — The map of Sudan is complete!
+5. en_num_0 — zero
+6. en_num_1 — one
+7. en_num_2 — two
+8. en_num_3 — three
+9. en_num_4 — four
+10. en_num_5 — five
+11. en_num_6 — six
+12. en_num_7 — seven
+13. en_num_8 — eight
+14. en_num_9 — nine
+15. en_num_10 — ten
+16. en_num_11 — eleven
+17. en_num_12 — twelve
+18. en_num_13 — thirteen
+19. en_num_14 — fourteen
+20. en_num_15 — fifteen
+21. en_num_16 — sixteen
+22. en_num_17 — seventeen
+23. en_num_18 — eighteen
+24. en_num_19 — nineteen
+25. en_num_20 — twenty
+26. sudanmap_en_sudan — Sudan
+27. sudanmap_en_khartoum — Khartoum
+28. sudanmap_en_river_nile — River Nile
+29. sudanmap_en_northern — Northern
+30. sudanmap_en_red_sea — Red Sea
+31. sudanmap_en_gezira — Gezira
+32. sudanmap_en_kassala — Kassala
+33. sudanmap_en_gedaref — Gedaref
+34. sudanmap_en_sennar — Sennar
+35. sudanmap_en_blue_nile — Blue Nile

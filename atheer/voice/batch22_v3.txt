@@ -1,0 +1,137 @@
+[cheerful] Square!
+
+...
+
+[cheerful] Triangle!
+
+...
+
+[cheerful] Star!
+
+...
+
+[cheerful] Heart!
+
+...
+
+[cheerful] Diamond!
+
+...
+
+[cheerful] Small!
+
+...
+
+[cheerful] Medium!
+
+...
+
+[cheerful] Big!
+
+...
+
+[cheerful] Banana!
+
+...
+
+[cheerful] Strawberry!
+
+...
+
+[cheerful] Lemon!
+
+...
+
+[cheerful] Watermelon!
+
+...
+
+[cheerful] Cherries!
+
+...
+
+[cheerful] Pear!
+
+...
+
+[cheerful] Kiwi!
+
+...
+
+[cheerful] Peach!
+
+...
+
+[cheerful] Pineapple!
+
+...
+
+[cheerful] Carrot!
+
+...
+
+[cheerful] Corn!
+
+...
+
+[cheerful] Mango!
+
+...
+
+[cheerful] Coconut!
+
+...
+
+[cheerful] Rabbit!
+
+...
+
+[cheerful] Elephant!
+
+...
+
+[cheerful] Giraffe!
+
+...
+
+[cheerful] Turtle!
+
+...
+
+[cheerful] Butterfly!
+
+...
+
+[cheerful] Penguin!
+
+...
+
+[cheerful] Duck!
+
+...
+
+[cheerful] Owl!
+
+...
+
+[cheerful] Horse!
+
+...
+
+[cheerful] Cow!
+
+...
+
+[cheerful] Monkey!
+
+...
+
+[cheerful] Crocodile!
+
+...
+
+[cheerful] Camel!
+
+...
+
+[cheerful] Dolphin!

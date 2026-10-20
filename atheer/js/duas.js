@@ -269,21 +269,22 @@
       room(c, ['#FFF1D6', '#FFE2B0'], ['#E8C79A', '#D3A877']);
       windowFrame(c, 36, 40, 86, 70, () => { sky(c, '#8FD3FF', '#E1F5FF', 110); puff(c, 70, 70, 14); });
       emo(c, '🪴', 345, 190, 44);
-      kid(c, 200, 238, 25, { T: t, hR: [.25, -2.15 + Math.sin(t * 3) * .12], hL: [-.95, -.75], eyes: 'happy', mouth: 'o' });
-      table(c, 218);
-      plate(c, 200, 222, 44, '🍲');
-      for (let i = 0; i < 3; i++) { const k = (t * .6 + i / 3) % 1; c.strokeStyle = `rgba(255,255,255,${.8 * (1 - k)})`; c.lineWidth = 3; c.beginPath(); c.moveTo(186 + i * 14, 196 - k * 30); c.quadraticCurveTo(180 + i * 14 + Math.sin(t * 3 + i) * 6, 186 - k * 30, 186 + i * 14, 176 - k * 30); c.stroke(); }
-      emo(c, '🥤', 295, 205, 30); emo(c, '🍎', 108, 210, 28);
+      kid(c, 222, 222, 29, { T: t, hR: [.2, -2.1 + Math.sin(t * 3) * .1], hL: [-1.1, -.55], eyes: 'happy', mouth: 'o', legs: 'none' });
+      emo(c, '🥄', 222 + 29 * .32, 222 - 29 * 2.0 + Math.sin(t * 3) * 3, 20, -2.4);
+      table(c, 226);
+      plate(c, 140, 230, 40, '🍲');
+      for (let i = 0; i < 3; i++) { const k = (t * .6 + i / 3) % 1; c.strokeStyle = `rgba(255,255,255,${.8 * (1 - k)})`; c.lineWidth = 3; c.beginPath(); c.moveTo(126 + i * 14, 196 - k * 30); c.quadraticCurveTo(120 + i * 14 + Math.sin(t * 3 + i) * 6, 186 - k * 30, 126 + i * 14, 176 - k * 30); c.stroke(); }
+      emo(c, '🥤', 300, 212, 30); emo(c, '🍎', 80, 216, 26);
     },
     done(c, t) {
       room(c, ['#FFF1D6', '#FFE2B0'], ['#E8C79A', '#D3A877']);
       windowFrame(c, 278, 40, 86, 70, () => { sky(c, '#8FD3FF', '#E1F5FF', 110); puff(c, 320, 72, 14); });
       const up = Math.sin(t * 2.4) * .1;
-      kid(c, 200, 238, 25, { T: t, hR: [1.0, -2.9 + up], hL: [-1.0, -2.9 + up], eyes: 'happy', mouth: 'open' });
-      table(c, 218);
-      plate(c, 200, 222, 44, null);
-      c.fillStyle = '#E6B26A'; for (const [dx, dy] of [[-12, 0], [6, 2], [16, -2]]) { c.beginPath(); c.arc(200 + dx, 220 + dy, 2, 0, TAU); c.fill(); }
-      emo(c, '🥄', 254, 214, 26, -.6);
+      kid(c, 200, 222, 29, { T: t, hR: [1.15, -2.0 + up], hL: [-1.15, -2.0 + up], eyes: 'happy', mouth: 'open', legs: 'none' });
+      table(c, 226);
+      plate(c, 200, 230, 44, null);
+      c.fillStyle = '#E6B26A'; for (const [dx, dy] of [[-12, 0], [6, 2], [16, -2]]) { c.beginPath(); c.arc(200 + dx, 228 + dy, 2, 0, TAU); c.fill(); }
+      emo(c, '🥄', 256, 222, 26, -.6);
       for (let i = 0; i < 3; i++) { const k = (t * .5 + i / 3) % 1; c.globalAlpha = 1 - k; emo(c, '✨', 140 + i * 60, 120 - k * 40, 16); c.globalAlpha = 1; }
     },
     sleep(c, t) {
@@ -325,7 +326,7 @@
       c.fillStyle = '#D8C3A5'; c.beginPath(); c.moveTo(170, 210); c.lineTo(216, 210); c.lineTo(260, VH); c.lineTo(150, VH); c.closePath(); c.fill();
       emo(c, '🌳', 345, 170, 70); emo(c, '🌷', 30, 222, 22); emo(c, '🌼', 120, 228, 18);
       const w = Math.sin(t * 6) * .35;
-      const h = kid(c, 240, 238, 23, { T: t, hR: [1.25, -2.75 + w], hL: [-.5, -1.2], legs: 'walk', mouth: 'open', eyes: 'happy' });
+      const h = kid(c, 240, 234, 27, { T: t, hR: [1.25, -2.75 + w], hL: [-.5, -1.2], legs: 'walk', mouth: 'open', eyes: 'happy' });
       emo(c, '🎒', 218, 196, 28);
     },
     in(c, t) {
@@ -343,7 +344,7 @@
       door(c, 228, 70, 92, 152, 0, ['#8ED1C2', '#5CB3A2']);
       c.fillStyle = '#fff'; rr(c, 252, 86, 44, 30, 8); c.fill(); emo(c, '🚻', 274, 101, 22);
       const st = Math.sin(t * 3) * .1;
-      kid(c, 150, 238, 25, { T: t, hL: [-.7, -.2], hR: [.85, -.4 + st], lookX: 1, eyes: 'open', mouth: 'smile' });
+      kid(c, 150, 234, 29, { T: t, hL: [-.7, -.2], hR: [.85, -.4 + st], lookX: 1, eyes: 'open', mouth: 'smile' });
       emo(c, '🧴', 362, 200, 26);
     },
     wcout(c, t) {
@@ -351,7 +352,7 @@
       c.strokeStyle = 'rgba(255,255,255,.6)'; c.lineWidth = 1.5; for (let y = 20; y < 216; y += 26) { c.beginPath(); c.moveTo(0, y); c.lineTo(VW, y); c.stroke(); }
       door(c, 60, 70, 92, 152, .45, ['#8ED1C2', '#5CB3A2'], () => { c.fillStyle = '#DDF0FA'; c.fillRect(60, 70, 92, 152); emo(c, '🚽', 110, 190, 40); });
       c.fillStyle = '#fff'; rr(c, 160, 86, 40, 28, 8); c.fill(); emo(c, '🚻', 180, 100, 20);
-      kid(c, 250, 238, 25, { T: t, hL: [-.3, -.55], hR: [.3, -.55], eyes: 'happy', mouth: 'smile', legs: 'walk' });
+      kid(c, 250, 234, 29, { T: t, hL: [-.3, -.55], hR: [.3, -.55], eyes: 'happy', mouth: 'smile', legs: 'walk' });
       for (let i = 0; i < 5; i++) { const k = (t * .4 + i / 5) % 1; c.globalAlpha = 1 - k; c.strokeStyle = '#8FD3FF'; c.fillStyle = 'rgba(200,235,255,.5)'; c.lineWidth = 2; c.beginPath(); c.arc(230 + i * 12 + Math.sin(t * 2 + i) * 6, 200 - k * 90, 5 + i % 3 * 2, 0, TAU); c.fill(); c.stroke(); c.globalAlpha = 1; }
     },
     dress(c, t) {
@@ -362,16 +363,16 @@
       c.fillStyle = '#FFE08A'; c.beginPath(); c.arc(82, 140, 4, 0, TAU); c.arc(96, 140, 4, 0, TAU); c.fill();
       emo(c, '🪞', 340, 150, 60);
       const pull = (Math.sin(t * 1.6) + 1) / 2;
-      kid(c, 215, 238, 25, { T: t, hL: [-.55, -3.55 + pull * .5], hR: [.55, -3.55 + pull * .5], eyes: 'happy', mouth: 'smile' });
-      emo(c, '👕', 215, 238 - 25 * (3.75 - pull * .5), 46);
+      kid(c, 215, 234, 29, { T: t, hL: [-.55, -3.55 + pull * .5], hR: [.55, -3.55 + pull * .5], eyes: 'happy', mouth: 'smile' });
+      emo(c, '👕', 215, 234 - 29 * (3.75 - pull * .5), 52);
       for (let i = 0; i < 4; i++) { const k = (t * .5 + i / 4) % 1; c.globalAlpha = Math.sin(k * Math.PI); emo(c, '✨', 160 + i * 34, 90 - k * 30 + (i % 2) * 20, 13); c.globalAlpha = 1; }
     },
     sneeze(c, t) {
       room(c, ['#FFF6D9', '#FFE9AE'], ['#E8C79A', '#D3A877']);
       windowFrame(c, 40, 44, 80, 66, () => { sky(c, '#8FD3FF', '#E1F5FF', 110); puff(c, 76, 76, 12); });
       const ph = (t % 3) / 3, ach = ph > .55 && ph < .8;
-      kid(c, 210, 238, 26, { T: t, tilt: ach ? .12 : -.05, hR: [.18, -2.15], hL: [-.8, -.2], eyes: ach ? 'squeeze' : 'closed', mouth: ach ? 'open' : 'o' });
-      c.fillStyle = '#fff'; c.save(); c.translate(214, 238 - 26 * 2.12); c.rotate(.2); rr(c, -9, -8, 22, 18, 5); c.fill(); c.strokeStyle = '#D6E6F2'; c.lineWidth = 1.5; c.stroke(); c.restore();
+      kid(c, 210, 234, 30, { T: t, tilt: ach ? .12 : -.05, hR: [.18, -2.15], hL: [-.8, -.2], eyes: ach ? 'squeeze' : 'closed', mouth: ach ? 'open' : 'o' });
+      c.fillStyle = '#fff'; c.save(); c.translate(216, 234 - 30 * 2.12); c.rotate(.2); rr(c, -9, -8, 22, 18, 5); c.fill(); c.strokeStyle = '#D6E6F2'; c.lineWidth = 1.5; c.stroke(); c.restore();
       if (ach) {
         c.strokeStyle = '#FF9F43'; c.lineWidth = 3; c.lineCap = 'round';
         for (let i = 0; i < 5; i++) { const a = -.9 + i * .45; c.beginPath(); c.moveTo(246 + Math.cos(a) * 18, 168 + Math.sin(a) * 18); c.lineTo(246 + Math.cos(a) * 34, 168 + Math.sin(a) * 34); c.stroke(); }
@@ -383,17 +384,17 @@
       room(c, ['#E8F7EC', '#CFEED8'], ['#E8C79A', '#D3A877']);
       emo(c, '🪴', 40, 196, 44);
       const ph = (t % 3) / 3, ach = ph > .5 && ph < .75;
-      kid(c, 300, 238, 21, { look: buddy(), T: t, ph: 2, tilt: ach ? .14 : 0, hL: [-.15, -2.1], hR: [.8, -.2], eyes: ach ? 'squeeze' : 'closed', mouth: ach ? 'open' : 'o' });
+      kid(c, 300, 234, 25, { look: buddy(), T: t, ph: 2, tilt: ach ? .14 : 0, hL: [-.15, -2.1], hR: [.8, -.2], eyes: ach ? 'squeeze' : 'closed', mouth: ach ? 'open' : 'o' });
       if (ach) { c.save(); c.font = `900 18px ${EN_FONT}`; c.fillStyle = '#FF7A3D'; c.fillText('Achoo!', 248, 120); c.restore(); }
       else bubbleText(c, 300, 118, 'الحمد لله', '#1E8E72', 13);
-      kid(c, 130, 238, 25, { T: t, hL: [-.9, -1.3], hR: [.95, -1.3], eyes: 'open', mouth: 'smile', lookX: 1.4 });
+      kid(c, 130, 234, 29, { T: t, hL: [-.9, -1.3], hR: [.95, -1.3], eyes: 'open', mouth: 'smile', lookX: 1.4 });
     },
     reply(c, t) {
       room(c, ['#E8F7EC', '#CFEED8'], ['#E8C79A', '#D3A877']);
       emo(c, '🖼️', 345, 70, 36);
-      kid(c, 300, 238, 22, { look: buddy(), T: t, ph: 2, hL: [-.95, -1.4], hR: [.8, -.2], eyes: 'happy', mouth: 'open', lookX: -1.4 });
+      kid(c, 300, 234, 26, { look: buddy(), T: t, ph: 2, hL: [-.95, -1.4], hR: [.8, -.2], eyes: 'happy', mouth: 'open', lookX: -1.4 });
       bubbleText(c, 292, 112, 'يرحمك الله', '#1E8E72', 13);
-      kid(c, 135, 238, 25, { T: t, hL: [-.75, -.2], hR: [.8, -.9], eyes: 'happy', mouth: 'smile', lookX: 1.4 });
+      kid(c, 135, 234, 29, { T: t, hL: [-.75, -.2], hR: [.8, -.9], eyes: 'happy', mouth: 'smile', lookX: 1.4 });
       c.fillStyle = '#fff'; rr(c, 150, 200, 18, 15, 4); c.fill();
     },
     car(c, t) {
@@ -414,7 +415,7 @@
       // النافذة والطفل
       c.save(); c.beginPath(); c.moveTo(cx - 50, cy - 52); c.lineTo(cx - 34, cy - 88); c.lineTo(cx + 36, cy - 88); c.lineTo(cx + 62, cy - 52); c.closePath();
       c.fillStyle = '#CFEFFF'; c.fill(); c.clip();
-      kid(c, cx + 6, cy + 2, 17, { T: t, eyes: 'happy', mouth: 'open', hR: [.9, -1.4], hL: [-.7, -1.2] });
+      kid(c, cx + 6, cy - 22, 17, { T: t, eyes: 'happy', mouth: 'open', hR: [.9, -1.4], hL: [-.7, -1.2] });
       c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.moveTo(cx - 30, cy - 52); c.lineTo(cx - 14, cy - 88); c.lineTo(cx - 2, cy - 88); c.lineTo(cx - 18, cy - 52); c.fill();
       c.restore();
       c.fillStyle = 'rgba(255,255,255,.35)'; rr(c, cx - 96, cy - 44, 190, 6, 3); c.fill();
@@ -434,9 +435,9 @@
       emo(c, '🌻', 40, 216, 30); emo(c, '🌷', 360, 214, 26); emo(c, '🌱', 300, 236, 22);
       c.strokeStyle = 'rgba(70,130,210,.65)'; c.lineWidth = 2; c.lineCap = 'round';
       for (let i = 0; i < 46; i++) { const x = (i * 53) % VW, y = ((i * 97 + t * 260) % 300) - 20; c.beginPath(); c.moveTo(x, y); c.lineTo(x - 3, y + 11); c.stroke(); }
-      const hd = kid(c, 200, 238, 25, { T: t, hR: [.55, -1.7], hL: [-1.25, -1.9], eyes: 'happy', mouth: 'open', lookY: -1 });
+      const hd = kid(c, 200, 234, 29, { T: t, hR: [.55, -1.7], hL: [-1.25, -1.9], eyes: 'happy', mouth: 'open', lookY: -1 });
       // المظلة
-      const ux = 200 + 25 * .55, uy = 238 - 25 * 1.7;
+      const ux = 200 + 29 * .55, uy = 234 - 29 * 1.7;
       c.strokeStyle = '#6B4A2E'; c.lineWidth = 4; c.beginPath(); c.moveTo(ux, uy + 8); c.lineTo(ux - 6, uy - 92); c.stroke();
       const cx = ux - 8, cy = uy - 96, R = 72, cols = ['#FF6B8B', '#FFC93C', '#4FC3F7', '#7ED957', '#B28DFF'];
       for (let i = 0; i < 5; i++) {
@@ -445,20 +446,20 @@
       }
       c.fillStyle = 'rgba(255,255,255,.3)'; c.beginPath(); c.arc(cx, cy, R, Math.PI, Math.PI * 1.45); c.lineTo(cx, cy); c.fill();
       c.fillStyle = '#9FB8D6'; for (let i = 0; i < 5; i++) { c.beginPath(); c.arc(cx - R + R * .2 + i * R * .4, cy + 2, R * .2, Math.PI, 0); c.fill(); }
-      for (let i = 0; i < 4; i++) { const k = (t * 1.5 + i / 4) % 1; c.fillStyle = `rgba(80,150,230,${1 - k})`; c.beginPath(); c.arc(200 - 25 * 1.25 + (i - 1.5) * 6, 238 - 25 * 1.9 - 30 + k * 26, 2.5, 0, TAU); c.fill(); }
+      for (let i = 0; i < 4; i++) { const k = (t * 1.5 + i / 4) % 1; c.fillStyle = `rgba(80,150,230,${1 - k})`; c.beginPath(); c.arc(200 - 29 * 1.25 + (i - 1.5) * 6, 234 - 29 * 1.9 - 30 + k * 26, 2.5, 0, TAU); c.fill(); }
     },
     study(c, t) {
       room(c, ['#E9F1FF', '#D5E3FF'], ['#E8C79A', '#D3A877']);
       emo(c, '🗺️', 80, 70, 48); emo(c, '🕰️', 330, 60, 34);
-      kid(c, 200, 238, 25, { T: t, hL: [-.55, -.95], hR: [.6, -.95 + Math.sin(t * 4) * .06], eyes: 'down', mouth: 'smile' });
-      table(c, 214, 70, 330);
-      c.save(); c.translate(200, 212); c.fillStyle = '#fff'; c.beginPath(); c.moveTo(-50, 0); c.quadraticCurveTo(-25, -12, 0, -4); c.quadraticCurveTo(25, -12, 50, 0); c.lineTo(50, 6); c.lineTo(-50, 6); c.fill();
+      kid(c, 200, 222, 29, { T: t, hL: [-.6, -.15], hR: [.65, -.15 + Math.sin(t * 4) * .06], eyes: 'down', mouth: 'smile', legs: 'none' });
+      table(c, 226, 70, 330);
+      c.save(); c.translate(200, 224); c.fillStyle = '#fff'; c.beginPath(); c.moveTo(-50, 0); c.quadraticCurveTo(-25, -12, 0, -4); c.quadraticCurveTo(25, -12, 50, 0); c.lineTo(50, 6); c.lineTo(-50, 6); c.fill();
       c.strokeStyle = '#4C9BE8'; c.lineWidth = 3; c.beginPath(); c.moveTo(-50, 5); c.lineTo(50, 5); c.stroke();
       c.strokeStyle = 'rgba(80,100,140,.4)'; c.lineWidth = 1.5; for (let i = 0; i < 3; i++) { c.beginPath(); c.moveTo(-42, -2 - i * 3 + 2); c.lineTo(-10, -4 - i * 3 + 2); c.moveTo(10, -4 - i * 3 + 2); c.lineTo(42, -2 - i * 3 + 2); c.stroke(); }
       c.restore();
-      emo(c, '✏️', 270, 204, 26, .8); emo(c, '📚', 120, 196, 34);
+      emo(c, '✏️', 272, 216, 26, .8); emo(c, '📚', 112, 208, 34);
       // مصباح
-      c.fillStyle = '#5A6B8C'; c.fillRect(312, 150, 5, 64); c.fillStyle = grad(c, 0, 130, 0, 160, ['#FFD45C', '#F2A90F']); c.beginPath(); c.moveTo(296, 156); c.lineTo(334, 156); c.lineTo(324, 130); c.lineTo(306, 130); c.fill();
+      c.fillStyle = '#5A6B8C'; c.fillRect(312, 162, 5, 64); c.fillStyle = grad(c, 0, 130, 0, 160, ['#FFD45C', '#F2A90F']); c.beginPath(); c.moveTo(296, 156); c.lineTo(334, 156); c.lineTo(324, 130); c.lineTo(306, 130); c.fill();
       c.fillStyle = 'rgba(255,230,140,.25)'; c.beginPath(); c.moveTo(298, 158); c.lineTo(332, 158); c.lineTo(360, 214); c.lineTo(260, 214); c.fill();
       for (let i = 0; i < 3; i++) { const k = (t * .4 + i / 3) % 1; c.globalAlpha = Math.sin(k * Math.PI); emo(c, ['💡', '⭐', '🌟'][i], 150 + i * 50, 120 - k * 40, 16); c.globalAlpha = 1; }
     }
@@ -480,6 +481,7 @@
   #duas .prog i.on{background:linear-gradient(#FFD36B,#F2A20F);box-shadow:0 2px 0 #C67F00;animation:duPop .45s cubic-bezier(.3,1.8,.5,1)}
   #duas .prog i.no{background:linear-gradient(#FFB4A8,#F27A68);box-shadow:0 2px 0 #C2503F}
   @keyframes duPop{40%{transform:scale(1.5,1.3)}}
+  #duas .main>:first-child{margin-top:auto}#duas .main>:last-child{margin-bottom:auto}
   #duas .main{position:absolute;left:0;right:0;bottom:0;top:calc(max(10px,env(safe-area-inset-top)) + 92px);display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 14px max(14px,env(safe-area-inset-bottom));overflow-y:auto;touch-action:pan-y}
   #duas .stage{width:min(100%,520px);flex:none;display:flex;flex-direction:column;align-items:center;gap:8px}
   #duas .cap{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:99px;padding:5px 16px 5px 6px;font-weight:900;font-size:19px;color:#146B59;box-shadow:0 4px 0 #BFE9DC,0 6px 14px rgba(20,90,70,.1);border:3px solid #DDF5EC;max-width:100%}
@@ -491,14 +493,14 @@
   #duas .ask{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:900;font-size:19px;color:#1C6B5A}
   #duas .ask.en{font-family:${EN_FONT};direction:ltr}
   #duas .ask .sayb{width:46px;height:46px;flex:0 0 46px;font-size:21px}
-  #duas .card{position:relative;background:#fff;border-radius:22px;border:3px solid #DDEFE8;box-shadow:0 5px 0 #C5E3D8,0 8px 16px rgba(20,80,60,.08);padding:10px 14px 10px 54px;text-align:right;font-weight:800;font-size:clamp(19px,5.4vw,25px);line-height:1.75;color:#1E3E36;transition:background .2s,border-color .2s;min-height:62px}
-  #duas .card::after{content:'';position:absolute;left:14px;top:50%;margin-top:-14px;width:28px;height:28px;border-radius:50%;border:3px solid #CFE6DE;background:#F6FBF9}
-  #duas .card small{display:block;direction:ltr;text-align:left;font-family:${EN_FONT};font-size:14px;line-height:1.3;color:#5C7D73;font-weight:700;margin-top:2px}
-  #duas .card:active{transform:translateY(3px);box-shadow:0 2px 0 #C5E3D8}
-  #duas .card.ok{background:#E3F9EA;border-color:#4CC37A;box-shadow:0 5px 0 #34A35F;animation:pop .4s cubic-bezier(.3,1.8,.6,1)}
-  #duas .card.ok::after{content:'✓';border-color:#34A35F;background:#4CC37A;color:#fff;font-size:18px;font-weight:900;display:grid;place-items:center}
-  #duas .card.no{background:#FFEDEA;border-color:#F28B7B;box-shadow:0 5px 0 #D9675A;animation:duShake .4s;opacity:.7}
-  #duas .card.dim{opacity:.45}
+  #duas .dc{position:relative;background:#fff;border-radius:22px;border:3px solid #DDEFE8;box-shadow:0 5px 0 #C5E3D8,0 8px 16px rgba(20,80,60,.08);padding:10px 14px 10px 54px;text-align:right;font-weight:800;font-size:clamp(19px,5.4vw,25px);line-height:1.75;color:#1E3E36;transition:background .2s,border-color .2s;min-height:62px}
+  #duas .dc::after{content:'';position:absolute;left:14px;top:50%;margin-top:-14px;width:28px;height:28px;border-radius:50%;border:3px solid #CFE6DE;background:#F6FBF9}
+  #duas .dc small{display:block;direction:ltr;text-align:left;font-family:${EN_FONT};font-size:14px;line-height:1.3;color:#5C7D73;font-weight:700;margin-top:2px}
+  #duas .dc:active{transform:translateY(3px);box-shadow:0 2px 0 #C5E3D8}
+  #duas .dc.ok{background:#E3F9EA;border-color:#4CC37A;box-shadow:0 5px 0 #34A35F;animation:pop .4s cubic-bezier(.3,1.8,.6,1)}
+  #duas .dc.ok::after{content:'✓';border-color:#34A35F;background:#4CC37A;color:#fff;font-size:18px;font-weight:900;display:grid;place-items:center}
+  #duas .dc.no{background:#FFEDEA;border-color:#F28B7B;box-shadow:0 5px 0 #D9675A;animation:duShake .4s;opacity:.7}
+  #duas .dc.dim{opacity:.45}
   @keyframes duShake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
   #duas .lbox{background:linear-gradient(#FFFFFF,#FFFBF1);border-radius:26px;border:4px solid #F6E3B4;box-shadow:0 6px 0 #EBCB82,0 12px 22px rgba(120,90,20,.12);padding:12px 14px 12px;text-align:center}
   #duas .lbox .du{font-size:clamp(24px,7vw,34px);font-weight:900;line-height:1.8;color:#3F3A2A;direction:rtl}
@@ -694,8 +696,8 @@
     shuffle(opts);
     askEl.classList.toggle('en', lang === 'en');
     askT.textContent = lang === 'ar' ? 'ماذا نقول؟ 🤔' : 'What do we say? 🤔';
-    cardsEl.innerHTML = opts.map(x => `<button class="card" data-id="${x.id}">${esc(x.t)}${lang === 'en' ? `<small>${esc(x.en)}</small>` : ''}</button>`).join('');
-    cardsEl.querySelectorAll('.card').forEach((b, i) => {
+    cardsEl.innerHTML = opts.map(x => `<button class="dc" data-id="${x.id}">${esc(x.t)}${lang === 'en' ? `<small>${esc(x.en)}</small>` : ''}</button>`).join('');
+    cardsEl.querySelectorAll('.dc').forEach((b, i) => {
       b.animate([{ opacity: 0, transform: 'translateY(16px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 320, delay: 80 * i, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'backwards' });
       b.addEventListener('click', () => pick(b));
     });
@@ -707,7 +709,7 @@
     tasks = [];
     if (x.p === d.p) {
       answered = true; b.classList.add('ok');
-      cardsEl.querySelectorAll('.card').forEach(c => { if (c !== b) c.classList.add('dim'); });
+      cardsEl.querySelectorAll('.dc').forEach(c => { if (c !== b) c.classList.add('dim'); });
       pstates[qi] = tries ? 'no' : 'on'; setProg(def.q, pstates);
       Sound.star(); vibrate(20); burst();
       // عرض الدعاء مع القراءة
@@ -789,7 +791,7 @@
     if (App.current !== ID || $('#sheetWrap').classList.contains('on')) return;
     if (winOv.classList.contains('on') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); act(lvl < LEVELS.length ? 'next' : 'levels'); return; }
     if (lvOv.classList.contains('on') || winOv.classList.contains('on')) return;
-    if (mode === 'quiz') { const k = parseInt(e.key, 10), cs = cardsEl.querySelectorAll('.card'); if (k >= 1 && k <= cs.length) pick(cs[k - 1]); }
+    if (mode === 'quiz') { const k = parseInt(e.key, 10), cs = cardsEl.querySelectorAll('.dc'); if (k >= 1 && k <= cs.length) pick(cs[k - 1]); }
     else if (e.key === 'Enter' || e.key === 'ArrowLeft') goBtn.click();
     else if (e.key === 'ArrowRight') prevBtn.click();
   });

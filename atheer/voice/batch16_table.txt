@@ -1,0 +1,35 @@
+1. fractions_thirds — ثَلاثَةُ أَثْلاثٍ
+2. fractions_quarters — أَرْبَعَةُ أَرْباعٍ
+3. fractions_share_cake_f — وَزِّعي الكَعْكَةَ
+4. fractions_share_cake_m — وَزِّعِ الكَعْكَةَ
+5. fractions_share_pizza_f — وَزِّعي البيتْزا
+6. fractions_share_pizza_m — وَزِّعِ البيتْزا
+7. fractions_equally — بِالتَّساوي
+8. fractions_what_part — ما اسْمُ هذا الجُزْءِ؟
+9. fractions_which_bigger — أَيُّ قِطْعَةٍ أَكْبَرُ؟
+10. fractions_which_smaller — أَيُّ قِطْعَةٍ أَصْغَرُ؟
+11. fractions_each_piece — كُلُّ قِطْعَةٍ
+12. fractions_each_friend — لِكُلِّ صَديقٍ
+13. fractions_half — نِصْفٌ
+14. fractions_third — ثُلُثٌ
+15. fractions_quarter — رُبْعٌ
+16. fractions_the_half — النِّصْفُ
+17. fractions_the_third — الثُّلُثُ
+18. fractions_the_quarter — الرُّبْعُ
+19. pattern_complete_f — أَكْمِلِي النَّمَطَ
+20. pattern_complete_m — أَكْمِلِ النَّمَطَ
+21. pattern_small — صَغِير
+22. pattern_medium — مُتَوَسِّط
+23. pattern_big — كَبِير
+24. shadows_whose — ظِلُّ مَنْ؟
+25. shadows_squirrel — سِنْجَاب
+26. shadows_kite — طَائِرَةٌ وَرَقِيَّة
+27. shadows_yoyo — يُويُو
+28. shadows_dice — نَرْد
+29. shadows_puzzle — أُحْجِيَة
+30. shadows_doll — دُمْيَة
+31. shadows_scooter — سُكُوتَر
+32. shadows_paints — أَلْوَان
+33. shadows_hammer — مِطْرَقَة
+34. shadows_wrench — مِفْتَاحُ رَبْط
+35. shadows_screwdriver — مِفَكّ

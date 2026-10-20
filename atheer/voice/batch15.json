@@ -1,0 +1,352 @@
+[
+ {
+  "id": "penguins_order_f",
+  "text": "رَتِّبي البَطاريق",
+  "plain": "رتّبي البطاريق",
+  "lang": "ar",
+  "game": "penguins",
+  "emotion": "cheerful",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "penguins_order_m",
+  "text": "رَتِّبِ البَطاريق",
+  "plain": "رتّب البطاريق",
+  "lang": "ar",
+  "game": "penguins",
+  "emotion": "cheerful",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "penguins_missing",
+  "text": "أَيُّ رَقْمٍ ناقِص؟",
+  "plain": "أيّ رقم ناقص؟",
+  "lang": "ar",
+  "game": "penguins",
+  "emotion": "curious",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_fateh",
+  "text": "بُرْجُ الفاتِح",
+  "plain": "برج الفاتح",
+  "lang": "ar",
+  "game": "tower,sudanmap",
+  "emotion": "proud",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_kingdom",
+  "text": "بُرْجُ المَمْلَكَة",
+  "plain": "برج المملكة",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "proud",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_khalifa",
+  "text": "بُرْجُ خَليفَة",
+  "plain": "برج خليفة",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "proud",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_eiffel",
+  "text": "بُرْجُ إيفِل",
+  "plain": "برج إيفل",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "proud",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_clock",
+  "text": "ساعَةُ مَكَّة",
+  "plain": "ساعة مكة",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "proud",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_count_down",
+  "text": "لِنَعُدَّ تَنازُلِيًّا",
+  "plain": "لنعد تنازليا",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "cheerful",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_count_by2",
+  "text": "لِنَعُدَّ بِالاثْنَيْن",
+  "plain": "لنعد بالاثنين",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "cheerful",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_missing",
+  "text": "ما الرَّقْمُ النّاقِص؟",
+  "plain": "ما الرقم الناقص؟",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "curious",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "tower_we_built",
+  "text": "بَنَيْنا",
+  "plain": "بنينا",
+  "lang": "ar",
+  "game": "tower",
+  "emotion": "excited",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "harakat_listen_f",
+  "text": "اِسْمَعِي وَاخْتَارِي الحَرَكَة",
+  "plain": "اسمعي واختاري الحركة",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "playfully",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "harakat_listen_m",
+  "text": "اِسْمَعْ وَاخْتَرِ الحَرَكَة",
+  "plain": "اسمع واختر الحركة",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "playfully",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "harakat_listen_mix_f",
+  "text": "اِسْمَعِي وَاخْتَارِي الصَّوْتَ الصَّحِيح",
+  "plain": "اسمعي واختاري الصوت الصحيح",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "playfully",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "harakat_listen_mix_m",
+  "text": "اِسْمَعْ وَاخْتَرِ الصَّوْتَ الصَّحِيح",
+  "plain": "اسمع واختر الصوت الصحيح",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "playfully",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_which_heavier",
+  "text": "أَيُّهُما أَثْقَلُ؟",
+  "plain": "أيهما أثقل؟",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_which_lighter",
+  "text": "أَيُّهُما أَخَفُّ؟",
+  "plain": "أيهما أخف؟",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_make_equal_f",
+  "text": "اِجْعَلي الكَفَّتَيْنِ مُتَساوِيَتَيْنِ",
+  "plain": "اجعلي الكفتين متساويتين",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_make_equal_m",
+  "text": "اِجْعَلِ الكَفَّتَيْنِ مُتَساوِيَتَيْنِ",
+  "plain": "اجعل الكفتين متساويتين",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_missing_weight",
+  "text": "ما الوَزْنُ النّاقِصُ؟",
+  "plain": "ما الوزن الناقص؟",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_choose_sign_f",
+  "text": "اِخْتاري الرَّمْزَ الصَّحيحَ",
+  "plain": "اختاري الرمز الصحيح",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_choose_sign_m",
+  "text": "اِخْتَرِ الرَّمْزَ الصَّحيحَ",
+  "plain": "اختر الرمز الصحيح",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_balanced",
+  "text": "مُتَساوِيَتانِ!",
+  "plain": "متساويتان!",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "excited",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_equals",
+  "text": "يُساوي",
+  "plain": "يساوي",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_greater",
+  "text": "أَكْبَرُ مِنْ",
+  "plain": "أكبر من",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "balance_less",
+  "text": "أَصْغَرُ مِنْ",
+  "plain": "أصغر من",
+  "lang": "ar",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_cut_cake_f",
+  "text": "قَسِّمي الكَعْكَةَ",
+  "plain": "قسمي الكعكة",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_cut_cake_m",
+  "text": "قَسِّمِ الكَعْكَةَ",
+  "plain": "قسم الكعكة",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_cut_pizza_f",
+  "text": "قَسِّمي البيتْزا",
+  "plain": "قسمي البيتزا",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_cut_pizza_m",
+  "text": "قَسِّمِ البيتْزا",
+  "plain": "قسم البيتزا",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_into_halves",
+  "text": "إِلى نِصْفَيْنِ",
+  "plain": "إلى نصفين",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_into_thirds",
+  "text": "إِلى ثَلاثَةِ أَثْلاثٍ",
+  "plain": "إلى ثلاثة أثلاث",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_into_quarters",
+  "text": "إِلى أَرْبَعَةِ أَرْباعٍ",
+  "plain": "إلى أربعة أرباع",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 15,
+  "note": ""
+ },
+ {
+  "id": "fractions_halves",
+  "text": "نِصْفَيْنِ",
+  "plain": "نصفين",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "cheerful",
+  "batch": 15,
+  "note": ""
+ }
+]

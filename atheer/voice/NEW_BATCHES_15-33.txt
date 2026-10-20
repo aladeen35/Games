@@ -1,0 +1,2340 @@
+دفعات التسجيل الجديدة 15–33 (Eleven v3، نفس صوت الطفلة)
+تُنسخ كل دفعة كما هي إلى ElevenLabs v3، ويُرسل ملف MP3 لكل دفعة باسم رقمها (مثل 15.mp3).
+الدفعات 25–33 مقاطع حركات قصيرة جدًا: كل مقطع وحده بوضوح وبعده وقفة.
+
+════════════ الدفعة 15 (35 مقطعًا) ════════════
+
+[cheerful] رَتِّبي البَطاريق
+
+...
+
+[cheerful] رَتِّبِ البَطاريق
+
+...
+
+[curious] أَيُّ رَقْمٍ ناقِص؟
+
+...
+
+[proud] بُرْجُ الفاتِح
+
+...
+
+[proud] بُرْجُ المَمْلَكَة
+
+...
+
+[proud] بُرْجُ خَليفَة
+
+...
+
+[proud] بُرْجُ إيفِل
+
+...
+
+[proud] ساعَةُ مَكَّة
+
+...
+
+[cheerful] لِنَعُدَّ تَنازُلِيًّا
+
+...
+
+[cheerful] لِنَعُدَّ بِالاثْنَيْن
+
+...
+
+[curious] ما الرَّقْمُ النّاقِص؟
+
+...
+
+[excited] بَنَيْنا
+
+...
+
+[playfully] اِسْمَعِي وَاخْتَارِي الحَرَكَة
+
+...
+
+[playfully] اِسْمَعْ وَاخْتَرِ الحَرَكَة
+
+...
+
+[playfully] اِسْمَعِي وَاخْتَارِي الصَّوْتَ الصَّحِيح
+
+...
+
+[playfully] اِسْمَعْ وَاخْتَرِ الصَّوْتَ الصَّحِيح
+
+...
+
+[curious] أَيُّهُما أَثْقَلُ؟
+
+...
+
+[curious] أَيُّهُما أَخَفُّ؟
+
+...
+
+[encouraging] اِجْعَلي الكَفَّتَيْنِ مُتَساوِيَتَيْنِ
+
+...
+
+[encouraging] اِجْعَلِ الكَفَّتَيْنِ مُتَساوِيَتَيْنِ
+
+...
+
+[curious] ما الوَزْنُ النّاقِصُ؟
+
+...
+
+[encouraging] اِخْتاري الرَّمْزَ الصَّحيحَ
+
+...
+
+[encouraging] اِخْتَرِ الرَّمْزَ الصَّحيحَ
+
+...
+
+[excited] مُتَساوِيَتانِ!
+
+...
+
+[neutral] يُساوي
+
+...
+
+[neutral] أَكْبَرُ مِنْ
+
+...
+
+[neutral] أَصْغَرُ مِنْ
+
+...
+
+[encouraging] قَسِّمي الكَعْكَةَ
+
+...
+
+[encouraging] قَسِّمِ الكَعْكَةَ
+
+...
+
+[encouraging] قَسِّمي البيتْزا
+
+...
+
+[encouraging] قَسِّمِ البيتْزا
+
+...
+
+[neutral] إِلى نِصْفَيْنِ
+
+...
+
+[neutral] إِلى ثَلاثَةِ أَثْلاثٍ
+
+...
+
+[neutral] إِلى أَرْبَعَةِ أَرْباعٍ
+
+...
+
+[cheerful] نِصْفَيْنِ
+
+════════════ الدفعة 16 (35 مقطعًا) ════════════
+
+[cheerful] ثَلاثَةُ أَثْلاثٍ
+
+...
+
+[cheerful] أَرْبَعَةُ أَرْباعٍ
+
+...
+
+[encouraging] وَزِّعي الكَعْكَةَ
+
+...
+
+[encouraging] وَزِّعِ الكَعْكَةَ
+
+...
+
+[encouraging] وَزِّعي البيتْزا
+
+...
+
+[encouraging] وَزِّعِ البيتْزا
+
+...
+
+[neutral] بِالتَّساوي
+
+...
+
+[curious] ما اسْمُ هذا الجُزْءِ؟
+
+...
+
+[curious] أَيُّ قِطْعَةٍ أَكْبَرُ؟
+
+...
+
+[curious] أَيُّ قِطْعَةٍ أَصْغَرُ؟
+
+...
+
+[neutral] كُلُّ قِطْعَةٍ
+
+...
+
+[cheerful] لِكُلِّ صَديقٍ
+
+...
+
+[neutral] نِصْفٌ
+
+...
+
+[neutral] ثُلُثٌ
+
+...
+
+[neutral] رُبْعٌ
+
+...
+
+[neutral] النِّصْفُ
+
+...
+
+[neutral] الثُّلُثُ
+
+...
+
+[neutral] الرُّبْعُ
+
+...
+
+[encouraging] أَكْمِلِي النَّمَطَ
+
+...
+
+[encouraging] أَكْمِلِ النَّمَطَ
+
+...
+
+[neutral] صَغِير
+
+...
+
+[neutral] مُتَوَسِّط
+
+...
+
+[neutral] كَبِير
+
+...
+
+[curious] ظِلُّ مَنْ؟
+
+...
+
+[neutral] سِنْجَاب
+
+...
+
+[neutral] طَائِرَةٌ وَرَقِيَّة
+
+...
+
+[neutral] يُويُو
+
+...
+
+[neutral] نَرْد
+
+...
+
+[neutral] أُحْجِيَة
+
+...
+
+[neutral] دُمْيَة
+
+...
+
+[neutral] سُكُوتَر
+
+...
+
+[neutral] أَلْوَان
+
+...
+
+[neutral] مِطْرَقَة
+
+...
+
+[neutral] مِفْتَاحُ رَبْط
+
+...
+
+[neutral] مِفَكّ
+
+════════════ الدفعة 17 (35 مقطعًا) ════════════
+
+[neutral] مِقَصّ
+
+...
+
+[neutral] مِنْشَار
+
+...
+
+[neutral] مِفْتَاح
+
+...
+
+[neutral] مِسْطَرَة
+
+...
+
+[neutral] فُرْشَاة
+
+...
+
+[neutral] قَلَمُ رَصَاص
+
+...
+
+[neutral] مِكْنَسَة
+
+...
+
+[neutral] دَلْو
+
+...
+
+[neutral] مِصْبَاحٌ يَدَوِيّ
+
+...
+
+[neutral] مِغْنَاطِيس
+
+...
+
+[neutral] سُلَّم
+
+...
+
+[curious] أَيْنَ وِلَايَةُ
+
+...
+
+[curious] أَيْنَ الوِلَايَةُ
+
+...
+
+[curious] أَيْنَ
+
+...
+
+[excited] اكْتَمَلَتْ خَرِيطَةُ السُّودَانِ!
+
+...
+
+[happy] السُّودَان
+
+...
+
+[happy] الخَرْطُوم
+
+...
+
+[happy] نَهْرُ النِّيل
+
+...
+
+[happy] الشَّمَالِيَّة
+
+...
+
+[happy] البَحْرُ الأَحْمَر
+
+...
+
+[happy] الجَزِيرَة
+
+...
+
+[happy] كَسَلَا
+
+...
+
+[happy] القَضَارِف
+
+...
+
+[happy] سِنَّار
+
+...
+
+[happy] النِّيلُ الأَزْرَق
+
+...
+
+[happy] النِّيلُ الأَبْيَض
+
+...
+
+[happy] شَمَالُ كُرْدُفَان
+
+...
+
+[happy] جَنُوبُ كُرْدُفَان
+
+...
+
+[happy] غَرْبُ كُرْدُفَان
+
+...
+
+[happy] شَمَالُ دَارْفُور
+
+...
+
+[happy] جَنُوبُ دَارْفُور
+
+...
+
+[happy] غَرْبُ دَارْفُور
+
+...
+
+[happy] وَسَطُ دَارْفُور
+
+...
+
+[happy] شَرْقُ دَارْفُور
+
+...
+
+[amazed] المَقْرَن
+
+════════════ الدفعة 18 (17 مقطعًا) ════════════
+
+[amazed] أَهْرَامَاتُ البَجْرَاوِيَّة
+
+...
+
+[amazed] جَبَلُ البَرْكَل
+
+...
+
+[amazed] مِينَاءُ بُورْتْسُودَان
+
+...
+
+[amazed] مَشْرُوعُ الجَزِيرَة
+
+...
+
+[amazed] جِبَالُ التَّاكَا
+
+...
+
+[amazed] مَزَارِعُ الذُّرَة
+
+...
+
+[amazed] خَزَّانُ سِنَّار
+
+...
+
+[amazed] خَزَّانُ الرُّوصَيْرِص
+
+...
+
+[amazed] سُكَّرُ كِنَانَة
+
+...
+
+[amazed] الصَّمْغُ العَرَبِيّ
+
+...
+
+[amazed] جِبَالُ النُّوبَة
+
+...
+
+[amazed] حُقُولُ النِّفْط
+
+...
+
+[amazed] قَصْرُ السُّلْطَانِ عَلِي دِينَار
+
+...
+
+[amazed] مَحْمِيَّةُ الرَّدُوم
+
+...
+
+[amazed] مَدِينَةُ الجُنَيْنَة
+
+...
+
+[amazed] جَبَلُ مَرَّة
+
+...
+
+[amazed] قُطْعَانُ الأَبْقَار
+
+════════════ الدفعة 19 (35 مقطعًا) ════════════
+
+[excited] Great job!
+
+...
+
+[excited] Well done!
+
+...
+
+[gently] Try again!
+
+...
+
+[warm] Let's count together
+
+...
+
+[cheerful] Put the penguins in order
+
+...
+
+[curious] Find number
+
+...
+
+[curious] Which number is missing?
+
+...
+
+[curious] How many fish?
+
+...
+
+[curious] Which is heavier?
+
+...
+
+[curious] Which is lighter?
+
+...
+
+[encouraging] Make both sides equal
+
+...
+
+[curious] What is the missing weight?
+
+...
+
+[encouraging] Choose the right sign
+
+...
+
+[excited] Balanced!
+
+...
+
+[neutral] plus
+
+...
+
+[neutral] equals
+
+...
+
+[neutral] is greater than
+
+...
+
+[neutral] is less than
+
+...
+
+[encouraging] Cut the cake into
+
+...
+
+[encouraging] Cut the pizza into
+
+...
+
+[neutral] two halves
+
+...
+
+[neutral] three thirds
+
+...
+
+[neutral] four quarters
+
+...
+
+[encouraging] Share the cake fairly
+
+...
+
+[encouraging] Share the pizza fairly
+
+...
+
+[curious] What part is this?
+
+...
+
+[curious] Which piece is bigger?
+
+...
+
+[curious] Which piece is smaller?
+
+...
+
+[neutral] Each piece is
+
+...
+
+[cheerful] Each friend gets
+
+...
+
+[neutral] one half
+
+...
+
+[neutral] one third
+
+...
+
+[neutral] one quarter
+
+...
+
+[neutral] half
+
+...
+
+[neutral] third
+
+════════════ الدفعة 20 (35 مقطعًا) ════════════
+
+[neutral] quarter
+
+...
+
+[curious] Where is
+
+...
+
+[curious] Where are the
+
+...
+
+[excited] The map of Sudan is complete!
+
+...
+
+[cheerful] zero
+
+...
+
+[cheerful] one
+
+...
+
+[cheerful] two
+
+...
+
+[cheerful] three
+
+...
+
+[cheerful] four
+
+...
+
+[cheerful] five
+
+...
+
+[cheerful] six
+
+...
+
+[cheerful] seven
+
+...
+
+[cheerful] eight
+
+...
+
+[cheerful] nine
+
+...
+
+[cheerful] ten
+
+...
+
+[cheerful] eleven
+
+...
+
+[cheerful] twelve
+
+...
+
+[cheerful] thirteen
+
+...
+
+[cheerful] fourteen
+
+...
+
+[cheerful] fifteen
+
+...
+
+[cheerful] sixteen
+
+...
+
+[cheerful] seventeen
+
+...
+
+[cheerful] eighteen
+
+...
+
+[cheerful] nineteen
+
+...
+
+[cheerful] twenty
+
+...
+
+[happy] Sudan
+
+...
+
+[happy] Khartoum
+
+...
+
+[happy] River Nile
+
+...
+
+[happy] Northern
+
+...
+
+[happy] Red Sea
+
+...
+
+[happy] Gezira
+
+...
+
+[happy] Kassala
+
+...
+
+[happy] Gedaref
+
+...
+
+[happy] Sennar
+
+...
+
+[happy] Blue Nile
+
+════════════ الدفعة 21 (35 مقطعًا) ════════════
+
+[happy] White Nile
+
+...
+
+[happy] North Kordofan
+
+...
+
+[happy] South Kordofan
+
+...
+
+[happy] West Kordofan
+
+...
+
+[happy] North Darfur
+
+...
+
+[happy] South Darfur
+
+...
+
+[happy] West Darfur
+
+...
+
+[happy] Central Darfur
+
+...
+
+[happy] East Darfur
+
+...
+
+[happy] Al-Fateh Tower
+
+...
+
+[happy] Al-Mogran
+
+...
+
+[happy] Meroe Pyramids
+
+...
+
+[happy] Jebel Barkal
+
+...
+
+[happy] Port Sudan
+
+...
+
+[happy] Gezira Scheme
+
+...
+
+[happy] Taka Mountains
+
+...
+
+[happy] Sorghum Farms
+
+...
+
+[happy] Sennar Dam
+
+...
+
+[happy] Roseires Dam
+
+...
+
+[happy] Kenana Sugar
+
+...
+
+[happy] Gum Arabic
+
+...
+
+[happy] Nuba Mountains
+
+...
+
+[happy] Oil Fields
+
+...
+
+[happy] Sultan Ali Dinar Palace
+
+...
+
+[happy] Radom National Park
+
+...
+
+[happy] Geneina City
+
+...
+
+[happy] Jebel Marra
+
+...
+
+[happy] Cattle Herds
+
+...
+
+[cheerful] Red!
+
+...
+
+[cheerful] Yellow!
+
+...
+
+[cheerful] Blue!
+
+...
+
+[cheerful] Green!
+
+...
+
+[cheerful] Purple!
+
+...
+
+[cheerful] Pink!
+
+...
+
+[cheerful] Circle!
+
+════════════ الدفعة 22 (35 مقطعًا) ════════════
+
+[cheerful] Square!
+
+...
+
+[cheerful] Triangle!
+
+...
+
+[cheerful] Star!
+
+...
+
+[cheerful] Heart!
+
+...
+
+[cheerful] Diamond!
+
+...
+
+[cheerful] Small!
+
+...
+
+[cheerful] Medium!
+
+...
+
+[cheerful] Big!
+
+...
+
+[cheerful] Banana!
+
+...
+
+[cheerful] Strawberry!
+
+...
+
+[cheerful] Lemon!
+
+...
+
+[cheerful] Watermelon!
+
+...
+
+[cheerful] Cherries!
+
+...
+
+[cheerful] Pear!
+
+...
+
+[cheerful] Kiwi!
+
+...
+
+[cheerful] Peach!
+
+...
+
+[cheerful] Pineapple!
+
+...
+
+[cheerful] Carrot!
+
+...
+
+[cheerful] Corn!
+
+...
+
+[cheerful] Mango!
+
+...
+
+[cheerful] Coconut!
+
+...
+
+[cheerful] Rabbit!
+
+...
+
+[cheerful] Elephant!
+
+...
+
+[cheerful] Giraffe!
+
+...
+
+[cheerful] Turtle!
+
+...
+
+[cheerful] Butterfly!
+
+...
+
+[cheerful] Penguin!
+
+...
+
+[cheerful] Duck!
+
+...
+
+[cheerful] Owl!
+
+...
+
+[cheerful] Horse!
+
+...
+
+[cheerful] Cow!
+
+...
+
+[cheerful] Monkey!
+
+...
+
+[cheerful] Crocodile!
+
+...
+
+[cheerful] Camel!
+
+...
+
+[cheerful] Dolphin!
+
+════════════ الدفعة 23 (35 مقطعًا) ════════════
+
+[cheerful] Frog!
+
+...
+
+[cheerful] Snail!
+
+...
+
+[cheerful] Sheep!
+
+...
+
+[cheerful] Goat!
+
+...
+
+[cheerful] Crab!
+
+...
+
+[cheerful] Octopus!
+
+...
+
+[cheerful] Bee!
+
+...
+
+[cheerful] Ladybug!
+
+...
+
+[cheerful] Dinosaur!
+
+...
+
+[cheerful] Shark!
+
+...
+
+[cheerful] Flamingo!
+
+...
+
+[cheerful] Parrot!
+
+...
+
+[cheerful] Squirrel!
+
+...
+
+[cheerful] Car!
+
+...
+
+[cheerful] Bus!
+
+...
+
+[cheerful] Rocket!
+
+...
+
+[cheerful] Airplane!
+
+...
+
+[cheerful] Bicycle!
+
+...
+
+[cheerful] Boat!
+
+...
+
+[cheerful] Ship!
+
+...
+
+[cheerful] Train!
+
+...
+
+[cheerful] Helicopter!
+
+...
+
+[cheerful] Ambulance!
+
+...
+
+[cheerful] Fire truck!
+
+...
+
+[cheerful] Motorbike!
+
+...
+
+[cheerful] Tractor!
+
+...
+
+[cheerful] UFO!
+
+...
+
+[cheerful] Teddy bear!
+
+...
+
+[cheerful] Balloon!
+
+...
+
+[cheerful] Dice!
+
+...
+
+[cheerful] Puzzle!
+
+...
+
+[cheerful] Drum!
+
+...
+
+[cheerful] Guitar!
+
+...
+
+[cheerful] Gift!
+
+...
+
+[cheerful] Doll!
+
+════════════ الدفعة 24 (17 مقطعًا) ════════════
+
+[cheerful] Scooter!
+
+...
+
+[cheerful] Trumpet!
+
+...
+
+[cheerful] Paints!
+
+...
+
+[cheerful] Hammer!
+
+...
+
+[cheerful] Wrench!
+
+...
+
+[cheerful] Screwdriver!
+
+...
+
+[cheerful] Scissors!
+
+...
+
+[cheerful] Saw!
+
+...
+
+[cheerful] Key!
+
+...
+
+[cheerful] Ruler!
+
+...
+
+[cheerful] Paintbrush!
+
+...
+
+[cheerful] Pencil!
+
+...
+
+[cheerful] Broom!
+
+...
+
+[cheerful] Bucket!
+
+...
+
+[cheerful] Flashlight!
+
+...
+
+[cheerful] Magnet!
+
+...
+
+[cheerful] Ladder!
+
+════════════ الدفعة 25 (30 مقطعًا) ════════════
+
+[calm] بَ
+
+...
+
+[calm] بُ
+
+...
+
+[calm] بِ
+
+...
+
+[calm] بَا
+
+...
+
+[calm] بُو
+
+...
+
+[calm] بِي
+
+...
+
+[calm] أَبْ
+
+...
+
+[calm] بًا
+
+...
+
+[calm] بٌ
+
+...
+
+[calm] بٍ
+
+...
+
+[calm] تَ
+
+...
+
+[calm] تُ
+
+...
+
+[calm] تِ
+
+...
+
+[calm] تَا
+
+...
+
+[calm] تُو
+
+...
+
+[calm] تِي
+
+...
+
+[calm] أَتْ
+
+...
+
+[calm] تًا
+
+...
+
+[calm] تٌ
+
+...
+
+[calm] تٍ
+
+...
+
+[calm] ثَ
+
+...
+
+[calm] ثُ
+
+...
+
+[calm] ثِ
+
+...
+
+[calm] ثَا
+
+...
+
+[calm] ثُو
+
+...
+
+[calm] ثِي
+
+...
+
+[calm] أَثْ
+
+...
+
+[calm] ثًا
+
+...
+
+[calm] ثٌ
+
+...
+
+[calm] ثٍ
+
+════════════ الدفعة 26 (30 مقطعًا) ════════════
+
+[calm] جَ
+
+...
+
+[calm] جُ
+
+...
+
+[calm] جِ
+
+...
+
+[calm] جَا
+
+...
+
+[calm] جُو
+
+...
+
+[calm] جِي
+
+...
+
+[calm] أَجْ
+
+...
+
+[calm] جًا
+
+...
+
+[calm] جٌ
+
+...
+
+[calm] جٍ
+
+...
+
+[calm] حَ
+
+...
+
+[calm] حُ
+
+...
+
+[calm] حِ
+
+...
+
+[calm] حَا
+
+...
+
+[calm] حُو
+
+...
+
+[calm] حِي
+
+...
+
+[calm] أَحْ
+
+...
+
+[calm] حًا
+
+...
+
+[calm] حٌ
+
+...
+
+[calm] حٍ
+
+...
+
+[calm] خَ
+
+...
+
+[calm] خُ
+
+...
+
+[calm] خِ
+
+...
+
+[calm] خَا
+
+...
+
+[calm] خُو
+
+...
+
+[calm] خِي
+
+...
+
+[calm] أَخْ
+
+...
+
+[calm] خًا
+
+...
+
+[calm] خٌ
+
+...
+
+[calm] خٍ
+
+════════════ الدفعة 27 (30 مقطعًا) ════════════
+
+[calm] دَ
+
+...
+
+[calm] دُ
+
+...
+
+[calm] دِ
+
+...
+
+[calm] دَا
+
+...
+
+[calm] دُو
+
+...
+
+[calm] دِي
+
+...
+
+[calm] أَدْ
+
+...
+
+[calm] دًا
+
+...
+
+[calm] دٌ
+
+...
+
+[calm] دٍ
+
+...
+
+[calm] ذَ
+
+...
+
+[calm] ذُ
+
+...
+
+[calm] ذِ
+
+...
+
+[calm] ذَا
+
+...
+
+[calm] ذُو
+
+...
+
+[calm] ذِي
+
+...
+
+[calm] أَذْ
+
+...
+
+[calm] ذًا
+
+...
+
+[calm] ذٌ
+
+...
+
+[calm] ذٍ
+
+...
+
+[calm] رَ
+
+...
+
+[calm] رُ
+
+...
+
+[calm] رِ
+
+...
+
+[calm] رَا
+
+...
+
+[calm] رُو
+
+...
+
+[calm] رِي
+
+...
+
+[calm] أَرْ
+
+...
+
+[calm] رًا
+
+...
+
+[calm] رٌ
+
+...
+
+[calm] رٍ
+
+════════════ الدفعة 28 (30 مقطعًا) ════════════
+
+[calm] زَ
+
+...
+
+[calm] زُ
+
+...
+
+[calm] زِ
+
+...
+
+[calm] زَا
+
+...
+
+[calm] زُو
+
+...
+
+[calm] زِي
+
+...
+
+[calm] أَزْ
+
+...
+
+[calm] زًا
+
+...
+
+[calm] زٌ
+
+...
+
+[calm] زٍ
+
+...
+
+[calm] سَ
+
+...
+
+[calm] سُ
+
+...
+
+[calm] سِ
+
+...
+
+[calm] سَا
+
+...
+
+[calm] سُو
+
+...
+
+[calm] سِي
+
+...
+
+[calm] أَسْ
+
+...
+
+[calm] سًا
+
+...
+
+[calm] سٌ
+
+...
+
+[calm] سٍ
+
+...
+
+[calm] شَ
+
+...
+
+[calm] شُ
+
+...
+
+[calm] شِ
+
+...
+
+[calm] شَا
+
+...
+
+[calm] شُو
+
+...
+
+[calm] شِي
+
+...
+
+[calm] أَشْ
+
+...
+
+[calm] شًا
+
+...
+
+[calm] شٌ
+
+...
+
+[calm] شٍ
+
+════════════ الدفعة 29 (30 مقطعًا) ════════════
+
+[calm] صَ
+
+...
+
+[calm] صُ
+
+...
+
+[calm] صِ
+
+...
+
+[calm] صَا
+
+...
+
+[calm] صُو
+
+...
+
+[calm] صِي
+
+...
+
+[calm] أَصْ
+
+...
+
+[calm] صًا
+
+...
+
+[calm] صٌ
+
+...
+
+[calm] صٍ
+
+...
+
+[calm] ضَ
+
+...
+
+[calm] ضُ
+
+...
+
+[calm] ضِ
+
+...
+
+[calm] ضَا
+
+...
+
+[calm] ضُو
+
+...
+
+[calm] ضِي
+
+...
+
+[calm] أَضْ
+
+...
+
+[calm] ضًا
+
+...
+
+[calm] ضٌ
+
+...
+
+[calm] ضٍ
+
+...
+
+[calm] طَ
+
+...
+
+[calm] طُ
+
+...
+
+[calm] طِ
+
+...
+
+[calm] طَا
+
+...
+
+[calm] طُو
+
+...
+
+[calm] طِي
+
+...
+
+[calm] أَطْ
+
+...
+
+[calm] طًا
+
+...
+
+[calm] طٌ
+
+...
+
+[calm] طٍ
+
+════════════ الدفعة 30 (30 مقطعًا) ════════════
+
+[calm] ظَ
+
+...
+
+[calm] ظُ
+
+...
+
+[calm] ظِ
+
+...
+
+[calm] ظَا
+
+...
+
+[calm] ظُو
+
+...
+
+[calm] ظِي
+
+...
+
+[calm] أَظْ
+
+...
+
+[calm] ظًا
+
+...
+
+[calm] ظٌ
+
+...
+
+[calm] ظٍ
+
+...
+
+[calm] عَ
+
+...
+
+[calm] عُ
+
+...
+
+[calm] عِ
+
+...
+
+[calm] عَا
+
+...
+
+[calm] عُو
+
+...
+
+[calm] عِي
+
+...
+
+[calm] أَعْ
+
+...
+
+[calm] عًا
+
+...
+
+[calm] عٌ
+
+...
+
+[calm] عٍ
+
+...
+
+[calm] غَ
+
+...
+
+[calm] غُ
+
+...
+
+[calm] غِ
+
+...
+
+[calm] غَا
+
+...
+
+[calm] غُو
+
+...
+
+[calm] غِي
+
+...
+
+[calm] أَغْ
+
+...
+
+[calm] غًا
+
+...
+
+[calm] غٌ
+
+...
+
+[calm] غٍ
+
+════════════ الدفعة 31 (30 مقطعًا) ════════════
+
+[calm] فَ
+
+...
+
+[calm] فُ
+
+...
+
+[calm] فِ
+
+...
+
+[calm] فَا
+
+...
+
+[calm] فُو
+
+...
+
+[calm] فِي
+
+...
+
+[calm] أَفْ
+
+...
+
+[calm] فًا
+
+...
+
+[calm] فٌ
+
+...
+
+[calm] فٍ
+
+...
+
+[calm] قَ
+
+...
+
+[calm] قُ
+
+...
+
+[calm] قِ
+
+...
+
+[calm] قَا
+
+...
+
+[calm] قُو
+
+...
+
+[calm] قِي
+
+...
+
+[calm] أَقْ
+
+...
+
+[calm] قًا
+
+...
+
+[calm] قٌ
+
+...
+
+[calm] قٍ
+
+...
+
+[calm] كَ
+
+...
+
+[calm] كُ
+
+...
+
+[calm] كِ
+
+...
+
+[calm] كَا
+
+...
+
+[calm] كُو
+
+...
+
+[calm] كِي
+
+...
+
+[calm] أَكْ
+
+...
+
+[calm] كًا
+
+...
+
+[calm] كٌ
+
+...
+
+[calm] كٍ
+
+════════════ الدفعة 32 (30 مقطعًا) ════════════
+
+[calm] لَ
+
+...
+
+[calm] لُ
+
+...
+
+[calm] لِ
+
+...
+
+[calm] لَا
+
+...
+
+[calm] لُو
+
+...
+
+[calm] لِي
+
+...
+
+[calm] أَلْ
+
+...
+
+[calm] لًا
+
+...
+
+[calm] لٌ
+
+...
+
+[calm] لٍ
+
+...
+
+[calm] مَ
+
+...
+
+[calm] مُ
+
+...
+
+[calm] مِ
+
+...
+
+[calm] مَا
+
+...
+
+[calm] مُو
+
+...
+
+[calm] مِي
+
+...
+
+[calm] أَمْ
+
+...
+
+[calm] مًا
+
+...
+
+[calm] مٌ
+
+...
+
+[calm] مٍ
+
+...
+
+[calm] نَ
+
+...
+
+[calm] نُ
+
+...
+
+[calm] نِ
+
+...
+
+[calm] نَا
+
+...
+
+[calm] نُو
+
+...
+
+[calm] نِي
+
+...
+
+[calm] أَنْ
+
+...
+
+[calm] نًا
+
+...
+
+[calm] نٌ
+
+...
+
+[calm] نٍ
+
+════════════ الدفعة 33 (30 مقطعًا) ════════════
+
+[calm] هَ
+
+...
+
+[calm] هُ
+
+...
+
+[calm] هِ
+
+...
+
+[calm] هَا
+
+...
+
+[calm] هُو
+
+...
+
+[calm] هِي
+
+...
+
+[calm] أَهْ
+
+...
+
+[calm] هًا
+
+...
+
+[calm] هٌ
+
+...
+
+[calm] هٍ
+
+...
+
+[calm] وَ
+
+...
+
+[calm] وُ
+
+...
+
+[calm] وِ
+
+...
+
+[calm] وَا
+
+...
+
+[calm] وُو
+
+...
+
+[calm] وِي
+
+...
+
+[calm] أَوْ
+
+...
+
+[calm] وًا
+
+...
+
+[calm] وٌ
+
+...
+
+[calm] وٍ
+
+...
+
+[calm] يَ
+
+...
+
+[calm] يُ
+
+...
+
+[calm] يِ
+
+...
+
+[calm] يَا
+
+...
+
+[calm] يُو
+
+...
+
+[calm] يِي
+
+...
+
+[calm] أَيْ
+
+...
+
+[calm] يًا
+
+...
+
+[calm] يٌ
+
+...
+
+[calm] يٍ
+

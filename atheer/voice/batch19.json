@@ -1,0 +1,352 @@
+[
+ {
+  "id": "en_great_job",
+  "text": "Great job!",
+  "plain": "Great job!",
+  "lang": "en",
+  "game": "common",
+  "emotion": "excited",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_well_done",
+  "text": "Well done!",
+  "plain": "Well done!",
+  "lang": "en",
+  "game": "common",
+  "emotion": "excited",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_try_again",
+  "text": "Try again!",
+  "plain": "Try again!",
+  "lang": "en",
+  "game": "common",
+  "emotion": "gently",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_lets_count",
+  "text": "Let's count together",
+  "plain": "Let's count together",
+  "lang": "en",
+  "game": "penguins",
+  "emotion": "warm",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "penguins_en_order",
+  "text": "Put the penguins in order",
+  "plain": "Put the penguins in order",
+  "lang": "en",
+  "game": "penguins",
+  "emotion": "cheerful",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_find_number",
+  "text": "Find number",
+  "plain": "Find number",
+  "lang": "en",
+  "game": "penguins",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_which_missing",
+  "text": "Which number is missing?",
+  "plain": "Which number is missing?",
+  "lang": "en",
+  "game": "penguins",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_how_many_fish",
+  "text": "How many fish?",
+  "plain": "How many fish?",
+  "lang": "en",
+  "game": "penguins",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_heavier",
+  "text": "Which is heavier?",
+  "plain": "Which is heavier?",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_lighter",
+  "text": "Which is lighter?",
+  "plain": "Which is lighter?",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_make_equal",
+  "text": "Make both sides equal",
+  "plain": "Make both sides equal",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_missing",
+  "text": "What is the missing weight?",
+  "plain": "What is the missing weight?",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_choose_sign",
+  "text": "Choose the right sign",
+  "plain": "Choose the right sign",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "balance_en_balanced",
+  "text": "Balanced!",
+  "plain": "Balanced!",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "excited",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_plus",
+  "text": "plus",
+  "plain": "plus",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_equals",
+  "text": "equals",
+  "plain": "equals",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_greater",
+  "text": "is greater than",
+  "plain": "is greater than",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "en_less",
+  "text": "is less than",
+  "plain": "is less than",
+  "lang": "en",
+  "game": "balance",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_cut_cake",
+  "text": "Cut the cake into",
+  "plain": "Cut the cake into",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_cut_pizza",
+  "text": "Cut the pizza into",
+  "plain": "Cut the pizza into",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_two_halves",
+  "text": "two halves",
+  "plain": "two halves",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_three_thirds",
+  "text": "three thirds",
+  "plain": "three thirds",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_four_quarters",
+  "text": "four quarters",
+  "plain": "four quarters",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_share_cake",
+  "text": "Share the cake fairly",
+  "plain": "Share the cake fairly",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_share_pizza",
+  "text": "Share the pizza fairly",
+  "plain": "Share the pizza fairly",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_what_part",
+  "text": "What part is this?",
+  "plain": "What part is this?",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_bigger",
+  "text": "Which piece is bigger?",
+  "plain": "Which piece is bigger?",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_smaller",
+  "text": "Which piece is smaller?",
+  "plain": "Which piece is smaller?",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_each_piece",
+  "text": "Each piece is",
+  "plain": "Each piece is",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_each_friend",
+  "text": "Each friend gets",
+  "plain": "Each friend gets",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "cheerful",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_one_half",
+  "text": "one half",
+  "plain": "one half",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_one_third",
+  "text": "one third",
+  "plain": "one third",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_one_quarter",
+  "text": "one quarter",
+  "plain": "one quarter",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_half",
+  "text": "half",
+  "plain": "half",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ },
+ {
+  "id": "fractions_en_third",
+  "text": "third",
+  "plain": "third",
+  "lang": "en",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 19,
+  "note": ""
+ }
+]

@@ -1,0 +1,352 @@
+[
+ {
+  "id": "shadows_scissors",
+  "text": "مِقَصّ",
+  "plain": "مقص",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_saw",
+  "text": "مِنْشَار",
+  "plain": "منشار",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_key",
+  "text": "مِفْتَاح",
+  "plain": "مفتاح",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_ruler",
+  "text": "مِسْطَرَة",
+  "plain": "مسطرة",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_paintbrush",
+  "text": "فُرْشَاة",
+  "plain": "فرشاة",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_pencil",
+  "text": "قَلَمُ رَصَاص",
+  "plain": "قلم رصاص",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_broom",
+  "text": "مِكْنَسَة",
+  "plain": "مكنسة",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_bucket",
+  "text": "دَلْو",
+  "plain": "دلو",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_flashlight",
+  "text": "مِصْبَاحٌ يَدَوِيّ",
+  "plain": "مصباح يدوي",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_magnet",
+  "text": "مِغْنَاطِيس",
+  "plain": "مغناطيس",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "shadows_ladder",
+  "text": "سُلَّم",
+  "plain": "سلم",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_where_state",
+  "text": "أَيْنَ وِلَايَةُ",
+  "plain": "أين ولاية",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "curious",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_where_the_state",
+  "text": "أَيْنَ الوِلَايَةُ",
+  "plain": "أين الولاية",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "curious",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_where",
+  "text": "أَيْنَ",
+  "plain": "أين",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "curious",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_complete",
+  "text": "اكْتَمَلَتْ خَرِيطَةُ السُّودَانِ!",
+  "plain": "اكتملت خريطة السودان!",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "excited",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_sudan",
+  "text": "السُّودَان",
+  "plain": "السودان",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_khartoum",
+  "text": "الخَرْطُوم",
+  "plain": "الخرطوم",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_rivernile",
+  "text": "نَهْرُ النِّيل",
+  "plain": "نهر النيل",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_northern",
+  "text": "الشَّمَالِيَّة",
+  "plain": "الشمالية",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_redsea",
+  "text": "البَحْرُ الأَحْمَر",
+  "plain": "البحر الأحمر",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_gezira",
+  "text": "الجَزِيرَة",
+  "plain": "الجزيرة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_kassala",
+  "text": "كَسَلَا",
+  "plain": "كسلا",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_gedaref",
+  "text": "القَضَارِف",
+  "plain": "القضارف",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_sennar",
+  "text": "سِنَّار",
+  "plain": "سنار",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_bluenile",
+  "text": "النِّيلُ الأَزْرَق",
+  "plain": "النيل الأزرق",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_whitenile",
+  "text": "النِّيلُ الأَبْيَض",
+  "plain": "النيل الأبيض",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_nkordofan",
+  "text": "شَمَالُ كُرْدُفَان",
+  "plain": "شمال كردفان",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_skordofan",
+  "text": "جَنُوبُ كُرْدُفَان",
+  "plain": "جنوب كردفان",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_wkordofan",
+  "text": "غَرْبُ كُرْدُفَان",
+  "plain": "غرب كردفان",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_ndarfur",
+  "text": "شَمَالُ دَارْفُور",
+  "plain": "شمال دارفور",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_sdarfur",
+  "text": "جَنُوبُ دَارْفُور",
+  "plain": "جنوب دارفور",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_wdarfur",
+  "text": "غَرْبُ دَارْفُور",
+  "plain": "غرب دارفور",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_cdarfur",
+  "text": "وَسَطُ دَارْفُور",
+  "plain": "وسط دارفور",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_st_edarfur",
+  "text": "شَرْقُ دَارْفُور",
+  "plain": "شرق دارفور",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 17,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_mogran",
+  "text": "المَقْرَن",
+  "plain": "المقرن",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 17,
+  "note": ""
+ }
+]

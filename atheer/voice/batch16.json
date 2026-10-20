@@ -1,0 +1,352 @@
+[
+ {
+  "id": "fractions_thirds",
+  "text": "ثَلاثَةُ أَثْلاثٍ",
+  "plain": "ثلاثة أثلاث",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "cheerful",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_quarters",
+  "text": "أَرْبَعَةُ أَرْباعٍ",
+  "plain": "أربعة أرباع",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "cheerful",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_share_cake_f",
+  "text": "وَزِّعي الكَعْكَةَ",
+  "plain": "وزعي الكعكة",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_share_cake_m",
+  "text": "وَزِّعِ الكَعْكَةَ",
+  "plain": "وزع الكعكة",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_share_pizza_f",
+  "text": "وَزِّعي البيتْزا",
+  "plain": "وزعي البيتزا",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_share_pizza_m",
+  "text": "وَزِّعِ البيتْزا",
+  "plain": "وزع البيتزا",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_equally",
+  "text": "بِالتَّساوي",
+  "plain": "بالتساوي",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_what_part",
+  "text": "ما اسْمُ هذا الجُزْءِ؟",
+  "plain": "ما اسم هذا الجزء؟",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_which_bigger",
+  "text": "أَيُّ قِطْعَةٍ أَكْبَرُ؟",
+  "plain": "أي قطعة أكبر؟",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_which_smaller",
+  "text": "أَيُّ قِطْعَةٍ أَصْغَرُ؟",
+  "plain": "أي قطعة أصغر؟",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "curious",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_each_piece",
+  "text": "كُلُّ قِطْعَةٍ",
+  "plain": "كل قطعة",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_each_friend",
+  "text": "لِكُلِّ صَديقٍ",
+  "plain": "لكل صديق",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "cheerful",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_half",
+  "text": "نِصْفٌ",
+  "plain": "نصف",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_third",
+  "text": "ثُلُثٌ",
+  "plain": "ثلث",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_quarter",
+  "text": "رُبْعٌ",
+  "plain": "ربع",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_the_half",
+  "text": "النِّصْفُ",
+  "plain": "النصف",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_the_third",
+  "text": "الثُّلُثُ",
+  "plain": "الثلث",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "fractions_the_quarter",
+  "text": "الرُّبْعُ",
+  "plain": "الربع",
+  "lang": "ar",
+  "game": "fractions",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "pattern_complete_f",
+  "text": "أَكْمِلِي النَّمَطَ",
+  "plain": "أكملي النمط",
+  "lang": "ar",
+  "game": "pattern",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "pattern_complete_m",
+  "text": "أَكْمِلِ النَّمَطَ",
+  "plain": "أكمل النمط",
+  "lang": "ar",
+  "game": "pattern",
+  "emotion": "encouraging",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "pattern_small",
+  "text": "صَغِير",
+  "plain": "صغير",
+  "lang": "ar",
+  "game": "pattern",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "pattern_medium",
+  "text": "مُتَوَسِّط",
+  "plain": "متوسط",
+  "lang": "ar",
+  "game": "pattern",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "pattern_big",
+  "text": "كَبِير",
+  "plain": "كبير",
+  "lang": "ar",
+  "game": "pattern",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_whose",
+  "text": "ظِلُّ مَنْ؟",
+  "plain": "ظل من؟",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "curious",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_squirrel",
+  "text": "سِنْجَاب",
+  "plain": "سنجاب",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_kite",
+  "text": "طَائِرَةٌ وَرَقِيَّة",
+  "plain": "طائرة ورقية",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_yoyo",
+  "text": "يُويُو",
+  "plain": "يويو",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_dice",
+  "text": "نَرْد",
+  "plain": "نرد",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_puzzle",
+  "text": "أُحْجِيَة",
+  "plain": "أحجية",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_doll",
+  "text": "دُمْيَة",
+  "plain": "دمية",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_scooter",
+  "text": "سُكُوتَر",
+  "plain": "سكوتر",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_paints",
+  "text": "أَلْوَان",
+  "plain": "ألوان",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_hammer",
+  "text": "مِطْرَقَة",
+  "plain": "مطرقة",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_wrench",
+  "text": "مِفْتَاحُ رَبْط",
+  "plain": "مفتاح ربط",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ },
+ {
+  "id": "shadows_screwdriver",
+  "text": "مِفَكّ",
+  "plain": "مفك",
+  "lang": "ar",
+  "game": "shadows",
+  "emotion": "neutral",
+  "batch": 16,
+  "note": ""
+ }
+]

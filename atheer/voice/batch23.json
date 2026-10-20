@@ -1,0 +1,352 @@
+[
+ {
+  "id": "en_word_frog",
+  "text": "Frog!",
+  "plain": "Frog",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_snail",
+  "text": "Snail!",
+  "plain": "Snail",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_sheep",
+  "text": "Sheep!",
+  "plain": "Sheep",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_goat",
+  "text": "Goat!",
+  "plain": "Goat",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_crab",
+  "text": "Crab!",
+  "plain": "Crab",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_octopus",
+  "text": "Octopus!",
+  "plain": "Octopus",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_bee",
+  "text": "Bee!",
+  "plain": "Bee",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_ladybug",
+  "text": "Ladybug!",
+  "plain": "Ladybug",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_dinosaur",
+  "text": "Dinosaur!",
+  "plain": "Dinosaur",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_shark",
+  "text": "Shark!",
+  "plain": "Shark",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_flamingo",
+  "text": "Flamingo!",
+  "plain": "Flamingo",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_parrot",
+  "text": "Parrot!",
+  "plain": "Parrot",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_squirrel",
+  "text": "Squirrel!",
+  "plain": "Squirrel",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_car",
+  "text": "Car!",
+  "plain": "Car",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_bus",
+  "text": "Bus!",
+  "plain": "Bus",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_rocket",
+  "text": "Rocket!",
+  "plain": "Rocket",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_airplane",
+  "text": "Airplane!",
+  "plain": "Airplane",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_bicycle",
+  "text": "Bicycle!",
+  "plain": "Bicycle",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_boat",
+  "text": "Boat!",
+  "plain": "Boat",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_ship",
+  "text": "Ship!",
+  "plain": "Ship",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_train",
+  "text": "Train!",
+  "plain": "Train",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_helicopter",
+  "text": "Helicopter!",
+  "plain": "Helicopter",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_ambulance",
+  "text": "Ambulance!",
+  "plain": "Ambulance",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_fire_truck",
+  "text": "Fire truck!",
+  "plain": "Fire truck",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_motorbike",
+  "text": "Motorbike!",
+  "plain": "Motorbike",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_tractor",
+  "text": "Tractor!",
+  "plain": "Tractor",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_ufo",
+  "text": "UFO!",
+  "plain": "UFO",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_teddy_bear",
+  "text": "Teddy bear!",
+  "plain": "Teddy bear",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_balloon",
+  "text": "Balloon!",
+  "plain": "Balloon",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_dice",
+  "text": "Dice!",
+  "plain": "Dice",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_puzzle",
+  "text": "Puzzle!",
+  "plain": "Puzzle",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_drum",
+  "text": "Drum!",
+  "plain": "Drum",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_guitar",
+  "text": "Guitar!",
+  "plain": "Guitar",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_gift",
+  "text": "Gift!",
+  "plain": "Gift",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ },
+ {
+  "id": "en_word_doll",
+  "text": "Doll!",
+  "plain": "Doll",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 23,
+  "note": ""
+ }
+]

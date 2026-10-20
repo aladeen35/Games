@@ -1,0 +1,137 @@
+[neutral] quarter
+
+...
+
+[curious] Where is
+
+...
+
+[curious] Where are the
+
+...
+
+[excited] The map of Sudan is complete!
+
+...
+
+[cheerful] zero
+
+...
+
+[cheerful] one
+
+...
+
+[cheerful] two
+
+...
+
+[cheerful] three
+
+...
+
+[cheerful] four
+
+...
+
+[cheerful] five
+
+...
+
+[cheerful] six
+
+...
+
+[cheerful] seven
+
+...
+
+[cheerful] eight
+
+...
+
+[cheerful] nine
+
+...
+
+[cheerful] ten
+
+...
+
+[cheerful] eleven
+
+...
+
+[cheerful] twelve
+
+...
+
+[cheerful] thirteen
+
+...
+
+[cheerful] fourteen
+
+...
+
+[cheerful] fifteen
+
+...
+
+[cheerful] sixteen
+
+...
+
+[cheerful] seventeen
+
+...
+
+[cheerful] eighteen
+
+...
+
+[cheerful] nineteen
+
+...
+
+[cheerful] twenty
+
+...
+
+[happy] Sudan
+
+...
+
+[happy] Khartoum
+
+...
+
+[happy] River Nile
+
+...
+
+[happy] Northern
+
+...
+
+[happy] Red Sea
+
+...
+
+[happy] Gezira
+
+...
+
+[happy] Kassala
+
+...
+
+[happy] Gedaref
+
+...
+
+[happy] Sennar
+
+...
+
+[happy] Blue Nile

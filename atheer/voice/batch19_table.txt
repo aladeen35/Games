@@ -1,0 +1,35 @@
+1. en_great_job — Great job!
+2. en_well_done — Well done!
+3. en_try_again — Try again!
+4. en_lets_count — Let's count together
+5. penguins_en_order — Put the penguins in order
+6. en_find_number — Find number
+7. en_which_missing — Which number is missing?
+8. en_how_many_fish — How many fish?
+9. balance_en_heavier — Which is heavier?
+10. balance_en_lighter — Which is lighter?
+11. balance_en_make_equal — Make both sides equal
+12. balance_en_missing — What is the missing weight?
+13. balance_en_choose_sign — Choose the right sign
+14. balance_en_balanced — Balanced!
+15. en_plus — plus
+16. en_equals — equals
+17. en_greater — is greater than
+18. en_less — is less than
+19. fractions_en_cut_cake — Cut the cake into
+20. fractions_en_cut_pizza — Cut the pizza into
+21. fractions_en_two_halves — two halves
+22. fractions_en_three_thirds — three thirds
+23. fractions_en_four_quarters — four quarters
+24. fractions_en_share_cake — Share the cake fairly
+25. fractions_en_share_pizza — Share the pizza fairly
+26. fractions_en_what_part — What part is this?
+27. fractions_en_bigger — Which piece is bigger?
+28. fractions_en_smaller — Which piece is smaller?
+29. fractions_en_each_piece — Each piece is
+30. fractions_en_each_friend — Each friend gets
+31. fractions_en_one_half — one half
+32. fractions_en_one_third — one third
+33. fractions_en_one_quarter — one quarter
+34. fractions_en_half — half
+35. fractions_en_third — third

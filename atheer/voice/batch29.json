@@ -1,0 +1,302 @@
+[
+ {
+  "id": "harakat_sad_a",
+  "text": "صَ",
+  "plain": "صَ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_u",
+  "text": "صُ",
+  "plain": "صُ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_i",
+  "text": "صِ",
+  "plain": "صِ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_aa",
+  "text": "صَا",
+  "plain": "صَا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_uu",
+  "text": "صُو",
+  "plain": "صُو",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_ii",
+  "text": "صِي",
+  "plain": "صِي",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_s",
+  "text": "أَصْ",
+  "plain": "أَصْ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_an",
+  "text": "صًا",
+  "plain": "صًا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_un",
+  "text": "صٌ",
+  "plain": "صٌ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_sad_in",
+  "text": "صٍ",
+  "plain": "صٍ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_a",
+  "text": "ضَ",
+  "plain": "ضَ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_u",
+  "text": "ضُ",
+  "plain": "ضُ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_i",
+  "text": "ضِ",
+  "plain": "ضِ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_aa",
+  "text": "ضَا",
+  "plain": "ضَا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_uu",
+  "text": "ضُو",
+  "plain": "ضُو",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_ii",
+  "text": "ضِي",
+  "plain": "ضِي",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_s",
+  "text": "أَضْ",
+  "plain": "أَضْ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_an",
+  "text": "ضًا",
+  "plain": "ضًا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_un",
+  "text": "ضٌ",
+  "plain": "ضٌ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_dad_in",
+  "text": "ضٍ",
+  "plain": "ضٍ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_a",
+  "text": "طَ",
+  "plain": "طَ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_u",
+  "text": "طُ",
+  "plain": "طُ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_i",
+  "text": "طِ",
+  "plain": "طِ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_aa",
+  "text": "طَا",
+  "plain": "طَا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_uu",
+  "text": "طُو",
+  "plain": "طُو",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_ii",
+  "text": "طِي",
+  "plain": "طِي",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_s",
+  "text": "أَطْ",
+  "plain": "أَطْ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_an",
+  "text": "طًا",
+  "plain": "طًا",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_un",
+  "text": "طٌ",
+  "plain": "طٌ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ },
+ {
+  "id": "harakat_tta_in",
+  "text": "طٍ",
+  "plain": "طٍ",
+  "lang": "ar",
+  "game": "harakat",
+  "emotion": "calm",
+  "batch": 29,
+  "note": ""
+ }
+]

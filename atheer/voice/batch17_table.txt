@@ -1,0 +1,35 @@
+1. shadows_scissors — مِقَصّ
+2. shadows_saw — مِنْشَار
+3. shadows_key — مِفْتَاح
+4. shadows_ruler — مِسْطَرَة
+5. shadows_paintbrush — فُرْشَاة
+6. shadows_pencil — قَلَمُ رَصَاص
+7. shadows_broom — مِكْنَسَة
+8. shadows_bucket — دَلْو
+9. shadows_flashlight — مِصْبَاحٌ يَدَوِيّ
+10. shadows_magnet — مِغْنَاطِيس
+11. shadows_ladder — سُلَّم
+12. sudanmap_where_state — أَيْنَ وِلَايَةُ
+13. sudanmap_where_the_state — أَيْنَ الوِلَايَةُ
+14. sudanmap_where — أَيْنَ
+15. sudanmap_complete — اكْتَمَلَتْ خَرِيطَةُ السُّودَانِ!
+16. sudanmap_sudan — السُّودَان
+17. sudanmap_st_khartoum — الخَرْطُوم
+18. sudanmap_st_rivernile — نَهْرُ النِّيل
+19. sudanmap_st_northern — الشَّمَالِيَّة
+20. sudanmap_st_redsea — البَحْرُ الأَحْمَر
+21. sudanmap_st_gezira — الجَزِيرَة
+22. sudanmap_st_kassala — كَسَلَا
+23. sudanmap_st_gedaref — القَضَارِف
+24. sudanmap_st_sennar — سِنَّار
+25. sudanmap_st_bluenile — النِّيلُ الأَزْرَق
+26. sudanmap_st_whitenile — النِّيلُ الأَبْيَض
+27. sudanmap_st_nkordofan — شَمَالُ كُرْدُفَان
+28. sudanmap_st_skordofan — جَنُوبُ كُرْدُفَان
+29. sudanmap_st_wkordofan — غَرْبُ كُرْدُفَان
+30. sudanmap_st_ndarfur — شَمَالُ دَارْفُور
+31. sudanmap_st_sdarfur — جَنُوبُ دَارْفُور
+32. sudanmap_st_wdarfur — غَرْبُ دَارْفُور
+33. sudanmap_st_cdarfur — وَسَطُ دَارْفُور
+34. sudanmap_st_edarfur — شَرْقُ دَارْفُور
+35. sudanmap_lm_mogran — المَقْرَن

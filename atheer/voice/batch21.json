@@ -1,0 +1,352 @@
+[
+ {
+  "id": "sudanmap_en_white_nile",
+  "text": "White Nile",
+  "plain": "White Nile",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_north_kordofan",
+  "text": "North Kordofan",
+  "plain": "North Kordofan",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_south_kordofan",
+  "text": "South Kordofan",
+  "plain": "South Kordofan",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_west_kordofan",
+  "text": "West Kordofan",
+  "plain": "West Kordofan",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_north_darfur",
+  "text": "North Darfur",
+  "plain": "North Darfur",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_south_darfur",
+  "text": "South Darfur",
+  "plain": "South Darfur",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_west_darfur",
+  "text": "West Darfur",
+  "plain": "West Darfur",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_central_darfur",
+  "text": "Central Darfur",
+  "plain": "Central Darfur",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_east_darfur",
+  "text": "East Darfur",
+  "plain": "East Darfur",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_al_fateh_tower",
+  "text": "Al-Fateh Tower",
+  "plain": "Al-Fateh Tower",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_al_mogran",
+  "text": "Al-Mogran",
+  "plain": "Al-Mogran",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_meroe_pyramids",
+  "text": "Meroe Pyramids",
+  "plain": "Meroe Pyramids",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_jebel_barkal",
+  "text": "Jebel Barkal",
+  "plain": "Jebel Barkal",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_port_sudan",
+  "text": "Port Sudan",
+  "plain": "Port Sudan",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_gezira_scheme",
+  "text": "Gezira Scheme",
+  "plain": "Gezira Scheme",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_taka_mountains",
+  "text": "Taka Mountains",
+  "plain": "Taka Mountains",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_sorghum_farms",
+  "text": "Sorghum Farms",
+  "plain": "Sorghum Farms",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_sennar_dam",
+  "text": "Sennar Dam",
+  "plain": "Sennar Dam",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_roseires_dam",
+  "text": "Roseires Dam",
+  "plain": "Roseires Dam",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_kenana_sugar",
+  "text": "Kenana Sugar",
+  "plain": "Kenana Sugar",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_gum_arabic",
+  "text": "Gum Arabic",
+  "plain": "Gum Arabic",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_nuba_mountains",
+  "text": "Nuba Mountains",
+  "plain": "Nuba Mountains",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_oil_fields",
+  "text": "Oil Fields",
+  "plain": "Oil Fields",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_sultan_ali_dinar_palace",
+  "text": "Sultan Ali Dinar Palace",
+  "plain": "Sultan Ali Dinar Palace",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_radom_national_park",
+  "text": "Radom National Park",
+  "plain": "Radom National Park",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_geneina_city",
+  "text": "Geneina City",
+  "plain": "Geneina City",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_jebel_marra",
+  "text": "Jebel Marra",
+  "plain": "Jebel Marra",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_en_cattle_herds",
+  "text": "Cattle Herds",
+  "plain": "Cattle Herds",
+  "lang": "en",
+  "game": "sudanmap",
+  "emotion": "happy",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_red",
+  "text": "Red!",
+  "plain": "Red",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_yellow",
+  "text": "Yellow!",
+  "plain": "Yellow",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_blue",
+  "text": "Blue!",
+  "plain": "Blue",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_green",
+  "text": "Green!",
+  "plain": "Green",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_purple",
+  "text": "Purple!",
+  "plain": "Purple",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_pink",
+  "text": "Pink!",
+  "plain": "Pink",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ },
+ {
+  "id": "en_word_circle",
+  "text": "Circle!",
+  "plain": "Circle",
+  "lang": "en",
+  "game": "pattern,shadows",
+  "emotion": "cheerful",
+  "batch": 21,
+  "note": ""
+ }
+]

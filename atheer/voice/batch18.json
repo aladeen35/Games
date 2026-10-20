@@ -1,0 +1,172 @@
+[
+ {
+  "id": "sudanmap_lm_pyramids",
+  "text": "أَهْرَامَاتُ البَجْرَاوِيَّة",
+  "plain": "أهرامات البجراوية",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_barkal",
+  "text": "جَبَلُ البَرْكَل",
+  "plain": "جبل البركل",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_port",
+  "text": "مِينَاءُ بُورْتْسُودَان",
+  "plain": "ميناء بورتسودان",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_gezira",
+  "text": "مَشْرُوعُ الجَزِيرَة",
+  "plain": "مشروع الجزيرة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_taka",
+  "text": "جِبَالُ التَّاكَا",
+  "plain": "جبال التاكا",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_sorghum",
+  "text": "مَزَارِعُ الذُّرَة",
+  "plain": "مزارع الذرة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_sennar_dam",
+  "text": "خَزَّانُ سِنَّار",
+  "plain": "خزان سنار",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_roseires",
+  "text": "خَزَّانُ الرُّوصَيْرِص",
+  "plain": "خزان الروصيرص",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_kenana",
+  "text": "سُكَّرُ كِنَانَة",
+  "plain": "سكر كنانة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_gum",
+  "text": "الصَّمْغُ العَرَبِيّ",
+  "plain": "الصمغ العربي",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_nuba",
+  "text": "جِبَالُ النُّوبَة",
+  "plain": "جبال النوبة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_oil",
+  "text": "حُقُولُ النِّفْط",
+  "plain": "حقول النفط",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_palace",
+  "text": "قَصْرُ السُّلْطَانِ عَلِي دِينَار",
+  "plain": "قصر السلطان علي دينار",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_radom",
+  "text": "مَحْمِيَّةُ الرَّدُوم",
+  "plain": "محمية الردوم",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_geneina",
+  "text": "مَدِينَةُ الجُنَيْنَة",
+  "plain": "مدينة الجنينة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_marra",
+  "text": "جَبَلُ مَرَّة",
+  "plain": "جبل مرة",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ },
+ {
+  "id": "sudanmap_lm_cattle",
+  "text": "قُطْعَانُ الأَبْقَار",
+  "plain": "قطعان الأبقار",
+  "lang": "ar",
+  "game": "sudanmap",
+  "emotion": "amazed",
+  "batch": 18,
+  "note": ""
+ }
+]
