@@ -635,7 +635,7 @@
   function bubble(text, x, y, col) { bubbles = bubbles.filter(b => b.age < b.life * .6); bubbles.push({ text, x, y, col, age: 0, life: 1.5 }); }
 
   function roundDone() {
-    phase = 'wait';
+    phase = 'wait'; phaseT = 0;
     later(.5, beginWear);
   }
   function beginWear() {
@@ -645,7 +645,7 @@
     wear = { t: 0, gm, items: slots.map((sl, i) => ({ it: sl.it, fx: sl.x, fy: sl.y, fr: R * szk(sl.it), tx: PG.x + gm.pts[i].x, ty: PG.y + gm.pts[i].y, tr: gm.rs * szk(sl.it) / .94, x: sl.x, y: sl.y, r: R })) };
     wear.items.forEach((q, i) => Sound.tone(520 * Math.pow(1.06, i), .1, 'sine', .08, 200, i * .06));
     Sound.whoosh();
-    phase = 'wear';
+    phase = 'wear'; phaseT = 0;
   }
   function endWear() {
     const neck = wear.items.map(q => ({ it: q.it })); neck.geom = wear.gm;
@@ -951,8 +951,19 @@
         const sq = Math.sin((1 - sl.pop) * Math.PI * 3) * sl.pop * .16;
         drawItem(ctx, sl.it, sl.x + off, sl.y - sl.pop * 4, R * szk(sl.it), sl.rot, 1 + sq, 1 - sq);
       }
-    } else if (phase === 'dance' && geo) {
-      // الخيط الجديد ينتظر خارج الشاشة؛ نرسم عقدتين فقط
+    } else if (strCard) {
+      // احتفال داخل بطاقة الخيط أثناء رقص البطريق
+      const cx = strCard.x + strCard.w / 2, cy = strCard.y + strCard.h / 2, sz = Math.min(strCard.h * .26, 44);
+      for (let i = -1; i <= 1; i++) {
+        const t = clamp((phaseT - (i + 1) * .12) / .35, 0, 1), e = ease.outBack(t), b = Math.abs(Math.sin(T * 5 + i)) * sz * .25;
+        if (t <= 0) continue;
+        ctx.save(); ctx.translate(cx + i * sz * 2.3, cy - b - (i ? 0 : sz * .2)); ctx.rotate(Math.sin(T * 3 + i) * .15); ctx.scale(e, e);
+        ctx.fillStyle = '#E89520'; ctx.translate(0, 4); starPath(ctx, sz * (i ? .85 : 1.1)); ctx.fill(); ctx.translate(0, -4);
+        const g = ctx.createLinearGradient(0, -sz, 0, sz); g.addColorStop(0, '#FFF1A0'); g.addColorStop(.5, '#FFD02B'); g.addColorStop(1, '#FFA51F');
+        ctx.fillStyle = g; starPath(ctx, sz * (i ? .85 : 1.1)); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.beginPath(); ctx.ellipse(-sz * .22, -sz * .3, sz * .16, sz * .08, -.6, 0, TAU); ctx.fill();
+        ctx.restore();
+      }
     }
     if (wear) {
       const pts = wear.items.map((q, i) => {

@@ -192,7 +192,7 @@
     switch (k) {
       case 'size': {
         vgrad(c, w, h, '#DFF6FF', '#BDE8FF'); ground(c, w, h, h * .72, '#9BDB8C', '#5DBB5E');
-        if (side === 0) { shadowE(c, w / 2, h * .86, m * .3); emo(c, '🐘', w / 2, h * .55 + Math.sin(t * 2) * m * .015, m * .72); }
+        if (side === 0) { shadowE(c, w / 2, h * .86, m * .3); emo(c, '🐘', w / 2, h * .56 + Math.sin(t * 2) * m * .015, m * .64); }
         else { const x = w / 2 + Math.sin(t * 3) * m * .12; shadowE(c, x, h * .84, m * .09); emo(c, '🐭', x, h * .76 - Math.abs(Math.sin(t * 9)) * m * .03, m * .22, { sx: Math.cos(t * 3) > 0 ? -1 : 1 }); }
         break;
       }
@@ -588,9 +588,10 @@
       G.opts = Array.from({ length: n }, (_, i) => ({ x: W / 2 + (isAr() ? 1 : -1) * ((n - 1) / 2 - i) * (ow + 14), y: oy }));
     }
   }
+  function safeBottom() { const d = document.createElement('div'); d.style.cssText = 'position:fixed;bottom:0;padding-bottom:env(safe-area-inset-bottom);visibility:hidden'; document.body.appendChild(d); const v = d.offsetHeight || 0; d.remove(); return v; }
   function layoutMemory() {
     const n = L.pairs * 2, land = W > H * 1.15;
-    const PW = Math.min(W - 20, 900), AH = H - top - 18 - (land ? 0 : 84), g = 12;
+    const PW = Math.min(W - 20, 900), AH = H - top - 24 - safeBottom(), g = 12;
     let best = null;
     for (let cols = 2; cols <= 8; cols++) {
       const rows = Math.ceil(n / cols);
@@ -915,22 +916,26 @@
     c.drawImage(bgC, 0, 0, W, H);
     if (L.m === 'c' && R) {
       // لوح الزوج
-      const bx = (G.main.x + G.slot.x) / 2, by = G.main.y, bw = G.cw * 2 + 56, bh = G.ch + 36;
+      const bx = (G.main.x + G.slot.x) / 2, by = G.main.y, bw = Math.min(G.cw * 2 + 44, W - 8), bh = G.ch + 30;
       c.save(); c.shadowColor = 'rgba(160,30,80,.18)'; c.shadowBlur = 20; c.shadowOffsetY = 8;
       c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.roundRect(bx - bw / 2, by - bh / 2, bw, bh, 34); c.fill(); c.restore();
       c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 3; c.beginPath(); c.roundRect(bx - bw / 2, by - bh / 2, bw, bh, 34); c.stroke();
       if (!R.opts.some(o => o.won && Math.hypot(o.x - G.slot.x, o.y - G.slot.y) < 30)) drawSlot(c, G.slot.x, G.slot.y, G.cw, G.ch, T, drag && drag.over);
-      // سهم التضاد بين البطاقتين
-      const ax = bx, ay = by, ar = Math.min(26, G.cw * .14) * (R.main.ok ? 1 + Math.sin(T * 8) * .1 : 1);
-      c.save(); c.shadowColor = 'rgba(0,0,0,.2)'; c.shadowBlur = 6; c.shadowOffsetY = 3;
-      c.fillStyle = R.main.ok ? '#37B24D' : '#fff'; c.beginPath(); c.arc(ax, ay, ar, 0, TAU); c.fill(); c.restore();
-      c.fillStyle = R.main.ok ? '#fff' : '#D6336C'; c.font = `900 ${ar * 1.2}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
-      c.fillText('⇄', ax, ay + ar * .05);
     }
     for (const cd of cards) {
       if (cd.delay && T < cd.delay) continue;
       if (cd.hint > T && !cd.won) { c.save(); c.globalAlpha = .4 + .3 * Math.sin(T * 8); c.fillStyle = '#FFD43B'; c.beginPath(); c.roundRect(cd.x - cd.w / 2 - 8, cd.y - cd.h / 2 - 8, cd.w + 16, cd.h + 16, cd.w * .18); c.fill(); c.restore(); }
       drawCard(c, cd, T);
+    }
+    if (L.m === 'c' && R) {
+      // سهم التضاد بين البطاقتين
+      if (Math.abs(R.main.x - G.main.x) < 30 && Math.abs(R.main.y - G.main.y) < 30) {
+      const ax = (G.main.x + G.slot.x) / 2, ay = G.main.y, ar = Math.min(26, G.cw * .14) * (R.main.ok ? 1 + Math.sin(T * 8) * .1 : 1);
+      c.save(); c.shadowColor = 'rgba(0,0,0,.2)'; c.shadowBlur = 6; c.shadowOffsetY = 3;
+      c.fillStyle = R.main.ok ? '#37B24D' : '#fff'; c.beginPath(); c.arc(ax, ay, ar, 0, TAU); c.fill(); c.restore();
+      c.fillStyle = R.main.ok ? '#fff' : '#D6336C'; c.font = `900 ${ar * 1.2}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
+      c.fillText('⇄', ax, ay + ar * .05);
+      }
     }
     for (const p of parts) {
       const a = 1 - p.age / p.life;

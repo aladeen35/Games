@@ -485,9 +485,9 @@
       cards.forEach((cd, i) => { const n = cards.length, gap = (aw - n * cw) / (n + 1); const k2 = en() ? i : n - 1 - i; cd.x = ax + gap + k2 * (cw + gap); cd.y = cyTop; cd.w = cw; cd.h = ch; });
     } else if (m === 'cmp') {
       G.tableTop = top + avail * .1;
-      const R = Math.min(aw * .21, 150, avail * .2);
+      const R = Math.min(aw * .19, 150, avail * .2);
       const cw = Math.min(aw * .3, 120), ch = cw * .95;
-      cakes.forEach((ck, i) => { ck.R = R; const left = en() ? i === 0 : i === 1; ck.x = cx + (left ? -1 : 1) * aw * .25; ck.y = top + avail * .42; });
+      cakes.forEach((ck, i) => { ck.R = R; const left = en() ? i === 0 : i === 1; ck.x = cx + (left ? -1 : 1) * aw * .26; ck.y = top + avail * .45; });
       cards.forEach((cd, i) => { const ck = cakes[i]; cd.w = cw; cd.h = ch; cd.x = ck.x - cw / 2; cd.y = Math.min(bottom - ch - 6, ck.y + R * .56 + R * .4 + R * .5 + 24); });
     }
   }
