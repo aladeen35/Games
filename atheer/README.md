@@ -11,8 +11,8 @@
 
 | النسخة | اللاعبون | الملف | الحزمة |
 |---|---|---|---|
-| ألعاب أثير وبشرى | أثير 👑، بشرى ⭐ | [`dist/AtheerBushra-5.0.apk`](dist/AtheerBushra-5.0.apk) | `com.atheer.games` |
-| ألعاب كوتي وريلا وسونى | كوتي 🚗، ريلا 👑، سونى 🦖 | [`dist/KutiRilaSony-5.0.apk`](dist/KutiRilaSony-5.0.apk) | `com.kutirila.games` |
+| ألعاب أثير وبشرى | أثير 👑، بشرى ⭐ | [`dist/AtheerBushra-5.1.apk`](dist/AtheerBushra-5.1.apk) | `com.atheer.games` |
+| ألعاب كوتي وريلا وسونى | كوتي 🚗، ريلا 👑، سونى 🦖 | [`dist/KutiRilaSony-5.1.apk`](dist/KutiRilaSony-5.1.apk) | `com.kutirila.games` |
 
 - لكل نسخة توقيع مختلف واسم حزمة مختلف، لذلك يمكن تثبيت النسختين معًا على الهاتف نفسه.
 - التحديثات القادمة تُثبَّت فوق النسخة الموجودة مباشرة. النسخة 1.0 القديمة من «ألعاب أثير» تحتاج حذفًا مرة واحدة لأنها موقّعة بمفتاح مختلف.
