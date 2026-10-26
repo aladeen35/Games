@@ -585,6 +585,8 @@
       return { se: S.se, wx: S.wx, bg: getBg(S.se, S.wx, S.w, S.h, S.hz, S.mini), tree: getTree(S.se, S.wx, tsz), tsz, a: 0 };
     };
     S.resize = (w, h, hzr, top = 0) => {
+      const nh = Math.round(top + (h - top) * hzr);
+      if (S.layers.length && S.w === Math.max(10, Math.round(w)) && S.h === Math.max(10, Math.round(h)) && S.hz === nh && S.top === top) return;
       S.w = Math.max(10, Math.round(w)); S.h = Math.max(10, Math.round(h)); S.top = top; S.hz = Math.round(top + (h - top) * hzr);
       const l = S.mkLayer(); l.a = 1; S.layers = [l];
       S.parts = S.parts.filter(q => q.x < S.w && q.y < S.h);
@@ -1180,11 +1182,10 @@
       showHint('👀 ' + App.g('انظري', 'انظر') + ' إلى المشهد… أيّ فصل هذا؟');
     } else if (mode === 'acts') {
       total = def.a.length;
-      minis = def.ss.map(id => { const sc = makeScene(true); sc.se = null; return { id, sc, placed: [], x: 0, y: 0, w: 10, h: 10, glow: 0, shake: 0, pop: 0 }; });
+      minis = def.ss.map(id => { const sc = makeScene(true); sc.se = id; sc.wx = SEASON_WX[id][0]; Object.assign(sc.p, WP[sc.wx]); return { id, sc, placed: [], x: 0, y: 0, w: 10, h: 10, glow: 0, shake: 0, pop: 0 }; });
       cards = shuffle(def.a.slice()).map((id, i) => mkCard('act', id, { intro: -i * .06 }));
       scene.set('spring', 'sunny', true);
       layout();
-      minis.forEach(m => { m.sc.set(m.id, SEASON_WX[m.id][0], true); });
       later(.4, askCurrent);
       showHint('👆 ' + App.g('اسحبي', 'اسحب') + ' كل نشاط إلى فصله');
     } else if (mode === 'report') {
