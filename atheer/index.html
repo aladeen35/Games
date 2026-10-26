@@ -79,12 +79,82 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 
 .hero{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
 .hero-txt{display:flex;flex-direction:column;align-items:center;gap:8px}
-.players{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.pl{display:flex;align-items:center;gap:6px;padding:4px 16px 4px 6px;border-radius:99px;background:rgba(255,255,255,.75);font-weight:800;font-size:17px;color:var(--t-ink);
-  box-shadow:0 4px 0 rgba(0,0,0,.08);border:3px solid rgba(255,255,255,.9);transition:transform .14s var(--press)}
-.pl:active{transform:translateY(3px) scale(.97)}
-.pl.on{background:linear-gradient(180deg,var(--t-main-l),var(--t-main));border-color:#fff;color:#fff;box-shadow:0 4px 0 var(--t-main-d),0 8px 14px var(--t-shadow);text-shadow:0 1px 0 rgba(0,0,0,.18)}
-.pl .av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
+/* ---------- صف الأطفال: صور دائرية كبيرة، والنشط أكبر ---------- */
+.kids{width:100%;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:12px 6px 6px;scrollbar-width:none;touch-action:pan-x pan-y;align-items:flex-start;min-height:132px}
+.kids::-webkit-scrollbar{display:none}
+.kids>:first-child{margin-inline-start:auto}.kids>:last-child{margin-inline-end:auto}
+.kid{flex:0 0 auto;width:86px;display:flex;flex-direction:column;align-items:center;gap:9px;background:none;padding:2px 0;position:relative;-webkit-touch-callout:none}
+.kid[data-g="girl"]{--kc:#FF8CC6;--kcd:#E0217F}.kid[data-g="boy"]{--kc:#6FB0FF;--kcd:#1A5FC2}
+.kav{width:62px;height:62px;margin-top:9px;border-radius:50%;display:grid;place-items:center;font-size:33px;line-height:1;background:linear-gradient(180deg,#fff,#F4F0FA);position:relative;
+  box-shadow:0 0 0 4px #fff,0 0 0 7px var(--kc,var(--t-main-l)),0 6px 0 6px var(--kcd,var(--t-main-d)),0 12px 16px rgba(40,20,80,.2);transition:transform .14s var(--press)}
+.kav img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;pointer-events:none}
+.kid.on .kav{width:80px;height:80px;margin-top:0;font-size:44px}
+.kid:not(.on):not(.add) .kav{filter:saturate(.75);opacity:.92}
+.kid:active .kav{transform:translateY(3px) scale(.95)}
+.kid b{font-size:15px;font-weight:900;color:var(--t-ink);background:rgba(255,255,255,.82);padding:0 10px;border-radius:99px;line-height:24px;max-width:86px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.kid.on b{background:linear-gradient(180deg,var(--kc),var(--kcd));color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.2);box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.ked{position:absolute;top:-6px;left:-8px;width:32px;height:32px;border-radius:50%;background:linear-gradient(180deg,#FFE680,#FFC531 60%,#F2A90F);font-size:15px;display:none;place-items:center;
+  border:3px solid #fff;box-shadow:0 3px 0 #D98A00,0 5px 8px rgba(0,0,0,.18)}
+.kid.on .ked{display:grid}
+.kid.add .kav{background:rgba(255,255,255,.6);color:var(--t-main-d);font-size:36px;font-weight:900;box-shadow:inset 0 0 0 3px var(--t-main-l),0 6px 12px var(--t-shadow);border:3px dashed var(--t-main)}
+.kid.add b{background:none;box-shadow:none;color:var(--t-main-d);font-size:14px}
+.ktip{margin:-2px 0 0;font-size:14px;font-weight:800;color:var(--t-main-d);background:#fff;border-radius:99px;padding:3px 14px;box-shadow:0 3px 0 var(--t-edge);position:relative}
+.ktip::before{content:'';position:absolute;top:-7px;left:50%;margin-left:-7px;border:7px solid transparent;border-top:0;border-bottom-color:#fff}
+.ktip:empty{display:none}
+.ripple{position:fixed;left:0;top:0;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;pointer-events:none;z-index:0;visibility:hidden;
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(255,255,255,.55) 40%,rgba(255,255,255,0) 70%)}
+#curtain{position:fixed;left:0;top:0;border-radius:50%;pointer-events:none;z-index:85;visibility:hidden;display:grid;place-items:center}
+#curtain canvas{width:120px;height:120px;border-radius:34px;box-shadow:0 0 0 6px #fff,0 14px 30px rgba(0,0,0,.25)}
+#fxl{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+#fxl i{position:absolute;font-style:normal;font-size:22px;left:0;top:0}
+
+/* ---------- نموذج الطفل ---------- */
+.kf-top{display:flex;flex-direction:column;align-items:center;gap:12px;margin:2px 0 4px}
+.kf-av{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-size:62px;background:linear-gradient(180deg,#fff,var(--t-soft));overflow:hidden;
+  box-shadow:0 0 0 5px #fff,0 0 0 10px var(--t-main-l),0 10px 20px var(--t-shadow)}
+.kf-av img{width:100%;height:100%;object-fit:cover;display:block}
+.kf-pb{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pbtn{position:relative;display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:99px;background:#fff;border:3px solid var(--t-soft);font-weight:800;font-size:15px;color:var(--t-main-d);
+  box-shadow:0 4px 0 var(--t-edge);cursor:pointer;transition:transform .14s var(--press)}
+.pbtn:active{transform:translateY(3px)}
+.pbtn input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.pbtn.busy{opacity:.6}
+.kf-l{font-weight:900;font-size:16px;margin:14px 4px 7px;display:flex;align-items:center;gap:6px}
+.kf-l small{font-weight:700;font-size:12.5px;opacity:.6}
+.kf-in{width:100%;font:inherit;font-size:21px;font-weight:800;padding:9px 16px;border-radius:20px;border:3px solid var(--t-soft);background:var(--t-bg2);color:var(--t-ink);outline:none;
+  user-select:text;-webkit-user-select:text;touch-action:manipulation}
+.kf-in:focus{border-color:var(--t-main);background:#fff}
+.kf-g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kf-g button,.themes button{position:relative}
+.kf-g button{border-radius:24px;padding:8px 6px;font-size:19px;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:2px;border:3px solid #fff;transition:transform .14s var(--press)}
+.kf-g button span{font-size:40px;line-height:1.1}
+.kf-g .g,.themes .g{background:linear-gradient(#FFF1F7,#FFD0E6);color:#B0156A;box-shadow:0 5px 0 #FFB3D4}
+.kf-g .b,.themes .b{background:linear-gradient(#EEF6FF,#C9E2FF);color:#173A6B;box-shadow:0 5px 0 #A9CCF5}
+.kf-g button.on,.themes button.on{box-shadow:0 0 0 4px var(--t-main),0 6px 0 4px var(--t-main-d)}
+.kf-g button.on::after,.themes button.on::after{content:'✔';position:absolute;top:-8px;left:-8px;width:28px;height:28px;border-radius:50%;background:var(--t-main);color:#fff;font-size:15px;display:grid;place-items:center;border:2px solid #fff}
+.kf-g button:active{transform:translateY(4px) scale(1.03,.95)}
+.kf-age{justify-content:center;flex-wrap:wrap}
+.kf-age button{min-width:40px}
+.kf-emo{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.kf-emo button{width:46px;height:46px;border-radius:50%;font-size:25px;background:var(--t-bg2);border:2px solid var(--t-soft);display:grid;place-items:center;transition:transform .14s var(--press)}
+.kf-emo button.on{background:#fff;border-color:var(--t-main);box-shadow:0 0 0 3px var(--t-main-l);transform:scale(1.1)}
+.kf-act{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
+.tbtn.danger{background:linear-gradient(180deg,#FF9A9A 0%,#F2484B 60%,#C8262D 130%);box-shadow:0 5px 0 #B3232A,0 9px 14px rgba(179,35,42,.25)}
+.tbtn.sm{font-size:15px;padding:6px 16px}
+.kchips{display:flex;gap:6px;flex-wrap:wrap}
+.kchip{display:flex;align-items:center;gap:6px;padding:3px 12px 3px 4px;border-radius:99px;background:#fff;border:2px solid var(--t-soft);font-weight:800;font-size:14px;color:var(--t-ink)}
+.kchip.on{background:linear-gradient(180deg,var(--t-main-l),var(--t-main));color:#fff;border-color:#fff;box-shadow:0 3px 0 var(--t-main-d)}
+.mini{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#fff;overflow:hidden;flex:0 0 30px}
+.mini img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- حين يعمل GSAP تتولّى الحركة بدل حركات CSS ---------- */
+html.gs .logo{animation:none}
+html.gs .sheet-wrap.on,html.gs .sheet{animation:none}
+html.gs .sheet-wrap.closing{display:flex;pointer-events:none}
+html.gs .tst{animation:none}
+html.gs .overlay[data-fx].on,html.gs .overlay[data-fx] .panel,html.gs .overlay[data-fx] .stars3>*{animation:none}
+html.gs .card:active{transform:none}
+html.gs .card,html.gs .kav{will-change:transform}
 .logo{width:min(46vw,200px);aspect-ratio:1;border-radius:50%;position:relative;animation:bob 4s ease-in-out infinite;margin-top:4px;
   box-shadow:0 0 0 7px #fff,0 0 0 12px var(--t-main-l),0 12px 0 4px var(--t-main),0 22px 34px var(--t-shadow);overflow:hidden;background:#fff}
 .logo img,.logo svg{width:100%;height:100%;display:block}
@@ -253,6 +323,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 <!-- ====================== القائمة ====================== -->
 <section id="menu" class="screen on">
   <div class="sky" aria-hidden="true"><i class="sun"></i><i class="cl c1"></i><i class="cl c2"></i><i class="cl c3"></i><i class="cl c4"></i></div>
+  <i class="ripple" id="ripple" aria-hidden="true"></i>
   <div class="menu-wrap">
     <div class="topbar">
       <button class="tb" id="mSettings" aria-label="الإعدادات">⚙️</button>
@@ -267,7 +338,8 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
       <div class="hero-txt">
         <h1 class="hello" id="hello"></h1>
         <p class="sub" id="sub"></p>
-        <div class="players" id="players"></div>
+        <div class="kids" id="kids" aria-label="الأطفال"></div>
+        <p class="ktip" id="ktip"></p>
       </div>
     </div>
     <nav class="cats" id="cats" aria-label="أقسام الألعاب"></nav>
@@ -279,9 +351,17 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 <!-- نافذة عامة واحدة تُملأ حسب الحاجة -->
 <div class="sheet-wrap" id="sheetWrap"><div class="sheet" id="sheet"></div></div>
 <div id="toasts"></div>
+<div id="curtain" aria-hidden="true"></div>
+<div id="fxl" aria-hidden="true"></div>
 
 <script src="js/edition.js"></script>
 <script src="voice/index.js"></script>
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/Flip.min.js"></script>
+<script src="js/vendor/CustomEase.min.js"></script>
+<script src="js/vendor/Draggable.min.js"></script>
+<script src="js/vendor/MotionPathPlugin.min.js"></script>
+<script src="js/vendor/Physics2DPlugin.min.js"></script>
 <script src="js/core.js"></script>
 <script src="js/jump.js"></script>
 <script src="js/cosmos.js"></script>

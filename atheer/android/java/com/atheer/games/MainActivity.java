@@ -2,19 +2,26 @@ package com.atheer.games;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -31,6 +38,10 @@ public class MainActivity extends Activity {
     private WebView web;
     private TextToSpeech tts, ttsEn;
     private boolean ttsReady = false, ttsEnReady = false;
+
+    /** اختيار صورة الطفل من المعرض أو الكاميرا لحقل <input type=file> */
+    private static final int REQ_PHOTO = 4101;
+    private ValueCallback<Uri[]> photoCb;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -51,6 +62,7 @@ public class MainActivity extends Activity {
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.setBackgroundColor(0xFFFFF0F6);
         web.setWebViewClient(new AssetClient());
+        web.setWebChromeClient(new PhotoChooser());
         web.addJavascriptInterface(new Bridge(), "AndroidBridge");
 
         setContentView(web);
@@ -116,6 +128,64 @@ public class MainActivity extends Activity {
             // لا فتح لأي رابط خارجي
             return url == null || !url.startsWith("https://" + HOST);
         }
+    }
+
+    /**
+     * حقل الصورة في نموذج الطفل: بلا capture ← قائمة (المعرض/الملفات + الكاميرا)،
+     * ومع capture ← الكاميرا مباشرة. الكاميرا تُرجع صورة مصغّرة (تكفي للصورة الدائرية)،
+     * فلا حاجة إلى أي صلاحية أو FileProvider.
+     */
+    private class PhotoChooser extends WebChromeClient {
+        @Override
+        public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> cb, FileChooserParams params) {
+            if (photoCb != null) photoCb.onReceiveValue(null);
+            photoCb = cb;
+            Intent pick = new Intent(Intent.ACTION_GET_CONTENT);
+            pick.addCategory(Intent.CATEGORY_OPENABLE);
+            pick.setType("image/*");
+            Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            boolean capture = params != null && params.isCaptureEnabled();
+            if (capture) {
+                try { startActivityForResult(cam, REQ_PHOTO); return true; }
+                catch (ActivityNotFoundException | SecurityException e) { /* لا كاميرا: نفتح المعرض */ }
+            }
+            Intent chooser = Intent.createChooser(pick, "اختر صورة");
+            if (!capture) chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cam});
+            try {
+                startActivityForResult(chooser, REQ_PHOTO);
+            } catch (ActivityNotFoundException | SecurityException e) {
+                photoCb = null;
+                cb.onReceiveValue(null);
+            }
+            return true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        if (req != REQ_PHOTO) { super.onActivityResult(req, res, data); return; }
+        ValueCallback<Uri[]> cb = photoCb;
+        photoCb = null;
+        if (cb == null) return;
+        Uri[] out = null;
+        if (res == RESULT_OK && data != null) {
+            if (data.getData() != null) {
+                out = new Uri[]{data.getData()};
+            } else if (data.getClipData() != null && data.getClipData().getItemCount() > 0) {
+                out = new Uri[]{data.getClipData().getItemAt(0).getUri()};
+            } else if (data.getExtras() != null && data.getExtras().get("data") instanceof Bitmap) {
+                // صورة الكاميرا المصغّرة: نحفظها مؤقتًا ونمرّر مسارها للصفحة
+                try {
+                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                    File f = new File(getCacheDir(), "kid-photo.jpg");
+                    FileOutputStream fo = new FileOutputStream(f);
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 92, fo);
+                    fo.close();
+                    out = new Uri[]{Uri.fromFile(f)};
+                } catch (IOException e) { out = null; }
+            }
+        }
+        cb.onReceiveValue(out);
     }
 
     private static String mimeOf(String p) {

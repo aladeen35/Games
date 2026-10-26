@@ -4,8 +4,10 @@ window.EDITION = {
   id: 'atheer',
   title: 'ألعاب أثير وبشرى',
   names: 'أثير وبشرى',
+  /* الأطفال الأوائل عند أول تشغيل فقط (بعدها تُدار القائمة من الشاشة الرئيسية).
+     المعرّفات ثابتة لأن نتائج كل طفل محفوظة بها. gender: girl | boy */
   profiles: [
-    { id: 'atheer', name: 'أثير', theme: 'girls', av: '👑' },
-    { id: 'bushra', name: 'بشرى', theme: null, av: '⭐' } // يُسأل عن الثيم عند أول دخول
+    { id: 'atheer', name: 'أثير', gender: 'girl', theme: 'girls', av: '👑' },
+    { id: 'bushra', name: 'بشرى', gender: 'girl', theme: 'girls', av: '⭐' }
   ]
 };

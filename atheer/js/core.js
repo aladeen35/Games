@@ -319,6 +319,98 @@ const Music = {
 };
 
 /* =====================================================================
+   الحركة (GSAP): كل شيء اختياري — إن لم يُحمَّل GSAP أو طلب الجهاز
+   تقليل الحركة، يعمل التطبيق كما هو بلا حركات.
+   نحرّك transform و opacity فقط كي تبقى خفيفة على الهواتف الضعيفة.
+   ===================================================================== */
+const Fx = {
+  ok: false, reduce: false, intro: null,
+  init() {
+    const G = window.gsap; if (!G) return;
+    try { G.registerPlugin(...[window.Flip, window.CustomEase, window.Physics2DPlugin, window.MotionPathPlugin, window.Draggable].filter(Boolean)); } catch (e) {}
+    this.ok = true;
+    document.documentElement.classList.add('gs');
+    G.defaults({ duration: .4, ease: 'power2.out' });
+    G.matchMedia().add({ reduce: '(prefers-reduced-motion: reduce)', full: '(prefers-reduced-motion: no-preference)' }, ctx => {
+      this.reduce = !!ctx.conditions.reduce;
+      if (!this.reduce) G.to('#logo', { y: -7, rotation: -1.5, duration: 2, ease: 'sine.inOut', yoyo: true, repeat: -1 }); // تمايل الشعار
+    });
+  },
+  /** هل نحرّك؟ */
+  get on() { return this.ok && !this.reduce; },
+  /** دخول الشاشة الرئيسية أول مرة */
+  menuIntro() {
+    if (!this.on) return;
+    const G = gsap, vh = innerHeight;
+    const cards = [...document.querySelectorAll('#cards .gh, #cards .card')].filter(c => c.getBoundingClientRect().top < vh).slice(0, 14);
+    this.intro = G.timeline({ defaults: { ease: 'back.out(1.7)' }, onComplete: () => { this.intro = null; } })
+      .from('.topbar > *', { y: -34, autoAlpha: 0, stagger: .05, duration: .45 })
+      .from('#logo', { scale: .3, autoAlpha: 0, duration: .7, ease: 'back.out(1.5)' }, .05)
+      .from('#hello, #sub', { y: 16, autoAlpha: 0, stagger: .08, duration: .4, ease: 'power2.out' }, .3)
+      .from('#kids .kid', { scale: 0, autoAlpha: 0, stagger: .07, duration: .5 }, .38)
+      .from('#cats button', { y: 14, autoAlpha: 0, stagger: .03, duration: .3 }, .5)
+      .from(cards, { y: 46, autoAlpha: 0, stagger: .045, duration: .55, ease: 'power3.out', clearProps: 'transform,opacity,visibility' }, .55);
+  },
+  /** إنهاء الدخول فورًا قبل إعادة بناء القائمة */
+  finishIntro() { if (this.intro) { this.intro.progress(1); this.intro = null; } },
+  /** ظهور البطاقات الظاهرة بعد تبديل الطفل */
+  cardsIn() {
+    if (!this.on) return;
+    const vh = innerHeight, cards = [...document.querySelectorAll('#cards .card')].filter(c => { const r = c.getBoundingClientRect(); return r.bottom > 0 && r.top < vh; }).slice(0, 10);
+    gsap.fromTo(cards, { y: 18, autoAlpha: 0, scale: .94 }, { y: 0, autoAlpha: 1, scale: 1, stagger: .035, duration: .4, ease: 'back.out(1.6)', clearProps: 'transform,opacity,visibility' });
+  },
+  /** ضغط بطاقة: انضغاط ثم ارتداد مطاطي */
+  press(el) { if (this.on) gsap.to(el, { y: 5, scaleX: 1.03, scaleY: .95, duration: .1, ease: 'power2.out', overwrite: 'auto' }); },
+  release(el) { if (this.ok) gsap.to(el, { y: 0, scaleX: 1, scaleY: 1, duration: this.reduce ? 0 : .55, ease: 'elastic.out(1,0.45)', overwrite: 'auto' }); },
+  /** ظهور الشاشة الجديدة (شفافية فقط، كي لا تتأثر قياسات الألعاب) */
+  screenIn(el) {
+    if (!this.on || !el) return;
+    gsap.killTweensOf(el);
+    gsap.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: .28, ease: 'power1.out', clearProps: 'opacity,visibility' });
+  },
+  /** ستارة دائرية بلون اللعبة تخرج من البطاقة، ثم تُفتح اللعبة تحتها */
+  curtain(card, color, icon, done) {
+    const c = $('#curtain');
+    if (!this.on || !c || !card) { done(); return; }
+    const r = card.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const R = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy)) + 20;
+    c.innerHTML = ''; c.style.width = c.style.height = 2 * R + 'px';
+    c.style.background = `radial-gradient(circle, ${App.shade(color, .55)} 0, ${color} 55%, ${App.shade(color, -.15)} 100%)`;
+    if (icon) { const cv = IK.canvas(240); cv.getContext('2d').drawImage(icon, 0, 0); c.appendChild(cv); }
+    const cv = c.firstChild;
+    gsap.killTweensOf([c, cv]);
+    const tl = gsap.timeline();
+    tl.set(c, { x: cx - R, y: cy - R, scale: 0, autoAlpha: 1 })
+      .to(c, { scale: 1, duration: .42, ease: 'power2.in' });
+    if (cv) tl.fromTo(cv, { scale: .4, rotation: -20 }, { scale: 1, rotation: 0, duration: .45, ease: 'back.out(2)' }, .12);
+    tl.add(() => done())
+      .to(c, { autoAlpha: 0, duration: .32, ease: 'power1.out' }, '+=.08');
+    if (cv) tl.to(cv, { scale: 1.25, duration: .32, ease: 'power1.in' }, '<');
+  },
+  /** نجوم صغيرة تتطاير من نقطة (Physics2D) */
+  burst(x, y, n = 8, chars = ['⭐', '✨', '💖']) {
+    if (!this.on || !window.Physics2DPlugin) return;
+    const L = $('#fxl'); if (!L) return;
+    for (let i = 0; i < n; i++) {
+      const s = document.createElement('i'); s.textContent = chars[i % chars.length]; L.appendChild(s);
+      gsap.set(s, { x: x - 11, y: y - 14, scale: rand(.7, 1.2) });
+      gsap.to(s, { physics2D: { velocity: rand(220, 420), angle: rand(200, 340), gravity: 700 }, rotation: rand(-200, 200), duration: 1.1, ease: 'none', onComplete: () => s.remove() });
+      gsap.to(s, { autoAlpha: 0, duration: .35, delay: .75 });
+    }
+  },
+  /** ظهور نافذة لعبة (overlay) ولوحتها ونجومها */
+  overlayIn(o) {
+    if (!this.on) return;
+    const p = o.querySelector('.panel'), st = o.querySelectorAll('.stars3 > *');
+    gsap.killTweensOf([o, p, ...st].filter(Boolean));
+    const tl = gsap.timeline();
+    tl.fromTo(o, { autoAlpha: 0 }, { autoAlpha: 1, duration: .25, ease: 'power1.out', clearProps: 'opacity,visibility' });
+    if (p) tl.fromTo(p, { scale: .55, y: 40, autoAlpha: 0 }, { scale: 1, y: 0, autoAlpha: 1, duration: .5, ease: 'back.out(1.7)', clearProps: 'transform,opacity,visibility' }, .05);
+    if (st.length) tl.fromTo(st, { scale: 0, rotation: -45 }, { scale: 1, rotation: 0, duration: .55, stagger: .14, ease: 'back.out(3)', clearProps: 'transform' }, .3);
+  }
+};
+
+/* =====================================================================
    التطبيق
    ===================================================================== */
 const App = {
@@ -492,8 +584,12 @@ const App = {
 
   /* ---------- أدوات عامة للألعاب ---------- */
   get theme() { return document.documentElement.dataset.theme; },
-  /** نص بصيغة المؤنث أو المذكر حسب ثيم اللاعب */
-  g(fem, masc) { return this.theme === 'boys' ? masc : fem; },
+  /** نص بصيغة المؤنث أو المذكر حسب نوع الطفل (بنت/ولد)، وإلا فحسب الثيم */
+  g(fem, masc) {
+    const gd = this.profile && this.profile.gender;
+    if (gd) return gd === 'boy' ? masc : fem;
+    return this.theme === 'boys' ? masc : fem;
+  },
   css(text) { const s = document.createElement('style'); s.textContent = text; document.head.appendChild(s); },
   section(id, html) {
     const s = document.createElement('section'); s.id = id; s.className = 'screen'; s.innerHTML = html;
@@ -508,18 +604,28 @@ const App = {
     if (!n) return;
     store.set('stars', Math.max(0, this.stars() + n));
     this.paintStars();
-    if (n > 0) { this.toast(`+${n} ⭐${why ? ' ' + why : ''}`); Sound.coin(); }
+    if (n > 0) { this.toast(`+${n} ⭐${why ? ' ' + why : ''}`, 'star'); Sound.coin(); }
   },
   achieve(id) {
     const a = this.ACH.find(x => x.id === id); if (!a) return;
     const got = store.get('ach', []); if (got.includes(id)) return;
     got.push(id); store.set('ach', got);
-    setTimeout(() => { this.toast(`🏆 إنجاز جديد: ${a.t}`); Sound.win(); this.addStars(10); }, 300);
+    setTimeout(() => { this.toast(`🏆 إنجاز جديد: ${a.t}`, 'ach'); Sound.win(); this.addStars(10); }, 300);
   },
   hasAch(id) { return store.get('ach', []).includes(id); },
-  toast(text) {
-    const t = document.createElement('div'); t.className = 'tst'; t.textContent = text;
-    $('#toasts').appendChild(t); setTimeout(() => t.remove(), 2700);
+  toast(text, kind) {
+    const t = document.createElement('div'); t.className = 'tst' + (kind ? ' ' + kind : ''); t.textContent = text;
+    $('#toasts').appendChild(t);
+    if (!Fx.on) { setTimeout(() => t.remove(), 2700); return; }
+    const tl = gsap.timeline({ onComplete: () => t.remove() });
+    tl.fromTo(t, { y: -20, scale: .5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .5, ease: 'back.out(2.2)' });
+    if (kind === 'ach') {
+      tl.fromTo(t, { rotation: -7 }, { rotation: 0, duration: .8, ease: 'elastic.out(1.2,0.3)' }, 0)
+        .add(() => { const r = t.getBoundingClientRect(); Fx.burst(r.left + r.width / 2, r.top + r.height / 2, 10, ['⭐', '🏆', '✨']); }, .15);
+    } else if (kind === 'star') {
+      tl.add(() => { const r = t.getBoundingClientRect(); Fx.burst(r.left + r.width / 2, r.top + r.height / 2, 5, ['⭐', '✨']); }, .1);
+    }
+    tl.to(t, { y: -12, autoAlpha: 0, duration: .35, ease: 'power1.in' }, '+=1.9');
   },
   /* النطق: يُفضَّل الصوت المسجَّل (voice/ar و voice/en)، وتُركَّب الجمل من مقاطع،
      وإن لم يتوفّر مقطع لجزء من الجملة نرجع إلى محرّك النطق في الجهاز */
@@ -548,6 +654,7 @@ const App = {
     if (prev && prev.leave) prev.leave();
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
     this.current = id;
+    if (!this.noFade) Fx.screenIn($('#' + id));
     const g = this.games[id];
     if (g) {
       const played = store.get('played', []);
@@ -558,8 +665,21 @@ const App = {
     } else {
       Music.play('menu');
       this.renderMenu();
+      if (prev && Fx.on) { Fx.cardsIn(); gsap.from('#logo, #kids .kid.on .kav', { scale: .8, duration: .5, ease: 'back.out(2)' }); }
     }
     try { history.replaceState(null, '', id === 'menu' ? location.pathname : '#' + id); } catch (e) {}
+  },
+  /** فتح لعبة من بطاقتها: ستارة بلون اللعبة ثم الانتقال */
+  openGame(id, card) {
+    if (this.opening) return;
+    if (!Fx.on || !card) { this.show(id); return; }
+    this.opening = true;
+    const icon = [...this.iconCache.entries()].find(([k]) => k.startsWith(id + '|'));
+    Fx.curtain(card, this.accent(id).a, icon && icon[1], () => {
+      this.noFade = true;
+      try { this.show(id); } finally { this.noFade = false; this.opening = false; }
+    });
+    setTimeout(() => { this.opening = false; }, 1500);
   },
   /** زر الرجوع (أندرويد / Esc): يغلق النافذة أولًا، ثم يعود للقائمة، ثم يخرج */
   back() {
@@ -572,17 +692,30 @@ const App = {
   /* ---------- النوافذ العامة ---------- */
   sheetClose: null,
   openSheet(html, onClose) {
-    const g = this.games[this.current];
-    if (g && g.pause && !$('#sheetWrap').classList.contains('on')) g.pause();
+    const g = this.games[this.current], W = $('#sheetWrap'), wasOn = W.classList.contains('on');
+    if (g && g.pause && !wasOn) g.pause();
+    if (Fx.ok) { gsap.killTweensOf([W, $('#sheet')]); gsap.set([W, $('#sheet')], { clearProps: 'transform,opacity,visibility' }); }
+    W.classList.remove('closing');
     $('#sheet').innerHTML = `<button class="close" aria-label="إغلاق">✕</button>` + html;
-    $('#sheetWrap').classList.add('on');
+    W.classList.add('on');
+    if (!wasOn && Fx.on) {
+      gsap.fromTo(W, { autoAlpha: 0 }, { autoAlpha: 1, duration: .22, ease: 'power1.out', clearProps: 'opacity,visibility' });
+      gsap.fromTo('#sheet', { scale: .6, y: 50, autoAlpha: 0 }, { scale: 1, y: 0, autoAlpha: 1, duration: .5, ease: 'back.out(1.6)', clearProps: 'transform,opacity,visibility' });
+    }
     $('#sheet').scrollTop = 0;
     $('#sheet .close').onclick = () => { Sound.tap(); this.closeSheet(); };
     this.sheetClose = onClose || null;
     return $('#sheet');
   },
   closeSheet() {
-    $('#sheetWrap').classList.remove('on');
+    const W = $('#sheetWrap');
+    if (W.classList.contains('on') && Fx.on) {
+      W.classList.add('closing');
+      gsap.killTweensOf([W, $('#sheet')]);
+      gsap.to('#sheet', { scale: .85, y: 30, autoAlpha: 0, duration: .2, ease: 'power2.in' });
+      gsap.to(W, { autoAlpha: 0, duration: .22, ease: 'power1.in', onComplete: () => { W.classList.remove('closing'); gsap.set([W, $('#sheet')], { clearProps: 'transform,opacity,visibility' }); } });
+    }
+    W.classList.remove('on');
     const cb = this.sheetClose; this.sheetClose = null; if (cb) cb();
     const g = this.games[this.current];
     if (g && g.resume) g.resume();
@@ -599,19 +732,22 @@ const App = {
     const P = this.profile, th = this.theme;
     const seg = (key, opts, val) => `<div class="seg" data-k="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(v) === String(val) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
     const s = this.openSheet(`<h3>⚙️ الإعدادات</h3>
-      <div class="row"><span class="lbl">👤 اللاعب</span>${seg('player', this.PROFILES.map(p => [p.id, p.name]), P.id)}</div>
+      <div class="row"><span class="lbl">👤 ${this.g('اللاعبة', 'اللاعب')}</span><div class="kchips">${this.PROFILES.map(k => `<button class="kchip ${k.id === P.id ? 'on' : ''}" data-kid="${k.id}"><span class="mini">${this.kidFace(k)}</span>${this.esc(k.name)}</button>`).join('')}</div>
+        <div style="display:flex;gap:6px;width:100%;justify-content:center"><button class="tbtn alt sm" id="sEdit">✏️ تعديل ${this.esc(P.name)}</button><button class="tbtn alt sm" id="sAdd">➕ طفل جديد</button></div></div>
       <div class="row"><span class="lbl">🎨 الثيم</span>${seg('theme', [['girls', '👑 بناتي'], ['boys', '🚀 ولادي']], th)}</div>
       <div class="row"><span class="lbl">🔊 المؤثرات</span>${seg('sfx', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('sfx', true))}</div>
       <div class="row"><span class="lbl">🎵 الموسيقى</span>${seg('music', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('music', true))}</div>
       <div class="row"><span class="lbl">📳 الاهتزاز</span>${seg('vib', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('vib', true))}</div>
       <div class="row"><span class="lbl">🔠 حجم الخط</span>${seg('font', [['normal', 'عادي'], ['large', 'كبير']], gstore.get('font', 'normal'))}</div>
-      <div class="row"><span class="lbl">🗑️ بيانات ${P.name}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">مسح النتائج</button></div>
+      <div class="row"><span class="lbl">🗑️ بيانات ${this.esc(P.name)}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">مسح النتائج</button></div>
       <p class="center" style="font-size:12px;opacity:.6;margin:8px 0 0">الثيم يغيّر شكل القائمة فقط، ولا يغيّر الألعاب.</p>`);
+    s.querySelectorAll('[data-kid]').forEach(b => b.onclick = () => { Sound.tap(); if (b.dataset.kid !== P.id) { this.closeSheet(); this.switchKid(b.dataset.kid); } });
+    s.querySelector('#sEdit').onclick = () => { Sound.tap(); this.kidForm(P); };
+    s.querySelector('#sAdd').onclick = () => { Sound.tap(); this.kidForm(null); };
     s.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => {
       const k = sg.dataset.k, raw = b.dataset.v, v = raw === 'true' ? true : raw === 'false' ? false : raw;
       Sound.tap();
-      if (k === 'player') { this.setProfile(v); return; }
-      if (k === 'theme') { store.set('theme', v); this.applyTheme(); }
+      if (k === 'theme') { P.theme = v; this.saveKids(); store.set('theme', v); this.applyTheme(); }
       else if (k === 'font') { gstore.set('font', v); document.documentElement.dataset.font = v; }
       else { gstore.set(k, v); if (k === 'music') { if (v) { const g = this.games[this.current]; Music.play(g ? g.music : 'menu'); } else Music.stop(); } }
       this.settings();
@@ -660,39 +796,188 @@ const App = {
     const y = new Date(Date.now() - 864e5), yk = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
     st.streak = st.last === yk ? st.streak + 1 : 1; st.last = this.today(); store.set('daily', st);
     const n = 5 + 2 * Math.min(st.streak - 1, 5);
-    const s = this.openSheet(`<h3>🎁 هدية اليوم</h3><div class="center" style="font-size:70px;animation:pop .5s">⭐</div>
+    const s = this.openSheet(`<h3>🎁 هدية اليوم</h3><div class="center" id="dStar" style="font-size:70px;${Fx.ok ? '' : 'animation:pop .5s'}">⭐</div>
       <p class="center" style="font-size:22px;font-weight:800;margin:4px 0">+${n} نجمة</p>
       <p class="center">${st.streak > 1 ? `🔥 ${st.streak} أيام متتالية!` : 'عُد غدًا لهدية أكبر'}</p>
       <div class="center"><button class="tbtn" id="dOk">رائع! 💖</button></div>`);
     s.querySelector('#dOk').onclick = () => { Sound.tap(); this.closeSheet(); };
+    if (Fx.on) gsap.fromTo('#dStar', { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: .9, delay: .15, ease: 'elastic.out(1,0.45)' });
     this.addStars(n); Sound.win();
     if (st.streak >= 3) this.achieve('daily_3');
     this.paintGift();
   },
 
-  /* ---------- اللاعبون والثيمات ---------- */
+  /* ---------- الأطفال (ملفات اللاعبين) والثيمات ----------
+     القائمة محفوظة في gstore('kids')، وكل طفل: { id, name, gender:'girl'|'boy', theme, av, age, photo }.
+     نتائج كل طفل في store بمفتاح يبدأ بـ «<id>:» كما كانت دائمًا، لذا لا يضيع أي تقدّم قديم. */
+  KID_EMOJI: ['👑', '⭐', '🦄', '🌸', '🦋', '🐰', '🐱', '🍓', '🌈', '🎀', '🚀', '🦖', '🚗', '⚽', '🦁', '🐯', '🐼', '🐶', '🤖', '🦊'],
+  esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); },
+  /** تحميل قائمة الأطفال؛ أول تشغيل: تُبنى من ملفات النسخة بنفس المعرّفات القديمة */
+  loadKids() {
+    let kids = gstore.get('kids', null);
+    if (Array.isArray(kids)) kids = kids.filter(k => k && k.id && k.name);
+    if (!Array.isArray(kids) || !kids.length) {
+      kids = (this.EDITION.profiles || []).map(p => {
+        let old = null; try { old = JSON.parse(localStorage.getItem(p.id + ':theme')); } catch (e) {}
+        const gender = p.gender || (p.theme === 'boys' ? 'boy' : 'girl');
+        const theme = old === 'boys' || old === 'girls' ? old : (p.theme || (gender === 'boy' ? 'boys' : 'girls'));
+        return { id: p.id, name: p.name, gender, theme, av: p.av || '⭐', age: null, photo: null };
+      });
+      if (!kids.length) kids = [{ id: 'kid1', name: 'بطلي', gender: 'girl', theme: 'girls', av: '⭐', age: null, photo: null }];
+      gstore.set('kids', kids);
+    }
+    kids.forEach(k => { if (k.gender !== 'boy') k.gender = 'girl'; if (k.theme !== 'boys') k.theme = 'girls'; });
+    this.PROFILES = kids;
+  },
+  /** حفظ القائمة؛ يعيد false إن امتلأت مساحة التخزين */
+  saveKids() {
+    try { localStorage.setItem('app:kids', JSON.stringify(this.PROFILES)); return true; } catch (e) { return false; }
+  },
+  kidFace(k) { return k.photo ? `<img src="${k.photo}" alt="">` : this.esc(k.av || '⭐'); },
   setProfile(id) {
     const p = this.PROFILES.find(p => p.id === id) || this.PROFILES[0];
     this.profile = p; gstore.set('profile', p.id);
-    if (!store.get('theme', null)) {
-      if (p.theme) store.set('theme', p.theme);
-      else { this.applyTheme(); this.themePicker(); return; }
-    }
     this.applyTheme();
-    if ($('#sheetWrap').classList.contains('on')) this.closeSheet(); else this.renderMenu();
+    if ($('#sheetWrap').classList.contains('on')) this.closeSheet();
   },
-  themePicker() {
-    const s = this.openSheet(`<h3>أهلًا يا ${this.profile.name}! 👋</h3><p class="center" style="margin:0">اختر الثيم الذي تحبّه</p>
-      <div class="themes"><button class="g" data-t="girls"><span>👑</span>بناتي</button><button class="b" data-t="boys"><span>🚀</span>ولادي</button></div>
-      <p class="center" style="font-size:12px;opacity:.6;margin:0">يمكنك تغييره لاحقًا من الإعدادات ⚙️</p>`,
-      () => { if (!store.get('theme', null)) { store.set('theme', 'girls'); this.applyTheme(); } });
-    s.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { Sound.tap(); store.set('theme', b.dataset.t); this.applyTheme(); this.closeSheet(); });
+  /** تبديل الطفل من الشاشة الرئيسية مع حركة Flip */
+  switchKid(id, from) {
+    if (!this.profile || id === this.profile.id) return;
+    gstore.set('kidsTip', true);
+    const flip = Fx.on && window.Flip;
+    const st = flip ? Flip.getState('#kids .kav, #kids b') : null;
+    Fx.finishIntro();
+    this.setProfile(id);
+    if (!Fx.on) return;
+    if (st) Flip.from(st, { duration: .55, ease: 'back.out(1.4)', scale: true });
+    const av = $(`#kids .kid[data-k="${CSS.escape(id)}"] .kav`);
+    if (av) {
+      gsap.fromTo(av, { rotation: -14 }, { rotation: 0, duration: .9, ease: 'elastic.out(1.1,0.35)' });
+      const r = av.getBoundingClientRect();
+      gsap.fromTo('#ripple', { x: r.left + r.width / 2, y: r.top + r.height / 2, scale: .2, autoAlpha: .95 }, { scale: 9, autoAlpha: 0, duration: .9, ease: 'power2.out' });
+      Fx.burst(r.left + r.width / 2, r.top + r.height / 2, 6, this.profile.gender === 'boy' ? ['⭐', '🚀', '✨'] : ['⭐', '💖', '✨']);
+    }
+    gsap.fromTo('#hello', { y: -14, scale: .85, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .5, ease: 'back.out(2)' });
+    gsap.fromTo('#sub', { autoAlpha: 0 }, { autoAlpha: 1, duration: .4, delay: .1 });
+    Fx.cardsIn();
   },
   applyTheme() {
-    const th = store.get('theme', this.profile.theme || 'girls');
+    const th = (this.profile && this.profile.theme) || 'girls';
     document.documentElement.dataset.theme = th;
     const meta = document.querySelector('meta[name=theme-color]'); if (meta) meta.content = th === 'boys' ? '#2E86F5' : '#FF4FA3';
     this.renderMenu();
+  },
+  /** تصغير الصورة إلى مربع ~256px بصيغة JPEG (يُقصّ من الوسط، وأعلى قليلًا في الصور الطولية حيث الوجه) */
+  async readPhoto(file) {
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = url; });
+      const w = img.naturalWidth, h = img.naturalHeight, side = Math.min(w, h);
+      if (!side) throw new Error('empty');
+      const sx = (w - side) / 2, sy = h > w ? (h - side) * .3 : (h - side) / 2, S = 256;
+      let src = img, sxx = sx, syy = sy, ss = side;
+      if (side > S * 3) { // تصغير على مرحلتين لصورة أنعم
+        const mid = IK.canvas(S * 2), mc = mid.getContext('2d'); mc.imageSmoothingQuality = 'high';
+        mc.drawImage(img, sx, sy, side, side, 0, 0, S * 2, S * 2); src = mid; sxx = syy = 0; ss = S * 2;
+      }
+      const c = IK.canvas(S), x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+      x.fillStyle = '#fff'; x.fillRect(0, 0, S, S); x.drawImage(src, sxx, syy, ss, ss, 0, 0, S, S);
+      return c.toDataURL('image/jpeg', .82);
+    } finally { URL.revokeObjectURL(url); }
+  },
+  /** نموذج إضافة طفل أو تعديله */
+  kidForm(kid) {
+    const isNew = !kid;
+    const d = kid ? { ...kid } : { name: '', gender: '', theme: '', av: '', age: null, photo: null };
+    let themeTouched = !isNew;
+    const s = this.openSheet(`<h3>${isNew ? '➕ طفل جديد' : '✏️ تعديل ' + this.esc(kid.name)}</h3>
+      <div class="kf-top"><div class="kf-av" id="kfAv"></div>
+        <div class="kf-pb">
+          <label class="pbtn">📷 التقاط صورة<input type="file" accept="image/*" capture="user" data-ph></label>
+          <label class="pbtn">🖼️ من المعرض<input type="file" accept="image/*" data-ph></label>
+          <button class="pbtn" id="kfNoPh">✖ بلا صورة</button>
+        </div></div>
+      <div class="kf-l">✍️ الاسم</div>
+      <input class="kf-in" id="kfName" maxlength="16" autocomplete="off" enterkeyhint="done" placeholder="اكتب اسم الطفل" value="${this.esc(d.name)}">
+      <div class="kf-l">👶 بنت أم ولد؟</div>
+      <div class="kf-g" id="kfG"><button class="g" data-g="girl"><span>👧</span>بنت</button><button class="b" data-g="boy"><span>👦</span>ولد</button></div>
+      <div class="kf-l">🎂 العمر <small>(اختياري)</small></div>
+      <div class="seg kf-age" id="kfAge">${[['', '—'], ...[3, 4, 5, 6, 7, 8].map(n => [n, n])].map(([v, l]) => `<button data-a="${v}">${l}</button>`).join('')}</div>
+      <div class="kf-l">🎨 شكل التطبيق</div>
+      <div class="themes" id="kfT" style="margin:0"><button class="g" data-t="girls"><span>👑</span>بناتي</button><button class="b" data-t="boys"><span>🚀</span>ولادي</button></div>
+      <div class="kf-l">😊 الرمز <small>(يظهر إن لم توجد صورة)</small></div>
+      <div class="kf-emo" id="kfE">${this.KID_EMOJI.map(e => `<button data-e="${e}">${e}</button>`).join('')}</div>
+      <div class="kf-act"><button class="tbtn" id="kfSave">${isNew ? '✔️ إضافة' : '✔️ حفظ'}</button>
+        ${!isNew && this.PROFILES.length > 1 ? '<button class="tbtn danger sm" id="kfDel">🗑️ حذف</button>' : ''}</div>`);
+    const paint = () => {
+      const emo = d.av || (d.gender === 'boy' ? '🚀' : d.gender === 'girl' ? '👑' : '🙂');
+      s.querySelector('#kfAv').innerHTML = d.photo ? `<img src="${d.photo}" alt="">` : emo;
+      s.querySelector('#kfNoPh').style.display = d.photo ? '' : 'none';
+      s.querySelectorAll('[data-g]').forEach(b => b.classList.toggle('on', b.dataset.g === d.gender));
+      s.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === d.theme));
+      s.querySelectorAll('[data-a]').forEach(b => b.classList.toggle('on', String(d.age || '') === b.dataset.a));
+      s.querySelectorAll('[data-e]').forEach(b => b.classList.toggle('on', b.dataset.e === d.av));
+    };
+    const popAv = () => { if (Fx.on) gsap.fromTo('#kfAv', { scale: .7 }, { scale: 1, duration: .6, ease: 'elastic.out(1,0.4)' }); };
+    paint();
+    s.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
+      Sound.tap(); d.gender = b.dataset.g;
+      if (!themeTouched) d.theme = d.gender === 'boy' ? 'boys' : 'girls';
+      paint(); if (Fx.on) gsap.fromTo(b, { scale: .9 }, { scale: 1, duration: .5, ease: 'back.out(3)', clearProps: 'transform' });
+    });
+    s.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { Sound.tap(); d.theme = b.dataset.t; themeTouched = true; paint(); });
+    s.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { Sound.tap(); d.age = b.dataset.a ? +b.dataset.a : null; paint(); });
+    s.querySelectorAll('[data-e]').forEach(b => b.onclick = () => { Sound.tap(); d.av = b.dataset.e; if (d.photo) d.photo = null; paint(); popAv(); });
+    s.querySelector('#kfNoPh').onclick = () => { Sound.tap(); d.photo = null; paint(); popAv(); };
+    s.querySelectorAll('input[data-ph]').forEach(inp => inp.onchange = async () => {
+      const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return;
+      const lb = inp.parentElement; lb.classList.add('busy');
+      try { d.photo = await this.readPhoto(f); Sound.pop(); paint(); popAv(); }
+      catch (e) { Sound.error(); this.toast('تعذّر فتح هذه الصورة'); }
+      finally { lb.classList.remove('busy'); }
+    });
+    const nameIn = s.querySelector('#kfName');
+    nameIn.addEventListener('keydown', e => { if (e.key === 'Enter') nameIn.blur(); });
+    const need = (el, msg) => {
+      Sound.error(); this.toast(msg);
+      if (Fx.on) gsap.fromTo(el, { x: -10 }, { x: 0, duration: .6, ease: 'elastic.out(1.2,0.2)', clearProps: 'transform' });
+    };
+    s.querySelector('#kfSave').onclick = () => {
+      d.name = nameIn.value.replace(/\s+/g, ' ').trim().slice(0, 16);
+      if (!d.name) { need(nameIn, 'اكتب اسم الطفل أولًا ✍️'); nameIn.focus(); return; }
+      if (!d.gender) { need(s.querySelector('#kfG'), 'اختر: بنت أم ولد؟'); return; }
+      if (!d.theme) d.theme = d.gender === 'boy' ? 'boys' : 'girls';
+      if (!d.av) d.av = d.gender === 'boy' ? '🚀' : '👑';
+      let k = kid, before = kid ? { ...kid } : null;
+      if (isNew) { k = { id: 'k' + Date.now().toString(36) + Math.floor(Math.random() * 1e3).toString(36) }; this.PROFILES.push(k); }
+      Object.assign(k, { name: d.name, gender: d.gender, theme: d.theme, av: d.av, age: d.age || null, photo: d.photo || null });
+      if (!this.saveKids()) { // لا مساحة: نحفظ بلا صورة
+        k.photo = null;
+        if (!this.saveKids()) { if (isNew) this.PROFILES.pop(); else Object.assign(k, before); Sound.error(); this.toast('لا توجد مساحة كافية للحفظ'); return; }
+        this.toast('حُفظ بلا صورة (لا توجد مساحة كافية)');
+      }
+      Sound.win(); gstore.set('kidsTip', true);
+      if (isNew) { this.closeSheet(); this.switchKid(k.id); this.toast(`أهلًا ${k.name}! 🎉`); }
+      else { this.iconCache.clear(); this.closeSheet(); if (k === this.profile) this.applyTheme(); }
+    };
+    const del = s.querySelector('#kfDel');
+    if (del) del.onclick = () => { Sound.tap(); this.kidDelete(kid); };
+    if (isNew) setTimeout(() => { try { nameIn.focus({ preventScroll: true }); } catch (e) {} }, 450);
+  },
+  /** تأكيد حذف طفل ثم حذف كل مفاتيحه */
+  kidDelete(kid) {
+    const s = this.openSheet(`<h3>حذف ${this.esc(kid.name)}؟</h3>
+      <div class="kf-top"><div class="kf-av">${this.kidFace(kid)}</div></div>
+      <p class="center" style="font-size:17px;font-weight:700;margin:14px 0 4px">سيُحذف ${this.esc(kid.name)} مع كل ${kid.gender === 'boy' ? 'نجومه ونتائجه' : 'نجومها ونتائجها'} من هذا الجهاز، ولا يمكن التراجع.</p>
+      <div class="kf-act"><button class="tbtn danger" id="kdYes">🗑️ نعم، احذف</button><button class="tbtn alt" id="kdNo">لا، تراجع</button></div>`);
+    s.querySelector('#kdNo').onclick = () => { Sound.tap(); this.kidForm(kid); };
+    s.querySelector('#kdYes').onclick = () => {
+      const i = this.PROFILES.indexOf(kid); if (i < 0 || this.PROFILES.length < 2) { this.closeSheet(); return; }
+      Object.keys(localStorage).filter(k => k.startsWith(kid.id + ':')).forEach(k => localStorage.removeItem(k));
+      this.PROFILES.splice(i, 1); this.saveKids();
+      Sound.poof(); this.toast(`تم حذف ${kid.name}`);
+      if (this.profile === kid) this.setProfile(this.PROFILES[0].id); else this.closeSheet();
+    };
   },
   logo() {
     const P = this.profile, boys = this.theme === 'boys';
@@ -700,22 +985,86 @@ const App = {
     const main = boys ? '#2E86F5' : '#FF4FA3', bg = boys ? '#E4F1FF' : '#FFE8F2', edge = boys ? '#8CC0FF' : '#FFB3D4';
     const deco = boys ? [['🚀', 34, 52, 30, -20], ['⭐', 160, 40, 22, 0], ['🪐', 166, 150, 28, 0], ['⚽', 30, 158, 24, 0], ['🦖', 100, 182, 22, 0]]
                       : [['👑', 52, 50, 30, -15], ['💖', 160, 42, 22, 0], ['🌸', 166, 152, 28, 0], ['⭐', 30, 156, 20, 0], ['🎀', 100, 184, 22, 0]];
-    return `<svg viewBox="0 0 200 200" aria-label="${P.name}">
+    return `<svg viewBox="0 0 200 200" aria-label="${this.esc(P.name)}">
       <circle cx="100" cy="100" r="98" fill="${bg}"/>
       <circle cx="100" cy="100" r="86" fill="none" stroke="${edge}" stroke-width="3" stroke-dasharray="7 6"/>
       ${deco.map(([e, x, y, s, r]) => `<text x="${x}" y="${y}" font-size="${s}" text-anchor="middle" dominant-baseline="middle" transform="rotate(${r} ${x} ${y})">${e}</text>`).join('')}
       <text x="100" y="108" text-anchor="middle" dominant-baseline="middle" font-family="Baloo Bhaijaan 2,system-ui" font-weight="900" font-size="${P.name.length > 3 ? 58 : 66}"
-        fill="${main}" stroke="#fff" stroke-width="10" paint-order="stroke" stroke-linejoin="round">${P.name}</text>
+        fill="${main}" stroke="#fff" stroke-width="10" paint-order="stroke" stroke-linejoin="round">${this.esc(P.name)}</text>
     </svg>`;
   },
-  paintStars() { const n = $('#mStarsN'); if (n) n.textContent = this.stars(); },
+  paintStars() {
+    const n = $('#mStarsN'); if (!n) return;
+    const v = this.stars(), up = this.lastStars != null && this.lastStars.id === (this.profile && this.profile.id) && v > this.lastStars.v;
+    n.textContent = v; this.lastStars = { id: this.profile && this.profile.id, v };
+    if (up && this.current === 'menu' && Fx.on) gsap.fromTo('#mStars', { scale: 1.35 }, { scale: 1, duration: .7, ease: 'elastic.out(1,0.35)', clearProps: 'transform' });
+  },
+  /** صف الأطفال: يُبنى من جديد فقط إن تغيّرت القائمة، وإلا تتبدّل علامة النشط (كي يعمل Flip) */
+  renderKids() {
+    const box = $('#kids'); if (!box) return;
+    const P = this.profile;
+    const sig = this.PROFILES.map(k => [k.id, k.name, k.gender, k.av, k.photo ? k.photo.length : 0].join(',')).join('|');
+    if (box.dataset.sig !== sig) {
+      box.dataset.sig = sig;
+      box.innerHTML = this.PROFILES.map(k => `<button class="kid" data-k="${this.esc(k.id)}" data-g="${k.gender}" aria-label="${this.esc(k.name)}">
+          <span class="kav">${this.kidFace(k)}<i class="ked" title="تعديل">✏️</i></span><b>${this.esc(k.name)}</b></button>`).join('') +
+        `<button class="kid add" data-add="1" aria-label="إضافة طفل"><span class="kav">＋</span><b>إضافة طفل</b></button>`;
+    }
+    box.querySelectorAll('.kid[data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === P.id));
+    const tip = $('#ktip');
+    if (tip) tip.textContent = gstore.get('kidsTip', false) ? '' : this.g('👆 اختاري اسمك، أو أضيفي طفلًا جديدًا', '👆 اختر اسمك، أو أضف طفلًا جديدًا');
+  },
+  /** لمس صف الأطفال: نقرة = تبديل، ضغطة طويلة أو ✏️ = تعديل */
+  bindKids() {
+    const box = $('#kids'); let timer = 0, long = false, sx = 0, sy = 0;
+    const cancel = () => { clearTimeout(timer); timer = 0; };
+    box.addEventListener('contextmenu', e => e.preventDefault());
+    box.addEventListener('pointerdown', e => {
+      const b = e.target.closest('.kid[data-k]'); long = false; cancel(); if (!b) return;
+      sx = e.clientX; sy = e.clientY;
+      timer = setTimeout(() => {
+        long = true; timer = 0; vibrate(30); Sound.tap();
+        const k = this.PROFILES.find(k => k.id === b.dataset.k); if (k) this.kidForm(k);
+      }, 550);
+    });
+    box.addEventListener('pointermove', e => { if (timer && Math.hypot(e.clientX - sx, e.clientY - sy) > 10) cancel(); });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => box.addEventListener(t, cancel));
+    box.addEventListener('click', e => {
+      if (long) { long = false; return; }
+      const b = e.target.closest('.kid'); if (!b) return;
+      Sound.tap();
+      if (b.dataset.add) { this.kidForm(null); return; }
+      const k = this.PROFILES.find(k => k.id === b.dataset.k); if (!k) return;
+      if (e.target.closest('.ked') || k === this.profile) {
+        if (e.target.closest('.ked')) { this.kidForm(k); return; }
+        if (Fx.on) gsap.fromTo(b.querySelector('.kav'), { rotation: -10, scale: 1.08 }, { rotation: 0, scale: 1, duration: .8, ease: 'elastic.out(1.1,0.35)' });
+        return;
+      }
+      this.switchKid(k.id, b);
+    });
+  },
+  /** رسم أيقونات البطاقات (من الذاكرة المؤقتة إن وُجدت) */
+  paintIcons() {
+    const P = this.profile; if (!P) return;
+    const eqKey = ['hero', 'xo', 'ball'].map(k => this.equipped(k)).join('|') + '|' + P.id + '|' + P.name;
+    $('#cards').querySelectorAll('canvas[data-ic]').forEach(cv => {
+      const id = cv.dataset.ic, key = id + '|' + eqKey, c = cv.getContext('2d');
+      let img = this.iconCache.get(key);
+      if (!img) {
+        img = IK.canvas(240); const ic = img.getContext('2d'); ic.scale(240 / 152, 240 / 152);
+        ic.save(); try { this.games[id].icon(ic, 152); } catch (e) { console.warn(e); } ic.restore();
+        this.iconCache.set(key, img);
+      }
+      c.clearRect(0, 0, 240, 240); c.drawImage(img, 0, 0);
+    });
+  },
   paintGift() { const st = store.get('daily', { last: '' }); $('#mGift').classList.toggle('done', st.last === this.today()); },
   renderMenu() {
     if (!this.profile) return;
     const P = this.profile;
-    $('#players').innerHTML = this.PROFILES.map(p => `<button class="pl ${p.id === P.id ? 'on' : ''}" data-p="${p.id}"><span class="av">${p.av || '⭐'}</span>${p.name}</button>`).join('');
-    $('#players').querySelectorAll('[data-p]').forEach(b => b.onclick = () => { if (b.dataset.p !== P.id) { Sound.tap(); this.setProfile(b.dataset.p); } });
-    $('#logo').innerHTML = this.logo();
+    Fx.finishIntro();
+    this.renderKids();
+    if (this.customLogo || !$('#logo').firstChild) $('#logo').innerHTML = this.logo(); // الشعار ثابت لا يُعاد رسمه
     $('#hello').textContent = `أهلًا يا ${P.name}! ${this.theme === 'boys' ? '🚀' : '👑'}`;
     $('#sub').textContent = this.g('اختاري لعبتك المفضّلة', 'اختر لعبتك المفضّلة');
     const played = store.get('played', []);
@@ -737,18 +1086,8 @@ const App = {
     $('#cats').querySelectorAll('[data-cat]').forEach(b => b.onclick = () => {
       Sound.tap(); const el = $('#grp-' + b.dataset.cat); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-    const eqKey = ['hero', 'xo', 'ball'].map(k => this.equipped(k)).join('|') + '|' + P.id;
-    $('#cards').querySelectorAll('canvas[data-ic]').forEach(cv => {
-      const id = cv.dataset.ic, key = id + '|' + eqKey, c = cv.getContext('2d');
-      let img = this.iconCache.get(key);
-      if (!img) {
-        img = IK.canvas(240); const ic = img.getContext('2d'); ic.scale(240 / 152, 240 / 152);
-        ic.save(); try { this.games[id].icon(ic, 152); } catch (e) { console.warn(e); } ic.restore();
-        this.iconCache.set(key, img);
-      }
-      c.drawImage(img, 0, 0);
-    });
-    $('#cards').querySelectorAll('[data-go]').forEach(b => b.onclick = () => { Sound.tap(); this.show(b.dataset.go); });
+    this.paintIcons();
+    $('#cards').querySelectorAll('[data-go]').forEach(b => b.onclick = () => { Sound.tap(); this.openGame(b.dataset.go, b); });
     $('#mAchN').textContent = store.get('ach', []).length || '';
     this.paintStars(); this.paintGift();
   },
@@ -775,10 +1114,28 @@ const App = {
       if (document.hidden) { if (Sound.ctx) Sound.ctx.suspend(); }
       else if (Sound.ctx) Sound.ctx.resume();
     });
+    Fx.init();
+    this.loadKids();
+    this.bindKids();
+    // ضغط البطاقات بحركة مطاطية (GSAP)
+    let pressed = null;
+    const up = () => { if (pressed) { Fx.release(pressed); pressed = null; } };
+    $('#cards').addEventListener('pointerdown', e => { const c = e.target.closest('.card'); if (c) { up(); pressed = c; Fx.press(c); } });
+    ['pointerup', 'pointercancel'].forEach(t => window.addEventListener(t, up));
     this.setProfile(gstore.get('profile', this.PROFILES[0].id));
-    if (document.fonts) document.fonts.ready.then(() => { this.iconCache.clear(); this.renderMenu(); });
+    if (document.fonts) document.fonts.ready.then(() => { this.iconCache.clear(); this.paintIcons(); });
+    // نوافذ الألعاب: حركة ظهور اللوحة والنجوم بـ GSAP
+    if (Fx.ok && window.MutationObserver) {
+      const mo = new MutationObserver(rs => rs.forEach(r => {
+        const o = r.target, on = o.classList.contains('on');
+        if (on && !o._fxOn) Fx.overlayIn(o);
+        o._fxOn = on;
+      }));
+      document.querySelectorAll('.overlay').forEach(o => { o.dataset.fx = '1'; o._fxOn = o.classList.contains('on'); mo.observe(o, { attributes: true, attributeFilter: ['class'] }); });
+    }
     const start = location.hash.slice(1);
     if (this.games[start]) this.show(start);
+    else Fx.menuIntro();
     window.addEventListener('popstate', () => { if (this.current !== 'menu') this.show('menu'); });
     window.__androidBack = () => this.back();
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {

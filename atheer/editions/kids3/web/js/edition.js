@@ -3,9 +3,10 @@ window.EDITION = {
   id: 'kids3',
   title: 'ألعاب كوتي وريلا وسونى',
   names: 'كوتي وريلا وسونى',
+  /* الأطفال الأوائل عند أول تشغيل فقط؛ المعرّفات ثابتة لأن نتائج كل طفل محفوظة بها. */
   profiles: [
-    { id: 'kuti',    name: 'كوتي',  theme: 'boys',  av: '🚗' },
-    { id: 'rila',    name: 'ريلا',  theme: 'girls', av: '👑' },
-    { id: 'owaison', name: 'سونى', theme: 'boys', av: '🦖' }
+    { id: 'kuti',    name: 'كوتي', gender: 'boy',  theme: 'boys',  av: '🚗' },
+    { id: 'rila',    name: 'ريلا', gender: 'girl', theme: 'girls', av: '👑' },
+    { id: 'owaison', name: 'سونى', gender: 'boy',  theme: 'boys',  av: '🦖' }
   ]
 };
