@@ -21,16 +21,16 @@
   const LV = [
     { rows: 1, lo: 1, hi: 5, k: ['show', 'show', 'read', 'show', 'read'], ic: '👆', t: '١–٥' },
     { rows: 1, lo: 1, hi: 10, k: ['show', 'read', 'show', 'read', 'show'], ic: '👆', t: '١–١٠' },
-    { rows: 1, lo: 1, hi: 6, k: ['add', 'add', 'read', 'add', 'show'], ic: '➕', t: '≤٦' },
-    { rows: 1, lo: 1, hi: 10, k: ['add', 'add', 'add', 'read', 'add'], ic: '➕', t: '≤١٠' },
-    { rows: 1, lo: 1, hi: 10, k: ['sub', 'sub', 'show', 'sub', 'sub'], ic: '➖', t: '≤١٠' },
+    { rows: 1, lo: 1, hi: 6, k: ['add', 'add', 'read', 'add', 'show'], ic: '➕', t: 'حتى ٦' },
+    { rows: 1, lo: 1, hi: 10, k: ['add', 'add', 'add', 'read', 'add'], ic: '➕', t: 'حتى ١٠' },
+    { rows: 1, lo: 1, hi: 10, k: ['sub', 'sub', 'show', 'sub', 'sub'], ic: '➖', t: 'حتى ١٠' },
     { rows: 1, lo: 1, hi: 10, k: ['bond', 'bond', 'bond', 'bond', 'bond'], T: 10, ic: '🤝', t: '١٠' },
     { rows: 1, lo: 1, hi: 9, k: ['bond', 'bond', 'bond', 'bond', 'bond'], ic: '🔗', t: '٥–٩' },
     { rows: 2, lo: 11, hi: 20, k: ['show', 'read', 'show', 'read', 'show'], ic: '🔟', t: '١١–٢٠' },
-    { rows: 2, lo: 1, hi: 18, k: ['add', 'add', 'read', 'add', 'add'], cross: true, ic: '➕', t: '≤٢٠' },
+    { rows: 2, lo: 1, hi: 18, k: ['add', 'add', 'read', 'add', 'add'], cross: true, ic: '➕', t: 'حتى ٢٠' },
     { rows: 10, lo: 10, hi: 100, k: ['read', 'show', 'read', 'show', 'read'], tens: true, ic: '💯', t: '١٠،٢٠…' },
     { rows: 10, lo: 21, hi: 99, k: ['read', 'show', 'read', 'read', 'show'], ic: '💯', t: '٢١–٩٩' },
-    { rows: 10, lo: 30, hi: 100, k: ['show', 'read', 'show', 'read', 'show'], ic: '🏆', t: '≤١٠٠' }
+    { rows: 10, lo: 30, hi: 100, k: ['show', 'read', 'show', 'read', 'show'], ic: '🏆', t: 'حتى ١٠٠' }
   ];
   const NL = LV.length, ROUNDS = 5;
   const ROWC = ['#FF4D5E', '#3D8BFF', '#FFB31A', '#36C26A', '#9B5CF6', '#FF7A2E', '#1DB8C9', '#FF5FAE', '#7AC43B', '#5B6CFF'];
@@ -284,7 +284,7 @@
       const side = isAr() ? -1 : 1;
       bx = W / 2 - side * (fw / 2 + br + 6);
       if (bx - br < 4 || bx + br > W - 4) { bx = W / 2; by = fy - br - 4; } else by = fy + br;
-    } else { br = clamp(bubH * .42, 24, 54); bx = W / 2; by = fy - 12 - br; }
+    } else { br = clamp(bubH * .42, 24, 62); bx = W / 2; by = fy - 12 - br; }
     geo = { d, pw, rail, rowH, Lw, fw, fh, fx, fy, bh, x0: fx + pw, bx, by, br, portrait, topY, botY };
   }
   const cLeft = () => !isAr(); // جهة العدّ: يسار في الإنجليزية، يمين في العربية
