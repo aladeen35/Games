@@ -34,6 +34,10 @@ class Channel {
         id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: logo,
         tvgId: t, userAgent: userAgent, referrer: referrer, kind: kind, number: number, catchupDays: catchupDays);
 
+  Channel withLogo(String l) => Channel(
+        id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: l,
+        tvgId: tvgId, userAgent: userAgent, referrer: referrer, kind: kind, number: number, catchupDays: catchupDays);
+
   Channel withKind(ChannelKind k) => k == kind ? this : Channel(
         id: id, sourceId: sourceId, name: name, group: group, url: url, altName: altName, logo: logo,
         tvgId: tvgId, userAgent: userAgent, referrer: referrer, kind: k, number: number, catchupDays: catchupDays);
@@ -76,12 +80,14 @@ class Source {
   int autoRefreshHours;
   /// فرق توقيت خادم المزود عن UTC بالدقائق (لروابط إعادة المشاهدة).
   int tzOffset;
+  /// زمن استجابة المصدر عند آخر اختبار أو تحديث (ملّي ث).
+  int? latencyMs;
 
   Source({
     required this.id, required this.name, required this.type, required this.displayHost,
     this.epgUrl, this.epgAuto = false, this.epgUpdated, this.lastUpdated, this.lastError, this.lastErrorAt, this.liveCount = 0,
     this.vodCount = 0, this.groups = const [], this.hasLogos = false, this.hasEpg = false,
-    this.autoRefreshHours = 24, this.tzOffset = 0,
+    this.autoRefreshHours = 24, this.tzOffset = 0, this.latencyMs,
   });
 
   int get total => liveCount + vodCount;
@@ -94,6 +100,7 @@ class Source {
         'upd': lastUpdated?.millisecondsSinceEpoch, 'err': lastError,
         'errAt': lastErrorAt?.millisecondsSinceEpoch, 'live': liveCount, 'vod': vodCount,
         'groups': groups, 'logos': hasLogos, 'hasEpg': hasEpg, 'auto': autoRefreshHours, 'tz': tzOffset,
+        if (latencyMs != null) 'lat': latencyMs,
       };
 
   factory Source.fromJson(Map<String, dynamic> j) => Source(
@@ -106,6 +113,7 @@ class Source {
         liveCount: j['live'] ?? 0, vodCount: j['vod'] ?? 0,
         groups: List<String>.from(j['groups'] ?? const []), hasLogos: j['logos'] ?? false,
         hasEpg: j['hasEpg'] ?? false, autoRefreshHours: j['auto'] ?? 24, tzOffset: j['tz'] ?? 0,
+        latencyMs: j['lat'],
       );
 }
 
@@ -269,14 +277,18 @@ class Profile {
   bool kidsOnly;
   /// رمز اختياري لفتح هذا الملف.
   String? pin;
-  Profile({required this.id, required this.name, this.avatar = 0, this.image, this.kids = false, this.kidsOnly = false, this.pin});
+  /// وقت الشاشة لملف الأطفال: حد يومي بالدقائق، وساعات مسموحة [من، إلى).
+  int? dailyMinutes, fromHour, toHour;
+  Profile({required this.id, required this.name, this.avatar = 0, this.image, this.kids = false, this.kidsOnly = false, this.pin,
+      this.dailyMinutes, this.fromHour, this.toHour});
 
   Map<String, dynamic> toJson() => {
         'id': id, 'n': name, 'a': avatar, if (image != null) 'img': image, 'k': kids, 'ko': kidsOnly, if (pin != null) 'pin': pin,
+        if (dailyMinutes != null) 'dm': dailyMinutes, if (fromHour != null) 'fh': fromHour, if (toHour != null) 'th': toHour,
       };
   factory Profile.fromJson(Map<String, dynamic> j) => Profile(
       id: j['id'], name: j['n'] ?? '', avatar: j['a'] ?? 0, image: j['img'], kids: j['k'] ?? false,
-      kidsOnly: j['ko'] ?? false, pin: j['pin']);
+      kidsOnly: j['ko'] ?? false, pin: j['pin'], dailyMinutes: j['dm'], fromHour: j['fh'], toHour: j['th']);
 }
 
 /// تفاصيل فيلم من حساب Xtream (get_vod_info).

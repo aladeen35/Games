@@ -15,6 +15,9 @@ import 'screens/profiles.dart';
 import 'screens/series.dart';
 import 'platform/tv_home.dart';
 import 'dart:async';
+import 'data/remote_bus.dart';
+import 'screens/remote_screen.dart';
+import 'screens/search.dart';
 import 'screens/shell.dart';
 import 'widgets/backdrop.dart';
 
@@ -29,8 +32,48 @@ Future<void> main() async {
   Reminders.onOpen = _openChannelById;
   await AppStore.I.init();
   AppStore.onUserData = TvHome.schedule;
+  RemoteBus.stream.listen(_onRemote);
+  unawaited(startRemote());
   runApp(const BushraApp());
   unawaited(TvHome.init(_openKey));
+}
+
+/// أوامر ريموت الجوال: المشغل أولًا، وإلا تنقّل في الواجهة كأنه ريموت التلفاز.
+void _onRemote(RemoteCmd c) {
+  if (RemoteBus.player?.call(c) ?? false) return;
+  final nav = navigatorKey.currentState;
+  final focus = FocusManager.instance.primaryFocus;
+  void move(TraversalDirection d) {
+    if (focus == null || focus.context == null || focus == FocusManager.instance.rootScope) {
+      FocusManager.instance.rootScope.nextFocus();
+    } else {
+      focus.focusInDirection(d);
+    }
+  }
+  switch (c.a) {
+    case 'up':
+      move(TraversalDirection.up);
+    case 'down':
+      move(TraversalDirection.down);
+    case 'left':
+      move(TraversalDirection.left);
+    case 'right':
+      move(TraversalDirection.right);
+    case 'ok':
+      final ctx = focus?.context;
+      if (ctx != null) Actions.maybeInvoke(ctx, const ActivateIntent());
+    case 'back':
+      nav?.maybePop();
+    case 'home' || 'live' || 'guide':
+      nav?.popUntil((r) => r.isFirst);
+      Shell.go(switch (c.a) { 'live' => 'live', 'guide' => 'epg', _ => 'home' });
+    case 'search':
+      nav?.push(MaterialPageRoute(builder: (_) => SearchScreen(initial: c.v ?? '')));
+    case 'toggle':
+      PlayerSession.I.toggle();
+    case 'volup' || 'voldown' || 'mute':
+      plat.getVolume().then((v) => plat.setVolume(c.a == 'mute' ? 0 : (v + (c.a == 'volup' ? .1 : -.1)).clamp(0.0, 1.0)));
+  }
 }
 
 /// فتح عنصر من الشاشة الرئيسية لـ Android TV (تابع المشاهدة أو المفضلة).

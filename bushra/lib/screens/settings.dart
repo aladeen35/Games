@@ -8,6 +8,9 @@ import '../widgets/avatar.dart';
 import '../widgets/common.dart';
 import '../data/pairing.dart';
 import 'pair_screen.dart';
+import 'quality.dart';
+import 'remote_screen.dart';
+import '../data/remote_server.dart';
 import 'profiles.dart';
 import 'smart_alerts.dart';
 
@@ -30,6 +33,8 @@ class SettingsScreen extends StatelessWidget {
       (Icons.shield_outlined, 'الرقابة الأبوية', 'إدارة المحتوى وحماية الأطفال', _Section.parental, p.gold),
       (Icons.bolt_rounded, 'التنبيهات الذكية', 'تذكير تلقائي بمباريات فرقك وبرامجك', _Section.alerts, p.gold),
       if (PairServer.supported) (Icons.qr_code_2_rounded, 'من جوالك', 'أضف قائمة بمسح رمز QR بدل الكتابة', _Section.pair, p.accent),
+      if (RemoteServer.supported) (Icons.settings_remote_rounded, 'الجوال ريموت', 'تحكم بالتطبيق من جوالك واكتب البحث بلوحته', _Section.remote, p.gold),
+      (Icons.analytics_outlined, 'جودة المزود', 'نسبة القنوات التي تعمل وسرعة التشغيل لكل قائمة', _Section.quality, p.accent),
       if (kIsWeb) (Icons.lan_outlined, 'الشبكة', 'وسيط الويب للمصادر التي تمنع المتصفح', _Section.network, p.accent),
       (Icons.cloud_sync_outlined, 'النسخ الاحتياطي والبيانات', 'انقل قوائمك ومفضلتك لجهاز آخر، والسجل', _Section.data, p.accent),
     ];
@@ -65,6 +70,8 @@ class SettingsScreen extends StatelessWidget {
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => switch (x.$4) {
                   _Section.alerts => const SmartAlertsScreen(),
                   _Section.pair => const PairScreen(),
+                  _Section.remote => const RemoteScreen(),
+                  _Section.quality => const QualityScreen(),
                   _ => _SectionPage(section: x.$4, title: x.$2),
                 })),
                 padding: const EdgeInsets.all(16),
@@ -97,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-enum _Section { playback, audio, look, parental, network, data, alerts, pair }
+enum _Section { playback, audio, look, parental, network, data, alerts, pair, remote, quality }
 
 /// يفتح قسم إعدادات مباشرة (من «قوائمي» مثلًا).
 void openSettingsSection(BuildContext context, String id) {
@@ -155,6 +162,15 @@ class _SectionPageState extends State<_SectionPage> {
           seg('العرض الافتراضي', st.fillScreen, const [(false, 'ملاءمة'), (true, 'ملء الشاشة')], (v) => st.fillScreen = v),
           sw('معلومات البث على الشاشة', 'الجودة الحالية وحالة الاتصال أثناء المشاهدة', st.showStreamInfo, (v) => st.showStreamInfo = v),
           sw('إخفاء القنوات المعطلة', 'القنوات التي فشل فحصها أو تشغيلها تختفي من القوائم', st.hideBroken, (v) => st.hideBroken = v),
+          sw('قائمة موحّدة', s.sources.length > 1
+              ? 'القناة المكررة في أكثر من قائمة تظهر مرة واحدة من أفضل مزود (${s.mergedCount} مدمجة الآن)'
+              : 'حين تضيف أكثر من قائمة: القناة المكررة تظهر مرة واحدة من أفضل مزود', st.unified, (v) => st.unified = v),
+          sw('شعارات تلقائية', 'القنوات التي بلا شعار تأخذ شعارها من قاعدة iptv-org المفتوحة', st.autoLogos, (v) {
+            st.autoLogos = v;
+            if (v) {
+              s.fillLogos().then((n) { if (mounted && n > 0) toast(this.context, 'أُضيف $n شعار', icon: Icons.image_outlined); });
+            }
+          }),
           sw('رابط بديل تلقائيًا', 'حين تتعطل قناة، يشغّل نسختها من قائمة أخرى أو من القنوات المفتوحة', st.autoFailover, (v) => st.autoFailover = v),
           sw('تقليب فوري للقنوات', 'يجهّز القناة التالية مسبقًا فيصير التنقل فوريًا (يستهلك إنترنت أكثر قليلًا)', st.fastZap, (v) => st.fastZap = v),
           sw('تخطي المقدمة تلقائيًا', 'بعد أن يتعلم البشرى طول مقدمة المسلسل من أول تخطٍّ', st.autoSkipIntro, (v) => st.autoSkipIntro = v),
@@ -242,7 +258,7 @@ class _SectionPageState extends State<_SectionPage> {
           const SizedBox(height: 10),
           Text('تطبيق الجوال والتلفاز لا يحتاج وسيطًا.', style: t.bodySmall),
         ]);
-      case _Section.alerts || _Section.pair:
+      case _Section.alerts || _Section.pair || _Section.remote || _Section.quality:
         break;
       case _Section.data:
         items.addAll([

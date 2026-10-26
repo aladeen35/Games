@@ -239,12 +239,94 @@ class _ProfileEditorState extends State<ProfileEditor> {
   late bool kids = widget.profile?.kids ?? false;
   late bool kidsOnly = widget.profile?.kidsOnly ?? false;
   late String? pin = widget.profile?.pin;
+  late int? daily = widget.profile?.dailyMinutes;
+  late int? fromH = widget.profile?.fromHour, toH = widget.profile?.toHour;
   bool picking = false;
 
   @override
   void dispose() {
     name.dispose();
     super.dispose();
+  }
+
+  /// وقت الشاشة: حد يومي، وساعات مسموحة، وتقرير آخر 7 أيام.
+  Widget _screenTime(BuildContext context) {
+    final p = context.bc;
+    final t = Theme.of(context).textTheme;
+    final hours = fromH != null && toH != null;
+    final usage = widget.profile == null ? const <String, int>{} : AppStore.I.usageOf(widget.profile!);
+    final now = DateTime.now();
+    final days = [for (var i = 6; i >= 0; i--) now.subtract(Duration(days: i))];
+    final mins = [for (final d in days) usage[AppStore.dayKey(d)] ?? 0];
+    final top = mins.fold(1, (a, b) => a > b ? a : b);
+    const names = ['إثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت', 'أحد'];
+    String fmt(int m) => m >= 60 ? '${m ~/ 60}س${m % 60 > 0 ? ' ${m % 60}د' : ''}' : '$mد';
+    return Container(
+      margin: const EdgeInsetsDirectional.only(start: 40),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: p.container, borderRadius: BorderRadius.circular(BRadius.card)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Icon(Icons.timer_outlined, color: p.gold, size: 20),
+          const SizedBox(width: 8),
+          Text('وقت الشاشة', style: t.titleSmall),
+        ]),
+        const SizedBox(height: 10),
+        Text('الحد اليومي', style: t.labelMedium),
+        const SizedBox(height: 6),
+        Wrap(spacing: 8, runSpacing: 8, children: [
+          for (final m in [null, 30, 60, 90, 120, 180])
+            ChoiceChip(label: Text(m == null ? 'بلا حد' : fmt(m)), selected: daily == m, onSelected: (_) => setState(() => daily = m)),
+        ]),
+        const SizedBox(height: 12),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: const Text('ساعات مسموحة فقط'),
+          subtitle: Text(hours ? 'من ${fromH!}:00 إلى ${toH!}:00' : 'المشاهدة مسموحة في أي وقت'),
+          value: hours,
+          onChanged: (v) => setState(() { fromH = v ? 8 : null; toH = v ? 20 : null; }),
+        ),
+        if (hours)
+          Row(children: [
+            Text('من', style: t.bodyMedium),
+            const SizedBox(width: 8),
+            DropdownButton<int>(value: fromH, items: [for (var h = 0; h < 24; h++) DropdownMenuItem(value: h, child: Text('$h:00'))],
+                onChanged: (v) => setState(() => fromH = v)),
+            const SizedBox(width: 16),
+            Text('إلى', style: t.bodyMedium),
+            const SizedBox(width: 8),
+            DropdownButton<int>(value: toH, items: [for (var h = 1; h <= 24; h++) DropdownMenuItem(value: h % 24, child: Text('$h:00'))],
+                onChanged: (v) => setState(() => toH = v)),
+          ]),
+        if (widget.profile != null) ...[
+          const SizedBox(height: 12),
+          Text('آخر 7 أيام', style: t.labelMedium),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 110,
+            child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              for (var i = 0; i < 7; i++)
+                Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Text(mins[i] == 0 ? '' : fmt(mins[i]), style: t.labelSmall),
+                  const SizedBox(height: 3),
+                  Container(
+                    height: 60 * mins[i] / top + 2,
+                    margin: const EdgeInsets.symmetric(horizontal: 6),
+                    decoration: BoxDecoration(
+                      color: (daily != null && mins[i] >= daily!) ? p.gold : p.accent,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(i == 6 ? 'اليوم' : names[days[i].weekday - 1], style: t.labelSmall),
+                ])),
+            ]),
+          ),
+        ],
+        const SizedBox(height: 6),
+        Text('عند انتهاء الوقت يتوقف التشغيل، ويمنح الرمز الأبوي 30 دقيقة إضافية.', style: t.bodySmall),
+      ]),
+    );
   }
 
   Future<void> _pickImage() async {
@@ -272,6 +354,9 @@ class _ProfileEditorState extends State<ProfileEditor> {
       final p = s.addProfile(n, avatar: avatar, image: img, kids: kids);
       p.kidsOnly = kidsOnly;
       p.pin = pin;
+      p.dailyMinutes = kids ? daily : null;
+      p.fromHour = kids ? fromH : null;
+      p.toHour = kids ? toH : null;
       s.saveProfile(p);
     } else {
       final p = widget.profile!
@@ -280,11 +365,15 @@ class _ProfileEditorState extends State<ProfileEditor> {
         ..image = img
         ..kids = kids
         ..kidsOnly = kidsOnly
-        ..pin = pin;
+        ..pin = pin
+        ..dailyMinutes = kids ? daily : null
+        ..fromHour = kids ? fromH : null
+        ..toHour = kids ? toH : null;
       s.saveProfile(p);
     }
     // ملف أطفال جديد بلا رمز أبوي: نقترح ضبطه ليُطلب عند الخروج منه
-    if (kids && !wasKids && s.settings.parentalPin == null && mounted) {
+    final limited = kids && (daily != null || fromH != null);
+    if ((kids && !wasKids || limited) && s.settings.parentalPin == null && mounted) {
       final code = await askNewCode(context, title: 'رمز أبوي للخروج من ملف الأطفال',
           hint: 'يُطلب هذا الرمز عند التبديل من ملف الأطفال إلى ملف آخر، ولفتح المجموعات المقفلة.');
       if (code != null) {
@@ -353,6 +442,10 @@ class _ProfileEditorState extends State<ProfileEditor> {
               value: kidsOnly,
               onChanged: (v) => setState(() => kidsOnly = v),
             ),
+          if (kids) ...[
+            const SizedBox(height: 8),
+            _screenTime(context),
+          ],
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             secondary: const Icon(Icons.lock_outline_rounded),

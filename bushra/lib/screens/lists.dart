@@ -5,6 +5,7 @@ import '../data/store.dart';
 import '../widgets/common.dart';
 import '../data/pairing.dart';
 import 'pair_screen.dart';
+import 'quality.dart';
 import 'series.dart';
 import 'add_source.dart';
 import 'settings.dart';
@@ -182,8 +183,11 @@ class _SourceCard extends StatelessWidget {
     final menu = PopupMenuButton<String>(
       tooltip: 'خيارات القائمة',
       icon: Icon(Icons.more_vert_rounded, color: p.text2),
-      onSelected: (v) => _guarded(context, () => _action(context, v)),
+      onSelected: (v) => v == 'quality'
+          ? Navigator.of(context).push(MaterialPageRoute(builder: (_) => QualityScreen(sourceId: src.id)))
+          : _guarded(context, () => _action(context, v)),
       itemBuilder: (_) => [
+        const PopupMenuItem(value: 'quality', child: Text('تقرير الجودة')),
         if (src.type != SourceType.m3uFile) const PopupMenuItem(value: 'refresh', child: Text('تحديث القائمة')),
         const PopupMenuItem(value: 'rename', child: Text('إعادة التسمية')),
         const PopupMenuItem(value: 'epg', child: Text('رابط دليل البرامج (XMLTV)')),

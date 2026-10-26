@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bushra/cast/cast_io.dart';
 import 'package:bushra/data/pairing_io.dart';
+import 'package:bushra/data/remote_bus.dart';
+import 'package:bushra/data/remote_io.dart';
 import 'package:bushra/data/xtream.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -181,5 +183,28 @@ https://example.com/m.m3u8
   test('Xtream VOD ids are read from movie links', () {
     expect(XtreamClient.vodIdOf('http://s:80/movie/u/p/1234.mkv'), '1234');
     expect(XtreamClient.vodIdOf('http://s/live/u/p/1.ts'), isNull);
+  });
+
+  test('Phone remote forwards commands and reports what is playing', () async {
+    final got = <RemoteCmd>[];
+    final sub = RemoteBus.stream.listen(got.add);
+    RemoteBus.state = () => {'title': 'قناة', 'live': true, 'playing': true};
+    final url = await RemoteServer.I.start('tok123', port: 0, host: '127.0.0.1');
+    final u = Uri.parse(url!);
+    final c = HttpClient();
+    final page = await (await c.getUrl(u)).close();
+    expect(await utf8.decoder.bind(page).join(), contains('ريموت البشرى'));
+    expect((await (await c.getUrl(u.replace(queryParameters: {'k': 'x'}))).close()).statusCode, 403);
+    final req = await c.postUrl(u.replace(path: '/cmd'));
+    req.add(utf8.encode(jsonEncode({'a': 'search', 'v': 'أخبار'})));
+    await (await req.close()).drain();
+    final st = await (await c.getUrl(u.replace(path: '/state'))).close();
+    expect(jsonDecode(await utf8.decoder.bind(st).join())['title'], 'قناة');
+    await Future.delayed(const Duration(milliseconds: 20));
+    expect(got.single.a, 'search');
+    expect(got.single.v, 'أخبار');
+    c.close();
+    await sub.cancel();
+    await RemoteServer.I.stop();
   });
 }

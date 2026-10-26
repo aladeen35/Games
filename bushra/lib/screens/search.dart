@@ -11,14 +11,15 @@ import 'epg_screen.dart';
 class SearchScreen extends StatefulWidget {
   /// يبدأ الاستماع للبحث الصوتي فور الفتح.
   final bool voice;
-  const SearchScreen({super.key, this.voice = false});
+  final String initial;
+  const SearchScreen({super.key, this.voice = false, this.initial = ''});
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  String q = '';
-  final _ctl = TextEditingController();
+  late String q = widget.initial;
+  late final _ctl = TextEditingController(text: widget.initial);
   bool voiceOk = false, listening = false;
 
   @override

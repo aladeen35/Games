@@ -11,6 +11,7 @@ import '../widgets/common.dart';
 import '../data/net.dart';
 import '../cast/cast.dart';
 import '../data/open_channels.dart';
+import '../data/remote_bus.dart';
 import '../screens/multiview.dart';
 import 'engine.dart';
 import 'session.dart';
@@ -26,6 +27,9 @@ Future<void> openPlayer(BuildContext context, Playable item, {List<Playable>? qu
       s.parentalUnlocked = true;
     }
   }
+  if (!context.mounted) return;
+  // وقت الشاشة لملف الأطفال
+  if (!await screenTimeGate(context)) return;
   if (!context.mounted) return;
   // إن كان البث نفسه يعمل في النافذة المصغرة نكمله بلا إعادة اتصال
   final ss = PlayerSession.I;
@@ -80,6 +84,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
   // العرض على التلفاز (Chromecast)
   CastSession? _cast;
   CastDevice? _castDev;
+  // إحصاءات الجودة ووقت الشاشة
+  DateTime? _openAt;
+  Timer? _usageT;
+  String? _blocked;
   Future<List<CastDevice>>? _castFind;
   late Playable item = widget.item;
   late bool fill = s.settings.fillScreen;
@@ -140,6 +148,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
     plat.getVolume().then((v) => _vol = v);
     plat.getBrightness().then((v) => _bright = v);
     _clock = Timer.periodic(const Duration(seconds: 30), (_) { if (mounted) setState(() {}); });
+    _usageT = Timer.periodic(const Duration(minutes: 1), (_) => _countMinute());
+    RemoteBus.player = _remote;
+    RemoteBus.state = _remoteState;
   }
 
   /// [swapped]: المشغل الحالي صار المحمّل مسبقًا (لا نفتح البث مجددًا).
@@ -170,6 +181,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final h = s.historyOf(p.key);
     final startAt = resume && s.settings.resume && h != null && h.resumable ? Duration(milliseconds: h.positionMs) : null;
     if (!swapped) e.open(p, startAt: startAt);
+    _openAt = DateTime.now();
     // لا يبقى المشغل معلقًا على «جارٍ الاتصال»: بعد 25 ثانية بلا صورة نعرض السبب ونعيد المحاولة
     _connectT?.cancel();
     _connectT = Timer(const Duration(seconds: 25), () {
@@ -207,6 +219,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
       _slow?.cancel();
     }
     if (e.phase == Phase.error && _last != Phase.error) {
+      if (_openAt != null) s.recordFail(item);
+      _openAt = null;
       // تُعلَّم القناة معطلة فقط لأسباب تخص المصدر (لا قيود المتصفح)
       if (item.channelId != null && (e.fail == FailKind.network || e.fail == FailKind.unsupported)) s.markHealth(item.channelId!, false);
       // قناة لا تعمل: نسخة بديلة من قائمة أخرى أولًا، وإلا إعادة المحاولة
@@ -214,6 +228,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
     if (e.phase == Phase.playing && _last != Phase.playing) {
       if (item.channelId != null) s.markHealth(item.channelId!, true);
+      if (_openAt != null) s.recordStart(item, DateTime.now().difference(_openAt!).inMilliseconds);
+      _openAt = null;
       if (_canPreload) {
         _preT?.cancel();
         _preT = Timer(const Duration(seconds: 2), _preload);
@@ -246,6 +262,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   void _reconnect() {
     reconnects++;
+    s.recordReconnect(item);
     _open(item, reconnect: true);
   }
 
@@ -448,6 +465,114 @@ class _PlayerScreenState extends State<PlayerScreen> {
       setState(() => _introSkipped = true);
       _banner('حُفظت نهاية المقدمة عند ${fmtDur(Duration(seconds: secs))} — يظهر «تخطي المقدمة» في كل حلقات المسلسل', Icons.check_circle_rounded);
     });
+  }
+
+  // ———————————————————— وقت الشاشة ————————————————————
+  void _countMinute() {
+    if (!mounted || _castDev != null) return;
+    if (e.phase == Phase.playing || e.phase == Phase.buffering) s.addUsageMinute();
+    final b = s.screenTimeBlock();
+    if (b != null && _blocked == null) {
+      e.pause();
+      setState(() => _blocked = b);
+    }
+  }
+
+  Widget _blockedLayer() {
+    final t = Theme.of(context).textTheme;
+    return Material(
+      color: const Color(0xF205070B),
+      child: SafeArea(child: Center(child: Padding(
+        padding: const EdgeInsets.all(28),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          const Icon(Icons.bedtime_rounded, size: 64, color: BColors.gold),
+          const SizedBox(height: 16),
+          Text('وقت الراحة', style: t.headlineMedium!.copyWith(color: Colors.white)),
+          const SizedBox(height: 8),
+          Text(_blocked!, textAlign: TextAlign.center, style: t.bodyLarge!.copyWith(color: BColors.mist)),
+          const SizedBox(height: 24),
+          Wrap(spacing: 12, runSpacing: 10, alignment: WrapAlignment.center, children: [
+            FilledButton.icon(
+              autofocus: true,
+              onPressed: () => Navigator.maybePop(context),
+              icon: const Icon(Icons.check_rounded),
+              label: const Text('حسنًا'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () async {
+                if (!await askPin(context, title: 'الرمز الأبوي لوقت إضافي')) return;
+                s.grantExtra(const Duration(minutes: 30));
+                setState(() => _blocked = null);
+                e.play();
+              },
+              icon: const Icon(Icons.more_time_rounded, color: Colors.white70),
+              label: const Text('30 دقيقة إضافية', style: TextStyle(color: Colors.white)),
+            ),
+          ]),
+        ]),
+      ))),
+    );
+  }
+
+  // ———————————————————— ريموت الجوال ————————————————————
+  Map<String, dynamic> _remoteState() {
+    final (now, _) = s.nowNext(item.tvgId);
+    return {
+      'title': item.title, 'sub': now?.title ?? item.subtitle ?? '', 'live': item.isLive || e.isLive,
+      'playing': e.phase == Phase.playing || e.phase == Phase.buffering,
+      'pos': e.position.inSeconds, 'dur': e.canSeek ? e.duration.inSeconds : 0,
+      'prog': now?.progress(DateTime.now()) ?? 0,
+    };
+  }
+
+  void _volBy(double d) {
+    final cur = plat.systemVolume ? _vol : e.volume;
+    final v = (cur + d).clamp(0.0, 1.0);
+    _vol = v;
+    plat.systemVolume ? plat.setVolume(v) : e.setVolume(v);
+    _showHud(v == 0 ? Icons.volume_off_rounded : Icons.volume_up_rounded, 'الصوت ${(v * 100).round()}%', v);
+  }
+
+  /// أوامر الريموت الخاصة بالمشغل؛ الأسهم و OK تمر للواجهة حين تظهر أدوات التحكم.
+  bool _remote(RemoteCmd c) {
+    if (!mounted || _blocked != null) return false;
+    switch (c.a) {
+      case 'toggle':
+        _castDev != null ? ((_cast?.playing ?? false) ? _cast?.pause() : _cast?.play()) : _toggle();
+      case 'chup':
+        item.isLive ? _next(-1) : _poke();
+      case 'chdown':
+        item.isLive ? _next(1) : _poke();
+      case 'fwd':
+        e.canSeek ? _seekBy(10) : _next(1);
+      case 'rew':
+        e.canSeek ? _seekBy(-10) : _next(-1);
+      case 'volup':
+        _volBy(.1);
+      case 'voldown':
+        _volBy(-.1);
+      case 'mute':
+        _volBy(-1);
+      case 'menu':
+        _more();
+      case 'num':
+        final d = int.tryParse(c.v ?? '');
+        if (d == null) return false;
+        _typeDigit(d);
+      case 'ok' when !overlay:
+        _poke();
+      case 'up' when !overlay:
+        item.isLive ? _next(-1) : _poke();
+      case 'down' when !overlay:
+        item.isLive ? _next(1) : _poke();
+      case 'left' when !overlay:
+        e.canSeek ? _seekBy(-10) : _poke();
+      case 'right' when !overlay:
+        e.canSeek ? _seekBy(10) : _poke();
+      default:
+        return false;
+    }
+    return true;
   }
 
   void _minimize() {
@@ -751,7 +876,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   void dispose() {
-    for (final t in [_hide, _retry, _slow, _clock, _flashT, _connectT, _tapT, _failT, _bannerT, _cdT, _introLearnT]) {
+    if (RemoteBus.player == _remote) RemoteBus.player = null;
+    if (RemoteBus.state == _remoteState) RemoteBus.state = null;
+    for (final t in [_hide, _retry, _slow, _clock, _flashT, _connectT, _tapT, _failT, _bannerT, _cdT, _introLearnT, _usageT]) {
       t?.cancel();
     }
     if (!item.isLive && e.duration > Duration.zero) s.updateProgress(item.key, e.position, e.duration);
@@ -828,6 +955,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     onTap: _skipIntro,
                   ))),
                 if (_castDev != null) Positioned.fill(child: _castLayer()),
+                if (_blocked != null) Positioned.fill(child: _blockedLayer()),
                 if (_upNextShown && !_upNextDismissed && _upNext != null && _castDev == null)
                   PositionedDirectional(end: 20, bottom: overlay ? 132 : 32, child: SafeArea(child: _upNextCard())),
                 AnimatedOpacity(
@@ -1746,4 +1874,24 @@ int? queueIndexForNumber(List<Playable> q, int n) {
     if (c?.number == n) return i;
   }
   return n >= 1 && n <= q.length ? n - 1 : null;
+}
+
+/// يمنع التشغيل في ملف الأطفال خارج الوقت المسموح، مع وقت إضافي بالرمز الأبوي.
+Future<bool> screenTimeGate(BuildContext context) async {
+  final s = AppStore.I;
+  final b = s.screenTimeBlock();
+  if (b == null) return true;
+  final more = await showDialog<bool>(context: context, builder: (c) => AlertDialog(
+    icon: const Icon(Icons.bedtime_rounded, color: BColors.gold, size: 36),
+    title: const Text('وقت الراحة'),
+    content: Text(b, textAlign: TextAlign.center),
+    actions: [
+      TextButton(onPressed: () => Navigator.pop(c, true), child: const Text('وقت إضافي (للوالدين)')),
+      FilledButton(onPressed: () => Navigator.pop(c, false), child: const Text('حسنًا')),
+    ],
+  ));
+  if (more != true || !context.mounted) return false;
+  if (!await askPin(context, title: 'الرمز الأبوي لوقت إضافي')) return false;
+  s.grantExtra(const Duration(minutes: 30));
+  return true;
 }

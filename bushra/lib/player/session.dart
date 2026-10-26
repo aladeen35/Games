@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '../data/models.dart';
@@ -15,6 +16,7 @@ class PlayerSession extends ChangeNotifier {
   List<Playable>? queue;
   bool fill = false;
   bool get active => engine != null;
+  Timer? _minute;
 
   void minimize(Engine e, Playable it, List<Playable>? q, {bool fill = false}) {
     if (engine != null && engine != e) close();
@@ -24,11 +26,20 @@ class PlayerSession extends ChangeNotifier {
     this.fill = fill;
     e.addListener(_tick);
     WakelockPlus.enable().catchError((_) {});
+    // وقت الشاشة يُحسب في النافذة المصغرة أيضًا
+    _minute?.cancel();
+    _minute = Timer.periodic(const Duration(minutes: 1), (_) {
+      final en = engine;
+      if (en == null) return;
+      if (en.phase == Phase.playing || en.phase == Phase.buffering) AppStore.I.addUsageMinute();
+      if (AppStore.I.screenTimeBlock() != null) close();
+    });
     notifyListeners();
   }
 
   /// يسلّم المشغل لشاشة التشغيل الكاملة.
   Engine? take() {
+    _minute?.cancel();
     final e = engine;
     e?.removeListener(_tick);
     engine = null;
@@ -37,6 +48,7 @@ class PlayerSession extends ChangeNotifier {
   }
 
   void close() {
+    _minute?.cancel();
     final e = engine;
     engine = null;
     item = null;

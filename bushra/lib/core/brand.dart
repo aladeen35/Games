@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'theme.dart';
 
 /// يُرفع مع كل إصدار (مع version في pubspec.yaml).
-const kAppVersion = '1.4.0';
+const kAppVersion = '1.5.0';
 
 enum MarkStyle { primary, mono }
 
