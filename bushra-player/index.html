@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <base href="/Games/bushra-player/">
   <meta charset="UTF-8">
@@ -29,7 +29,8 @@
   <script src="vendor/mpegts.js" defer></script>
 </head>
 <body>
-  <div id="splash"><img src="icons/Icon-512.png" alt="البشرى"><div></div></div>
+  <!-- لا dir="rtl" على الصفحة: يقلب مواضع عناصر الفيديو في المتصفح (Flutter يتولى الاتجاه بنفسه) -->
+  <div id="splash" dir="rtl"><img src="icons/Icon-512.png" alt="البشرى"><div></div></div>
   <script>
     window.addEventListener('flutter-first-frame', function () {
       var s = document.getElementById('splash');
