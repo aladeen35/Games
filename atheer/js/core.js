@@ -121,16 +121,22 @@ const Voice = {
   },
   /* فهرس: النص المطبَّع ← المقاطع (قد يكون هناك مقطعان مؤنث/مذكر لنفس النص) */
   index(lang) {
-    if (!this.idx) {
+    // الفهرس يتغيّر مع الطفل الحالي إن كانت هناك تسجيلات شخصية خاصة به
+    const sig = MyVoice.on && MyVoice.map.size ? 'my:' + (App.profile ? App.profile.id : '') + ':' + MyVoice.ver : '-';
+    if (!this.idx || this.idxSig !== sig) {
+      this.idxSig = sig;
       this.idx = { ar: new Map(), en: new Map() }; this.maxW = { ar: 1, en: 1 };
       const V = window.VOICE || {};
-      for (const lg of ['ar', 'en']) for (const [id, plain] of Object.entries(V[lg] || {})) {
-        if (/^harakat_[a-z]+_(a|u|i|aa|uu|ii|s|an|un|in)$/.test(id)) continue; // مقاطع الحركات تُشغَّل بمعرّفها مباشرة
-        const k = this.norm(plain, lg); if (!k) continue;
+      const add = (lg, id, plain) => {
+        if (/^harakat_[a-z]+_(a|u|i|aa|uu|ii|s|an|un|in)$/.test(id)) return; // مقاطع الحركات تُشغَّل بمعرّفها مباشرة
+        const k = this.norm(plain, lg); if (!k) return;
         if (!this.idx[lg].has(k)) this.idx[lg].set(k, []);
-        this.idx[lg].get(k).push(id);
+        const l = this.idx[lg].get(k); if (!l.includes(id)) l.push(id);
         this.maxW[lg] = Math.max(this.maxW[lg], k.split(' ').length);
-      }
+      };
+      for (const lg of ['ar', 'en']) for (const [id, plain] of Object.entries(V[lg] || {})) add(lg, id, plain);
+      // عبارات سجّلها الأهل بأصواتهم ولا يوجد لها مقطع جاهز
+      if (sig !== '-') for (const r of MyVoice.map.values()) if ((!r.kid || (App.profile && r.kid === App.profile.id)) && r.lang in this.idx) add(r.lang, r.id, r.plain);
     }
     return this.idx[lang];
   },
@@ -154,9 +160,11 @@ const Voice = {
     }
     return out;
   },
+  /** الأولوية: تسجيل شخصي (للطفل ثم للجميع) ← المقطع الجاهز */
   async load(lang, id) {
-    const k = lang + '/' + id;
-    if (!this.bufs[k]) this.bufs[k] = fetch('voice/' + k + '.mp3').then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
+    const my = MyVoice.find(lang, id);
+    const k = my ? 'my:' + my.key + ':' + my.t : lang + '/' + id;
+    if (!this.bufs[k]) this.bufs[k] = (my ? my.blob.arrayBuffer() : fetch('voice/' + k + '.mp3').then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); }))
       .then(a => new Promise((ok, no) => Sound.ac(true).decodeAudioData(a, ok, no))).catch(e => { delete this.bufs[k]; throw e; });
     return this.bufs[k];
   },
@@ -175,6 +183,90 @@ const Voice = {
       s.start(t); t += Math.max(.05, b.duration - .06) + .04; this.srcs.push(s);
     }
   }
+};
+
+/* ---------- تسجيلات الأهل/الطفل الشخصية (IndexedDB) ----------
+   كل تسجيل: { key: 'ar/<id>' أو 'ar/<id>@<kidId>', id, lang, plain, kid|null, blob (WAV), t } */
+const MyVoice = {
+  db: null, map: new Map(), ver: 0, ready: null,
+  get on() { return gstore.get('myvoice', true); },
+  open() {
+    if (!this.ready) this.ready = new Promise(ok => {
+      try {
+        const r = indexedDB.open('atheer-voice', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('rec', { keyPath: 'key' });
+        r.onsuccess = () => { this.db = r.result; ok(this.db); };
+        r.onerror = r.onblocked = () => ok(null);
+      } catch (e) { ok(null); }
+    });
+    return this.ready;
+  },
+  tx(mode, fn) {
+    return new Promise(ok => {
+      try { const t = this.db.transaction('rec', mode), q = fn(t.objectStore('rec')); t.oncomplete = () => ok(q ? q.result : true); t.onerror = t.onabort = () => ok(null); }
+      catch (e) { ok(null); }
+    });
+  },
+  async load() {
+    if (!(await this.open())) return;
+    const all = await this.tx('readonly', st => st.getAll()) || [];
+    this.map = new Map(all.map(r => [r.key, r])); this.changed();
+  },
+  key(lang, id, kid) { return lang + '/' + id + (kid ? '@' + kid : ''); },
+  /** التسجيل المناسب للطفل الحالي: الخاص به أولًا ثم المشترك */
+  find(lang, id) {
+    if (!this.map.size || !this.on) return null;
+    const kid = App.profile && App.profile.id;
+    return (kid && this.map.get(this.key(lang, id, kid))) || this.map.get(this.key(lang, id)) || null;
+  },
+  async save(rec) {
+    if (!(await this.open())) return false;
+    const ok = await this.tx('readwrite', st => st.put(rec));
+    if (ok) { this.map.set(rec.key, rec); this.changed(); }
+    return !!ok;
+  },
+  async remove(key) {
+    if (!(await this.open())) return;
+    await this.tx('readwrite', st => st.delete(key)); this.map.delete(key); this.changed();
+  },
+  /** حذف تسجيلات طفل حُذف */
+  async removeKid(kid) { for (const k of [...this.map.keys()]) if (k.endsWith('@' + kid)) await this.remove(k); },
+  changed() { this.ver++; Voice.idx = null; for (const k in Voice.bufs) if (k.startsWith('my:')) delete Voice.bufs[k]; }
+};
+
+/* ---------- صوت الجهاز (TTS) عند غياب أي تسجيل ----------
+   التفضيلات في gstore('tts') = { ar: { voice, rate, pitch }, en: {...} }.
+   في أندرويد يحفظها التطبيق الأصلي أيضًا ويطبّقها على محرّك النطق. */
+const Tts = {
+  DEF: { rate: .9, pitch: 1.1 },
+  pref(lang) { return { ...this.DEF, ...((gstore.get('tts', {}) || {})[lang] || {}) }; },
+  setPref(lang, p) {
+    const all = gstore.get('tts', {}) || {}; all[lang] = { ...this.pref(lang), ...p }; gstore.set('tts', all);
+    const b = window.AndroidBridge; const q = all[lang];
+    try { if (b && b.ttsSet) b.ttsSet(lang, q.voice || '', +q.rate, +q.pitch); } catch (e) {}
+  },
+  /** تقييم الصوت: عربي سعودي/مصري، أصوات Google، الجودة العالية، الشبكة، والأصوات الأنثوية (أقرب لصوت الأطفال) */
+  score(v, lang) {
+    const L = String(v.lang || '').toLowerCase().replace('_', '-');
+    if (!L.startsWith(lang) || v.notInstalled) return -1;
+    let s = 1;
+    if (lang === 'ar' ? /^ar-(sa|eg|xa|ae)/.test(L) : /^en-(us|gb)/.test(L)) s += 3;
+    if (/google/i.test(v.name) || /-x-/.test(v.name)) s += 4;
+    if (v.network || v.localService === false) s += 2;
+    if (v.quality) s += v.quality / 200;
+    if (/female|woman|laila|hoda|zeina|salma|maryam|mariam|amira|samantha|aria|jenny|zira|-x-arc|-x-sfg|-x-tpc/i.test(v.name)) s += 1;
+    return s;
+  },
+  best(list, lang) { let b = null, bs = 0; for (const v of list) { const sc = this.score(v, lang); if (sc > bs) { bs = sc; b = v; } } return b; },
+  webVoices() { try { return window.speechSynthesis ? speechSynthesis.getVoices() : []; } catch (e) { return []; } },
+  /** صوت المتصفّح المختار (أو الأفضل تلقائيًا) */
+  webVoice(lang) {
+    const vs = this.webVoices(), name = this.pref(lang).voice;
+    return (name && vs.find(v => v.name === name)) || this.best(vs, lang);
+  },
+  /** أصوات أندرويد (من الجسر) */
+  androidVoices(lang) { try { return JSON.parse(AndroidBridge.ttsVoices(lang) || '[]'); } catch (e) { return []; } },
+  get android() { return !!(window.AndroidBridge && AndroidBridge.ttsVoices); }
 };
 
 const Sound = {
@@ -343,13 +435,14 @@ const Fx = {
     if (!this.on) return;
     const G = gsap, vh = innerHeight;
     const cards = [...document.querySelectorAll('#cards .gh, #cards .card')].filter(c => c.getBoundingClientRect().top < vh).slice(0, 14);
+    const C = 'transform,opacity,visibility';
     this.intro = G.timeline({ defaults: { ease: 'back.out(1.7)' }, onComplete: () => { this.intro = null; } })
-      .from('.topbar > *', { y: -34, autoAlpha: 0, stagger: .05, duration: .45 })
-      .from('#logo', { scale: .3, autoAlpha: 0, duration: .7, ease: 'back.out(1.5)' }, .05)
-      .from('#hello, #sub', { y: 16, autoAlpha: 0, stagger: .08, duration: .4, ease: 'power2.out' }, .3)
-      .from('#kids .kid', { scale: 0, autoAlpha: 0, stagger: .07, duration: .5 }, .38)
-      .from('#cats button', { y: 14, autoAlpha: 0, stagger: .03, duration: .3 }, .5)
-      .from(cards, { y: 46, autoAlpha: 0, stagger: .045, duration: .55, ease: 'power3.out', clearProps: 'transform,opacity,visibility' }, .55);
+      .fromTo('.topbar > *', { y: -34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .05, duration: .45, clearProps: C })
+      .fromTo('#logo', { scale: .3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .7, ease: 'back.out(1.5)' }, .05)
+      .fromTo('#hello, #sub', { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .08, duration: .4, ease: 'power2.out', clearProps: C }, .3)
+      .fromTo('#kids .kid', { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: .07, duration: .5, clearProps: C }, .38)
+      .fromTo('#cats button', { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .03, duration: .3, clearProps: C }, .5)
+      .fromTo(cards, { y: 46, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .045, duration: .55, ease: 'power3.out', clearProps: C }, .55);
   },
   /** إنهاء الدخول فورًا قبل إعادة بناء القائمة */
   finishIntro() { if (this.intro) { this.intro.progress(1); this.intro = null; } },
@@ -640,9 +733,9 @@ const App = {
       } else if (window.AndroidBridge && AndroidBridge.speak) { AndroidBridge.speak(text); return; }
       if (window.speechSynthesis) {
         speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text); u.lang = lang === 'en' ? 'en-US' : 'ar-SA'; u.rate = .9; u.pitch = 1.15;
-        const vs = speechSynthesis.getVoices();
-        const v = vs.find(v => new RegExp('^' + lang, 'i').test(v.lang)); if (v) u.voice = v;
+        const P = Tts.pref(lang), u = new SpeechSynthesisUtterance(text);
+        u.lang = lang === 'en' ? 'en-US' : 'ar-SA'; u.rate = +P.rate || .9; u.pitch = +P.pitch || 1.1;
+        const v = Tts.webVoice(lang); if (v) { u.voice = v; u.lang = v.lang; }
         speechSynthesis.speak(u);
       }
     } catch (e) {}
@@ -721,6 +814,13 @@ const App = {
     if (g && g.resume) g.resume();
     if (this.current === 'menu') this.renderMenu();
   },
+  /** تحميل سكربت عند الحاجة فقط */
+  lazy(srcs) {
+    this._lazy = this._lazy || {};
+    return Promise.all(srcs.map(src => this._lazy[src] || (this._lazy[src] = new Promise((ok, no) => {
+      const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = () => { delete this._lazy[src]; no(); }; document.head.appendChild(sc);
+    }))));
+  },
   help(id) {
     const g = this.games[id]; if (!g) return;
     const lines = typeof g.help === 'function' ? g.help() : g.help;
@@ -738,12 +838,15 @@ const App = {
       <div class="row"><span class="lbl">🔊 المؤثرات</span>${seg('sfx', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('sfx', true))}</div>
       <div class="row"><span class="lbl">🎵 الموسيقى</span>${seg('music', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('music', true))}</div>
       <div class="row"><span class="lbl">📳 الاهتزاز</span>${seg('vib', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('vib', true))}</div>
+      <div class="row"><span class="lbl">🎙️ أصوات التطبيق</span><button class="tbtn alt sm" id="sStudio">🎙️ سجّل الأصوات</button><button class="tbtn alt sm" id="sTts">🗣️ صوت الجهاز</button></div>
       <div class="row"><span class="lbl">🔠 حجم الخط</span>${seg('font', [['normal', 'عادي'], ['large', 'كبير']], gstore.get('font', 'normal'))}</div>
       <div class="row"><span class="lbl">🗑️ بيانات ${this.esc(P.name)}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">مسح النتائج</button></div>
       <p class="center" style="font-size:12px;opacity:.6;margin:8px 0 0">الثيم يغيّر شكل القائمة فقط، ولا يغيّر الألعاب.</p>`);
     s.querySelectorAll('[data-kid]').forEach(b => b.onclick = () => { Sound.tap(); if (b.dataset.kid !== P.id) { this.closeSheet(); this.switchKid(b.dataset.kid); } });
     s.querySelector('#sEdit').onclick = () => { Sound.tap(); this.kidForm(P); };
     s.querySelector('#sAdd').onclick = () => { Sound.tap(); this.kidForm(null); };
+    s.querySelector('#sStudio').onclick = () => { Sound.tap(); this.lazy(['voice/phrases.js', 'js/studio.js']).then(() => Studio.open()).catch(() => this.toast('تعذّر فتح الاستوديو')); };
+    s.querySelector('#sTts').onclick = () => { Sound.tap(); this.lazy(['js/studio.js']).then(() => Studio.tts()).catch(() => this.toast('تعذّر الفتح')); };
     s.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => {
       const k = sg.dataset.k, raw = b.dataset.v, v = raw === 'true' ? true : raw === 'false' ? false : raw;
       Sound.tap();
@@ -848,6 +951,7 @@ const App = {
     const st = flip ? Flip.getState('#kids .kav, #kids b') : null;
     Fx.finishIntro();
     this.setProfile(id);
+    this.kidIntoView(true);
     if (!Fx.on) return;
     if (st) Flip.from(st, { duration: .55, ease: 'back.out(1.4)', scale: true });
     const av = $(`#kids .kid[data-k="${CSS.escape(id)}"] .kav`);
@@ -974,7 +1078,7 @@ const App = {
     s.querySelector('#kdYes').onclick = () => {
       const i = this.PROFILES.indexOf(kid); if (i < 0 || this.PROFILES.length < 2) { this.closeSheet(); return; }
       Object.keys(localStorage).filter(k => k.startsWith(kid.id + ':')).forEach(k => localStorage.removeItem(k));
-      this.PROFILES.splice(i, 1); this.saveKids();
+      this.PROFILES.splice(i, 1); this.saveKids(); MyVoice.removeKid(kid.id);
       Sound.poof(); this.toast(`تم حذف ${kid.name}`);
       if (this.profile === kid) this.setProfile(this.PROFILES[0].id); else this.closeSheet();
     };
@@ -1013,6 +1117,13 @@ const App = {
     box.querySelectorAll('.kid[data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === P.id));
     const tip = $('#ktip');
     if (tip) tip.textContent = gstore.get('kidsTip', false) ? '' : this.g('👆 اختاري اسمك، أو أضيفي طفلًا جديدًا', '👆 اختر اسمك، أو أضف طفلًا جديدًا');
+  },
+  /** إظهار الطفل النشط إن كان الصف أعرض من الشاشة */
+  kidIntoView(smooth) {
+    const box = $('#kids'), a = box && box.querySelector('.kid.on');
+    if (!a || box.scrollWidth <= box.clientWidth + 2) return;
+    const r = a.getBoundingClientRect(), b = box.getBoundingClientRect();
+    box.scrollBy({ left: (r.left + r.width / 2) - (b.left + b.width / 2), behavior: smooth && !Fx.reduce ? 'smooth' : 'auto' });
   },
   /** لمس صف الأطفال: نقرة = تبديل، ضغطة طويلة أو ✏️ = تعديل */
   bindKids() {
@@ -1116,6 +1227,8 @@ const App = {
     });
     Fx.init();
     this.loadKids();
+    MyVoice.load();
+    try { if (window.speechSynthesis) speechSynthesis.getVoices(); } catch (e) {} // يبدأ تحميل قائمة الأصوات
     this.bindKids();
     // ضغط البطاقات بحركة مطاطية (GSAP)
     let pressed = null;
@@ -1123,6 +1236,7 @@ const App = {
     $('#cards').addEventListener('pointerdown', e => { const c = e.target.closest('.card'); if (c) { up(); pressed = c; Fx.press(c); } });
     ['pointerup', 'pointercancel'].forEach(t => window.addEventListener(t, up));
     this.setProfile(gstore.get('profile', this.PROFILES[0].id));
+    this.kidIntoView(false);
     if (document.fonts) document.fonts.ready.then(() => { this.iconCache.clear(); this.paintIcons(); });
     // نوافذ الألعاب: حركة ظهور اللوحة والنجوم بـ GSAP
     if (Fx.ok && window.MutationObserver) {

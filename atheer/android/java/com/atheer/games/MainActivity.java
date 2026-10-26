@@ -1,17 +1,23 @@
 package com.atheer.games;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -24,7 +30,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * ألعاب أثير وبشرى — غلاف أصلي يعرض الألعاب الثلاث من assets عبر نطاق https داخلي،
@@ -42,6 +53,10 @@ public class MainActivity extends Activity {
     /** اختيار صورة الطفل من المعرض أو الكاميرا لحقل <input type=file> */
     private static final int REQ_PHOTO = 4101;
     private ValueCallback<Uri[]> photoCb;
+
+    /** الميكروفون لاستوديو التسجيل: نطلب الصلاحية حين تطلبها الصفحة فقط */
+    private static final int REQ_MIC = 4102;
+    private PermissionRequest pendingMic;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -62,33 +77,86 @@ public class MainActivity extends Activity {
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.setBackgroundColor(0xFFFFF0F6);
         web.setWebViewClient(new AssetClient());
-        web.setWebChromeClient(new PhotoChooser());
+        web.setWebChromeClient(new Chrome());
         web.addJavascriptInterface(new Bridge(), "AndroidBridge");
 
         setContentView(web);
         web.loadUrl(START_URL);
 
-        initEn();
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int r = tts.setLanguage(new Locale("ar"));
-                    ttsReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
-                }
-            }
-        });
+        initTts();
     }
 
-    /** نطق إنجليزي لحروف وكلمات لعبة «حروفي». */
-    private void initEn() {
-        ttsEn = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+    private SharedPreferences prefs() { return getSharedPreferences("tts", MODE_PRIVATE); }
+
+    /** محرّكا النطق العربي والإنجليزي (بالمحرّك المختار إن وُجد)، مع تطبيق الصوت والسرعة والطبقة المحفوظة. */
+    private void initTts() {
+        String engine = prefs().getString("engine", "");
+        TextToSpeech.OnInitListener arL = new TextToSpeech.OnInitListener() {
             @Override public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int r = ttsEn.setLanguage(Locale.US);
-                    ttsEnReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
+                if (status == TextToSpeech.SUCCESS && tts != null) {
+                    int r = tts.setLanguage(new Locale("ar"));
+                    ttsReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
+                    applyPrefs(tts, "ar");
                 }
             }
-        });
+        };
+        TextToSpeech.OnInitListener enL = new TextToSpeech.OnInitListener() {
+            @Override public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS && ttsEn != null) {
+                    int r = ttsEn.setLanguage(Locale.US);
+                    ttsEnReady = r != TextToSpeech.LANG_MISSING_DATA && r != TextToSpeech.LANG_NOT_SUPPORTED;
+                    applyPrefs(ttsEn, "en");
+                }
+            }
+        };
+        if (engine.isEmpty()) { tts = new TextToSpeech(this, arL); ttsEn = new TextToSpeech(this, enL); }
+        else { tts = new TextToSpeech(this, arL, engine); ttsEn = new TextToSpeech(this, enL, engine); }
+    }
+
+    private void applyPrefs(TextToSpeech t, String lang) {
+        SharedPreferences p = prefs();
+        try {
+            t.setSpeechRate(p.getFloat(lang + ".rate", 0.9f));
+            t.setPitch(p.getFloat(lang + ".pitch", 1.1f));
+            Set<Voice> vs = t.getVoices();
+            if (vs == null) return;
+            String name = p.getString(lang + ".voice", "");
+            Voice pick = null;
+            if (!name.isEmpty()) for (Voice v : vs) if (name.equals(v.getName())) pick = v;
+            if (pick == null) pick = bestVoice(vs, lang); // اختيار تلقائي لأفضل صوت
+            if (pick != null) t.setVoice(pick);
+        } catch (Exception e) { /* أجهزة قديمة: نُبقي الافتراضي */ }
+    }
+
+    private static boolean installed(Voice v) {
+        Set<String> f = v.getFeatures();
+        return f == null || !f.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED);
+    }
+
+    /** نفس معايير الويب: عربي سعودي/مصري، جودة عالية، أصوات Google، والأنثوية أولًا */
+    private static int score(Voice v, String lang) {
+        Locale l = v.getLocale();
+        if (l == null || !lang.equals(l.getLanguage()) || !installed(v)) return -1;
+        String c = l.getCountry() == null ? "" : l.getCountry().toUpperCase(Locale.US);
+        String n = v.getName() == null ? "" : v.getName().toLowerCase(Locale.US);
+        int s = 10 + v.getQuality() / 20;
+        if (lang.equals("ar") ? (c.equals("SA") || c.equals("EG") || c.equals("XA") || c.equals("AE")) : (c.equals("US") || c.equals("GB"))) s += 30;
+        if (v.isNetworkConnectionRequired()) s += 10;
+        if (n.contains("female") || n.contains("-x-arc") || n.contains("-x-sfg") || n.contains("-x-tpc")) s += 8;
+        return s;
+    }
+
+    private static Voice bestVoice(Set<Voice> vs, String lang) {
+        Voice b = null; int bs = 0;
+        for (Voice v : vs) { int s = score(v, lang); if (s > bs) { bs = s; b = v; } }
+        return b;
+    }
+
+    private void openIntent(Intent... list) {
+        for (Intent i : list) {
+            try { i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); startActivity(i); return; }
+            catch (Exception e) { /* جرّب التالي */ }
+        }
     }
 
     /** نطق عربي لأسماء الأشكال والتشجيع داخل الألعاب. */
@@ -103,6 +171,85 @@ public class MainActivity extends Activity {
         public void speakEn(String text) {
             if (!ttsEnReady || text == null) return;
             ttsEn.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
+        /** أصوات اللغة المثبّتة: [{name, lang, quality, network}] */
+        @JavascriptInterface
+        public String ttsVoices(String lang) {
+            JSONArray a = new JSONArray();
+            TextToSpeech t = "en".equals(lang) ? ttsEn : tts;
+            try {
+                Set<Voice> vs = t == null ? null : t.getVoices();
+                if (vs != null) for (Voice v : vs) {
+                    Locale l = v.getLocale();
+                    if (l == null || !lang.equals(l.getLanguage())) continue;
+                    JSONObject o = new JSONObject();
+                    o.put("name", v.getName());
+                    o.put("lang", l.toString().replace('_', '-'));
+                    o.put("quality", v.getQuality());
+                    o.put("network", v.isNetworkConnectionRequired());
+                    o.put("notInstalled", !installed(v));
+                    a.put(o);
+                }
+            } catch (Exception e) { /* لا شيء */ }
+            return a.toString();
+        }
+
+        /** المحرّك الحالي والمحرّكات المثبّتة */
+        @JavascriptInterface
+        public String ttsInfo() {
+            JSONObject o = new JSONObject();
+            try {
+                o.put("ar", ttsReady); o.put("en", ttsEnReady);
+                if (tts != null) {
+                    String def = tts.getDefaultEngine();
+                    o.put("engine", prefs().getString("engine", def == null ? "" : def));
+                    JSONArray es = new JSONArray();
+                    List<TextToSpeech.EngineInfo> list = tts.getEngines();
+                    if (list != null) for (TextToSpeech.EngineInfo e : list) {
+                        JSONObject x = new JSONObject(); x.put("name", e.name); x.put("label", e.label); es.put(x);
+                        if (e.name.equals(o.optString("engine"))) o.put("engineLabel", e.label);
+                    }
+                    o.put("engines", es);
+                }
+            } catch (Exception e) { /* لا شيء */ }
+            return o.toString();
+        }
+
+        /** حفظ الصوت والسرعة والطبقة للغة وتطبيقها فورًا */
+        @JavascriptInterface
+        public void ttsSet(final String lang, String voice, float rate, float pitch) {
+            prefs().edit().putString(lang + ".voice", voice == null ? "" : voice)
+                .putFloat(lang + ".rate", rate).putFloat(lang + ".pitch", pitch).apply();
+            runOnUiThread(new Runnable() { @Override public void run() {
+                TextToSpeech t = "en".equals(lang) ? ttsEn : tts;
+                if (t != null) applyPrefs(t, lang);
+            }});
+        }
+
+        /** تبديل محرّك النطق (مثل com.google.android.tts) */
+        @JavascriptInterface
+        public void ttsEngine(final String engine) {
+            prefs().edit().putString("engine", engine == null ? "" : engine).apply();
+            runOnUiThread(new Runnable() { @Override public void run() {
+                ttsReady = ttsEnReady = false;
+                if (tts != null) tts.shutdown();
+                if (ttsEn != null) ttsEn.shutdown();
+                initTts();
+            }});
+        }
+
+        @JavascriptInterface
+        public void openTtsSettings() {
+            openIntent(new Intent("com.android.settings.TTS_SETTINGS"), new Intent(android.provider.Settings.ACTION_SETTINGS));
+        }
+
+        /** تثبيت «خدمات Google للنطق» أو بيانات الصوت */
+        @JavascriptInterface
+        public void installTts() {
+            openIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.tts")),
+                new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.tts")),
+                new Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
         }
     }
 
@@ -135,7 +282,22 @@ public class MainActivity extends Activity {
      * ومع capture ← الكاميرا مباشرة. الكاميرا تُرجع صورة مصغّرة (تكفي للصورة الدائرية)،
      * فلا حاجة إلى أي صلاحية أو FileProvider.
      */
-    private class PhotoChooser extends WebChromeClient {
+    private class Chrome extends WebChromeClient {
+        /** الصفحة تطلب الميكروفون (استوديو التسجيل) */
+        @Override
+        public void onPermissionRequest(final PermissionRequest req) {
+            boolean mic = false;
+            for (String r : req.getResources()) if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(r)) mic = true;
+            if (!mic) { req.deny(); return; }
+            if (Build.VERSION.SDK_INT < 23 || checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                req.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+                return;
+            }
+            if (pendingMic != null) pendingMic.deny();
+            pendingMic = req;
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, REQ_MIC);
+        }
+
         @Override
         public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> cb, FileChooserParams params) {
             if (photoCb != null) photoCb.onReceiveValue(null);
@@ -159,6 +321,16 @@ public class MainActivity extends Activity {
             }
             return true;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int code, String[] perms, int[] res) {
+        if (code != REQ_MIC) return;
+        PermissionRequest r = pendingMic;
+        pendingMic = null;
+        if (r == null) return;
+        if (res.length > 0 && res[0] == PackageManager.PERMISSION_GRANTED) r.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+        else r.deny();
     }
 
     @Override

@@ -3,10 +3,10 @@ const CACHE = 'atheer-games-v9';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',
-  './voice/index.js', './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2', './img/albushra.jpg',
+  './voice/index.js', './voice/phrases.js', './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2', './img/albushra.jpg',
   ...[1, 2, 3, 4, 5, 6, 7].map(n => `./img/photos/p${n}.jpg`),
   ...['gsap', 'Flip', 'CustomEase', 'Draggable', 'MotionPathPlugin', 'Physics2DPlugin'].map(n => `./js/vendor/${n}.min.js`),
-  ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly', 'letters', 'numbers', 'maze', 'diff', 'taxi', 'cake', 'harakat', 'wordtrain', 'arpuzzle', 'enpuzzle', 'opposites', 'tower', 'penguins', 'numpuzzle', 'balance', 'fractions', 'pattern', 'shadows', 'mothers', 'sudanmap', 'duas'].map(n => `./js/${n}.js`)
+  ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly', 'letters', 'numbers', 'maze', 'diff', 'taxi', 'cake', 'harakat', 'wordtrain', 'arpuzzle', 'enpuzzle', 'opposites', 'tower', 'penguins', 'numpuzzle', 'balance', 'fractions', 'pattern', 'shadows', 'mothers', 'sudanmap', 'duas', 'studio'].map(n => `./js/${n}.js`)
 ];
 
 self.addEventListener('install', e => {

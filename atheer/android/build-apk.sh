@@ -28,8 +28,8 @@ build() {
   for item in index.html manifest.json sw.js logo.jpg icon-192.png icon-512.png icon-maskable.png fonts js img sounds; do
     cp -r "$ROOT/$item" "$OUT/assets/"
   done
-  # الأصوات المسجّلة فقط (دون ملفات النصوص والدفعات)
-  mkdir -p "$OUT/assets/voice" && cp -r "$ROOT/voice/ar" "$ROOT/voice/en" "$ROOT/voice/index.js" "$OUT/assets/voice/"
+  # الأصوات المسجّلة + قائمة العبارات لاستوديو التسجيل (دون ملفات النصوص والدفعات)
+  mkdir -p "$OUT/assets/voice" && cp -r "$ROOT/voice/ar" "$ROOT/voice/en" "$ROOT/voice/index.js" "$ROOT/voice/phrases.js" "$OUT/assets/voice/"
   [ -n "$ED" ] && cp -r "$ED/web/." "$OUT/assets/"
 
   echo "② ترجمة الموارد"

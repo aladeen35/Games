@@ -8,4 +8,8 @@ for l in L:
         out[l['lang']][l['id']] = l['plain']
 with open(os.path.join(D, 'index.js'), 'w') as f:
     f.write('/* مولّد آليًا بـ voice/make_index.py — لا تعدّله يدويًا */\nwindow.VOICE = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
-print(len(out['ar']), len(out['en']))
+# قائمة كل العبارات (مسجّلة أو لا) لاستوديو التسجيل داخل التطبيق؛ تُحمَّل عند فتحه فقط
+ph = [[l['id'], l.get('text') or l['plain'], l['plain'], l['lang'], l.get('game', '')] for l in L]
+with open(os.path.join(D, 'phrases.js'), 'w') as f:
+    f.write('/* مولّد آليًا بـ voice/make_index.py — عبارات استوديو التسجيل: [id, النص بالتشكيل, النص, اللغة, اللعبة] */\nwindow.VOICE_PHRASES = ' + json.dumps(ph, ensure_ascii=False, separators=(',', ':')) + ';\n')
+print(len(out['ar']), len(out['en']), len(ph))
