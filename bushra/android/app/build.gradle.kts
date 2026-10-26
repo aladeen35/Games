@@ -63,4 +63,6 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    // صف «تابع المشاهدة» وقناة المفضلة في الشاشة الرئيسية لـ Android TV
+    implementation("androidx.tvprovider:tvprovider:1.0.0")
 }

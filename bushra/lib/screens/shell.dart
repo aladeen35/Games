@@ -225,58 +225,8 @@ class _CineItemState extends State<_CineItem> {
   }
 }
 
-/// رأس الشاشات: الشعار يمينًا، البحث في الوسط، والحالة والحساب يسارًا. على الهاتف صفّان.
-class TopHeader extends StatelessWidget {
-  final bool showLogo;
-  const TopHeader({super.key, this.showLogo = true});
-
-  @override
-  Widget build(BuildContext context) {
-    final wide = context.isWide;
-    final search = _SearchBox();
-    final status = const ConnectionPill();
-    final avatar = Tooltip(
-      message: 'الحساب والإعدادات',
-      child: BTap(
-        radius: 999,
-        onTap: () => wide ? Shell.go('settings') : Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
-        child: CircleAvatar(
-          radius: 20, backgroundColor: context.bc.highlight,
-          child: Icon(Icons.person_rounded, color: context.bc.text2),
-        ),
-      ),
-    );
-    if (wide) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: Row(children: [
-          if (showLogo && !context.isTv) ...[const BushraLogo(size: 32), const SizedBox(width: 24)],
-          Expanded(child: Align(alignment: Alignment.center, child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 560), child: search))),
-          const SizedBox(width: 16),
-          status,
-          const SizedBox(width: 10),
-          avatar,
-        ]),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
-      child: Column(children: [
-        Row(children: [
-          const BushraLogo(size: 30),
-          const Spacer(),
-          status,
-          const SizedBox(width: 8),
-          avatar,
-        ]),
-        const SizedBox(height: 12),
-        search,
-      ]),
-    );
-  }
-}
-
-class _SearchBox extends StatelessWidget {
+class SearchBox extends StatelessWidget {
+  const SearchBox({super.key});
   @override
   Widget build(BuildContext context) {
     final p = context.bc;
@@ -298,7 +248,11 @@ class _SearchBox extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(child: Text('ابحث عن قناة أو برنامج أو مجموعة…', maxLines: 1, overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: p.text3))),
-          Icon(Icons.keyboard_voice_outlined, color: p.text3, size: 20),
+          InkResponse(
+            radius: 22,
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SearchScreen(voice: true))),
+            child: Padding(padding: const EdgeInsets.all(6), child: Icon(Icons.keyboard_voice_outlined, color: p.accent, size: 22, semanticLabel: 'بحث صوتي')),
+          ),
         ]),
       ),
     );

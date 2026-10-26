@@ -16,4 +16,7 @@
 - بيئة السحابة هنا تمنع `dl.google.com`، فلا يُبنى APK محليًا؛ يبنيه `.github/workflows/bushra.yml` على GitHub وينشره في Releases.
 - نسخة الويب المنشورة في `bushra/app/`: `flutter build web --release --no-web-resources-cdn --base-href /Games/bushra/app/` ثم انسخ `build/web` إليها واحذف من `canvaskit/` ملفات `skwasm*` و`wimp*` و`webparagraph` و`*.symbols`.
 - رابط التجربة المباشر: https://aladeen35.github.io/Games/bushra-player/ — من فرع `gh-pages` (موقع فيه مجلدات أخرى، فلا تلمس غير `bushra-player/`). للنشر: ابنِ بـ`--base-href /Games/bushra-player/` وانسخ الناتج (بعد تنظيف canvaskit) إلى `bushra-player/` في `gh-pages`.
-- ارفع `version` في `bushra/pubspec.yaml` مع كل إصدار.
+- ارفع `version` في `bushra/pubspec.yaml` و`kAppVersion` في `lib/core/brand.dart` مع كل إصدار.
+- الملفات الشخصية: المفضلة والسجل وسجل الأوقات مفاتيحها `fav@<id>` و`history@<id>` و`log@<id>` في صندوق `user`؛ استعمل `AppStore.allowed()`/`visible()` لا القوائم الخام حتى يُحترم ملف الأطفال.
+- الويب: لا `dir="rtl"` على `<html>` في `web/index.html`، ولا قص بحواف دائرية حول عرض الفيديو — كلاهما يحرّف موضع عنصر الفيديو.
+- أندرويد: `MainActivity.kt` + `TvHome.kt` (tvprovider) + `CastDiscovery.kt`؛ لا تُبنى محليًا هنا، فراجع سجل CI بعد أي تعديل عليها.

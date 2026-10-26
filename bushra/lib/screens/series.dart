@@ -7,14 +7,24 @@ import '../data/xtream.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
 import 'continue.dart';
+import 'detail.dart';
 
 bool isXtreamSeries(Channel c) => c.url.startsWith(XtreamClient.seriesScheme);
 
-/// يفتح العنصر بالطريقة المناسبة: صفحة المسلسل لمسلسلات Xtream، وإلا المشغل مباشرة.
+/// يفتح العنصر بالطريقة المناسبة: صفحة المسلسل لمسلسلات Xtream، وصفحة تفاصيل للأفلام، وإلا المشغل مباشرة.
 Future<void> openChannel(BuildContext context, Channel c, List<Channel> list) {
   if (isXtreamSeries(c)) {
     return Navigator.of(context).push(MaterialPageRoute(builder: (_) => SeriesScreen(series: c)));
   }
+  if (c.kind == ChannelKind.vod) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (_) => MovieDetailScreen(movie: c, list: list)));
+  }
+  return playChannel(context, c, list);
+}
+
+/// تشغيل مباشر بلا صفحة تفاصيل.
+Future<void> playChannel(BuildContext context, Channel c, List<Channel> list) {
+  if (isXtreamSeries(c)) return openChannel(context, c, list);
   return openPlayer(context, Playable.channel(c), queue: [
     for (final x in list.take(2000)) if (!isXtreamSeries(x)) Playable.channel(x),
   ]);
@@ -31,7 +41,7 @@ Playable episodePlayable(Channel series, Episode e) => Playable(
       key: 'ep:${series.sourceId}:${e.id}',
       title: '${series.name} — الحلقة ${e.number}${episodeTitle(series, e) != null ? ': ${episodeTitle(series, e)}' : ''}',
       subtitle: 'الموسم ${e.season} · الحلقة ${e.number}',
-      url: e.url, logo: series.logo, sourceId: series.sourceId,
+      url: e.url, logo: series.logo, sourceId: series.sourceId, seriesId: series.id,
     );
 
 /// صفحة المسلسل: الغلاف والوصف، المواسم، الحلقات بتقدّم كل منها، وزر «أكمل».
@@ -110,62 +120,55 @@ class _SeriesScreenState extends State<SeriesScreen> {
     } else {
       final resume = _resumeEpisode(i);
       final eps = i.seasons[season] ?? const <Episode>[];
-      final hp = context.isWide ? 28.0 : 16.0;
-      body = ListView(padding: EdgeInsets.fromLTRB(hp, 8, hp, 32), children: [
-        Flex(
-          direction: context.isWide ? Axis.horizontal : Axis.vertical,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(BRadius.player),
-              child: SizedBox(
-                width: context.isWide ? 220 : double.infinity, height: context.isWide ? 320 : 200,
-                child: (i.cover ?? c.logo) != null
-                    ? Image.network(i.cover ?? c.logo!, fit: BoxFit.cover, errorBuilder: (_, _, _) => ColoredBox(color: p.container))
-                    : ColoredBox(color: p.container, child: Icon(Icons.theaters_rounded, size: 64, color: p.text3)),
+      final hp = context.isWide ? 48.0 : 16.0;
+      final intro = AppStore.I.introOf(c.id);
+      body = ListView(padding: const EdgeInsets.only(bottom: 32), children: [
+        DetailHero(
+          title: i.name.isNotEmpty ? i.name : c.name,
+          poster: i.cover ?? c.logo,
+          eyebrow: 'مسلسل',
+          icon: Icons.theaters_rounded,
+          desc: i.plot,
+          meta: [
+            if (i.year != null) i.year!.length >= 4 ? i.year!.substring(0, 4) : i.year!,
+            '${i.seasons.length} موسم',
+            '${i.seasons.values.fold(0, (a, l) => a + l.length)} حلقة',
+            if (i.genre != null) i.genre!,
+          ],
+          actions: [
+            if (i.seasons.isNotEmpty)
+              FilledButton.icon(
+                autofocus: true,
+                onPressed: () {
+                  final e = resume ?? i.seasons.values.first.first;
+                  _play(e, i.seasons[e.season]!);
+                },
+                icon: const Icon(Icons.play_arrow_rounded, size: 26),
+                label: Text(resume == null ? 'شاهد الحلقة الأولى' : 'أكمل: م${resume.season} · ح${resume.number}'),
               ),
-            ),
-            SizedBox(width: 24, height: 16),
-            Flexible(
-              fit: FlexFit.loose,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(i.name.isNotEmpty ? i.name : c.name, style: t.headlineMedium),
-                const SizedBox(height: 6),
-                Wrap(spacing: 10, runSpacing: 6, children: [
-                  if (i.year != null) Text(i.year!, style: t.bodyMedium),
-                  if (i.genre != null) Text(i.genre!, style: t.bodyMedium),
-                  Text('${i.seasons.length} موسم · ${i.seasons.values.fold(0, (a, l) => a + l.length)} حلقة', style: t.bodyMedium),
-                ]),
-                if (i.plot != null) ...[const SizedBox(height: 10), Text(i.plot!, style: t.bodyLarge, maxLines: 6, overflow: TextOverflow.ellipsis)],
-                const SizedBox(height: 16),
-                Wrap(spacing: 10, runSpacing: 10, children: [
-                  if (i.seasons.isNotEmpty)
-                    FilledButton.icon(
-                      autofocus: true,
-                      onPressed: () {
-                        final e = resume ?? i.seasons.values.first.first;
-                        _play(e, i.seasons[e.season]!);
-                      },
-                      icon: const Icon(Icons.play_arrow_rounded),
-                      label: Text(resume == null ? 'شاهد الحلقة الأولى' : 'أكمل: الموسم ${resume.season} · الحلقة ${resume.number}'),
-                    ),
-                  OutlinedButton.icon(
-                    onPressed: () => setState(() => AppStore.I.toggleFav(c)),
-                    icon: Icon(fav ? Icons.star_rounded : Icons.star_outline_rounded, color: p.gold),
-                    label: Text(fav ? 'في المفضلة' : 'إضافة للمفضلة'),
-                  ),
-                ]),
-              ]),
+            OutlinedButton.icon(
+              onPressed: () => setState(() => AppStore.I.toggleFav(c)),
+              icon: Icon(fav ? Icons.check_rounded : Icons.add_rounded, color: fav ? p.gold : null),
+              label: Text(fav ? 'في مفضلتي' : 'مفضلتي'),
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        if (intro != null)
+          Padding(
+            padding: EdgeInsets.fromLTRB(hp, 0, hp, 4),
+            child: Row(children: [
+              Icon(Icons.skip_next_rounded, size: 18, color: p.text3),
+              const SizedBox(width: 6),
+              Text('المقدمة تنتهي عند ${fmtDur(Duration(seconds: intro))} — يظهر زر التخطي في كل الحلقات', style: t.bodySmall),
+            ]),
+          ),
+        const SizedBox(height: 16),
         if (i.seasons.isEmpty)
           const EmptyState(icon: Icons.video_library_outlined, title: 'لا توجد حلقات بعد', body: 'لم يضف المزود حلقات لهذا المسلسل.')
         else ...[
           SizedBox(
             height: 44,
-            child: ListView(scrollDirection: Axis.horizontal, children: [
+            child: ListView(scrollDirection: Axis.horizontal, padding: EdgeInsets.symmetric(horizontal: hp), children: [
               for (final s in i.seasons.keys)
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 8),
@@ -174,11 +177,16 @@ class _SeriesScreenState extends State<SeriesScreen> {
             ]),
           ),
           const SizedBox(height: 12),
-          for (final e in eps) _EpisodeTile(series: c, ep: e, onTap: () => _play(e, eps)),
+          for (final e in eps)
+            Padding(padding: EdgeInsets.symmetric(horizontal: hp), child: _EpisodeTile(series: c, ep: e, onTap: () => _play(e, eps))),
         ],
       ]);
     }
-    return Scaffold(appBar: AppBar(title: Text(c.name)), body: SafeArea(child: body));
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      body: i == null ? SafeArea(child: body) : body,
+    );
   }
 }
 

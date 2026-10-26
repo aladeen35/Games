@@ -5,6 +5,8 @@ import '../data/net.dart';
 import '../data/store.dart';
 import '../platform/platform.dart' as plat;
 import '../widgets/common.dart';
+import '../data/pairing.dart';
+import 'pair_screen.dart';
 
 Future<void> openAddSource(BuildContext context, {Source? editing, SourceType? type}) =>
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddSourceScreen(editing: editing, initialType: type)));
@@ -92,12 +94,15 @@ class _AddSourceScreenState extends State<AddSourceScreen> {
                 const SizedBox(height: 6),
                 Text('اختر طريقة واحدة، ويمكنك إضافة مصادر أخرى لاحقًا.', style: t.bodyMedium),
                 const SizedBox(height: 20),
+                // على التلفاز: الإضافة من الجوال أولًا (لا كتابة بالريموت)
+                if (PairServer.supported && context.isTv) _pairCard(context, autofocus: true),
                 _TypeCard(icon: Icons.link_rounded, title: 'رابط قائمة', body: 'رابط M3U أو M3U8 من مزود الخدمة.',
-                    autofocus: true, onTap: () => setState(() => type = SourceType.m3uUrl)),
+                    autofocus: !context.isTv, onTap: () => setState(() => type = SourceType.m3uUrl)),
                 _TypeCard(icon: Icons.upload_file_rounded, title: 'ملف من الجهاز', body: 'ملف M3U/M3U8 محفوظ على جوالك أو حاسوبك.',
                     onTap: () => setState(() => type = SourceType.m3uFile)),
                 _TypeCard(icon: Icons.manage_accounts_outlined, title: 'مزود أو حساب', body: 'الخادم واسم المستخدم وكلمة المرور (Xtream Codes).',
                     onTap: () => setState(() => type = SourceType.xtream)),
+                if (PairServer.supported && !context.isTv) _pairCard(context),
                 const SizedBox(height: 16),
                 _rightsNote(context),
               ] else
@@ -202,6 +207,12 @@ class _AddSourceScreenState extends State<AddSourceScreen> {
     ]);
   }
 }
+
+Widget _pairCard(BuildContext context, {bool autofocus = false}) => _TypeCard(
+      icon: Icons.qr_code_2_rounded, title: 'من جوالك (رمز QR)', autofocus: autofocus,
+      body: 'امسح الرمز بكاميرا الجوال والصق الرابط هناك — يصل هنا فورًا.',
+      onTap: () => openPairScreen(context),
+    );
 
 Widget _rightsNote(BuildContext context) => Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Icon(Icons.verified_user_outlined, size: 18, color: context.bc.text3),

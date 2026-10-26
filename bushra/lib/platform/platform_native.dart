@@ -132,3 +132,30 @@ Future<String?> pickTextFile() async {
   if (f == null) return null;
   return utf8.decode(await f.readAsBytes(), allowMalformed: true);
 }
+
+/// صورة من المعرض أو الملفات (لصورة الملف الشخصي).
+Future<Uint8List?> pickImageBytes() async {
+  final f = await FilePicker.pickFile(type: FileType.image);
+  if (f == null) return null;
+  return await f.readAsBytes();
+}
+
+const _voice = MethodChannel('bushra/voice');
+
+/// البحث الصوتي: نافذة التعرف على الكلام في أندرويد (بالعربية).
+Future<bool> voiceAvailable() async {
+  if (!Platform.isAndroid) return false;
+  try {
+    return await _voice.invokeMethod<bool>('available') ?? false;
+  } catch (_) {
+    return false;
+  }
+}
+
+Future<String?> listenVoice() async {
+  try {
+    return await _voice.invokeMethod<String>('listen');
+  } catch (_) {
+    return null;
+  }
+}

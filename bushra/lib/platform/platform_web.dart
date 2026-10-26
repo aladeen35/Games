@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+import 'dart:typed_data';
 import 'package:web/web.dart' as web;
 import '../data/models.dart';
 
@@ -91,3 +93,43 @@ Future<String?> pickTextFile() async {
 bool get isPhone => false;
 Future<void> appOrientation() async {}
 Future<void> playerOrientation({required bool portraitVideo}) async {}
+
+Future<Uint8List?> pickImageBytes() async {
+  final files = await _pick('image/*');
+  if (files.isEmpty) return null;
+  final buf = await files.first.arrayBuffer().toDart;
+  return buf.toDart.asUint8List();
+}
+
+JSFunction? get _speechCtor =>
+    (globalContext['SpeechRecognition'] ?? globalContext['webkitSpeechRecognition']) as JSFunction?;
+
+/// البحث الصوتي في المتصفح (Web Speech API في كروم وإيدج وسفاري).
+Future<bool> voiceAvailable() async => _speechCtor != null;
+
+Future<String?> listenVoice() {
+  final ctor = _speechCtor;
+  if (ctor == null) return Future.value(null);
+  final c = Completer<String?>();
+  try {
+    final rec = ctor.callAsConstructor<JSObject>();
+    rec['lang'] = 'ar-SA'.toJS;
+    rec['interimResults'] = false.toJS;
+    rec['maxAlternatives'] = 1.toJS;
+    rec['onresult'] = ((JSObject ev) {
+      try {
+        final results = ev['results'] as JSObject;
+        final first = (results.callMethod<JSObject>('item'.toJS, 0.toJS)).callMethod<JSObject>('item'.toJS, 0.toJS);
+        if (!c.isCompleted) c.complete((first['transcript'] as JSString).toDart);
+      } catch (_) {
+        if (!c.isCompleted) c.complete(null);
+      }
+    }).toJS;
+    rec['onerror'] = ((JSObject _) { if (!c.isCompleted) c.complete(null); }).toJS;
+    rec['onend'] = ((JSObject _) { if (!c.isCompleted) c.complete(null); }).toJS;
+    rec.callMethod('start'.toJS);
+  } catch (_) {
+    if (!c.isCompleted) c.complete(null);
+  }
+  return c.future;
+}

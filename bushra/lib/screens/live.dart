@@ -12,6 +12,7 @@ import 'series.dart';
 import '../player/player_screen.dart';
 import 'add_source.dart';
 import 'home.dart';
+import 'multiview.dart';
 import 'shell.dart';
 
 /// أهم شاشة: شريط حالة القائمة، المجموعات أفقيًا، شبكة القنوات، ولوحة معلومات جانبية على الشاشات الكبيرة.
@@ -177,6 +178,12 @@ class LiveScreenState extends State<LiveScreen> {
           icon: const Icon(Icons.refresh_rounded, size: 20),
           label: const Text('تحديث القائمة'),
         ),
+        if (_liveTab && base.isNotEmpty)
+          TextButton.icon(
+            onPressed: () => openMultiView(context, initial: [?focused]),
+            icon: const Icon(Icons.grid_view_rounded, size: 20),
+            label: const Text('عرض متعدد'),
+          ),
         if (!kIsWeb && _liveTab)
           TextButton.icon(
             onPressed: s.healthChecking ? null : () => s.checkHealth(sourceId: sourceId),

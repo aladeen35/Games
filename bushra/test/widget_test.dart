@@ -5,6 +5,11 @@ import 'package:bushra/data/search.dart';
 import 'package:bushra/data/store.dart';
 import 'package:bushra/data/epg.dart';
 import 'package:bushra/player/subtitles.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:bushra/cast/cast_io.dart';
+import 'package:bushra/data/pairing_io.dart';
+import 'package:bushra/data/xtream.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -112,5 +117,69 @@ https://example.com/m.m3u8
     final r = parseXmltvMatched({'text': xml, 'ids': <String>[], 'names': [['ch1', 'AR: MBC 2 HD']]});
     expect(r['matches'], {'ch1': 'mbc2.ae'});
     expect((r['programs'] as List).length, 1);
+  });
+
+  test('Cast message protobuf framing round-trips', () {
+    final m = encodeCastMessage('sender-0', 'receiver-0', 'urn:x-cast:com.google.cast.receiver', '{"type":"LAUNCH","appId":"CC1AD845"}');
+    final n = (m[0] << 24) | (m[1] << 16) | (m[2] << 8) | m[3];
+    expect(n, m.length - 4);
+    final d = decodeCastMessage(m.sublist(4));
+    expect(d.src, 'sender-0');
+    expect(d.dst, 'receiver-0');
+    expect(d.ns, 'urn:x-cast:com.google.cast.receiver');
+    expect(jsonDecode(d.payload)['appId'], 'CC1AD845');
+    // نص عربي طويل (أطوال متعددة البايتات)
+    final long = 'ق' * 300;
+    expect(decodeCastMessage(encodeCastMessage('a', 'b', 'c', long).sublist(4)).payload, long);
+  });
+
+  test('Pair server serves the page only with its token and forwards submissions', () async {
+    Map<String, String>? got;
+    final srv = PairServer();
+    final url = await srv.start((f) async {
+      got = f;
+      return (ok: true, message: 'تمت');
+    }, port: 0, host: '127.0.0.1');
+    expect(url, contains('k=${srv.token}'));
+    final c = HttpClient();
+    final u = Uri.parse(url!);
+    final page = await (await c.getUrl(u)).close();
+    expect(page.statusCode, 200);
+    expect(await utf8.decoder.bind(page).join(), contains('أرسل إلى التلفاز'));
+    final bad = await (await c.getUrl(u.replace(queryParameters: {'k': 'wrong'}))).close();
+    expect(bad.statusCode, 403);
+    final req = await c.postUrl(u.replace(path: '/add'));
+    req.add(utf8.encode(jsonEncode({'type': 'm3u', 'url': 'http://x/list.m3u', 'name': 'بيت'})));
+    final res = await req.close();
+    final j = jsonDecode(await utf8.decoder.bind(res).join());
+    expect(j['ok'], true);
+    expect(got?['url'], 'http://x/list.m3u');
+    expect(got?['name'], 'بيت');
+    c.close();
+    await srv.stop();
+  });
+
+  test('Profiles, series ids and auto reminders survive JSON', () {
+    final p = Profile.fromJson(Profile(id: 'p1', name: 'سارة', avatar: 4, kids: true, kidsOnly: true, pin: '1234').toJson());
+    expect([p.name, p.avatar, p.kids, p.kidsOnly, p.pin], ['سارة', 4, true, true, '1234']);
+    final e = Playable.fromJson(const Playable(key: 'ep:s:1', title: 't', url: 'u', seriesId: 'sx').toJson());
+    expect(e.isEpisode, true);
+    expect(e.seriesId, 'sx');
+    final r = Reminder.fromJson(Reminder(id: 1, channelId: 'c', channelName: 'n', title: 't', start: DateTime(2026), auto: true).toJson());
+    expect(r.auto, true);
+  });
+
+  test('Kids filter recognizes adult and kids groups', () {
+    Channel ch(String g, [String n = 'x']) => Channel(sourceId: 's', name: n, group: g, url: 'u$g$n');
+    expect(AppStore.isAdultContent(ch('XXX Adult 18+')), true);
+    expect(AppStore.isAdultContent(ch('أخبار')), false);
+    expect(AppStore.isKidsContent(ch('Kids')), true);
+    expect(AppStore.isKidsContent(ch('كرتون')), true);
+    expect(AppStore.isKidsContent(ch('رياضة')), false);
+  });
+
+  test('Xtream VOD ids are read from movie links', () {
+    expect(XtreamClient.vodIdOf('http://s:80/movie/u/p/1234.mkv'), '1234');
+    expect(XtreamClient.vodIdOf('http://s/live/u/p/1.ts'), isNull);
   });
 }

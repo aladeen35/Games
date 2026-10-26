@@ -105,7 +105,8 @@ class WatchCard extends StatelessWidget {
 /// قسم «تابع المشاهدة» في الرئيسية: تبويبان — «أكمل المشاهدة» و«بدأت مشاهدته».
 class ContinueSection extends StatefulWidget {
   final VoidCallback onSeeAll;
-  const ContinueSection({super.key, required this.onSeeAll});
+  final double hp;
+  const ContinueSection({super.key, required this.onSeeAll, this.hp = 0});
   @override
   State<ContinueSection> createState() => _ContinueSectionState();
 }
@@ -124,7 +125,7 @@ class _ContinueSectionState extends State<ContinueSection> {
     final list = tab ? prog : recent;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-        padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
+        padding: EdgeInsets.fromLTRB(widget.hp, 24, widget.hp, 12),
         child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 12, runSpacing: 8, children: [
           Row(mainAxisSize: MainAxisSize.min, children: [
             Icon(Icons.play_circle_outline_rounded, size: 22, color: p.cinematic ? p.gold : p.accent),
@@ -150,7 +151,7 @@ class _ContinueSectionState extends State<ContinueSection> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: widget.hp),
           itemCount: list.length.clamp(0, 16),
           separatorBuilder: (_, _) => const SizedBox(width: 12),
           itemBuilder: (_, i) => WatchCard(entry: list[i]),

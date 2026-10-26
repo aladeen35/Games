@@ -3,6 +3,8 @@ import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/store.dart';
 import '../widgets/common.dart';
+import '../data/pairing.dart';
+import 'pair_screen.dart';
 import 'series.dart';
 import 'add_source.dart';
 import 'settings.dart';
@@ -40,6 +42,10 @@ class ListsScreen extends StatelessWidget {
           _AddCard(icon: Icons.person_add_alt_1_outlined, color: p.gold, title: 'حساب المزود', body: 'تسجيل الدخول بحساب مزود خدمة IPTV الخاص بك',
               action: 'إضافة حساب', actionIcon: Icons.person_add_alt_rounded, gold: true,
               onTap: () => _guarded(context, () => openAddSource(context, type: SourceType.xtream))),
+          if (PairServer.supported)
+            _AddCard(icon: Icons.qr_code_2_rounded, color: p.accent, title: 'من جوالك', body: 'امسح رمز QR والصق الرابط على الجوال بدل الكتابة بالريموت',
+                action: 'عرض الرمز', actionIcon: Icons.qr_code_scanner_rounded,
+                onTap: () => _guarded(context, () => openPairScreen(context))),
         ], 230),
         SectionHeader('المصادر المحفوظة', subtitle: 'إدارة قوائمك المضافة ومتابعة حالتها', icon: Icons.storage_rounded),
         if (s.sources.isEmpty)

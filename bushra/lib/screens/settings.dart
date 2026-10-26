@@ -4,7 +4,12 @@ import '../core/brand.dart';
 import '../core/theme.dart';
 import '../data/store.dart';
 import '../platform/platform.dart' as plat;
+import '../widgets/avatar.dart';
 import '../widgets/common.dart';
+import '../data/pairing.dart';
+import 'pair_screen.dart';
+import 'profiles.dart';
+import 'smart_alerts.dart';
 
 /// الإعدادات: مركز تحكم لا صفحة اجتماعية. بطاقات أقسام تفتح صفحاتها.
 class SettingsScreen extends StatelessWidget {
@@ -23,6 +28,8 @@ class SettingsScreen extends StatelessWidget {
       (Icons.volume_up_outlined, 'الصوت والترجمة', 'إعدادات الصوت، المسارات، والترجمة', _Section.audio, p.accent),
       (Icons.palette_outlined, 'المظهر', 'نمط التصميم، الألوان، وحجم النص', _Section.look, p.gold),
       (Icons.shield_outlined, 'الرقابة الأبوية', 'إدارة المحتوى وحماية الأطفال', _Section.parental, p.gold),
+      (Icons.bolt_rounded, 'التنبيهات الذكية', 'تذكير تلقائي بمباريات فرقك وبرامجك', _Section.alerts, p.gold),
+      if (PairServer.supported) (Icons.qr_code_2_rounded, 'من جوالك', 'أضف قائمة بمسح رمز QR بدل الكتابة', _Section.pair, p.accent),
       if (kIsWeb) (Icons.lan_outlined, 'الشبكة', 'وسيط الويب للمصادر التي تمنع المتصفح', _Section.network, p.accent),
       (Icons.cloud_sync_outlined, 'النسخ الاحتياطي والبيانات', 'انقل قوائمك ومفضلتك لجهاز آخر، والسجل', _Section.data, p.accent),
     ];
@@ -30,21 +37,20 @@ class SettingsScreen extends StatelessWidget {
       if (!isRoute) Text('الإعدادات', style: t.headlineSmall),
       if (!isRoute) Text('خصّص تجربة المشاهدة بما يناسبك', style: t.bodySmall),
       const SizedBox(height: 16),
-      // الملف: محلي، والمزامنة معطلة افتراضيًا
-      Container(
+      // الملف الحالي: محلي، والبيانات على هذا الجهاز فقط
+      BTap(
+        color: p.container,
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ProfilesScreen())),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: p.container, borderRadius: BorderRadius.circular(BRadius.card)),
         child: Row(children: [
-          CircleAvatar(radius: 26, backgroundColor: p.highlight, child: Icon(Icons.person_rounded, color: p.text2, size: 28)),
+          ProfileAvatar(profile: s.profile, size: 54),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('هذا الجهاز', style: t.titleMedium),
-            Text('${s.sources.length} قائمة · ${s.favorites.length} مفضلة · المزامنة متوقفة', style: t.bodySmall),
+            Text(s.profile.name, style: t.titleMedium),
+            Text('${s.profile.kids ? 'ملف أطفال · ' : ''}${s.profiles.length} ملف · ${s.sources.length} قائمة · ${s.favorites.length} مفضلة', style: t.bodySmall),
           ])),
-          Tooltip(
-            message: 'كل بياناتك محفوظة على هذا الجهاز فقط ولا تُرسل لأي خادم.',
-            child: Icon(Icons.verified_user_outlined, color: p.live),
-          ),
+          Text('الملفات', style: t.labelLarge!.copyWith(color: p.accent)),
+          Icon(Icons.chevron_left_rounded, color: p.text3),
         ]),
       ),
       const SizedBox(height: 16),
@@ -56,7 +62,11 @@ class SettingsScreen extends StatelessWidget {
               width: (c.maxWidth - 12 * (cols - 1)) / cols,
               child: BTap(
                 color: p.container,
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => _SectionPage(section: x.$4, title: x.$2))),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => switch (x.$4) {
+                  _Section.alerts => const SmartAlertsScreen(),
+                  _Section.pair => const PairScreen(),
+                  _ => _SectionPage(section: x.$4, title: x.$2),
+                })),
                 padding: const EdgeInsets.all(16),
                 child: Row(children: [
                   Icon(x.$1, color: x.$5, size: 30),
@@ -75,7 +85,7 @@ class SettingsScreen extends StatelessWidget {
       Center(child: Column(children: [
         const BushraLogo(size: 44, tagline: true),
         const SizedBox(height: 10),
-        Text('الإصدار 1.0.0 — من إنتاج البشرى تكنولوجي', style: t.bodySmall),
+        Text('الإصدار $kAppVersion — من إنتاج البشرى تكنولوجي', style: t.bodySmall),
         const SizedBox(height: 4),
         SizedBox(width: 460, child: Text(
           'البشرى مشغّل ومنظّم للقوائم فقط ولا يوفّر أي محتوى. المستخدم مسؤول عن حقوق المصادر التي يضيفها.',
@@ -87,7 +97,7 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-enum _Section { playback, audio, look, parental, network, data }
+enum _Section { playback, audio, look, parental, network, data, alerts, pair }
 
 /// يفتح قسم إعدادات مباشرة (من «قوائمي» مثلًا).
 void openSettingsSection(BuildContext context, String id) {
@@ -145,6 +155,10 @@ class _SectionPageState extends State<_SectionPage> {
           seg('العرض الافتراضي', st.fillScreen, const [(false, 'ملاءمة'), (true, 'ملء الشاشة')], (v) => st.fillScreen = v),
           sw('معلومات البث على الشاشة', 'الجودة الحالية وحالة الاتصال أثناء المشاهدة', st.showStreamInfo, (v) => st.showStreamInfo = v),
           sw('إخفاء القنوات المعطلة', 'القنوات التي فشل فحصها أو تشغيلها تختفي من القوائم', st.hideBroken, (v) => st.hideBroken = v),
+          sw('رابط بديل تلقائيًا', 'حين تتعطل قناة، يشغّل نسختها من قائمة أخرى أو من القنوات المفتوحة', st.autoFailover, (v) => st.autoFailover = v),
+          sw('تقليب فوري للقنوات', 'يجهّز القناة التالية مسبقًا فيصير التنقل فوريًا (يستهلك إنترنت أكثر قليلًا)', st.fastZap, (v) => st.fastZap = v),
+          sw('تخطي المقدمة تلقائيًا', 'بعد أن يتعلم البشرى طول مقدمة المسلسل من أول تخطٍّ', st.autoSkipIntro, (v) => st.autoSkipIntro = v),
+          sw('«من يشاهد؟» عند الفتح', 'اختيار الملف الشخصي في كل مرة يُفتح فيها التطبيق', st.askProfile, (v) => st.askProfile = v),
           if (!kIsWeb)
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -228,6 +242,8 @@ class _SectionPageState extends State<_SectionPage> {
           const SizedBox(height: 10),
           Text('تطبيق الجوال والتلفاز لا يحتاج وسيطًا.', style: t.bodySmall),
         ]);
+      case _Section.alerts || _Section.pair:
+        break;
       case _Section.data:
         items.addAll([
           Text('كل بياناتك محفوظة على هذا الجهاز فقط. لنقلها إلى جوال أو تلفاز آخر: احفظ نسخة احتياطية ثم افتحها هناك.', style: t.bodyMedium),

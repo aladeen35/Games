@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'smart_alerts.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/store.dart';
@@ -40,6 +41,11 @@ class _EpgScreenState extends State<EpgScreen> {
         if (s.reminders.isNotEmpty)
           TextButton.icon(onPressed: () => showReminders(context),
               icon: Icon(Icons.notifications_active_rounded, color: p.gold, size: 20), label: Text('تذكيراتي (${s.reminders.length})')),
+        TextButton.icon(
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SmartAlertsScreen())),
+          icon: Icon(Icons.bolt_rounded, color: p.gold, size: 20),
+          label: Text(s.alertWords.isEmpty ? 'تنبيهات ذكية' : 'تنبيهات ذكية (${s.alertWords.length})'),
+        ),
         Text('${hhmm(DateTime.now())}  ·  ${_dayLabel(DateTime.now().add(Duration(days: day)))}', style: t.titleSmall!.copyWith(color: p.text2)),
         if (chans.isNotEmpty) ...[
           SegmentedButton<int>(

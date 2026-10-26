@@ -101,7 +101,7 @@ Future<void> showReminders(BuildContext context) => showModalBottomSheet(
                       contentPadding: EdgeInsets.zero,
                       leading: ChannelLogo(url: r.logo, name: r.channelName, size: 40),
                       title: Text(r.title),
-                      subtitle: Text('${r.channelName} · ${r.start.day}/${r.start.month} ${hhmm(r.start)}'),
+                      subtitle: Text('${r.channelName} · ${r.start.day}/${r.start.month} ${hhmm(r.start)}${r.auto ? ' · تنبيه ذكي' : ''}'),
                       trailing: IconButton(tooltip: 'إلغاء', icon: const Icon(Icons.close_rounded),
                           onPressed: () => AppStore.I.removeReminder(r)),
                     ),

@@ -43,6 +43,14 @@ class Settings {
   bool cinematic = true;
   /// إخفاء القنوات التي تبيّن أنها لا تعمل.
   bool hideBroken = false;
+  /// شاشة «من يشاهد؟» عند فتح التطبيق.
+  bool askProfile = true;
+  /// التحويل تلقائيًا لرابط بديل حين تتعطل القناة.
+  bool autoFailover = true;
+  /// تحميل القناة التالية مسبقًا ليصير التقليب فوريًا.
+  bool fastZap = true;
+  /// تخطي المقدمة تلقائيًا بعد أن يتعلم التطبيق طولها.
+  bool autoSkipIntro = false;
 
   Map<String, dynamic> toJson() => {
         'theme': theme.index, 'hc': highContrast, 'rm': reduceMotion, 'orig': showOriginalNames,
@@ -50,6 +58,7 @@ class Settings {
         'next': autoplayNext, 'info': showStreamInfo, 'audio': preferredAudio, 'sub': subtitleScale,
         'subBg': subtitleBackground, 'pin': parentalPin, 'locked': lockedGroups.toList(),
         'cors': corsProxy, 'onb': onboarded, 'cine': cinematic, 'hideBroken': hideBroken, 'v': 2,
+        'askP': askProfile, 'failover': autoFailover, 'zap': fastZap, 'skipIntro': autoSkipIntro,
       };
 
   void load(Map j) {
@@ -73,6 +82,10 @@ class Settings {
     // من الإصدار 1.3 صار النمط السينمائي هو الافتراضي (إعدادات ما قبل v2 تنتقل إليه مرة واحدة)
     cinematic = (j['v'] ?? 1) >= 2 ? (j['cine'] ?? true) : true;
     hideBroken = j['hideBroken'] ?? false;
+    askProfile = j['askP'] ?? true;
+    autoFailover = j['failover'] ?? true;
+    fastZap = j['zap'] ?? true;
+    autoSkipIntro = j['skipIntro'] ?? false;
   }
 }
 
@@ -94,6 +107,22 @@ class AppStore extends ChangeNotifier {
   final List<HistoryEntry> history = [];
   final List<LocalVideo> localVideos = [];
   final List<Reminder> reminders = [];
+
+  /// الملفات الشخصية والملف الحالي. المفضلة والسجل وسجل أوقات المشاهدة لكل ملف على حدة.
+  final List<Profile> profiles = [];
+  late Profile profile;
+  /// اختار المستخدم ملفه في هذه الجلسة (شاشة «من يشاهد؟»).
+  bool profileChosen = false;
+  bool get isKids => profile.kids;
+  /// أوقات المشاهدة (للاقتراحات «تشاهده عادة في هذا الوقت»): [وقت، معرّف].
+  final List<(DateTime, String)> watchLog = [];
+  /// طول مقدمة كل مسلسل بالثواني (يتعلمه التطبيق من أول تخطٍّ).
+  final Map<String, int> intro = {};
+  /// كلمات «التنبيهات الذكية» (فرق، برامج…).
+  final List<String> alertWords = [];
+  final Set<int> _dismissedAuto = {};
+  /// يُستدعى عند تغيّر المفضلة أو السجل (لمزامنة شاشة Android TV الرئيسية).
+  static void Function()? onUserData;
 
   /// حالة القنوات: true تعمل، false لا تعمل (من الفحص أو من آخر محاولة تشغيل).
   final Map<String, bool> health = {};
@@ -152,20 +181,11 @@ class AppStore extends ChangeNotifier {
       final ep = await _epgBox.get(id);
       if (ep != null) _indexEpg([for (final p in jsonDecode(ep) as List) EpgProgram.fromJson(Map<String, dynamic>.from(p))]);
     }
-    for (final v in (_userBox.get('fav', defaultValue: const []) as List)) {
-      final c = Channel.fromJson(Map<String, dynamic>.from(jsonDecode(v)));
-      favorites[c.id] = c;
-    }
-    // المفضلة نسخ محفوظة؛ نحدّثها من القوائم الحالية (لتطابق التصنيف الجديد)
-    for (final id in favorites.keys.toList()) {
-      for (final l in _channels.values) {
-        final i = l.indexWhere((c) => c.id == id);
-        if (i >= 0) { favorites[id] = l[i]; break; }
-      }
-    }
-    for (final v in (_userBox.get('history', defaultValue: const []) as List)) {
-      history.add(HistoryEntry.fromJson(Map<String, dynamic>.from(jsonDecode(v))));
-    }
+    _initProfiles();
+    _loadProfileData();
+    intro.addAll(Map<String, int>.from(_userBox.get('intro', defaultValue: const {}) as Map));
+    alertWords.addAll(List<String>.from(_userBox.get('alerts', defaultValue: const []) as List));
+    _dismissedAuto.addAll(List<int>.from(_userBox.get('alertsOff', defaultValue: const []) as List));
     if (!kIsWeb) {
       for (final v in (_userBox.get('local', defaultValue: const []) as List)) {
         localVideos.add(LocalVideo.fromJson(Map<String, dynamic>.from(jsonDecode(v))));
@@ -185,6 +205,7 @@ class AppStore extends ChangeNotifier {
     ready = true;
     notifyListeners();
     unawaited(Reminders.init(reminders));
+    Future.delayed(const Duration(seconds: 8), () => scheduleAlerts());
     // تحديث مجدول في الخلفية للقوائم القديمة، مع الإبقاء على آخر نسخة ناجحة
     Future.delayed(const Duration(seconds: 3), _autoRefresh);
   }
@@ -221,7 +242,17 @@ class AppStore extends ChangeNotifier {
   bool isLocked(Channel c) => settings.parentalPin != null && !parentalUnlocked && settings.lockedGroups.contains(c.group);
 
   bool isBroken(String id) => health[id] == false;
-  bool _hidden(Channel c) => isLocked(c) || (settings.hideBroken && c.isLive && isBroken(c.id));
+  bool _hidden(Channel c) {
+    if (isKids) {
+      // ملف الأطفال: لا محتوى للبالغين ولا مجموعات مقفلة أبدًا، ومجموعات الأطفال فقط إن طُلب ذلك
+      if (isAdultContent(c) || settings.lockedGroups.contains(c.group)) return true;
+      if (profile.kidsOnly && !isKidsContent(c)) return true;
+    }
+    return isLocked(c) || (settings.hideBroken && c.isLive && isBroken(c.id));
+  }
+
+  /// هل يظهر هذا العنصر في الملف الحالي؟
+  bool allowed(Channel c) => !_hidden(c);
 
   Timer? _healthSave;
   void markHealth(String id, bool ok) {
@@ -298,6 +329,7 @@ class AppStore extends ChangeNotifier {
       final list = await compute(parseOpenChannels, text);
       if (list.isEmpty) throw NetError(NetErrorKind.badFormat, 'empty');
       openChannels = list;
+      _altReset();
       openUpdated = DateTime.now();
       await _channelsBox.put(OpenChannels.sourceId, jsonEncode([for (final c in list) c.toJson()]));
       await _metaBox.put('openUpd', openUpdated!.millisecondsSinceEpoch);
@@ -320,8 +352,8 @@ class AppStore extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> addReminder(Channel c, EpgProgram p) async {
-    final r = Reminder(id: Reminder.idFor(c.id, p.start), channelId: c.id, channelName: c.name, title: p.title, start: p.start, logo: c.logo);
+  Future<bool> addReminder(Channel c, EpgProgram p, {bool auto = false}) async {
+    final r = Reminder(id: Reminder.idFor(c.id, p.start), channelId: c.id, channelName: c.name, title: p.title, start: p.start, logo: c.logo, auto: auto);
     final ok = await Reminders.schedule(r);
     reminders.removeWhere((x) => x.id == r.id);
     reminders.add(r);
@@ -333,6 +365,11 @@ class AppStore extends ChangeNotifier {
   Future<void> removeReminder(Reminder r) async {
     await Reminders.cancel(r);
     reminders.removeWhere((x) => x.id == r.id);
+    // تذكير تلقائي ألغاه المستخدم: لا نعيده في الفحص القادم
+    if (r.auto) {
+      _dismissedAuto.add(r.id);
+      _userBox.put('alertsOff', _dismissedAuto.toList());
+    }
     _saveReminders();
   }
 
@@ -450,6 +487,7 @@ class AppStore extends ChangeNotifier {
     await _saveSecret(p.source.id, p.secret);
     await _channelsBox.put(p.source.id, jsonEncode([for (final c in p.channels) c.toJson()]));
     _persistSources();
+    _altReset();
     notifyListeners();
     unawaited(loadEpg(p.source.id));
   }
@@ -498,6 +536,7 @@ class AppStore extends ChangeNotifier {
     await _epgBox.delete(id);
     try { await _secure.delete(key: 'src_$id'); } catch (_) {}
     await _metaBox.delete('sec_$id');
+    _altReset();
     _persistSources();
     notifyListeners();
   }
@@ -551,6 +590,8 @@ class AppStore extends ChangeNotifier {
       s.hasEpg = progs.isNotEmpty;
       s.epgUpdated = DateTime.now();
       _persistSources();
+      _altReset();
+      unawaited(scheduleAlerts());
     } catch (e) {
       if (s.epgAuto) {
         // رابط خمّناه ولم ينجح: لا نزعج المستخدم ولا نكرر المحاولة
@@ -584,8 +625,13 @@ class AppStore extends ChangeNotifier {
 
   void toggleFav(Channel c) {
     if (favorites.remove(c.id) == null) favorites[c.id] = c;
-    _userBox.put('fav', [for (final f in favorites.values) jsonEncode(f.toJson())]);
+    _saveFavs();
     notifyListeners();
+  }
+
+  void _saveFavs() {
+    _userBox.put(_pk('fav'), [for (final f in favorites.values) jsonEncode(f.toJson())]);
+    onUserData?.call();
   }
 
   HistoryEntry? historyOf(String key) {
@@ -606,6 +652,9 @@ class AppStore extends ChangeNotifier {
       history.insert(0, HistoryEntry(item: p));
     }
     if (history.length > 200) history.removeRange(200, history.length);
+    watchLog.add((DateTime.now(), p.channelId ?? p.key));
+    if (watchLog.length > 400) watchLog.removeRange(0, watchLog.length - 400);
+    _userBox.put(_pk('log'), [for (final (t, id) in watchLog) '${t.millisecondsSinceEpoch}|$id']);
     _saveHistory();
   }
 
@@ -631,8 +680,9 @@ class AppStore extends ChangeNotifier {
   }
 
   void _saveHistory() {
-    _userBox.put('history', [for (final h in history) jsonEncode(h.toJson())]);
+    _userBox.put(_pk('history'), [for (final h in history) jsonEncode(h.toJson())]);
     notifyListeners();
+    onUserData?.call();
   }
 
   List<HistoryEntry> get continueWatching =>
@@ -691,6 +741,9 @@ class AppStore extends ChangeNotifier {
       'favorites': [for (final f in favorites.values) f.toJson()],
       'history': [for (final h in history) h.toJson()],
       'reminders': [for (final r in reminders) r.toJson()],
+      'profiles': [for (final p in profiles) p.toJson()],
+      'intro': intro,
+      'alerts': alertWords,
     });
   }
 
@@ -718,7 +771,18 @@ class AppStore extends ChangeNotifier {
       final c = Channel.fromJson(Map<String, dynamic>.from(f));
       favorites.putIfAbsent(c.id, () => c);
     }
-    _userBox.put('fav', [for (final f in favorites.values) jsonEncode(f.toJson())]);
+    _saveFavs();
+    for (final p in (j['profiles'] as List? ?? const [])) {
+      final pr = Profile.fromJson(Map<String, dynamic>.from(p));
+      if (!profiles.any((x) => x.id == pr.id)) profiles.add(pr);
+    }
+    _saveProfiles();
+    intro.addAll(Map<String, int>.from(j['intro'] ?? const {}));
+    _userBox.put('intro', intro);
+    for (final w in (j['alerts'] as List? ?? const [])) {
+      if (!alertWords.contains(w)) alertWords.add('$w');
+    }
+    _userBox.put('alerts', alertWords);
     for (final h in (j['history'] as List? ?? const [])) {
       final e = HistoryEntry.fromJson(Map<String, dynamic>.from(h));
       if (historyOf(e.item.key) == null) history.add(e);
@@ -742,6 +806,212 @@ class AppStore extends ChangeNotifier {
     return n;
   }
 
+  // ———————————————————— الملفات الشخصية ————————————————————
+  String _pk(String base) => '$base@${profile.id}';
+
+  void _initProfiles() {
+    for (final v in (_userBox.get('profiles', defaultValue: const []) as List)) {
+      profiles.add(Profile.fromJson(Map<String, dynamic>.from(jsonDecode(v))));
+    }
+    if (profiles.isEmpty) {
+      profiles.add(Profile(id: 'p0', name: 'أنا', avatar: 0));
+      // بيانات ما قبل الملفات الشخصية تنتقل إلى الملف الأول
+      for (final k in ['fav', 'history']) {
+        if (_userBox.containsKey(k)) {
+          _userBox.put('$k@p0', _userBox.get(k));
+          _userBox.delete(k);
+        }
+      }
+      _saveProfiles();
+    }
+    final cur = _userBox.get('curProfile');
+    profile = profiles.firstWhere((p) => p.id == cur, orElse: () => profiles.first);
+  }
+
+  void _saveProfiles() => _userBox.put('profiles', [for (final p in profiles) jsonEncode(p.toJson())]);
+
+  void _loadProfileData() {
+    favorites.clear();
+    history.clear();
+    watchLog.clear();
+    for (final v in (_userBox.get(_pk('fav'), defaultValue: const []) as List)) {
+      final c = Channel.fromJson(Map<String, dynamic>.from(jsonDecode(v)));
+      favorites[c.id] = c;
+    }
+    // المفضلة نسخ محفوظة؛ نحدّثها من القوائم الحالية (لتطابق التصنيف الجديد)
+    for (final id in favorites.keys.toList()) {
+      for (final l in _channels.values) {
+        final i = l.indexWhere((c) => c.id == id);
+        if (i >= 0) { favorites[id] = l[i]; break; }
+      }
+    }
+    for (final v in (_userBox.get(_pk('history'), defaultValue: const []) as List)) {
+      history.add(HistoryEntry.fromJson(Map<String, dynamic>.from(jsonDecode(v))));
+    }
+    for (final v in (_userBox.get(_pk('log'), defaultValue: const []) as List)) {
+      final i = '$v'.indexOf('|');
+      if (i > 0) watchLog.add((DateTime.fromMillisecondsSinceEpoch(int.parse('$v'.substring(0, i))), '$v'.substring(i + 1)));
+    }
+  }
+
+  void selectProfile(Profile p) {
+    profile = p;
+    profileChosen = true;
+    parentalUnlocked = false;
+    _userBox.put('curProfile', p.id);
+    _loadProfileData();
+    notifyListeners();
+    onUserData?.call();
+  }
+
+  Profile addProfile(String name, {int avatar = 0, String? image, bool kids = false}) {
+    final p = Profile(id: 'p${DateTime.now().millisecondsSinceEpoch.toRadixString(36)}', name: name, avatar: avatar, image: image, kids: kids);
+    profiles.add(p);
+    _saveProfiles();
+    notifyListeners();
+    return p;
+  }
+
+  void saveProfile(Profile p) {
+    _saveProfiles();
+    notifyListeners();
+  }
+
+  void deleteProfile(Profile p) {
+    if (profiles.length < 2) return;
+    profiles.removeWhere((x) => x.id == p.id);
+    for (final k in ['fav', 'history', 'log']) {
+      _userBox.delete('$k@${p.id}');
+    }
+    _saveProfiles();
+    if (profile.id == p.id) {
+      selectProfile(profiles.first);
+    } else {
+      notifyListeners();
+    }
+  }
+
+  static const _adultWords = ['adult', 'xxx', '18+', '+18', 'porn', 'erotic', 'sexy', 'playboy', 'hustler', 'brazzers',
+    'nsfw', 'penthouse', 'dorcel', 'redlight', 'للكبار', 'كبار فقط', 'إباحي', 'اباحي', 'جنسي'];
+  static const _kidsWords = ['kid', 'cartoon', 'toon', 'anime', 'disney', 'nick', 'baby', 'junior', 'children', 'family',
+    'boomerang', 'cbeebies', 'spacetoon', 'أطفال', 'اطفال', 'كرتون', 'انمي', 'أنمي', 'ديزني', 'سبيستون', 'سبيس تون',
+    'براعم', 'ماجد', 'جيم', 'عائل', 'نيكلودين', 'بوميرانج'];
+
+  static bool _hasWord(String text, List<String> words) {
+    final t = text.toLowerCase();
+    return words.any(t.contains);
+  }
+
+  static bool isAdultContent(Channel c) => _hasWord(c.group, _adultWords) || _hasWord(c.name, _adultWords);
+  static bool isKidsContent(Channel c) => _hasWord(c.group, _kidsWords) || _hasWord(c.name, _kidsWords);
+
+  // ———————————————————— المقدمة ————————————————————
+  int? introOf(String? seriesId) => seriesId == null ? null : intro[seriesId];
+
+  void setIntro(String seriesId, int? secs) {
+    if (secs == null) {
+      intro.remove(seriesId);
+    } else {
+      intro[seriesId] = secs;
+    }
+    _userBox.put('intro', intro);
+    notifyListeners();
+  }
+
+  // ———————————————————— التنبيهات الذكية ————————————————————
+  void setAlertWords(List<String> words) {
+    alertWords
+      ..clear()
+      ..addAll(words);
+    _userBox.put('alerts', alertWords);
+    notifyListeners();
+    unawaited(scheduleAlerts());
+  }
+
+  /// البرامج القادمة في الدليل التي تطابق كلمات التنبيه (مرتبة بالوقت، بلا تكرار للبرنامج نفسه).
+  List<(Channel, EpgProgram, String)> alertMatches({int limit = 80}) {
+    final keys = [for (final w in alertWords) (w, normalize(w))].where((k) => k.$2.length >= 2).toList();
+    if (keys.isEmpty) return const [];
+    final now = DateTime.now();
+    final out = <(Channel, EpgProgram, String)>[];
+    final seen = <String>{};
+    for (final c in allChannels) {
+      if (!c.isLive || c.tvgId == null || _hidden(c)) continue;
+      for (final p in programsOf(c.tvgId)) {
+        if (!p.stop.isAfter(now)) continue;
+        final t = normalize(p.title);
+        for (final (word, k) in keys) {
+          if (t.contains(k)) {
+            if (seen.add('${t}_${p.start.millisecondsSinceEpoch}')) out.add((c, p, word));
+            break;
+          }
+        }
+      }
+    }
+    out.sort((a, b) => a.$2.start.compareTo(b.$2.start));
+    return out.take(limit).toList();
+  }
+
+  bool _scheduling = false;
+  /// يضبط تذكيرات تلقائية للمطابقات القادمة (حتى 30 تذكيرًا، ولا يعيد ما ألغاه المستخدم).
+  Future<int> scheduleAlerts() async {
+    if (alertWords.isEmpty || _scheduling) return 0;
+    _scheduling = true;
+    var added = 0;
+    try {
+      final now = DateTime.now();
+      var n = reminders.where((r) => r.auto && r.start.isAfter(now)).length;
+      for (final (c, p, _) in alertMatches()) {
+        if (n >= 30) break;
+        if (!p.start.isAfter(now.add(const Duration(minutes: 2)))) continue;
+        final id = Reminder.idFor(c.id, p.start);
+        if (_dismissedAuto.contains(id) || reminders.any((r) => r.id == id || (r.title == p.title && r.start == p.start))) continue;
+        await addReminder(c, p, auto: true);
+        n++;
+        added++;
+      }
+    } finally {
+      _scheduling = false;
+    }
+    return added;
+  }
+
+  // ———————————————————— الروابط البديلة ————————————————————
+  Map<String, List<Channel>>? _alt;
+  void _altReset() => _alt = null;
+
+  Map<String, List<Channel>> _buildAlt() {
+    final m = <String, List<Channel>>{};
+    for (final c in [...allChannels, ...openChannels]) {
+      if (!c.isLive) continue;
+      final k = epgNameKey(c.name);
+      if (k.length >= 3) (m['n:$k'] ??= []).add(c);
+      final t = c.tvgId?.trim().toLowerCase();
+      if (t != null && t.isNotEmpty) (m['t:$t'] ??= []).add(c);
+    }
+    return m;
+  }
+
+  /// نسخ أخرى من القناة نفسها في قوائمك الأخرى أو في القنوات المفتوحة (بالاسم أو بمعرّف الدليل).
+  List<Channel> alternatesFor(Channel c) {
+    if (!c.isLive) return const [];
+    final idx = _alt ??= _buildAlt();
+    final ids = <String>{c.id}, urls = <String>{c.url};
+    final out = <Channel>[];
+    void add(List<Channel>? l) {
+      for (final x in l ?? const <Channel>[]) {
+        if (ids.add(x.id) && urls.add(x.url) && !_hidden(x)) out.add(x);
+      }
+    }
+    final t = c.tvgId?.trim().toLowerCase();
+    if (t != null && t.isNotEmpty) add(idx['t:$t']);
+    final k = epgNameKey(c.name);
+    if (k.length >= 3) add(idx['n:$k']);
+    int rank(Channel x) => (isBroken(x.id) ? 2 : 0) + (x.sourceId == OpenChannels.sourceId ? 1 : 0);
+    out.sort((a, b) => rank(a).compareTo(rank(b)));
+    return out;
+  }
+
   // ———————————————————— البحث ————————————————————
   ({List<Channel> channels, List<(Channel, EpgProgram)> programs, List<Source> lists, List<LocalVideo> local}) search(String q) {
     final qs = expand(q);
@@ -750,7 +1020,7 @@ class AppStore extends ChangeNotifier {
     final progs = <(Channel, EpgProgram)>[];
     final now = DateTime.now();
     for (final c in allChannels) {
-      if (isLocked(c)) continue;
+      if (_hidden(c)) continue;
       var sc = score(normalize(c.name), qs);
       if (c.altName != null) sc = sc > score(normalize(c.altName!), qs) ? sc : score(normalize(c.altName!), qs);
       final g = score(normalize(c.group), qs) ~/ 2;
@@ -767,7 +1037,7 @@ class AppStore extends ChangeNotifier {
     }
     if (scored.length < 120) {
       for (final c in openChannels) {
-        if (isLocked(c)) continue;
+        if (_hidden(c)) continue;
         final sc = score(normalize(c.name), qs);
         if (sc > 0) scored.add((sc - 10, c));
       }

@@ -12,14 +12,16 @@ class BTap extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final bool autofocus;
   final String? semantic;
+  /// تكبير عند التركيز أو مرور المؤشر (الملصقات أكبر قليلًا مثل نتفليكس).
+  final double zoom;
   const BTap({super.key, required this.child, this.onTap, this.onLongPress, this.radius = BRadius.card,
-      this.color, this.padding, this.autofocus = false, this.semantic});
+      this.color, this.padding, this.autofocus = false, this.semantic, this.zoom = 1.03});
   @override
   State<BTap> createState() => _BTapState();
 }
 
 class _BTapState extends State<BTap> {
-  bool _focus = false;
+  bool _focus = false, _hover = false;
   @override
   Widget build(BuildContext context) {
     final p = context.bc;
@@ -29,8 +31,9 @@ class _BTapState extends State<BTap> {
       button: true,
       label: widget.semantic,
       child: AnimatedScale(
-        scale: _focus && !reduce ? 1.03 : 1,
-        duration: BMotion.fast,
+        scale: (_focus || _hover) && !reduce ? widget.zoom : 1,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
         child: AnimatedContainer(
           duration: BMotion.fast,
           decoration: BoxDecoration(
@@ -44,7 +47,9 @@ class _BTapState extends State<BTap> {
             border: Border.all(
                 color: _focus ? p.accent : (p.cinematic && widget.color != null ? p.border : Colors.transparent),
                 width: _focus ? 2.5 : (p.cinematic ? 1 : 2.5)),
-            boxShadow: _focus ? [BoxShadow(color: p.accent.withValues(alpha: .25), blurRadius: 18)] : null,
+            boxShadow: _focus
+                ? [BoxShadow(color: p.accent.withValues(alpha: .25), blurRadius: 18)]
+                : (_hover && widget.zoom > 1.03 ? const [BoxShadow(color: Color(0x88000000), blurRadius: 22, offset: Offset(0, 10))] : null),
           ),
           child: Material(
             type: MaterialType.transparency,
@@ -53,6 +58,7 @@ class _BTapState extends State<BTap> {
               borderRadius: br,
               onTap: widget.onTap,
               onLongPress: widget.onLongPress,
+              onHover: widget.zoom > 1.03 ? (h) => setState(() => _hover = h) : null,
               onFocusChange: (f) => setState(() => _focus = f),
               child: widget.padding == null ? widget.child : Padding(padding: widget.padding!, child: widget.child),
             ),
@@ -320,6 +326,56 @@ Future<bool> askPin(BuildContext context, {String title = 'أدخل الرمز �
 }
 
 
+/// يطلب رمزًا ويقارنه بالمتوقع.
+Future<bool> askCode(BuildContext context, {required String title, required String expected}) async {
+  final c = TextEditingController();
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text(title),
+      content: TextField(controller: c, autofocus: true, obscureText: true, keyboardType: TextInputType.number,
+          maxLength: 6, textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, letterSpacing: 8),
+          onSubmitted: (v) => Navigator.pop(ctx, v == expected)),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('إلغاء')),
+        FilledButton(onPressed: () => Navigator.pop(ctx, c.text == expected), child: const Text('تأكيد')),
+      ],
+    ),
+  );
+  if (ok == false && context.mounted) toast(context, 'الرمز غير صحيح', icon: Icons.lock_rounded);
+  return ok ?? false;
+}
+
+/// يطلب رمزًا جديدًا من 4 إلى 6 أرقام (مع التأكيد). يعيد null عند الإلغاء.
+Future<String?> askNewCode(BuildContext context, {required String title, String? hint}) async {
+  final a = TextEditingController(), b = TextEditingController();
+  String? err;
+  final v = await showDialog<String>(
+    context: context,
+    builder: (ctx) => StatefulBuilder(builder: (ctx, set) => AlertDialog(
+      title: Text(title),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        if (hint != null) ...[Text(hint, style: Theme.of(ctx).textTheme.bodyMedium), const SizedBox(height: 12)],
+        TextField(controller: a, autofocus: true, obscureText: true, keyboardType: TextInputType.number, maxLength: 6,
+            textAlign: TextAlign.center, decoration: const InputDecoration(hintText: 'الرمز', counterText: '')),
+        const SizedBox(height: 10),
+        TextField(controller: b, obscureText: true, keyboardType: TextInputType.number, maxLength: 6,
+            textAlign: TextAlign.center, decoration: InputDecoration(hintText: 'تأكيد الرمز', counterText: '', errorText: err)),
+      ]),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('لاحقًا')),
+        FilledButton(onPressed: () {
+          if (!RegExp(r'^\d{4,6}$').hasMatch(a.text)) return set(() => err = 'من 4 إلى 6 أرقام');
+          if (a.text != b.text) return set(() => err = 'الرمزان غير متطابقين');
+          Navigator.pop(ctx, a.text);
+        }, child: const Text('حفظ')),
+      ],
+    )),
+  );
+  return v;
+}
+
+
 /// بطاقة ملصق للأفلام والمسلسلات (2:3) مع شريط التقدم إن بدأت مشاهدته.
 class PosterCard extends StatelessWidget {
   final Channel channel;
@@ -348,6 +404,7 @@ class PosterCard extends StatelessWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       semantic: channel.name,
+      zoom: 1.07,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Expanded(
           child: ClipRRect(

@@ -122,13 +122,17 @@ class SourceSecret {
 class Playable {
   final String key, title, url;
   final String? subtitle, logo, sourceId, tvgId, channelId;
+  /// للحلقات: معرّف المسلسل (لحفظ طول المقدمة لكل مسلسل).
+  final String? seriesId;
   final bool isLive, isLocal;
   final Map<String, String> headers;
   const Playable({
     required this.key, required this.title, required this.url, this.subtitle, this.logo,
-    this.sourceId, this.tvgId, this.channelId, this.isLive = false, this.isLocal = false,
+    this.sourceId, this.tvgId, this.channelId, this.seriesId, this.isLive = false, this.isLocal = false,
     this.headers = const {},
   });
+
+  bool get isEpisode => seriesId != null;
 
   factory Playable.channel(Channel c) => Playable(
         key: c.id, channelId: c.id, title: c.name, subtitle: c.group, url: c.url, logo: c.logo,
@@ -137,11 +141,11 @@ class Playable {
 
   Map<String, dynamic> toJson() => {
         'k': key, 't': title, 'u': url, 'st': subtitle, 'l': logo, 's': sourceId, 'tv': tvgId,
-        'c': channelId, 'live': isLive, 'loc': isLocal, 'h': headers,
+        'c': channelId, 'live': isLive, 'loc': isLocal, 'h': headers, if (seriesId != null) 'sr': seriesId,
       };
   factory Playable.fromJson(Map<String, dynamic> j) => Playable(
         key: j['k'], title: j['t'], url: j['u'], subtitle: j['st'], logo: j['l'], sourceId: j['s'],
-        tvgId: j['tv'], channelId: j['c'], isLive: j['live'] ?? false, isLocal: j['loc'] ?? false,
+        tvgId: j['tv'], channelId: j['c'], seriesId: j['sr'], isLive: j['live'] ?? false, isLocal: j['loc'] ?? false,
         headers: Map<String, String>.from(j['h'] ?? const {}),
       );
 }
@@ -208,15 +212,17 @@ class Reminder {
   final String channelId, channelName, title;
   final String? logo;
   final DateTime start;
-  Reminder({required this.id, required this.channelId, required this.channelName, required this.title, required this.start, this.logo});
+  /// ضُبط تلقائيًا من «التنبيهات الذكية».
+  final bool auto;
+  Reminder({required this.id, required this.channelId, required this.channelName, required this.title, required this.start, this.logo, this.auto = false});
 
   static int idFor(String channelId, DateTime start) =>
       int.parse(stableId('$channelId|${start.millisecondsSinceEpoch}'), radix: 36) & 0x7fffffff;
 
-  Map<String, dynamic> toJson() => {'id': id, 'c': channelId, 'cn': channelName, 't': title, 'l': logo, 's': start.millisecondsSinceEpoch};
+  Map<String, dynamic> toJson() => {'id': id, 'c': channelId, 'cn': channelName, 't': title, 'l': logo, 's': start.millisecondsSinceEpoch, if (auto) 'a': true};
   factory Reminder.fromJson(Map<String, dynamic> j) => Reminder(
       id: j['id'], channelId: j['c'], channelName: j['cn'], title: j['t'], logo: j['l'],
-      start: DateTime.fromMillisecondsSinceEpoch(j['s']));
+      start: DateTime.fromMillisecondsSinceEpoch(j['s']), auto: j['a'] ?? false);
 }
 
 /// حلقة مسلسل من حساب Xtream.
@@ -247,4 +253,36 @@ String? catchupUrl(Channel c, EpgProgram p, int tzOffsetMinutes) {
   final start = '${t.year}-${two(t.month)}-${two(t.day)}:${two(t.hour)}-${two(t.minute)}';
   final mins = p.stop.difference(p.start).inMinutes.clamp(1, 24 * 60);
   return '${m.group(1)}/timeshift/${m.group(2)}/${m.group(3)}/$mins/$start/${m.group(4)}.ts';
+}
+
+
+/// ملف شخصي: لكل فرد مفضلته وسجله ومكان توقفه. ملف الأطفال يخفي محتوى البالغين.
+class Profile {
+  final String id;
+  String name;
+  /// رقم الصورة المضمّنة، أو -1 لصورة من الجهاز.
+  int avatar;
+  /// صورة من الجهاز (PNG مصغّرة بترميز base64).
+  String? image;
+  bool kids;
+  /// في ملف الأطفال: إظهار مجموعات الأطفال فقط.
+  bool kidsOnly;
+  /// رمز اختياري لفتح هذا الملف.
+  String? pin;
+  Profile({required this.id, required this.name, this.avatar = 0, this.image, this.kids = false, this.kidsOnly = false, this.pin});
+
+  Map<String, dynamic> toJson() => {
+        'id': id, 'n': name, 'a': avatar, if (image != null) 'img': image, 'k': kids, 'ko': kidsOnly, if (pin != null) 'pin': pin,
+      };
+  factory Profile.fromJson(Map<String, dynamic> j) => Profile(
+      id: j['id'], name: j['n'] ?? '', avatar: j['a'] ?? 0, image: j['img'], kids: j['k'] ?? false,
+      kidsOnly: j['ko'] ?? false, pin: j['pin']);
+}
+
+/// تفاصيل فيلم من حساب Xtream (get_vod_info).
+class VodInfo {
+  final String? plot, genre, year, cast, director, backdrop, trailer, poster;
+  final double? rating;
+  final Duration? duration;
+  VodInfo({this.plot, this.genre, this.year, this.cast, this.director, this.backdrop, this.trailer, this.poster, this.rating, this.duration});
 }

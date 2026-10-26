@@ -9,7 +9,11 @@ import '../data/store.dart';
 import '../platform/platform.dart' as plat;
 import '../widgets/common.dart';
 import '../data/net.dart';
+import '../cast/cast.dart';
+import '../data/open_channels.dart';
+import '../screens/multiview.dart';
 import 'engine.dart';
+import 'session.dart';
 import 'subtitles.dart';
 
 /// يفتح المشغل. [queue] قائمة القنوات للتنقل بالقناة التالية/السابقة.
@@ -23,10 +27,21 @@ Future<void> openPlayer(BuildContext context, Playable item, {List<Playable>? qu
     }
   }
   if (!context.mounted) return;
+  // إن كان البث نفسه يعمل في النافذة المصغرة نكمله بلا إعادة اتصال
+  final ss = PlayerSession.I;
+  Engine? attach;
+  if (ss.active) {
+    if (ss.item?.key == item.key) {
+      queue ??= ss.queue;
+      attach = ss.take();
+    } else {
+      ss.close();
+    }
+  }
   await Navigator.of(context).push(PageRouteBuilder(
     opaque: true,
     transitionDuration: BMotion.page,
-    pageBuilder: (_, _, _) => PlayerScreen(item: item, queue: queue),
+    pageBuilder: (_, _, _) => PlayerScreen(item: item, queue: queue, attach: attach),
     transitionsBuilder: (_, a, _, child) => FadeTransition(opacity: a, child: child),
   ));
 }
@@ -34,14 +49,38 @@ Future<void> openPlayer(BuildContext context, Playable item, {List<Playable>? qu
 class PlayerScreen extends StatefulWidget {
   final Playable item;
   final List<Playable>? queue;
-  const PlayerScreen({super.key, required this.item, this.queue});
+  /// مشغل قائم (من النافذة المصغرة) يُعرض بدل فتح البث من جديد.
+  final Engine? attach;
+  const PlayerScreen({super.key, required this.item, this.queue, this.attach});
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-  final e = Engine.create();
+  late Engine e;
   final s = AppStore.I;
+  bool _minimizing = false;
+  // الروابط البديلة: ما جُرّب في سلسلة الأعطال الحالية، وموضع القناة الأصلية في الطابور
+  final _tried = <String>{};
+  String? _anchor;
+  Timer? _failT;
+  ({String text, IconData icon})? _bannerMsg;
+  Timer? _bannerT;
+  // الحلقة التالية والمقدمة
+  bool _upNextShown = false, _upNextDismissed = false, _introSkipped = false;
+  int? _countdown;
+  Timer? _cdT, _introLearnT;
+  // التقليب الفوري: القناة المجاورة محمّلة مسبقًا
+  Engine? _pre;
+  Playable? _preItem;
+  DateTime? _preAt;
+  Timer? _preT;
+  int _zapDir = 1;
+  DateTime _lastZap = DateTime(0);
+  // العرض على التلفاز (Chromecast)
+  CastSession? _cast;
+  CastDevice? _castDev;
+  Future<List<CastDevice>>? _castFind;
   late Playable item = widget.item;
   late bool fill = s.settings.fillScreen;
   bool overlay = true, locked = false, fullscreen = false;
@@ -82,15 +121,31 @@ class _PlayerScreenState extends State<PlayerScreen> {
     plat.playerOrientation(portraitVideo: false);
     fullscreen = plat.isPhone;
     plat.setAutoPip(true);
-    e.addListener(_onEngine);
-    _open(item);
+    if (widget.attach != null) {
+      // عائد من النافذة المصغرة: نفس البث بلا إعادة اتصال
+      e = widget.attach!;
+      fill = PlayerSession.I.fill;
+      _last = e.phase;
+      final was = e.phase == Phase.playing || e.phase == Phase.buffering;
+      e.addListener(_onEngine);
+      _tried.add(item.channelId ?? item.key);
+      _poke();
+      // نقل عنصر الفيديو في المتصفح قد يوقفه مؤقتًا
+      if (was) Future.delayed(const Duration(milliseconds: 400), () { if (mounted && e.phase == Phase.paused) e.play(); });
+    } else {
+      e = Engine.create();
+      e.addListener(_onEngine);
+      _open(item);
+    }
     plat.getVolume().then((v) => _vol = v);
     plat.getBrightness().then((v) => _bright = v);
     _clock = Timer.periodic(const Duration(seconds: 30), (_) { if (mounted) setState(() {}); });
   }
 
-  void _open(Playable p, {bool resume = true, bool reconnect = false}) {
+  /// [swapped]: المشغل الحالي صار المحمّل مسبقًا (لا نفتح البث مجددًا).
+  void _open(Playable p, {bool resume = true, bool reconnect = false, bool failover = false, bool swapped = false}) {
     _retry?.cancel();
+    _failT?.cancel();
     retryIn = 0;
     slow = false;
     if (!reconnect && p.key != item.key) {
@@ -98,11 +153,23 @@ class _PlayerScreenState extends State<PlayerScreen> {
       sub = null;
       subOffset = Duration.zero;
     }
+    if (!reconnect && !failover) {
+      _tried
+        ..clear()
+        ..add(p.channelId ?? p.key);
+      _anchor = null;
+    }
+    if (!reconnect) {
+      _introSkipped = false;
+      _upNextDismissed = false;
+      _cancelCountdown();
+      _introLearnT?.cancel();
+    }
     item = p;
     if (!reconnect) s.recordPlay(p);
     final h = s.historyOf(p.key);
     final startAt = resume && s.settings.resume && h != null && h.resumable ? Duration(milliseconds: h.positionMs) : null;
-    e.open(p, startAt: startAt);
+    if (!swapped) e.open(p, startAt: startAt);
     // لا يبقى المشغل معلقًا على «جارٍ الاتصال»: بعد 25 ثانية بلا صورة نعرض السبب ونعيد المحاولة
     _connectT?.cancel();
     _connectT = Timer(const Duration(seconds: 25), () {
@@ -140,13 +207,24 @@ class _PlayerScreenState extends State<PlayerScreen> {
       _slow?.cancel();
     }
     if (e.phase == Phase.error && _last != Phase.error) {
-      _scheduleRetry();
       // تُعلَّم القناة معطلة فقط لأسباب تخص المصدر (لا قيود المتصفح)
       if (item.channelId != null && (e.fail == FailKind.network || e.fail == FailKind.unsupported)) s.markHealth(item.channelId!, false);
+      // قناة لا تعمل: نسخة بديلة من قائمة أخرى أولًا، وإلا إعادة المحاولة
+      if (!_tryFailover()) _scheduleRetry();
     }
-    if (e.phase == Phase.playing && _last != Phase.playing && item.channelId != null) s.markHealth(item.channelId!, true);
-    if (e.phase == Phase.ended && _last != Phase.ended && s.settings.autoplayNext && !item.isLive) _next(1);
-    if (!item.isLive && e.duration > Duration.zero) s.updateProgress(item.key, e.position, e.duration);
+    if (e.phase == Phase.playing && _last != Phase.playing) {
+      if (item.channelId != null) s.markHealth(item.channelId!, true);
+      if (_canPreload) {
+        _preT?.cancel();
+        _preT = Timer(const Duration(seconds: 2), _preload);
+      }
+    }
+    if (e.phase == Phase.ended && _last != Phase.ended) _onEnded();
+    if (!item.isLive && e.duration > Duration.zero) {
+      s.updateProgress(item.key, e.position, e.duration);
+      _checkUpNext();
+      _checkIntro();
+    }
     _last = e.phase;
     setState(() {});
   }
@@ -179,13 +257,204 @@ class _PlayerScreenState extends State<PlayerScreen> {
     });
   }
 
-  int get _qIndex => widget.queue?.indexWhere((q) => q.key == item.key) ?? -1;
+  int get _qIndex => widget.queue?.indexWhere((q) => q.key == (_anchor ?? item.key)) ?? -1;
+
+  Playable? _neighbor(int dir) {
+    final q = widget.queue;
+    if (q == null || q.length < 2) return null;
+    final i = _qIndex;
+    return q[((i < 0 ? 0 : i) + dir) % q.length];
+  }
 
   void _next(int dir) {
+    final target = _neighbor(dir);
+    if (target == null) return;
+    _zapDir = dir;
+    _lastZap = DateTime.now();
+    if (_pre != null && _preItem?.key == target.key && _preFresh && _pre!.phase != Phase.error) {
+      _swapToPre();
+    } else {
+      _open(target, resume: true);
+    }
+  }
+
+  // ———————————————————— التقليب الفوري ————————————————————
+  bool get _canPreload => s.settings.fastZap && item.isLive && (widget.queue?.length ?? 0) > 2 && !_minimizing;
+  bool get _preFresh => _preAt != null && DateTime.now().difference(_preAt!) < const Duration(seconds: 40);
+
+  void _disposePre() {
+    _preT?.cancel();
+    _pre?.dispose();
+    _pre = null;
+    _preItem = null;
+    _preAt = null;
+  }
+
+  /// يجهّز القناة المجاورة (في اتجاه آخر تقليب) دون صوت، ويجددها كل 40 ثانية ما دام المستخدم يقلّب.
+  void _preload() {
+    if (!mounted || !_canPreload || e.phase != Phase.playing) return;
+    final target = _neighbor(_zapDir);
+    if (target == null) return;
+    if (_preItem?.key != target.key || !_preFresh) {
+      _pre?.dispose();
+      final pe = Engine.create();
+      pe.setVolume(0);
+      pe.open(target, preload: true);
+      _pre = pe;
+      _preItem = target;
+      _preAt = DateTime.now();
+    }
+    _preT?.cancel();
+    _preT = Timer(const Duration(seconds: 40), () {
+      if (!mounted) return;
+      // من لا يقلّب لا يحتاج القناة المجاورة: نحرر الموارد
+      DateTime.now().difference(_lastZap) < const Duration(minutes: 3) ? _preload() : _disposePre();
+    });
+  }
+
+  void _swapToPre() {
+    final old = e;
+    final vol = old.volume;
+    final target = _preItem!;
+    old.removeListener(_onEngine);
+    e = _pre!;
+    _pre = null;
+    _preItem = null;
+    _preAt = null;
+    old.dispose();
+    e.addListener(_onEngine);
+    e.setVolume(vol == 0 ? 1 : vol);
+    e.play();
+    _last = e.phase;
+    _open(target, swapped: true);
+  }
+
+  // ———————————————————— الروابط البديلة ————————————————————
+  void _banner(String text, IconData icon) {
+    _bannerT?.cancel();
+    setState(() => _bannerMsg = (text: text, icon: icon));
+    _bannerT = Timer(const Duration(seconds: 5), () { if (mounted) setState(() => _bannerMsg = null); });
+  }
+
+  List<Channel> get _alternates {
+    if (!item.isLive || item.channelId == null) return const [];
+    final ch = s.channelById(item.channelId!);
+    if (ch == null) return const [];
+    return [for (final c in s.alternatesFor(ch)) if (!_tried.contains(c.id)) c];
+  }
+
+  bool _tryFailover({bool manual = false}) {
+    if (!manual && !s.settings.autoFailover) return false;
+    final alts = _alternates;
+    if (alts.isEmpty) return false;
+    final alt = alts.first;
+    _tried.add(alt.id);
+    _anchor ??= item.key;
+    final src = alt.sourceId == OpenChannels.sourceId ? 'القنوات المفتوحة' : (s.sources[alt.sourceId]?.name ?? 'قائمة أخرى');
+    _banner('«${item.title}» لا تعمل — التحويل إلى نسخة من «$src»', Icons.alt_route_rounded);
+    _retry?.cancel();
+    retryIn = 0;
+    _failT?.cancel();
+    _failT = Timer(Duration(milliseconds: manual ? 50 : 1400), () { if (mounted) _open(Playable.channel(alt), failover: true); });
+    return true;
+  }
+
+  // ———————————————————— الحلقة التالية والمقدمة ————————————————————
+  Playable? get _upNext {
     final q = widget.queue;
-    if (q == null || q.length < 2) return;
+    if (q == null || item.isLive) return null;
     final i = _qIndex;
-    _open(q[((i < 0 ? 0 : i) + dir) % q.length], resume: true);
+    if (i < 0 || i + 1 >= q.length) return null;
+    return q[i + 1];
+  }
+
+  bool get _autoNext => s.settings.autoplayNext && (item.isEpisode || item.isLocal);
+
+  void _checkUpNext() {
+    if (_upNextShown || _upNextDismissed || e.duration < const Duration(seconds: 45) || e.position <= Duration.zero) return;
+    if (e.duration - e.position <= const Duration(seconds: 20) && _upNext != null) {
+      _upNextShown = true;
+      if (_autoNext) _startCountdown();
+    }
+  }
+
+  void _startCountdown() {
+    _cdT?.cancel();
+    _countdown = 10;
+    _cdT = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return t.cancel();
+      setState(() => _countdown = (_countdown ?? 1) - 1);
+      if ((_countdown ?? 0) <= 0) {
+        t.cancel();
+        _countdown = null;
+        _next(1);
+      }
+    });
+  }
+
+  void _cancelCountdown() {
+    _cdT?.cancel();
+    _countdown = null;
+    _upNextShown = false;
+  }
+
+  void _onEnded() {
+    if (_upNext == null || _upNextDismissed) return;
+    if (_autoNext) {
+      _cancelCountdown();
+      _next(1);
+    } else {
+      setState(() => _upNextShown = true);
+    }
+  }
+
+  int? get _introEnd => s.introOf(item.seriesId);
+
+  bool get _showIntroBtn {
+    if (!item.isEpisode || !e.canSeek || _introSkipped || locked) return false;
+    if (e.phase != Phase.playing && e.phase != Phase.paused && e.phase != Phase.buffering) return false;
+    final pos = e.position.inSeconds, end = _introEnd;
+    if (end != null) return pos < end - 2;
+    return pos >= 2 && pos < 240;
+  }
+
+  void _checkIntro() {
+    final end = _introEnd;
+    if (end == null || _introSkipped || !s.settings.autoSkipIntro || !item.isEpisode || e.phase != Phase.playing) return;
+    if (e.position.inSeconds < end - 2) {
+      _introSkipped = true;
+      e.seek(Duration(seconds: end));
+      _showHud(Icons.skip_next_rounded, 'تُخطيت المقدمة');
+    }
+  }
+
+  /// بعد التعلّم: يقفز لنهاية المقدمة. أول مرة: كل ضغطة +30 ث، وحين تتوقف يُحفظ الموضع لكل حلقات المسلسل.
+  void _skipIntro() {
+    final end = _introEnd;
+    if (end != null) {
+      setState(() => _introSkipped = true);
+      e.seek(Duration(seconds: end));
+      _showHud(Icons.skip_next_rounded, 'تُخطيت المقدمة');
+      return;
+    }
+    e.seek(e.position + const Duration(seconds: 30));
+    _showHud(Icons.fast_forward_rounded, 'اضغط مجددًا حتى تنتهي المقدمة');
+    _introLearnT?.cancel();
+    _introLearnT = Timer(const Duration(seconds: 4), () {
+      final sid = item.seriesId;
+      if (!mounted || sid == null) return;
+      final secs = e.position.inSeconds;
+      s.setIntro(sid, secs);
+      setState(() => _introSkipped = true);
+      _banner('حُفظت نهاية المقدمة عند ${fmtDur(Duration(seconds: secs))} — يظهر «تخطي المقدمة» في كل حلقات المسلسل', Icons.check_circle_rounded);
+    });
+  }
+
+  void _minimize() {
+    _minimizing = true;
+    _disposePre();
+    PlayerSession.I.minimize(e, item, widget.queue, fill: fill);
+    Navigator.of(context).maybePop();
   }
 
   void _seekBy(int sec) {
@@ -440,6 +709,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   KeyEventResult _onKey(FocusNode n, KeyEvent ev) {
     if (ev is! KeyDownEvent && ev is! KeyRepeatEvent) return KeyEventResult.ignored;
+    if (_castDev != null) return KeyEventResult.ignored;
     final k = ev.logicalKey;
     final digit = _digitOf(k);
     if (digit != null) {
@@ -481,14 +751,18 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   void dispose() {
-    for (final t in [_hide, _retry, _slow, _clock, _flashT, _connectT, _tapT]) {
+    for (final t in [_hide, _retry, _slow, _clock, _flashT, _connectT, _tapT, _failT, _bannerT, _cdT, _introLearnT]) {
       t?.cancel();
     }
     if (!item.isLive && e.duration > Duration.zero) s.updateProgress(item.key, e.position, e.duration);
     e.removeListener(_onEngine);
-    e.dispose();
+    // عند التصغير يبقى البث يعمل في النافذة المصغرة
+    if (!_minimizing) e.dispose();
+    _disposePre();
+    _cast?.removeListener(_onCast);
+    _cast?.close();
     _focus.dispose();
-    WakelockPlus.disable().catchError((_) {});
+    if (!_minimizing) WakelockPlus.disable().catchError((_) {});
     _hudT?.cancel();
     _sleepT?.cancel();
     _digitT?.cancel();
@@ -537,6 +811,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       child: Text(_seekFlash!, style: const TextStyle(fontFamily: kFont, fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600))))),
                 if (sub != null) _subtitleLayer(),
                 _stateLayer(p),
+                if (_bannerMsg != null)
+                  Positioned(top: 76, left: 16, right: 16, child: IgnorePointer(child: Center(child: _Glass(child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(_bannerMsg!.icon, color: BColors.gold, size: 20),
+                      const SizedBox(width: 10),
+                      Flexible(child: Text(_bannerMsg!.text, textAlign: TextAlign.center,
+                          style: const TextStyle(fontFamily: kFont, fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500))),
+                    ]),
+                  ))))),
+                if (_showIntroBtn)
+                  PositionedDirectional(end: 24, bottom: overlay ? 132 : 44, child: SafeArea(child: _SkipButton(
+                    label: 'تخطي المقدمة',
+                    hint: _introEnd == null ? '+30 ث' : null,
+                    onTap: _skipIntro,
+                  ))),
+                if (_castDev != null) Positioned.fill(child: _castLayer()),
+                if (_upNextShown && !_upNextDismissed && _upNext != null && _castDev == null)
+                  PositionedDirectional(end: 20, bottom: overlay ? 132 : 32, child: SafeArea(child: _upNextCard())),
                 AnimatedOpacity(
                   opacity: overlay ? 1 : 0,
                   duration: const Duration(milliseconds: 200),
@@ -640,6 +933,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   icon: const Icon(Icons.edit_rounded, color: Colors.white70),
                   label: const Text('تعديل المصدر', style: TextStyle(color: Colors.white)),
                 ),
+              if (_alternates.isNotEmpty)
+                OutlinedButton.icon(
+                  onPressed: () => _tryFailover(manual: true),
+                  icon: const Icon(Icons.alt_route_rounded, color: BColors.gold),
+                  label: Text('رابط بديل (${_alternates.length})', style: const TextStyle(color: Colors.white)),
+                ),
               if ((widget.queue?.length ?? 0) > 1)
                 OutlinedButton(onPressed: () => _next(1), child: const Text('القناة التالية', style: TextStyle(color: Colors.white))),
               TextButton(onPressed: () => Navigator.maybePop(context), child: const Text('رجوع')),
@@ -674,6 +973,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             // الرأس: رجوع، الاسم والحالة، المفضلة
             Row(children: [
               _CtrlBtn(icon: Icons.arrow_forward_rounded, tip: 'رجوع', onTap: () => Navigator.maybePop(context)),
+              _CtrlBtn(icon: Icons.keyboard_arrow_down_rounded, tip: 'تصغير — تابع التصفح والبث يعمل', onTap: _minimize),
               const SizedBox(width: 6),
               if (item.logo != null) ...[ChannelLogo(url: item.logo, name: item.title, size: 40, radius: 10), const SizedBox(width: 10)],
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -691,6 +991,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
               if (ch != null)
                 _CtrlBtn(icon: fav ? Icons.star_rounded : Icons.star_outline_rounded, tip: fav ? 'إزالة من المفضلة' : 'إضافة للمفضلة',
                     color: fav ? BColors.gold : null, onTap: () { s.toggleFav(ch); _poke(); }),
+              if (castSupported && !item.isLocal)
+                _CtrlBtn(icon: Icons.cast_rounded, tip: 'عرض على التلفاز (Chromecast)', onTap: _castSheet),
               if (_sleepAt != null)
                 _CtrlBtn(icon: Icons.bedtime_rounded, tip: 'مؤقت النوم', color: BColors.gold, onTap: _more,
                     label: '${_sleepAt!.difference(DateTime.now()).inMinutes + 1} د'),
@@ -736,6 +1038,189 @@ class _PlayerScreenState extends State<PlayerScreen> {
         ),
       ),
     ]);
+  }
+
+  // ———————————————————— Chromecast ————————————————————
+  Future<void> _castSheet() async {
+    _castFind = discoverCast();
+    await _panel('عرض على التلفاز', (c, set) => FutureBuilder<List<CastDevice>>(
+          future: _castFind,
+          builder: (c, snap) {
+            final t = Theme.of(c).textTheme;
+            final list = snap.data ?? const <CastDevice>[];
+            return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              if (snap.connectionState != ConnectionState.done)
+                Row(children: [
+                  const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+                  const SizedBox(width: 12),
+                  Text('البحث عن أجهزة على الشبكة…', style: t.bodyMedium),
+                ])
+              else if (list.isEmpty) ...[
+                const _Note('لم يُعثر على أجهزة Chromecast. تأكد أن الجوال والتلفاز على شبكة Wi‑Fi نفسها.'),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(onPressed: () => set(() => _castFind = discoverCast()),
+                    icon: const Icon(Icons.refresh_rounded), label: const Text('ابحث مجددًا')),
+              ] else
+                for (final d in list)
+                  _Opt(label: d.name, hint: d.model.isEmpty ? d.host : d.model, selected: false, onTap: () {
+                    Navigator.pop(c);
+                    _startCast(d);
+                  }),
+              const SizedBox(height: 12),
+              Text('يعمل مع Chromecast وأجهزة التلفاز التي تدعم Google Cast. بعض روابط IPTV (غير المشفّرة أو بصيغة TS) قد لا يشغّلها الجهاز.',
+                  style: t.bodySmall),
+            ]);
+          },
+        ));
+  }
+
+  Future<void> _startCast(CastDevice d) async {
+    setState(() => _castDev = d);
+    final wasPos = e.canSeek ? e.position.inMilliseconds / 1000 : 0.0;
+    e.pause();
+    try {
+      final cs = await CastSession.connect(d);
+      if (!mounted) {
+        cs.close();
+        return;
+      }
+      _cast = cs;
+      cs.addListener(_onCast);
+      await cs.load(url: item.url, title: item.title, image: item.logo, live: item.isLive || e.isLive, start: wasPos);
+      setState(() {});
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _castDev = null);
+      toast(context, 'تعذر الاتصال بـ«${d.name}»', icon: Icons.cast_rounded);
+      e.play();
+    }
+  }
+
+  void _onCast() {
+    final cs = _cast;
+    if (cs == null || !mounted) return;
+    if (cs.state == 'error' || cs.state == 'closed') {
+      if (cs.error != null) _banner(cs.error!, Icons.cast_rounded);
+      _stopCast();
+      return;
+    }
+    setState(() {});
+  }
+
+  Future<void> _stopCast({bool resume = true}) async {
+    final cs = _cast;
+    final pos = cs?.position ?? 0;
+    _cast = null;
+    cs?.removeListener(_onCast);
+    setState(() => _castDev = null);
+    await cs?.close();
+    if (!mounted || !resume) return;
+    if (e.canSeek && pos > 0) e.seek(Duration(milliseconds: (pos * 1000).round()));
+    e.play();
+  }
+
+  Widget _castLayer() {
+    final t = Theme.of(context).textTheme;
+    final cs = _cast;
+    final st = cs?.state ?? 'connecting';
+    final label = switch (st) {
+      'connecting' => 'جارٍ الاتصال…',
+      'loading' => 'جارٍ تحميل البث على الجهاز…',
+      'PLAYING' => 'يعمل الآن على التلفاز',
+      'PAUSED' => 'متوقف مؤقتًا',
+      'BUFFERING' => 'يتم التخزين المؤقت…',
+      'ended' => 'انتهى العرض',
+      _ => 'متصل',
+    };
+    final vod = cs != null && cs.duration > 0;
+    return Material(
+      color: const Color(0xFF05070B),
+      child: SafeArea(child: Stack(children: [
+        Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(gradient: RadialGradient(
+          colors: [BColors.teal.withValues(alpha: .16), const Color(0xFF05070B)], radius: .9)))),
+        Align(alignment: AlignmentDirectional.topStart, child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: _CtrlBtn(icon: Icons.arrow_forward_rounded, tip: 'رجوع', onTap: () => Navigator.maybePop(context)),
+        )),
+        Center(child: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, children: [
+          if (item.logo != null) ChannelLogo(url: item.logo, name: item.title, size: 84, radius: 18)
+          else const Icon(Icons.cast_connected_rounded, size: 72, color: BColors.teal),
+          const SizedBox(height: 18),
+          Text(item.title, textAlign: TextAlign.center, style: t.headlineSmall!.copyWith(color: Colors.white)),
+          const SizedBox(height: 8),
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.cast_connected_rounded, color: BColors.teal, size: 20),
+            const SizedBox(width: 8),
+            Text('«${_castDev?.name}» · $label', style: t.bodyMedium!.copyWith(color: BColors.mist)),
+          ]),
+          if (vod) ...[
+            const SizedBox(height: 10),
+            Text('${fmtDur(Duration(seconds: cs.position.round()))} / ${fmtDur(Duration(seconds: cs.duration.round()))}',
+                textDirection: TextDirection.ltr, style: t.labelLarge!.copyWith(color: Colors.white)),
+          ],
+          const SizedBox(height: 22),
+          Directionality(textDirection: TextDirection.ltr, child: Row(mainAxisSize: MainAxisSize.min, children: [
+            if (vod) _CtrlBtn(icon: Icons.replay_10_rounded, size: 34, tip: 'رجوع 10 ثوانٍ', onTap: () => cs.seek(cs.position - 10)),
+            const SizedBox(width: 14),
+            _BigPlay(playing: cs?.playing ?? false, onTap: () => (cs?.playing ?? false) ? cs?.pause() : cs?.play()),
+            const SizedBox(width: 14),
+            if (vod) _CtrlBtn(icon: Icons.forward_10_rounded, size: 34, tip: 'تقدم 10 ثوانٍ', onTap: () => cs.seek(cs.position + 10)),
+          ])),
+          const SizedBox(height: 24),
+          OutlinedButton.icon(
+            autofocus: true,
+            onPressed: _stopCast,
+            icon: const Icon(Icons.cancel_presentation_rounded, color: Colors.white70),
+            label: const Text('إيقاف العرض والمتابعة هنا', style: TextStyle(color: Colors.white)),
+          ),
+        ]))),
+      ])),
+    );
+  }
+
+  Widget _upNextCard() {
+    final n = _upNext!;
+    final t = Theme.of(context).textTheme;
+    final ep = item.isEpisode;
+    return _Glass(child: Container(
+      width: 320,
+      padding: const EdgeInsets.all(12),
+      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          if (n.logo != null) ...[
+            ClipRRect(borderRadius: BorderRadius.circular(8),
+                child: Image.network(n.logo!, width: 56, height: 56, fit: BoxFit.cover, errorBuilder: (_, _, _) => const SizedBox())),
+            const SizedBox(width: 10),
+          ],
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(_countdown != null ? '${ep ? 'الحلقة التالية' : 'التالي'} خلال $_countdown ث' : (ep ? 'الحلقة التالية' : 'التالي في القائمة'),
+                style: t.labelMedium!.copyWith(color: BColors.gold)),
+            const SizedBox(height: 2),
+            Text(n.subtitle != null && ep ? n.subtitle! : n.title, maxLines: 2, overflow: TextOverflow.ellipsis,
+                style: t.titleSmall!.copyWith(color: Colors.white)),
+          ])),
+        ]),
+        if (_countdown != null) ...[
+          const SizedBox(height: 10),
+          Directionality(textDirection: TextDirection.ltr, child: ClipRRect(borderRadius: BorderRadius.circular(2),
+              child: LinearProgressIndicator(value: 1 - (_countdown! / 10), minHeight: 3, color: BColors.teal, backgroundColor: Colors.white24))),
+        ],
+        const SizedBox(height: 10),
+        Row(children: [
+          Expanded(child: FilledButton.icon(
+            autofocus: true,
+            onPressed: () { _cancelCountdown(); _next(1); },
+            icon: const Icon(Icons.skip_next_rounded),
+            label: Text(ep ? 'الحلقة التالية' : 'شاهد التالي'),
+          )),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: () => setState(() { _cdT?.cancel(); _countdown = null; _upNextDismissed = true; }),
+            child: const Text('إلغاء', style: TextStyle(color: Colors.white70)),
+          ),
+        ]),
+      ]),
+    ));
   }
 
   String? _restartUrl(EpgProgram p) {
@@ -1000,6 +1485,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
               ChoiceChip(label: Text('${sp}x'), selected: e.speed == sp, onSelected: (_) { e.setSpeed(sp); set(() {}); }),
           ]),
         ],
+        if (item.isEpisode) ...[
+          const SizedBox(height: 16),
+          Text('مقدمة المسلسل', style: t.titleSmall),
+          const SizedBox(height: 4),
+          Text(_introEnd == null
+              ? 'لم تُحدَّد بعد. اضغط «تخطي المقدمة» حتى تنتهي، أو اجعل الموضع الحالي نهايتها.'
+              : 'تنتهي عند ${fmtDur(Duration(seconds: _introEnd!))} في كل حلقات هذا المسلسل.', style: t.bodySmall),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, runSpacing: 8, children: [
+            ActionChip(
+              avatar: const Icon(Icons.flag_rounded, size: 16),
+              label: Text('النهاية هنا (${fmtDur(e.position)})'),
+              onPressed: () { s.setIntro(item.seriesId!, e.position.inSeconds); _introSkipped = true; set(() {}); },
+            ),
+            if (_introEnd != null)
+              ActionChip(avatar: const Icon(Icons.close_rounded, size: 16), label: const Text('مسح'),
+                  onPressed: () { s.setIntro(item.seriesId!, null); _introSkipped = false; set(() {}); }),
+          ]),
+        ],
         const SizedBox(height: 16),
         Text('مؤقت النوم', style: t.titleSmall),
         const SizedBox(height: 8),
@@ -1018,6 +1522,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
         if (_sleepAt != null) ...[
           const SizedBox(height: 6),
           Text('يتوقف التشغيل الساعة ${hhmm(_sleepAt!)}', style: t.bodySmall),
+        ],
+        if (item.isLive && item.channelId != null && s.channelById(item.channelId!) != null) ...[
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
+            onPressed: () {
+              final ch = s.channelById(item.channelId!)!;
+              Navigator.pop(c);
+              final nav = Navigator.of(context);
+              nav.pop();
+              openMultiView(nav.context, initial: [ch]);
+            },
+            icon: const Icon(Icons.grid_view_rounded),
+            label: const Text('عرض متعدد (حتى 4 قنوات معًا)'),
+          ),
         ],
         const SizedBox(height: 16),
         Text('معلومات البث', style: t.titleSmall),
@@ -1057,6 +1575,37 @@ class _PlayerScreenState extends State<PlayerScreen> {
           Text(v, style: Theme.of(context).textTheme.titleSmall,
               textDirection: RegExp(r'[\u0600-\u06FF]').hasMatch(v) ? TextDirection.rtl : TextDirection.ltr),
         ]),
+      );
+}
+
+/// زر «تخطي المقدمة» بأسلوب نتفليكس: أبيض عريض في الزاوية.
+class _SkipButton extends StatelessWidget {
+  final String label;
+  final String? hint;
+  final VoidCallback onTap;
+  const _SkipButton({required this.label, this.hint, required this.onTap});
+  @override
+  Widget build(BuildContext context) => BTap(
+        onTap: onTap,
+        radius: 10,
+        semantic: label,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: .92), borderRadius: BorderRadius.circular(10),
+            boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 16)],
+          ),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.skip_next_rounded, color: BColors.midnight950),
+            const SizedBox(width: 8),
+            Text(label, style: const TextStyle(fontFamily: kFont, fontSize: 15, fontWeight: FontWeight.w700, color: BColors.midnight950)),
+            if (hint != null) ...[
+              const SizedBox(width: 6),
+              Text(hint!, textDirection: TextDirection.rtl,
+                  style: const TextStyle(fontFamily: kFont, fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF4A5566))),
+            ],
+          ]),
+        ),
       );
 }
 

@@ -6,6 +6,8 @@ import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
 import 'add_source.dart';
+import '../data/pairing.dart';
+import 'pair_screen.dart';
 
 /// أول تشغيل: لا قناة عشوائية. ترحيب هادئ وثلاثة اختيارات كبيرة.
 class Onboarding extends StatelessWidget {
@@ -41,7 +43,13 @@ class Onboarding extends StatelessWidget {
               const SizedBox(height: 8),
               Text('اجمع قوائمك وشاهدها في مكان واحد.', style: t.bodyLarge!.copyWith(color: p.text2), textAlign: TextAlign.center),
               const SizedBox(height: 36),
-              _Choice(icon: Icons.playlist_add_rounded, title: 'أضف قائمة الآن', body: 'رابط M3U أو ملف من جهازك', primary: true,
+              if (PairServer.supported && context.isTv)
+                _Choice(icon: Icons.qr_code_2_rounded, title: 'أضف من جوالك', body: 'امسح رمز QR والصق الرابط على الجوال', primary: true,
+                    onTap: () async {
+                      await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PairScreen()));
+                      if (AppStore.I.sources.isNotEmpty) _finish();
+                    }),
+              _Choice(icon: Icons.playlist_add_rounded, title: 'أضف قائمة الآن', body: 'رابط M3U أو ملف من جهازك', primary: !context.isTv,
                   onTap: () async { await openAddSource(context); if (AppStore.I.sources.isNotEmpty) _finish(); }),
               _Choice(icon: Icons.play_circle_outline_rounded, title: 'استكشف المشغل', body: 'جرّب بثًا تجريبيًا أو فيديو من جوالك',
                   onTap: () {

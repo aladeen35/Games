@@ -151,4 +151,31 @@ class XtreamClient {
       seasons: Map.fromEntries(seasons.entries.toList()..sort((a, b) => a.key.compareTo(b.key))),
     );
   }
+
+  /// معرّف الفيلم من رابطه: {server}/movie/u/p/{id}.{ext}
+  static String? vodIdOf(String url) => RegExp(r'/movie/[^/]+/[^/]+/(\d+)(\.\w+)?$').firstMatch(url)?.group(1);
+
+  /// تفاصيل فيلم: القصة والتقييم والمدة والممثلون والخلفية والإعلان.
+  Future<VodInfo> vodInfo(String vodId) async {
+    final j = await Net.json('$_api&action=get_vod_info&vod_id=$vodId');
+    final info = j is Map && j['info'] is Map ? Map<String, dynamic>.from(j['info']) : <String, dynamic>{};
+    String? str(String k) {
+      final v = info[k];
+      if (v is String && v.trim().isNotEmpty) return v.trim();
+      if (v is List && v.isNotEmpty && v.first is String && (v.first as String).trim().isNotEmpty) return (v.first as String).trim();
+      return null;
+    }
+    final secs = int.tryParse('${info['duration_secs'] ?? ''}');
+    final rating = double.tryParse('${info['rating'] ?? ''}');
+    final year = str('releasedate') ?? str('release_date') ?? str('year');
+    return VodInfo(
+      plot: str('plot') ?? str('description'), genre: str('genre'),
+      year: year != null && year.length >= 4 ? year.substring(0, 4) : year,
+      cast: str('cast') ?? str('actors'), director: str('director'),
+      backdrop: str('backdrop_path'), poster: str('movie_image') ?? str('cover_big'),
+      trailer: str('youtube_trailer'),
+      rating: rating != null && rating > 0 ? rating : null,
+      duration: secs != null && secs > 0 ? Duration(seconds: secs) : null,
+    );
+  }
 }

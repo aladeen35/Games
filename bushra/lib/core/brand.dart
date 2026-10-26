@@ -2,6 +2,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'theme.dart';
 
+/// يُرفع مع كل إصدار (مع version في pubspec.yaml).
+const kAppVersion = '1.4.0';
+
 enum MarkStyle { primary, mono }
 
 /// رمز «البشرى»: إطار شاشة مستدير بشريط فيروزي وذهبي، ونافذة داكنة بمثلث تشغيل

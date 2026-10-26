@@ -17,7 +17,7 @@ class NativeEngine extends Engine {
   bool get isLive => _live;
 
   @override
-  Future<void> open(Playable p, {Duration? startAt}) async {
+  Future<void> open(Playable p, {Duration? startAt, bool preload = false}) async {
     final old = _c;
     _c = null;
     old?.removeListener(_onTick);
@@ -55,7 +55,7 @@ class NativeEngine extends Engine {
       if (startAt != null && !_live && startAt < d) await c.seekTo(startAt);
       await c.setPlaybackSpeed(speed);
       await c.setVolume(volume);
-      await c.play();
+      if (!preload) await c.play();
     } catch (e) {
       if (_c != c) return;
       _setError('$e');

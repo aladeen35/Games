@@ -22,6 +22,9 @@ class WebEngine extends Engine {
   bool _live = false;
   final _subs = <StreamSubscription>[];
   bool _recovered = false;
+  // نقل عنصر الفيديو بين أماكن العرض (المشغل ↔ النافذة المصغرة) يوقفه المتصفح؛ نستأنفه تلقائيًا
+  bool _resumeOnAttach = false;
+  DateTime _attachedAt = DateTime(0);
 
   WebEngine() {
     _viewType = 'bushra-video-${_seq++}';
@@ -35,14 +38,33 @@ class WebEngine extends Engine {
       ..backgroundColor = '#05070B'
       ..objectFit = 'contain'
       ..pointerEvents = 'none';
-    ui_web.platformViewRegistry.registerViewFactory(_viewType, (int _) => _v);
+    ui_web.platformViewRegistry.registerViewFactory(_viewType, (int _) {
+      _attachedAt = DateTime.now();
+      if (_resumeOnAttach) {
+        _resumeOnAttach = false;
+        Future.delayed(const Duration(milliseconds: 80), () => _v.play().toDart.catchError((_) => null));
+      }
+      return _v;
+    });
     void on(String ev, void Function() f) => _subs.add(web.EventStreamProvider<web.Event>(ev).forTarget(_v).listen((_) => f()));
     on('loadedmetadata', _tick);
     on('durationchange', _tick);
     on('timeupdate', _tick);
     on('progress', _tick);
     on('playing', () { phase = Phase.playing; _tick(); });
-    on('pause', () { if (phase != Phase.error && phase != Phase.ended) phase = Phase.paused; _tick(); });
+    on('pause', () {
+      final was = phase == Phase.playing || phase == Phase.buffering;
+      if (was && !_v.isConnected) {
+        _resumeOnAttach = true;
+        return;
+      }
+      if (was && DateTime.now().difference(_attachedAt) < const Duration(milliseconds: 1500)) {
+        _v.play().toDart.catchError((_) => null);
+        return;
+      }
+      if (phase != Phase.error && phase != Phase.ended) phase = Phase.paused;
+      _tick();
+    });
     on('waiting', () { if (phase != Phase.error) phase = Phase.buffering; notifyListeners(); });
     on('ended', () { phase = _live ? Phase.buffering : Phase.ended; notifyListeners(); });
     on('error', () {
@@ -95,8 +117,10 @@ class WebEngine extends Engine {
   }
 
   @override
-  Future<void> open(Playable p, {Duration? startAt}) async {
+  Future<void> open(Playable p, {Duration? startAt, bool preload = false}) async {
     _teardown();
+    _v.autoplay = !preload;
+    _v.muted = preload;
     _p = p;
     _recovered = false;
     phase = Phase.connecting;
@@ -180,7 +204,7 @@ class WebEngine extends Engine {
       }).toJS);
       t.callMethod('attachMediaElement'.toJS, _v);
       t.callMethod('load'.toJS);
-      t.callMethod('play'.toJS);
+      if (!preload) t.callMethod('play'.toJS);
     } else {
       pipeline = protocol == 'HLS' && nativeHls ? 'HLS أصلي في المتصفح' : 'مشغل المتصفح';
       if (protocol == 'HLS' && !nativeHls && !hlsOk) {
@@ -196,6 +220,7 @@ class WebEngine extends Engine {
         });
       }
     }
+    if (preload) return;
     try {
       await _v.play().toDart;
     } catch (_) {
@@ -209,6 +234,7 @@ class WebEngine extends Engine {
 
   @override
   Future<void> play() async {
+    _v.muted = false;
     try { await _v.play().toDart; } catch (_) {}
   }
 

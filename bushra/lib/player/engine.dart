@@ -27,7 +27,8 @@ abstract class Engine extends ChangeNotifier {
   bool get isLive;
   bool get canSeek => !isLive && duration > Duration.zero;
 
-  Future<void> open(Playable p, {Duration? startAt});
+  /// [preload]: يجهّز البث ويخزّن بدايته دون تشغيل (للتقليب الفوري بين القنوات).
+  Future<void> open(Playable p, {Duration? startAt, bool preload = false});
   Future<void> play();
   Future<void> pause();
   Future<void> seek(Duration to);

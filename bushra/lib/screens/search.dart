@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../core/theme.dart';
+import '../platform/platform.dart' as plat;
 import '../data/store.dart';
 import '../player/player_screen.dart';
 import '../widgets/common.dart';
@@ -7,13 +9,44 @@ import 'epg_screen.dart';
 
 /// بحث واحد في: الأسماء والأصلية، المجموعات، البرامج، القوائم، والملفات — بلا تشكيل ومع تسامح الأخطاء.
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  /// يبدأ الاستماع للبحث الصوتي فور الفتح.
+  final bool voice;
+  const SearchScreen({super.key, this.voice = false});
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
   String q = '';
+  final _ctl = TextEditingController();
+  bool voiceOk = false, listening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    plat.voiceAvailable().then((v) {
+      if (!mounted) return;
+      setState(() => voiceOk = v);
+      if (v && widget.voice) _listen();
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _listen() async {
+    setState(() => listening = true);
+    final text = await plat.listenVoice();
+    if (!mounted) return;
+    setState(() => listening = false);
+    if (text != null && text.trim().isNotEmpty) {
+      _ctl.text = text.trim();
+      setState(() => q = text.trim());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +60,19 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Padding(
           padding: const EdgeInsetsDirectional.only(end: 16),
           child: TextField(
-            autofocus: true,
+            controller: _ctl,
+            autofocus: !widget.voice,
             textInputAction: TextInputAction.search,
             style: t.bodyLarge,
-            decoration: const InputDecoration(hintText: 'قناة، برنامج، مجموعة، أو ملف', prefixIcon: Icon(Icons.search_rounded)),
+            decoration: InputDecoration(
+              hintText: listening ? 'تحدث الآن…' : 'قناة، برنامج، مجموعة، أو ملف',
+              prefixIcon: const Icon(Icons.search_rounded),
+              suffixIcon: !voiceOk ? null : IconButton(
+                tooltip: 'بحث صوتي',
+                onPressed: listening ? null : _listen,
+                icon: Icon(listening ? Icons.graphic_eq_rounded : Icons.mic_rounded, color: listening ? context.bc.gold : context.bc.accent),
+              ),
+            ),
             onChanged: (v) => setState(() => q = v),
           ),
         ),
@@ -41,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(height: 10),
               Wrap(spacing: 8, runSpacing: 8, children: [
                 for (final w in ['أخبار', 'رياضة', 'أطفال', 'أفلام', 'وثائقي', 'قرآن'])
-                  ActionChip(label: Text(w), onPressed: () => setState(() => q = w)),
+                  ActionChip(label: Text(w), onPressed: () { _ctl.text = w; setState(() => q = w); }),
               ]),
             ])
           : empty
