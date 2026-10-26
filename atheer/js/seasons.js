@@ -835,7 +835,7 @@
       if (squint) { c.beginPath(); c.moveTo(ex - 2.6, ey - 1.6); c.lineTo(ex + sd * .6, ey); c.lineTo(ex - 2.6, ey + 1.6); c.stroke(); }
       else if (blink) { c.beginPath(); c.moveTo(ex - 2.4, ey); c.quadraticCurveTo(ex, ey + 1.6, ex + 2.4, ey); c.stroke(); }
       else { c.beginPath(); c.ellipse(ex, ey, 2.3, 2.9, 0, 0, TAU); c.fill(); c.fillStyle = '#fff'; c.beginPath(); c.arc(ex - .8, ey - 1.1, .9, 0, TAU); c.fill(); c.fillStyle = '#1A0F0A'; }
-      if (girl) { c.lineWidth = .9; c.beginPath(); c.moveTo(ex + sd * 1.6, ey - 2.6); c.lineTo(ex + sd * 2.8, ey - 3.6); c.stroke(); c.lineWidth = 1.5; }
+      if (girl) { c.lineWidth = .9; c.beginPath(); c.moveTo(ex + sd * 2.1, ey - 1.4); c.lineTo(ex + sd * 3.6, ey - 2.3); c.stroke(); c.lineWidth = 1.5; }
     }
     c.fillStyle = 'rgba(255,120,120,.4)'; for (const sd of [-1, 1]) { c.beginPath(); c.ellipse(sd * 10, -66.5, 3, 1.8, 0, 0, TAU); c.fill(); }
     const mood = k.mood == null ? 1 : k.mood;
@@ -1126,7 +1126,7 @@
   }
   function layoutReport() {
     const bottom = H - 14;
-    const n = cards.length, cols = portrait ? (n > 4 ? 4 : n) : n;
+    const n = Math.max(cards.length, (portrait ? 4 : 5) + (def.temp ? 3 : 0)), cols = portrait ? 4 : n;
     const cw = Math.min((Math.min(W, 1000) - 24 - (cols - 1) * 8) / cols, portrait ? 88 : 104), ch = cw * 1.05;
     const rows = Math.ceil(n / cols), th = rows * ch + (rows - 1) * 8;
     const trayTop = bottom - th - 4;
@@ -1414,7 +1414,7 @@
       root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
       root.querySelector('.wic').textContent = { dress: '👕🧥☂️', season: '☀️🍂❄️🌸', acts: '🏊⛄🌷', report: '📺☀️🌧️' }[mode];
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      const msg = { dress: App.g('ألبستِ', 'ألبستَ') + ' الطفل ملابس مناسبة للطقس', season: App.g('عرفتِ', 'عرفتَ') + ' كل الفصول', acts: App.g('رتّبتِ', 'رتّبتَ') + ' أنشطة الفصول', report: App.g('قدّمتِ', 'قدّمتَ') + ' النشرة الجوية' }[mode];
+      const msg = { dress: App.g('ألبستِ', 'ألبستَ') + App.g(' الطفلة', ' الطفل') + ' ملابس مناسبة للطقس', season: App.g('عرفتِ', 'عرفتَ') + ' كل الفصول', acts: App.g('رتّبتِ', 'رتّبتَ') + ' أنشطة الفصول', report: App.g('قدّمتِ', 'قدّمتَ') + ' النشرة الجوية' }[mode];
       root.querySelector('.wP').textContent = msg + (mistakes ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
@@ -1596,7 +1596,7 @@
   function drawWeatherBadge() {
     // شارة الطقس الحالي (أعلى المشهد)
     if (mode !== 'dress' || !Q) return;
-    const s = clamp(W * .15, 50, 74), x = lang === 'ar' ? W - s * .75 - 8 : s * .75 + 8, y = topY + s * .55;
+    const s = clamp(W * .15, 50, 74), x = s * .75 + 10, y = Math.max(topY + s * .55, sayBtn.getBoundingClientRect().bottom + s * .75);
     ctx.save(); ctx.translate(x, y + Math.sin(T * 2) * 3);
     ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.shadowColor = 'rgba(0,0,0,.18)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4;
     ctx.beginPath(); ctx.arc(0, 0, s * .62, 0, TAU); ctx.fill(); ctx.shadowColor = 'transparent';

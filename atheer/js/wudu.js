@@ -698,14 +698,15 @@
   function pour(n = 18) {
     const p = pourPoint(); if (!p) return;
     const g = kidGeom(), X = g.x + p[0] * g.u, Y = g.y + p[1] * g.u;
-    for (let i = 0; i < n; i++) drops.push({ x: X + rand(-g.u * .35, g.u * .35), y: Y - g.u * rand(1.4, 3.2), vx: rand(-8, 8), vy: rand(40, 120), ty: Y + rand(-g.u * .15, g.u * .2), r: rand(2.2, 4.2) * g.u / 45, life: 2, splashed: false });
+    const sx = X + g.u * 1.7, sy = Y - g.u * 2.1;
+    for (let i = 0; i < n; i++) { const ft = rand(.3, .42), tx = X + rand(-g.u * .3, g.u * .3), ty = Y + rand(-g.u * .15, g.u * .2); drops.push({ x: sx + rand(-2, 2), y: sy, vx: (tx - sx) / ft, vy: (ty - sy - 450 * ft * ft) / ft, ty, r: rand(2.2, 4.2) * g.u / 45, life: 2, splashed: false, delay: i * .045 }); }
     Sound.noise(.5, 600, 2400, .05, 1.2); Sound.tone(rand(900, 1300), .12, 'sine', .05, 400);
     // لمعان مبلل يبقى قليلًا
     const part = act.id; kf.wet[part] = 1; if (part === 'arms' || part === 'feet') kf.wet.side = kf.side;
   }
   function popCount(k) {
     const p = pourPoint() || [0, -4]; const g = kidGeom();
-    pops.push({ x: g.x + p[0] * g.u + (p[0] < 0 ? -g.u * 1.1 : g.u * 1.1), y: g.y + p[1] * g.u - g.u * .6, txt: num(k), t: 0 });
+    pops.push({ x: clamp(g.x + p[0] * g.u + (p[0] <= 0 ? -g.u * 1.9 : g.u * 1.9), g.u, W - g.u), y: g.y + p[1] * g.u - g.u * .3, txt: num(k), t: 0 });
     cntEl.querySelectorAll('b').forEach((b, i) => b.classList.toggle('on', i < k));
   }
   function sparkleAt(x, y, n = 18, cols = ['#FFE07A', '#8FE3FF', '#fff', '#A8F0C6']) {
@@ -1175,6 +1176,7 @@
     }
     for (let i = drops.length - 1; i >= 0; i--) {
       const d = drops[i]; d.life -= dt;
+      if (d.delay > 0) { d.delay -= dt; continue; }
       if (!d.splashed) { d.vy += 900 * dt; d.x += d.vx * dt; d.y += d.vy * dt; if (d.y >= d.ty) { d.splashed = true; d.life = .35; for (let k = 0; k < 2; k++) sparks.push({ x: d.x, y: d.y, vx: rand(-60, 60), vy: rand(-90, -30), life: .35, age: 0, s: d.r * .8, c: '#BFEFFF', drop: true }); } }
       if (d.life <= 0) drops.splice(i, 1);
     }
@@ -1202,7 +1204,7 @@
       kidFront(c, g.x, g.y, g.u, { T, hR: kf.hR, hL: kf.hL, eyes: kf.eyes, mouth: kf.mouth, puff: kf.puff, liftR: kf.liftR, liftL: kf.liftL, finger: kf.finger, heart: kf.heart, glow: kf.glow, wet: kf.wet, side: kf.side, lookUp: kf.lookUp });
       // الإبريق يصب فوق العضو
       const p = pourPoint();
-      if (p && drops.length) { const jx = g.x + p[0] * g.u + g.u * .9, jy = g.y + p[1] * g.u - g.u * 2.4; drawJug(c, jx, jy, g.u * .75, -.55); }
+      if (p && drops.length) { const k = g.u * .75 / 40, jx = g.x + p[0] * g.u + g.u * 1.7 + 51.6 * k, jy = g.y + p[1] * g.u - g.u * 2.1; drawJug(c, jx, jy, g.u * .75, -.55); }
       if (kf.bubble) bubble(c, g.x + g.u * 2.2, g.y - g.u * 6.6, plain(kf.bubble.ar), Math.min(1, kf.bubble.t * 3));
       if (kf.finger) { const a = Math.min(1, (act ? act.t : 0)); void a; }
     } else if (view === 'side') {
@@ -1218,7 +1220,7 @@
     }
     // القطرات
     for (const d of drops) {
-      if (d.splashed) continue;
+      if (d.splashed || d.delay > 0) continue;
       c.fillStyle = 'rgba(120,205,250,.9)'; c.beginPath(); c.moveTo(d.x, d.y - d.r * 2.2); c.quadraticCurveTo(d.x + d.r, d.y - d.r * .2, d.x, d.y + d.r); c.quadraticCurveTo(d.x - d.r, d.y - d.r * .2, d.x, d.y - d.r * 2.2); c.fill();
       c.fillStyle = 'rgba(255,255,255,.8)'; c.beginPath(); c.arc(d.x - d.r * .3, d.y - d.r * .3, d.r * .3, 0, TAU); c.fill();
     }

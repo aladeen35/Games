@@ -239,6 +239,7 @@ const Studio = {
       ${good ? '' : `<div class="tt-card"><b>💡 لا يوجد صوت عربي جيد على هذا الجهاز</b>
         ثبّت تطبيق «خدمات Google للنطق» (Speech Services by Google)، ثم من إعدادات النطق نزّل بيانات اللغة «العربية» واجعله المحرّك المفضّل.
         ${B && B.openTtsSettings ? `<div class="center" style="margin-top:6px"><button class="tbtn sm" id="ttGet">⬇️ تثبيت خدمات Google للنطق</button><button class="tbtn alt sm" id="ttSet">⚙️ إعدادات النطق</button></div>` : ''}</div>`}
+      ${(info.engines || []).length > 1 && B.ttsEngine ? `<div class="tt-l"><h4>⚙️ محرّك النطق</h4><select class="st-sel" id="ttEng">${info.engines.map(e => `<option value="${App.esc(e.name)}" ${e.name === info.engine ? 'selected' : ''}>${App.esc(e.label || e.name)}</option>`).join('')}</select></div>` : ''}
       <div id="ttsBox">${block('ar', '🇸🇦 العربية')}${block('en', '🇬🇧 English')}</div>
       ${good && B && B.openTtsSettings ? '<div class="center"><button class="tbtn alt sm" id="ttSet">⚙️ إعدادات النطق في الجهاز</button></div>' : ''}`);
     s.querySelectorAll('[data-voice]').forEach(sel => sel.onchange = () => { Tts.setPref(sel.dataset.voice, { voice: sel.value }); this.preview(sel.dataset.voice); });
@@ -248,6 +249,8 @@ const Studio = {
       r.onchange = () => { Tts.setPref(lang, { [r.dataset.k]: +r.value }); this.preview(lang); };
     });
     s.querySelectorAll('[data-try]').forEach(b => b.onclick = () => this.preview(b.dataset.try));
+    const eng = s.querySelector('#ttEng');
+    if (eng) eng.onchange = () => { try { B.ttsEngine(eng.value); } catch (e) {} App.toast('جارٍ تحميل المحرّك…'); setTimeout(() => { if ($('#ttsBox')) this.tts(); }, 1500); };
     const set = s.querySelector('#ttSet'); if (set) set.onclick = () => { Sound.tap(); try { B.openTtsSettings(); } catch (e) {} };
     const get = s.querySelector('#ttGet'); if (get) get.onclick = () => { Sound.tap(); try { B.installTts(); } catch (e) {} };
   },

@@ -78,7 +78,7 @@
     background:#fff;border:4px solid #FFD9AE;border-radius:24px;box-shadow:0 5px 0 #F2B26E,0 12px 24px rgba(140,70,20,.14);padding:5px 14px;color:#6B3A12;
     font-weight:900;font-size:clamp(18px,5vw,24px);min-height:54px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;line-height:1.25;cursor:pointer;transition:opacity .3s}
   #abacus .ban.off{opacity:0;pointer-events:none}
-  #abacus .ban .eq{direction:ltr;unicode-bidi:isolate;display:inline-flex;gap:6px;align-items:center;font-size:1.15em;color:#E0650C}
+  #abacus .ban .eq{unicode-bidi:isolate;display:inline-flex;gap:6px;align-items:center;font-size:1.15em;color:#E0650C}
   #abacus .ban .eq b{min-width:1.1em;padding:0 6px;border-radius:12px;background:#FFF0DC;box-shadow:inset 0 -3px 0 #FFD9AE}
   #abacus .ban .eq b.q{background:#FFE58A;color:#9A5A00;box-shadow:inset 0 -3px 0 #F2C14E}
   #abacus .ban .eq b.g2{color:#fff;background:var(--g2,#3D8BFF);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
@@ -266,17 +266,17 @@
     const topY = Math.max(banB, 120) + 8;
     const botY = (root.querySelector('.ctl').getBoundingClientRect().top || H - 110) - 10;
     const portrait = W / H < 1.05;
-    const bubH = nr === 10 ? 0 : clamp((botY - topY) * .2, 56, 92);
+    const bubH = nr === 10 ? 0 : clamp((botY - topY) * .24, 56, 130);
     const aw = Math.min(W - 20, 880), ah = botY - topY - bubH;
-    const rowK = nr === 1 ? 2.1 : nr === 2 ? 1.9 : 1.55;
+    const rowK = nr === 1 ? 2.5 : nr === 2 ? 2.05 : 1.55;
     let d = Math.min((aw - 16) / 14.6, ah / (nr * rowK + 1.9), nr === 1 ? 64 : 54);
     d = Math.max(d, 12);
     const pw = clamp(d * .78, 12, 34), rail = clamp(d * .6, 10, 30), rowH = d * rowK;
     const Lw = 12.6 * d, fw = Lw + pw * 2, fh = nr * rowH + rail * 2;
     const fx = W / 2 - fw / 2;
     const space = ah - fh;
-    const fy = topY + bubH + Math.max(0, space * (portrait ? .42 : .45));
-    const bh = Math.min(d * 1.48, rowH * .86);
+    const fy = topY + bubH + Math.max(0, space * (portrait ? .5 : .45));
+    const bh = Math.min(d * (nr === 1 ? 1.95 : nr === 2 ? 1.65 : 1.48), rowH * .86);
     // فقاعة العدد (أو بجانب الإطار حين تكون الأسلاك عشرة)
     let bx, by, br;
     if (nr === 10) {
@@ -284,7 +284,7 @@
       const side = isAr() ? -1 : 1;
       bx = W / 2 - side * (fw / 2 + br + 6);
       if (bx - br < 4 || bx + br > W - 4) { bx = W / 2; by = fy - br - 4; } else by = fy + br;
-    } else { br = clamp(bubH * .44, 24, 40); bx = W / 2; by = fy - 8 - br; }
+    } else { br = clamp(bubH * .42, 24, 54); bx = W / 2; by = fy - 12 - br; }
     geo = { d, pw, rail, rowH, Lw, fw, fh, fx, fy, bh, x0: fx + pw, bx, by, br, portrait, topY, botY };
   }
   const cLeft = () => !isAr(); // جهة العدّ: يسار في الإنجليزية، يمين في العربية

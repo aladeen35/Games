@@ -353,7 +353,7 @@
     for (let i = 0; i < 4; i++) {
       const sp = (i - 1.5) * .3 + (P.fingerW ? Math.sin(T * 22 + i * 1.7) * .22 * P.fingerW : 0);
       const fa = Math.atan2(dir.y, dir.x) + sp * s;
-      const len = i === 0 || i === 3 ? 8.5 : 10.5;
+      const len = i === 0 || i === 3 ? 11 : 13.5;
       const bx = H.x + dir.x * 4, by = H.y + dir.y * 4;
       c.strokeStyle = glove ? col[2] : SK.line; c.lineWidth = 7.4;
       c.beginPath(); c.moveTo(bx, by); c.lineTo(bx + Math.cos(fa) * len, by + Math.sin(fa) * len); c.stroke();
@@ -364,7 +364,7 @@
     c.strokeStyle = glove ? col[2] : SK.line; c.lineWidth = 7.4; c.beginPath(); c.moveTo(H.x, H.y); c.lineTo(H.x + Math.cos(ta) * 10, H.y + Math.sin(ta) * 10); c.stroke();
     c.strokeStyle = col[1]; c.lineWidth = 5.4; c.stroke();
     c.fillStyle = glove ? col[2] : SK.line; c.beginPath(); c.arc(H.x, H.y, 10.2, 0, TAU); c.fill();
-    blob(c, H.x, H.y, 9, 9, col);
+    blob(c, H.x, H.y, 8.6, 8.6, col);
   }
   function drawArm(c, s, front) {
     const L = s < 0 ? 'L' : 'R', S = G['S' + L], E = G['E' + L], Wr = G['W' + L], H = G['H' + L];
@@ -491,9 +491,10 @@
     if (girl) {
       const sw = P.hairB * .4 + Math.sin(T * 2) * .04;
       for (const s of [-1, 1]) {
-        c.save(); c.translate(h.x + s * 50, h.y - 18); c.rotate(s * (.35 + sw * s));
-        blob(c, s * 6, 30, 13, 26, [HAIR.light, HAIR.base, HAIR.dark]);
-        blob(c, s * 9, 56, 10, 14, [HAIR.light, HAIR.base, HAIR.dark]);
+        c.save(); c.translate(h.x + s * 44, h.y - 26); c.rotate(-s * (.62 + sw));
+        blob(c, 0, 30, 14, 24, [HAIR.light, HAIR.base, HAIR.dark]);
+        blob(c, 0, 55, 11, 13, [HAIR.light, HAIR.base, HAIR.dark]);
+        c.fillStyle = 'rgba(255,255,255,.2)'; c.beginPath(); c.ellipse(-4, 24, 3, 12, 0, 0, TAU); c.fill();
         // فيونكة
         c.fillStyle = '#FF4F9A';
         c.beginPath(); c.moveTo(0, 6); c.lineTo(-12, -4); c.lineTo(-12, 14); c.closePath(); c.moveTo(0, 6); c.lineTo(12, -4); c.lineTo(12, 14); c.closePath(); c.fill();
@@ -689,7 +690,7 @@
       if (Math.abs(x - fx) < 17 && y > fy + 38 && y < h.y + h.r + 5) return 'chin';
     }
     for (const s of [-1, 1]) if (dist(h.x + s * 50, h.y + 6, x, y) < 12) return 'ears';
-    if (girl) for (const s of [-1, 1]) if (dist(h.x + s * 60, h.y + 20, x, y) < 17) return 'hair';
+    if (girl) for (const s of [-1, 1]) if (dist(h.x + s * 64, h.y - 6, x, y) < 18) return 'hair';
     const dh = dist(h.x, h.y, x, y);
     if (dh < h.r + 5) {
       if (!front) return y < h.y + 20 ? 'hair' : 'head';
@@ -878,8 +879,8 @@
     const n = def.parts.filter(p => seen.has(p)).length;
     aiEl.textContent = last ? last.e : '👆';
     atEl.className = 'at' + (lang === 'en' ? ' en' : '');
-    if (last) atEl.innerHTML = `${App.esc(lang === 'ar' ? (last.arn || last.ar) : cap(last.en))}<small>${num(n)} / ${num(def.parts.length)}</small>`;
-    else atEl.innerHTML = `${lang === 'ar' ? App.g('المسي', 'المس') + ' أي جزء' : 'Touch any part'}<small>${lang === 'ar' ? App.g('لتسمعي', 'لتسمع') + ' اسمه' : 'to hear its name'} · ${num(n)} / ${num(def.parts.length)}</small>`;
+    if (last) atEl.innerHTML = `${App.esc(lang === 'ar' ? (last.arn || last.ar) : cap(last.en))}<small>${num(n)} ${lang === 'ar' ? 'من' : 'of'} ${num(def.parts.length)}</small>`;
+    else atEl.innerHTML = `${lang === 'ar' ? App.g('المسي', 'المس') + ' أي جزء' : 'Touch any part'}<small>${lang === 'ar' ? App.g('لتسمعي', 'لتسمع') + ' اسمه' : 'to hear its name'} (${num(n)} ${lang === 'ar' ? 'من' : 'of'} ${num(def.parts.length)})</small>`;
   }
   function qText(q) {
     if (!q) return ['', ''];
@@ -1149,6 +1150,7 @@
   /* ---------- التحديث ---------- */
   function update(dt) {
     T += dt; idleT += dt;
+    if (cv.clientWidth && (Math.abs(cv.clientWidth - W) > 1 || Math.abs(cv.clientHeight - H) > 1)) { bgKey = ''; layout(); }
     for (let i = tasks.length - 1; i >= 0; i--) { const k = tasks[i]; k.t -= dt; if (k.t <= 0) { tasks.splice(i, 1); k.fn(); } }
     if (lock > 0 && lock < 50) lock -= dt;
     for (const r of reacts) r.t += dt;

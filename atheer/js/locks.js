@@ -400,9 +400,9 @@
   function layout() {
     const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; dpr = f.dpr;
     portrait = W / H < 1.05;
-    const top = progEl.getBoundingClientRect().bottom + 40;
+    const top = progEl.getBoundingClientRect().bottom + 56;
     const bw = Math.min(W - 20, portrait ? 620 : 1000);
-    const keysH = portrait ? clamp(H * .27, 170, 260) : clamp(H * .3, 150, 240);
+    const keysH = portrait ? clamp(H * .27, 170, 260) : clamp(H * .36, 150, 300);
     board = { x: (W - bw) / 2, y: top, w: bw, h: Math.max(140, H - top - keysH - 12) };
     // شبكة الأبواب: نختار عدد الأعمدة الذي يعطي أكبر باب
     const n = doors.length, pad = Math.min(bw, board.h) * .06;
@@ -443,7 +443,7 @@
     buildBg();
   }
   function placeInKey(d) {
-    const k = d.key; const s = d.L * .42 / KB;
+    const k = d.key; const s = d.L * .3 / KB;
     k.isc = s;
   }
 
@@ -515,7 +515,7 @@
 
   /* ---------- الباب (لوحة مخزّنة تُرسم كشرائح لمنظور الدوران) ---------- */
   const doorCache = new Map();
-  const DOOR_TONES = [['#FFB86B', '#F08A2E', '#C25E10'], ['#8ED1FF', '#4FA6EA', '#2A72B8'], ['#B6E77E', '#7CC34A', '#4C8E26'], ['#FFA3C4', '#F06A9A', '#B83A68'], ['#D2B2FF', '#A47AE8', '#6E48B0'], ['#FFE07A', '#F5BD2E', '#C08A0A']];
+  const DOOR_TONES = [['#FFE9C9', '#F2C88E', '#C98E4E'], ['#FBE3C0', '#E8B878', '#B87C3C'], ['#FFF0D8', '#F0CFA0', '#C89A62'], ['#F8DDB8', '#E2AE6E', '#AE7034']];
   function doorImg(d, i) {
     const pw = Math.round(d.w * dpr), ph = Math.round(d.h * dpr), key = i + '|' + pw + 'x' + ph;
     let c = doorCache.get(key); if (c) return c;
@@ -538,9 +538,6 @@
     // حافة بيضاء ولمعة
     x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = Math.max(2, w * .025); x.beginPath(); x.roundRect(1.5, 1.5, w - 3, h - 3, r); x.stroke();
     x.fillStyle = 'rgba(255,255,255,.22)'; x.beginPath(); x.roundRect(w * .08, h * .03, w * .84, h * .08, h * .04); x.fill();
-    // مقبض
-    x.fillStyle = 'rgba(0,0,0,.2)'; x.beginPath(); x.arc(w * .82, h * .66 + 2, w * .055, 0, TAU); x.fill();
-    x.fillStyle = grad3(x, w * .82, h * .66, w * .055, BRASS); x.beginPath(); x.arc(w * .82, h * .66, w * .055, 0, TAU); x.fill();
     if (doorCache.size > 40) doorCache.clear();
     doorCache.set(key, c);
     return c;
@@ -617,7 +614,7 @@
   }
   /* موضع حلقة المفتاح حين يكون داخل القفل */
   function inKeyAnchor(d) {
-    const s = d.L * .42 / KB, depth = KB * KEY.len * .62 * s, kx = d.lx, ky = d.ly + keyholeOff(d.L);
+    const s = d.L * .3 / KB, depth = KB * KEY.len * .62 * s, kx = d.lx, ky = d.ly + keyholeOff(d.L);
     const a = d.turn * Math.PI / 2;
     return { x: kx + Math.sin(a) * depth, y: ky - Math.cos(a) * depth, s, a, kx, ky, depth };
   }
@@ -651,7 +648,7 @@
     sparkle(d.lx, d.ly - d.L * .3, '#FFE26B', 10);
   }
   function lockFalls(d) {
-    falling.push({ o: d.o, key: d.key, x: d.lx, y: d.ly, vx: rand(-40, 40), vy: -160, rot: 0, vr: rand(-3, 3), L: d.L, age: 0, s: d.key.isc || (d.L * .42 / KB) });
+    falling.push({ o: d.o, key: d.key, x: d.lx, y: d.ly, vx: rand(-40, 40), vy: -160, rot: 0, vr: rand(-3, 3), L: d.L, age: 0, s: d.key.isc || (d.L * .3 / KB) });
     d.key.state = 'gone';
     d.state = 'opening'; d.t = 0;
     Sound.tone(220, .5, 'sawtooth', .025, 120); Sound.tone(330, .45, 'triangle', .05, 160, .05); // صرير الباب

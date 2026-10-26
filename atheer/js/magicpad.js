@@ -580,6 +580,7 @@
   #magicpad .bar{z-index:8}
   #magicpad .ib{color:#2445C8}
   #magicpad .ttl{min-width:80px;max-width:42vw;color:#1E2A6B}
+  #magicpad .ttl small{white-space:nowrap}
   #magicpad .ttl b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:18px}
   #magicpad .lang{display:flex;background:rgba(255,255,255,.95);border-radius:99px;padding:3px;gap:2px;box-shadow:0 4px 0 rgba(60,30,90,.16),0 7px 12px rgba(60,30,90,.14);border:2px solid #fff}
   #magicpad .lang button{height:36px;border-radius:99px;font-weight:900;font-size:14px;color:#6D7DB8;background:transparent;padding:0 10px;line-height:1}
@@ -712,7 +713,7 @@
     toolsEl.innerHTML = set.map(([a, ic, cls, lab]) => `<button class="tb2 ${cls}" data-a="${a}" aria-label="${lab}">${ic}${a === 'gal' ? '<span class="cnt"></span>' : ''}</button>`).join('');
     toolsEl.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { if (busy && b.dataset.a !== 'lv') return; Sound.tap(); act(b.dataset.a); });
     paintGalCount();
-    uiFrom(toolsEl.children, { y: 30, scale: .6, autoAlpha: 0, duration: .45, stagger: .05, ease: 'back.out(2)' });
+    uiFrom(toolsEl.children, { y: 24, scale: .7, autoAlpha: 0, duration: .32, stagger: .03, ease: 'back.out(2)', clearProps: 'transform,opacity,visibility' });
   }
   function paintGalCount() { const c = toolsEl.querySelector('.cnt'); if (c) c.textContent = store.get('magicpadGallery', []).length || ''; }
   function act(a) {
@@ -1331,7 +1332,7 @@
     const it = HR.list[HR.r], geom = geomOf(it), model = modelPts(geom);
     const pts = []; strokes.forEach(s => s.pts.forEach(p => pts.push([p.x, p.y])));
     const R = shapeScore(pts, model);
-    const stars = R.score >= .7 ? 3 : R.score >= .5 ? 2 : R.score >= .3 ? 1 : 0;
+    const stars = R.score >= .74 ? 3 : R.score >= .57 ? 2 : R.score >= .42 ? 1 : 0;
     HR.scores.push(stars);
     // رسم النموذج فوق رسم الطفل
     const mStrokes = geom.strokes.map(s => s.dot ? { dot: true, x: s.x, y: s.y, r: s.r } : { pts: s.pts });
@@ -1543,7 +1544,7 @@
     hx.strokeStyle = gr; hx.lineWidth = 5; hx.lineCap = 'round'; hx.shadowColor = '#9ff'; hx.shadowBlur = 6;
     hx.beginPath(); for (let i = 0; i <= 60; i++) { const t = i / 60 * TAU * 1.6; hx.lineTo(G.S.x + G.S.w / 2 + Math.cos(t) * (10 + i * .55), G.S.y + G.S.h / 2 + Math.sin(t) * (10 + i * .55)); } hx.stroke(); hx.restore();
     lvEl.scrollTop = 0;
-    uiFrom(cards.children, { y: 40, scale: .85, autoAlpha: 0, duration: .5, stagger: .06, ease: 'back.out(1.7)' });
+    uiFrom(cards.children, { y: 30, scale: .9, autoAlpha: 0, duration: .38, stagger: .04, ease: 'back.out(1.7)', clearProps: 'transform,opacity,visibility' });
     stopLoop();
   }
   function openMode(m) {
