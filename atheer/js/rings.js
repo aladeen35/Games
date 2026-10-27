@@ -342,7 +342,7 @@
     const f = fitCanvas(cv); ctx = f.ctx; Wd = f.w; Hd = f.h;
     playW = Math.min(Wd, 1000); x0 = (Wd - playW) / 2;
     const portrait = Wd / Hd < 1.05;
-    const top = 140 + (portrait ? 6 : 0);
+    const top = 150 + (portrait ? 6 : 0);
     const two = poles.length === 2;
     const cap = Math.max(...poles.map(p => p.cap));
     const inTray = rings.filter(r => r.slot != null);
@@ -350,7 +350,7 @@
     let trayH = portrait ? Hd * .2 : 120;
     for (let pass = 0; pass < 2; pass++) {
       const avail = Hd - top - trayH - 24;
-      th = clamp(avail / (cap + (portrait ? 3.1 : 2.5)), 22, 66);
+      th = clamp(avail / (cap + 3.0), 22, 66);
       Rmax = Math.min(playW * (two ? .21 : .33), th * 3.4, 160);
       Rmin = Math.max(Rmax * .45, th * 1.5);
       ts = portrait ? .52 : .6;
