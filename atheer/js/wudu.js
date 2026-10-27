@@ -855,7 +855,7 @@
     return out;
   }
   function partPx(part) {
-    const g = kidGeom(), P = { hands: [0, -2.4], mouth: G.mouth, nose: G.nose, face: [0, -5.2], arms: [-1.6, -2.6], head: [0, -6.4], ears: [-G.ear[0], G.ear[1]], feet: [0, -.3] }[part] || [0, -3];
+    const g = kidGeom(), a = ik('R', ...G.idle.R), P = { hands: [a.hx, a.hy], mouth: G.mouth, nose: G.nose, face: [.55, -4.9], arms: [lerp(a.ex, a.hx, .45), lerp(a.ey, a.hy, .45)], head: [.2, -6.45], ears: [-G.ear[0], G.ear[1]], feet: [G.foot.R[0], G.foot.R[1]] }[part] || [0, -3];
     return [g.x + P[0] * g.u, g.y + P[1] * g.u];
   }
   function tapAt(px, py) {

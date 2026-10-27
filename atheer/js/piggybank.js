@@ -960,7 +960,7 @@
       drawPiggy(c, pig.x, pig.y - hop, pig.s, pig.wig, pig.sq, pig.blink, phase === 'over' || pig.hop > 0);
       if (R.type !== 'find') drawBubble(c, pig.x + dirX() * -pig.s * .62, pig.y - pig.s * .85, clamp(pig.s * .19, 22, 38), pig.total, phase === 'ask');
     }
-    if (tray && R.type === 'pay') drawBubble(c, tray.x - dirX() * (tray.w * .5 + 4), tray.y - tray.h * .45, clamp(S.u * .8, 22, 34), trayTotal(), false);
+    if (tray && R.type === 'pay') { const br = clamp(S.u * .8, 22, 34); drawBubble(c, clamp(tray.x - dirX() * (tray.w * .5 - br * .3), br + 6, W - br - 6), tray.y - tray.h * .62, br, trayTotal(), false); }
     drawMoney(c);
     drawParts(c);
     c.restore();

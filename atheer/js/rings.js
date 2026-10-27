@@ -122,7 +122,7 @@
     if (ci != null) { // شريط ملوّن يدل على لون العمود
       c.save(); c.clip();
       const P = pal(COLS[ci].h);
-      c.beginPath(); c.moveTo(x - Rb, y + bh * .3); c.ellipse(x, y + bh * .3, Rb, Rb * KY, 0, Math.PI, 0, true); c.lineTo(x + Rb, y + bh * .7); c.ellipse(x, y + bh * .7, Rb, Rb * KY, 0, 0, Math.PI, false); c.closePath();
+      c.beginPath(); c.moveTo(x - Rb, y + bh * .2); c.ellipse(x, y + bh * .2, Rb, Rb * KY, 0, Math.PI, 0, true); c.lineTo(x + Rb, y + bh * .85); c.ellipse(x, y + bh * .85, Rb, Rb * KY, 0, 0, Math.PI, false); c.closePath();
       const g2 = c.createLinearGradient(x - Rb, 0, x + Rb, 0); g2.addColorStop(0, P.dd); g2.addColorStop(.35, P.l); g2.addColorStop(1, P.d);
       c.fillStyle = g2; c.fill(); c.restore();
     }
@@ -133,7 +133,7 @@
     c.save(); c.clip(); c.strokeStyle = 'rgba(150,90,30,.18)'; c.lineWidth = 1.5;
     for (let k = 1; k <= 4; k++) { c.beginPath(); c.ellipse(x + k * 3, y, Rb * k / 5, Rb * KY * k / 5, 0, 0, TAU); c.stroke(); }
     c.restore();
-    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 2; c.beginPath(); c.ellipse(x, y, Rb * .97, Rb * KY * .97, 0, Math.PI * 1.05, Math.PI * 1.6); c.stroke();
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 2; c.beginPath(); c.lineCap = 'round'; c.ellipse(x, y, Rb * .97, Rb * KY * .97, 0, Math.PI * 1.12, Math.PI * 1.42); c.stroke();
   }
   /** جزء من العمود بين y1 (أسفل) و y2 (أعلى)، مع قمة دائرية إن كانت قمته */
   function drawPoleSeg(c, p, y1, y2, cap) {
@@ -186,12 +186,12 @@
   #rings{background:#CDEBFF;overflow:hidden}
   #rings canvas.sc{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
   #rings .ib{color:#7A3BB8}
-  #rings .ttl{position:absolute;left:50%;transform:translateX(-50%);top:max(14px,calc(env(safe-area-inset-top) + 4px));z-index:6;background:#fff;color:#4B2A84;
-    font-weight:900;font-size:clamp(15px,4.2vw,19px);padding:4px 16px 3px;border-radius:99px;border:3px solid #E9D9FF;box-shadow:0 4px 0 #C9B2F2,0 8px 14px rgba(80,40,140,.14);white-space:nowrap;max-width:calc(100% - 240px);overflow:hidden;text-overflow:ellipsis;pointer-events:none;text-align:center;line-height:1.15}
-  #rings .ttl small{display:block;font-size:11px;font-weight:800;opacity:.65}
+  #rings .row1{display:flex;align-items:center;gap:8px;pointer-events:none;max-width:94vw}
+  #rings .ttl{background:#fff;color:#4B2A84;font-weight:900;font-size:14px;padding:2px 12px 2px;border-radius:99px;border:3px solid #E9D9FF;box-shadow:0 3px 0 #C9B2F2;white-space:nowrap;text-align:center;line-height:1.1;flex:0 0 auto}
+  #rings .ttl small{display:block;font-size:10.5px;font-weight:800;opacity:.65}
   #rings .hud{position:absolute;z-index:4;left:0;right:0;top:calc(max(10px,env(safe-area-inset-top)) + 56px);display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none}
   #rings .pbar{display:flex;gap:4px;padding:5px 8px;border-radius:99px;background:rgba(255,255,255,.92);box-shadow:0 3px 0 rgba(90,50,150,.18);max-width:min(92vw,520px)}
-  #rings .pbar i{width:clamp(16px,6vw,34px);height:12px;border-radius:6px;background:#E3DDF0;box-shadow:inset 0 2px 2px rgba(0,0,0,.1);transition:background .25s}
+  #rings .pbar i{width:clamp(12px,4.6vw,30px);height:12px;border-radius:6px;background:#E3DDF0;box-shadow:inset 0 2px 2px rgba(0,0,0,.1);transition:background .25s}
   #rings .pbar i.tg{background:var(--c);opacity:.35;box-shadow:none}
   #rings .pbar i.cur{box-shadow:0 0 0 2px #fff,0 0 0 4px #FFB020;opacity:1}
   #rings .pbar i.on{background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 60%),var(--c,#FFB020);opacity:1;box-shadow:0 2px 0 rgba(0,0,0,.18)}
@@ -242,8 +242,7 @@
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
       <button class="ib lvb" aria-label="المستويات">🗺️</button>
     </div>
-    <div class="ttl"><span class="tN"></span><small class="tM"></small></div>
-    <div class="hud"><div class="pbar"></div><div class="prm" role="button" aria-label="إعادة السؤال"></div></div>
+    <div class="hud"><div class="row1"><div class="ttl"><span class="tN"></span><small class="tM"></small></div><div class="pbar"></div></div><div class="prm" role="button" aria-label="إعادة السؤال"></div></div>
     <button class="spk" aria-label="استمع">🔊</button>
     <div class="ans"></div>
     <div class="overlay" id="rgLv"><div class="panel lvp"><h3>🌈 المستويات</h3>
@@ -351,7 +350,7 @@
     let trayH = portrait ? Hd * .2 : 120;
     for (let pass = 0; pass < 2; pass++) {
       const avail = Hd - top - trayH - 24;
-      th = clamp(avail / (cap + 3.1), 22, 62);
+      th = clamp(avail / (cap + (portrait ? 3.1 : 2.5)), 22, 66);
       Rmax = Math.min(playW * (two ? .21 : .33), th * 3.4, 160);
       Rmin = Math.max(Rmax * .45, th * 1.5);
       ts = portrait ? .52 : .6;
@@ -449,7 +448,7 @@
     ansEl.innerHTML = shuffle([...opts]).map((v, i) => `<button data-v="${v}" style="--l:${cs[i][0]};--c:${cs[i][1]};--d:${cs[i][2]}">${dg(v)}</button>`).join('');
     ansEl.classList.add('on');
     ansEl.querySelectorAll('button').forEach(b => b.onclick = () => answer(+b.dataset.v, b));
-    const g = G(); if (g) g.from(ansEl.children, { scale: 0, duration: .5, stagger: .08, ease: 'back.out(2.5)', delay: .3 });
+    const g = G(); if (g) g.fromTo(ansEl.children, { scale: 0 }, { scale: 1, duration: .5, stagger: .08, ease: 'back.out(2.5)', delay: .3, clearProps: 'transform' });
   }
   function promptSpeak() {
     lastAct = T;
