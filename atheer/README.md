@@ -11,7 +11,7 @@
 
 | الملف | الحزمة |
 |---|---|
-| [`dist/OurKidsGames-7.0.apk`](dist/OurKidsGames-7.0.apk) | `com.atheer.games` |
+| [`dist/OurKidsGames-7.1.apk`](dist/OurKidsGames-7.1.apk) | `com.atheer.games` |
 
 - يُثبَّت فوق «ألعاب أثير وبشرى» القديمة مباشرة وتبقى النتائج. نسخة «كوتي وريلا وسونى» القديمة متوقفة.
 - **ويب (PWA):** افتح `atheer/index.html`.

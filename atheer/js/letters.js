@@ -1131,7 +1131,7 @@
       startLoop();
     },
     onLang(l) {
-      relabel();
+      relabel(); hintEl.classList.remove('on'); hintT.textContent = '';
       if (quizOv.classList.contains('on')) { quizOv.classList.remove('on'); quiz = null; }
       if (l !== alpha) { switchAlpha(l, true); } else updateUI();
       if (gridOv.classList.contains('on')) openGrid();

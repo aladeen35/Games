@@ -599,6 +599,7 @@
   }
   function langChanged() {
     paintLang(); chrome(); if (phase === 'over') winText();
+    swEl.querySelectorAll('[data-c]').forEach(b => b.setAttribute('aria-label', App.t(COLS[b.dataset.c].ar, COLS[b.dataset.c].en)));
     if (lvOv.classList.contains('on')) openLevels();
     if (galOv.classList.contains('on')) openGal();
   }

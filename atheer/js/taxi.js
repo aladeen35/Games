@@ -128,7 +128,7 @@
     [['.ib.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['#tPause', 'إيقاف مؤقت', 'Pause'], ['#tHorn', 'بوق', 'Horn'], ['#tStop', 'توقف', 'Stop'], ['#tJump', 'قفز', 'Jump']]
       .forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
   }
-  let hintKey = 'ready', overInfo = null;
+  let hintKey = 'ready', overInfo = null, zoneShown = -1;
   function hintText() {
     return hintKey === 'ready' ? App.t(App.g('المسي الشاشة أو اضغطي «قفز» لتنطلقي! 🚕', 'المس الشاشة أو اضغط «قفز» لتنطلق! 🚕'), 'Touch the screen or press «Jump» to go! 🚕')
       : App.t(App.g('اقفزي فوق العوائق ⬆️ واجمعي النجوم ⭐', 'اقفز فوق العوائق ⬆️ واجمع النجوم ⭐'), 'Jump over the obstacles ⬆️ and collect the stars ⭐');
@@ -200,7 +200,7 @@
     banner(0);
   }
   function banner(i) {
-    const el = $('#tZone'), z = ZONES[i % 3];
+    const el = $('#tZone'), z = ZONES[i % 3]; zoneShown = i;
     el.innerHTML = isEn() ? `${z.nEn}<small>${z.sEn}</small>` : `${z.n}<small>${z.s}</small>`;
     el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
   }
@@ -1394,6 +1394,7 @@
     best() { const b = store.get('taxiBest', null); return b && (b.d || b.n) ? `🏆 ${b.d || 0} ${mUnit()} · 🧍 ${b.n || 0}` : ''; },
     onLang() {
       relabel(); $('#tHintT').textContent = hintText(); fillOver(); lastMisKey = '';
+      if (zoneShown >= 0) { const z = ZONES[zoneShown % 3]; $('#tZone').innerHTML = isEn() ? `${z.nEn}<small>${z.sEn}</small>` : `${z.n}<small>${z.s}</small>`; }
       if (state === 'pause') $('#tPauseP').textContent = App.t(App.g('التاكسي ينتظركِ… 🚕💤', 'التاكسي ينتظرك… 🚕💤'), 'The taxi is waiting for you… 🚕💤');
     },
     enter() { relabel(); overInfo = null; resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },

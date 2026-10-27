@@ -963,7 +963,7 @@
     onLang() {
       relabel(); updChips();
       if (duo) pps.forEach((p, i) => { p.querySelector('.nm').textContent = pName(players[i]); });
-      if (hintTimer > 0) hintT.textContent = hintText();
+      hintT.textContent = hintText();
       for (const k in faces) if (k.startsWith('photo:')) delete faces[k];
       if (cards.length) bakeFaces();
       if (lvOv.classList.contains('on')) openLevels();

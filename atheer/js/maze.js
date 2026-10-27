@@ -1139,7 +1139,7 @@
     onLang() {
       relabel(); paintIntro(); fillWin();
       if (lvOv.classList.contains('on')) openLevels();
-      if (tipEl.classList.contains('on')) tip('', 0);
+      tip('', 0); tipEl.querySelector('span').textContent = '';
     },
     leave() {
       stopLoop(); timers = []; queue = []; ptr = null; hint = null;

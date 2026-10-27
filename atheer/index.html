@@ -290,36 +290,52 @@ html.gs .card,html.gs .kav{will-change:transform}
   border:3px solid #FFD95A;box-shadow:0 4px 0 #F2B630,0 10px 18px rgba(0,0,0,.18);animation:tst 2.6s ease forwards}
 @keyframes tst{0%{opacity:0;transform:translateY(-16px) scale(.7)}10%{opacity:1;transform:scale(1.06)}16%{transform:none}85%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
 
-/* ============ شاشة البداية (تُرسم فورًا قبل أي سكربت، وتتسلّم من شاشة أندرويد بنفس اللون والشعار ومكانه) ============ */
+/* ============ شاشة البداية (تُرسم فورًا قبل أي سكربت، وتتسلّم من شاشة أندرويد بنفس اللون والشعار ومكانه) ============
+   الحركة الافتتاحية بـ CSS (transform/opacity) لأنها تعمل على مسار التركيب فتبقى سلسة حتى والمتصفح مشغول بتحميل السكربتات؛
+   والخروج (طيران الشعار والأطفال إلى أماكنهم في القائمة) بـ GSAP بعد جاهزية التطبيق. */
 #splash{position:fixed;inset:0;z-index:300;overflow:hidden;touch-action:none;--dy:0px;font-family:var(--font);cursor:pointer}
 #splash .sp-bgc{position:absolute;inset:0;background:#FFF4FA}
-#splash .sp-blob{position:absolute;border-radius:50%;opacity:0;filter:blur(36px);will-change:transform}
+#splash .sp-blob{position:absolute;border-radius:50%;opacity:0;filter:blur(36px);animation:spBlob 1.2s ease-out .05s forwards}
 #splash .b1{width:300px;height:300px;left:-90px;top:-70px;background:#FFC2DD}
-#splash .b2{width:280px;height:280px;right:-90px;top:12%;background:#BFDDFF}
-#splash .b3{width:320px;height:320px;left:18%;bottom:-120px;background:#C9F0CF}
+#splash .b2{width:280px;height:280px;right:-90px;top:12%;background:#BFDDFF;animation-delay:.15s}
+#splash .b3{width:320px;height:320px;left:18%;bottom:-120px;background:#C9F0CF;animation-delay:.25s}
 #splash .sp-c{position:absolute;left:50%;top:calc(50% - var(--dy));width:0;height:0}
-#splash .sp-logo{position:absolute;left:-96px;top:-96px;width:192px;height:192px;transform-origin:50% 90%}
+#splash .sp-logo{position:absolute;left:-96px;top:-96px;width:192px;height:192px;transform-origin:50% 88%;animation:spSquash 1.05s linear both,spBob 2.4s ease-in-out 1.05s infinite}
 #splash .sp-logo img{width:100%;height:100%;display:block;pointer-events:none}
-#splash .sp-kid{position:absolute;left:-27px;top:-27px;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:29px;line-height:1;opacity:0;
-  background:linear-gradient(180deg,#fff,#F4F0FA);box-shadow:0 0 0 3px #fff,0 0 0 6px var(--kc,#FF8CC6),0 7px 12px rgba(120,40,100,.22)}
-#splash .sp-kid img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+/* الأطفال: غلاف يدور (المدار) ← غلاف يضع كل طفل على زاويته ← غلاف يعاكس الدوران كي يبقى الوجه مستقيمًا ← الفقاعة */
+#splash .sp-orbit{position:absolute;left:0;top:0;width:0;height:0;animation:spSpin 12s linear .2s infinite}
+#splash .sp-kid{position:absolute;left:0;top:0;width:0;height:0;transform:rotate(var(--a)) translateX(var(--r)) rotate(calc(-1 * var(--a)));animation:spOut .75s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+#splash .sp-kc{position:absolute;left:-27px;top:-27px;width:54px;height:54px;animation:spSpin 12s linear .2s infinite reverse}
+#splash .sp-kb{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:29px;line-height:1;
+  background:linear-gradient(180deg,#fff,#F4F0FA);box-shadow:0 0 0 3px #fff,0 0 0 6px var(--kc,#FF8CC6),0 7px 12px rgba(120,40,100,.22);animation:spPop .7s cubic-bezier(.3,1.8,.5,1) var(--d) both}
+#splash .sp-kb img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 #splash .sp-kid[data-g=boy]{--kc:#6FB0FF}
-#splash .sp-g{position:absolute;font-style:normal;font-weight:900;opacity:0;text-shadow:0 2px 0 #fff,0 4px 8px rgba(0,0,0,.08);pointer-events:none}
-#splash .sp-title{position:absolute;left:0;right:0;top:calc(50% - var(--dy) + 132px);text-align:center;white-space:nowrap;font-size:36px;font-weight:900;line-height:1.2;opacity:0}
-#splash .sp-title span{display:inline-block;margin:0 .14em;color:var(--sc);
+#splash .sp-g{position:absolute;font-style:normal;font-weight:900;opacity:0;text-shadow:0 2px 0 #fff,0 4px 8px rgba(0,0,0,.08);pointer-events:none;
+  animation:spGlyph .5s cubic-bezier(.3,1.8,.5,1) var(--d) forwards,spFloat var(--f) ease-in-out var(--d) infinite alternate}
+#splash .sp-title{position:absolute;left:0;right:0;top:calc(50% - var(--dy) + var(--R,140px) + 40px);text-align:center;white-space:nowrap;font-size:36px;font-weight:900;line-height:1.2}
+#splash .sp-title span{display:inline-block;margin:0 .14em;color:var(--sc);animation:spPop .55s cubic-bezier(.3,1.7,.5,1) var(--d) both;
   text-shadow:0 2px 0 #fff,2px 0 0 #fff,-2px 0 0 #fff,0 -2px 0 #fff,2px 2px 0 #fff,-2px 2px 0 #fff,2px -2px 0 #fff,-2px -2px 0 #fff,0 6px 0 var(--ss)}
 #splash .sp-title.ch span{margin:0}
 #splash .sp-title.ch span.sp{width:.3em}
-#splash .sp-bar{position:absolute;left:50%;bottom:calc(58px + env(safe-area-inset-bottom));width:200px;margin-left:-100px;height:14px;border-radius:99px;background:#fff;opacity:0;overflow:hidden;
-  box-shadow:inset 0 2px 3px rgba(224,33,127,.14),0 3px 0 #FFD6E8}
-#splash .sp-bar i{position:absolute;inset:3px;border-radius:99px;background:linear-gradient(90deg,#FF8CC6,#B49BFF 45%,#6FB0FF 70%,#7AD68C);transform:scaleX(0);transform-origin:0 50%}
+#splash .sp-bar{position:absolute;left:50%;bottom:calc(58px + env(safe-area-inset-bottom));width:200px;margin-left:-100px;height:14px;border-radius:99px;background:#fff;overflow:hidden;
+  box-shadow:inset 0 2px 3px rgba(224,33,127,.14),0 3px 0 #FFD6E8;animation:spIn .45s ease-out .45s both}
+#splash .sp-bar i{position:absolute;inset:3px;border-radius:99px;background:linear-gradient(90deg,#FF8CC6,#B49BFF 45%,#6FB0FF 70%,#7AD68C);transform:scaleX(.04);transform-origin:0 50%;
+  transition:transform 2.6s cubic-bezier(.2,.7,.3,1)}
+#splash .sp-bar i.fast{transition-duration:.3s}
 html[dir=rtl] #splash .sp-bar i{transform-origin:100% 50%;background:linear-gradient(270deg,#FF8CC6,#B49BFF 45%,#6FB0FF 70%,#7AD68C)}
-@media (max-height:520px){#splash .sp-title{top:calc(50% - var(--dy) + 112px);font-size:28px}#splash .sp-bar{bottom:18px}}
-/* بلا GSAP: ظهور بسيط بـ CSS */
-#splash.sp-css .sp-title,#splash.sp-css .sp-bar{animation:spIn .5s .1s both}
-#splash.sp-css .sp-bar i{transition:transform .5s ease-out}
+@media (max-height:600px){#splash .sp-title{top:auto;bottom:44px;font-size:28px}#splash .sp-bar{bottom:16px}}
+#splash.frozen *{animation:none!important}
 #splash.sp-out{opacity:0;transition:opacity .4s;pointer-events:none}
-@keyframes spIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes spBlob{to{opacity:.75;transform:scale(1.15)}}
+@keyframes spSquash{0%{transform:none}12%{transform:scale(1.14,.84)}30%{transform:translateY(-24px) scale(.92,1.1)}48%{transform:translateY(0) scale(1.06,.95)}62%{transform:scale(.98,1.02)}78%{transform:scale(1.01,.99)}100%{transform:none}}
+@keyframes spBob{50%{transform:translateY(-6px) rotate(-1.5deg)}}
+@keyframes spSpin{to{transform:rotate(360deg)}}
+@keyframes spOut{from{transform:rotate(var(--a)) translateX(0) rotate(calc(-1 * var(--a)))}}
+@keyframes spPop{from{opacity:0;transform:translateY(18px) scale(.3) rotate(-25deg)}}
+@keyframes spGlyph{from{opacity:0;transform:scale(0)}to{opacity:.7;transform:none}}
+@keyframes spFloat{to{translate:0 -36px;rotate:var(--rt)}}
+@keyframes spIn{from{opacity:0;transform:translateY(14px)}}
+@media (prefers-reduced-motion:reduce){#splash *{animation:none!important;transition:none!important}#splash .sp-blob{opacity:.7}#splash .sp-g{opacity:.6}}
 
 /* ---------- مفتاح اللغة في الشاشة الرئيسية: «عربي | English» بقرص ينزلق ---------- */
 .langpill{position:relative;display:inline-flex;align-items:stretch;padding:4px;border-radius:99px;background:rgba(255,255,255,.9);border:3px solid #fff;
@@ -394,16 +410,17 @@ html[lang=en] .card h2{font-size:17px}
   <div class="sp-bar"><i></i></div>
 </div>
 <script>
-/* شاشة البداية: تظهر فورًا بنفس لون شاشة أندرويد وشعارها في المكان نفسه، ثم تتحرك بـ GSAP حين يُحمَّل،
-   وتختفي متى جهز التطبيق (بحدّ أدنى قصير). النقر يتخطّاها، وتحترم تقليل الحركة، ولا تعلق أبدًا إن فشل GSAP. */
+/* شاشة البداية: تظهر فورًا بنفس لون شاشة أندرويد وشعارها في المكان نفسه، والحركة الافتتاحية بـ CSS،
+   ثم تختفي متى جهز التطبيق (بحدّ أدنى قصير) بخروج GSAP يُطير الشعار والأطفال إلى أماكنهم.
+   النقر يتخطّاها، وتحترم تقليل الحركة، ولا تعلق أبدًا إن فشل GSAP أو الإقلاع. */
 window.Splash = (function () {
   var el = document.getElementById('splash'), H = document.documentElement, t0 = Date.now();
-  var S = { active: true }, cbs = [], loaded = false, skip = false, ended = false, G = null, intro = null, orbit = null, bar = 0;
+  var S = { active: true }, cbs = [], loaded = false, skip = false, ended = false;
   var reduce = false; try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-  var MIN = reduce ? 450 : 1350;
+  var MIN = reduce ? 450 : 1500;
   var q = function (s) { return el.querySelector(s); };
   var get = function (k) { try { return JSON.parse(localStorage.getItem('app:' + k)); } catch (e) { return null; } };
-  /* أندرويد: الصفحة مُزاحة عن أشرطة النظام، فنرفع الشعار بنصف الفرق كي يطابق وسط الشاشة كلها */
+  /* أندرويد: الصفحة مُزاحة عن أشرطة النظام، فنرفع الشعار بنصف الفرق كي يطابق وسط الشاشة كلها (مكان شعار النظام) */
   function fitDy() { try { if (window.AndroidBridge && AndroidBridge.insets) { var a = String(AndroidBridge.insets()).split(','); el.style.setProperty('--dy', ((+a[0] || 0) - (+a[1] || 0)) / 2 + 'px'); } } catch (e) {} }
   fitDy(); addEventListener('resize', fitDy);
   /* العنوان: كلمات في العربية (كي لا ينكسر وصل الحروف) وحروف في الإنجليزية */
@@ -412,70 +429,38 @@ window.Splash = (function () {
   title.className = 'sp-title' + (en ? ' ch' : '');
   title.innerHTML = parts.map(function (p, i) {
     if (p === ' ') return '<span class="sp"> </span>';
-    var c = C[(en ? i : i * 2) % C.length]; return '<span style="--sc:' + c[0] + ';--ss:' + c[1] + '">' + p + '</span>';
+    var c = C[(en ? i : i * 2) % C.length]; return '<span style="--sc:' + c[0] + ';--ss:' + c[1] + ';--d:' + (.4 + i * (en ? .04 : .14)).toFixed(2) + 's">' + p + '</span>';
   }).join('');
-  /* الأطفال يدورون حول الشعار (من قائمة الأطفال المحفوظة، أو الخمسة الأوائل) */
+  /* الأطفال يخرجون من الشعار ويدورون حوله (من قائمة الأطفال المحفوظة، أو الخمسة الأوائل) */
   var kids = get('kids'); if (!kids || !kids.length) kids = [{ id: 'atheer', av: '👑', gender: 'girl' }, { id: 'bushra', av: '⭐', gender: 'girl' }, { id: 'kuti', av: '🚗', gender: 'boy' }, { id: 'rila', av: '🎀', gender: 'girl' }, { id: 'owaison', av: '🦖', gender: 'boy' }];
   kids = kids.filter(function (k) { return k && k.id; }).slice(0, 8);
-  var orb = q('.sp-orbit');
-  kids.forEach(function (k) {
+  var orb = q('.sp-orbit'), R = Math.round(Math.min(150, innerWidth * .37, innerHeight * .2 + 40)); el.style.setProperty('--R', R + 'px');
+  kids.forEach(function (k, i) {
     var d = document.createElement('div'); d.className = 'sp-kid'; d.setAttribute('data-k', k.id); d.setAttribute('data-g', k.gender === 'boy' ? 'boy' : 'girl');
-    if (k.photo && /^data:image\//.test(k.photo)) { var im = new Image(); im.src = k.photo; im.alt = ''; d.appendChild(im); } else d.textContent = k.av || '⭐';
-    orb.appendChild(d);
+    d.style.cssText = '--a:' + (-90 + i * 360 / kids.length) + 'deg;--r:' + R + 'px;--d:' + (.2 + i * .07).toFixed(2) + 's';
+    var b = document.createElement('div'); b.className = 'sp-kb';
+    if (k.photo && /^data:image\//.test(k.photo)) { var im = new Image(); im.src = k.photo; im.alt = ''; b.appendChild(im); } else b.textContent = k.av || '⭐';
+    var c = document.createElement('div'); c.className = 'sp-kc'; c.appendChild(b); d.appendChild(c); orb.appendChild(d);
   });
   /* حروف وأرقام ونجوم تطفو في الخلفية */
   var GL = en ? ['A', 'B', 'C', '1', '2', '3', '★', '♥', '✿', 'a', 'b', '+'] : ['أ', 'ب', 'ت', '١', '٢', '٣', '★', '♥', '✿', 'A', 'B', '+'];
   var gbox = q('.sp-glyphs'), gc = ['#FF6FAE', '#5AA2FF', '#45C46A', '#FFB020', '#A77BFF'];
   GL.forEach(function (g, i) {
     var e = document.createElement('i'); e.className = 'sp-g'; e.textContent = g;
-    var col = i % 2 ? 1 : 0, r = ((i * 37) % 100) / 100;
-    e.style.cssText = 'left:' + (col ? 62 + r * 30 : 4 + r * 30) + '%;top:' + (6 + ((i * 53) % 88)) + '%;font-size:' + (22 + (i * 7) % 18) + 'px;color:' + gc[i % gc.length];
+    var r = ((i * 37) % 100) / 100;
+    e.style.cssText = 'left:' + (i % 2 ? 66 + r * 26 : 4 + r * 26) + '%;top:' + (5 + ((i * 53) % 86)) + '%;font-size:' + (22 + (i * 7) % 18) + 'px;color:' + gc[i % gc.length] +
+      ';--d:' + (.3 + ((i * 29) % 10) / 20).toFixed(2) + 's;--f:' + (2.2 + (i % 3) * .5) + 's;--rt:' + (i % 2 ? 22 : -22) + 'deg';
     gbox.appendChild(e);
   });
   /* إبلاغ أندرويد بعد أول رسم للشعار كي يُظهر الصفحة فوق شاشته الأصلية */
   var img = q('.sp-logo img'), told = false;
   function shown() { if (told) return; told = true; requestAnimationFrame(function () { requestAnimationFrame(function () { try { window.AndroidBridge && AndroidBridge.splashShown && AndroidBridge.splashShown(); } catch (e) {} }); }); }
   if (img.complete) shown(); else { img.onload = img.onerror = shown; setTimeout(shown, 800); }
-  /* شريط التقدّم: السكربتات التي وصلها المحلّل + الوقت، ثم يكتمل عند الجاهزية */
+  /* شريط التقدّم: انتقال CSS طويل نحو 90٪ (يستمر حتى والمتصفح مشغول)، ثم يكتمل عند الجاهزية */
   var fill = q('.sp-bar i');
-  function setBar(p) {
-    if (p <= bar) return; bar = p;
-    if (G) G.to(fill, { scaleX: p, duration: .35, ease: 'power2.out', overwrite: 'auto' }); else fill.style.transform = 'scaleX(' + p + ')';
-  }
-  var tick = setInterval(function () {
-    if (ended) { clearInterval(tick); return; }
-    var n = document.querySelectorAll('script[src]').length, el2 = (Date.now() - t0) / 1000;
-    setBar(Math.min(.92, Math.max(n / 58 * .9, 1 - Math.exp(-el2 * 1.6))));
-  }, 120);
+  requestAnimationFrame(function () { requestAnimationFrame(function () { if (!loaded) fill.style.transform = 'scaleX(.9)'; }); });
 
-  /* الحركة الافتتاحية (حين يجهز GSAP) */
-  S.go = function () {
-    if (intro || ended || !window.gsap) return;
-    G = window.gsap;
-    if (reduce) { G.to([title, q('.sp-bar')], { autoAlpha: 1, duration: .3 }); return; }
-    var kidEls = el.querySelectorAll('.sp-kid'), n = kidEls.length, R = Math.min(150, innerWidth * .36), pos = { a: -90, r: 0 };
-    var place = function () { for (var i = 0; i < n; i++) { var a = (pos.a + i * 360 / n) * Math.PI / 180; G.set(kidEls[i], { x: Math.cos(a) * pos.r, y: Math.sin(a) * pos.r }); } };
-    intro = G.timeline();
-    intro.to('.sp-blob', { autoAlpha: .75, scale: 1.15, duration: 1, ease: 'sine.out', stagger: .1 }, 0)
-      // الشعار: انضغاط ثم قفزة ثم ارتداد مطاطي
-      .to('.sp-logo', { scaleX: 1.14, scaleY: .84, duration: .14, ease: 'power2.in' }, 0)
-      .to('.sp-logo', { scaleX: .93, scaleY: 1.1, y: -22, duration: .22, ease: 'power2.out' })
-      .to('.sp-logo', { scaleX: 1, scaleY: 1, y: 0, duration: .75, ease: 'elastic.out(1,0.38)' })
-      // الأطفال يخرجون من الشعار إلى مداراتهم
-      .to(kidEls, { autoAlpha: 1, duration: .2, stagger: .06 }, .2)
-      .fromTo(kidEls, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: .6, ease: 'back.out(2.4)', stagger: .06 }, .2)
-      .to(pos, { r: R, duration: .7, ease: 'back.out(1.6)', onUpdate: place }, .2)
-      .fromTo(title.children, { y: 26, scale: .4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .55, ease: 'back.out(2.2)', stagger: en ? .035 : .12 }, .35)
-      .set(title, { autoAlpha: 1 }, .35)
-      .fromTo('.sp-bar', { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .4, ease: 'back.out(2)' }, .5)
-      .fromTo('.sp-g', { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: .7, duration: .5, ease: 'back.out(2)', stagger: { each: .04, from: 'random' } }, .3);
-    place();
-    orbit = G.to(pos, { a: 270, duration: 9, ease: 'none', onUpdate: place, delay: .2 });
-    el.querySelectorAll('.sp-g').forEach(function (g, i) { G.to(g, { y: -40 - (i % 4) * 14, rotation: (i % 2 ? 1 : -1) * 25, duration: 2.6 + (i % 3) * .5, ease: 'sine.inOut', yoyo: true, repeat: -1 }); });
-    fill.style.transform = ''; G.set(fill, { scaleX: bar });
-  };
-  function css() { if (!G && !ended) el.classList.add('sp-css'); }
-  setTimeout(css, 1200);
+  S.go = function () {}; // GSAP جاهز (الخروج يستعمله إن وُجد)
 
   function maybeEnd() {
     if (ended || !loaded) return;
@@ -484,52 +469,61 @@ window.Splash = (function () {
   }
   /* الخروج: الخلفية تذوب، والشعار يطير إلى شعار القائمة، وكل طفل يطير إلى صورته في صف الأطفال */
   function end() {
-    if (ended) return; ended = true; S.active = false; clearInterval(tick);
+    if (ended) return; ended = true; S.active = false;
+    var G = window.gsap;
     var done = function () { if (el.parentNode) el.parentNode.removeChild(el); };
     var run = function () { var l = cbs; cbs = []; l.forEach(function (f) { try { f(); } catch (e) { console.warn(e); } }); };
-    if (!G || reduce) {
-      run(); el.classList.add('sp-out'); setTimeout(done, 450); return;
-    }
-    if (intro) intro.progress(1); if (orbit) orbit.kill();
-    S.handoff = true;
-    var L = q('.sp-logo'), menuLogo = document.getElementById('logo'), tl = G.timeline({ onComplete: done });
-    G.to(fill, { scaleX: 1, duration: .2, overwrite: 'auto' });
-    var fly = function (from, to, sizeFrom, sizeTo) {
-      var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
-      return { x: '+=' + ((b.left + b.width / 2) - (a.left + a.width / 2)), y: '+=' + ((b.top + b.height / 2) - (a.top + a.height / 2)), scale: (b.width / (sizeFrom || a.width)) * (sizeTo || 1) };
-    };
-    var real = [];
-    if (menuLogo && menuLogo.getBoundingClientRect().width) {
-      var v = fly(L, menuLogo, 192, 1.12); real.push(menuLogo);
-      tl.to(L, { x: v.x, y: v.y, scale: v.scale, duration: .62, ease: 'power3.inOut' }, .05).to(L, { autoAlpha: 0, duration: .18 }, '>-.04');
-    } else tl.to(L, { scale: 1.3, autoAlpha: 0, duration: .45, ease: 'power2.in' }, 0);
-    el.querySelectorAll('.sp-kid').forEach(function (k, i) {
-      var t = document.querySelector('#kids .kid[data-k="' + (window.CSS && CSS.escape ? CSS.escape(k.getAttribute('data-k')) : k.getAttribute('data-k')) + '"] .kav');
-      var r = t && t.getBoundingClientRect();
-      if (r && r.width && r.right > 0 && r.left < innerWidth && r.top < innerHeight) {
-        var v2 = fly(k, t, 54, 1); real.push(t);
-        tl.to(k, { x: v2.x, y: v2.y, scale: v2.scale, rotation: 360, duration: .6, ease: 'power3.inOut' }, .08 + i * .04).to(k, { autoAlpha: 0, duration: .15 }, '>-.03');
-      } else tl.to(k, { scale: 0, autoAlpha: 0, duration: .3, ease: 'back.in(2)' }, i * .03);
-    });
-    G.set(real, { autoAlpha: 0 });
-    tl.add(function () { G.set(real, { clearProps: 'opacity,visibility' }); }, .66)
-      .to([title, q('.sp-bar')], { y: 20, autoAlpha: 0, duration: .3, ease: 'power2.in' }, 0)
-      .to('.sp-g', { scale: 0, autoAlpha: 0, duration: .25, stagger: .015 }, 0)
-      .to(['.sp-bgc', '.sp-blob'], { autoAlpha: 0, duration: .45, ease: 'power1.inOut' }, .12)
-      .add(run, .2);
-    el.style.pointerEvents = 'none';
+    if (!G || reduce) { run(); el.classList.add('sp-out'); setTimeout(done, 450); return; }
+    try {
+      /* نجمّد حركات CSS في مواضعها الحالية ثم يكمل GSAP من هناك */
+      var anchor = q('.sp-c').getBoundingClientRect(), kidEls = [].slice.call(el.querySelectorAll('.sp-kid'));
+      var kr = kidEls.map(function (k) { return k.querySelector('.sp-kb').getBoundingClientRect(); });
+      var lr = q('.sp-logo').getBoundingClientRect();
+      var fz = [].slice.call(el.querySelectorAll('.sp-g, .sp-blob')).map(function (g) { var cs = getComputedStyle(g); return [g, cs.opacity, cs.transform]; });
+      el.classList.add('frozen'); el.style.pointerEvents = 'none';
+      kidEls.forEach(function (k, i) { k.style.transform = 'none'; G.set(k, { x: kr[i].left + kr[i].width / 2 - anchor.left, y: kr[i].top + kr[i].height / 2 - anchor.top }); });
+      fz.forEach(function (f) { f[0].style.opacity = f[1]; if (f[2] && f[2] !== 'none') f[0].style.transform = f[2]; });
+      G.set(q('.sp-logo'), { x: lr.left + lr.width / 2 - anchor.left, y: lr.top + lr.height / 2 - anchor.top });
+      fill.classList.add('fast'); fill.style.transform = 'scaleX(1)';
+      S.handoff = true;
+      var L = q('.sp-logo'), menuLogo = document.getElementById('logo'), tl = G.timeline({ onComplete: done });
+      var fly = function (from, to, base, k) {
+        var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+        return { x: '+=' + ((b.left + b.width / 2) - (a.left + a.width / 2)), y: '+=' + ((b.top + b.height / 2) - (a.top + a.height / 2)), scale: b.width / base * k };
+      };
+      var real = [];
+      if (menuLogo && menuLogo.getBoundingClientRect().width) {
+        var v = fly(L, menuLogo, 192, 1.13); real.push(menuLogo);
+        tl.to(L, { x: v.x, y: v.y, scale: v.scale, rotation: 0, duration: .62, ease: 'power3.inOut' }, .05).to(L, { autoAlpha: 0, duration: .18 }, '>-.04');
+      } else tl.to(L, { scale: 1.3, autoAlpha: 0, duration: .45, ease: 'power2.in' }, 0);
+      kidEls.forEach(function (k, i) {
+        var id = k.getAttribute('data-k'), t = document.querySelector('#kids .kid[data-k="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"] .kav');
+        var r = t && t.getBoundingClientRect();
+        if (r && r.width && r.right > 0 && r.left < innerWidth && r.top < innerHeight) {
+          var v2 = fly(k.querySelector('.sp-kb'), t, 54, 1); real.push(t);
+          tl.to(k, { x: v2.x, y: v2.y, scale: v2.scale, rotation: 360, duration: .6, ease: 'power3.inOut' }, .08 + i * .04).to(k, { autoAlpha: 0, duration: .15 }, '>-.03');
+        } else tl.to(k, { scale: 0, autoAlpha: 0, duration: .3, ease: 'back.in(2)' }, i * .03);
+      });
+      G.set(real, { autoAlpha: 0 });
+      tl.add(function () { G.set(real, { clearProps: 'opacity,visibility' }); }, .7)
+        .to([title, q('.sp-bar')], { y: 20, autoAlpha: 0, duration: .3, ease: 'power2.in' }, .1)
+        .to('#splash .sp-g', { scale: 0, autoAlpha: 0, duration: .25, stagger: .015 }, 0)
+        .to(['#splash .sp-bgc', '#splash .sp-blob'], { autoAlpha: 0, duration: .45, ease: 'power1.inOut' }, .15)
+        .add(run, .2);
+      setTimeout(function () { G.set(real, { clearProps: 'opacity,visibility' }); done(); }, 1600); // احتياط
+    } catch (e) { console.warn(e); run(); el.classList.add('sp-out'); setTimeout(done, 450); }
   }
-  /** يُستدعى من App.boot بعد بناء القائمة؛ ننتظر الخطوط قليلًا كي يظهر العنوان بخطه */
+  /** يُستدعى من App.boot بعد بناء القائمة؛ ننتظر الخطوط قليلًا كي تظهر القائمة بخطها */
   S.ready = function () {
     if (loaded) return;
-    var go = function () { if (loaded) return; loaded = true; setBar(1); maybeEnd(); };
+    var go = function () { if (loaded) return; loaded = true; maybeEnd(); };
     try { (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go, go); } catch (e) { go(); }
     setTimeout(go, 700);
   };
-  S.onEnd = function (f) { if (ended && !cbs.length) { f(); } else cbs.push(f); };
-  el.addEventListener('pointerdown', function () { skip = true; if (!loaded) { /* يتخطّى حين يجهز */ } maybeEnd(); });
+  S.onEnd = function (f) { if (ended) setTimeout(f, 0); else cbs.push(f); };
+  el.addEventListener('pointerdown', function () { skip = true; maybeEnd(); });
   /* احتياط: إن تعطّل الإقلاع لا تبقى الشاشة إلى الأبد */
-  setTimeout(function () { if (!ended) { loaded = true; skip = true; maybeEnd(); } }, 6000);
+  setTimeout(function () { if (!ended) { loaded = true; skip = true; maybeEnd(); } }, 8000);
   return S;
 })();
 </script>

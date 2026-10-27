@@ -16,8 +16,8 @@ if [ -f "$SDK36" ]; then JAVA_JAR="$SDK36"; TARGET_SDK=36; fi
 TARGET_SDK="${TARGET_SDK:-34}"
 BUNDLETOOL="${BUNDLETOOL:-$REPO/android/tools/sdk/bundletool.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=10
-VERSION_NAME=7.0
+VERSION_CODE=11
+VERSION_NAME=7.1
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 

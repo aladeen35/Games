@@ -436,11 +436,14 @@ const Fx = {
     const G = gsap, vh = innerHeight;
     const cards = [...document.querySelectorAll('#cards .gh, #cards .card')].filter(c => c.getBoundingClientRect().top < vh).slice(0, 14);
     const C = 'transform,opacity,visibility';
+    // بعد شاشة البداية: الشعار وصور الأطفال تطير إليها من هناك، فلا نُظهرها هنا من جديد
+    const hand = !!(window.Splash && Splash.handoff);
     this.intro = G.timeline({ defaults: { ease: 'back.out(1.7)' }, onComplete: () => { this.intro = null; } })
-      .fromTo('.topbar > *', { y: -34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .05, duration: .45, clearProps: C })
-      .fromTo('#logo', { scale: .3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .7, ease: 'back.out(1.5)' }, .05)
-      .fromTo('#hello, #sub', { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .08, duration: .4, ease: 'power2.out', clearProps: C }, .3)
-      .fromTo('#kids .kid', { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: .07, duration: .5, clearProps: C }, .38)
+      .fromTo('.topbar > *', { y: -34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .05, duration: .45, clearProps: C });
+    if (!hand) this.intro.fromTo('#logo', { scale: .3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .7, ease: 'back.out(1.5)' }, .05);
+    this.intro
+      .fromTo('#mLang, #hello, #sub', { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .08, duration: .4, ease: 'power2.out', clearProps: C }, .3)
+      .fromTo(hand ? '#kids .kid b, #kids .kid.add' : '#kids .kid', { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: .07, duration: .5, clearProps: C }, .38)
       .fromTo('#cats button', { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .03, duration: .3, clearProps: C }, .5)
       .fromTo(cards, { y: 46, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .045, duration: .55, ease: 'power3.out', clearProps: C }, .55);
   },
@@ -1125,6 +1128,8 @@ const App = {
     const th = (this.profile && this.profile.theme) || 'girls';
     document.documentElement.dataset.theme = th;
     const meta = document.querySelector('meta[name=theme-color]'); if (meta) meta.content = th === 'boys' ? '#2E86F5' : '#FF4FA3';
+    // أندرويد: لون شريطي النظام يتبع سماء القائمة (أعلى) وأسفلها
+    try { if (window.AndroidBridge && AndroidBridge.setBars) AndroidBridge.setBars(th === 'boys' ? '#7FC2FF' : '#FFB9DC', th === 'boys' ? '#C4E4FF' : '#FFE2F0'); } catch (e) {}
     this.renderMenu();
   },
   /** تصغير الصورة إلى مربع ~256px بصيغة JPEG (يُقصّ من الوسط، وأعلى قليلًا في الصور الطولية حيث الوجه) */
