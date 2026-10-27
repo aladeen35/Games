@@ -945,8 +945,8 @@
   #diff .btn:active{box-shadow:0 1px 0 #C25E00}
   #diff .overlay{background:rgba(10,40,80,.45)}
   #diff .lvp{width:min(94vw,560px);max-height:90vh;overflow-y:auto;touch-action:pan-y;background:linear-gradient(#FFFFFF,#EEF7FF)}
-  #diff .lvg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 9px;margin:10px 2px 12px}
-  @media (min-width:600px){#diff .lvg{grid-template-columns:repeat(4,1fr)}}
+  #diff .lvg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 9px;margin:10px 2px 12px}
+  @media (min-width:600px){#diff .lvg{grid-template-columns:repeat(4,minmax(0,1fr))}}
   #diff .lvb{position:relative;border-radius:14px;color:#1D4F7A;font-weight:900;display:flex;flex-direction:column;align-items:stretch;gap:2px;
     background:#fff;border:3px solid #fff;box-shadow:0 0 0 2px #9FCDEB,0 4px 0 2px #9FCDEB,0 6px 10px rgba(10,50,90,.2);padding:3px 3px 4px}
   #diff .lvb:active{transform:translateY(3px)}

@@ -551,7 +551,7 @@
   #wudu .btn:active{box-shadow:0 1px 0 #156E97}
   #wudu .btn.alt{background:#fff;color:#1F86B5;box-shadow:0 5px 0 #BFDDE9;border:3px solid #DDF0F7}
   #wudu .lvp{width:min(94vw,460px);max-height:88vh;overflow-y:auto;touch-action:pan-y}
-  #wudu .lvh{font-weight:900;color:#2E7FA0;margin:10px 0 4px;font-size:16px;text-align:right}
+  #wudu .lvh{font-weight:900;color:#2E7FA0;margin:10px 0 4px;font-size:16px;text-align:start}
   #wudu .lvg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 10px}
   #wudu .lvb{position:relative;border-radius:20px;background:#fff;border:3px solid #D3EEF7;box-shadow:0 5px 0 #A8D8E8;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#1A6A8C;font-weight:900;padding:8px 4px 6px;gap:1px}
   #wudu .lvb:active{transform:translateY(3px)}
