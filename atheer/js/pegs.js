@@ -854,7 +854,7 @@
   function drawMini(cvs, s, size) {
     cvs.width = size * 2; cvs.height = size * 2;
     const c = cvs.getContext('2d'); c.scale(2, 2);
-    const sv = U, mr = Math.max(...geo(s.kind).pts.map(q => Math.hypot(q[0], q[1] / GK))); U = size * .4 / mr;
+    const sv = U, mr = Math.max(...geo(s.kind).pts.map(q => Math.hypot(q[0], q[1] / GK))); U = size * .46 / mr;
     const t = Object.assign({}, s, { gx: size / 2, gy: size * .5 + TH * HK * U * .5, y: 0, sc: 1, rot: 0, tilt: 0, sq: 0, alpha: 1 });
     drawShape(c, t); U = sv;
   }
@@ -1098,12 +1098,12 @@
     const g = c.createRadialGradient(s * .5, s * .3, s * .05, s * .5, s * .5, s * .8);
     g.addColorStop(0, '#F6D7DB'); g.addColorStop(1, '#C48F9C');
     c.fillStyle = g; c.fillRect(0, 0, s, s);
-    const sv = { U, dpr }; U = s * .42; dpr = 2;
-    drawBoardRect(c, s * .12, s * .3, s * .88, s * .78, .14 * U, false, 9, 2);
-    const g1 = mkGroup(3, { cap: 3 }); g1.gx = s * .5; g1.gy = s * .56;
+    const sv = { U, dpr }; U = s * .56; dpr = 2;
+    drawBoardRect(c, s * .04, s * .3, s * .96, s * .8, .12 * U, false, 9, 2);
+    const g1 = mkGroup(3, { cap: 3 }); g1.gx = s * .56; g1.gy = s * .58;
     const s1 = mkShape(3, 'tri', 'yellow'); Object.assign(s1, { gx: g1.gx, gy: g1.gy, y: .12, sc: 1, rot: 0, st: 'placed' }); g1.shapes.push(s1);
     pegShadows(c, g1); shapeShadow(c, s1); drawGroup(c, g1);
-    const s2 = mkShape(4, 'sq', 'blue'); Object.assign(s2, { gx: s * .3, gy: s * .87, y: 0, sc: .55, rot: -.25 });
+    const s2 = mkShape(4, 'sq', 'blue'); Object.assign(s2, { gx: s * .2, gy: s * .86, y: 0, sc: .45, rot: -.25 });
     shapeShadow(c, s2); drawShape(c, s2);
     U = sv.U; dpr = sv.dpr;
   }
