@@ -36,12 +36,12 @@
   const CUR = {
     sdg: {
       coins: [1], notes: [2, 5, 10, 20, 50, 100, 200, 500], ar1: 'جنيه', ar2: 'جنيهان', ar2o: 'جنيهين', arPl: 'جنيهات', arAcc: 'جنيها', en1: 'pound', enPl: 'pounds',
-      abAr: 'ج.س', abEn: 'SDG', name: 'جنيه سوداني', motif: 'nile', flag: '🇸🇩',
+      abAr: 'ج.س', abEn: 'SDG', name: 'جنيه سوداني', nameEn: 'Sudanese pound', motif: 'nile', flag: '🇸🇩',
       col: { 1: ['#F4F7FB', '#BCC5D2', '#7D8898'], 2: '#D9B23A', 5: '#C47A3D', 10: '#E0505A', 20: '#2FA36B', 50: '#7E5BD6', 100: '#3D8BD6', 200: '#E0782E', 500: '#8E6BD6' }
     },
     sar: {
       coins: [1, 2], notes: [5, 10, 50, 100, 500], ar1: 'ريال', ar2: 'ريالان', ar2o: 'ريالين', arPl: 'ريالات', arAcc: 'ريالا', en1: 'riyal', enPl: 'riyals',
-      abAr: 'ر.س', abEn: 'SAR', name: 'ريال سعودي', motif: 'palm', flag: '🇸🇦',
+      abAr: 'ر.س', abEn: 'SAR', name: 'ريال سعودي', nameEn: 'Saudi riyal', motif: 'palm', flag: '🇸🇦',
       col: { 1: ['#F4F7FB', '#BCC5D2', '#7D8898', '#E5B23A'], 2: ['#FFE9A0', '#E5B23A', '#A9761A', '#BCC5D2'], 5: '#8E5BD6', 10: '#9C7448', 50: '#2FA36B', 100: '#E0505A', 500: '#3D8BD6' }
     }
   };
@@ -194,33 +194,46 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
-      <button class="ib curb" aria-label="العملة"></button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🗺️</button>
+      <button class="ib curb" data-i="cur"></button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" data-i="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <div class="ban off" role="button" aria-label="إعادة السؤال"></div>
+    <div class="ban off" role="button" data-i="repeat"></div>
     <div class="foot"><div class="ctl">
       <div class="cards"></div>
-      <button class="done off2" aria-label="ادفع"></button>
-      <button class="spk" aria-label="إعادة الصوت">🔊</button>
+      <button class="done off2" data-i="pay"></button>
+      <button class="spk" data-i="listen">🔊</button>
     </div></div>
-    <div class="overlay" id="pbLv"><div class="panel lvp"><h3>🐷 المستويات</h3>
+    <div class="overlay" id="pbLv"><div class="panel lvp"><h3 class="hLv"></h3>
       <div class="curs"><button data-c="sdg"></button><button data-c="sar"></button></div>
       <div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="pbWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄 مرة أخرى</button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again"></button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const ban = root.querySelector('.ban'), progEl = root.querySelector('.prog'), cardsEl = root.querySelector('.cards');
   const doneBtn = root.querySelector('.done'), spkBtn = root.querySelector('.spk'), curBtn = root.querySelector('.curb');
   const lvOv = root.querySelector('#pbLv'), winOv = root.querySelector('#pbWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), cur: App.t('العملة', 'Currency'), lang: App.t('اللغة', 'Language'), repeat: App.t('إعادة السؤال', 'Repeat the question'), pay: App.t('ادفع', 'Pay'), listen: App.t('إعادة الصوت', 'Replay sound') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🐷 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="again"]').textContent = '🔄 ' + App.t('مرة أخرى', 'Again');
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${dg(lvl)}`, `You finished level ${dg(lvl)}`) + (winMis ? App.t(' · الأخطاء: ', ' · Mistakes: ') + dg(winMis) : App.t(' دون أي خطأ!', ' with no mistakes!') + ' 💯');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, bg = null;
@@ -268,7 +281,15 @@
     IMGS[c + v] = im;
   }
   function moneyImg(v) { const im = IMGS[cur + v]; return !styl && im && !im.bad && im.complete && im.naturalWidth ? im : null; }
-  const STAMP = 'لعبة تعليمية';
+  const STAMP = 'لعبة تعليمية', STAMP_EN = 'Toy money';
+  const stampEn = () => lang === 'en' || App.lang === 'en';
+  /* نص الشريط المائل: «لعبة تعليمية» دائمًا، وتحته «Toy money» في الإنجليزية */
+  function stampText(c, bw) {
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = 'rgba(255,255,255,.95)';
+    if (!stampEn()) { c.font = `900 ${bw * .62}px ${FONT}`; c.direction = 'rtl'; c.fillText(STAMP, 0, bw * .04); return; }
+    c.font = `900 ${bw * .4}px ${FONT}`; c.direction = 'rtl'; c.fillText(STAMP, 0, -bw * .2);
+    c.font = `900 ${bw * .36}px ${FONT}`; c.direction = 'ltr'; c.fillText(STAMP_EN, 0, bw * .25);
+  }
   /* عملة حقيقية: الصورة الدائرية مع لمعة خفيفة على الحافة */
   function drawCoinImg(c, im, r) {
     c.save(); c.beginPath(); c.arc(0, 0, r, 0, TAU); c.clip();
@@ -297,8 +318,7 @@
     c.translate(-w / 2 + d, -h / 2 + d); c.rotate(-Math.PI / 4);
     c.fillStyle = 'rgba(232,48,120,.72)'; c.fillRect(-h, -bw / 2, h * 2, bw);
     c.fillStyle = 'rgba(255,255,255,.55)'; c.fillRect(-h, -bw / 2, h * 2, Math.max(.6, bw * .07)); c.fillRect(-h, bw / 2 - Math.max(.6, bw * .07), h * 2, Math.max(.6, bw * .07));
-    c.font = `900 ${bw * .62}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
-    c.fillStyle = 'rgba(255,255,255,.95)'; c.fillText(STAMP, 0, bw * .04);
+    stampText(c, bw);
     c.restore();
     // شارة صغيرة بقيمة الورقة (بأرقام اللغة الحالية) ليسهل على الطفل قراءتها
     const t = dg(v), fh = h * .25; c.font = `900 ${fh}px ${FONT}`;
@@ -314,7 +334,7 @@
   /* يرسم ورقة/عملة في لوحة منفصلة بحجم معطى */
   function moneyCanvas(v, size) {
     const im = moneyImg(v);
-    const key = cur + v + '|' + Math.round(size) + lang + (im ? 'i' : 's');
+    const key = cur + v + '|' + Math.round(size) + lang + (stampEn() ? 'E' : '') + (im ? 'i' : 's');
     if (cache.has(key)) return cache.get(key);
     const coin = isCoin(v), k = Math.max(2, Math.min(3, window.devicePixelRatio || 1));
     if (im) {
@@ -386,7 +406,7 @@
       c.save(); c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.clip();
       const bw = h * .2, d = h * .36; c.translate(-w / 2 + d, -h / 2 + d); c.rotate(-Math.PI / 4);
       c.fillStyle = 'rgba(232,48,120,.72)'; c.fillRect(-h, -bw / 2, h * 2, bw);
-      c.font = `900 ${bw * .62}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = 'rgba(255,255,255,.95)'; c.fillText(STAMP, 0, bw * .04);
+      stampText(c, bw);
       c.restore();
     }
     const out = { cnv, w: w + pad * 2, h: h + pad * 2, bw: w, bh: h };
@@ -445,7 +465,7 @@
     curBtn.innerHTML = `<img alt="" src="${groupImg(1, 40, 40)}">`;
     root.querySelectorAll('.curs button').forEach(b => {
       const c0 = cur; cur = b.dataset.c;
-      b.innerHTML = `<img alt="" src="${groupImg(1, 34, 34)}">${C().name}`;
+      b.innerHTML = `<img alt="" src="${groupImg(1, 34, 34)}">${App.t(C().name, C().nameEn)}`;
       cur = c0; b.classList.toggle('on', b.dataset.c === cur);
     });
   }
@@ -744,9 +764,8 @@
     coinRain(24);
     later(1.2, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
+      winMis = mistakes; winText();
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${dg(lvl)}` + (mistakes ? ` · الأخطاء: ${dg(mistakes)}` : ' دون أي خطأ! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on');
       const g = G(); if (g) g.from(winOv.querySelector('.panel'), { scale: .6, rotation: -6, duration: .6, ease: 'elastic.out(1,.55)' });
@@ -763,7 +782,7 @@
     const pr = loadProg(), grid = root.querySelector('.lvg');
     grid.innerHTML = LV.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${dg(n)}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${dg(n)}</span>
         <span class="e">${L.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -1176,12 +1195,16 @@
   root.querySelectorAll('.curs button').forEach(b => b.onclick = () => { setCur(b.dataset.c); openLevels(); });
   root.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
     const l = b.dataset.l; if (l === lang) return;
-    lang = l; store.set('piggybankLang', l); Sound.tap(); paintLang(); paintCurBtn();
-    if (!R) return;
-    placeScene(false); bg = null; setBanner(); renderProg(); showDone(!doneBtn.classList.contains('off2'));
-    cardsEl.querySelectorAll('.cd').forEach(c => { c.querySelector('b').textContent = dg(+c.dataset.v); c.querySelector('small').textContent = unitTxt(+c.dataset.v); const im = c.querySelector('img'); if (im) im.src = groupImg(+c.dataset.v, 96, 44); });
-    if (phase === 'play' || phase === 'ask') sayPrompt();
+    lang = l; store.set('piggybankLang', l); Sound.tap(); langChanged();
+    if (R && (phase === 'play' || phase === 'ask')) sayPrompt();
   });
+  function langChanged() {
+    paintLang(); paintCurBtn(); chrome(); if (phase === 'over' && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
+    if (!R) return;
+    placeScene(false); bg = null; if (phase !== 'over') setBanner(); renderProg(); showDone(!doneBtn.classList.contains('off2'));
+    cardsEl.querySelectorAll('.cd').forEach(c => { c.querySelector('b').textContent = dg(+c.dataset.v); c.querySelector('small').textContent = unitTxt(+c.dataset.v); const im = c.querySelector('img'); if (im) im.src = groupImg(+c.dataset.v, 96, 44); });
+  }
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   root.querySelector('.lvbtn').onclick = () => { Sound.tap(); openLevels(); };
   root.addEventListener('click', e => {
@@ -1223,8 +1246,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'حصّالتي', icon2: '🐷', isNew: true, music: 'candy',
+    id: ID, title: 'حصّالتي', titleEn: 'My Piggy Bank', icon2: '🐷', isNew: true, music: 'candy',
     desc: () => App.g('تعلّمي النقود واشتري من الدكّان', 'تعلّم النقود واشترِ من الدكّان'),
+    descEn: () => 'Learn about money and shop at the little store',
+    helpEn: () => [
+      '🪙 Pick the currency with the round button: Sudanese pound or Saudi riyal (toy money)',
+      '🐷 Drag the money or tap it and it jumps into the piggy bank, then say how much is inside',
+      '🛒 At the store put the exact price on the plate, then press «Pay ✓»',
+      '🪙 In «Change» pick how much the seller gives back, and in «Saving» collect the price of the toy',
+      '🔤 The «عربي / English» button changes the digits and the voice, and 🔊 repeats the question'
+    ],
     help: () => [
       '🪙 ' + App.g('اختاري', 'اختر') + ' العملة من الزر الدائري: جنيه سوداني أو ريال سعودي (نقود لعب)',
       '🐷 ' + App.g('اسحبي', 'اسحب') + ' النقود أو ' + App.g('المسيها', 'المسها') + ' فتقفز إلى الحصّالة، ثم ' + App.g('قولي', 'قل') + ' كم فيها',
@@ -1236,15 +1267,16 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('piggybankLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); chrome();
       cur = store.get('piggybankCur', 'sdg') === 'sar' ? 'sar' : 'sdg'; paintCurBtn();
       startLevel(Math.min(loadProg().unlocked, NL));
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; lang = l; langChanged(); if (chg && R && (phase === 'play' || phase === 'ask')) sayPrompt(); },
     leave() { stopLoop(); clearLater(); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { drag.m.drag = false; flyTo(drag.m, drag.m.hx, drag.m.hy, .2, 0); drag = null; } },
     resume() { paused = false; last = performance.now(); },

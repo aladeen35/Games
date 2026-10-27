@@ -113,28 +113,28 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️</button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">١٢٣</button><button data-l="en">123</button></div>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
+      <div class="lang" role="group" aria-label="اللغة" data-al="Language"><button data-l="ar">١٢٣</button><button data-l="en">123</button></div>
+      <div class="chip"><small data-en="Level">المستوى</small><b class="cLv">1</b></div>
     </div>
-    <div class="ban off" role="button" aria-label="إعادة السؤال"><span class="bt"></span></div>
+    <div class="ban off" role="button" aria-label="إعادة السؤال" data-al="Repeat the question"><span class="bt"></span></div>
     <div class="foot">
       <div class="ctl">
-        <button class="done off" aria-label="تم">تم ✓</button>
-        <button class="spk" aria-label="إعادة الصوت">🔊</button>
+        <button class="done off" aria-label="تم" data-al="Done" data-en="Done ✓">تم ✓</button>
+        <button class="spk" aria-label="إعادة الصوت" data-al="Repeat the sound">🔊</button>
       </div>
       <div class="dots"></div>
     </div>
-    <div class="overlay" id="pgLv"><div class="panel lvp"><h3>🗺️ المستويات</h3>
+    <div class="overlay" id="pgLv"><div class="panel lvp"><h3 data-en="🗺️ Levels">🗺️ المستويات</h3>
       <div class="grid"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="pgWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const ban = root.querySelector('.ban'), banT = root.querySelector('.bt'), foot = root.querySelector('.foot');
@@ -248,10 +248,13 @@
   function setBanner() {
     const t = R.type, a = R.vals[0], b = R.vals[R.vals.length - 1];
     let s = '';
-    if (t === 'order') s = `🐧 ${App.g('رتّبي', 'رتّب')} البطاريق من ${numTxt(a)} إلى ${numTxt(b)}`;
-    else if (t === 'listen') s = `👂 ${App.g('استمعي', 'استمع')} ${App.g('والمسي', 'والمس')} البطريق الصحيح`;
-    else if (t === 'missing') s = '🐟 أيّ رقم ناقص؟';
-    else s = '🐟 كم سمكة مع البطاريق؟';
+    /* السؤال بلغة المحتوى (مفتاح ١٢٣ / 123) مثل النطق */
+    const en = !isAr();
+    if (t === 'order') s = en ? `🐧 Put the penguins in order from ${a} to ${b}` : `🐧 ${App.g('رتّبي', 'رتّب')} البطاريق من ${numTxt(a)} إلى ${numTxt(b)}`;
+    else if (t === 'listen') s = en ? '👂 Listen and tap the right penguin' : `👂 ${App.g('استمعي', 'استمع')} ${App.g('والمسي', 'والمس')} البطريق الصحيح`;
+    else if (t === 'missing') s = en ? '🐟 Which number is missing?' : '🐟 أيّ رقم ناقص؟';
+    else s = en ? '🐟 How many fish are with the penguins?' : '🐟 كم سمكة مع البطاريق؟';
+    ban.style.direction = en ? 'ltr' : 'rtl';
     banT.textContent = s;
     ban.classList.remove('off', 'bump'); void ban.offsetWidth; ban.classList.add('bump');
   }
@@ -326,9 +329,8 @@
     pens.forEach((p, i) => later(i * .08, () => { hop(p, .7); p.happyT = 3; }));
     later(1.3, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${numTxt(lvl)}` + (mistakes ? ` · الأخطاء: ${numTxt(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on');
       praise();
@@ -338,11 +340,22 @@
       if (Array.from({ length: NL }, (_, i) => pr.stars[i + 1]).every(Boolean)) App.achieve('penguins_all');
     });
   }
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AD[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${uN(lvl)}` + (mistakes ? ` · الأخطاء: ${uN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   function openLevels() {
     const pr = loadProg(), grid = root.querySelector('.grid');
     grid.innerHTML = LV.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">${numTxt(n)}
+      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">${numTxt(n)}
         <small><span dir="ltr">${numTxt(L.lo)}–${numTxt(L.hi)}</span> · 🐧${numTxt(L.n)}</small>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -781,7 +794,7 @@
       c.setLineDash([u * .05, u * .04]); c.strokeStyle = '#9DAEE0'; c.lineWidth = Math.max(1.2, u * .025);
       c.beginPath(); c.arc(0, bcy, brr * .7 * pulse, 0, TAU); c.stroke(); c.setLineDash([]);
       c.font = `900 ${u * .3 * pulse}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillStyle = '#8FA2DD'; c.fillText('؟', 0, bcy + u * .02);
+      c.fillStyle = '#8FA2DD'; c.fillText(isAr() ? '؟' : '?', 0, bcy + u * .02);
     } else if (!counting) {
       const s = numTxt(p.v);
       c.font = `900 ${u * (s.length > 1 ? .25 : .32)}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
@@ -1062,13 +1075,15 @@
   doneBtn.onclick = () => { if (phase === 'play') check(); };
   spkBtn.onclick = () => { Sound.ac(true); if (R && phase !== 'over') sayPrompt(); };
   ban.onclick = () => { if (R && phase !== 'over') sayPrompt(); };
-  root.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
-    const l = b.dataset.l; if (l === lang) return;
+  function switchLang(l) {
+    if (l === lang) return;
     lang = l; store.set('penguinsLang', l); Sound.tap(); paintLang();
+    if (lvOv.classList.contains('on')) openLevels();
     if (!R) return;
-    geom(false); setBanner(); updChips();
+    geom(false); if (phase !== 'over') setBanner(); updChips();
     if (phase === 'play') sayPrompt(); else sayNum(1);
-  });
+  }
+  root.querySelectorAll('.lang button').forEach(b => b.onclick = () => switchLang(b.dataset.l));
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   root.querySelector('.lvbtn').onclick = () => { Sound.tap(); openLevels(); };
   root.addEventListener('click', e => {
@@ -1099,7 +1114,7 @@
     const sv = { T, R, lang }; R = null;
     const p2 = mkPen(2); p2.x = s * .3; p2.y = s * .9; p2.u = s * .36; p2.lx = .4;
     const p1 = mkPen(1); p1.x = s * .6; p1.y = s * .95; p1.u = s * .5; p1.lx = -.3;
-    lang = store.get('penguinsLang', 'ar');
+    lang = App.gameLang(ID);
     T = 0;
     drawShadow(c, p2); drawPenguin(c, p2); drawShadow(c, p1); drawPenguin(c, p1);
     T = sv.T; R = sv.R; lang = sv.lang;
@@ -1109,6 +1124,15 @@
   App.register({
     id: ID, title: 'البطاريق', icon2: '🐧', isNew: false, music: 'numbers',
     desc: () => App.g('رتّبي البطاريق وتعلّمي الأرقام', 'رتّب البطاريق وتعلّم الأرقام'),
+    titleEn: 'Penguins',
+    descEn: () => 'Put the penguins in order and learn numbers',
+    helpEn: () => [
+      '🐧 Drag the penguins and put them in order from smallest to biggest, then press «Done ✓»',
+      '👂 Listen to the number and tap the penguin that carries it',
+      '🐟 Choose the fish with the missing number, or the number of fish after counting them',
+      '🔤 The ١٢٣ / 123 button changes the numbers and voice between Arabic and English, and 🔊 repeats the question',
+      '⭐ Finish the level with no mistakes to get 3 stars'
+    ],
     help: () => [
       '🐧 ' + App.g('اسحبي', 'اسحب') + ' البطاريق ' + App.g('ورتّبيها', 'ورتّبها') + ' من الأصغر إلى الأكبر، ثم ' + App.g('اضغطي', 'اضغط') + ' «تم ✓»',
       '👂 ' + App.g('استمعي', 'استمع') + ' إلى الرقم ' + App.g('والمسي', 'والمس') + ' البطريق الذي يحمله',
@@ -1120,13 +1144,19 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('penguinsLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); trUI();
       startLevel(Math.min(loadProg().unlocked, NL));
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      if (l !== lang) switchLang(l);
+      else if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearLater(); drag = null; sel = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { drag.p.drag = false; drag = null; hover = -1; geom(false); } },

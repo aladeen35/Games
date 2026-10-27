@@ -289,37 +289,45 @@
   const root = App.section(ID, `
     <canvas class="cv"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib pausebtn" aria-label="إيقاف مؤقت">⏸️</button>
-      <button class="ib chalbtn" aria-label="التحديات">🎯</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib pausebtn" aria-label="إيقاف مؤقت" data-aen="Pause">⏸️</button>
+      <button class="ib chalbtn" aria-label="التحديات" data-aen="Challenges">🎯</button>
       <span class="grow"></span>
       <div class="chip c-score"><small>النقاط</small><b>0</b></div>
       <div class="chip c-lines"><small>المستوى 1</small><b>0/10</b></div>
       <div class="chip c-best"><small>الأفضل</small><b>0</b></div>
     </div>
     <div class="ctl">
-      <button class="k-mv" data-k="L" aria-label="يسار">⬅️</button>
-      <button class="k-mv" data-k="R" aria-label="يمين">➡️</button>
-      <button class="k-rot" data-k="rot" aria-label="تدوير">🔄</button>
-      <button class="k-soft" data-k="soft" aria-label="إنزال">⬇️</button>
-      <button class="k-hard" data-k="hard" aria-label="إسقاط">⏬</button>
-      <button class="k-hold" data-k="hold" aria-label="احفظ"><span>📦</span><small>احفظ</small></button>
+      <button class="k-mv" data-k="L" aria-label="يسار" data-aen="Left">⬅️</button>
+      <button class="k-mv" data-k="R" aria-label="يمين" data-aen="Right">➡️</button>
+      <button class="k-rot" data-k="rot" aria-label="تدوير" data-aen="Rotate">🔄</button>
+      <button class="k-soft" data-k="soft" aria-label="إنزال" data-aen="Down">⬇️</button>
+      <button class="k-hard" data-k="hard" aria-label="إسقاط" data-aen="Drop">⏬</button>
+      <button class="k-hold" data-k="hold" aria-label="احفظ" data-aen="Hold"><span>📦</span><small data-en="Hold">احفظ</small></button>
     </div>
     <div class="overlay ov-pause"><div class="panel">
-      <h3>⏸️ استراحة</h3><p class="pmsg"></p>
-      <button class="btn b-resume">متابعة ▶️</button><br>
-      <button class="btn alt b-restart">من جديد 🔄</button>
-      <button class="btn alt b-chal">🎯 التحديات</button>
-      <button class="btn alt home">القائمة 🏠</button>
+      <h3 data-en="⏸️ Break">⏸️ استراحة</h3><p class="pmsg"></p>
+      <button class="btn b-resume" data-en="Continue ▶️">متابعة ▶️</button><br>
+      <button class="btn alt b-restart" data-en="Restart 🔄">من جديد 🔄</button>
+      <button class="btn alt b-chal" data-en="🎯 Challenges">🎯 التحديات</button>
+      <button class="btn alt home" data-en="Menu 🏠">القائمة 🏠</button>
     </div></div>
     <div class="overlay ov-chal"><div class="panel chp">
-      <h3>🎯 التحديات</h3><div class="cg"></div>
-      <button class="btn b-free">♾️ اللعب الحر</button><br>
-      <button class="btn alt b-cclose">✕ إغلاق</button>
+      <h3 data-en="🎯 Challenges">🎯 التحديات</h3><div class="cg"></div>
+      <button class="btn b-free" data-en="♾️ Free play">♾️ اللعب الحر</button><br>
+      <button class="btn alt b-cclose" data-en="✕ Close">✕ إغلاق</button>
     </div></div>
     <div class="overlay ov-over"><div class="panel"></div></div>
   `);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
   const cv = root.querySelector('.cv'), bar = root.querySelector('.bar'), ctl = root.querySelector('.ctl');
   const ovPause = root.querySelector('.ov-pause'), ovOver = root.querySelector('.ov-over'), ovChal = root.querySelector('.ov-chal');
   const chipS = root.querySelector('.c-score'), chipL = root.querySelector('.c-lines'), chipB = root.querySelector('.c-best');
@@ -495,21 +503,21 @@
     banners.push({ text: '+' + pts, x: L.bx + L.c * 5, y: cy, t: 0, dur: 900, size: L.c * .9, kind: 'float' });
     App.achieve('blocks_line');
     if (n === 4) {
-      banners.push({ text: 'رباعية!', sub: '💥', t: 0, dur: 1500, size: L.c * 2.1, kind: 'big', col: ['#FFE066', '#FF6B8F'] });
+      banners.push({ text: App.t('رباعية!', 'Four lines!'), sub: '💥', t: 0, dur: 1500, size: L.c * 2.1, kind: 'big', col: ['#FFE066', '#FF6B8F'] });
       G.shake = 9; Sound.boom(); setTimeout(() => Sound.win(), 120); vibrate(45);
-      App.achieve('blocks_four'); App.speak('رباعية');
+      App.achieve('blocks_four'); if (App.lang === 'en') App.speak('Four lines!', 'en'); else App.speak('رباعية');
     } else {
       const f = [523, 659, 784, 988];
       for (let i = 0; i < n + 1; i++) Sound.tone(f[i], .14, 'triangle', .12, 0, i * .07);
       Sound.pop(); vibrate(22);
-      if (n >= 2) banners.push({ text: n === 2 ? 'سطران!' : 'ثلاثة!', t: 0, dur: 1000, size: L.c * 1.35, kind: 'big', col: n === 2 ? ['#A0F0FF', '#5E8DFF'] : ['#D9FFB0', '#2BB673'] });
+      if (n >= 2) banners.push({ text: n === 2 ? App.t('سطران!', 'Two lines!') : App.t('ثلاثة!', 'Three lines!'), t: 0, dur: 1000, size: L.c * 1.35, kind: 'big', col: n === 2 ? ['#A0F0FF', '#5E8DFF'] : ['#D9FFB0', '#2BB673'] });
     }
     const nl = 1 + Math.floor(G.lines / 10);
     if (!G.chal && nl > G.level) {
       G.level = nl;
       setTimeout(() => {
         if (!G) return;
-        banners.push({ text: 'المستوى ' + nl, sub: '🏰 طابق جديد للقلعة!', t: 0, dur: 1800, size: L.c * 1.6, kind: 'big', col: ['#FFD6F0', '#B47CFF'], y: L.by + L.c * 9.5 });
+        banners.push({ text: App.t('المستوى ', 'Level ') + nl, sub: App.t('🏰 طابق جديد للقلعة!', '🏰 A new castle floor!'), t: 0, dur: 1800, size: L.c * 1.6, kind: 'big', col: ['#FFD6F0', '#B47CFF'], y: L.by + L.c * 9.5 });
         Sound.star(); setTimeout(() => Sound.win(), 200);
       }, n === 4 ? 900 : 350);
       const ns = Math.min(11, nl);
@@ -563,7 +571,7 @@
     if (G.chal.n >= pr.unlocked) pr.unlocked = Math.min(CHAL.length, G.chal.n + 1);
     store.set('blocksChal', pr);
     G.result = { chal: true, win: true, stars: st, gain: Math.max(0, st - prev) };
-    banners.push({ text: App.g('أحسنتِ!', 'أحسنت!'), sub: '🎯', t: 0, dur: 1400, size: L.c * 1.8, kind: 'big', col: ['#FFE066', '#FF8DC0'] });
+    banners.push({ text: App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!'), sub: '🎯', t: 0, dur: 1400, size: L.c * 1.8, kind: 'big', col: ['#FFE066', '#FF8DC0'] });
     Sound.star(); setTimeout(() => Sound.win(), 150); vibrate(30);
     castleBurst();
     hud();
@@ -585,30 +593,30 @@
     if (G.result.stars > 0) App.addStars(G.result.stars);
   }
   function chalGoalText(d) {
-    return d.g === 'lines' ? `${App.g('أكملي', 'أكمل')} ${d.n} صفوف` : `${App.g('أزيلي', 'أزِل')} كل الحجارة 🪨`;
+    return d.g === 'lines' ? App.t(`${App.g('أكملي', 'أكمل')} ${d.n} صفوف`, `Complete ${d.n} lines`) : App.t(`${App.g('أزيلي', 'أزِل')} كل الحجارة 🪨`, 'Clear all the stones 🪨');
   }
-  function showChalOver() {
+  function showChalOver(re) {
     const r = G.result, d = G.chal.def, n = G.chal.n, last = n >= CHAL.length;
     ovOver.querySelector('.panel').innerHTML = r.win ? `
-      <h3>🎯 ${App.g('أحسنتِ!', 'أحسنت!')} 🎉</h3>
+      <h3>🎯 ${App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!')} 🎉</h3>
       <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= r.stars ? '' : 'off'}">⭐</span>`).join('')}</div>
-      <div class="meta"><span>🎯 التحدي ${n}</span><span>🧩 ${G.chal.used} قطعة</span><span>🍬 ${G.score}</span></div>
-      ${last ? '' : '<button class="btn b-next">التالي ▶️</button><br>'}
-      <button class="btn alt b-again">🔄 مرة أخرى</button>
-      <button class="btn alt b-list">🎯 التحديات</button>` : `
-      <h3>😮 ${App.g('كدتِ تنجحين!', 'كدت تنجح!')}</h3>
+      <div class="meta"><span>🎯 ${App.t('التحدي', 'Challenge')} ${n}</span><span>🧩 ${G.chal.used} ${App.t('قطعة', 'pieces')}</span><span>🍬 ${G.score}</span></div>
+      ${last ? '' : `<button class="btn b-next">${App.t('التالي ▶️', 'Next ▶️')}</button><br>`}
+      <button class="btn alt b-again">${App.t('🔄 مرة أخرى', '🔄 Try again')}</button>
+      <button class="btn alt b-list">${App.t('🎯 التحديات', '🎯 Challenges')}</button>` : `
+      <h3>😮 ${App.t(App.g('كدتِ تنجحين!', 'كدت تنجح!'), 'So close!')}</h3>
       <div class="big">🧱</div>
-      <p>${r.reason === 'pieces' ? 'نفدت القطع 🧩' : 'وصلت المكعبات إلى الأعلى'} — ${App.g('حاولي مرة أخرى!', 'حاول مرة أخرى!')}</p>
-      <button class="btn b-again">🔄 مرة أخرى</button><br>
-      <button class="btn alt b-list">🎯 التحديات</button>
-      <button class="btn alt home">القائمة 🏠</button>`;
+      <p>${r.reason === 'pieces' ? App.t('نفدت القطع 🧩', 'Out of pieces 🧩') : App.t('وصلت المكعبات إلى الأعلى', 'The blocks reached the top')} — ${App.t(App.g('حاولي مرة أخرى!', 'حاول مرة أخرى!'), 'Try again!')}</p>
+      <button class="btn b-again">${App.t('🔄 مرة أخرى', '🔄 Try again')}</button><br>
+      <button class="btn alt b-list">${App.t('🎯 التحديات', '🎯 Challenges')}</button>
+      <button class="btn alt home">${App.t('القائمة 🏠', 'Menu 🏠')}</button>`;
     const pnl = ovOver.querySelector('.panel');
     pnl.querySelector('.b-again').onclick = () => { Sound.tap(); newGame(n); };
     pnl.querySelector('.b-list').onclick = () => { Sound.tap(); openChal(); };
     const nb = pnl.querySelector('.b-next'); if (nb) nb.onclick = () => { Sound.tap(); newGame(n + 1); };
     ovOver.classList.add('on');
-    if (r.win) {
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+    if (r.win && !re) {
+      if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       if (r.gain) App.addStars(r.gain);
       for (let i = 0; i < 60; i++) parts.push({ k: 'rect', x: rand(0, W), y: rand(-40, 0), vx: rand(-60, 60), vy: rand(60, 240), g: 120, s: rand(5, 9), rot: rand(0, 6), vr: rand(-6, 6), col: FLAGC[i % 5], life: 2600, max: 2600 });
     }
@@ -617,7 +625,7 @@
     const pr = loadChal(), g = ovChal.querySelector('.cg'), curN = G && G.chal ? G.chal.n : 0;
     g.innerHTML = CHAL.map((d, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="cb${lock ? ' lock' : ''}${n === curN ? ' cur' : ''}" data-c="${n}" aria-label="التحدي ${n}"><span class="n">${n}</span><span class="e">${d.ic}</span>
+      return `<button class="cb${lock ? ' lock' : ''}${n === curN ? ' cur' : ''}" data-c="${n}" aria-label="${App.t('التحدي', 'Challenge')} ${n}"><span class="n">${n}</span><span class="e">${d.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-c]').forEach(b => b.onclick = () => {
@@ -631,7 +639,7 @@
   function startChal(n) {
     newGame(n);
     const d = CHAL[n - 1];
-    banners.push({ text: 'التحدي ' + n, sub: chalGoalText(d) + ` · ${d.p} قطعة`, t: 0, dur: 2200, size: L.c * 1.4, kind: 'big', col: ['#FFD6F0', '#B47CFF'], y: L.by + L.c * 8 });
+    banners.push({ text: App.t('التحدي ', 'Challenge ') + n, sub: chalGoalText(d) + App.t(` · ${d.p} قطعة`, ` · ${d.p} pieces`), t: 0, dur: 2200, size: L.c * 1.4, kind: 'big', col: ['#FFD6F0', '#B47CFF'], y: L.by + L.c * 8 });
     Sound.whoosh();
   }
   function closeChal() {
@@ -643,20 +651,21 @@
   root.querySelector('.b-chal').addEventListener('click', () => { Sound.tap(); openChal(); });
   root.querySelector('.b-cclose').addEventListener('click', () => { Sound.tap(); closeChal(); });
   root.querySelector('.b-free').addEventListener('click', () => { Sound.tap(); ovChal.classList.remove('on'); newGame(); });
-  function showOver() {
-    if (G.chal) { G.overShown = true; showChalOver(); return; }
+  function showOver(re) {
+    if (G.chal) { G.overShown = true; showChalOver(re); return; }
     G.overShown = true;
     const r = G.result;
     ovOver.querySelector('.panel').innerHTML = `
-      <h3>${r.rec ? '🏆 رقم قياسي!' : '🏰 انتهت اللعبة'}</h3>
-      ${r.rec ? `<div class="rec">${App.g('أنتِ بطلة القلعة!', 'أنت بطل القلعة!')} 🎉</div>` : ''}
+      <h3>${r.rec ? App.t('🏆 رقم قياسي!', '🏆 New record!') : App.t('🏰 انتهت اللعبة', '🏰 Game over')}</h3>
+      ${r.rec ? `<div class="rec">${App.t(App.g('أنتِ بطلة القلعة!', 'أنت بطل القلعة!'), App.g('You are the castle champion!', 'You are the castle champion!'))} 🎉</div>` : ''}
       <div class="big">${G.score}</div>
-      <div class="meta"><span>🧱 ${G.lines} صف</span><span>🏯 المستوى ${G.level}</span><span>🏆 ${r.best}</span></div>
-      ${r.stars ? `<p>⭐ +${r.stars} ${r.stars === 1 ? 'نجمة' : 'نجوم'}</p>` : `<p>${App.g('أكملي صفوفًا لتربحي النجوم', 'أكمل صفوفًا لتربح النجوم')} ⭐</p>`}
-      <button class="btn b-again">${App.g('العبي مجددًا', 'العب مجددًا')} 🔄</button>
-      <button class="btn alt home">القائمة 🏠</button>`;
+      <div class="meta"><span>🧱 ${G.lines} ${App.t('صف', 'lines')}</span><span>🏯 ${App.t('المستوى', 'Level')} ${G.level}</span><span>🏆 ${r.best}</span></div>
+      ${r.stars ? `<p>⭐ +${r.stars} ${r.stars === 1 ? App.t('نجمة', 'star') : App.t('نجوم', 'stars')}</p>` : `<p>${App.t(App.g('أكملي صفوفًا لتربحي النجوم', 'أكمل صفوفًا لتربح النجوم'), 'Complete lines to win stars')} ⭐</p>`}
+      <button class="btn b-again">${App.t(App.g('العبي مجددًا', 'العب مجددًا'), 'Play again')} 🔄</button>
+      <button class="btn alt home">${App.t('القائمة 🏠', 'Menu 🏠')}</button>`;
     ovOver.querySelector('.b-again').onclick = () => { Sound.tap(); newGame(); };
     ovOver.classList.add('on');
+    if (re) return;
     if (r.rec) { Sound.win(); for (let i = 0; i < 60; i++) parts.push({ k: 'rect', x: rand(0, W), y: rand(-40, 0), vx: rand(-60, 60), vy: rand(60, 240), g: 120, s: rand(5, 9), rot: rand(0, 6), vr: rand(-6, 6), col: FLAGC[i % 5], life: 2600, max: 2600 }); }
     awardStars();
   }
@@ -666,10 +675,12 @@
     dirs.length = 0; softSrcs.clear(); G.dasDir = 0; gest = null;
     root.querySelectorAll('.ctl .on').forEach(b => b.classList.remove('on'));
     if (on) {
-      root.querySelector('.pmsg').textContent = App.g('خذي نفسًا، القلعة تنتظرك 🏰', 'خذ نفسًا، القلعة تنتظرك 🏰');
+      pauseMsg();
       ovPause.classList.add('on');
     } else ovPause.classList.remove('on');
   }
+
+  function pauseMsg() { root.querySelector('.pmsg').textContent = App.t(App.g('خذي نفسًا، القلعة تنتظرك 🏰', 'خذ نفسًا، القلعة تنتظرك 🏰'), 'Take a breath, the castle is waiting 🏰'); }
 
   /* ---------- الواجهة العلوية ---------- */
   const hudCache = {};
@@ -681,15 +692,15 @@
       chip.querySelector('small').textContent = small; chip.querySelector('b').textContent = val;
       if (old && !force) { chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump'); }
     };
-    set(chipS, 's', 'النقاط', G.score);
+    set(chipS, 's', App.t('النقاط', 'Score'), G.score);
     if (G.chal) {
       const d = G.chal.def;
-      set(chipL, 'l', d.g === 'lines' ? 'الصفوف' : 'الحجارة', d.g === 'lines' ? Math.min(G.lines, d.n) + '/' + d.n : garbageLeft());
-      set(chipB, 'b', 'القطع', Math.max(0, d.p - G.chal.used));
+      set(chipL, 'l', d.g === 'lines' ? App.t('الصفوف', 'Lines') : App.t('الحجارة', 'Stones'), d.g === 'lines' ? Math.min(G.lines, d.n) + '/' + d.n : garbageLeft());
+      set(chipB, 'b', App.t('القطع', 'Pieces'), Math.max(0, d.p - G.chal.used));
       return;
     }
-    set(chipL, 'l', 'المستوى ' + G.level, G.lines + '/' + G.level * 10);
-    set(chipB, 'b', 'الأفضل', Math.max(G.best, G.state === 'over' ? G.score : 0));
+    set(chipL, 'l', App.t('المستوى ', 'Level ') + G.level, G.lines + '/' + G.level * 10);
+    set(chipB, 'b', App.t('الأفضل', 'Best'), Math.max(G.best, G.state === 'over' ? G.score : 0));
   }
 
   /* ---------- التخطيط والطبقات ---------- */
@@ -796,7 +807,7 @@
     for (let x = 1; x < COLS; x++) { g.moveTo(bx + x * c + .5, by + 2); g.lineTo(bx + x * c + .5, by + bh - 2); }
     for (let y = 1; y < 20; y++) { g.moveTo(bx + 2, by + y * c + .5); g.lineTo(bx + bw - 2, by + y * c + .5); }
     g.stroke();
-    for (const [b, t] of [[L.hold, 'احفظ'], [L.next, 'التالي']]) {
+    for (const [b, t] of [[L.hold, App.t('احفظ', 'Hold')], [L.next, App.t('التالي', 'Next')]]) {
       glassBox(g, b.x, b.y, b.w, b.h, 14, .72);
       g.fillStyle = '#8A5FC8'; g.font = `800 ${L.lab}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'top';
       g.fillText(t, b.horiz ? b.x + b.w * .19 : b.x + b.w / 2, b.y + 4);
@@ -1177,8 +1188,17 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'قلعة المكعبات', icon2: '🧱', isNew: false,
+    id: ID, title: 'قلعة المكعبات', titleEn: 'Block Castle', icon2: '🧱', isNew: false,
     desc: () => App.g('رتّبي المكعبات وابني القلعة', 'رتّب المكعبات وابنِ القلعة'),
+    descEn: () => 'Stack the blocks and build the castle',
+    helpEn: () => [
+      '🧱 Arrange the falling blocks to complete a full row and it disappears!',
+      '👆 Tap the board to rotate, and swipe left and right to move.',
+      '⬇️ Swipe down slowly to lower the piece, or fast to drop it at once ⏬',
+      '📦 The «Hold» button saves a piece for later, and the buttons at the bottom do everything.',
+      '🏰 Every 10 rows = a new level and a new castle floor, and 4 rows at once = Four lines! 💥',
+      '🎯 Challenges button: clear the stones or complete rows with a limited number of pieces and win stars ⭐'
+    ],
     music: 'blocks',
     help: () => [
       `🧱 ${App.g('رتّبي', 'رتّب')} المكعبات النازلة ${App.g('لتُكملي', 'لتُكمل')} صفًّا كاملًا فيختفي!`,
@@ -1202,8 +1222,16 @@
         piece(c, 'O', 0, s * .64, s * .56);
       });
     },
-    best() { const b = store.get('blocksBest', 0); return b ? '🏆 أفضل نتيجة: ' + b : ''; },
+    best() { const b = store.get('blocksBest', 0); return b ? App.t('🏆 أفضل نتيجة: ', '🏆 Best score: ') + b : ''; },
+    onLang() {
+      i18n(); if (!running) return;
+      layout(); hud(true);
+      if (ovPause.classList.contains('on')) pauseMsg();
+      if (ovChal.classList.contains('on')) openChal();
+      if (ovOver.classList.contains('on') && G) showOver(true);
+    },
     enter() {
+      i18n();
       running = true; sheetPaused = false;
       layout();
       if (!G || G.state === 'over') newGame();

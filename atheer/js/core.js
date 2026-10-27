@@ -969,7 +969,7 @@ const App = {
     const seg = (key, opts, val) => `<div class="seg" data-k="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(v) === String(val) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
     const T = (a, e) => this.t(a, e), on = [true, T('تشغيل', 'On')], off = [false, T('إيقاف', 'Off')], nm = this.esc(this.kidName(P));
     const s = this.openSheet(`<h3>⚙️ ${T('الإعدادات', 'Settings')}</h3>
-      <div class="row"><span class="lbl">🌐 ${T('اللغة', 'Language')}</span><div class="seg" data-k="lang" dir="rtl"><button data-v="ar" lang="ar" class="${this.lang === 'ar' ? 'on' : ''}">عربي</button><button data-v="en" lang="en" class="${this.lang === 'en' ? 'on' : ''}">English</button></div></div>
+      <div class="row"><span class="lbl">🌐 ${T('اللغة', 'Language')}</span><div class="seg" data-k="lang"><button data-v="ar" lang="ar" class="${this.lang === 'ar' ? 'on' : ''}">عربي</button><button data-v="en" lang="en" class="${this.lang === 'en' ? 'on' : ''}">English</button></div></div>
       <div class="row"><span class="lbl">👤 ${T(this.g('اللاعبة', 'اللاعب'), 'Player')}</span><div class="kchips">${this.PROFILES.map(k => `<button class="kchip ${k.id === P.id ? 'on' : ''}" data-kid="${k.id}"><span class="mini">${this.kidFace(k)}</span>${this.esc(this.kidName(k))}</button>`).join('')}</div>
         <div style="display:flex;gap:6px;width:100%;justify-content:center;flex-wrap:wrap"><button class="tbtn alt sm" id="sEdit">✏️ ${T('تعديل ' + nm, 'Edit ' + nm)}</button><button class="tbtn alt sm" id="sAdd">➕ ${T('طفل جديد', 'New child')}</button></div></div>
       <div class="row"><span class="lbl">🎨 ${T('الثيم', 'Theme')}</span>${seg('theme', [['girls', T('👑 بناتي', '👑 Girly')], ['boys', T('🚀 ولادي', '🚀 Boyish')]], th)}</div>
@@ -1150,25 +1150,26 @@ const App = {
     const isNew = !kid;
     const d = kid ? { ...kid } : { name: '', gender: '', theme: '', av: '', age: null, photo: null };
     let themeTouched = !isNew;
-    const s = this.openSheet(`<h3>${isNew ? '➕ طفل جديد' : '✏️ تعديل ' + this.esc(kid.name)}</h3>
+    const T = (a, e) => this.t(a, e);
+    const s = this.openSheet(`<h3>${isNew ? '➕ ' + T('طفل جديد', 'New child') : '✏️ ' + T('تعديل ', 'Edit ') + this.esc(this.kidName(kid))}</h3>
       <div class="kf-top"><div class="kf-av" id="kfAv"></div>
         <div class="kf-pb">
-          <label class="pbtn">📷 التقاط صورة<input type="file" accept="image/*" capture="user" data-ph></label>
-          <label class="pbtn">🖼️ من المعرض<input type="file" accept="image/*" data-ph></label>
-          <button class="pbtn" id="kfNoPh">✖ بلا صورة</button>
+          <label class="pbtn">📷 ${T('التقاط صورة', 'Take a photo')}<input type="file" accept="image/*" capture="user" data-ph></label>
+          <label class="pbtn">🖼️ ${T('من المعرض', 'From gallery')}<input type="file" accept="image/*" data-ph></label>
+          <button class="pbtn" id="kfNoPh">✖ ${T('بلا صورة', 'No photo')}</button>
         </div></div>
-      <div class="kf-l">✍️ الاسم</div>
-      <input class="kf-in" id="kfName" maxlength="16" autocomplete="off" enterkeyhint="done" placeholder="اكتب اسم الطفل" value="${this.esc(d.name)}">
-      <div class="kf-l">👶 بنت أم ولد؟</div>
-      <div class="kf-g" id="kfG"><button class="g" data-g="girl"><span>👧</span>بنت</button><button class="b" data-g="boy"><span>👦</span>ولد</button></div>
-      <div class="kf-l">🎂 العمر <small>(اختياري)</small></div>
+      <div class="kf-l">✍️ ${T('الاسم', 'Name')}</div>
+      <input class="kf-in" id="kfName" maxlength="16" autocomplete="off" enterkeyhint="done" dir="auto" placeholder="${T('اكتب اسم الطفل', "Type the child's name")}" value="${this.esc(d.name)}">
+      <div class="kf-l">👶 ${T('بنت أم ولد؟', 'Girl or boy?')}</div>
+      <div class="kf-g" id="kfG"><button class="g" data-g="girl"><span>👧</span>${T('بنت', 'Girl')}</button><button class="b" data-g="boy"><span>👦</span>${T('ولد', 'Boy')}</button></div>
+      <div class="kf-l">🎂 ${T('العمر', 'Age')} <small>${T('(اختياري)', '(optional)')}</small></div>
       <div class="seg kf-age" id="kfAge">${[['', '—'], ...[3, 4, 5, 6, 7, 8].map(n => [n, n])].map(([v, l]) => `<button data-a="${v}">${l}</button>`).join('')}</div>
-      <div class="kf-l">🎨 شكل التطبيق</div>
-      <div class="themes" id="kfT" style="margin:0"><button class="g" data-t="girls"><span>👑</span>بناتي</button><button class="b" data-t="boys"><span>🚀</span>ولادي</button></div>
-      <div class="kf-l">😊 الرمز <small>(يظهر إن لم توجد صورة)</small></div>
+      <div class="kf-l">🎨 ${T('شكل التطبيق', 'App look')}</div>
+      <div class="themes" id="kfT" style="margin:0"><button class="g" data-t="girls"><span>👑</span>${T('بناتي', 'Girly')}</button><button class="b" data-t="boys"><span>🚀</span>${T('ولادي', 'Boyish')}</button></div>
+      <div class="kf-l">😊 ${T('الرمز', 'Icon')} <small>${T('(يظهر إن لم توجد صورة)', '(shown when there is no photo)')}</small></div>
       <div class="kf-emo" id="kfE">${this.KID_EMOJI.map(e => `<button data-e="${e}">${e}</button>`).join('')}</div>
-      <div class="kf-act"><button class="tbtn" id="kfSave">${isNew ? '✔️ إضافة' : '✔️ حفظ'}</button>
-        ${!isNew && this.PROFILES.length > 1 ? '<button class="tbtn danger sm" id="kfDel">🗑️ حذف</button>' : ''}</div>`);
+      <div class="kf-act"><button class="tbtn" id="kfSave">✔️ ${isNew ? T('إضافة', 'Add') : T('حفظ', 'Save')}</button>
+        ${!isNew && this.PROFILES.length > 1 ? `<button class="tbtn danger sm" id="kfDel">🗑️ ${T('حذف', 'Delete')}</button>` : ''}</div>`);
     const paint = () => {
       const emo = d.av || (d.gender === 'boy' ? '🚀' : d.gender === 'girl' ? '👑' : '🙂');
       s.querySelector('#kfAv').innerHTML = d.photo ? `<img src="${d.photo}" alt="">` : emo;
@@ -1193,7 +1194,7 @@ const App = {
       const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return;
       const lb = inp.parentElement; lb.classList.add('busy');
       try { d.photo = await this.readPhoto(f); Sound.pop(); paint(); popAv(); }
-      catch (e) { Sound.error(); this.toast('تعذّر فتح هذه الصورة'); }
+      catch (e) { Sound.error(); this.toast(T('تعذّر فتح هذه الصورة', "Couldn't open this photo")); }
       finally { lb.classList.remove('busy'); }
     });
     const nameIn = s.querySelector('#kfName');
@@ -1204,8 +1205,8 @@ const App = {
     };
     s.querySelector('#kfSave').onclick = () => {
       d.name = nameIn.value.replace(/\s+/g, ' ').trim().slice(0, 16);
-      if (!d.name) { need(nameIn, 'اكتب اسم الطفل أولًا ✍️'); nameIn.focus(); return; }
-      if (!d.gender) { need(s.querySelector('#kfG'), 'اختر: بنت أم ولد؟'); return; }
+      if (!d.name) { need(nameIn, T('اكتب اسم الطفل أولًا ✍️', "Type the child's name first ✍️")); nameIn.focus(); return; }
+      if (!d.gender) { need(s.querySelector('#kfG'), T('اختر: بنت أم ولد؟', 'Choose: girl or boy?')); return; }
       if (!d.theme) d.theme = d.gender === 'boy' ? 'boys' : 'girls';
       if (!d.av) d.av = d.gender === 'boy' ? '🚀' : '👑';
       let k = kid, before = kid ? { ...kid } : null;
@@ -1213,11 +1214,11 @@ const App = {
       Object.assign(k, { name: d.name, gender: d.gender, theme: d.theme, av: d.av, age: d.age || null, photo: d.photo || null });
       if (!this.saveKids()) { // لا مساحة: نحفظ بلا صورة
         k.photo = null;
-        if (!this.saveKids()) { if (isNew) this.PROFILES.pop(); else Object.assign(k, before); Sound.error(); this.toast('لا توجد مساحة كافية للحفظ'); return; }
-        this.toast('حُفظ بلا صورة (لا توجد مساحة كافية)');
+        if (!this.saveKids()) { if (isNew) this.PROFILES.pop(); else Object.assign(k, before); Sound.error(); this.toast(T('لا توجد مساحة كافية للحفظ', 'Not enough space to save')); return; }
+        this.toast(T('حُفظ بلا صورة (لا توجد مساحة كافية)', 'Saved without the photo (not enough space)'));
       }
       Sound.win(); gstore.set('kidsTip', true);
-      if (isNew) { this.closeSheet(); this.switchKid(k.id); this.toast(`أهلًا ${k.name}! 🎉`); }
+      if (isNew) { this.closeSheet(); this.switchKid(k.id); this.toast(T(`أهلًا ${k.name}! 🎉`, `Welcome, ${k.name}! 🎉`)); }
       else { this.iconCache.clear(); this.closeSheet(); if (k === this.profile) this.applyTheme(); }
     };
     const del = s.querySelector('#kfDel');
@@ -1226,22 +1227,24 @@ const App = {
   },
   /** تأكيد حذف طفل ثم حذف كل مفاتيحه */
   kidDelete(kid) {
-    const s = this.openSheet(`<h3>حذف ${this.esc(kid.name)}؟</h3>
+    const T = (a, e) => this.t(a, e), nm = this.esc(this.kidName(kid));
+    const s = this.openSheet(`<h3>${T(`حذف ${nm}؟`, `Delete ${nm}?`)}</h3>
       <div class="kf-top"><div class="kf-av">${this.kidFace(kid)}</div></div>
-      <p class="center" style="font-size:17px;font-weight:700;margin:14px 0 4px">سيُحذف ${this.esc(kid.name)} مع كل ${kid.gender === 'boy' ? 'نجومه ونتائجه' : 'نجومها ونتائجها'} من هذا الجهاز، ولا يمكن التراجع.</p>
-      <div class="kf-act"><button class="tbtn danger" id="kdYes">🗑️ نعم، احذف</button><button class="tbtn alt" id="kdNo">لا، تراجع</button></div>`);
+      <p class="center" style="font-size:17px;font-weight:700;margin:14px 0 4px">${T(`سيُحذف ${nm} مع كل ${kid.gender === 'boy' ? 'نجومه ونتائجه' : 'نجومها ونتائجها'} من هذا الجهاز، ولا يمكن التراجع.`,
+        `${nm} and all ${kid.gender === 'boy' ? 'his' : 'her'} stars and scores will be deleted from this device. This can't be undone.`)}</p>
+      <div class="kf-act"><button class="tbtn danger" id="kdYes">🗑️ ${T('نعم، احذف', 'Yes, delete')}</button><button class="tbtn alt" id="kdNo">${T('لا، تراجع', 'No, go back')}</button></div>`);
     s.querySelector('#kdNo').onclick = () => { Sound.tap(); this.kidForm(kid); };
     s.querySelector('#kdYes').onclick = () => {
       const i = this.PROFILES.indexOf(kid); if (i < 0 || this.PROFILES.length < 2) { this.closeSheet(); return; }
       Object.keys(localStorage).filter(k => k.startsWith(kid.id + ':')).forEach(k => localStorage.removeItem(k));
       this.PROFILES.splice(i, 1); this.saveKids(); MyVoice.removeKid(kid.id);
-      Sound.poof(); this.toast(`تم حذف ${kid.name}`);
+      Sound.poof(); this.toast(T(`تم حذف ${kid.name}`, `${this.kidName(kid)} was deleted`));
       if (this.profile === kid) this.setProfile(this.PROFILES[0].id); else this.closeSheet();
     };
   },
   logo() {
     const P = this.profile, boys = this.theme === 'boys';
-    if (!this.customLogo) return `<img src="logo.jpg" alt="${this.EDITION.names}">`; // الشعار المشترك للتطبيق
+    if (!this.customLogo) return `<img src="logo.jpg" alt="${this.esc(this.t(this.EDITION.title, this.EDITION.titleEn))}">`; // الشعار المشترك للتطبيق
     const main = boys ? '#2E86F5' : '#FF4FA3', bg = boys ? '#E4F1FF' : '#FFE8F2', edge = boys ? '#8CC0FF' : '#FFB3D4';
     const deco = boys ? [['🚀', 34, 52, 30, -20], ['⭐', 160, 40, 22, 0], ['🪐', 166, 150, 28, 0], ['⚽', 30, 158, 24, 0], ['🦖', 100, 182, 22, 0]]
                       : [['👑', 52, 50, 30, -15], ['💖', 160, 42, 22, 0], ['🌸', 166, 152, 28, 0], ['⭐', 30, 156, 20, 0], ['🎀', 100, 184, 22, 0]];
@@ -1263,16 +1266,16 @@ const App = {
   renderKids() {
     const box = $('#kids'); if (!box) return;
     const P = this.profile;
-    const sig = this.PROFILES.map(k => [k.id, k.name, k.gender, k.av, k.photo ? k.photo.length : 0].join(',')).join('|');
+    const sig = this.lang + '|' + this.PROFILES.map(k => [k.id, k.name, k.gender, k.av, k.photo ? k.photo.length : 0].join(',')).join('|');
     if (box.dataset.sig !== sig) {
       box.dataset.sig = sig;
-      box.innerHTML = this.PROFILES.map(k => `<button class="kid" data-k="${this.esc(k.id)}" data-g="${k.gender}" aria-label="${this.esc(k.name)}">
-          <span class="kav">${this.kidFace(k)}<i class="ked" title="تعديل">✏️</i></span><b>${this.esc(k.name)}</b></button>`).join('') +
-        `<button class="kid add" data-add="1" aria-label="إضافة طفل"><span class="kav">＋</span><b>إضافة طفل</b></button>`;
+      box.innerHTML = this.PROFILES.map(k => `<button class="kid" data-k="${this.esc(k.id)}" data-g="${k.gender}" aria-label="${this.esc(this.kidName(k))}">
+          <span class="kav">${this.kidFace(k)}<i class="ked" title="${this.t('تعديل', 'Edit')}">✏️</i></span><b>${this.esc(this.kidName(k))}</b></button>`).join('') +
+        `<button class="kid add" data-add="1" aria-label="${this.t('إضافة طفل', 'Add a child')}"><span class="kav">＋</span><b>${this.t('إضافة طفل', 'Add child')}</b></button>`;
     }
     box.querySelectorAll('.kid[data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === P.id));
     const tip = $('#ktip');
-    if (tip) tip.textContent = gstore.get('kidsTip', false) ? '' : this.g('👆 اختاري اسمك، أو أضيفي طفلًا جديدًا', '👆 اختر اسمك، أو أضف طفلًا جديدًا');
+    if (tip) tip.textContent = gstore.get('kidsTip', false) ? '' : this.t(this.g('👆 اختاري اسمك، أو أضيفي طفلًا جديدًا', '👆 اختر اسمك، أو أضف طفلًا جديدًا'), '👆 Pick your name, or add a new child');
   },
   /** إظهار الطفل النشط إن كان الصف أعرض من الشاشة */
   kidIntoView(smooth) {
@@ -1332,8 +1335,9 @@ const App = {
     Fx.finishIntro();
     this.renderKids();
     if (this.customLogo || !$('#logo').firstChild) $('#logo').innerHTML = this.logo(); // الشعار ثابت لا يُعاد رسمه
-    $('#hello').textContent = `أهلًا يا ${P.name}! ${this.theme === 'boys' ? '🚀' : '👑'}`;
-    $('#sub').textContent = this.g('اختاري لعبتك المفضّلة', 'اختر لعبتك المفضّلة');
+    const emo = this.theme === 'boys' ? '🚀' : '👑';
+    $('#hello').textContent = this.t(`أهلًا يا ${P.name}! ${emo}`, `Hi, ${this.kidName(P)}! ${emo}`);
+    $('#sub').textContent = this.t(this.g('اختاري لعبتك المفضّلة', 'اختر لعبتك المفضّلة'), 'Pick your favourite game');
     const played = store.get('played', []);
     const catIds = this.CATS.map(c => c.id);
     const groups = this.CATS.map(c => ({ ...c, ids: this.order.filter(id => (catIds.includes(this.CAT_OF[id]) ? this.CAT_OF[id] : 'more') === c.id).sort((x, y) => this.catRank(x) - this.catRank(y)) })).filter(g => g.ids.length);
@@ -1341,14 +1345,15 @@ const App = {
     const card = id => {
       const g = this.games[id], A = this.accent(id); let best = '', desc = '';
       try { best = g.best ? g.best() || '' : ''; } catch (e) {}
-      try { desc = typeof g.desc === 'function' ? g.desc() : g.desc || ''; } catch (e) {}
-      return `<button class="card" data-go="${id}" style="--a:${A.a};--ad:${A.ad};--al:${A.al}">${g.isNew && !played.includes(id) ? '<span class="newtag">جديدة</span>' : ''}
+      try { desc = this.gDesc(g); } catch (e) {}
+      return `<button class="card" data-go="${id}" style="--a:${A.a};--ad:${A.ad};--al:${A.al}">${g.isNew && !played.includes(id) ? `<span class="newtag">${this.t('جديدة', 'New')}</span>` : ''}
         <div class="ic"><canvas width="240" height="240" data-ic="${id}"></canvas></div>
-        <h2>${g.title}</h2><p>${desc}</p><div class="best">${best}</div></button>`;
+        <h2>${this.gTitle(g)}</h2><p>${desc}</p><div class="best">${best}</div></button>`;
     };
-    $('#cats').innerHTML = groups.length > 1 ? groups.map(c => `<button data-cat="${c.id}" style="${cv(c)}">${c.i} ${c.s || c.t}</button>`).join('') : '';
+    const en = this.lang === 'en';
+    $('#cats').innerHTML = groups.length > 1 ? groups.map(c => `<button data-cat="${c.id}" style="${cv(c)}">${c.i} ${en ? c.se || c.te : c.s || c.t}</button>`).join('') : '';
     $('#cards').innerHTML = groups.map(c => `<section class="grp" id="grp-${c.id}" style="${cv(c)}">
-      <h2 class="gh"><span class="gi">${c.i}</span>${c.t}<small>${c.ids.length}</small></h2>
+      <h2 class="gh"><span class="gi">${c.i}</span>${en ? c.te : c.t}<small>${c.ids.length}</small></h2>
       <div class="cards">${c.ids.map(card).join('')}</div></section>`).join('');
     $('#cats').querySelectorAll('[data-cat]').forEach(b => b.onclick = () => {
       Sound.tap(); const el = $('#grp-' + b.dataset.cat); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1361,8 +1366,12 @@ const App = {
 
   boot() {
     document.documentElement.dataset.font = gstore.get('font', 'normal');
-    document.title = this.EDITION.title;
-    const foot = $('#foot'); if (foot) foot.innerHTML = `صُنعت بحب لـ${this.EDITION.names} 💕<div class="brand"><img src="img/albushra.jpg" alt="البشرى تكنولوجي"><b>من إنتاج البشرى تكنولوجي</b></div>`;
+    this.applyLang();
+    document.querySelectorAll('#mLang [data-l]').forEach(b => b.onclick = e => {
+      e.stopPropagation(); Sound.tap(); vibrate(15);
+      if (b.dataset.l !== this.lang) this.setLang(b.dataset.l);
+      else if (Fx.on) gsap.fromTo(b, { scale: .85 }, { scale: 1, duration: .5, ease: 'elastic.out(1,0.4)', clearProps: 'transform' });
+    });
     $('#mSettings').onclick = () => { Sound.tap(); this.settings(); };
     $('#mShop').onclick = () => { Sound.tap(); this.shopSheet(); };
     $('#mAch').onclick = () => { Sound.tap(); this.achSheet(); };
@@ -1405,7 +1414,9 @@ const App = {
     }
     const start = location.hash.slice(1);
     if (this.games[start]) this.show(start);
+    else if (window.Splash && Splash.active) Splash.onEnd(() => Fx.menuIntro());
     else Fx.menuIntro();
+    if (window.Splash) Splash.ready();
     window.addEventListener('popstate', () => { if (this.current !== 'menu') this.show('menu'); });
     window.__androidBack = () => this.back();
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {

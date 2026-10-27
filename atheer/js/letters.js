@@ -30,12 +30,12 @@
   const SETS = { ar: AR, en: EN };
   const JOIN = 'بتثجحخسشصضطظعغفقكلمنهي';
   const COLORS = [
-    { n: 'أحمر', c: '#F2484B', d: '#B8222A', l: '#FF9C8F' },
-    { n: 'برتقالي', c: '#FF9425', d: '#C9600A', l: '#FFC67A' },
-    { n: 'أخضر', c: '#3DBE5B', d: '#1F8A3B', l: '#9BE7A5' },
-    { n: 'أزرق', c: '#2F8CF0', d: '#1A5DB8', l: '#92C6FF' },
-    { n: 'بنفسجي', c: '#9A5BE6', d: '#6631B0', l: '#CDAEFF' },
-    { n: 'وردي', c: '#FF5FA8', d: '#C92E78', l: '#FFB0D4' }
+    { n: 'أحمر', e: 'Red', c: '#F2484B', d: '#B8222A', l: '#FF9C8F' },
+    { n: 'برتقالي', e: 'Orange', c: '#FF9425', d: '#C9600A', l: '#FFC67A' },
+    { n: 'أخضر', e: 'Green', c: '#3DBE5B', d: '#1F8A3B', l: '#9BE7A5' },
+    { n: 'أزرق', e: 'Blue', c: '#2F8CF0', d: '#1A5DB8', l: '#92C6FF' },
+    { n: 'بنفسجي', e: 'Purple', c: '#9A5BE6', d: '#6631B0', l: '#CDAEFF' },
+    { n: 'وردي', e: 'Pink', c: '#FF5FA8', d: '#C92E78', l: '#FFB0D4' }
   ];
   const BADGE = ['#FF6B5B', '#2EB5A8', '#FFB020', '#8E6CF0', '#3F9BF5', '#F06AAE', '#5CC46A'];
   const QUIZ_N = 5, QUIZ_UNLOCK = 5;
@@ -487,7 +487,7 @@
       <div class="nav">
         <button class="nb prev" aria-label="السابق">▶</button>
         <button class="nb say" aria-label="اسمع">🔊</button>
-        <button class="nb next">التالي ◀</button>
+        <button class="nb next" data-ar="التالي ◀" data-en="Next ▶">التالي ◀</button>
       </div>
     </div>
     <div class="overlay" id="leWord"><div class="panel wordp"></div></div>
@@ -498,6 +498,13 @@
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const cntEl = root.querySelector('.lgrid .cnt'), nextBtn = root.querySelector('.nb.next');
   const wordOv = root.querySelector('#leWord'), wordP = wordOv.querySelector('.panel');
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelector('.nb.prev').textContent = App.t('▶', '◀');
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lgrid', 'كل الحروف', 'All letters'], ['.er', 'امسح', 'Erase'], ['.nb.prev', 'السابق', 'Previous'], ['.nb.say', 'اسمع', 'Listen']]
+      .forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+    root.querySelectorAll('.cr').forEach((b, i) => b.setAttribute('aria-label', App.t(COLORS[i].n, COLORS[i].e)));
+  }
   const gridOv = root.querySelector('#leGrid'), gridP = gridOv.querySelector('.panel');
   const quizOv = root.querySelector('#leQuiz'), quizP = quizOv.querySelector('.panel');
   const crs = [...root.querySelectorAll('.cr')];
@@ -689,11 +696,11 @@
     const cov = coverage();
     const inR = inPts + outPts ? inPts / (inPts + outPts) : 1;
     if (cov >= .97 || (force && cov >= .8)) {
-      if (inR < .5) { hint('✋ ' + App.g('حاولي', 'حاول') + ' أن ' + App.g('تبقي', 'تبقى') + ' على الحرف، ثم ' + App.g('امسحي', 'امسح') + ' 🧽 ' + App.g('وأعيدي', 'وأعد')); Sound.error(); return; }
+      if (inR < .5) { hint('✋ ' + App.t(App.g('حاولي', 'حاول') + ' أن ' + App.g('تبقي', 'تبقى') + ' على الحرف، ثم ' + App.g('امسحي', 'امسح') + ' 🧽 ' + App.g('وأعيدي', 'وأعد'), 'Try to stay on the letter, then erase 🧽 and try again')); Sound.error(); return; }
       complete();
     } else if (force && cov > .45 && cov < .8) {
       const ci = curStroke();
-      if (ci >= 0) hint('👉 ' + App.g('أكملي', 'أكمل') + ' الخط رقم ' + (ci + 1), 1600);
+      if (ci >= 0) hint('👉 ' + App.t(App.g('أكملي', 'أكمل') + ' الخط رقم ' + (ci + 1), 'Finish line number ' + (ci + 1)), 1600);
     }
   }
   function complete() {
@@ -710,7 +717,7 @@
       App.achieve('let_first');
       if (countOf(p, 'ar') >= AR.length) App.achieve('let_ar');
       if (countOf(p, 'en') >= EN.length) App.achieve('let_en');
-      if (countOf(p, alpha) === QUIZ_UNLOCK) setTimeout(() => App.toast('🎯 فُتحت لعبة «أين حرف…؟»'), 1800);
+      if (countOf(p, alpha) === QUIZ_UNLOCK) setTimeout(() => App.toast('🎯 ' + App.t('فُتحت لعبة «أين حرف…؟»', 'Unlocked: «Where is the letter…?»')), 1800);
     }
     updateUI();
     nextBtn.classList.add('glow');
@@ -726,12 +733,14 @@
   function showWord() {
     if (App.current !== ID || !done) return;
     const it = curIt(), pic = picFor(it);
-    wordP.innerHTML = `<h3>${App.g('أحسنتِ', 'أحسنت')}! 🌟</h3>
+    wordP.innerHTML = `<h3>${App.t(App.g('أحسنتِ', 'أحسنت'), 'Well done')}! 🌟</h3>
       <div class="pic">${pic.emo ? pic.emo : ''}</div>
       <div>${wordHTML(it)}</div>
-      <div class="ln">${it.a === 'ar' ? `${it.w} تبدأ بحرف ${it.n} «${it.c}»` : `<bdi>${it.w}</bdi> تبدأ بحرف <bdi>${it.c}</bdi>`}</div>
-      <button class="btn alt" data-a="say">🔊</button><button class="btn alt" data-a="again">🔁 مرة أخرى</button>
-      <button class="btn" data-a="next">التالي ◀</button>`;
+      <div class="ln">${App.lang === 'en'
+        ? (it.a === 'ar' ? `<bdi>${it.w}</bdi> starts with the letter <bdi>${it.n}</bdi> «<bdi>${it.c}</bdi>»` : `${it.w} starts with the letter ${it.c}`)
+        : (it.a === 'ar' ? `${it.w} تبدأ بحرف ${it.n} «${it.c}»` : `<bdi>${it.w}</bdi> تبدأ بحرف <bdi>${it.c}</bdi>`)}</div>
+      <button class="btn alt" data-a="say">🔊</button><button class="btn alt" data-a="again">🔁 ${App.t('مرة أخرى', 'Again')}</button>
+      <button class="btn" data-a="next">${App.t('التالي ◀', 'Next ▶')}</button>`;
     if (pic.pic) { const c = drawPic(pic.pic, 280); wordP.querySelector('.pic').appendChild(c); }
     wordP.querySelector('.w').classList.toggle('en', it.a === 'en');
     wordOv.classList.add('on');
@@ -755,17 +764,17 @@
   /* ---------- شبكة الحروف ---------- */
   function openGrid() {
     const p = loadProg(), n = countOf(p, alpha), set = curSet();
-    gridP.innerHTML = `<h3>🔤 حروفي</h3>
+    gridP.innerHTML = `<h3>🔤 ${App.t('حروفي', 'My Letters')}</h3>
       <div class="lang"><button data-l="ar" class="${alpha === 'ar' ? 'on' : ''}">عربي</button><button data-l="en" class="${alpha === 'en' ? 'on' : ''}">English</button></div>
-      <p class="gp">⭐ ${n} من ${set.length}</p>
+      <p class="gp">⭐ ${n} ${App.t('من', 'of')} ${set.length}</p>
       <div class="lg ${alpha}">${set.map((it, i) => `<button class="lt ${p[alpha][it.c] ? 'done' : ''} ${i === idx[alpha] ? 'cur' : ''}" data-i="${i}">${alpha === 'en' ? it.c + it.l : it.c}</button>`).join('')}</div>
-      ${n >= QUIZ_UNLOCK ? `<button class="qz" data-a="quiz">🎯 أين حرف…؟</button>` : `<button class="qz lock" data-a="lock">🔒 أين حرف…؟ <small>(${App.g('تتبّعي', 'تتبّع')} ${QUIZ_UNLOCK - n} ${QUIZ_UNLOCK - n > 2 ? 'حروف' : 'حرفًا'} ${QUIZ_UNLOCK - n === 1 ? '' : ''}أخرى)</small></button>`}
-      <button class="btn alt" data-a="close">✕ إغلاق</button>`;
+      ${n >= QUIZ_UNLOCK ? `<button class="qz" data-a="quiz">🎯 ${App.t('أين حرف…؟', 'Where is the letter…?')}</button>` : `<button class="qz lock" data-a="lock">🔒 ${App.t('أين حرف…؟', 'Where is the letter…?')} <small>(${App.t(`${App.g('تتبّعي', 'تتبّع')} ${QUIZ_UNLOCK - n} ${QUIZ_UNLOCK - n > 2 ? 'حروف' : 'حرفًا'} أخرى`, `trace ${QUIZ_UNLOCK - n} more ${QUIZ_UNLOCK - n === 1 ? 'letter' : 'letters'}`)})</small></button>`}
+      <button class="btn alt" data-a="close">✕ ${App.t('إغلاق', 'Close')}</button>`;
     gridOv.classList.add('on');
   }
   gridP.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.l) { if (b.dataset.l !== alpha) { Sound.tap(); switchAlpha(b.dataset.l, false); openGrid(); } return; }
+    if (b.dataset.l) { if (b.dataset.l !== alpha) { Sound.tap(); store.set(ID + 'Lang', b.dataset.l); switchAlpha(b.dataset.l, false); openGrid(); } return; }
     if (b.dataset.i != null) { Sound.pop(); gridOv.classList.remove('on'); wordOv.classList.remove('on'); setLetter(+b.dataset.i); return; }
     if (b.dataset.a === 'close') { Sound.tap(); gridOv.classList.remove('on'); }
     else if (b.dataset.a === 'lock') { Sound.error(); b.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], { duration: 300 }); }
@@ -793,10 +802,10 @@
     const q = quiz, it = q.qs[q.i], set = SETS[q.a];
     const others = shuffle(set.filter(x => x !== it)).slice(0, 3);
     q.opts = shuffle([it, ...others]); q.wrong = false; q.lock = false;
-    quizP.innerHTML = `<h3>🎯 أين حرف ${q.a === 'ar' ? 'ال' + it.n : it.c}؟ <button class="qsay" data-a="say" aria-label="اسمع">🔊</button></h3>
+    quizP.innerHTML = `<h3>🎯 ${q.a === 'ar' ? 'أين حرف ال' + it.n + '؟' : 'Where is the letter ' + it.c + '?'} <button class="qsay" data-a="say" aria-label="${App.t('اسمع', 'Listen')}">🔊</button></h3>
       <div class="dots">${q.qs.map((_, i) => `<i class="${i < q.i ? (q.res[i] ? 'ok' : 'no') : i === q.i ? 'cur' : ''}"></i>`).join('')}</div>
       <div class="qg">${q.opts.map((o, i) => `<button class="qt ${q.a}" data-i="${i}">${q.a === 'en' ? o.c + o.l : o.c}</button>`).join('')}</div>
-      <button class="btn alt" data-a="close">✕ إنهاء</button>`;
+      <button class="btn alt" data-a="close">✕ ${App.t('إنهاء', 'Finish')}</button>`;
     setTimeout(() => { if (quiz === q) promptQ(it); }, 250);
   }
   quizP.addEventListener('click', e => {
@@ -821,10 +830,10 @@
     const q = quiz, ok = q.res.filter(Boolean).length, st = ok >= 5 ? 3 : ok >= 3 ? 2 : 1;
     const best = store.get('lettersQuiz', 0);
     if (ok > best) store.set('lettersQuiz', ok);
-    quizP.innerHTML = `<h3>${ok >= 4 ? App.g('رائعة', 'رائع') + '! 🎉' : App.g('أحسنتِ', 'أحسنت') + '! 👏'}</h3>
+    quizP.innerHTML = `<h3>${ok >= 4 ? App.t(App.g('رائعة', 'رائع'), 'Awesome') + '! 🎉' : App.t(App.g('أحسنتِ', 'أحسنت'), 'Well done') + '! 👏'}</h3>
       <div class="stars3">${[0, 1, 2].map(i => `<span class="${i < st ? '' : 'off'}">⭐</span>`).join('')}</div>
-      <div class="big">${ok} / ${q.qs.length}</div><p>إجابات صحيحة من أول مرة</p>
-      <button class="btn teal" data-a="again">🔁 مرة أخرى</button><button class="btn alt" data-a="close">✕ إغلاق</button>`;
+      <div class="big">${ok} / ${q.qs.length}</div><p>${App.t('إجابات صحيحة من أول مرة', 'right on the first try')}</p>
+      <button class="btn teal" data-a="again">🔁 ${App.t('مرة أخرى', 'Again')}</button><button class="btn alt" data-a="close">✕ ${App.t('إغلاق', 'Close')}</button>`;
     Sound.win();
     if (ok >= 3) App.addStars(ok >= 5 ? 2 : 1);
   }
@@ -869,7 +878,7 @@
   bar.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.classList.contains('lgrid')) { Sound.tap(); openGrid(); }
-    else if (b.dataset.l) { Sound.tap(); switchAlpha(b.dataset.l); }
+    else if (b.dataset.l) { Sound.tap(); store.set(ID + 'Lang', b.dataset.l); switchAlpha(b.dataset.l); }
   });
   bot.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -1086,7 +1095,16 @@
 
   App.register({
     id: ID, title: 'حروفي', icon2: '✍️', isNew: false, music: 'letters',
+    titleEn: 'My Letters',
     desc: () => App.g('تتبّعي الحروف العربية والإنجليزية بإصبعك', 'تتبّع الحروف العربية والإنجليزية بإصبعك'),
+    descEn: () => 'Trace Arabic and English letters with your finger',
+    helpEn: () => [
+      '✍️ Start at number 1 and slide your finger over the dots in the direction of the arrows',
+      '🖍️ Choose the pen color at the bottom, and 🧽 to erase and start again',
+      '🌟 When you finish a letter it lights up and you hear its name and a word that starts with it',
+      '🔤 Switch between «عربي» and «English», and use the 🔤 button to see all the letters and your stars',
+      '🎯 After tracing 5 letters «Where is the letter…?» opens: listen and touch the right letter'
+    ],
     help: () => [
       '✍️ ' + App.g('ابدئي', 'ابدأ') + ' من الرقم 1 ' + App.g('واسحبي', 'واسحب') + ' إصبعك على النقاط باتجاه الأسهم',
       '🖍️ ' + App.g('اختاري', 'اختر') + ' لون القلم من الأسفل، و🧽 لمسح الرسم والبدء من جديد',
@@ -1098,12 +1116,12 @@
     best() {
       const p = loadProg(), a = countOf(p, 'ar'), e = countOf(p, 'en');
       if (!a && !e) return '';
-      return `🏆 عربي ${a}/${AR.length} · English ${e}/${EN.length}`;
+      return `🏆 ${App.t('عربي', 'Arabic')} ${a}/${AR.length} · English ${e}/${EN.length}`;
     },
     enter() {
       paused = false;
       const pos = store.get('lettersPos', null) || {};
-      alpha = pos.alpha === 'en' ? 'en' : 'ar';
+      alpha = App.gameLang(ID); relabel();
       idx = { ar: clamp(pos.ar | 0, 0, AR.length - 1), en: clamp(pos.en | 0, 0, EN.length - 1) };
       color = clamp(pos.color | 0, 0, COLORS.length - 1);
       wordOv.classList.remove('on'); gridOv.classList.remove('on'); quizOv.classList.remove('on'); quiz = null;
@@ -1111,6 +1129,13 @@
       setLetter(idx[alpha], false);
       requestAnimationFrame(() => { if (App.current === ID) layout(); });
       startLoop();
+    },
+    onLang(l) {
+      relabel();
+      if (quizOv.classList.contains('on')) { quizOv.classList.remove('on'); quiz = null; }
+      if (l !== alpha) { switchAlpha(l, true); } else updateUI();
+      if (gridOv.classList.contains('on')) openGrid();
+      if (wordOv.classList.contains('on')) showWord();
     },
     leave() {
       stopLoop(); clearTimeout(wordTimer); pid = null; curInk = null; quiz = null;
