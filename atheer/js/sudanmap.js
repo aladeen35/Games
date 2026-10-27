@@ -75,10 +75,10 @@
   const LANDMARKS = []; STATES.forEach(s => s.lm.forEach(l => { l.st = s; LANDMARKS.push(l); }));
   const EASY_PRE = ['northern', 'ndarfur', 'redsea', 'nkordofan', 'sdarfur', 'skordofan'];
   const MODES = {
-    easy: { ic: '🧩', t: 'سهل', d: 'الأسماء ظاهرة وبعض الولايات في مكانها' },
-    normal: { ic: '🗺️', t: 'كل الولايات', d: '١٨ ولاية من البداية' },
-    quiz: { ic: '❓', t: 'أين الولاية؟', d: 'المس الولاية الصحيحة' },
-    lmq: { ic: '🏛️', t: 'أين المَعلم؟', d: 'المس ولاية كل مَعلم' }
+    easy: { ic: '🧩', t: 'سهل', d: 'الأسماء ظاهرة وبعض الولايات في مكانها', en: 'Easy', den: 'Names shown and some states already in place' },
+    normal: { ic: '🗺️', t: 'كل الولايات', d: '١٨ ولاية من البداية', en: 'All states', den: '18 states from the start' },
+    quiz: { ic: '❓', t: 'أين الولاية؟', d: 'المس الولاية الصحيحة', en: 'Where is the state?', den: 'Tap the right state' },
+    lmq: { ic: '🏛️', t: 'أين المَعلم؟', d: 'المس ولاية كل مَعلم', en: 'Where is the landmark?', den: 'Tap the state of each landmark' }
   };
   const QN = 10;
 
@@ -179,6 +179,7 @@
   const lmn = l => lang === 'en' ? l.en : l.ar;
   const lms = l => (lang === 'en' ? l.sen : l.sar) || '';
   const say = t => App.speak(t, lang === 'en' ? 'en' : 'ar');
+  const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
   const dig = n => lang === 'ar' ? String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(n);
   const sp = (x, y) => [mx0 + x * k, my0 + y * k];
   const loadProg = () => { const p = store.get('sudanmapProg', null) || {}; return { stars: p.stars || {}, best: p.best || {}, en: p.en || 0 }; };
@@ -419,21 +420,21 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib modebtn" aria-label="الأنماط">🗺️</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib modebtn" aria-label="الأنماط" data-al="Modes">🗺️</button>
       <span class="grow"></span>
       <div class="lang top"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="qcard"><div class="qk"></div><canvas width="168" height="168"></canvas><div class="qt"></div><div class="qs"></div>
-      <button class="ib yellow say" aria-label="أعد السؤال">🔊</button></div>
-    <div class="overlay" id="smModes"><div class="panel mp"><h3>🗺️ خريطة السودان</h3>
+      <button class="ib yellow say" aria-label="أعد السؤال" data-al="Repeat the question">🔊</button></div>
+    <div class="overlay" id="smModes"><div class="panel mp"><h3 data-en="🗺️ Map of Sudan">🗺️ خريطة السودان</h3>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
-      <div class="mg"></div><button class="btn alt mclose" data-a="close">✕ إغلاق</button></div></div>
+      <div class="mg"></div><button class="btn alt mclose" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="smWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p><div class="wl"></div>
-      <button class="btn" data-a="again">🔄 مرة أخرى</button><br>
-      <button class="btn alt" data-a="modes">🗺️ الأنماط</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="again" data-en="🔄 Again">🔄 مرة أخرى</button><br>
+      <button class="btn alt" data-a="modes" data-en="🗺️ Modes">🗺️ الأنماط</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
@@ -560,8 +561,8 @@
     }
     c.restore();
     // شارة العنوان أعلى اللوح
-    const title = `${MODES[mode].ic} خريطة السودان · ${MODES[mode].t}`;
-    c.font = `900 ${clamp(k * .62, 14, 19)}px ${FONT}`; c.direction = 'rtl';
+    const title = `${MODES[mode].ic} ${App.t('خريطة السودان', 'Map of Sudan')} · ${App.t(MODES[mode].t, MODES[mode].en)}`;
+    c.font = `900 ${clamp(k * .62, 14, 19)}px ${FONT}`; c.direction = App.lang === 'en' ? 'ltr' : 'rtl';
     const tw = c.measureText(title).width + 30, th = clamp(k * 1.25, 28, 36), tx = b.x + b.w / 2 - tw / 2, ty = b.y - th / 2 + 2;
     c.fillStyle = '#4FB0D3'; roundRectPath(c, tx, ty + 4, tw, th, th / 2); c.fill();
     c.fillStyle = '#fff'; roundRectPath(c, tx, ty, tw, th, th / 2); c.fill();
@@ -702,13 +703,23 @@
     const it = quiz.pool[quiz.i]; quiz.tries = 0; quiz.lock = false;
     const isLm = mode === 'lmq';
     qcard.classList.toggle('lm', isLm);
-    qk.textContent = `${isLm ? '🏛️ المعالم' : '❓ الولايات'} · السؤال ${dig(quiz.i + 1)} من ${dig(QN)}`;
+    qkText();
     qt.classList.toggle('en', lang === 'en');
     qt.textContent = qText(it);
     qs.textContent = isLm ? lms(it) : '';
     if (isLm) { const c = qic.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, 168, 168); c.translate(84, 80); drawBadge(c, it, 66); }
     qcard.animate([{ transform: 'scale(.85)', opacity: .3 }, { transform: 'scale(1.04)', opacity: 1 }, { transform: 'scale(1)' }], { duration: 380, easing: 'ease-out' });
     sayQ();
+  }
+  function qkText() {
+    if (!quiz) return;
+    const isLm = mode === 'lmq';
+    qk.textContent = App.t(`${isLm ? '🏛️ المعالم' : '❓ الولايات'} · السؤال ${uN(quiz.i + 1)} من ${uN(QN)}`, `${isLm ? '🏛️ Landmarks' : '❓ States'} · Question ${quiz.i + 1} of ${QN}`);
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
   }
   function qText(it) {
     if (mode === 'lmq') return lang === 'en' ? `${it.pl ? 'Where are the' : 'Where is'} ${it.en}?` : `أين ${it.ar}؟`;
@@ -738,7 +749,7 @@
   }
   function finishQuiz() {
     const sc = quiz.score, stars = sc >= 9 ? 3 : sc >= 6 ? 2 : 1;
-    finish(stars, `${dig(sc)} من ${dig(QN)} ${sc >= 9 ? "🌟" : ""}`, mode === 'quiz' ? (sc >= QN ? 'sudanmap_quiz' : null) : (sc >= QN ? 'sudanmap_landmarks' : null));
+    finish(stars, () => App.t(`${uN(sc)} من ${uN(QN)}`, `${sc} of ${QN}`) + (sc >= 9 ? ' 🌟' : ''), mode === 'quiz' ? (sc >= QN ? 'sudanmap_quiz' : null) : (sc >= QN ? 'sudanmap_landmarks' : null));
   }
 
   /* ---------- الفوز ---------- */
@@ -752,10 +763,8 @@
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
       const quizMode = mode === 'quiz' || mode === 'lmq';
-      root.querySelector('.wT').textContent = quizMode ? '🎉 ' + App.g('أحسنتِ!', 'أحسنت!') : '🎉 اكتملت خريطة السودان!';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = quizMode ? 'الإجابات الصحيحة من أول مرة' : (mistakes ? `الأخطاء: ${dig(mistakes)}` : 'بلا أي خطأ! 👏');
-      root.querySelector('.wl').textContent = line || '';
+      winLine = line; winText();
       winOv.classList.add('on'); Sound.win();
       if (!quizMode) say(lang === 'en' ? 'The map of Sudan is complete!' : 'اكتملت خريطة السودان!');
       else say(lang === 'en' ? 'Well done!' : App.g('أحسنتِ!', 'أحسنت!'));
@@ -767,6 +776,13 @@
     }, quizMode() ? 700 : 1500);
   }
   const quizMode = () => mode === 'quiz' || mode === 'lmq';
+  let winLine = null;
+  function winText() {
+    const qm = quizMode();
+    root.querySelector('.wT').textContent = qm ? '🎉 ' + App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') : '🎉 ' + App.t('اكتملت خريطة السودان!', 'The map of Sudan is complete!');
+    root.querySelector('.wP').textContent = qm ? App.t('الإجابات الصحيحة من أول مرة', 'Right on the first try') : (mistakes ? App.t(`الأخطاء: ${uN(mistakes)}`, `Mistakes: ${mistakes}`) : App.t('بلا أي خطأ! 👏', 'No mistakes! 👏'));
+    root.querySelector('.wl').textContent = winLine ? winLine() : '';
+  }
 
   /* ---------- النوافذ ---------- */
   function openModes() {
@@ -774,7 +790,7 @@
     const cols = { easy: ['#7ED957', '#4E9E36'], normal: ['#FFB74A', '#D98712'], quiz: ['#5FD0F0', '#1F8FBF'], lmq: ['#C59BFF', '#8A5AD6'] };
     root.querySelector('.mg').innerHTML = Object.keys(MODES).map(m => {
       const st = pr.stars[m] || 0, M = MODES[m];
-      return `<button class="mb" data-m="${m}" style="--c:${cols[m][0]};--cd:${cols[m][1]}"><span class="e">${M.ic}</span><span class="t">${M.t}</span><span class="d">${m === 'quiz' || m === 'lmq' ? App.g(M.d.replace('المس', 'المسي'), M.d) : M.d}</span>
+      return `<button class="mb" data-m="${m}" style="--c:${cols[m][0]};--cd:${cols[m][1]}"><span class="e">${M.ic}</span><span class="t">${App.t(M.t, M.en)}</span><span class="d">${App.t(m === 'quiz' || m === 'lmq' ? App.g(M.d.replace('المس', 'المسي'), M.d) : M.d, M.den)}</span>
         <span class="s">${[1, 2, 3].map(i => `<i class="${i <= st ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     root.querySelectorAll('.mg .mb').forEach(b => b.addEventListener('click', () => { Sound.tap(); start(b.dataset.m); }));
@@ -782,9 +798,10 @@
     winOv.classList.remove('on'); mOv.classList.add('on');
   }
   function syncLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
-  function setLang(l) {
+  function setLang(l, sys) {
     if (l === lang) return;
-    lang = l; store.set('sudanmapLang', l); syncLang(); Sound.tap();
+    lang = l; syncLang();
+    if (!sys) { store.set('sudanmapLang', l); Sound.tap(); }
     if (W) { bakeBG(); labDirty = true; }
     if (quiz && !over && quizMode()) { qt.classList.toggle('en', lang === 'en'); qt.textContent = qText(quiz.pool[quiz.i]); qs.textContent = mode === 'lmq' ? lms(quiz.pool[quiz.i]) : ''; sayQ(); }
     else say(lang === 'en' ? 'Sudan' : 'السودان');
@@ -900,7 +917,7 @@
     if (ci >= 0) fillSlot(ci, .25);
     if (pieces.every(q => q.state === 'done')) {
       const st = mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1;
-      setTimeout(() => finish(st, `${dig(18)} ولاية 🇸🇩`, null), 1400);
+      setTimeout(() => finish(st, () => App.t(`${uN(18)} ولاية 🇸🇩`, '18 states 🇸🇩'), null), 1400);
     }
   }
 
@@ -1195,6 +1212,15 @@
   App.register({
     id: ID, title: 'خريطة السودان', icon2: '🗺️', isNew: false, music: 'shapes',
     desc: () => App.g('ركّبي ولايات السودان واكتشفي معالمها', 'ركّب ولايات السودان واكتشف معالمها'),
+    titleEn: 'Map of Sudan',
+    descEn: () => 'Build the states of Sudan and discover their landmarks',
+    helpEn: () => [
+      '🧩 Drag each state from the tray to its place on the map of Sudan',
+      '🏛️ When a state settles in, a famous landmark appears with its name',
+      '🔤 The «عربي / English» button changes the language of the names and voice',
+      '❓ In «Where is the state?» mode tap the requested state on the map',
+      '🔊 Tap any state to hear its name; the 🗺️ button opens the modes'
+    ],
     help: () => [
       '🧩 ' + App.g('اسحبي', 'اسحب') + ' كل ولاية من الصينية إلى مكانها في خريطة السودان',
       '🏛️ عندما تستقرّ الولاية يظهر مَعلم مشهور فيها مع اسمه',
@@ -1209,12 +1235,18 @@
     },
     enter() {
       paused = false;
-      lang = store.get('sudanmapLang', 'ar') === 'en' ? 'en' : 'ar';
-      syncLang();
+      lang = App.gameLang(ID);
+      syncLang(); trUI();
       const pr = loadProg();
       start(pr.stars.easy ? 'normal' : 'easy');
       render(); startLoop();
       openModes();
+    },
+    onLang(l) {
+      trUI(); qkText();
+      if (l !== lang) setLang(l, true); else if (W) { bakeBG(); labDirty = true; }
+      if (mOv.classList.contains('on')) openModes();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearTimeout(winTimer); clearTimeout(qTimer); drag = null; winOv.classList.remove('on'); mOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const pc = drag.pc; drag = null; toTray(pc, false); } },

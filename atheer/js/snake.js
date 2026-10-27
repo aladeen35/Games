@@ -273,49 +273,59 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib pbtn" aria-label="إيقاف مؤقت">⏸️</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib pbtn" aria-label="إيقاف مؤقت" data-aen="Pause">⏸️</button>
       <span class="grow"></span>
       <div class="chip"><small class="c1L">النقاط</small><b class="c1">0</b></div>
       <div class="chip"><small class="c2L">الأفضل</small><b class="c2">0</b></div>
     </div>
     <div class="dpad">
-      <button class="u" data-d="up" aria-label="أعلى">${arrow(0)}</button>
-      <button class="l" data-d="left" aria-label="يسار">${arrow(-90)}</button>
+      <button class="u" data-d="up" aria-label="أعلى" data-aen="Up">${arrow(0)}</button>
+      <button class="l" data-d="left" aria-label="يسار" data-aen="Left">${arrow(-90)}</button>
       <div class="mid">🐛</div>
-      <button class="r" data-d="right" aria-label="يمين">${arrow(90)}</button>
-      <button class="d" data-d="down" aria-label="أسفل">${arrow(180)}</button>
+      <button class="r" data-d="right" aria-label="يمين" data-aen="Right">${arrow(90)}</button>
+      <button class="d" data-d="down" aria-label="أسفل" data-aen="Down">${arrow(180)}</button>
     </div>
     <div class="hint"><span class="hintT"></span></div>
     <div class="overlay" id="snMode"><div class="panel mp">
-      <h3>🐛 الدودة الجائعة</h3>
+      <h3 data-en="🐛 The Hungry Worm">🐛 الدودة الجائعة</h3>
       <p class="mT" style="margin:0"></p>
       <div class="modes">
-        <button class="mb" data-m="classic"><span class="e">🧱</span><div><b>كلاسيكي</b><small class="mS1"></small></div><span class="mbest" data-b="classic"></span></button>
-        <button class="mb" data-m="wrap"><span class="e">🌀</span><div><b>بلا جدران</b><small class="mS2"></small></div><span class="mbest" data-b="wrap"></span></button>
-        <button class="mb" data-m="adv"><span class="e">🗺️</span><div><b>مغامرة</b><small>15 مرحلة ممتعة بالصخور والشجيرات</small></div><span class="mbest" data-b="adv"></span></button>
+        <button class="mb" data-m="classic"><span class="e">🧱</span><div><b data-en="Classic">كلاسيكي</b><small class="mS1"></small></div><span class="mbest" data-b="classic"></span></button>
+        <button class="mb" data-m="wrap"><span class="e">🌀</span><div><b data-en="No walls">بلا جدران</b><small class="mS2"></small></div><span class="mbest" data-b="wrap"></span></button>
+        <button class="mb" data-m="adv"><span class="e">🗺️</span><div><b data-en="Adventure">مغامرة</b><small data-en="15 fun levels with rocks and bushes">15 مرحلة ممتعة بالصخور والشجيرات</small></div><span class="mbest" data-b="adv"></span></button>
       </div>
-      <div class="spd"><span>⚡ السرعة</span><div class="sg">
-        <button data-s="0">🐢 بطيء</button><button data-s="1">🐇 عادي</button><button data-s="2">🚀 سريع</button></div></div>
+      <div class="spd"><span data-en="⚡ Speed">⚡ السرعة</span><div class="sg">
+        <button data-s="0" data-en="🐢 Slow">🐢 بطيء</button><button data-s="1" data-en="🐇 Normal">🐇 عادي</button><button data-s="2" data-en="🚀 Fast">🚀 سريع</button></div></div>
     </div></div>
-    <div class="overlay" id="snLv"><div class="panel lvp"><h3>🗺️ المغامرة</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="modes">↩️ رجوع</button></div></div>
+    <div class="overlay" id="snLv"><div class="panel lvp"><h3 data-en="🗺️ Adventure">🗺️ المغامرة</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="modes" data-en="↩️ Back">↩️ رجوع</button></div></div>
     <div class="overlay" id="snPause"><div class="panel">
-      <h3>⏸️ استراحة</h3><p class="pP"></p>
-      <button class="btn" data-a="resume">▶️ متابعة</button><br>
-      <button class="btn alt" data-a="again">🔄 من جديد</button><button class="btn alt" data-a="modes">🎮 الأوضاع</button>
+      <h3 data-en="⏸️ Break">⏸️ استراحة</h3><p class="pP"></p>
+      <button class="btn" data-a="resume" data-en="▶️ Continue">▶️ متابعة</button><br>
+      <button class="btn alt" data-a="again" data-en="🔄 Restart">🔄 من جديد</button><button class="btn alt" data-a="modes" data-en="🎮 Modes">🎮 الأوضاع</button>
     </div></div>
     <div class="overlay" id="snOver"><div class="panel">
       <h3 class="oT"></h3><div class="big oB"></div><p class="oP"></p>
-      <button class="btn" data-a="again">🔄 مرة أخرى</button><br>
-      <button class="btn alt oM" data-a="modes">🎮 الأوضاع</button><button class="btn alt oL" data-a="levels">🗺️ المراحل</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="again" data-en="🔄 Try again">🔄 مرة أخرى</button><br>
+      <button class="btn alt oM" data-a="modes" data-en="🎮 Modes">🎮 الأوضاع</button><button class="btn alt oL" data-a="levels" data-en="🗺️ Levels">🗺️ المراحل</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>
     <div class="overlay" id="snWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المراحل</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="إعادة" data-aen="Replay">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المراحل</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  let overPaint = null, winPaint = null;
+  const hintText = () => '👆 ' + App.t(App.g('اسحبي أو اضغطي سهمًا للبدء', 'اسحب أو اضغط سهمًا للبدء'), 'Swipe or press an arrow to start');
   const q = s => root.querySelector(s);
   const cv = q('canvas.sc'), bar = q('.bar'), dpad = q('.dpad');
   const hintEl = q('.hint'), hintT = q('.hintT');
@@ -480,7 +490,7 @@
   }
 
   /* ---------- اللعب ---------- */
-  function modeName(m) { return m === 'classic' ? 'كلاسيكي' : m === 'wrap' ? 'بلا جدران' : 'مغامرة'; }
+  function modeName(m) { return m === 'classic' ? App.t('كلاسيكي', 'Classic') : m === 'wrap' ? App.t('بلا جدران', 'No walls') : App.t('مغامرة', 'Adventure'); }
   function bestOf(m) { return store.get('snakeBest_' + m, 0); }
   function startGame(m, level) {
     mode = m;
@@ -501,7 +511,7 @@
     layout();
     spawnFood(false);
     showOv(null);
-    hintT.textContent = '👆 ' + App.g('اسحبي أو اضغطي سهمًا للبدء', 'اسحب أو اضغط سهمًا للبدء');
+    hintT.textContent = hintText();
     hintEl.style.opacity = 1;
     lastChip = ''; updChips();
     Sound.whoosh();
@@ -625,9 +635,11 @@
   function gameOver(filled) {
     if (mode === 'adv') {
       Sound.lose();
-      q('.oT').textContent = App.g('أوه! حاولي مرة أخرى', 'أوه! حاول مرة أخرى') + ' 💫';
-      q('.oB').textContent = `🍎 ${fruits}/${target}`;
-      q('.oP').textContent = `المرحلة ${lvl} · ` + App.g('اجمعي', 'اجمع') + ` ${target} فواكه للفوز`;
+      (overPaint = () => {
+        q('.oT').textContent = App.t(App.g('أوه! حاولي مرة أخرى', 'أوه! حاول مرة أخرى'), 'Oh! Try again') + ' 💫';
+        q('.oB').textContent = `🍎 ${fruits}/${target}`;
+        q('.oP').textContent = App.t(`المرحلة ${lvl} · ` + App.g('اجمعي', 'اجمع') + ` ${target} فواكه للفوز`, `Level ${lvl} · Collect ${target} fruits to win`);
+      })();
       q('.oM').style.display = 'none'; q('.oL').style.display = '';
       finishRewards();
       showOv(overOv); return;
@@ -635,10 +647,12 @@
     const key = 'snakeBest_' + mode, prevBest = store.get(key, 0), rec = score > prevBest;
     if (rec) store.set(key, score);
     filled ? Sound.win() : (rec && score > 0 ? Sound.win() : Sound.lose());
-    q('.oT').textContent = filled ? 'رائع! امتلأت الحديقة 🎉' : 'أوه! اصطدمت الدودة 💫';
-    q('.oB').textContent = score;
-    q('.oP').innerHTML = (rec && score > 0 ? '<span class="newrec">🏆 رقم قياسي جديد!</span><br>' : `🏆 أفضل نتيجة: ${Math.max(prevBest, score)}<br>`) +
-      `${App.g('أكلتِ', 'أكلتَ')} ${fruits} ${fruits === 1 ? 'فاكهة' : 'فواكه'} · طول الدودة ${body.length}`;
+    (overPaint = () => {
+      q('.oT').textContent = filled ? App.t('رائع! امتلأت الحديقة 🎉', 'Great! The garden is full 🎉') : App.t('أوه! اصطدمت الدودة 💫', 'Oh! The worm bumped 💫');
+      q('.oB').textContent = score;
+      q('.oP').innerHTML = (rec && score > 0 ? `<span class="newrec">${App.t('🏆 رقم قياسي جديد!', '🏆 New record!')}</span><br>` : App.t(`🏆 أفضل نتيجة: ${Math.max(prevBest, score)}<br>`, `🏆 Best score: ${Math.max(prevBest, score)}<br>`)) +
+        App.t(`${App.g('أكلتِ', 'أكلتَ')} ${fruits} ${fruits === 1 ? 'فاكهة' : 'فواكه'} · طول الدودة ${body.length}`, `You ate ${fruits} ${fruits === 1 ? 'fruit' : 'fruits'} · Worm length ${body.length}`);
+    })();
     q('.oM').style.display = ''; q('.oL').style.display = 'none';
     showOv(overOv);
     if (rec && score > 0) confetti();
@@ -657,12 +671,15 @@
     updChips();
     overTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      q('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-      q('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      q('.wP').textContent = `${App.g('أنهيتِ', 'أنهيتَ')} المرحلة ${lvl} في ⏱️ ${fmtT(runTime)}` + (stars < 3 ? ` · ${App.g('أسرعي لتحصلي', 'أسرع لتحصل')} على 3 نجوم` : ' 🚀');
+      (winPaint = () => {
+        q('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+        q('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+        q('.wP').textContent = App.t(`${App.g('أنهيتِ', 'أنهيتَ')} المرحلة ${lvl} في ⏱️ ${fmtT(runTime)}` + (stars < 3 ? ` · ${App.g('أسرعي لتحصلي', 'أسرع لتحصل')} على 3 نجوم` : ' 🚀'),
+          `You finished level ${lvl} in ⏱️ ${fmtT(runTime)}` + (stars < 3 ? ' · Go faster to get 3 stars' : ' 🚀'));
+      })();
       q('[data-a="next"]').style.display = lvl < MAPS.length ? '' : 'none';
       showOv(winOv);
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       const n = Math.max(0, stars - prevS) + Math.floor(fruits / 10);
       if (n) App.addStars(n);
     }, 1200);
@@ -673,18 +690,21 @@
   }
   function updChips() {
     let a, b, la, lb;
-    if (mode === 'adv') { la = 'الفواكه'; a = `${fruits}/${target}`; lb = 'الوقت'; b = fmtT(runTime); }
-    else { la = 'النقاط'; a = score; lb = 'الأفضل'; b = Math.max(bestOf(mode), score); }
+    if (mode === 'adv') { la = App.t('الفواكه', 'Fruits'); a = `${fruits}/${target}`; lb = App.t('الوقت', 'Time'); b = fmtT(runTime); }
+    else { la = App.t('النقاط', 'Score'); a = score; lb = App.t('الأفضل', 'Best'); b = Math.max(bestOf(mode), score); }
     const k = [la, a, lb, b].join('|'); if (k === lastChip) return; lastChip = k;
     q('.c1L').textContent = la; q('.c1').textContent = a; q('.c2L').textContent = lb; q('.c2').textContent = b;
   }
 
   /* ---------- القوائم ---------- */
+  function modesText() {
+    q('.mT').textContent = App.t(App.g('اختاري طريقة اللعب', 'اختر طريقة اللعب'), 'Choose how to play');
+    q('.mS1').textContent = App.t(App.g('احذري الجدران والذيل!', 'احذر الجدران والذيل!'), 'Watch out for the walls and the tail!');
+    q('.mS2').textContent = App.t(App.g('اعبري من جهة إلى الجهة الأخرى', 'اعبر من جهة إلى الجهة الأخرى'), 'Go through one side to the other');
+  }
   function openModes() {
     clearTimeout(overTimer);
-    q('.mT').textContent = App.g('اختاري طريقة اللعب', 'اختر طريقة اللعب');
-    q('.mS1').textContent = App.g('احذري الجدران والذيل!', 'احذر الجدران والذيل!');
-    q('.mS2').textContent = App.g('اعبري من جهة إلى الجهة الأخرى', 'اعبر من جهة إلى الجهة الأخرى');
+    modesText();
     for (const m of ['classic', 'wrap']) { const b = bestOf(m); q(`[data-b="${m}"]`).textContent = b ? '🏆 ' + b : ''; }
     const pr = loadProg(), st = Object.values(pr.stars).reduce((a, n) => a + n, 0);
     q('[data-b="adv"]').textContent = st ? '⭐ ' + st : '';
@@ -695,7 +715,7 @@
     const pr = loadProg(), g = q('.lvg');
     g.innerHTML = MAPS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl && mode === 'adv' ? ' cur' : ''}" data-l="${n}" aria-label="المرحلة ${n}"><span class="n">${n}</span><span class="e">${FRUIT_EMO[i % 5]}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl && mode === 'adv' ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المرحلة', 'Level')} ${n}"><span class="n">${n}</span><span class="e">${FRUIT_EMO[i % 5]}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -705,10 +725,11 @@
     });
     showOv(lvOv);
   }
+  function pauseText() { q('.pP').textContent = mode === 'adv' ? App.t(`المرحلة ${lvl} · 🍎 ${fruits}/${target}`, `Level ${lvl} · 🍎 ${fruits}/${target}`) : App.t(`${modeName(mode)} · النقاط ${score}`, `${modeName(mode)} · Score ${score}`); }
   function setPause(on) {
     if (on) {
       if (state !== 'play' && state !== 'ready') return;
-      q('.pP').textContent = mode === 'adv' ? `المرحلة ${lvl} · 🍎 ${fruits}/${target}` : `${modeName(mode)} · النقاط ${score}`;
+      pauseText();
       showOv(pauseOv);
     } else { pauseOv.classList.remove('on'); last = performance.now(); }
   }
@@ -1017,8 +1038,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'الدودة الجائعة', icon2: '🐛', isNew: false, music: 'snake',
+    id: ID, title: 'الدودة الجائعة', titleEn: 'Hungry Worm', icon2: '🐛', isNew: false, music: 'snake',
     desc: () => App.g('ساعدي الدودة لتأكل الفواكه وتكبر', 'ساعد الدودة لتأكل الفواكه وتكبر'),
+    descEn: () => 'Help the worm eat fruit and grow',
+    helpEn: () => [
+      '👆 Swipe anywhere with your finger, or use the buttons and arrows to steer the worm',
+      '🍎 Every fruit makes the worm longer and gives you 10 points',
+      '✨ The golden fruit disappears fast… hurry to it to win 50 points!',
+      '🧱 Don\'t bump into the fence, the rocks, the bushes or the worm\'s tail',
+      '🗺️ In Adventure, collect the fruits you need to finish the level — the faster you are, the more stars ⭐'
+    ],
     help: () => [
       '👆 ' + App.g('اسحبي', 'اسحب') + ' بإصبعك في أي مكان، أو ' + App.g('استخدمي', 'استخدم') + ' الأزرار والأسهم لتوجيه الدودة',
       '🍎 كل فاكهة تجعل الدودة أطول وتمنحك 10 نقاط',
@@ -1029,11 +1058,19 @@
     icon,
     best() {
       const b = Math.max(store.get('snakeBest_classic', 0), store.get('snakeBest_wrap', 0));
-      if (b) return '🏆 أفضل نتيجة: ' + b;
+      if (b) return App.t('🏆 أفضل نتيجة: ', '🏆 Best score: ') + b;
       const pr = loadProg(), ks = Object.keys(pr.stars).filter(k => pr.stars[k]);
-      return ks.length ? '🏆 المرحلة ' + Math.max(...ks.map(Number)) : '';
+      return ks.length ? App.t('🏆 المرحلة ', '🏆 Level ') + Math.max(...ks.map(Number)) : '';
+    },
+    onLang() {
+      i18n(); modesText(); hintT.textContent = hintText(); lastChip = ''; updChips();
+      if (overOv.classList.contains('on') && overPaint) overPaint();
+      if (winOv.classList.contains('on') && winPaint) winPaint();
+      if (pauseOv.classList.contains('on')) pauseText();
+      if (lvOv.classList.contains('on')) openLevels();
     },
     enter() {
+      i18n();
       sheetPaused = false;
       spdIdx = clamp(store.get('snakeSpeed', 0) | 0, 0, 2);
       mode = store.get('snakeMode', 'classic');

@@ -75,21 +75,21 @@
 
   /* ---------- المستويات ---------- */
   const LEVELS = [
-    { m: 'learn', t: 'الوجه', parts: ['head', 'hair', 'eyes', 'ears', 'nose', 'mouth', 'cheeks', 'chin'] },
-    { m: 'find', t: 'الوجه', parts: ['head', 'eyes', 'ears', 'nose', 'mouth', 'hair'], q: 5 },
-    { m: 'learn', t: 'الجسم', parts: ['neck', 'shoulders', 'arms', 'elbows', 'hands', 'fingers', 'tummy', 'legs', 'knees', 'feet', 'toes', 'back'] },
-    { m: 'find', t: 'الجسم', parts: ['hands', 'feet', 'tummy', 'arms', 'legs', 'neck'], q: 6 },
-    { m: 'senses', t: 'الحواس الخمس', set: ['smell', 'see', 'hear', 'taste', 'touch'], q: 5 },
-    { m: 'dress', t: 'ألبسني', set: ['hat', 'shoes', 'gloves', 'glasses', 'scarf'], q: 5 },
-    { m: 'find', t: 'التفاصيل', parts: ['teeth', 'tongue', 'cheeks', 'chin', 'elbows', 'fingers', 'knees', 'toes', 'shoulders'], q: 6 },
-    { m: 'find', t: 'لِفّ واستدر', parts: ['back', 'shoulders', 'neck', 'knees', 'elbows', 'hair', 'nose'], q: 6, back: true },
-    { m: 'senses', t: 'ماذا نفعل؟', set: ['walk', 'chew', 'clap', 'think', 'kick', 'hug', 'smell', 'hear'], q: 6 },
-    { m: 'dress', t: 'إكسسوارات', set: ['crown', 'socks', 'watch', 'ring', 'backpack', 'headphones'], q: 6 },
-    { m: 'find', t: 'كل الجسم', parts: ALL_PARTS, q: 8, back: true },
-    { m: 'mix', t: 'التحدّي الكبير', q: 9 }
+    { m: 'learn', t: 'الوجه', te: 'Face', parts: ['head', 'hair', 'eyes', 'ears', 'nose', 'mouth', 'cheeks', 'chin'] },
+    { m: 'find', t: 'الوجه', te: 'Face', parts: ['head', 'eyes', 'ears', 'nose', 'mouth', 'hair'], q: 5 },
+    { m: 'learn', t: 'الجسم', te: 'Body', parts: ['neck', 'shoulders', 'arms', 'elbows', 'hands', 'fingers', 'tummy', 'legs', 'knees', 'feet', 'toes', 'back'] },
+    { m: 'find', t: 'الجسم', te: 'Body', parts: ['hands', 'feet', 'tummy', 'arms', 'legs', 'neck'], q: 6 },
+    { m: 'senses', t: 'الحواس الخمس', te: 'Five senses', set: ['smell', 'see', 'hear', 'taste', 'touch'], q: 5 },
+    { m: 'dress', t: 'ألبسني', te: 'Dress me', set: ['hat', 'shoes', 'gloves', 'glasses', 'scarf'], q: 5 },
+    { m: 'find', t: 'التفاصيل', te: 'Details', parts: ['teeth', 'tongue', 'cheeks', 'chin', 'elbows', 'fingers', 'knees', 'toes', 'shoulders'], q: 6 },
+    { m: 'find', t: 'لِفّ واستدر', te: 'Turn around', parts: ['back', 'shoulders', 'neck', 'knees', 'elbows', 'hair', 'nose'], q: 6, back: true },
+    { m: 'senses', t: 'ماذا نفعل؟', te: 'What do we do?', set: ['walk', 'chew', 'clap', 'think', 'kick', 'hug', 'smell', 'hear'], q: 6 },
+    { m: 'dress', t: 'إكسسوارات', te: 'Accessories', set: ['crown', 'socks', 'watch', 'ring', 'backpack', 'headphones'], q: 6 },
+    { m: 'find', t: 'كل الجسم', te: 'Whole body', parts: ALL_PARTS, q: 8, back: true },
+    { m: 'mix', t: 'التحدّي الكبير', te: 'Big challenge', q: 9 }
   ];
   const MODE = {
-    learn: { i: '🎓', ar: 'تعلّم' }, find: { i: '👆', ar: 'ابحث' }, senses: { i: '👃', ar: 'الحواس' }, dress: { i: '👕', ar: 'ألبسني' }, mix: { i: '🏆', ar: 'تحدٍّ' }
+    learn: { i: '🎓', ar: 'تعلّم', en: 'Learn' }, find: { i: '👆', ar: 'ابحث', en: 'Find' }, senses: { i: '👃', ar: 'الحواس', en: 'Senses' }, dress: { i: '👕', ar: 'ألبسني', en: 'Dress me' }, mix: { i: '🏆', ar: 'تحدٍّ', en: 'Challenge' }
   };
 
   /* ---------- أدوات ---------- */
@@ -210,32 +210,48 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🔢</button>
       <span class="grow"></span>
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="pbar"></div>
-    <button class="ib turnb" aria-label="استدر">🔄</button>
+    <button class="ib turnb" data-i="turn">🔄</button>
     <div class="ask">
-      <button class="spk" aria-label="اسمع مرة أخرى">🔊</button>
+      <button class="spk" data-i="listen">🔊</button>
       <div class="aq"><span class="ai"></span><span class="at"></span></div>
-      <div class="item" aria-label="اسحب"></div>
+      <div class="item" data-i="drag"></div>
     </div>
     <div class="ghost"></div>
-    <div class="overlay" id="bdLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="bdLv"><div class="panel lvp"><h3 class="hLv"></h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="bdWin"><div class="panel">
       <h3 class="wT"></h3><div class="wkid"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const pbar = root.querySelector('.pbar'), askEl = root.querySelector('.ask'), spkBtn = root.querySelector('.spk');
   const aiEl = root.querySelector('.ai'), atEl = root.querySelector('.at'), itemEl = root.querySelector('.item'), ghost = root.querySelector('.ghost');
   const turnBtn = root.querySelector('.turnb');
   const lvOv = root.querySelector('#bdLv'), winOv = root.querySelector('#bdWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), turn: App.t('استدر', 'Turn around'), listen: App.t('اسمع مرة أخرى', 'Listen again'), drag: App.t('اسحب', 'Drag') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنتَ!'), 'Well done!') + ' 🎉';
+    const msg = App.lang === 'en'
+      ? { learn: 'You learned all the parts', find: 'You found all the parts', senses: 'You know the senses', dress: 'You dressed the child in everything', mix: 'You finished the big challenge' }[def.m]
+      : { learn: App.g('تعرّفتِ', 'تعرّفتَ') + ' على كل الأجزاء', find: App.g('وجدتِ', 'وجدتَ') + ' كل الأجزاء', senses: App.g('عرفتِ', 'عرفتَ') + ' الحواس', dress: App.g('ألبستِ', 'ألبستَ') + ' الطفل كل شيء', mix: App.g('أنهيتِ', 'أنهيتَ') + ' التحدّي الكبير' }[def.m];
+    root.querySelector('.wP').textContent = msg + (winMis ? '' : App.t(' دون أخطاء!', ' No mistakes!') + ' 💯');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, portrait = true;
@@ -1035,14 +1051,12 @@
     setProg();
     for (let i = 0; i < 120; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 240), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF6B6B', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF7EB9'][i % 6] });
     Sound.win();
-    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = App.g('أحسنتِ!', 'أحسنتَ!'); react('tummy', 1.6); react('hands', 1.8);
+    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = lang === 'ar' ? App.g('أحسنتِ!', 'أحسنتَ!') : 'Well done!'; react('tummy', 1.6); react('hands', 1.8);
     later(1.4, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
+      winMis = mistakes; winText();
       root.querySelector('.wkid').textContent = { learn: '🎓🧒', find: '👆✨', senses: '👃👀👂', dress: '👒👟🧤', mix: '🏆🧒' }[def.m];
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      const msg = { learn: App.g('تعرّفتِ', 'تعرّفتَ') + ' على كل الأجزاء', find: App.g('وجدتِ', 'وجدتَ') + ' كل الأجزاء', senses: App.g('عرفتِ', 'عرفتَ') + ' الحواس', dress: App.g('ألبستِ', 'ألبستَ') + ' الطفل كل شيء', mix: App.g('أنهيتِ', 'أنهيتَ') + ' التحدّي الكبير' }[def.m];
-      root.querySelector('.wP').textContent = msg + (mistakes ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(winOv);
@@ -1058,8 +1072,8 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lk = n > pr.unlocked, M = MODE[L.m];
-      return `<button class="lvb m-${L.m}${lk ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
-        <span class="e">${M.i}</span><b>${M.ar}</b><small>${App.esc(L.t)}</small>
+      return `<button class="lvb m-${L.m}${lk ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
+        <span class="e">${M.i}</span><b>${App.t(M.ar, M.en)}</b><small>${App.esc(App.t(L.t, L.te))}</small>
         <span class="s">${lk ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -1086,9 +1100,12 @@
     else sayQ();
   });
   turnBtn.addEventListener('click', () => { if (paused || blocked()) return; idleT = 0; turn(); });
-  function setLang(l) {
-    lang = l === 'en' ? 'en' : 'ar'; store.set('bodyLang', lang);
+  function setLang(l, nosave) {
+    lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('bodyLang', lang);
     root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+    chrome(); if (over && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
+    if (over) { atEl.textContent = lang === 'ar' ? App.g('أحسنتِ!', 'أحسنتَ!') : 'Well done!'; return; }
     if (def.m === 'learn') showLearn(); else showQ();
   }
   root.querySelectorAll('.lng button').forEach(b => b.addEventListener('click', () => {
@@ -1302,8 +1319,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'أجزاء الجسم', icon2: '🧒', isNew: true, music: 'shapes',
+    id: ID, title: 'أجزاء الجسم', titleEn: 'My Body', icon2: '🧒', isNew: true, music: 'shapes',
     desc: () => App.g('المسي الأنف والعينين وتعرّفي على جسمك', 'المس الأنف والعينين وتعرّف على جسمك'),
+    descEn: () => 'Touch the nose and eyes and get to know your body',
+    helpEn: () => [
+      "🧒 Touch any part of the child's body to hear its name, and it will move and laugh!",
+      '👆 In «Find» listen to the question, then touch the part asked for',
+      '👃 In «Senses»: what do we smell with? what do we hear with?',
+      '👒 In «Dress me» drag the hat to the head and the shoes to the feet',
+      '🔄 The turn button shows the back · 🌍 عربي / English'
+    ],
     help: () => [
       '🧒 ' + App.g('المسي', 'المس') + ' أي جزء من جسم الطفل ' + App.g('لتسمعي', 'لتسمع') + ' اسمه، وسيتحرّك ويضحك!',
       '👆 في «ابحث» ' + App.g('اسمعي', 'اسمع') + ' السؤال ثم ' + App.g('المسي', 'المس') + ' الجزء المطلوب',
@@ -1320,14 +1345,15 @@
     enter() {
       paused = false;
       girl = App.g(true, false);
-      lang = store.get('bodyLang', 'ar') === 'en' ? 'en' : 'ar';
-      root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+      lang = App.gameLang(ID);
+      root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); chrome();
       bakeCache.clear();
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       computePose(); G = geo(); render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg && !over) { if (def.m === 'learn') say(App.g('المسي', 'المس') + ' أي جزء', 'Touch any part'); else sayQ(); } },
     leave() { stopLoop(); sayTok++; tasks = []; drag = null; ghost.style.display = 'none'; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { drag = null; ghost.style.display = 'none'; itemEl.classList.remove('drag'); } },
     resume() { paused = false; last = performance.now(); },

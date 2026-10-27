@@ -85,6 +85,8 @@
   let lang = 'ar';
   const num = n => lang === 'ar' ? String(n).replace(/\d/g, d => AR_D[d]) : String(n);
   const nameOf = e => ITEMS[e][lang];
+  const sayL = (ar, en) => lang === 'en' ? App.speak(en, 'en') : App.speak(ar);
+  const sayWho = () => sayL('ظل من؟', 'Whose shadow?');
   const loadProg = () => { const p = store.get('shadowsProg', null) || {}; return { unlocked: Math.max(1, p.unlocked || 1), stars: p.stars || {} }; };
 
   function emojiCanvas(e, size, res) {
@@ -212,24 +214,24 @@
   const root = App.section(ID, `
     <canvas class="sc2"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢<span class="cnt">1</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🔢<span class="cnt">1</span></button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="لغة الكلمات"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="لغة الكلمات" data-al="Word language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
     <div class="foot">
-      <button class="ib snd say" aria-label="استمع">🔊</button>
+      <button class="ib snd say" aria-label="استمع" data-al="Listen">🔊</button>
       <span class="grow"></span>
       <div class="prog"></div>
     </div>
-    <div class="overlay" id="sdLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="sdLv"><div class="panel lvp"><h3 data-en="🔢 Levels">🔢 المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="sdWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc2');
   const bar = root.querySelector('.bar'), foot = root.querySelector('.foot');
@@ -374,9 +376,9 @@
     layout();
     root.querySelector('.lvbtn .cnt').textContent = num(lvl);
     paintProg();
-    hintOn = true; hintT.textContent = '👆 ' + App.g('اسحبي', 'اسحب') + ' كل صورة إلى ظلّها'; hintEl.style.opacity = 1;
+    hintOn = true; hintT.textContent = hintTxt(); hintEl.style.opacity = 1;
     Sound.whoosh();
-    later(.45, () => App.speak('ظل من؟'));
+    later(.45, sayWho);
   }
   function paintProg() {
     const n = pics.length, d = pics.filter(p => p.state === 'done').length;
@@ -392,12 +394,11 @@
     store.set('shadowsProg', pr);
     for (let i = 0; i < 130; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 260), rot: rand(0, TAU), vr: rand(-8, 8),
       life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF4D5A', '#FFD02B', '#3A86FF', '#3FC954', '#9A5BF5', '#FF66B2'][i % 6] });
-    later(.9, () => { Sound.win(); App.speak(App.g('أحسنتِ!', 'أحسنت!')); });
+    later(.9, () => { Sound.win(); sayL(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!'); });
     later(1.7, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${num(lvl)}` + (mistakes ? ` · الأخطاء: ${num(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       if (stars > prev) App.addStars(stars - prev);
@@ -406,12 +407,24 @@
       if (LEVELS.every((_, i) => pr.stars[i + 1])) App.achieve('shadows_all');
     });
   }
+  const hintTxt = () => '👆 ' + App.t(App.g('اسحبي', 'اسحب') + ' كل صورة إلى ظلّها', 'Drag each picture to its shadow');
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AR_D[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${uN(lvl)}` + (mistakes ? ` · الأخطاء: ${uN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   function openLevels() {
     const pr = loadProg();
     const g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span><span class="e${s ? '' : ' sh'}">${L.ic}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span><span class="e${s ? '' : ' sh'}">${L.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -431,18 +444,21 @@
   root.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => act(b.dataset.a)));
   root.querySelector('.lvbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
   root.querySelector('.say').addEventListener('click', () => {
-    Sound.tap(); App.speak('ظل من؟');
+    Sound.tap(); sayWho();
     slots.forEach((s, i) => { if (!s.done) later(i * .08, () => { s.wob = 1; }); });
   });
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
-  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.l === lang) return;
-    Sound.tap(); lang = b.dataset.l; store.set('shadows:lang', lang); paintLang();
+  function switchLang(l, user) {
+    if (l === lang) return;
+    lang = l; paintLang();
+    if (user) { Sound.tap(); store.set(ID + 'Lang', lang); }
     root.querySelector('.lvbtn .cnt').textContent = num(lvl);
+    if (lvOv.classList.contains('on')) openLevels();
     // نطق آخر صورة مطابقة باللغة الجديدة
     const d = slots.filter(s => s.done);
     if (d.length) { const s = d[d.length - 1]; s.pop = 1; App.speak(nameOf(s.e), lang); }
-  }));
+  }
+  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => switchLang(b.dataset.l, true)));
 
   /* ---------- الجسيمات ---------- */
   function sparkle(x, y, col) {
@@ -474,7 +490,7 @@
     const s = slots.find(s => Math.abs(s.x - m.x) < TS / 2 && Math.abs(s.y - m.y) < TS / 2);
     if (s) {
       if (s.done) { s.pop = 1; Sound.pop(); App.speak(nameOf(s.e), lang); bubble(nameOf(s.e), s.x, s.y - TS * .62); }
-      else { s.wob = 1; Sound.tone(300, .12, 'triangle', .1, -80); App.speak('ظل من؟'); }
+      else { s.wob = 1; Sound.tone(300, .12, 'triangle', .1, -80); sayWho(); }
     }
   });
   cv.addEventListener('pointermove', e => {
@@ -690,6 +706,15 @@
   App.register({
     id: ID, title: 'ظل من؟', icon2: '👤', isNew: false, music: 'shapes',
     desc: () => App.g('طابقي كل صورة مع ظلّها', 'طابق كل صورة مع ظلّها'),
+    titleEn: 'Whose Shadow?',
+    descEn: () => 'Match each picture with its shadow',
+    helpEn: () => [
+      '👤 Look at the dark shadows: every picture has a shadow just like it',
+      '👆 Drag each colored picture and put it on its shadow',
+      '🔤 The «عربي / English» button changes the language of the picture names',
+      '🔊 Tap any picture to hear its name',
+      '🧠 In harder levels shadows are tilted, of different sizes, and some extra shadows have no picture!'
+    ],
     help: () => [
       '👤 ' + App.g('انظري', 'انظر') + ' إلى الظلال الداكنة: لكل صورة ظلّ يشبهها تمامًا',
       '👆 ' + App.g('اسحبي', 'اسحب') + ' كل صورة ملوّنة وضعها فوق ظلّها',
@@ -701,16 +726,23 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('shadows:lang', 'ar') === 'en' ? 'en' : 'ar';
-      paintLang();
+      lang = App.gameLang(ID);
+      paintLang(); trUI();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render();
       startLoop();
+    },
+    onLang(l) {
+      trUI();
+      if (hintOn) hintT.textContent = hintTxt();
+      if (l !== lang) switchLang(l, false);
+      else if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); tq = []; drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const p = drag.p; drag = null; toTray(p, false); } },

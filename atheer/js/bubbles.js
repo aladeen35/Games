@@ -260,27 +260,37 @@
   const root = App.section(ID, `
     <canvas class="bc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المراحل">🔢</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المراحل" data-aen="Levels">🔢</button>
       <span class="grow"></span>
-      <div class="chip"><small>المرحلة</small><b class="cLv">1</b></div>
-      <div class="chip"><small>النقاط</small><b class="cSc">0</b></div>
+      <div class="chip"><small data-en="Level">المرحلة</small><b class="cLv">1</b></div>
+      <div class="chip"><small data-en="Score">النقاط</small><b class="cSc">0</b></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="bbLv"><div class="panel lvp"><h3>🔢 المراحل</h3><div class="lvg"></div>
-      <button class="lvend" data-l="${ENDLESS}">♾️ بلا نهاية<small class="lvendS"></small></button>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="bbLv"><div class="panel lvp"><h3 data-en="🔢 Levels">🔢 المراحل</h3><div class="lvg"></div>
+      <button class="lvend" data-l="${ENDLESS}"><span data-en="♾️ Endless">♾️ بلا نهاية</span><small class="lvendS"></small></button>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="bbWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p><div class="an wA"></div>
       <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="levels">🔢 المراحل</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المراحل</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>
     <div class="overlay" id="bbLose"><div class="panel">
       <h3 class="lT"></h3><div class="big lB"></div><p class="lP"></p>
-      <button class="btn" data-a="again">🔄 مرة أخرى</button><br>
-      <button class="btn alt" data-a="levels">🔢 المراحل</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="again" data-en="🔄 Try again">🔄 مرة أخرى</button><br>
+      <button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المراحل</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  let winPaint = null, losePaint = null;
+  const hintText = () => '👆 ' + App.t(App.g('اسحبي للتصويب ثم اتركي للإطلاق', 'اسحب للتصويب ثم اترك للإطلاق'), 'Drag to aim, then let go to shoot');
   const cv = root.querySelector('canvas.bc');
   const bar = root.querySelector('.bar');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
@@ -439,7 +449,7 @@
     // دخول المرحلة: الفقاعات تنزل من الأعلى
     yOff = -RH * 3;
     updChips(); aimDirty = true;
-    if (!hintShown) { hintT.textContent = '👆 ' + App.g('اسحبي للتصويب ثم اتركي للإطلاق', 'اسحب للتصويب ثم اترك للإطلاق'); hintEl.style.opacity = 1; }
+    if (!hintShown) { hintT.textContent = hintText(); hintEl.style.opacity = 1; }
     else hintEl.style.opacity = 0;
     Sound.whoosh();
   }
@@ -545,7 +555,7 @@
       if (fl > 0) {
         const bonus = fl * 20 * (fl >= 6 ? 2 : 1);
         score += bonus;
-        setTimeout(() => { if (state !== 'lost') addText(FL + FW / 2, rowY(Math.max(1, r)) + D, '+' + bonus + (fl >= 6 ? ' ' + App.g('رائعة!', 'رائع!') : ''), '#FF4FA3', 1.35); }, 250);
+        setTimeout(() => { if (state !== 'lost') addText(FL + FW / 2, rowY(Math.max(1, r)) + D, '+' + bonus + (fl >= 6 ? ' ' + App.t(App.g('رائعة!', 'رائع!'), 'Great!') : ''), '#FF4FA3', 1.35); }, 250);
         if (fl >= 10) App.achieve('bub_drop');
       }
       misses = 0; shake = Math.max(shake, Math.min(7, 2 + grp.length * .4 + fl * .3));
@@ -577,7 +587,7 @@
     if (state !== 'play') return;
     if (count() === 0) {
       if (!endless) { winLevel(); return; }
-      score += 500; updChips(); addText(FL + FW / 2, rowY(2), '+500 ' + App.g('مذهلة!', 'مذهل!'), '#6A45E8', 1.5); Sound.star();
+      score += 500; updChips(); addText(FL + FW / 2, rowY(2), '+500 ' + App.t(App.g('مذهلة!', 'مذهل!'), 'Amazing!'), '#6A45E8', 1.5); Sound.star();
       for (let i = 0; i < 4; i++) pushRow();
     }
     if (endless) {
@@ -633,13 +643,15 @@
     }, 500);
     endTimer = setTimeout(() => {
       if (App.current !== ID || state !== 'won') return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = `المرحلة ${level} · النقاط ${score} · الرميات ${shots}`;
-      root.querySelector('.wA').textContent = rescued ? `🐣 ${App.g('حرّرتِ', 'حرّرتَ')} ${rescued === 1 ? 'حيوانًا واحدًا' : rescued === 2 ? 'حيوانين' : rescued <= 10 ? rescued + ' حيوانات' : rescued + ' حيوانًا'}` : '';
-      root.querySelector('[data-a="next"]').textContent = level < NL ? 'التالي ▶️' : '♾️ بلا نهاية';
+      (winPaint = () => {
+        root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+        root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+        root.querySelector('.wP').textContent = App.t(`المرحلة ${level} · النقاط ${score} · الرميات ${shots}`, `Level ${level} · Score ${score} · Shots ${shots}`);
+        root.querySelector('.wA').textContent = rescued ? App.t(`🐣 ${App.g('حرّرتِ', 'حرّرتَ')} ${rescued === 1 ? 'حيوانًا واحدًا' : rescued === 2 ? 'حيوانين' : rescued <= 10 ? rescued + ' حيوانات' : rescued + ' حيوانًا'}`, `🐣 You freed ${rescued === 1 ? 'one animal' : rescued + ' animals'}`) : '';
+        root.querySelector('[data-a="next"]').textContent = level < NL ? App.t('التالي ▶️', 'Next ▶️') : App.t('♾️ بلا نهاية', '♾️ Endless');
+      })();
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('bub_first');
       if (level >= 10) App.achieve('bub_lvl10');
@@ -662,9 +674,11 @@
     }
     endTimer = setTimeout(() => {
       if (App.current !== ID || state !== 'lost') return;
-      root.querySelector('.lT').textContent = endless ? (isBest ? '🏆 رقم قياسي جديد!' : '♾️ انتهت الجولة') : '😮 وصلت الفقاعات إلى الخط!';
-      root.querySelector('.lB').textContent = endless ? score : '🫧';
-      root.querySelector('.lP').textContent = endless ? `أفضل نتيجة: ${Math.max(best, score)}` : App.g('حاولي مرة أخرى، ستنجحين!', 'حاول مرة أخرى، ستنجح!');
+      (losePaint = () => {
+        root.querySelector('.lT').textContent = endless ? (isBest ? App.t('🏆 رقم قياسي جديد!', '🏆 New record!') : App.t('♾️ انتهت الجولة', '♾️ Round over')) : App.t('😮 وصلت الفقاعات إلى الخط!', '😮 The bubbles reached the line!');
+        root.querySelector('.lB').textContent = endless ? score : '🫧';
+        root.querySelector('.lP').textContent = endless ? App.t(`أفضل نتيجة: ${Math.max(best, score)}`, `Best score: ${Math.max(best, score)}`) : App.t(App.g('حاولي مرة أخرى، ستنجحين!', 'حاول مرة أخرى، ستنجح!'), 'Try again, you can do it!');
+      })();
       loseOv.classList.add('on');
       if (endless && isBest && score >= 500) App.addStars(clamp(Math.floor(score / 1500), 1, 5));
     }, 1900);
@@ -692,13 +706,13 @@
     const g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === level && !endless ? ' cur' : ''}" data-l="${n}" aria-label="المرحلة ${n}"><span class="n">${n}</span><span class="e">${L.ic}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === level && !endless ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المرحلة', 'Level')} ${n}"><span class="n">${n}</span><span class="e">${L.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     const eb = root.querySelector('.lvend');
     eb.classList.toggle('lock', !pr.endless);
     const best = store.get('bubblesEndless', 0);
-    root.querySelector('.lvendS').textContent = !pr.endless ? '🔒 ' + App.g('أنهي', 'أنهِ') + ` المرحلة ${NL} لفتحها` : (best ? `أفضل نتيجة: ${best}` : 'فقاعات لا تنتهي!');
+    root.querySelector('.lvendS').textContent = !pr.endless ? '🔒 ' + App.t(App.g('أنهي', 'أنهِ') + ` المرحلة ${NL} لفتحها`, `Finish level ${NL} to unlock`) : (best ? App.t(`أفضل نتيجة: ${best}`, `Best score: ${best}`) : App.t('فقاعات لا تنتهي!', 'Never-ending bubbles!'));
     winOv.classList.remove('on'); loseOv.classList.remove('on'); lvOv.classList.add('on');
   }
   root.querySelector('#bbLv').addEventListener('click', e => {
@@ -1095,8 +1109,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'مدفع الفقاعات', icon2: '🫧', isNew: false, music: 'bubbles',
+    id: ID, title: 'مدفع الفقاعات', titleEn: 'Bubble Shooter', icon2: '🫧', isNew: false, music: 'bubbles',
     desc: () => App.g('صوّبي وفجّري الفقاعات وحرّري الحيوانات', 'صوّب وفجّر الفقاعات وحرّر الحيوانات'),
+    descEn: () => 'Aim, pop the bubbles and free the animals',
+    helpEn: () => [
+      '👆 Drag your finger to aim, then let go to shoot the bubble (it bounces off the walls!)',
+      '🫧 Match 3 or more bubbles of the same color to pop them, and the hanging ones fall too',
+      '🐣 Free the little animals trapped inside the bubbles',
+      '🔄 Tap the next bubble to swap it',
+      '⚠️ Every few shots without a pop the ceiling comes down — don\'t let the bubbles reach the line!'
+    ],
     help: () => [
       '👆 ' + App.g('اسحبي إصبعك للتصويب ثم اتركيه', 'اسحب إصبعك للتصويب ثم اتركه') + ' لإطلاق الفقاعة (تقفز عن الجدران!)',
       '🫧 ' + App.g('اجمعي', 'اجمع') + ' 3 فقاعات أو أكثر من اللون نفسه لتنفجر، والمعلّقة تسقط معها',
@@ -1108,9 +1130,16 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المرحلة ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المرحلة', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+    },
+    onLang() {
+      i18n(); hintT.textContent = hintText();
+      if (winOv.classList.contains('on') && winPaint) winPaint();
+      if (loseOv.classList.contains('on') && losePaint) losePaint();
+      if (lvOv.classList.contains('on')) openLevels();
     },
     enter() {
+      i18n(); hintT.textContent = hintText();
       paused = false;
       layout();
       startLevel(Math.min(loadProg().unlocked, ENDLESS));

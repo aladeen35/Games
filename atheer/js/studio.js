@@ -6,7 +6,7 @@
 'use strict';
 const Studio = {
   MAX_SEC: 10, SR: 22050, PAGE: 40,
-  GAME_NAMES: { common: 'عبارات عامة', en: 'الإنجليزية' },
+  GAME_NAMES: { common: ['عبارات عامة', 'General phrases'], en: ['الإنجليزية', 'English'] },
   q: '', game: '', shown: 0, rec: null,
 
   css() {
@@ -48,7 +48,7 @@ const Studio = {
     if (!this._ph) this._ph = (window.VOICE_PHRASES || []).map(([id, text, plain, lang, game]) => ({ id, text, plain, lang, game: String(game || 'common').split(',')[0] || 'common', n: Voice.norm(plain, lang) }));
     return this._ph;
   },
-  gameName(g) { return this.GAME_NAMES[g] || (App.games[g] && App.games[g].title) || g; },
+  gameName(g) { const n = this.GAME_NAMES[g]; return n ? App.t(n[0], n[1]) : App.games[g] ? App.gTitle(App.games[g]) : g; },
   scopeKid() { return gstore.get('myvoiceScope', 'all') === 'kid' ? App.profile.id : null; },
   mine(p) { return MyVoice.map.get(MyVoice.key(p.lang, p.id, this.scopeKid())); },
   bundled(p) { const V = window.VOICE || {}; return !!(V[p.lang] && V[p.lang][p.id]); },
@@ -58,12 +58,13 @@ const Studio = {
     const P = App.profile, scope = gstore.get('myvoiceScope', 'all');
     const games = [...new Set(this.phrases().map(p => p.game))];
     const seg = (key, opts, val) => `<div class="seg" data-k="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(v) === String(val) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
-    const s = App.openSheet(`<h3>🎙️ استوديو التسجيل</h3>
-      <p class="st-note">سجّل بصوتك عبارات التطبيق، فيسمعها طفلك بصوتك بدل الصوت الجاهز.<br>اضغط 🔴 وتكلّم، ثم ⏹ للإيقاف.</p>
-      <div class="row"><span class="lbl">🎧 استخدم تسجيلاتي</span>${seg('myvoice', [[true, 'نعم'], [false, 'لا']], MyVoice.on)}</div>
-      <div class="row"><span class="lbl">👤 التسجيلات الجديدة</span>${seg('myvoiceScope', [['all', 'لكل الأطفال'], ['kid', 'لـ' + App.esc(P.name) + ' فقط']], scope)}</div>
-      <div class="st-bar"><input class="st-in" id="stQ" type="search" placeholder="🔍 ابحث عن عبارة…" value="${App.esc(this.q)}" autocomplete="off">
-        <select class="st-sel" id="stG"><option value="">كل الألعاب</option><option value="*mine">🎙️ تسجيلاتي فقط</option>${games.map(g => `<option value="${g}" ${g === this.game ? 'selected' : ''}>${App.esc(this.gameName(g))}</option>`).join('')}</select></div>
+    const T = (a, e) => App.t(a, e);
+    const s = App.openSheet(`<h3>🎙️ ${T('استوديو التسجيل', 'Recording Studio')}</h3>
+      <p class="st-note">${T('سجّل بصوتك عبارات التطبيق، فيسمعها طفلك بصوتك بدل الصوت الجاهز.<br>اضغط 🔴 وتكلّم، ثم ⏹ للإيقاف.', "Record the app's phrases in your own voice, so your child hears you instead of the built-in voice.<br>Tap 🔴 and speak, then ⏹ to stop.")}</p>
+      <div class="row"><span class="lbl">🎧 ${T('استخدم تسجيلاتي', 'Use my recordings')}</span>${seg('myvoice', [[true, T('نعم', 'Yes')], [false, T('لا', 'No')]], MyVoice.on)}</div>
+      <div class="row"><span class="lbl">👤 ${T('التسجيلات الجديدة', 'New recordings')}</span>${seg('myvoiceScope', [['all', T('لكل الأطفال', 'For all kids')], ['kid', T('لـ' + App.esc(P.name) + ' فقط', 'Only for ' + App.esc(App.kidName(P)))]], scope)}</div>
+      <div class="st-bar"><input class="st-in" id="stQ" type="search" dir="auto" placeholder="🔍 ${T('ابحث عن عبارة…', 'Search for a phrase…')}" value="${App.esc(this.q)}" autocomplete="off">
+        <select class="st-sel" id="stG"><option value="">${T('كل الألعاب', 'All games')}</option><option value="*mine">🎙️ ${T('تسجيلاتي فقط', 'My recordings only')}</option>${games.map(g => `<option value="${g}" ${g === this.game ? 'selected' : ''}>${App.esc(this.gameName(g))}</option>`).join('')}</select></div>
       <div id="stList"></div>`, () => { this.stopRec(true); const g = App.games[App.current]; Music.play(g ? g.music : 'menu'); });
     if (this.game === '*mine') s.querySelector('#stG').value = '*mine';
     s.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => {
@@ -79,10 +80,10 @@ const Studio = {
   /** عرض العبارات المطابقة على دفعات */
   list(reset) {
     const box = $('#stList'); if (!box) return;
-    const q = Voice.norm(this.q, 'ar').toLowerCase();
+    const q = Voice.norm(this.q, /[\u0600-\u06FF]/.test(this.q) ? 'ar' : 'en').toLowerCase();
     const all = this.phrases().filter(p => (!this.game || (this.game === '*mine' ? this.mine(p) : p.game === this.game)) && (!q || p.n.toLowerCase().includes(q) || p.id.includes(q)));
     if (reset) { this.shown = 0; box.innerHTML = ''; }
-    if (!all.length) { box.innerHTML = '<div class="st-empty">لا توجد عبارات مطابقة</div>'; return; }
+    if (!all.length) { box.innerHTML = `<div class="st-empty">${App.t('لا توجد عبارات مطابقة', 'No matching phrases')}</div>`; return; }
     const part = all.slice(this.shown, this.shown + this.PAGE);
     let last = this.shown ? all[this.shown - 1].game : null, html = '';
     for (const p of part) {
@@ -93,7 +94,7 @@ const Studio = {
     const more = box.querySelector('.st-more'); if (more) more.remove();
     box.insertAdjacentHTML('beforeend', html);
     if (this.shown < all.length) {
-      box.insertAdjacentHTML('beforeend', `<button class="tbtn alt sm st-more">عرض المزيد (${all.length - this.shown})</button>`);
+      box.insertAdjacentHTML('beforeend', `<button class="tbtn alt sm st-more">${App.t('عرض المزيد', 'Show more')} (${all.length - this.shown})</button>`);
       box.querySelector('.st-more').onclick = () => { Sound.tap(); this.list(false); };
     }
     box.querySelectorAll('.st-r:not([data-b])').forEach(r => { r.dataset.b = 1; this.bind(r); });
@@ -101,10 +102,10 @@ const Studio = {
   row(p) {
     const m = this.mine(p), b = this.bundled(p);
     return `<div class="st-r ${m ? 'mine' : ''}" data-id="${p.id}" data-lang="${p.lang}">
-      <div class="st-t" ${p.lang === 'en' ? 'dir="ltr"' : ''}>${App.esc(p.text)}<small>${m ? '🎙️ بصوتك' : b ? '📦 صوت جاهز' : '🗣️ صوت الجهاز'}</small></div>
-      <button class="st-b" data-a="play" aria-label="استماع" ${m || b ? '' : 'hidden'}>▶️</button>
-      <button class="st-b" data-a="del" aria-label="حذف تسجيلي" ${m ? '' : 'hidden'}>🗑️</button>
-      <button class="st-b rec" data-a="rec" aria-label="تسجيل">${m ? '🔁' : '🔴'}</button></div>`;
+      <div class="st-t" dir="${p.lang === 'en' ? 'ltr' : 'rtl'}">${App.esc(p.text)}<small dir="auto">${m ? App.t('🎙️ بصوتك', '🎙️ Your voice') : b ? App.t('📦 صوت جاهز', '📦 Built-in voice') : App.t('🗣️ صوت الجهاز', '🗣️ Device voice')}</small></div>
+      <button class="st-b" data-a="play" aria-label="${App.t('استماع', 'Listen')}" ${m || b ? '' : 'hidden'}>▶️</button>
+      <button class="st-b" data-a="del" aria-label="${App.t('حذف تسجيلي', 'Delete my recording')}" ${m ? '' : 'hidden'}>🗑️</button>
+      <button class="st-b rec" data-a="rec" aria-label="${App.t('تسجيل', 'Record')}">${m ? '🔁' : '🔴'}</button></div>`;
   },
   find(r) { return this.phrases().find(p => p.id === r.dataset.id && p.lang === r.dataset.lang); },
   refresh(r) {
@@ -126,14 +127,14 @@ const Studio = {
   /* ---------- التسجيل ---------- */
   async startRec(p, row) {
     this.stopRec(true);
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { Sound.error(); App.toast('التسجيل غير مدعوم في هذا الجهاز'); return; }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { Sound.error(); App.toast(App.t('التسجيل غير مدعوم في هذا الجهاز', "Recording isn't supported on this device")); return; }
     Voice.stop();
     let stream;
     try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
-    catch (e) { Sound.error(); App.toast('اسمح للتطبيق باستخدام الميكروفون 🎙️'); return; }
+    catch (e) { Sound.error(); App.toast(App.t('اسمح للتطبيق باستخدام الميكروفون 🎙️', 'Please allow the app to use the microphone 🎙️')); return; }
     if (!row.isConnected) { stream.getTracks().forEach(t => t.stop()); return; }
     const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'].find(t => { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
-    let mr; try { mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined); } catch (e) { stream.getTracks().forEach(t => t.stop()); Sound.error(); App.toast('تعذّر بدء التسجيل'); return; }
+    let mr; try { mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined); } catch (e) { stream.getTracks().forEach(t => t.stop()); Sound.error(); App.toast(App.t('تعذّر بدء التسجيل', "Couldn't start recording")); return; }
     const chunks = [], btn = row.querySelector('[data-a=rec]');
     const R = this.rec = { p, row, mr, stream, chunks, cancel: false, t0: Date.now() };
     mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
@@ -154,10 +155,10 @@ const Studio = {
   async finish(R, blob) {
     let wav;
     try { wav = await this.clean(blob); } catch (e) { console.warn(e); }
-    if (!wav) { Sound.error(); App.toast('لم يُسمع صوت، حاول مرة أخرى 🎙️'); if (R.row.isConnected) this.refresh(R.row); return; }
+    if (!wav) { Sound.error(); App.toast(App.t('لم يُسمع صوت، حاول مرة أخرى 🎙️', "We couldn't hear anything, try again 🎙️")); if (R.row.isConnected) this.refresh(R.row); return; }
     const kid = this.scopeKid(), p = R.p;
     const ok = await MyVoice.save({ key: MyVoice.key(p.lang, p.id, kid), id: p.id, lang: p.lang, plain: p.plain, kid, blob: wav, t: Date.now() });
-    if (!ok) { Sound.error(); App.toast('تعذّر حفظ التسجيل'); return; }
+    if (!ok) { Sound.error(); App.toast(App.t('تعذّر حفظ التسجيل', "Couldn't save the recording")); return; }
     const n = R.row.isConnected ? this.refresh(R.row) : null;
     if (n && Fx.on) gsap.fromTo(n, { scale: .96 }, { scale: 1, duration: .5, ease: 'back.out(3)', clearProps: 'transform' });
     this.playRec(MyVoice.map.get(MyVoice.key(p.lang, p.id, kid))); // استمع لما سجّلته
@@ -227,21 +228,22 @@ const Studio = {
     const B = window.AndroidBridge, ar = this.voices('ar'), good = ar.some(v => Tts.score(v, 'ar') >= 6);
     let info = {}; try { info = B && B.ttsInfo ? JSON.parse(B.ttsInfo()) : {}; } catch (e) {}
     const label = v => App.esc(v.name + (v.lang ? ' · ' + v.lang : '') + (v.network || v.localService === false ? ' 🌐' : ''));
+    const T = (a, e) => App.t(a, e);
     const block = (lang, title) => {
       const P = Tts.pref(lang), vs = lang === 'ar' ? ar : this.voices(lang), best = vs[0];
-      return `<div class="tt-l" data-lang="${lang}"><h4>${title}<button class="tbtn sm" data-try="${lang}">▶️ تجربة</button></h4>
-        <select class="st-sel" data-voice="${lang}"><option value="">✨ تلقائي${best ? ' (' + label(best) + ')' : ''}</option>${vs.map(v => `<option value="${App.esc(v.name)}" ${v.name === P.voice ? 'selected' : ''}>${label(v)}</option>`).join('')}</select>
-        <label class="tt-s"><span>🐢 السرعة</span><input type="range" min="0.5" max="1.5" step="0.05" value="${P.rate}" data-k="rate"><output>${(+P.rate).toFixed(2)}</output></label>
-        <label class="tt-s"><span>🎵 الطبقة</span><input type="range" min="0.5" max="2" step="0.05" value="${P.pitch}" data-k="pitch"><output>${(+P.pitch).toFixed(2)}</output></label></div>`;
+      return `<div class="tt-l" data-lang="${lang}"><h4>${title}<button class="tbtn sm" data-try="${lang}">▶️ ${T('تجربة', 'Try')}</button></h4>
+        <select class="st-sel" data-voice="${lang}"><option value="">✨ ${T('تلقائي', 'Automatic')}${best ? ' (' + label(best) + ')' : ''}</option>${vs.map(v => `<option value="${App.esc(v.name)}" ${v.name === P.voice ? 'selected' : ''}>${label(v)}</option>`).join('')}</select>
+        <label class="tt-s"><span>🐢 ${T('السرعة', 'Speed')}</span><input type="range" min="0.5" max="1.5" step="0.05" value="${P.rate}" data-k="rate"><output>${(+P.rate).toFixed(2)}</output></label>
+        <label class="tt-s"><span>🎵 ${T('الطبقة', 'Pitch')}</span><input type="range" min="0.5" max="2" step="0.05" value="${P.pitch}" data-k="pitch"><output>${(+P.pitch).toFixed(2)}</output></label></div>`;
     };
-    const s = App.openSheet(`<h3>🗣️ صوت الجهاز</h3>
-      <p class="st-note">يُستخدم فقط للعبارات التي ليس لها صوت مسجّل.${info.engine ? '<br>المحرّك: ' + App.esc(info.engineLabel || info.engine) : ''}</p>
-      ${good ? '' : `<div class="tt-card"><b>💡 لا يوجد صوت عربي جيد على هذا الجهاز</b>
-        ثبّت تطبيق «خدمات Google للنطق» (Speech Services by Google)، ثم من إعدادات النطق نزّل بيانات اللغة «العربية» واجعله المحرّك المفضّل.
-        ${B && B.openTtsSettings ? `<div class="center" style="margin-top:6px"><button class="tbtn sm" id="ttGet">⬇️ تثبيت خدمات Google للنطق</button><button class="tbtn alt sm" id="ttSet">⚙️ إعدادات النطق</button></div>` : ''}</div>`}
-      ${(info.engines || []).length > 1 && B.ttsEngine ? `<div class="tt-l"><h4>⚙️ محرّك النطق</h4><select class="st-sel" id="ttEng">${info.engines.map(e => `<option value="${App.esc(e.name)}" ${e.name === info.engine ? 'selected' : ''}>${App.esc(e.label || e.name)}</option>`).join('')}</select></div>` : ''}
-      <div id="ttsBox">${block('ar', '🇸🇦 العربية')}${block('en', '🇬🇧 English')}</div>
-      ${good && B && B.openTtsSettings ? '<div class="center"><button class="tbtn alt sm" id="ttSet">⚙️ إعدادات النطق في الجهاز</button></div>' : ''}`);
+    const s = App.openSheet(`<h3>🗣️ ${T('صوت الجهاز', 'Device Voice')}</h3>
+      <p class="st-note">${T('يُستخدم فقط للعبارات التي ليس لها صوت مسجّل.', 'Used only for phrases that have no recorded voice.')}${info.engine ? '<br>' + T('المحرّك: ', 'Engine: ') + App.esc(info.engineLabel || info.engine) : ''}</p>
+      ${good ? '' : `<div class="tt-card"><b>💡 ${T('لا يوجد صوت عربي جيد على هذا الجهاز', 'No good Arabic voice on this device')}</b>
+        ${T('ثبّت تطبيق «خدمات Google للنطق» (Speech Services by Google)، ثم من إعدادات النطق نزّل بيانات اللغة «العربية» واجعله المحرّك المفضّل.', 'Install “Speech Services by Google”, then in the text-to-speech settings download the Arabic language data and make it the preferred engine.')}
+        ${B && B.openTtsSettings ? `<div class="center" style="margin-top:6px"><button class="tbtn sm" id="ttGet">⬇️ ${T('تثبيت خدمات Google للنطق', 'Install Speech Services by Google')}</button><button class="tbtn alt sm" id="ttSet">⚙️ ${T('إعدادات النطق', 'Speech settings')}</button></div>` : ''}</div>`}
+      ${(info.engines || []).length > 1 && B.ttsEngine ? `<div class="tt-l"><h4>⚙️ ${T('محرّك النطق', 'Speech engine')}</h4><select class="st-sel" id="ttEng">${info.engines.map(e => `<option value="${App.esc(e.name)}" ${e.name === info.engine ? 'selected' : ''}>${App.esc(e.label || e.name)}</option>`).join('')}</select></div>` : ''}
+      <div id="ttsBox">${block('ar', '🇸🇦 ' + T('العربية', 'Arabic'))}${block('en', '🇬🇧 English')}</div>
+      ${good && B && B.openTtsSettings ? `<div class="center"><button class="tbtn alt sm" id="ttSet">⚙️ ${T('إعدادات النطق في الجهاز', 'Device speech settings')}</button></div>` : ''}`);
     s.querySelectorAll('[data-voice]').forEach(sel => sel.onchange = () => { Tts.setPref(sel.dataset.voice, { voice: sel.value }); this.preview(sel.dataset.voice); });
     s.querySelectorAll('.tt-l input[type=range]').forEach(r => {
       const lang = r.closest('.tt-l').dataset.lang;
@@ -250,7 +252,7 @@ const Studio = {
     });
     s.querySelectorAll('[data-try]').forEach(b => b.onclick = () => this.preview(b.dataset.try));
     const eng = s.querySelector('#ttEng');
-    if (eng) eng.onchange = () => { try { B.ttsEngine(eng.value); } catch (e) {} App.toast('جارٍ تحميل المحرّك…'); setTimeout(() => { if ($('#ttsBox')) this.tts(); }, 1500); };
+    if (eng) eng.onchange = () => { try { B.ttsEngine(eng.value); } catch (e) {} App.toast(App.t('جارٍ تحميل المحرّك…', 'Loading the engine…')); setTimeout(() => { if ($('#ttsBox')) this.tts(); }, 1500); };
     const set = s.querySelector('#ttSet'); if (set) set.onclick = () => { Sound.tap(); try { B.openTtsSettings(); } catch (e) {} };
     const get = s.querySelector('#ttGet'); if (get) get.onclick = () => { Sound.tap(); try { B.installTts(); } catch (e) {} };
   },
@@ -260,7 +262,7 @@ const Studio = {
     const B = window.AndroidBridge;
     try {
       if (B && (lang === 'en' ? B.speakEn : B.speak)) { lang === 'en' ? B.speakEn(t) : B.speak(t); return; }
-      if (!window.speechSynthesis) { App.toast('لا يوجد محرّك نطق في هذا المتصفح'); return; }
+      if (!window.speechSynthesis) { App.toast(App.t('لا يوجد محرّك نطق في هذا المتصفح', 'This browser has no speech engine')); return; }
       speechSynthesis.cancel();
       const P = Tts.pref(lang), u = new SpeechSynthesisUtterance(t); u.lang = lang === 'en' ? 'en-US' : 'ar-SA'; u.rate = +P.rate; u.pitch = +P.pitch;
       const v = Tts.webVoice(lang); if (v) { u.voice = v; u.lang = v.lang; }

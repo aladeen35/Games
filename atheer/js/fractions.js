@@ -43,11 +43,11 @@
     { m: 'mix', ms: ['cut', 'share', 'name', 'cmp'], ic: '🏆' }
   ];
   const MODE = {
-    cut: { t: 'تقطيع', c: '#FF7EB3', d: '#D84C88' },
-    share: { t: 'توزيع', c: '#3DBE6B', d: '#22863F' },
-    name: { t: 'ما الكسر؟', c: '#3D9BFF', d: '#1F6FCC' },
-    cmp: { t: 'أيها أكبر؟', c: '#A86BFF', d: '#7140CF' },
-    mix: { t: 'منوّع', c: '#FF9F1C', d: '#D27400' }
+    cut: { t: 'تقطيع', en: 'Cut', c: '#FF7EB3', d: '#D84C88' },
+    share: { t: 'توزيع', en: 'Share', c: '#3DBE6B', d: '#22863F' },
+    name: { t: 'ما الكسر؟', en: 'Which part?', c: '#3D9BFF', d: '#1F6FCC' },
+    cmp: { t: 'أيها أكبر؟', en: 'Which is bigger?', c: '#A86BFF', d: '#7140CF' },
+    mix: { t: 'منوّع', en: 'Mixed', c: '#FF9F1C', d: '#D27400' }
   };
   const FRIENDS = ['🐻', '🐰', '🐱', '🐼', '🦊', '🐶'];
   const PLATE_COLS = ['#FF9EC4', '#8FD3FF', '#FFD36B', '#A8E6A0'];
@@ -132,23 +132,23 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️<span class="cnt">1</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️<span class="cnt">1</span></button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="اللغة" data-al="Language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
-    <div class="prm" role="button" aria-label="إعادة السؤال">
+    <div class="prm" role="button" aria-label="إعادة السؤال" data-al="Repeat the question">
       <div class="fr off"><b class="fn">١</b><i></i><b class="fd">٢</b></div>
       <div class="pt"><div class="prog"></div><b class="ptxt"></b><span class="psub"></span></div>
-      <button class="spk" aria-label="استمع">🔊</button>
+      <button class="spk" aria-label="استمع" data-al="Listen">🔊</button>
     </div>
-    <div class="overlay" id="frLv"><div class="panel lvp"><h3>🧁 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="frLv"><div class="panel lvp"><h3 data-en="🧁 Levels">🧁 المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="frWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const prm = root.querySelector('.prm'), ptxt = root.querySelector('.ptxt'), psub = root.querySelector('.psub'), progEl = root.querySelector('.prog'), spk = root.querySelector('.spk');
@@ -573,18 +573,18 @@
     if (m === 'cut' || (m === 'share' && phase === 'cut')) {
       const n = q.n; fr = n;
       main = en() ? `Cut the ${S.en} into ${FR[n].pen}` : `${App.g('قسّمي', 'قسّم')} ${S.ar} إلى ${FR[n].pl}`;
-      sub = '🔪 ' + App.g('اسحبي', 'اسحب') + ' السكّين على الخط المنقّط';
+      sub = '🔪 ' + App.t(App.g('اسحبي', 'اسحب') + ' السكّين على الخط المنقّط', 'Drag the knife along the dotted line');
     } else if (m === 'share') {
       fr = q.n / q.f === 2 ? 2 : q.n;
       main = en() ? `Share the ${S.en} fairly` : `${App.g('وزّعي', 'وزّع')} ${S.ar} بالتساوي`;
-      sub = '👆 ' + App.g('اسحبي', 'اسحب') + ' القطع إلى أطباق الأصدقاء';
+      sub = '👆 ' + App.t(App.g('اسحبي', 'اسحب') + ' القطع إلى أطباق الأصدقاء', 'Drag the pieces to the friends\' plates');
     } else if (m === 'name') {
       main = en() ? 'What part is this?' : 'ما اسم هذا الجزء؟';
-      sub = '👆 ' + App.g('اختاري', 'اختر') + ' البطاقة الصحيحة';
+      sub = '👆 ' + App.t(App.g('اختاري', 'اختر') + ' البطاقة الصحيحة', 'Choose the right card');
     } else if (m === 'cmp') {
       const big = q.ask === 'big';
       main = en() ? (big ? 'Which piece is bigger?' : 'Which piece is smaller?') : (big ? 'أي قطعة أكبر؟' : 'أي قطعة أصغر؟');
-      sub = '👆 ' + App.g('المسي', 'المس') + (big ? ' القطعة الأكبر' : ' القطعة الأصغر');
+      sub = '👆 ' + App.t(App.g('المسي', 'المس') + (big ? ' القطعة الأكبر' : ' القطعة الأصغر'), big ? 'Tap the bigger piece' : 'Tap the smaller piece');
     }
     ptxt.textContent = main; ptxt.dir = en() ? 'ltr' : 'rtl';
     psub.textContent = sub;
@@ -636,9 +636,8 @@
     Sound.win(); paintProg();
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${N(lvl)}` + (mistakes ? ` · الأخطاء: ${N(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       praise();
@@ -646,6 +645,17 @@
       App.achieve('fractions_first');
       if (LEVELS.every((_, i) => pr.stars[i + 1])) App.achieve('fractions_all');
     }, 1000);
+  }
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AR_D[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${uN(lvl)}` + (mistakes ? ` · الأخطاء: ${uN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
   }
   function startLevel(n) {
     lvl = clamp(n, 1, LEVELS.length); round = 0; mistakes = 0; over = false;
@@ -656,8 +666,9 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, M = MODE[L.m];
-      const t = L.m === 'cut' ? `${M.t} ${FR[L.n[0]].glyph}` : L.m === 'share' ? `${M.t} ${FR[L.n[0] / L.f === 2 ? 2 : L.n[0]].glyph}` : M.t;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" style="--c:${M.c};--d:${M.d};--l:${shade(M.c, .35)}" aria-label="المستوى ${n}">
+      const mt = App.t(M.t, M.en);
+      const t = L.m === 'cut' ? `${mt} ${FR[L.n[0]].glyph}` : L.m === 'share' ? `${mt} ${FR[L.n[0] / L.f === 2 ? 2 : L.n[0]].glyph}` : mt;
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" style="--c:${M.c};--d:${M.d};--l:${shade(M.c, .35)}" aria-label="${App.t('المستوى', 'Level')} ${n}">
         <span class="n">${N(n)}</span><span class="e">${L.ic}</span><span class="t">${t}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -832,7 +843,8 @@
   prm.addEventListener('click', () => { Sound.tap(); askSpeak(); });
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l, true)));
   function setLang(l, user) {
-    lang = l === 'en' ? 'en' : 'ar'; if (user) { store.set('fractions:lang', lang); Sound.tap(); }
+    lang = l === 'en' ? 'en' : 'ar'; if (user) { store.set(ID + 'Lang', lang); Sound.tap(); }
+    if (lvOv.classList.contains('on')) openLevels();
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
     if (G && q) placeAll();
     paintPrompt(); paintProg();
@@ -1089,6 +1101,15 @@
   App.register({
     id: ID, title: 'الكسور بالكيك', icon2: '🧁', isNew: false, music: 'cake',
     desc: () => App.g('قطّعي الكيك وتعلّمي النصف والثلث والربع', 'قطّع الكيك وتعلّم النصف والثلث والربع'),
+    titleEn: 'Cake Fractions',
+    descEn: () => 'Cut the cake and learn halves, thirds and quarters',
+    helpEn: () => [
+      '🔪 Drag the knife along the dotted line to cut the cake or pizza',
+      '🐻 Share the pieces fairly on the friends\' plates: every friend gets an equal share',
+      '❓ Choose the name of the part: half <bdi>½</bdi>, third <bdi>⅓</bdi> or quarter <bdi>¼</bdi>',
+      '⚖️ Compare: the more pieces, the smaller each piece!',
+      '🔤 The «عربي / English» button changes the numbers, words and voice; 🔊 repeats the question'
+    ],
     help: () => [
       '🔪 ' + App.g('اسحبي', 'اسحب') + ' السكّين على الخط المنقّط لتقطيع الكعكة أو البيتزا',
       '🐻 ' + App.g('وزّعي', 'وزّع') + ' القطع على أطباق الأصدقاء بالعدل: لكل صديق حصة متساوية',
@@ -1100,15 +1121,22 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      setLang(store.get('fractions:lang', 'ar'), false);
+      trUI(); setLang(App.gameLang(ID), false);
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      const ch = l !== lang;
+      setLang(l, false);
+      if (ch && q && !over) askSpeak();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearTimeout(winTimer); drag = null; stroke = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; stroke = null; if (drag) { const p = drag.p; drag = null; toCake(p); } },

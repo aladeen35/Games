@@ -108,9 +108,9 @@
     const s = SKINS[id] || SKINS.ball_white;
     c.save(); s.draw(c, x, y, r, t || 0); c.restore();
   }
-  [['ball_white', 'كرة بيضاء', 0], ['ball_rainbow', 'كرة قوس قزح', 20], ['ball_soccer', 'كرة قدم', 30],
-   ['ball_star', 'نجمة لامعة', 30], ['ball_gold', 'كرة ذهبية', 50]].forEach(([id, name, price]) => App.shopItem({
-    cat: 'ball', id, name, price,
+  [['ball_white', 'كرة بيضاء', 0, 'White ball'], ['ball_rainbow', 'كرة قوس قزح', 20, 'Rainbow ball'], ['ball_soccer', 'كرة قدم', 30, 'Soccer ball'],
+   ['ball_star', 'نجمة لامعة', 30, 'Shiny star'], ['ball_gold', 'كرة ذهبية', 50, 'Golden ball']].forEach(([id, name, price, nameEn]) => App.shopItem({
+    cat: 'ball', id, name, nameEn, price,
     draw(c, size) {
       const m = size / 2;
       const bg = c.createRadialGradient(m, m * .8, 0, m, m, m * .95);
@@ -218,34 +218,51 @@
   const root = App.section(ID, `
     <canvas class="bc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib pz" aria-label="إيقاف مؤقت">⏸️</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib pz" aria-label="إيقاف مؤقت" data-aen="Pause">⏸️</button>
       <span class="grow"></span>
-      <div class="chip st"><small>نجوم</small><b class="cS">0</b></div>
-      <div class="chip"><small>الجولة</small><b class="cR">1</b></div>
-      <div class="chip"><small>الأفضل</small><b class="cB">0</b></div>
+      <div class="chip st"><small data-en="Stars">نجوم</small><b class="cS">0</b></div>
+      <div class="chip"><small data-en="Round">الجولة</small><b class="cR">1</b></div>
+      <div class="chip"><small data-en="Best">الأفضل</small><b class="cB">0</b></div>
     </div>
-    <button class="fbtn recall" aria-label="إرجاع الكرات">↩️</button>
-    <button class="fbtn speed" aria-label="تسريع">⏩</button>
+    <button class="fbtn recall" aria-label="إرجاع الكرات" data-aen="Call balls back">↩️</button>
+    <button class="fbtn speed" aria-label="تسريع" data-aen="Speed up">⏩</button>
     <div class="hint"><span></span></div>
     <div class="sb"></div>
     <div class="overlay pause"><div class="panel">
-      <h3>⏸️ استراحة</h3><p class="pzTxt"></p>
-      <button class="btn pzGo">▶️ متابعة</button><br>
-      <button class="btn alt pzNew">🔁 لعبة جديدة</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <h3 data-en="⏸️ Break">⏸️ استراحة</h3><p class="pzTxt"></p>
+      <button class="btn pzGo" data-en="▶️ Continue">▶️ متابعة</button><br>
+      <button class="btn alt pzNew" data-en="🔁 New game">🔁 لعبة جديدة</button>
+      <button class="btn alt home" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>
     <div class="overlay over"><div class="panel">
       <h3 class="boT">انتهت اللعبة</h3>
-      <div class="bo-rec">🎉 رقم قياسي جديد! 🎉</div>
+      <div class="bo-rec" data-en="🎉 New record! 🎉">🎉 رقم قياسي جديد! 🎉</div>
       <div class="big boR">1</div>
       <p class="boP">جولة</p>
-      <div class="bo-sum"><span>🏆 الأفضل: <b class="boB">0</b></span><span>⭐ +<b class="boS">0</b></span></div>
+      <div class="bo-sum"><span><span data-en="🏆 Best:">🏆 الأفضل:</span> <b class="boB">0</b></span><span>⭐ +<b class="boS">0</b></span></div>
       <button class="btn cont boC">✨ فرصة إضافية</button><br>
       <button class="btn boA">🔁 العب مجددًا</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <button class="btn alt home" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  let overRec = false;
+  const hintText = () => App.t(App.g('اسحبي للتصويب ثم اتركي 👆', 'اسحب للتصويب ثم اترك 👆'), 'Drag to aim, then let go 👆');
+  function overText() {
+    q('.boT').textContent = overRec ? App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🌟' : App.t('انتهت اللعبة', 'Game over');
+    q('.boP').textContent = App.t(App.g('وصلتِ إلى الجولة', 'وصلت إلى الجولة'), 'You reached round') + ' ' + round;
+    q('.boC').textContent = App.t('✨ فرصة إضافية (مرة واحدة)', '✨ Extra chance (once)');
+    q('.boA').textContent = '🔁 ' + App.t(App.g('العبي مجددًا', 'العب مجددًا'), 'Play again');
+  }
+  const pauseText = () => App.t(`الجولة ${round} • ⚪ ${ballN} ${ballN > 10 ? 'كرة' : ballN > 2 ? 'كرات' : 'كرة'}`, `Round ${round} • ⚪ ${ballN} ${ballN === 1 ? 'ball' : 'balls'}`);
   const q = s => root.querySelector(s);
   const cv = q('canvas.bc'), bar = q('.bar'), hintEl = q('.hint'), speedBtn = q('.speed'), recallBtn = q('.recall');
   const pauseOv = q('.overlay.pause'), overOv = q('.overlay.over');
@@ -376,7 +393,7 @@
     if (round >= 10) App.achieve('balls_10');
     if (round >= 30) App.achieve('balls_30');
     paintChips(); save();
-    if (round <= 2 && !hintShown) showHint(App.g('اسحبي للتصويب ثم اتركي 👆', 'اسحب للتصويب ثم اترك 👆'));
+    if (round <= 2 && !hintShown) showHint(hintText());
   }
   function showHint(t) { hintEl.querySelector('span').textContent = t; hintEl.style.opacity = 1; }
   function hideHint() { hintEl.style.opacity = 0; }
@@ -614,7 +631,7 @@
     state = 'shift'; shiftT = 0;
     speedBtn.classList.remove('on', 'act'); recallBtn.classList.remove('on'); timeScale = 1;
     if (roundBreaks >= 5) App.achieve('balls_combo');
-    if (roundBreaks >= 5) { texts.push({ x: 3.5, y: R * .45, s: `💥 ${App.g('رائعة', 'رائع')}! ×${roundBreaks}`, col: '#FFB3E6', t: 0, big: 1 }); Sound.win(); }
+    if (roundBreaks >= 5) { texts.push({ x: 3.5, y: R * .45, s: `💥 ${App.t(App.g('رائعة', 'رائع'), 'Great')}! ×${roundBreaks}`, col: '#FFB3E6', t: 0, big: 1 }); Sound.win(); }
     picks.forEach(p => { if (p.t === 'laser' && p.used) { p.dead = true; parts.push({ k: 'ring', x: p.c + .5, y: p.r + .5, life: .4, t: 0, hue: 340 }); } });
     launchX = nextX == null ? launchX : nextX;
     flying = [];
@@ -650,15 +667,13 @@
     setTimeout(() => {
       if (state !== 'over') return;
       const rec = round > bestAtStart && round > 1;
-      q('.boT').textContent = rec ? App.g('أحسنتِ!', 'أحسنت!') + ' 🌟' : 'انتهت اللعبة';
+      overRec = rec;
       q('.bo-rec').classList.toggle('on', rec);
       q('.boR').textContent = round;
-      q('.boP').textContent = App.g('وصلتِ إلى الجولة', 'وصلت إلى الجولة') + ' ' + round;
+      overText();
       q('.boB').textContent = best();
       q('.boS').textContent = earned;
       q('.boC').style.display = continued ? 'none' : '';
-      q('.boC').textContent = '✨ فرصة إضافية (مرة واحدة)';
-      q('.boA').textContent = '🔁 ' + App.g('العبي مجددًا', 'العب مجددًا');
       overOv.classList.add('on');
       if (earned > 0) App.addStars(earned);
       if (rec) setTimeout(() => Sound.win(), 400);
@@ -882,7 +897,7 @@
   q('.boC').onclick = () => { Sound.tap(); continueRun(); };
   function openPause() {
     userPaused = true; paused = true;
-    q('.pzTxt').textContent = `الجولة ${round} • ⚪ ${ballN} ${ballN > 10 ? 'كرة' : ballN > 2 ? 'كرات' : 'كرة'}`;
+    q('.pzTxt').textContent = pauseText();
     pauseOv.classList.add('on');
   }
   function closePause() { userPaused = false; paused = false; pauseOv.classList.remove('on'); }
@@ -908,8 +923,16 @@
      التسجيل
      ------------------------------------------------------------------ */
   App.register({
-    id: ID, title: 'مطر الكرات', icon2: '⚪', isNew: false,
+    id: ID, title: 'مطر الكرات', titleEn: 'Ball Rain', icon2: '⚪', isNew: false,
     desc: () => App.g('صوّبي الكرات واكسري المربعات الزجاجية', 'صوّب الكرات واكسر المربعات الزجاجية'),
+    descEn: () => 'Aim the balls and smash the glass blocks',
+    helpEn: () => [
+      '🎯 Drag your finger to choose the direction, then let go and all the balls fly',
+      '🧱 Every hit lowers the block\'s number, and at zero it shatters like glass!',
+      '⚪ Collect the green rings to get more balls, and the stars ⭐ to win stars',
+      '⏩ The speed-up button and ↩️ the call-back button appear during a shot',
+      '⚠️ If a block reaches the bottom the game ends. Change your ball in the shop 🛍️'
+    ],
     music: 'balls',
     help: () => [
       `🎯 ${App.g('اسحبي', 'اسحب')} إصبعك لتحديد الاتجاه، ثم ${App.g('اتركيه', 'اتركه')} لتنطلق كل الكرات`,
@@ -939,8 +962,14 @@
         drawSkin(c, App.equipped('ball') || 'ball_white', lx, ly, s * .065);
       }, { line: 2.5, shadow: 'rgba(0,0,0,.4)' });
     },
-    best() { const b = store.get('ballsBest', 0); return b > 0 ? '🏆 أفضل جولة: ' + b : ''; },
+    best() { const b = store.get('ballsBest', 0); return b > 0 ? App.t('🏆 أفضل جولة: ', '🏆 Best round: ') + b : ''; },
+    onLang() {
+      i18n(); hintEl.querySelector('span').textContent = hintText();
+      if (overOv.classList.contains('on')) overText();
+      if (pauseOv.classList.contains('on')) q('.pzTxt').textContent = pauseText();
+    },
     enter() {
+      i18n();
       skin = App.equipped('ball') || 'ball_white';
       if (!App.owns(skin)) skin = 'ball_white';
       paused = false; userPaused = false; pauseOv.classList.remove('on'); overOv.classList.remove('on');

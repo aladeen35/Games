@@ -599,7 +599,7 @@
   def('board', { d: '', draw(x, o) {
     x.beginPath(); x.rect(-1, -.62, 2, 1.24); of(x, '#B07A45', .08);
     x.fillStyle = G(x, 0, -.55, 0, .55, '#2F6B4F', '#245840'); x.fillRect(-.92, -.54, 1.84, 1.08);
-    x.font = '900 .26px sans-serif'; x.fillStyle = 'rgba(255,255,255,.85)'; x.textAlign = 'center'; x.fillText('أ ب ت', -.35, -.15); x.fillText('1 + 2 = 3', .35, .25);
+    x.font = '900 .26px sans-serif'; x.fillStyle = 'rgba(255,255,255,.85)'; x.textAlign = 'center'; x.fillText(App.lang === 'en' ? 'A B C' : 'أ ب ت', -.35, -.15); x.fillText('1 + 2 = 3', .35, .25);
     x.beginPath(); x.arc(.45, -.22, .13, 0, TAU); ln(x, .04, '#FFE680');
     rr(x, -.9, .54, 1.8, .07, .02, '#8D6E63');
   } });
@@ -650,7 +650,7 @@
   const A = (e, x, y, s, o) => ['e', x, y, s, Object.assign({ e, d: 'msf' }, o)];
   const E = (e, x, y, s, o) => ['e', x, y, s, Object.assign({ e }, o)];
   const SCENES = [
-    { t: 'الحديقة', ic: '🌳', bg(x, R) {
+    { t: 'الحديقة', tEn: 'The Garden', ic: '🌳', bg(x, R) {
         sky(x, 200, '#74C2FF', '#E3F5FF'); hill(x, 160, 12, .018, 1, '#B4E39A'); hill(x, 182, 10, .012, 3, '#93D474');
         ground(x, 196, '#82D45E', '#4FA83A');
         x.beginPath(); x.moveTo(150, PH); x.quadraticCurveTo(190, 250, 230, 232); x.quadraticCurveTo(300, 205, 320, 196); x.lineTo(340, 196); x.quadraticCurveTo(320, 215, 270, 240); x.quadraticCurveTo(225, 265, 230, PH); x.closePath(); x.fillStyle = '#F2D59A'; x.fill();
@@ -663,7 +663,7 @@
         ['ball', 270, 288, 13, { c: 0, v: [-45, 0] }], ['butterfly', 125, 172, 9, { c: 6, v: [30, -15] }], A('🐕', 105, 262, 18)],
       add: [A('🐿️', 300, 228, 13), ['flower', 165, 292, 12, { c: 2 }], ['balloon', 245, 125, 14, { c: 2 }], ['bird', 300, 42, 10, { c: 0 }], ['butterfly', 45, 140, 8, { c: 2 }]] },
 
-    { t: 'غرفة النوم', ic: '🛏️', bg(x, R) {
+    { t: 'غرفة النوم', tEn: 'The Bedroom', ic: '🛏️', bg(x, R) {
         wall(x, 215, '#FFE6F0', '#FFD3E4'); stripes(x, 215, 'rgba(255,255,255,.35)', 18);
         planks(x, 215, '#E2AE74', '#C58A4F', 'rgba(110,60,20,.25)');
         rr(x, 290, 200, 80, 60, 6, '#C68A55'); rr(x, 296, 210, 68, 18, 4, '#B07A45'); rr(x, 296, 233, 68, 18, 4, '#B07A45'); circ(x, 330, 219, 2.5, '#FFD54F'); circ(x, 330, 242, 2.5, '#FFD54F');
@@ -675,7 +675,7 @@
         ['plant', 45, 150, 16, { c: 6 }], A('🦖', 98, 136, 13)],
       add: [['balloon', 255, 150, 14, { c: 0 }], ['star', 40, 40, 11, { c: 2 }], A('🐱', 385, 250, 15), ['books', 110, 296, 14, { c: 3 }], E('🎨', 310, 288, 11)] },
 
-    { t: 'الشاطئ', ic: '🏖️', bg(x, R) {
+    { t: 'الشاطئ', tEn: 'The Beach', ic: '🏖️', bg(x, R) {
         sky(x, 135, '#5EBDFF', '#D6F2FF');
         x.fillStyle = G(x, 0, 120, 0, 195, '#1E8ED6', '#7FD3F0'); x.fillRect(0, 120, PW, 80);
         x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = 1.5; for (let i = 0; i < 14; i++) { const wx = R() * PW, wy = 130 + R() * 55; x.beginPath(); x.arc(wx, wy, 6, Math.PI * 1.15, Math.PI * 1.85); x.stroke(); }
@@ -688,7 +688,7 @@
         ['shell', 55, 288, 10], ['starfish', 175, 285, 11, { c: 1 }], A('🦀', 342, 272, 14), ['ball', 200, 222, 13, { c: 6, v: [40, 0] }]],
       add: [A('🐢', 40, 240, 14), ['starfish', 382, 290, 9, { c: 5 }], A('🐬', 200, 150, 16), ['bird', 330, 60, 9, { c: 0 }], ['shell', 270, 222, 8]] },
 
-    { t: 'المزرعة', ic: '🐄', bg(x, R) {
+    { t: 'المزرعة', tEn: 'The Farm', ic: '🐄', bg(x, R) {
         sky(x, 190, '#82D0FF', '#EAF8FF'); hill(x, 150, 14, .015, 2, '#B9E39C');
         ground(x, 176, '#A3D86E', '#6BB84A'); fence(x, 205, 26, '#E7C38E');
         tufts(x, 210, 300, 'rgba(50,120,30,.45)', R, 45);
@@ -698,7 +698,7 @@
         ['bird', 205, 70, 10, { c: 0, v: [40, 10] }], ['flower', 25, 296, 11, { c: 6 }]],
       add: [A('🐓', 352, 240, 14), A('🐐', 175, 285, 15), ['pumpkin', 255, 294, 10], A('🐕', 380, 215, 13), ['butterfly', 120, 140, 8, { c: 2 }]] },
 
-    { t: 'تحت البحر', ic: '🐠', bg(x, R) {
+    { t: 'تحت البحر', tEn: 'Under the Sea', ic: '🐠', bg(x, R) {
         sky(x, PH, '#43CFF0', '#11559E');
         x.save(); x.globalAlpha = .15; for (let i = 0; i < 5; i++) { const rx = 40 + i * 85; poly(x, [[rx, 0], [rx + 30, 0], [rx - 30 + i * 8, 260], [rx - 70 + i * 8, 260]], '#fff'); } x.restore();
         x.beginPath(); x.moveTo(0, 250); for (let xx = 0; xx <= PW; xx += 20) x.lineTo(xx, 236 + Math.sin(xx * .03) * 8 - (R() * 10)); x.lineTo(PW, PH); x.lineTo(0, PH); x.fillStyle = '#2B6A9A'; x.fill();
@@ -710,7 +710,7 @@
         A('🐙', 200, 228, 22), A('🐢', 70, 178, 22), ['starfish', 92, 290, 11, { c: 2 }], ['bubbles', 160, 60, 16], ['rock', 205, 296, 18]],
       add: [A('🦀', 240, 284, 11), ['fish', 140, 205, 12, { c: 3 }], ['bubbles', 378, 100, 14], A('🐡', 375, 240, 14), ['starfish', 30, 230, 9, { c: 6 }]] },
 
-    { t: 'الفضاء', ic: '🚀', bg(x, R) {
+    { t: 'الفضاء', tEn: 'Space', ic: '🚀', bg(x, R) {
         sky(x, PH, '#0B1640', '#2A1B5E');
         circ(x, 260, 120, 160, RG(x, 260, 120, 10, 160, 'rgba(255,110,200,.28)', 'rgba(255,110,200,0)'));
         circ(x, 90, 230, 120, RG(x, 90, 230, 10, 120, 'rgba(90,200,255,.22)', 'rgba(90,200,255,0)'));
@@ -721,7 +721,7 @@
         A('🧑‍🚀', 275, 145, 24), E('🛰️', 365, 135, 15, { d: 'msf' }), A('👽', 200, 262, 18)],
       add: [['star', 140, 250, 11, { c: 2 }], ['planet', 40, 262, 16, { c: 5 }], ['ufo', 270, 262, 17, { c: 6 }], ['star', 380, 290, 8, { c: 3 }], ['comet', 240, 95, 13]] },
 
-    { t: 'المطبخ', ic: '🍳', bg(x, R) {
+    { t: 'المطبخ', tEn: 'The Kitchen', ic: '🍳', bg(x, R) {
         wall(x, 205, '#FFF6E0', '#FFEBC4');
         x.strokeStyle = 'rgba(200,160,90,.25)'; x.lineWidth = 1; for (let yy = 0; yy < 205; yy += 25) { x.beginPath(); x.moveTo(0, yy); x.lineTo(PW, yy); x.stroke(); } for (let xx = 0; xx < PW; xx += 25) { x.beginPath(); x.moveTo(xx, 0); x.lineTo(xx, 205); x.stroke(); }
         for (let xx = 0, k = 0; xx < PW; xx += 25, k++) for (let yy = 262, j = 0; yy < PH; yy += 20, j++) { x.fillStyle = (k + j) % 2 ? '#F4F0F8' : '#B7C3E8'; x.fillRect(xx, yy, 25, 20); }
@@ -734,7 +734,7 @@
         ['cup', 52, 122, 9, { c: 3 }], ['cup', 82, 122, 9, { c: 2 }], E('🍯', 115, 110, 11), A('🐈', 70, 280, 18)],
       add: [E('🍌', 300, 183, 10), A('🐁', 250, 284, 11), E('🧀', 152, 196, 9), ['flower', 268, 110, 9, { c: 6 }], E('🥕', 200, 280, 10)] },
 
-    { t: 'الفصل', ic: '🏫', bg(x, R) {
+    { t: 'الفصل', tEn: 'The Classroom', ic: '🏫', bg(x, R) {
         wall(x, 220, '#E3F2FF', '#CFE6FA'); planks(x, 220, '#F1D2A2', '#DDB680', 'rgba(140,90,40,.2)');
         x.fillStyle = 'rgba(255,255,255,.4)'; x.fillRect(0, 150, PW, 4);
       },
@@ -743,7 +743,7 @@
         ['star', 32, 45, 12, { c: 2 }], ['plant', 28, 222, 16, { c: 6 }]],
       add: [['ball', 228, 288, 11, { c: 4 }], E('✏️', 200, 285, 10, { d: 'msf' }), A('🦉', 370, 110, 14), ['frame', 40, 110, 18, { c: 3 }], E('🎨', 140, 290, 11)] },
 
-    { t: 'عيد الميلاد', ic: '🎂', bg(x, R) {
+    { t: 'عيد الميلاد', tEn: 'Birthday Party', ic: '🎂', bg(x, R) {
         wall(x, 250, '#FFEAF6', '#FFD6EC');
         for (let i = 0; i < 40; i++) circ(x, R() * PW, R() * 200, 3, 'rgba(255,255,255,.6)');
         x.beginPath(); x.moveTo(0, 18); x.quadraticCurveTo(200, 48, PW, 18); x.strokeStyle = '#B07A45'; x.lineWidth = 1.5; x.stroke();
@@ -759,7 +759,7 @@
         A('🐶', 330, 272, 18), E('🧃', 150, 186, 10)],
       add: [E('🎉', 200, 62, 15, { d: 'msf' }), ['balloon', 245, 60, 15, { c: 3 }], A('🐱', 80, 270, 15), ['cupcake', 330, 197, 11, { c: 2 }], ['gift', 210, 292, 13, { c: 5 }]] },
 
-    { t: 'شارع المدينة', ic: '🏙️', bg(x, R) {
+    { t: 'شارع المدينة', tEn: 'City Street', ic: '🏙️', bg(x, R) {
         sky(x, 205, '#9FDBFF', '#F0FAFF');
         x.fillStyle = '#C3D4EA'; for (let i = 0; i < 12; i++) { const bw = 25 + R() * 25, bh = 40 + R() * 70; x.fillRect(i * 35 - 10, 200 - bh, bw, bh); }
         rr(x, 0, 200, PW, 28, 0, '#DAD5CC'); x.fillStyle = 'rgba(0,0,0,.08)'; for (let xx = 0; xx < PW; xx += 30) x.fillRect(xx, 200, 2, 28);
@@ -772,7 +772,7 @@
         ['sun', 362, 38, 15], ['cloud', 120, 32, 20, { v: [40, 0] }], ['bird', 240, 46, 9, { c: 4, v: [-30, 10] }]],
       add: [E('🚲', 200, 214, 12, { d: 'msf' }), A('🐕', 28, 214, 12), ['balloon', 350, 122, 13, { c: 6 }], ['car', 205, 286, 20, { c: 4 }], ['bird', 30, 60, 8, { c: 0 }]] },
 
-    { t: 'مخيم الغابة', ic: '🏕️', bg(x, R) {
+    { t: 'مخيم الغابة', tEn: 'Forest Camp', ic: '🏕️', bg(x, R) {
         sky(x, 200, '#22336F', '#F59A82'); dotsStars(x, R, 40, 110);
         silTrees(x, 190, '#3A4E78', R, 11); hill(x, 196, 6, .02, 1, '#355E44');
         ground(x, 205, '#3F7D4B', '#2A5735'); tufts(x, 212, 300, 'rgba(120,200,120,.35)', R, 40);
@@ -782,7 +782,7 @@
         A('🦉', 112, 125, 14), A('🐇', 372, 272, 16), A('🦊', 40, 268, 18)],
       add: [A('🦔', 205, 288, 12), ['mush', 262, 292, 10, { c: 4 }], ['star', 130, 58, 8, { c: 6 }], A('🐿️', 380, 200, 12), ['lantern', 190, 235, 10]] },
 
-    { t: 'قرية الثلج', ic: '⛄', bg(x, R) {
+    { t: 'قرية الثلج', tEn: 'Snow Village', ic: '⛄', bg(x, R) {
         sky(x, 200, '#9EC2F0', '#EAF3FF'); hill(x, 165, 14, .015, 2, '#F2F7FF'); hill(x, 195, 10, .02, 4, '#E4EEFA');
         ground(x, 210, '#FFFFFF', '#DCE8F6');
         for (let i = 0; i < 70; i++) circ(x, R() * PW, R() * PH, .8 + R() * 1.6, 'rgba(255,255,255,.9)');
@@ -792,7 +792,7 @@
         ['bird', 150, 62, 10, { c: 0, v: [40, 10] }], ['cloud', 225, 40, 22]],
       add: [['flake', 150, 120, 10], A('🐇', 262, 284, 12), ['bird', 360, 72, 9, { c: 6 }], A('🦊', 30, 255, 14), ['star', 380, 25, 8, { c: 2 }]] },
 
-    { t: 'متجر الحلوى', ic: '🍭', bg(x, R) {
+    { t: 'متجر الحلوى', tEn: 'Candy Shop', ic: '🍭', bg(x, R) {
         wall(x, 235, '#FFE4F0', '#FFD0E4'); stripes(x, 235, 'rgba(255,255,255,.45)', 14);
         shelfB(x, 15, 385, 100); shelfB(x, 15, 385, 172);
         x.fillStyle = G(x, 0, 235, 0, PH, '#FF8DBE', '#E2558F'); x.fillRect(0, 235, PW, PH - 235);
@@ -804,7 +804,7 @@
         ['cake', 330, 228, 26], E('🍦', 70, 216, 13), E('🍪', 165, 222, 11), ['clock', 200, 32, 16, { c: 4 }]],
       add: [E('🍓', 250, 222, 11), E('🍡', 120, 216, 11, { d: 'msf' }), ['star', 40, 32, 10, { c: 2 }], ['balloon', 360, 40, 13, { c: 3 }], E('🍒', 255, 158, 11)] },
 
-    { t: 'حديقة الحيوانات', ic: '🦁', bg(x, R) {
+    { t: 'حديقة الحيوانات', tEn: 'The Zoo', ic: '🦁', bg(x, R) {
         sky(x, 200, '#8BD3FF', '#ECF9FF'); silTrees(x, 190, '#9ED49A', R, 10);
         ground(x, 190, '#B6DF7E', '#7CBF4E');
         x.beginPath(); x.moveTo(170, PH); x.quadraticCurveTo(200, 240, 260, 215); x.lineTo(300, 215); x.quadraticCurveTo(250, 250, 250, PH); x.closePath(); x.fillStyle = '#EED9A6'; x.fill();
@@ -815,7 +815,7 @@
         ['rock', 228, 290, 18], A('🐧', 40, 278, 16)],
       add: [A('🐢', 300, 286, 12), A('🦩', 100, 280, 14), ['balloon', 205, 105, 13, { c: 3 }], ['butterfly', 230, 150, 9, { c: 2 }], A('🦜', 375, 120, 12)] },
 
-    { t: 'يوم ممطر', ic: '🌧️', bg(x, R) {
+    { t: 'يوم ممطر', tEn: 'Rainy Day', ic: '🌧️', bg(x, R) {
         sky(x, 205, '#8EA6C4', '#D4DEEA');
         x.save(); x.globalAlpha = .35; ['#F0473E', '#FF8F1F', '#FFD23A', '#3CC55E', '#3D8BFF', '#9B5DE5'].forEach((c, i) => { x.beginPath(); x.arc(220, 230, 170 - i * 7, Math.PI, TAU); x.strokeStyle = c; x.lineWidth = 7; x.stroke(); }); x.restore();
         ground(x, 200, '#86B86C', '#5C8F4E'); tufts(x, 210, 300, 'rgba(40,90,40,.45)', R, 40);
@@ -826,7 +826,7 @@
         A('🦆', 222, 274, 14), ['tree', 40, 210, 32]],
       add: [E('🐞', 120, 230, 9, { d: 'msf' }), ['flower', 262, 245, 11, { c: 0 }], ['mush', 178, 292, 11, { c: 0 }], A('🐦', 330, 140, 11), ['puddle', 100, 294, 18]] },
 
-    { t: 'الملعب', ic: '🛝', bg(x, R) {
+    { t: 'الملعب', tEn: 'The Playground', ic: '🛝', bg(x, R) {
         sky(x, 200, '#7FCBFF', '#E6F6FF'); silTrees(x, 192, '#A7DB93', R, 9);
         ground(x, 190, '#8DD064', '#5DAA3F');
         x.beginPath(); x.ellipse(200, 268, 210, 45, 0, 0, TAU); x.fillStyle = 'rgba(255,170,110,.45)'; x.fill();
@@ -974,18 +974,41 @@
       <button class="ib lvbtn" aria-label="الصور">🖼️</button>
       <button class="ib hbtn" aria-label="تلميح">🔍<span class="cnt">2</span></button>
       <span class="grow"></span>
-      <div class="chip cFC"><small>الفروق</small><b class="cF">0/5</b></div>
-      <div class="chip"><small>الوقت</small><b class="cT">0:00</b></div>
+      <div class="chip cFC"><small data-ar="الفروق" data-en="Found">الفروق</small><b class="cF">0/5</b></div>
+      <div class="chip"><small data-ar="الوقت" data-en="Time">الوقت</small><b class="cT">0:00</b></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="dfLv"><div class="panel lvp"><h3>🖼️ الصور</h3>
+    <div class="overlay" id="dfLv"><div class="panel lvp"><h3 data-ar="🖼️ الصور" data-en="🖼️ Pictures">🖼️ الصور</h3>
       <div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="dfEnd"><div class="panel endp"></div></div>`);
   const cv = root.querySelector('canvas.sc'), bar = root.querySelector('.bar');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const lvOv = root.querySelector('#dfLv'), endOv = root.querySelector('#dfEnd'), endP = root.querySelector('.endp');
   const hBtn = root.querySelector('.hbtn'), hCnt = hBtn.querySelector('.cnt');
+  const isEn = () => App.gameLang(ID) === 'en';
+  const scName = s => isEn() ? s.tEn : s.t;
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'الصور', 'Pictures'], ['.hbtn', 'تلميح', 'Hint']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  let hintKey = '', endInfo = null;
+  function hintText() {
+    if (hintKey === 'first') return '👆 ' + App.t(App.g('المسي', 'المس') + ' كل شيء مختلف بين الصورتين — هناك 5 فروق!', 'Touch everything that is different between the two pictures — there are 5 differences!');
+    if (hintKey === 'scene') return '🔎 ' + lvl + '. ' + scName(sc) + ': ' + App.t(App.g('ابحثي', 'ابحث') + ' عن 5 فروق', 'find 5 differences');
+    return '';
+  }
+  function renderEnd() {
+    if (!endInfo) return;
+    const { stars, fast } = endInfo;
+    endP.innerHTML = `<h3>${App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!')} 🎉</h3>
+        <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('')}</div>
+        <div class="res"><div>${App.t('الوقت', 'Time')}<b>${fmtT(elapsed)}</b></div><div>${App.t('الأخطاء', 'Mistakes')}<b>${mistakes}</b></div></div>
+        <p>${fast ? App.t('عين النسر! ⚡', 'Eagle eyes! ⚡') : stars === 3 ? App.t(App.g('محقّقة رائعة! 🕵️‍♀️', 'محقّق رائع! 🕵️'), 'Great detective! 🕵️') : App.t(App.g('أسرعي', 'أسرع') + ' وبأخطاء أقل ' + App.g('لتحصلي', 'لتحصل') + ' على 3 نجوم', 'Be faster with fewer mistakes to get 3 stars')}</p>
+        ${lvl < SCENES.length ? `<button class="btn" data-a="next">${App.t('الصورة التالية', 'Next picture')} ▶️</button><br>` : '<p>🏆 ' + App.t(App.g('أنهيتِ', 'أنهيتَ') + ' كل الصور!', 'You finished all the pictures!') + '</p>'}
+        <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🖼️ ${App.t('الصور', 'Pictures')}</button><button class="btn alt home" aria-label="${App.t('الرئيسية', 'Home')}">🏠</button>`;
+    bindEnd();
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, pics = [], kS = 1, bgLayer = null, imgA = null, imgB = null;
@@ -1015,6 +1038,7 @@
       const tot = pw * 2 + gap + fp * 4, x0 = (W - tot) / 2 + fp, y0 = top + (ah - ph) / 2;
       // الأولى على اليمين (اتجاه القراءة العربي)
       pics = [{ x: x0 + pw + fp * 2 + gap, y: y0, w: pw, h: ph }, { x: x0, y: y0, w: pw, h: ph }];
+      if (App.lang === 'en') pics.reverse();   // في الإنجليزية: الأولى على اليسار
     }
     pics.forEach(p => { p.fp = fp; });
     buildBg();
@@ -1052,7 +1076,8 @@
     layout(); updChips();
     Sound.whoosh();
     const pr = loadProg();
-    showHint(!pr.stars[lvl] && lvl <= 2 ? '👆 ' + App.g('المسي', 'المس') + ' كل شيء مختلف بين الصورتين — هناك 5 فروق!' : '🔎 ' + lvl + '. ' + sc.t + ': ' + App.g('ابحثي', 'ابحث') + ' عن 5 فروق', 6);
+    hintKey = !pr.stars[lvl] && lvl <= 2 ? 'first' : 'scene';
+    showHint(hintText(), 6);
   }
   function showHint(t, dur) { hintT.textContent = t; hintEl.style.opacity = t ? 1 : 0; hintTimer = t ? dur : 0; }
   function nFound() { return puz ? puz.diffs.filter(d => d.found).length : 0; }
@@ -1075,8 +1100,8 @@
     const g = root.querySelector('.lvg');
     g.innerHTML = SCENES.map((s, i) => {
       const n = i + 1, st = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="الصورة ${n}">
-        <canvas></canvas><span class="n">${n}</span><span class="t">${s.ic} ${s.t}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('الصورة', 'Picture')} ${n}">
+        <canvas></canvas><span class="n">${n}</span><span class="t">${s.ic} ${scName(s)}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= st ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => {
@@ -1116,7 +1141,7 @@
       const n = nFound();
       if (n >= NDIFF) win();
       else if (hintTimer > 0) hintTimer = Math.min(hintTimer, .5);
-      if (n === 3) floatTxt(App.g('رائعة! 🌟', 'رائع! 🌟'), h);
+      if (n === 3) floatTxt(App.t(App.g('رائعة! 🌟', 'رائع! 🌟'), 'Great! 🌟'), h);
       return;
     }
     mistakes++;
@@ -1142,7 +1167,7 @@
   function starsFor() { let s = 3; if (elapsed > 60) s--; if (elapsed > 120) s--; if (mistakes > 3) s--; return Math.max(1, s); }
   function win() {
     phase = 'won'; winT = 0; hintD = null; cool = 0;
-    later(.35, () => { confetti(); Sound.win(); vibrate(30); App.speak(App.g('أحسنتِ!', 'أحسنت!')); });
+    later(.35, () => { confetti(); Sound.win(); vibrate(30); if (isEn()) App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!')); });
     const pr = loadProg();
     const stars = starsFor(), prev = pr.stars[lvl] || 0;
     if (stars > prev) pr.stars[lvl] = stars;
@@ -1153,13 +1178,8 @@
     const all = SCENES.every((_, i) => pr.stars[i + 1]);
     later(1.7, () => {
       if (App.current !== ID) return;
-      endP.innerHTML = `<h3>${App.g('أحسنتِ!', 'أحسنت!')} 🎉</h3>
-        <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('')}</div>
-        <div class="res"><div>الوقت<b>${fmtT(elapsed)}</b></div><div>الأخطاء<b>${mistakes}</b></div></div>
-        <p>${fast ? 'عين النسر! ⚡' : stars === 3 ? App.g('محقّقة رائعة! 🕵️‍♀️', 'محقّق رائع! 🕵️') : App.g('أسرعي', 'أسرع') + ' وبأخطاء أقل ' + App.g('لتحصلي', 'لتحصل') + ' على 3 نجوم'}</p>
-        ${lvl < SCENES.length ? '<button class="btn" data-a="next">الصورة التالية ▶️</button><br>' : '<p>🏆 ' + App.g('أنهيتِ', 'أنهيتَ') + ' كل الصور!</p>'}
-        <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🖼️ الصور</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
-      bindEnd(); endOv.classList.add('on');
+      endInfo = { stars, fast }; renderEnd();
+      endOv.classList.add('on');
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('diff_first');
       if (fast) App.achieve('diff_fast');
@@ -1354,7 +1374,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'ابحث عن الاختلافات', icon2: '🔍', isNew: false, music: 'diff',
+    titleEn: 'Spot the Difference',
     desc: () => App.g('ابحثي عن 5 فروق بين الصورتين', 'ابحث عن 5 فروق بين الصورتين'),
+    descEn: () => 'Find 5 differences between the two pictures',
+    helpEn: () => [
+      '👀 Compare the two pictures carefully: there are exactly 5 differences',
+      '👆 Touch the difference in either picture and a green circle appears on it ✅',
+      '❌ A wrong touch pauses the game for two seconds, so look carefully before you touch!',
+      '🔍 The magnifier button shows you one difference (twice in each picture)',
+      '⭐ Be fast with fewer mistakes to win 3 stars and open new pictures 🖼️'
+    ],
     help: () => [
       '👀 ' + App.g('قارني', 'قارن') + ' الصورتين جيدًا: بينهما 5 فروق بالضبط',
       '👆 ' + App.g('المسي', 'المس') + ' مكان الفرق في أي صورة لتظهر عليه دائرة خضراء ✅',
@@ -1366,13 +1395,21 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 الصورة ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('الصورة', 'Picture')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, SCENES.length));
       render(); startLoop();
+    },
+    onLang() {
+      relabel();
+      if (puz) layout();
+      if (sc && sc.tEn === 'The Classroom') delete thumbs[lvl - 1];
+      if (hintTimer > 0) hintT.textContent = hintText();
+      if (lvOv.classList.contains('on')) openLevels();
+      if (endP.innerHTML && endInfo) renderEnd();
     },
     leave() { stopLoop(); events = []; lvOv.classList.remove('on'); endOv.classList.remove('on'); },
     pause() { paused = true; },

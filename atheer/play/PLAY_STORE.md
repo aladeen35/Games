@@ -52,5 +52,7 @@ For parents: a profile for each child with name and photo, real child voice narr
 
 By Al-Bushra Technology.
 
+**بريد التواصل:** aladeen35@gmail.com
+
 **الفئة:** Education (التعليم) — أو Games › Educational
 **العلامات:** Kids, Educational, Arabic, Learning

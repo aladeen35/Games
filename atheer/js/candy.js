@@ -17,6 +17,8 @@
     ['#A65CFF', '#6223BD', '#E5CCFF']  // قرص بنفسجي ملتف
   ];
   const CNAME = ['الحمراء', 'البرتقالية', 'الصفراء', 'الخضراء', 'الزرقاء', 'البنفسجية'];
+  const CNAME_EN = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+  const WORDS_EN = { 'حلو!': 'Sweet!', 'رائع!': 'Great!', 'مذهل!': 'Amazing!', 'خيالي!': 'Fantastic!', 'لذيذ جدًا!': 'Delicious!', 'بووم!': 'Boom!', 'لنخلط!': 'Shuffle!', 'اندفاع السكر!': 'Sugar Rush!' };
 
   /* ---------- المستويات ----------
      الخريطة: '.' خلية، 'x' فراغ، 'j' جيلي، 'J' جيلي مزدوج */
@@ -305,27 +307,37 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-aen="Levels">🗺️</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip cMvC"><small>الحركات</small><b class="cMv">0</b></div>
-      <div class="chip"><small>النقاط</small><b class="cSc">0</b></div>
+      <div class="chip"><small data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip cMvC"><small data-en="Moves">الحركات</small><b class="cMv">0</b></div>
+      <div class="chip"><small data-en="Score">النقاط</small><b class="cSc">0</b></div>
     </div>
     <div class="intro"><div><b class="iT"></b><span class="iG"></span></div></div>
-    <div class="overlay" id="cdLv"><div class="panel lvp"><h3>🗺️ طريق الحلوى</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="cdLv"><div class="panel lvp"><h3 data-en="🗺️ Candy Road">🗺️ طريق الحلوى</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="cdWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><div class="wsc"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="إعادة" data-aen="Replay">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>
     <div class="overlay" id="cdFail"><div class="panel">
-      <h3>${'نفدت الحركات! 🍬'}</h3><div class="big" style="font-size:54px">😢</div><p class="fP"></p>
-      <button class="btn" data-a="again">🔄 إعادة</button><br>
-      <button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <h3 data-en="Out of moves! 🍬">${'نفدت الحركات! 🍬'}</h3><div class="big" style="font-size:54px">😢</div><p class="fP"></p>
+      <button class="btn" data-a="again" data-en="🔄 Replay">🔄 إعادة</button><br>
+      <button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  let winPaint = null, failPaint = null;
+  const introText = () => { root.querySelector('.iT').textContent = App.t(`المستوى ${lvl}`, `Level ${lvl}`); root.querySelector('.iG').textContent = goalText(); };
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
   const lvOv = root.querySelector('#cdLv'), winOv = root.querySelector('#cdWin'), failOv = root.querySelector('#cdFail');
@@ -548,18 +560,17 @@
     const g = gen;
     until(() => !anyFalling()).then(() => { if (g === gen) { busy = false; idleT = 0; } });
     updChips();
-    root.querySelector('.iT').textContent = `المستوى ${lvl}`;
-    root.querySelector('.iG').textContent = goalText();
+    introText();
     introEl.classList.remove('on'); void introEl.offsetWidth; introEl.classList.add('on');
     Sound.whoosh();
   }
   function goalText() {
     return L.goals.map(g => {
-      if (g.k === 'score') return `${App.g('اجمعي', 'اجمع')} ${g.n} نقطة 🎯`;
-      if (g.k === 'c') return `${App.g('اجمعي', 'اجمع')} ${g.n} من الحلوى ${CNAME[g.t]}`;
-      if (g.k === 'jelly') return `${App.g('أزيلي', 'أزِل')} كل الجيلي الوردي`;
-      return `${App.g('أنزلي', 'أنزِل')} ${g.n} كرز إلى الأسفل 🍒`;
-    }).join(' و');
+      if (g.k === 'score') return App.t(`${App.g('اجمعي', 'اجمع')} ${g.n} نقطة 🎯`, `Score ${g.n} points 🎯`);
+      if (g.k === 'c') return App.t(`${App.g('اجمعي', 'اجمع')} ${g.n} من الحلوى ${CNAME[g.t]}`, `Collect ${g.n} ${CNAME_EN[g.t]} candies`);
+      if (g.k === 'jelly') return App.t(`${App.g('أزيلي', 'أزِل')} كل الجيلي الوردي`, 'Clear all the pink jelly');
+      return App.t(`${App.g('أنزلي', 'أنزِل')} ${g.n} كرز إلى الأسفل 🍒`, `Bring ${g.n} ${g.n === 1 ? 'cherry' : 'cherries'} down 🍒`);
+    }).join(App.t(' و', ' and '));
   }
   function goalDone(g) {
     if (g.k === 'score') return score >= g.n;
@@ -579,7 +590,7 @@
   }
 
   /* ---------- المؤثرات ---------- */
-  function word(text, col) { texts.push({ text, x: bx + cs * N / 2, y: by + cs * N * .42, t: 0, life: 1.3, size: Math.min(64, cs * 1.25), big: true, col: col || '#FF3D9A' }); }
+  function word(text, col) { text = App.t(text, WORDS_EN[text]); texts.push({ text, x: bx + cs * N / 2, y: by + cs * N * .42, t: 0, life: 1.3, size: Math.min(64, cs * 1.25), big: true, col: col || '#FF3D9A' }); }
   function ftext(text, x, y, col) { texts.push({ text, x, y, t: 0, life: .95, size: Math.max(16, cs * .42), col }); }
   function burst(x, y, col, n = 10) {
     for (let i = 0; i < n; i++) {
@@ -897,13 +908,15 @@
     Sound.win(); vibrate(30);
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🍭';
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wsc').textContent = `🍬 ${score} نقطة`;
-      root.querySelector('.wP').textContent = (score > prevBest && prevBest ? '🎉 رقم قياسي جديد! ' : '') + `أفضل نتيجة: ${Math.max(score, prevBest)}`;
+      (winPaint = () => {
+        root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🍭';
+        root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+        root.querySelector('.wsc').textContent = App.t(`🍬 ${score} نقطة`, `🍬 ${score} points`);
+        root.querySelector('.wP').textContent = (score > prevBest && prevBest ? App.t('🎉 رقم قياسي جديد! ', '🎉 New record! ') : '') + App.t(`أفضل نتيجة: ${Math.max(score, prevBest)}`, `Best score: ${Math.max(score, prevBest)}`);
+      })();
       root.querySelector('#cdWin [data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('candy_first');
       if (lvl >= 10) App.achieve('candy_lvl10');
@@ -912,15 +925,15 @@
   function fail() {
     over = true; busy = true; updChips();
     Sound.lose(); vibrate(40);
-    const left = L.goals.filter(g => !goalDone(g)).map(g => {
-      if (g.k === 'score') return `ينقصك ${g.n - score} نقطة`;
-      if (g.k === 'c') return `بقي ${g.n - gcount[g.t]} من الحلوى ${CNAME[g.t]}`;
-      if (g.k === 'jelly') return `بقي ${jellyLeft} جيلي`;
-      return `بقي ${g.n - ingDone} كرز`;
+    const left = () => L.goals.filter(g => !goalDone(g)).map(g => {
+      if (g.k === 'score') return App.t(`ينقصك ${g.n - score} نقطة`, `${g.n - score} points to go`);
+      if (g.k === 'c') return App.t(`بقي ${g.n - gcount[g.t]} من الحلوى ${CNAME[g.t]}`, `${g.n - gcount[g.t]} ${CNAME_EN[g.t]} candies left`);
+      if (g.k === 'jelly') return App.t(`بقي ${jellyLeft} جيلي`, `${jellyLeft} jelly left`);
+      return App.t(`بقي ${g.n - ingDone} كرز`, `${g.n - ingDone} ${g.n - ingDone === 1 ? 'cherry' : 'cherries'} left`);
     }).join(' · ');
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.fP').textContent = left + ' — ' + App.g('حاولي مرة أخرى!', 'حاول مرة أخرى!');
+      (failPaint = () => { root.querySelector('.fP').textContent = left() + ' — ' + App.t(App.g('حاولي مرة أخرى!', 'حاول مرة أخرى!'), 'Try again!'); })();
       failOv.classList.add('on');
     }, 700);
   }
@@ -929,7 +942,7 @@
     const gi = { score: '🎯', c: '🍬', jelly: '🟪', ing: '🍒' };
     g.innerHTML = LEVELS.map((Lv, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, k = COL[i % 6];
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${k[0]};--d:${k[1]};--l:${k[2]}" data-l="${n}" aria-label="المستوى ${n}">
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${k[0]};--d:${k[1]};--l:${k[2]}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
         <span class="n">${n}</span><span class="g">${Lv.goals.map(x => gi[x.k]).join('')}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(q => `<i class="${q <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -1099,8 +1112,8 @@
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(mx, my, mr * (low ? 1 + Math.sin(T * 8) * .04 : 1), 0, TAU); ctx.fill();
     ctx.fillStyle = 'rgba(255,255,255,.4)'; ctx.beginPath(); ctx.ellipse(mx - 7, my - 12, 10, 5, -.4, 0, TAU); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.direction = 'ltr'; ctx.font = `900 22px ${FONT}`; ctx.fillText(moves, mx, my + 1); ctx.direction = 'rtl';
-    ctx.fillStyle = '#9A2A66'; ctx.font = `700 11px ${FONT}`; ctx.fillText('حركات', mx, p.y + p.h - 8);
+    ctx.direction = 'ltr'; ctx.font = `900 22px ${FONT}`; ctx.fillText(moves, mx, my + 1); ctx.direction = App.lang === 'en' ? 'ltr' : 'rtl';
+    ctx.fillStyle = '#9A2A66'; ctx.font = `700 11px ${FONT}`; ctx.fillText(App.t('حركات', 'moves'), mx, p.y + p.h - 8);
     // الأهداف
     const gx0 = p.x + 12, gx1 = mx - mr - 12, n = L.goals.length, iw = (gx1 - gx0) / n;
     goalPos = [];
@@ -1131,7 +1144,7 @@
         ctx.fillStyle = '#2BC46A'; ctx.beginPath(); ctx.arc(tx + 9, cy, 10, 0, TAU); ctx.fill();
         ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(tx + 4, cy); ctx.lineTo(tx + 8, cy + 4); ctx.lineTo(tx + 14, cy - 4); ctx.stroke();
       } else {
-        ctx.textAlign = 'left'; ctx.direction = 'ltr'; ctx.fillStyle = '#7A1F4E'; ctx.font = `900 ${gl.k === 'score' && iw < 110 ? 15 : 19}px ${FONT}`; ctx.fillText(txt, tx, cy + 1); ctx.direction = 'rtl';
+        ctx.textAlign = 'left'; ctx.direction = 'ltr'; ctx.fillStyle = '#7A1F4E'; ctx.font = `900 ${gl.k === 'score' && iw < 110 ? 15 : 19}px ${FONT}`; ctx.fillText(txt, tx, cy + 1); ctx.direction = App.lang === 'en' ? 'ltr' : 'rtl';
       }
     });
     // مقياس النجوم
@@ -1286,7 +1299,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, get title() { return 'حلويات ' + (App.profile ? App.profile.name : ''); }, icon2: '🍬', isNew: false, music: 'candy',
+    get titleEn() { return App.profile ? App.profile.name + '\'s Candy' : 'Candy'; },
     desc: () => App.g('طابقي ثلاث حلويات أو أكثر', 'طابق ثلاث حلويات أو أكثر'),
+    descEn: () => 'Match three or more candies',
+    helpEn: () => [
+      '👆 Swipe a candy toward its neighbor to swap them, and match 3 of the same color',
+      '🎯 Reach the level goal before you run out of moves: points, collecting colors, clearing jelly, or bringing cherries down 🍒',
+      '🍭 Matching 4 makes a striped candy, an L or T shape makes a wrapped candy, and matching 5 makes a color bomb!',
+      '💥 Swap a special candy with another special candy for a bigger blast, and move the cherries 🍒 straight down',
+      '⭐ Leftover moves turn into a Sugar Rush, extra points and more stars'
+    ],
     help: () => [
       '👆 ' + App.g('اسحبي', 'اسحب') + ' حلوى نحو جارتها لتبديلهما، ' + App.g('وطابقي', 'وطابق') + ' 3 من اللون نفسه',
       '🎯 ' + App.g('حقّقي', 'حقّق') + ' هدف المستوى قبل أن تنفد الحركات: نقاط، أو جمع ألوان، أو إزالة الجيلي، أو إنزال الكرز 🍒',
@@ -1298,9 +1320,16 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+    },
+    onLang() {
+      i18n(); if (L) introText();
+      if (winOv.classList.contains('on') && winPaint) winPaint();
+      if (failOv.classList.contains('on') && failPaint) failPaint();
+      if (lvOv.classList.contains('on')) openLevels();
     },
     enter() {
+      i18n();
       paused = false;
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));

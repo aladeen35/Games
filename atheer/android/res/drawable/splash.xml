@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- أندرويد 5: حجم العناصر غير مدعوم هنا، فيُوسَّط الشعار بحجمه الأصلي (النسخة الدقيقة في drawable-v23) -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splashBg" />
     <item>

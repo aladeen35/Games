@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- أيقونة شاشة البداية في أندرويد 12+: مساحة 288dp والشعار 192dp في وسطها (دائرة القناع 192dp) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="288dp" android:height="288dp"><color android:color="@android:color/transparent" /></item>
+    <item android:width="192dp" android:height="192dp" android:gravity="center">
+        <bitmap android:src="@drawable/splash_logo" android:filter="true" />
+    </item>
+</layer-list>

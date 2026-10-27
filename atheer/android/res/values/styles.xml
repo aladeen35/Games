@@ -3,6 +3,6 @@
     <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:statusBarColor">#FF4FA3</item>
-        <item name="android:navigationBarColor">#FFF0F6</item>
+        <item name="android:navigationBarColor">@color/splashBg</item>
     </style>
 </resources>

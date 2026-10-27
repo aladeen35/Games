@@ -20,23 +20,23 @@
      العوالم: تتبدل كل 8 مستويات
      ===================================================================== */
   const THEMES = [
-    { key: 'garden', name: 'الحديقة', ch: 'الأرنب', goal: 'الجزرة', em: '🐰', gem: '🥕', wall: 'hedge',
+    { key: 'garden', name: 'الحديقة', ch: 'الأرنب', goal: 'الجزرة', nameEn: 'The Garden', chEn: 'the rabbit', goalEn: 'the carrot', em: '🐰', gem: '🥕', wall: 'hedge',
       bg: ['#BDE8FF', '#E3F6C9', '#97D277'], floor: ['#F6E9C6', '#EAD8A6'], frame: ['#8A5A32', '#5E3B1E'],
       trail: '#FF8A2A', trail2: '#FFD7A3', puff: ['#E3CC93', '#CDB277', '#A5D987'], ui: ['#3E9B3A', '#2A6B24', '#EAF8DD'],
       conf: ['#FF8A2A', '#7AD15A', '#FFD84D', '#FF7FB0', '#FFFFFF'] },
-    { key: 'sea', name: 'البحر', ch: 'السمكة', goal: 'الصدفة', em: '🐠', gem: '🐚', wall: 'coral',
+    { key: 'sea', name: 'البحر', ch: 'السمكة', goal: 'الصدفة', nameEn: 'The Sea', chEn: 'the fish', goalEn: 'the shell', em: '🐠', gem: '🐚', wall: 'coral',
       bg: ['#56C7F0', '#1C83C2', '#0C4A86'], floor: ['#FBEBC2', '#F0D89E'], frame: ['#2A8FB8', '#145F86'],
       trail: '#22B8F0', trail2: '#B8F0FF', puff: ['#FFFFFF', '#CFF4FF', '#9EE6FF'], ui: ['#1C8FCB', '#0E5E8E', '#E2F6FF'],
       conf: ['#FF7A6B', '#FFD84D', '#4FE0D2', '#FFFFFF', '#C77DDB'] },
-    { key: 'space', name: 'الفضاء', ch: 'الصاروخ', goal: 'الكوكب', em: '🚀', gem: '🪐', wall: 'neon',
+    { key: 'space', name: 'الفضاء', ch: 'الصاروخ', goal: 'الكوكب', nameEn: 'Space', chEn: 'the rocket', goalEn: 'the planet', em: '🚀', gem: '🪐', wall: 'neon',
       bg: ['#0B0830', '#1D1352', '#3A1C6E'], floor: ['#16123E', '#100C30'], frame: ['#3B2D86', '#22195A'],
       trail: '#FFE14D', trail2: '#FFF7C2', puff: ['#FFB13B', '#FF6A3D', '#FFE14D'], ui: ['#7A5CFF', '#4A33B8', '#ECE6FF'],
       conf: ['#3EF2FF', '#FF5BE0', '#FFE14D', '#FFFFFF', '#7CFF8A'] },
-    { key: 'candy', name: 'أرض الحلوى', ch: 'الطفل', goal: 'الكعكة', em: '🧒', gem: '🎂', wall: 'candy',
+    { key: 'candy', name: 'أرض الحلوى', ch: 'الطفل', goal: 'الكعكة', nameEn: 'Candy Land', chEn: 'the child', goalEn: 'the cake', em: '🧒', gem: '🎂', wall: 'candy',
       bg: ['#FFD2EA', '#FFEAF5', '#FFC6E0'], floor: ['#FFF4FA', '#FFE4F1'], frame: ['#FF8CC0', '#D9578F'],
       trail: '#4FB8FF', trail2: '#C9EBFF', puff: ['#FF4F7B', '#3CC8A0', '#7C6CFF', '#FFD24D'], ui: ['#FF5FA2', '#C93676', '#FFE8F3'],
       conf: ['#FF4F7B', '#3CC8A0', '#7C6CFF', '#FFD24D', '#FFFFFF'] },
-    { key: 'castle', name: 'القلعة', ch: 'الفارس', goal: 'التاج', em: '🛡️', gem: '👑', wall: 'stone',
+    { key: 'castle', name: 'القلعة', ch: 'الفارس', goal: 'التاج', nameEn: 'The Castle', chEn: 'the knight', goalEn: 'the crown', em: '🛡️', gem: '👑', wall: 'stone',
       bg: ['#B9C6E8', '#9AA3CF', '#6F6A9C'], floor: ['#E8E0CE', '#D9CFB8'], frame: ['#6B6F86', '#45485C'],
       trail: '#E8475F', trail2: '#FFC2CB', puff: ['#D8D0BE', '#B9B09C', '#EDE6D6'], ui: ['#6A63B5', '#433C85', '#EEECFA'],
       conf: ['#FFC531', '#E8475F', '#6A63B5', '#FFFFFF', '#4FC3F7'] }
@@ -603,33 +603,59 @@
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip"><small>⏱ الوقت</small><b class="cTm">0:00</b></div>
-      <div class="chip"><small>النجوم</small><b class="cSt">0/3</b></div>
+      <div class="chip"><small data-ar="المستوى" data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip"><small data-ar="⏱ الوقت" data-en="⏱ Time">⏱ الوقت</small><b class="cTm">0:00</b></div>
+      <div class="chip"><small data-ar="النجوم" data-en="Stars">النجوم</small><b class="cSt">0/3</b></div>
     </div>
     <div class="ctl">
-      <button class="cb" data-c="hint" aria-label="تلميح"><i>💡</i><small>تلميح</small><span class="cnt">2</span></button>
+      <button class="cb" data-c="hint" aria-label="تلميح"><i>💡</i><small data-ar="تلميح" data-en="Hint">تلميح</small><span class="cnt">2</span></button>
       <div class="pad">
         <button class="ab u" data-d="0" aria-label="أعلى">▲</button>
         <button class="ab l" data-d="3" aria-label="يسار">◀</button>
         <button class="ab dn" data-d="2" aria-label="أسفل">▼</button>
         <button class="ab r" data-d="1" aria-label="يمين">▶</button>
       </div>
-      <button class="cb" data-c="restart" aria-label="إعادة"><i>🔄</i><small>إعادة</small></button>
+      <button class="cb" data-c="restart" aria-label="إعادة"><i>🔄</i><small data-ar="إعادة" data-en="Restart">إعادة</small></button>
     </div>
     <div class="intro"><div><b class="iT"></b><span class="iG"></span></div></div>
     <div class="tip"><span></span></div>
-    <div class="overlay" id="mzLv"><div class="panel lvp"><h3>🧭 مستويات المتاهة</h3><div class="lvw"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="mzLv"><div class="panel lvp"><h3 data-ar="🧭 مستويات المتاهة" data-en="🧭 Maze levels">🧭 مستويات المتاهة</h3><div class="lvw"></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="mzWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><div class="wInfo"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-ar="التالي ▶️" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels" data-ar="🗺️ المستويات" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.mc'), bar = root.querySelector('.bar'), ctlEl = root.querySelector('.ctl');
   const lvOv = root.querySelector('#mzLv'), winOv = root.querySelector('#mzWin');
   const introEl = root.querySelector('.intro'), tipEl = root.querySelector('.tip');
   const hintBtn = ctlEl.querySelector('[data-c="hint"]');
+  const isEn = () => App.gameLang(ID) === 'en';
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'المستويات', 'Levels'], ['[data-c="hint"]', 'تلميح', 'Hint'], ['[data-c="restart"]', 'إعادة', 'Restart'],
+      ['.ab.u', 'أعلى', 'Up'], ['.ab.l', 'يسار', 'Left'], ['.ab.dn', 'أسفل', 'Down'], ['.ab.r', 'يمين', 'Right']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  function paintIntro() {
+    if (isEn()) {
+      root.querySelector('.iT').textContent = `${TH.em} Level ${lvl}`;
+      root.querySelector('.iG').textContent = `Take ${TH.chEn} to ${TH.goalEn} ${TH.gem}`;
+    } else {
+      root.querySelector('.iT').textContent = `${TH.em} المستوى ${lvl}`;
+      root.querySelector('.iG').textContent = `${App.g('أوصلي', 'أوصل')} ${chName()} إلى ${TH.goal} ${TH.gem}`;
+    }
+  }
+  let winInfo = null;
+  function fillWin() {
+    if (!winInfo) return;
+    const { s, allSt, el } = winInfo;
+    const titles = [App.g('أحسنتِ!', 'أحسنت!'), App.g('أحسنتِ!', 'أحسنت!'), App.g('رائعة!', 'رائع!'), App.g('بطلة المتاهات!', 'بطل المتاهات!')];
+    const titlesEn = ['Well done!', 'Well done!', 'Great!', 'Maze champion!'];
+    root.querySelector('.wT').textContent = `${TH.gem} ${App.t(titles[s], titlesEn[s])}`;
+    root.querySelector('.wP').textContent = s === 3 ? App.t(App.g('جمعتِ كل النجوم وكنتِ سريعة! 🏆', 'جمعت كل النجوم وكنت سريعًا! 🏆'), 'You got all the stars and you were fast! 🏆')
+      : !allSt ? App.t(App.g(`اجمعي كل النجوم المخبأة في الطرق المسدودة ⭐`, `اجمع كل النجوم المخبأة في الطرق المسدودة ⭐`), 'Collect all the stars hidden in the dead ends ⭐')
+        : App.t(App.g(`حاولي الوصول خلال ${fmtT(M.par)} لنجمة السرعة ⏱`, `حاول الوصول خلال ${fmtT(M.par)} لنجمة السرعة ⏱`), `Try to get there within ${fmtT(M.par)} for the speed star ⏱`);
+  }
 
   /* ---------- الحالة ---------- */
   let ctx = null, W = 0, H = 0, dpr = 1, floorL = null, wallL = null;
@@ -686,8 +712,7 @@
     parts = []; timers = [];
     winOv.classList.remove('on'); lvOv.classList.remove('on'); tip('', 0);
     layout(); paintUI();
-    root.querySelector('.iT').textContent = `${TH.em} المستوى ${lvl}`;
-    root.querySelector('.iG').textContent = `${App.g('أوصلي', 'أوصل')} ${chName()} إلى ${TH.goal} ${TH.gem}`;
+    paintIntro();
     introEl.classList.remove('on'); void introEl.offsetWidth; introEl.classList.add('on');
     Sound.whoosh();
   }
@@ -771,7 +796,7 @@
     parts.push({ k: 'ring', x, y, life: 0, max: .5, sz: S * .9, c: '#FFD23F' });
     const fx = cx(k), fy = cy(k);
     parts.push({ k: 'fly', x: fx, y: fy, life: 0, max: .8, sz: S * .3, c: '#FFD23F' });
-    if (got.length === M.stars.length) tip(App.g('جمعتِ كل النجوم! ⭐', 'جمعت كل النجوم! ⭐'), 2);
+    if (got.length === M.stars.length) tip(App.t(App.g('جمعتِ كل النجوم! ⭐', 'جمعت كل النجوم! ⭐'), 'You got all the stars! ⭐'), 2);
   }
   function bfsPath(from, to, maxD) {
     if (from === to) return [];
@@ -795,7 +820,7 @@
     store.set('mazeProg', pr);
     const solvedN = Object.keys(pr.stars).filter(k => pr.stars[k] > 0).length;
     Sound.win(); vibrate(40);
-    App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+    if (isEn()) App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
     const gx = cx(M.goal), gy = cy(M.goal);
     for (let i = 0; i < 30; i++) { const a = rand(0, TAU), sp = rand(80, 260); parts.push({ k: 'spark', x: gx, y: gy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0, max: rand(.6, 1.1), sz: S * rand(.15, .25), c: pick(Math.random, TH.conf), rot: rand(0, TAU) }); }
     later(.35, () => { for (let i = 0; i < 150; i++) parts.push({ k: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(90, 260), rot: rand(0, TAU), vr: rand(-8, 8), life: 0, max: 4, sz: rand(6, 11), c: TH.conf[i % TH.conf.length] }); });
@@ -806,25 +831,21 @@
     });
     later(1.7, () => {
       if (App.current !== ID) return;
-      const titles = [App.g('أحسنتِ!', 'أحسنت!'), App.g('أحسنتِ!', 'أحسنت!'), App.g('رائعة!', 'رائع!'), App.g('بطلة المتاهات!', 'بطل المتاهات!')];
-      root.querySelector('.wT').textContent = `${TH.gem} ${titles[s]}`;
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(q => `<span class="${q <= s ? '' : 'off'}">⭐</span>`).join('');
       const allSt = got.length === M.stars.length, fast = elapsed <= M.par;
       root.querySelector('.wInfo').innerHTML = `<span class="${fast ? 'ok' : ''}">⏱ ${fmtT(elapsed)}</span><span class="${allSt ? 'ok' : ''}">⭐ ${got.length}/${M.stars.length}</span>`;
-      root.querySelector('.wP').textContent = s === 3 ? App.g('جمعتِ كل النجوم وكنتِ سريعة! 🏆', 'جمعت كل النجوم وكنت سريعًا! 🏆')
-        : !allSt ? App.g(`اجمعي كل النجوم المخبأة في الطرق المسدودة ⭐`, `اجمع كل النجوم المخبأة في الطرق المسدودة ⭐`)
-          : App.g(`حاولي الوصول خلال ${fmtT(M.par)} لنجمة السرعة ⏱`, `حاول الوصول خلال ${fmtT(M.par)} لنجمة السرعة ⏱`);
+      winInfo = { s, allSt }; fillWin();
       root.querySelector('[data-a="next"]').style.display = lvl < NLV ? '' : 'none';
       winOv.classList.add('on');
       if (s > prev) later(.5, () => App.addStars(s - prev));
-      if (lvl === NLV) App.toast(App.g('أنهيتِ كل المتاهات! 🏆', 'أنهيت كل المتاهات! 🏆'));
+      if (lvl === NLV) App.toast(App.t(App.g('أنهيتِ كل المتاهات! 🏆', 'أنهيت كل المتاهات! 🏆'), 'You finished all the mazes! 🏆'));
     });
   }
 
   /* ---------- الأزرار ---------- */
   function doHint() {
     if (won || anyOv() || paused) return;
-    if (hintsLeft <= 0) { Sound.error(); tip(App.g('انتهت التلميحات في هذا المستوى، أنتِ تستطيعين! 💪', 'انتهت التلميحات في هذا المستوى، أنت تستطيع! 💪'), 2.5); return; }
+    if (hintsLeft <= 0) { Sound.error(); tip(App.t(App.g('انتهت التلميحات في هذا المستوى، أنتِ تستطيعين! 💪', 'انتهت التلميحات في هذا المستوى، أنت تستطيع! 💪'), 'No more hints in this level, you can do it! 💪'), 2.5); return; }
     hintsLeft--; paintUI();
     const from = mv ? mv.to : pos, p = bfsPath(from, M.goal);
     hint = { path: [from].concat(p || []), t: 0 };
@@ -848,10 +869,10 @@
     let html = '';
     for (let z = 0; z < NLV / 8; z++) {
       const Tz = THEMES[z % THEMES.length];
-      html += `<div class="wh">${Tz.em} ${Tz.name}</div><div class="lvg">`;
+      html += `<div class="wh">${Tz.em} ${isEn() ? Tz.nameEn : Tz.name}</div><div class="lvg">`;
       for (let i = 0; i < 8; i++) {
         const n = z * 8 + i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-        html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${Tz.ui[0]};--k:${Tz.ui[1]}" data-l="${n}" aria-label="المستوى ${n}">
+        html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${Tz.ui[0]};--k:${Tz.ui[1]}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
           ${lock ? '' : `<em>${Tz.gem}</em>`}${n}<span class="s">${lock ? '' : [1, 2, 3].map(q => `<i class="${q <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
       }
       html += '</div>';
@@ -911,7 +932,7 @@
       const rc = cv.getBoundingClientRect(), k = toCell(e.clientX - rc.left, e.clientY - rc.top);
       const p = k >= 0 ? bfsPath(logical(), k, 3) : null;
       if (p && p.length) { truncate(); enqueue(p); }
-      else if (!tipShown && k >= 0) { tipShown = true; tip(App.g('اسحبي الشخصية بإصبعك في الممرات 👆', 'اسحب الشخصية بإصبعك في الممرات 👆'), 2.5); }
+      else if (!tipShown && k >= 0) { tipShown = true; tip(App.t(App.g('اسحبي الشخصية بإصبعك في الممرات 👆', 'اسحب الشخصية بإصبعك في الممرات 👆'), 'Drag the character along the paths with your finger 👆'), 2.5); }
     }
     ptr = null;
   };
@@ -1086,7 +1107,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'المتاهة', icon2: '🧭', isNew: false, music: 'maze',
+    titleEn: 'The Maze',
     desc: () => App.g('أوصلي الأرنب إلى الجزرة عبر متاهات تكبر وتكبر', 'أوصل الأرنب إلى الجزرة عبر متاهات تكبر وتكبر'),
+    descEn: () => 'Take the rabbit to the carrot through bigger and bigger mazes',
+    helpEn: () => [
+      '👆 Drag the character with your finger along the paths, and it leaves a colorful line behind',
+      '↔️ Swipe quickly anywhere or use the arrows ⬅️⬆️ to run the character to the next turn',
+      '⭐ Stars are hidden in the dead ends, collect them all!',
+      '🏆 One star for arriving, one for collecting all the stars, and one for speed',
+      '💡 A hint shows the way for two seconds (only a few in each level), and every 8 levels is a new world 🌍'
+    ],
     help: () => [
       '👆 ' + App.g('اسحبي', 'اسحب') + ' الشخصية بإصبعك داخل الممرات، فتترك خلفها خطًا ملوّنًا',
       '↔️ ' + App.g('اسحبي', 'اسحب') + ' سريعًا في أي مكان أو ' + App.g('استعملي', 'استعمل') + ' الأسهم ⬅️⬆️ لتجري الشخصية حتى أول مفترق',
@@ -1098,13 +1128,18 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المتاهة ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المتاهة', 'Maze')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, NLV));
       render(); startLoop();
+    },
+    onLang() {
+      relabel(); paintIntro(); fillWin();
+      if (lvOv.classList.contains('on')) openLevels();
+      if (tipEl.classList.contains('on')) tip('', 0);
     },
     leave() {
       stopLoop(); timers = []; queue = []; ptr = null; hint = null;

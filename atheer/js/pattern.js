@@ -85,6 +85,7 @@
   const RESF = () => Math.min(3, Math.max(1, window.devicePixelRatio || 1));
   const AR_D = '٠١٢٣٤٥٦٧٨٩';
   let lang = 'ar';
+  const sayL = (ar, en) => lang === 'en' ? App.speak(en, 'en') : App.speak(ar);
   const num = n => lang === 'ar' ? String(n).replace(/\d/g, d => AR_D[d]) : String(n);
   const loadProg = () => { const p = store.get('patternProg', null) || {}; return { unlocked: Math.max(1, p.unlocked || 1), stars: p.stars || {} }; };
 
@@ -379,24 +380,24 @@
   const root = App.section(ID, `
     <canvas class="pc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢<span class="cnt">1</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🔢<span class="cnt">1</span></button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="لغة الكلمات"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="لغة الكلمات" data-al="Word language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
     <div class="foot">
-      <button class="ib snd say" aria-label="استمع إلى النمط">🔊</button>
+      <button class="ib snd say" aria-label="استمع إلى النمط" data-al="Listen to the pattern">🔊</button>
       <span class="grow"></span>
       <div class="prog"></div>
     </div>
-    <div class="overlay" id="ptLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="ptLv"><div class="panel lvp"><h3 data-en="🔢 Levels">🔢 المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="ptWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.pc');
   const bar = root.querySelector('.bar'), foot = root.querySelector('.foot');
@@ -605,9 +606,9 @@
     root.querySelector('.lvbtn .cnt').textContent = num(lvl);
     startRound();
     hintOn = true;
-    hintT.textContent = '👆 ' + App.g('اسحبي', 'اسحب') + ' ما يُكمل النمط إلى الفراغ';
+    hintT.textContent = hintTxt();
     hintEl.style.opacity = 1;
-    later(.5, () => App.speak(App.g('أكملي النمط', 'أكمل النمط')));
+    later(.5, () => sayL(App.g('أكملي النمط', 'أكمل النمط'), 'Complete the pattern'));
   }
   function startRound() {
     cur = makeRound(LEVELS[lvl - 1]);
@@ -652,7 +653,7 @@
     PG.neck = neck; wear = null;
     phase = 'dance'; dance = 0;
     Sound.win(); vibrate(25);
-    App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+    sayL(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
     for (let i = 0; i < 90; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .3, -10), vx: rand(-60, 60), vy: rand(80, 240), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.2, 3.4), age: 0, s: rand(6, 11), c: ['#FF4D5A', '#FFD02B', '#3A86FF', '#3FC954', '#9A5BF5', '#FF66B2'][i % 6] });
     later(2.5, endDance);
   }
@@ -671,9 +672,8 @@
     store.set('patternProg', pr);
     later(.4, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🐧🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${num(lvl)}` + (mistakes ? ` · الأخطاء: ${num(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       Sound.star();
@@ -683,12 +683,24 @@
       if (LEVELS.every((_, i) => pr.stars[i + 1])) App.achieve('pattern_all');
     });
   }
+  const hintTxt = () => '👆 ' + App.t(App.g('اسحبي', 'اسحب') + ' ما يُكمل النمط إلى الفراغ', 'Drag what completes the pattern into the gap');
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AR_D[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🐧🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${uN(lvl)}` + (mistakes ? ` · الأخطاء: ${uN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   function openLevels() {
     const pr = loadProg();
     const g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span><span class="e">${L.ic}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span><span class="e">${L.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -709,13 +721,16 @@
   root.querySelector('.lvbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
   root.querySelector('.say').addEventListener('click', () => { Sound.tap(); sayPattern(); });
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
-  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.l === lang) return;
-    Sound.tap(); lang = b.dataset.l; store.set('pattern:lang', lang); paintLang();
+  function switchLang(l, user) {
+    if (l === lang) return;
+    lang = l; paintLang();
+    if (user) { Sound.tap(); store.set(ID + 'Lang', lang); }
     root.querySelector('.lvbtn .cnt').textContent = num(lvl);
+    if (lvOv.classList.contains('on')) openLevels();
     if (drag) cancelDrag();
-    placeRound(); sayPattern();
-  }));
+    placeRound(); if (phase !== 'won') sayPattern();
+  }
+  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => switchLang(b.dataset.l, true)));
 
   /* ---------- الجسيمات ---------- */
   function sparkle(x, y, col, n = 16) {
@@ -786,7 +801,7 @@
       Sound.error(); vibrate(35); shake = Math.max(shake, 4);
       PG.sad = .9; PG.shakeT = .6;
       if (sl.errs >= 2) choices.forEach(ch => { if (same(ch.it, sl.it)) ch.hint = 3.5; });
-      App.speak(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'));
+      sayL(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'), 'Try again');
       flyers.push({ it, fx: x, fy: y, tx: c.x, ty: c.y, r0: r, r1: c.r, t: 0, dur: .5, mode: 'back', c, wob: 1 });
     }
   }
@@ -1053,6 +1068,15 @@
   App.register({
     id: ID, title: 'أكمل النمط', icon2: '📿', isNew: false, music: 'shapes',
     desc: () => App.g('أكملي العقد ليرقص البطريق', 'أكمل العقد ليرقص البطريق'),
+    titleEn: 'Complete the Pattern',
+    descEn: () => 'Finish the necklace to make the penguin dance',
+    helpEn: () => [
+      '📿 Look at the beads on the string: they repeat in a pattern!',
+      '👆 Drag the right bead from the box to the ❓ spot',
+      '🐧 Finish the necklace and the penguin wears it and dances happily',
+      '🔤 The «عربي / English» button changes the language of the color, shape and fruit names',
+      '🔊 The yellow button reads the pattern to you; tap any bead to hear its name'
+    ],
     help: () => [
       '📿 ' + App.g('انظري', 'انظر') + ' إلى الخرزات على الخيط: إنها تتكرّر بنمط!',
       '👆 ' + App.g('اسحبي', 'اسحب') + ' الخرزة المناسبة من الصندوق إلى مكان علامة ❓',
@@ -1064,18 +1088,25 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('pattern:lang', 'ar') === 'en' ? 'en' : 'ar';
-      paintLang();
+      lang = App.gameLang(ID);
+      paintLang(); trUI();
       PG.neck = null;
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render();
       startLoop();
+    },
+    onLang(l) {
+      trUI();
+      if (hintOn) hintT.textContent = hintTxt();
+      if (l !== lang) switchLang(l, false);
+      else if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); tq = []; drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) cancelDrag(); },

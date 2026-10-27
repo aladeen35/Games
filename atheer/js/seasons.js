@@ -919,29 +919,46 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
-      <button class="ib playbtn" aria-label="العب بالطقس">🎨</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🔢</button>
+      <button class="ib playbtn" data-i="play">🎨</button>
       <span class="grow"></span>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <button class="ib snd sayb" aria-label="اسمع مرة أخرى">🔊</button>
+    <button class="ib snd sayb" data-i="listen">🔊</button>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="seLv"><div class="panel lvp"><h3>🔢 المستويات</h3>
-      <button class="playb" data-a="play">🎨 العب بالطقس</button>
+    <div class="overlay" id="seLv"><div class="panel lvp"><h3 class="hLv"></h3>
+      <button class="playb" data-a="play"></button>
       <div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="seWin"><div class="panel">
       <h3 class="wT"></h3><div class="wic"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const progEl = root.querySelector('.prog'), sayBtn = root.querySelector('.sayb');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const lvOv = root.querySelector('#seLv'), winOv = root.querySelector('#seWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), play: App.t('العب بالطقس', 'Play with the weather'), listen: App.t('اسمع مرة أخرى', 'Listen again') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="play"]').textContent = '🎨 ' + App.t(App.g('العبي بالطقس', 'العب بالطقس'), 'Play with the weather');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+  }
+  let winMis = 0, winMode = 'dress';
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنتَ!'), 'Well done!') + ' 🎉';
+    const msg = App.lang === 'en'
+      ? { dress: 'You dressed the child right for the weather', season: 'You know all the seasons', acts: 'You sorted the season activities', report: 'You presented the weather report' }[winMode]
+      : { dress: App.g('ألبستِ', 'ألبستَ') + App.g(' الطفلة', ' الطفل') + ' ملابس مناسبة للطقس', season: App.g('عرفتِ', 'عرفتَ') + ' كل الفصول', acts: App.g('رتّبتِ', 'رتّبتَ') + ' أنشطة الفصول', report: App.g('قدّمتِ', 'قدّمتَ') + ' النشرة الجوية' }[winMode];
+    root.querySelector('.wP').textContent = msg + (winMis ? '' : App.t(' دون أخطاء!', ' No mistakes!') + ' 💯');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, portrait = true, topY = 110;
@@ -1158,7 +1175,10 @@
     progEl.innerHTML = mode === 'play' ? '' : Array.from({ length: total }, (_, i) => `<i class="${i < done ? 'on' : ''}"></i>`).join('');
   }
   function bumpProg() { const i = progEl.children[done - 1]; if (i) i.classList.add('on'); }
-  function showHint(t) { hintT.textContent = t; hintEl.style.opacity = 1; }
+  /* التلميح يتبع لغة المحتوى، ويُحفظ كدالة ليُعاد عند تبديل اللغة */
+  let hintFn = null;
+  const HL = (ar, en) => () => lang === 'ar' ? ar() : en;
+  function showHint(f) { hintFn = f; hintT.textContent = f(); hintEl.dir = lang === 'en' ? 'ltr' : 'rtl'; hintEl.style.opacity = 1; }
   function hideHint() { hintEl.style.opacity = 0; }
   function resetLevelState() {
     winOv.classList.remove('on'); lvOv.classList.remove('on');
@@ -1177,7 +1197,7 @@
       scene.set(DRESS[Q.wx].s, Q.wx, true);
       layout();
       later(.5, askCurrent);
-      showHint('👆 ' + App.g('اسحبي', 'اسحب') + ' الملابس المناسبة إلى ' + App.g('الطفلة', 'الطفل'));
+      showHint(HL(() => '👆 ' + App.g('اسحبي', 'اسحب') + ' الملابس المناسبة إلى ' + App.g('الطفلة', 'الطفل'), '👆 Drag the right clothes onto the ' + App.g('girl', 'boy')));
     } else if (mode === 'season') {
       total = def.q;
       cards = SEA_ORDER.map((id, i) => mkCard('sea', id, { intro: -i * .07 }));
@@ -1185,7 +1205,7 @@
       const s0 = pick(SEA_ORDER); scene.set(s0, pick(SEASON_WX[s0]), true);
       layout();
       later(.3, nextSeasonQ);
-      showHint('👀 ' + App.g('انظري', 'انظر') + ' إلى المشهد… أيّ فصل هذا؟');
+      showHint(HL(() => '👀 ' + App.g('انظري', 'انظر') + ' إلى المشهد… أيّ فصل هذا؟', '👀 Look at the scene… which season is it?'));
     } else if (mode === 'acts') {
       total = def.a.length;
       minis = def.ss.map(id => { const sc = makeScene(true); sc.se = id; sc.wx = SEASON_WX[id][0]; Object.assign(sc.p, WP[sc.wx]); return { id, sc, placed: [], x: 0, y: 0, w: 10, h: 10, glow: 0, shake: 0, pop: 0 }; });
@@ -1193,7 +1213,7 @@
       scene.set('spring', 'sunny', true);
       layout();
       later(.4, askCurrent);
-      showHint('👆 ' + App.g('اسحبي', 'اسحب') + ' كل نشاط إلى فصله');
+      showHint(HL(() => '👆 ' + App.g('اسحبي', 'اسحب') + ' كل نشاط إلى فصله', '👆 Drag each activity to its season'));
     } else if (mode === 'report') {
       total = def.q;
       kid = newKid(); kid.wave = 1;
@@ -1201,7 +1221,7 @@
       scene.set('summer', 'sunny', true);
       layout();
       later(.3, nextReportQ);
-      showHint('📺 ' + App.g('أنتِ', 'أنت') + ' مذيع' + App.g('ة', '') + ' النشرة الجوية!');
+      showHint(HL(() => '📺 ' + App.g('أنتِ', 'أنت') + ' مذيع' + App.g('ة', '') + ' النشرة الجوية!', '📺 You are the weather reporter!'));
     }
     setProg();
     Sound.whoosh();
@@ -1216,7 +1236,7 @@
     scene.set(se, wx, true);
     layout(); dressFor(se, wx);
     setProg(); hideHint();
-    showHint('🎨 ' + App.g('غيّري', 'غيّر') + ' الفصل والطقس كما ' + App.g('تحبين', 'تحب'));
+    showHint(HL(() => '🎨 ' + App.g('غيّري', 'غيّر') + ' الفصل والطقس كما ' + App.g('تحبين', 'تحب'), '🎨 Change the season and the weather as you like'));
     later(4, hideHint);
     Sound.whoosh();
   }
@@ -1417,11 +1437,9 @@
     Sound.win();
     later(1.3, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
+      winMis = mistakes; winMode = mode; winText();
       root.querySelector('.wic').textContent = { dress: '👕🧥☂️', season: '☀️🍂❄️🌸', acts: '🏊⛄🌷', report: '📺☀️🌧️' }[mode];
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      const msg = { dress: App.g('ألبستِ', 'ألبستَ') + App.g(' الطفلة', ' الطفل') + ' ملابس مناسبة للطقس', season: App.g('عرفتِ', 'عرفتَ') + ' كل الفصول', acts: App.g('رتّبتِ', 'رتّبتَ') + ' أنشطة الفصول', report: App.g('قدّمتِ', 'قدّمتَ') + ' النشرة الجوية' }[mode];
-      root.querySelector('.wP').textContent = msg + (mistakes ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       if (window.gsap) try { gsap.fromTo(root.querySelector('#seWin .wic'), { scale: .3, rotation: -20 }, { scale: 1, rotation: 0, duration: .8, ease: 'elastic.out(1,0.45)' }); } catch (e) {}
@@ -1437,7 +1455,7 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((Lv, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb m-${Lv.m}${lock ? ' lock' : ''}${n === lvl && mode !== 'play' ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
+      return `<button class="lvb m-${Lv.m}${lock ? ' lock' : ''}${n === lvl && mode !== 'play' ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
         <span class="e">${MODE_IC[Lv.m]}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -1461,10 +1479,13 @@
   root.querySelector('.lvbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
   root.querySelector('.playbtn').addEventListener('click', () => { Sound.tap(); if (mode === 'play') { startLevel(Math.min(loadProg().unlocked, LEVELS.length)); } else startPlay(); });
   sayBtn.addEventListener('click', () => { if (paused) return; Sound.tap(); askCurrent(); });
-  function setLang(l) {
-    lang = l === 'en' ? 'en' : 'ar'; store.set('seasonsLang', lang);
+  function setLang(l, nosave) {
+    lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('seasonsLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
-    setProg();
+    setProg(); chrome();
+    if (hintFn) { hintT.textContent = hintFn(); hintEl.dir = lang === 'en' ? 'ltr' : 'rtl'; }
+    if (over && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
   }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
     if (b.dataset.l === lang) return;
@@ -1742,8 +1763,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'الفصول والطقس', icon2: '⛅', isNew: true, music: 'shapes',
+    id: ID, title: 'الفصول والطقس', titleEn: 'Seasons & Weather', icon2: '⛅', isNew: true, music: 'shapes',
     desc: () => App.g('تعرّفي على الفصول وألبسي الطفل حسب الطقس', 'تعرّف على الفصول وألبِس الطفل حسب الطقس'),
+    descEn: () => 'Learn the seasons and dress the child for the weather',
+    helpEn: () => [
+      '☀️🍂❄️🌸 Summer, autumn, winter and spring… watch how the scene changes',
+      '👕 Drag the right clothes for the weather onto the child',
+      '🎒 Put each activity in its season, and tell which season is in the picture',
+      '📺 Be the weather reporter, and 🎨 play with the weather as you like',
+      '🌍 Switch between «عربي» and «English»'
+    ],
     help: () => [
       '☀️🍂❄️🌸 الصيف والخريف والشتاء والربيع… ' + App.g('شاهدي', 'شاهد') + ' كيف يتغيّر المشهد',
       '👕 ' + App.g('اسحبي', 'اسحب') + ' الملابس المناسبة للطقس إلى الطفل',
@@ -1759,11 +1788,12 @@
     },
     enter() {
       paused = false;
-      setLang(store.get('seasonsLang', 'ar'));
+      setLang(App.gameLang(ID), true);
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg) { if (W) layout(); if (!over) askCurrent(); } },
     leave() { stopLoop(); tasks = []; drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const cd = drag.cd; drag = null; sendBack(cd); } },
     resume() { paused = false; last = performance.now(); },

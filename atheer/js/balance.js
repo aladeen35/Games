@@ -39,11 +39,11 @@
     { m: 'mix', max: 8, ic: '⭐' }
   ];
   const MODE = {
-    heavy: { t: 'أثقل؟', c: '#FF8A3D', d: '#D2600F' },
-    equal: { t: 'توازن', c: '#3DBE6B', d: '#22863F' },
-    add: { t: 'جمع', c: '#3D9BFF', d: '#1F6FCC' },
+    heavy: { t: 'أثقل؟', en: 'Heavier?', c: '#FF8A3D', d: '#D2600F' },
+    equal: { t: 'توازن', en: 'Balance', c: '#3DBE6B', d: '#22863F' },
+    add: { t: 'جمع', en: 'Add', c: '#3D9BFF', d: '#1F6FCC' },
     cmp: { t: '> < =', c: '#A86BFF', d: '#7140CF' },
-    mix: { t: 'منوّع', c: '#FF5FA2', d: '#D2357B' }
+    mix: { t: 'منوّع', en: 'Mixed', c: '#FF5FA2', d: '#D2357B' }
   };
   const FRUITS = [['🍎', 'تفاحة', 'apple'], ['🍊', 'برتقالة', 'orange'], ['🍓', 'فراولة', 'strawberry'], ['🍐', 'كمثرى', 'pear'], ['🍋', 'ليمونة', 'lemon'], ['🍑', 'خوخ', 'peach']];
   const OBJS = [[['🐘', 10], ['🐭', 1]], [['🍉', 6], ['🍒', 1]], [['🐄', 9], ['🐥', 1]], [['🎃', 5], ['🍓', 1]], [['🐻', 8], ['🐝', 1]], [['🦒', 9], ['🐞', 1]], [['🍍', 4], ['🍇', 1]]];
@@ -124,22 +124,22 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️<span class="cnt">1</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️<span class="cnt">1</span></button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="اللغة" data-al="Language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
-    <div class="prm" role="button" aria-label="إعادة السؤال">
+    <div class="prm" role="button" aria-label="إعادة السؤال" data-al="Repeat the question">
       <div class="pt"><div class="prog"></div><b class="ptxt"></b><span class="psub"></span></div>
-      <button class="spk" aria-label="استمع">🔊</button>
+      <button class="spk" aria-label="استمع" data-al="Listen">🔊</button>
     </div>
-    <div class="overlay" id="blLv"><div class="panel lvp"><h3>⚖️ المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="blLv"><div class="panel lvp"><h3 data-en="⚖️ Levels">⚖️ المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="blWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const prm = root.querySelector('.prm'), ptxt = root.querySelector('.ptxt'), psub = root.querySelector('.psub'), progEl = root.querySelector('.prog'), spk = root.querySelector('.spk');
@@ -651,17 +651,17 @@
     if (m === 'heavy') {
       const hv = q.ask === 'heavy';
       main = en() ? (hv ? 'Which is heavier?' : 'Which is lighter?') : (hv ? 'أيهما أثقل؟' : 'أيهما أخف؟');
-      sub = '👆 ' + (hv ? App.g('المسي الكفّة الأثقل', 'المس الكفّة الأثقل') : App.g('المسي الكفّة الأخف', 'المس الكفّة الأخف'));
+      sub = '👆 ' + (hv ? App.t(App.g('المسي الكفّة الأثقل', 'المس الكفّة الأثقل'), 'Tap the heavier pan') : App.t(App.g('المسي الكفّة الأخف', 'المس الكفّة الأخف'), 'Tap the lighter pan'));
     } else if (m === 'equal') {
       main = en() ? 'Make both sides equal' : App.g('اجعلي الكفّتين متساويتين', 'اجعل الكفّتين متساويتين');
-      sub = '👆 ' + App.g('اسحبي', 'اسحب') + (q.unit === 'fruit' ? ' الفواكه' : ' المكعبات') + ' إلى الكفّة';
+      sub = '👆 ' + App.t(App.g('اسحبي', 'اسحب') + (q.unit === 'fruit' ? ' الفواكه' : ' المكعبات') + ' إلى الكفّة', 'Drag the ' + (q.unit === 'fruit' ? 'fruit' : 'blocks') + ' onto the pan');
     } else if (m === 'add') {
       main = eqHTML(q.a, q.b, q.c, phase === 'good');
-      sub = (en() ? 'What is the missing weight? · ' : '') + '👆 ' + App.g('اسحبي', 'اسحب') + ' الوزن الناقص إلى الكفّة';
+      sub = App.lang === 'en' ? 'What is the missing weight? · 👆 Drag it onto the pan' : (en() ? 'What is the missing weight? · ' : '') + '👆 ' + App.g('اسحبي', 'اسحب') + ' الوزن الناقص إلى الكفّة';
     } else if (m === 'cmp') {
       const s = phase === 'good' ? q.ans : '؟';
       main = `<bdi dir="ltr">${N(q.a)} ${s === '؟' && en() ? '?' : s} ${N(q.b)}</bdi>`;
-      sub = '👆 ' + App.g('اختاري', 'اختر') + ' الرمز الصحيح: <bdi>&gt; &lt; =</bdi>';
+      sub = '👆 ' + App.t(App.g('اختاري', 'اختر') + ' الرمز الصحيح:', 'Choose the right sign:') + ' <bdi>&gt; &lt; =</bdi>';
     }
     ptxt.innerHTML = main; ptxt.dir = en() && m !== 'add' && m !== 'cmp' ? 'ltr' : 'rtl';
     psub.innerHTML = sub;
@@ -722,9 +722,8 @@
     Sound.win(); paintProg();
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${N(lvl)}` + (mistakes ? ` · الأخطاء: ${N(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       praise();
@@ -733,6 +732,17 @@
       if (!mistakes) App.achieve('balance_perfect');
       if (LEVELS.every((_, i) => pr.stars[i + 1])) App.achieve('balance_all');
     }, 1000);
+  }
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AR_D[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${uN(lvl)}` + (mistakes ? ` · الأخطاء: ${uN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
   }
   function startLevel(n) {
     lvl = clamp(n, 1, LEVELS.length); round = 0; mistakes = 0; over = false;
@@ -744,8 +754,8 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, M = MODE[L.m];
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" style="--c:${M.c};--d:${M.d};--l:${shade(M.c, .35)}" aria-label="المستوى ${n}">
-        <span class="n">${N(n)}</span><span class="e">${L.ic}</span><span class="t">${M.t}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" style="--c:${M.c};--d:${M.d};--l:${shade(M.c, .35)}" aria-label="${App.t('المستوى', 'Level')} ${n}">
+        <span class="n">${N(n)}</span><span class="e">${L.ic}</span><span class="t">${App.t(M.t, M.en)}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -874,7 +884,8 @@
   prm.addEventListener('click', () => { Sound.tap(); askSpeak(); });
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l, true)));
   function setLang(l, user) {
-    lang = l === 'en' ? 'en' : 'ar'; if (user) { store.set('balance:lang', lang); Sound.tap(); }
+    lang = l === 'en' ? 'en' : 'ar'; if (user) { store.set(ID + 'Lang', lang); Sound.tap(); }
+    if (lvOv.classList.contains('on')) openLevels();
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
     if (G) { layoutTray(); }
     paintPrompt(); paintProg();
@@ -1146,6 +1157,15 @@
   App.register({
     id: ID, title: 'الميزان', icon2: '⚖️', isNew: false, music: 'numbers',
     desc: () => App.g('وازني الكفّتين وتعلّمي الأكبر والأصغر', 'وازن الكفّتين وتعلّم الأكبر والأصغر'),
+    titleEn: 'Balance',
+    descEn: () => 'Balance the pans and learn bigger and smaller',
+    helpEn: () => [
+      '⚖️ The heavier pan goes down and the lighter one goes up',
+      '👆 Tap the heavier or lighter pan, or drag things onto a pan until both sides are equal',
+      '➕ In the adding levels put in the missing weight: <bdi>3 + ? = 5</bdi>',
+      '🐊 Choose the right sign <bdi>&gt; &lt; =</bdi> — the crocodile mouth eats the bigger number!',
+      '🔤 The «عربي / English» button changes the numbers, words and voice; 🔊 repeats the question'
+    ],
     help: () => [
       '⚖️ الكفّة الأثقل تنزل إلى الأسفل، والأخف ترتفع إلى الأعلى',
       '👆 ' + App.g('المسي', 'المس') + ' الكفّة الأثقل أو الأخف، أو ' + App.g('اسحبي', 'اسحب') + ' الأشياء إلى الكفّة حتى تتساوى الكفّتان',
@@ -1157,15 +1177,22 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      setLang(store.get('balance:lang', 'ar'), false);
+      trUI(); setLang(App.gameLang(ID), false);
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      const ch = l !== lang;
+      setLang(l, false);
+      if (ch && q && !over) askSpeak();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearTimeout(winTimer); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const it = drag.it; drag = null; flyTray(it); } },

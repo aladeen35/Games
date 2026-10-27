@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="splashBg">#FFF0F6</color>
+    <!-- خلفية شاشة البداية: نفس لون شاشة البداية في الويب (#splash في index.html) كي يكون الانتقال بلا وميض -->
+    <color name="splashBg">#FFF4FA</color>
 </resources>

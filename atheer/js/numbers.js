@@ -10,7 +10,15 @@
 
   const WORDS = ['صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة',
     'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر', 'عشرون'];
-  const word = n => WORDS[n] != null ? WORDS[n] : String(n);
+  const WORDS_EN = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+  const isEn = () => App.gameLang(ID) === 'en';
+  const word = n => { const L = isEn() ? WORDS_EN : WORDS; return L[n] != null ? L[n] : String(n); };
+  const say = (ar, en) => isEn() ? App.speak(en, 'en') : App.speak(ar);
+  /* أسماء الأشياء بالإنجليزية (جمع) */
+  const PL_EN = { '🍎': 'apples', '🍌': 'bananas', '🍓': 'strawberries', '🍊': 'oranges', '🐥': 'chicks', '🐟': 'fish',
+    '🐞': 'ladybugs', '🦋': 'butterflies', '🐢': 'turtles', '🐝': 'bees', '🧸': 'teddy bears', '⚽': 'balls', '🎈': 'balloons',
+    '🚗': 'cars', '⭐': 'stars', '🌸': 'flowers', '🍪': 'cookies', '🦆': 'ducks', '🐰': 'rabbits', '🐸': 'frogs', '🍒': 'cherries', '🧁': 'cupcakes', '🐦': 'birds' };
   const THINGS = [['🍎', 'تفاحة'], ['🍌', 'موزة'], ['🍓', 'فراولة'], ['🍊', 'برتقالة'], ['🐥', 'كتكوت'], ['🐟', 'سمكة'],
     ['🐞', 'دعسوقة'], ['🦋', 'فراشة'], ['🐢', 'سلحفاة'], ['🐝', 'نحلة'], ['🧸', 'دبدوب'], ['⚽', 'كرة'], ['🎈', 'بالون'],
     ['🚗', 'سيارة'], ['⭐', 'نجمة'], ['🌸', 'زهرة'], ['🍪', 'بسكويتة'], ['🦆', 'بطة'], ['🐰', 'أرنب'], ['🐸', 'ضفدع'], ['🍒', 'كرزة'], ['🧁', 'كعكة']];
@@ -140,7 +148,7 @@
       const rw = s * .82, rh = s * .2, rx = bx + (s - rw) / 2, ry = by + s * .7;
       x.fillStyle = 'rgba(0,0,0,.12)'; x.beginPath(); x.roundRect(rx, ry + 1.5, rw, rh, rh / 2); x.fill();
       x.fillStyle = 'rgba(255,251,240,.95)'; x.beginPath(); x.roundRect(rx, ry, rw, rh, rh / 2); x.fill();
-      let f2 = s * .14; x.font = `800 ${f2}px ${FONT}`; x.direction = 'rtl';
+      let f2 = s * .14; x.font = `800 ${f2}px ${FONT}`; x.direction = /[\u0600-\u06FF]/.test(wtxt) ? 'rtl' : 'ltr';
       const ww = x.measureText(wtxt).width; if (ww > rw * .9) { f2 *= rw * .9 / ww; x.font = `800 ${f2}px ${FONT}`; }
       x.fillStyle = mix(c2, '#000000', .35); x.textBaseline = 'middle'; x.fillText(wtxt, bx + s / 2, ry + rh * .54);
     }
@@ -209,26 +217,39 @@
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip"><small>النجوم</small><b class="cSt">⭐⭐⭐</b></div>
+      <div class="chip"><small data-ar="المستوى" data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip"><small data-ar="النجوم" data-en="Stars">النجوم</small><b class="cSt">⭐⭐⭐</b></div>
     </div>
     <div class="prm off" role="button" aria-label="إعادة السؤال">
       <div class="pic">🍎</div>
       <div class="pt"><b class="ptxt"></b><span class="psub"></span><div class="dots"></div></div>
       <span class="spk">🔊</span>
     </div>
-    <div class="overlay" id="nmLv"><div class="panel lvp"><h3>🗺️ المستويات</h3>
+    <div class="overlay" id="nmLv"><div class="panel lvp"><h3 data-ar="🗺️ المستويات" data-en="🗺️ Levels">🗺️ المستويات</h3>
       <div class="pwrap"><div class="path"></div></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="nmWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-ar="التالي ▶️" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels" data-ar="🗺️ المستويات" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
   const prm = root.querySelector('.prm'), ptxt = root.querySelector('.ptxt'), psub = root.querySelector('.psub'), dotsEl = root.querySelector('.dots'), pic = root.querySelector('.pic');
   const lvOv = root.querySelector('#nmLv'), winOv = root.querySelector('#nmWin');
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'المستويات', 'Levels'], ['.prm', 'إعادة السؤال', 'Repeat the question']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  let winInfo = null;
+  function fillWin() {
+    if (!winInfo) return;
+    const { stars, n, ms } = winInfo;
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${n}` + (ms ? ` · الأخطاء: ${ms}` : ' دون أي خطأ! 💯'),
+      `You finished level ${n}` + (ms ? ` · Mistakes: ${ms}` : ' with no mistakes! 💯'));
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, portrait = true, top = 140;
@@ -248,7 +269,7 @@
   function genQ(spec, prevE) {
     const [type, lo, hi] = spec;
     let th; do th = pick(type === 'sub' ? FLIERS : THINGS); while (th[0] === prevE);
-    const base = { type, e: th[0], name: th[1], ciA: ri(0, 7) };
+    const base = { type, e: th[0], name: th[1], en: PL_EN[th[0]] || 'things', ciA: ri(0, 7) };
     base.ciB = (base.ciA + ri(2, 5)) % 8;
     if (type === 'count') { const n = ri(lo, hi); return Object.assign(base, { n, ans: n, ch: makeChoices(n, Math.max(0, lo - 1), Math.max(hi + 2, 5)) }); }
     if (type === 'add') {
@@ -567,6 +588,14 @@
   }
   function promptOf() {
     const t = q.type;
+    if (isEn()) {
+      if (t === 'count') return { ic: q.e, t: `How many ${q.en}?`, s: '👆 ' + App.t(App.g('المسي كل واحدة وعُدّي', 'المس كل واحدة وعُدّ'), 'Touch each one and count'), say: `How many ${q.en}?` };
+      if (t === 'more') { const w = q.less ? 'Which has fewer?' : 'Which has more?'; return { ic: '⚖️', t: w, s: '👆 ' + App.t(App.g('اختاري', 'اختر') + ' المجموعة', 'Choose the group'), say: w }; }
+      if (t === 'add') return { ic: '➕', t: 'How many altogether?', s: `${word(q.a)} plus ${word(q.b)}`, say: `${word(q.a)} plus ${word(q.b)}, how many altogether?` };
+      if (t === 'sub') return { ic: '➖', t: 'How many are left?', s: `${word(q.n)} take away ${word(q.k)}`, say: `${word(q.n)} take away ${word(q.k)}, how many are left?` };
+      if (t === 'find') return { ic: '🔢', t: `Find number ${q.t}`, s: word(q.t), say: `Find number ${word(q.t)}` };
+      return { ic: '🔗', t: 'Match each number to its group', s: '👉 ' + App.t(App.g('اسحبي', 'اسحب') + ' من الرقم إلى المجموعة', 'Drag from the number to the group'), say: 'Match each number to its group' };
+    }
     if (t === 'count') return { ic: q.e, t: `كم ${q.name}؟`, s: '👆 ' + App.g('المسي كل واحدة وعُدّي', 'المس كل واحدة وعُدّ'), say: `كم ${q.name}؟` };
     if (t === 'more') { const w = q.less ? 'أيهما أقل؟' : 'أيهما أكثر؟'; return { ic: '⚖️', t: w, s: '👆 ' + App.g('اختاري', 'اختر') + ' المجموعة', say: w }; }
     if (t === 'add') return { ic: '➕', t: 'كم المجموع؟', s: `${word(q.a)} زائد ${word(q.b)}`, say: `${word(q.a)} زائد ${word(q.b)}، كم المجموع؟` };
@@ -580,7 +609,7 @@
     prm.classList.remove('off');
     if (bump) { prm.classList.remove('bump'); void prm.offsetWidth; prm.classList.add('bump'); }
   }
-  function sayPrompt() { App.speak(promptOf().say); }
+  function sayPrompt() { const p = promptOf(); isEn() ? App.speak(p.say, 'en') : App.speak(p.say); }
   function renderDots() {
     dotsEl.innerHTML = Q.map((_, i) => `<i class="${i < qi ? 'on' : i === qi ? 'cur' : ''}"></i>`).join('');
   }
@@ -608,12 +637,10 @@
     Sound.win(); vibrate(30);
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${lvl}` + (mistakes ? ` · الأخطاء: ${mistakes}` : ' دون أي خطأ! 💯');
+      winInfo = { stars, n: lvl, ms: mistakes }; fillWin();
       root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      say(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('num_first');
       if (Array.from({ length: NL }, (_, i) => pr.stars[i + 1]).every(Boolean)) App.achieve('num_all');
@@ -633,7 +660,7 @@
       pts.map((p, i) => {
         const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, [c1, c2] = COLS[i % 8];
         const ic = n === NL ? '🏆' : TICON[LV[i][1][0][0]];
-        return `<button class="nd${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"
+        return `<button class="nd${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"
           style="left:${p.x}%;top:${p.y}px;--c:${c1};--d:${c2};--l:${mix(c1, '#FFFFFF', .35)}"><span class="n">${n}</span><span class="e">${ic}</span>
           <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
       }).join('');
@@ -648,7 +675,8 @@
   }
 
   /* ---------- الحل والخطأ ---------- */
-  function praise() { App.speak(App.g('أحسنتِ!', 'أحسنت!')); }
+  function sayNum(n) { isEn() ? App.speak(word(n), 'en') : App.speak(word(n)); }
+  function praise() { say(App.g('أحسنتِ!', 'أحسنت!'), 'Great job!'); }
   function solved(cx, cy) {
     phase = 'solved'; q.solved = true; q.solvedAt = T; seq = [];
     Sound.star(); setTimeout(() => Sound.coin(), 120); vibrate(25);
@@ -685,7 +713,7 @@
   }
   function wrongChoice(c) {
     c.st = 'wrong'; c.wob = 1; wrongFx();
-    App.speak(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'));
+    say(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'), 'Try again!');
     if (q.type === 'count') recount(objs, 1.1);
     else if (q.type === 'add') { q.cnt = [0, 0, 0]; recount(objs, 1.1); }
     else if (q.type === 'sub') recount(objs.filter(o => o.mode === 'sit'), 1.1);
@@ -727,20 +755,20 @@
       Sound.tone(392 * Math.pow(2, Math.min(o.cnt, 20) / 12), .12, 'triangle', .14, 0); Sound.pop();
       burst(o.x, o.y, COLS[o.cnt % 8][0], 6);
     } else Sound.tap();
-    App.speak(word(o.cnt)); vibrate(10);
+    sayNum(o.cnt); vibrate(10);
   }
   function tryLink(bi, gi) {
     const b = blocks[bi], g = groups[gi];
     if (!b || !g || b.ok || g.ok) return;
     if (b.v === g.v) {
       b.ok = 1; g.ok = 1; b.pop = 1; links.push({ bi, gi, t: T });
-      Sound.star(); vibrate(20); App.speak(word(b.v));
+      Sound.star(); vibrate(20); sayNum(b.v);
       burst(g.r.x + g.r.w / 2, g.r.y + g.r.h / 2, COLS[b.ci][0], 18);
       objs.filter(o => o.g === gi).forEach((o, i) => { o.hop = T + i * .03; });
       if (blocks.every(k => k.ok)) { setTimeout(() => { if (q && !q.solved) solved(b.x, b.y); }, 350); phase = 'wait'; }
     } else {
       b.wob = 1; g.wob = 1; wrongFx();
-      App.speak(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'));
+      say(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'), 'Try again!');
       q.cnt[gi] = 0; recount(objs.filter(o => o.g === gi), 1.0);
     }
   }
@@ -752,9 +780,9 @@
     const t = q.type;
     if (t === 'find') {
       for (const b of blocks) if (Math.abs(m.x - b.x) < b.s * .55 && Math.abs(m.y - b.y) < b.s * .55) {
-        b.pop = 1; App.speak(word(b.v));
+        b.pop = 1; sayNum(b.v);
         if (b.v === q.t) { b.ok = 1; solved(b.x, b.y); }
-        else { b.wob = 1; wrongFx(); q.hintGlow = 3.5; setTimeout(() => { if (q && !q.solved && App.current === ID) App.speak(`${App.g('ابحثي', 'ابحث')} عن ${word(q.t)}`); }, 900); }
+        else { b.wob = 1; wrongFx(); q.hintGlow = 3.5; setTimeout(() => { if (q && !q.solved && App.current === ID) say(`${App.g('ابحثي', 'ابحث')} عن ${word(q.t)}`, `Find number ${word(q.t)}`); }, 900); }
         return;
       }
       return;
@@ -765,7 +793,7 @@
         if (!b.ok && Math.abs(m.x - b.x) < b.s * .6 && Math.abs(m.y - b.y) < b.s * .6) {
           try { cv.setPointerCapture(e.pointerId); } catch (er) {}
           sel = { i, id: e.pointerId, x: m.x, y: m.y, sx: m.x, sy: m.y, moved: false };
-          b.pop = 1; Sound.tone(520, .08, 'sine', .1, 260); App.speak(word(b.v)); vibrate(10);
+          b.pop = 1; Sound.tone(520, .08, 'sine', .1, 260); sayNum(b.v); vibrate(10);
           return;
         }
       }
@@ -818,7 +846,7 @@
     const g = groups[gi];
     if (gi === q.ans) { g.ok = 1; solved(g.r.x + g.r.w / 2, g.r.y + g.r.h / 2); }
     else {
-      g.wob = 1; wrongFx(); App.speak(App.g('لنعدّ معًا', 'لنعدّ معًا'));
+      g.wob = 1; wrongFx(); say('لنعدّ معًا', "Let's count together");
       q.cnt = [0, 0, 0]; objs.forEach(o => { o.cnt = 0; });
       recount(objs.filter(o => o.g === 0), 1.0, false);
       recount(objs.filter(o => o.g === 1), seqEnd - T + .4, false);
@@ -847,7 +875,7 @@
         const s = seq.shift(), o = s.o;
         o.cnt = s.n; o.pop = 1; o.hl = 1;
         const gk = q.type === 'more' || q.type === 'match' ? o.g : 0; q.cnt[gk] = Math.max(q.cnt[gk], s.n);
-        App.speak(word(s.n)); Sound.tone(392 * Math.pow(2, Math.min(s.n, 20) / 12), .12, 'triangle', .13, 0);
+        sayNum(s.n); Sound.tone(392 * Math.pow(2, Math.min(s.n, 20) / 12), .12, 'triangle', .13, 0);
       }
       if (!seq.length && T >= seqEnd) phase = 'play';
     }
@@ -1103,7 +1131,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'أرقام وعدّ', icon2: '🔢', isNew: false, music: 'numbers',
+    titleEn: 'Numbers & Counting',
     desc: () => App.g('عُدّي واجمعي واطرحي بالصور', 'عُدّ واجمع واطرح بالصور'),
+    descEn: () => 'Count, add and take away with pictures',
+    helpEn: () => [
+      '👆 Touch each thing to count it, and you will see and hear its number',
+      '🔢 Choose the block with the right answer',
+      '➕ In adding the two groups come together, and in taking away some things fly off 🎈 · ⚖️ In «Which has more?» touch the group',
+      '🔗 In matching, drag from the number to the group with the same amount',
+      '⭐ Finish a level with no mistakes to get 3 stars, and 🗺️ opens the level map for you'
+    ],
     help: () => [
       '👆 ' + App.g('المسي', 'المس') + ' كل شيء ' + App.g('لتعدّيه', 'لتعدّه') + '، وسيظهر عليه رقمه ' + App.g('وتسمعينه', 'وتسمعه'),
       '🔢 ' + App.g('اختاري', 'اختر') + ' المكعب الذي عليه الجواب الصحيح',
@@ -1115,13 +1152,18 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       startLevel(Math.min(loadProg().unlocked, NL));
       render();
       startLoop();
+    },
+    onLang() {
+      relabel(); fillWin();
+      if (lvOv.classList.contains('on')) openLevels();
+      if (q && phase !== 'over') { setPrompt(false); clearTimeout(sayTimer); sayTimer = setTimeout(() => { if (App.current === ID && q) sayPrompt(); }, 200); }
     },
     leave() { stopLoop(); clearTimeout(winTimer); clearTimeout(sayTimer); sel = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; sel = null; },

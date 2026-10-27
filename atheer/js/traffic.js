@@ -465,26 +465,39 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🔢</button>
       <span class="grow"></span>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <button class="ib snd sayb" aria-label="اسمع مرة أخرى">🔊</button>
+    <button class="ib snd sayb" data-i="listen">🔊</button>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="tfLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="tfLv"><div class="panel lvp"><h3 class="hLv"></h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="tfWin"><div class="panel">
       <h3 class="wT"></h3><div class="wpair"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const progEl = root.querySelector('.prog'), sayBtn = root.querySelector('.sayb');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const lvOv = root.querySelector('#tfLv'), winOv = root.querySelector('#tfWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), listen: App.t('اسمع مرة أخرى', 'Listen again') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنتَ!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنتِ بطلة السلامة!', 'أنت بطل السلامة!'), 'You are a safety hero!') + (winMis ? '' : ' 💯');
+  }
 
   /* ---------- الحالة العامة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, portrait = true;
@@ -1438,10 +1451,9 @@
     const tok = A;
     setTimeout(() => {
       if (App.current !== ID || tok !== A) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
+      winMis = mistakes; winText();
       root.querySelector('.wpair').textContent = def.e + ' 🏅';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنتِ بطلة السلامة!', 'أنت بطل السلامة!') + (mistakes ? '' : ' 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       sayGood();
@@ -1457,7 +1469,7 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((Lv, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
         <span class="e">${Lv.e}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -1482,8 +1494,10 @@
     if (window.gsap) gsap.fromTo(sayBtn, { scale: .8 }, { scale: 1, duration: .5, ease: 'elastic.out(1.2,0.4)', clearProps: 'transform' });
     A.replay();
   });
-  function setLang(l) {
-    lang = l === 'en' ? 'en' : 'ar'; store.set('trafficLang', lang);
+  function setLang(l, nosave) {
+    lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('trafficLang', lang);
+    chrome(); if (over && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
     setProg();
     hintEl.dir = lang === 'en' ? 'ltr' : 'rtl';
@@ -1586,8 +1600,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'إشارات المرور والسلامة', icon2: '🚦', isNew: true, music: 'taxi',
+    id: ID, title: 'إشارات المرور والسلامة', titleEn: 'Traffic & Safety', icon2: '🚦', isNew: true, music: 'taxi',
     desc: () => App.g('تعلّمي الإشارة وعبور الشارع بأمان', 'تعلّم الإشارة وعبور الشارع بأمان'),
+    descEn: () => 'Learn the traffic light and how to cross the street safely',
+    helpEn: () => [
+      '🚦 Red: stop ✋ — Yellow: wait ⏳ — Green: go 🚶',
+      '🚗 When driving press «Stop» at red and «Go» at green',
+      "🚸 We cross at the zebra crossing, hold a grown-up's hand, and look left and right",
+      '💺 Children sit in their seat in the back with the seat belt on, and on a bike we wear a helmet ⛑️',
+      '🌍 Switch between «عربي» and «English» to hear both languages'
+    ],
     help: () => [
       '🚦 الأحمر: قف ✋ — الأصفر: انتظر ⏳ — الأخضر: امشِ 🚶',
       '🚗 في القيادة ' + App.g('اضغطي', 'اضغط') + ' «قف» عند الأحمر و«انطلق» عند الأخضر',
@@ -1603,11 +1625,12 @@
     },
     enter() {
       paused = false;
-      setLang(store.get('trafficLang', 'ar'));
+      setLang(App.gameLang(ID), true);
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg && A && !over) { A.layout(); A.replay(); } },
     leave() { stopLoop(); tasks = []; ptr = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (A && A.up && ptr != null) { A.up({ x: -1e4, y: -1e4 }); } ptr = null; },
     resume() { paused = false; last = performance.now(); },

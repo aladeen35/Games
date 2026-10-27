@@ -105,8 +105,8 @@
     { m: 'mix', jobs: ALL, q: 9 }
   ];
   const MODE = {
-    learn: { i: '🎓', ar: 'تعرّف' }, tool: { i: '🧰', ar: 'لمن هذا؟' }, place: { i: '🏢', ar: 'أين يعمل؟' },
-    riddle: { i: '❓', ar: 'من أنا؟' }, dress: { i: '👷', ar: 'ألبسه' }, mix: { i: '🏆', ar: 'تحدٍّ' }
+    learn: { i: '🎓', ar: 'تعرّف', en: 'Learn' }, tool: { i: '🧰', ar: 'لمن هذا؟', en: 'Whose is this?' }, place: { i: '🏢', ar: 'أين يعمل؟', en: 'Where at work?' },
+    riddle: { i: '❓', ar: 'من أنا؟', en: 'Who am I?' }, dress: { i: '👷', ar: 'ألبسه', en: 'Dress up' }, mix: { i: '🏆', ar: 'تحدٍّ', en: 'Challenge' }
   };
 
   /* ---------- أدوات ---------- */
@@ -515,29 +515,46 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🔢</button>
       <span class="grow"></span>
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="pbar"></div>
     <div class="ask">
-      <button class="spk" aria-label="اسمع مرة أخرى">🔊</button>
+      <button class="spk" data-i="listen">🔊</button>
       <div class="aq"><span class="ai"></span><span class="at"></span></div>
-      <button class="nextb" aria-label="التالي">التالي ◀</button>
+      <button class="nextb" data-i="next"></button>
     </div>
-    <div class="overlay" id="jbLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="jbLv"><div class="panel lvp"><h3 class="hLv"></h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="jbWin"><div class="panel">
       <h3 class="wT"></h3><div class="wkid"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const pbar = root.querySelector('.pbar'), askEl = root.querySelector('.ask'), spkBtn = root.querySelector('.spk');
   const aiEl = root.querySelector('.ai'), atEl = root.querySelector('.at'), nextBtn = root.querySelector('.nextb');
   const lvOv = root.querySelector('#jbLv'), winOv = root.querySelector('#jbWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), listen: App.t('اسمع مرة أخرى', 'Listen again'), next: App.t('التالي', 'Next') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    nextBtn.textContent = App.t('التالي ◀', 'Next ▶');
+    root.querySelector('.hLv').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنتَ!'), 'Well done!') + ' 🎉';
+    const msg = App.lang === 'en'
+      ? { learn: 'You met new jobs', tool: 'You know the tool of every job', place: 'You know where everyone works', riddle: 'You solved all the riddles', dress: 'You dressed all the workers', mix: 'You finished the big challenge' }[def.m]
+      : { learn: App.g('تعرّفتِ', 'تعرّفتَ') + ' على مهن جديدة', tool: App.g('عرفتِ', 'عرفتَ') + ' أداة كل مهنة', place: App.g('عرفتِ', 'عرفتَ') + ' أين يعمل كل واحد', riddle: App.g('حللتِ', 'حللتَ') + ' كل الألغاز', dress: App.g('ألبستِ', 'ألبستَ') + ' كل العمّال', mix: App.g('أنهيتِ', 'أنهيتَ') + ' التحدّي الكبير' }[def.m];
+    root.querySelector('.wP').textContent = msg + (winMis || def.m === 'learn' ? '' : App.t(' دون أخطاء!', ' No mistakes!') + ' 💯');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, portrait = true;
@@ -792,16 +809,14 @@
     setProg();
     for (let i = 0; i < 120; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 240), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF6B6B', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF7EB9'][i % 6] });
     Sound.win();
-    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = App.g('أحسنتِ!', 'أحسنتَ!');
+    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = lang === 'ar' ? App.g('أحسنتِ!', 'أحسنتَ!') : 'Well done!';
     subj = { kind: 'parade', t: 0, jobs: def.jobs.slice(0, 5) };
     cards = [];
     later(1.3, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
+      winMis = mistakes; winText();
       root.querySelector('.wkid').textContent = def.jobs.slice(0, 4).map(k => JOBS[k].tool.e).join(' ');
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      const msg = { learn: App.g('تعرّفتِ', 'تعرّفتَ') + ' على مهن جديدة', tool: App.g('عرفتِ', 'عرفتَ') + ' أداة كل مهنة', place: App.g('عرفتِ', 'عرفتَ') + ' أين يعمل كل واحد', riddle: App.g('حللتِ', 'حللتَ') + ' كل الألغاز', dress: App.g('ألبستِ', 'ألبستَ') + ' كل العمّال', mix: App.g('أنهيتِ', 'أنهيتَ') + ' التحدّي الكبير' }[def.m];
-      root.querySelector('.wP').textContent = msg + (mistakes || def.m === 'learn' ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(winOv);
@@ -817,8 +832,8 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lk = n > pr.unlocked, M = MODE[L.m];
-      return `<button class="lvb m-${L.m}${lk ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
-        <span class="e">${M.i}</span><b>${M.ar}</b><small>${L.jobs.slice(0, 4).map(k => JOBS[k].tool.e).join('')}</small>
+      return `<button class="lvb m-${L.m}${lk ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
+        <span class="e">${M.i}</span><b>${App.t(M.ar, M.en)}</b><small>${L.jobs.slice(0, 4).map(k => JOBS[k].tool.e).join('')}</small>
         <span class="s">${lk ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -847,9 +862,12 @@
     learnI++; qi++; setProg();
     later(.25, ask);
   });
-  function setLang(l) {
-    lang = l === 'en' ? 'en' : 'ar'; store.set('jobsLang', lang);
+  function setLang(l, nosave) {
+    lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('jobsLang', lang);
     root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+    chrome(); if (over && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
+    if (over) { atEl.textContent = lang === 'ar' ? App.g('أحسنتِ!', 'أحسنتَ!') : 'Well done!'; return; }
     showQ();
   }
   root.querySelectorAll('.lng button').forEach(b => b.addEventListener('click', () => {
@@ -1030,7 +1048,7 @@
         ctx.save(); ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(20,30,80,.2)'; ctx.shadowBlur = 10;
         ctx.beginPath(); ctx.arc(bx, by, h * .14, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.arc(bx - h * .13, by + h * .17, h * .035, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.arc(bx - h * .2, by + h * .25, h * .02, 0, TAU); ctx.fill(); ctx.restore();
         const done = cur && cards.some(c => c.state === 'ok');
-        if (done) emoji(ctx, PLACES[j.place].e, bx, by, h * .17); else label('؟', bx, by + 2, h * .16, '#4263EB');
+        if (done) emoji(ctx, PLACES[j.place].e, bx, by, h * .17); else label(lang === 'ar' ? '؟' : '?', bx, by + 2, h * .16, '#4263EB');
       }
       return;
     }
@@ -1040,7 +1058,7 @@
       plate(sc.x, by, s * 1.3, s * 1.3, '#FFA94D');
       if (!done) emoji(ctx, j.tool.e, sc.x, by - s * .08, s * .75, Math.sin(T * 1.5) * .08);
       fitLabel(lang === 'ar' ? j.tool.ar : cap(j.tool.en), sc.x, by + s * .47, s * 1.2, clamp(s * .14, 13, 20), '#26315C');
-      label('؟', sc.x + s * .7, by - s * .62, s * .3, '#FF922B');
+      label(lang === 'ar' ? '؟' : '?', sc.x + s * .7, by - s * .62, s * .3, '#FF922B');
       return;
     }
     if (subj.kind === 'riddle') {
@@ -1048,7 +1066,7 @@
       const s = sprite(j, { sil: true }, h * .9);
       ctx.save(); ctx.globalAlpha = 1 - rv; drawSprite(ctx, j, { sil: true }, sc.x, by, h * .9, { sy: breath }); ctx.restore();
       if (rv > 0) { ctx.save(); ctx.globalAlpha = rv; drawSprite(ctx, j, {}, sc.x, by - Math.sin(rv * Math.PI) * h * .1, h * .9, { blink: blinkT >= 0, sy: breath }); ctx.restore(); }
-      if (rv < 1) label('؟', sc.x, stage.y + h * .35, h * .3, '#FFFFFF');
+      if (rv < 1) label(lang === 'ar' ? '؟' : '?', sc.x, stage.y + h * .35, h * .3, '#FFFFFF');
       // موجات الصوت
       const sx = sc.x - h * .42, sy = stage.y + h * .3;
       emoji(ctx, '🔊', sx, sy, h * .14);
@@ -1112,8 +1130,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'المهن', icon2: '👩‍⚕️', isNew: true, music: 'taxi',
+    id: ID, title: 'المهن', titleEn: 'Jobs', icon2: '👩‍⚕️', isNew: true, music: 'taxi',
     desc: () => App.g('تعرّفي على الطبيب والطيار والمزارع…', 'تعرّف على الطبيب والطيار والمزارع…'),
+    descEn: () => 'Meet the doctor, the pilot, the farmer…',
+    helpEn: () => [
+      '👩‍⚕️ Meet twenty jobs: who works at the hospital? who flies the plane?',
+      '🧰 «Whose is this?»: touch the owner of the tool',
+      '🏢 «Where at work?»: pick the workplace',
+      '❓ «Who am I?»: listen to the riddle, then pick the answer',
+      '👷 «Dress up»: pick the hat, then the uniform · 🌍 عربي / English'
+    ],
     help: () => [
       '👩‍⚕️ ' + App.g('تعرّفي', 'تعرّف') + ' على عشرين مهنة: من يعمل في المستشفى؟ ومن يقود الطائرة؟',
       '🧰 «لمن هذا؟»: ' + App.g('المسي', 'المس') + ' صاحب الأداة',
@@ -1129,14 +1155,15 @@
     },
     enter() {
       paused = false;
-      lang = store.get('jobsLang', 'ar') === 'en' ? 'en' : 'ar';
-      root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+      lang = App.gameLang(ID);
+      root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); chrome();
       bakeCache.clear(); sprCache.clear();
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg && !over) sayQ(); },
     leave() { stopLoop(); tasks = []; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; },
     resume() { paused = false; last = performance.now(); },

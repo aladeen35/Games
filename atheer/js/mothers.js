@@ -201,21 +201,21 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🔢</button>
       <span class="grow"></span>
-      <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="اللغة" data-al="Language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <button class="ib snd sayb" aria-label="اسمع مرة أخرى">🔊</button>
+    <button class="ib snd sayb" aria-label="اسمع مرة أخرى" data-al="Listen again">🔊</button>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="moLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="moLv"><div class="panel lvp"><h3 data-en="🔢 Levels">🔢 المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="moWin"><div class="panel">
       <h3 class="wT"></h3><div class="wpair"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const progEl = root.querySelector('.prog'), sayBtn = root.querySelector('.sayb');
@@ -464,20 +464,32 @@
       layout();
       moms.forEach((m, i) => { m.intro = -i * .12; });
       later(.7, nextBaby);
-      showHint('👆 ' + App.g('اسحبي', 'اسحب') + ' الصغير إلى أمّه');
+      showHint(hintTxt());
     } else {
       total = def.q; moms = [];
       const pool = shuffle(def.a.filter(id => hasSnd(AN[id])));
       quiz = { q: 0, pool, used: [], target: null };
       layout();
       later(.4, () => { sayWho(); later(1.9, nextQuestion); });
-      showHint('🔊 ' + App.g('اسمعي', 'اسمع') + ' الصوت ثم ' + App.g('المسي', 'المس') + ' صاحبه');
+      showHint(hintTxt());
     }
     sayBtn.style.display = def.m === 'sound' ? 'none' : '';
     // تحميل الأصوات مسبقًا
     def.a.forEach(id => { const a = AN[id]; [sndOf(a), sndOf(a, true)].forEach(sp => { if (sp) Snd.load(sp[0]); }); });
     setProg();
     Sound.whoosh();
+  }
+  const hintTxt = () => def.m === 'match' ? '👆 ' + App.t(App.g('اسحبي', 'اسحب') + ' الصغير إلى أمّه', 'Drag the baby to its mom')
+    : '🔊 ' + App.t(App.g('اسمعي', 'اسمع') + ' الصوت ثم ' + App.g('المسي', 'المس') + ' صاحبه', 'Listen to the sound, then tap the animal that makes it');
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنتَ!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t((def.m === 'match' ? 'أعدتَ كل الصغار إلى أمهاتهم' : 'عرفتَ كل الأصوات').replace('أعدتَ', App.g('أعدتِ', 'أعدتَ')).replace('عرفتَ', App.g('عرفتِ', 'عرفتَ')) + (mistakes ? '' : ' دون أخطاء! 💯'),
+      (def.m === 'match' ? 'You brought every baby back to its mom' : 'You knew all the sounds') + (mistakes ? '' : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
   }
   function showHint(t) { hintT.textContent = t; hintEl.style.opacity = 1; }
   function hideHint() { hintEl.style.opacity = 0; }
@@ -587,10 +599,9 @@
     Sound.win();
     later(1.3, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
+      winText();
       root.querySelector('.wpair').textContent = def.a.slice(0, 3).map(id => AN[id].e).join(' ');
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = (def.m === 'match' ? 'أعدتَ كل الصغار إلى أمهاتهم' : 'عرفتَ كل الأصوات').replace('أعدتَ', App.g('أعدتِ', 'أعدتَ')).replace('عرفتَ', App.g('عرفتِ', 'عرفتَ')) + (mistakes ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       sayGood();
@@ -604,7 +615,7 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb s-${L.sc}${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
+      return `<button class="lvb s-${L.sc}${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
         <span class="md">${L.m === 'sound' ? '🔊' : ''}</span><span class="e">${AN[L.a[0]].e}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -633,6 +644,7 @@
     lang = l === 'en' ? 'en' : 'ar'; store.set('mothersLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
     setProg();
+    if (lvOv.classList.contains('on')) openLevels();
   }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
     if (b.dataset.l === lang) return;
@@ -937,6 +949,15 @@
   App.register({
     id: ID, title: 'أين أمي؟', icon2: '🐄', isNew: false, music: 'shapes',
     desc: () => App.g('أعيدي كل صغير إلى أمّه', 'أعِد كل صغير إلى أمّه'),
+    titleEn: 'Where Is My Mom?',
+    descEn: () => 'Bring every baby animal back to its mom',
+    helpEn: () => [
+      '😢 A lost baby animal is crying! Drag it to its mom',
+      '🐄 The cow and her calf, the hen and her chick… learn the names of the babies',
+      '🔊 In the sound levels listen to the sound, then tap the animal that makes it',
+      '🌍 Switch between «عربي» and «English» to hear the names in both languages',
+      '⭐ No mistakes = 3 stars'
+    ],
     help: () => [
       '😢 صغير حيوان تائه يبكي! ' + App.g('اسحبيه', 'اسحبه') + ' إلى أمّه',
       '🐄 البقرة وصغيرها العجل، والدجاجة وصغيرها الكتكوت… ' + App.g('تعرّفي', 'تعرّف') + ' على أسماء الصغار',
@@ -952,10 +973,18 @@
     },
     enter() {
       paused = false;
-      setLang(store.get('mothersLang', 'ar'));
+      trUI(); setLang(App.gameLang(ID));
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      hintT.textContent = hintTxt();
+      const ch = l !== lang;
+      setLang(l);
+      if (ch && !over && !paused) { if (def.m === 'sound') sayWho(); else if (baby && baby.state === 'idle') sayWhere(); }
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); Snd.stop(); sayTok++; tasks = []; drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; Snd.stop(); if (drag && baby) { drag = null; baby.state = 'back'; baby.t = 0; baby.fx = baby.x; baby.fy = baby.y; } },
