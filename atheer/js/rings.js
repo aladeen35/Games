@@ -950,7 +950,7 @@
   function loop(now) {
     if (!running) return;
     raf = requestAnimationFrame(loop);
-    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now;
+    const dt = clamp((now - last) / 1000 || 0, 0, .05); last = now;
     if (paused || document.hidden) return;
     update(dt); render();
   }

@@ -1322,6 +1322,7 @@
       if (lvOv.classList.contains('on')) { actBtn('close'); return true; }
       return false;
     },
+    _data() { return { WUDU, PRAYER, TIMES }; },
     _state() { return { lvl, k: def.k, mode, li, qi, q: qs.length, ordNext, mistakes, over, lang, cur: qs[qi] && qs[qi].id }; },
     _tapPart(part) { const p = partPx(part); const r = cv.getBoundingClientRect(); return [r.left + p[0], r.top + p[1]]; }
   });

@@ -704,9 +704,9 @@
   #stories .cover{position:relative;border-radius:22px;background:#fff;padding:6px;border:4px solid var(--c1);box-shadow:0 6px 0 var(--c2),0 12px 20px rgba(120,40,70,.18);text-align:center;color:#4A2E3A;transform-origin:50% 100%}
   #stories .cover:active{transform:translateY(4px);box-shadow:0 2px 0 var(--c2)}
   #stories .cover canvas{width:100%;aspect-ratio:4/3;display:block;border-radius:16px}
-  #stories .cover .ct{position:absolute;left:10px;right:10px;top:calc(100% - 92px);background:rgba(255,255,255,.94);border-radius:14px;padding:3px 6px;font-weight:900;font-size:15px;line-height:1.3;box-shadow:0 3px 8px rgba(0,0,0,.12);border:2px solid var(--c1)}
+  #stories .cover .ct{position:relative;margin:-22px 6px 0;background:rgba(255,255,255,.94);border-radius:14px;padding:3px 6px;font-weight:900;font-size:15px;line-height:1.3;box-shadow:0 3px 8px rgba(0,0,0,.12);border:2px solid var(--c1)}
   #stories .cover .ct.en{font-family:${EN_FONT};font-size:13px}
-  #stories .cover .ce{display:flex;justify-content:center;gap:2px;margin-top:30px;font-size:16px;min-height:22px}
+  #stories .cover .ce{display:flex;justify-content:center;gap:2px;margin-top:4px;font-size:16px;min-height:22px}
   #stories .cover .ce i{font-style:normal}#stories .cover .ce i.off{filter:grayscale(1);opacity:.28}
   #stories .cover .ic{position:absolute;top:-10px;right:-8px;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:22px;font-family:${EMOJI_FONT};box-shadow:0 3px 0 var(--c2),0 4px 8px rgba(0,0,0,.12);border:3px solid var(--c1)}
   #stories .rd{display:flex;flex-direction:column;align-items:center;gap:10px;min-height:100%}
@@ -778,7 +778,7 @@
   const libEl = root.querySelector('.lib'), shelf = root.querySelector('.shelf'), readerEl = root.querySelector('.reader');
   const pageEl = root.querySelector('.page'), cv = pageEl.querySelector('canvas'), pnEl = pageEl.querySelector('.pn');
   const txtEl = root.querySelector('.txt'), moralEl = root.querySelector('.moral'), chsEl = root.querySelector('.chs'), endEl = root.querySelector('.endb');
-  const goBtn = root.querySelector('.nb.go'), prevBtn = root.querySelector('.nb.prev'), progEl = root.querySelector('.prog'), libBtn = root.querySelector('.libb');
+  const navEl = root.querySelector('.nav'), goBtn = root.querySelector('.nav .nb.go'), prevBtn = root.querySelector('.nb.prev'), progEl = root.querySelector('.prog'), libBtn = root.querySelector('.libb');
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, raf = 0, last = 0, running = false, paused = false, T = 0, sceneT = 0;
@@ -830,6 +830,7 @@
       moralEl.classList.add('hidden'); chsEl.classList.add('hidden'); endEl.classList.add('hidden');
       goBtn.classList.remove('glow');
       goBtn.style.visibility = p.ch || p.end ? 'hidden' : '';
+      navEl.classList.toggle('hidden', !!p.end);
       prevBtn.style.visibility = hist.length > 1 ? '' : 'hidden';
       const depth = maxDepth(story);
       progEl.style.direction = en ? 'ltr' : 'rtl';
@@ -887,7 +888,7 @@
       p.ch.forEach((c, i) => { const txt = en ? G(c.en) : plain(G(c.ar)); later(t, () => { chsEl.querySelectorAll('.chb').forEach((b, j) => b.classList.toggle('say', j === i)); en ? App.speak(txt, 'en') : App.speak(txt); }); t += sDur(txt) + .3; if (i === 0) { later(t, () => en ? App.speak('or', 'en') : App.speak('أم')); t += .7; } });
       later(t, () => chsEl.querySelectorAll('.chb').forEach(b => b.classList.remove('say')));
     } else if (p.end) {
-      finishEnding(p);
+      if (endEl.classList.contains('hidden')) finishEnding(p); else later(.3, () => en ? App.speak(p.men, 'en') : App.speak(plain(p.mar)));
     } else goBtn.classList.add('glow');
   }
   function choose(i) {
@@ -909,10 +910,11 @@
     const lastCh = [...hist].reverse().find(k => story.pages[k].ch);
     endEl.innerHTML = `<div style="width:100%;text-align:center"><span class="badge${isNew ? '' : ' old'}">${isNew ? '⭐ نهاية جديدة!' : '✓ النهاية'} ${num(got)} / ${num(ends.length)}</span></div>
       ${got < ends.length && lastCh ? `<button class="nb go" data-a="other">🔀 ${App.g('جرّبي', 'جرّب')} نهاية أخرى</button>` : ''}
-      <button class="nb" data-a="again">🔄 من البداية</button><button class="nb" data-a="lib">📚 المكتبة</button>`;
+      <button class="nb" data-a="again">🔄 من البداية</button><button class="nb sq" data-a="say" aria-label="اسمع">🔊</button><button class="nb" data-a="lib">📚 المكتبة</button>`;
     endEl.classList.remove('hidden');
     endEl.querySelector('[data-a="other"]') && endEl.querySelector('[data-a="other"]').addEventListener('click', () => { Sound.tap(); const k = hist.indexOf(lastCh); hist = hist.slice(0, k + 1); showPage(lastCh, -1); });
     endEl.querySelector('[data-a="again"]').addEventListener('click', () => { Sound.tap(); hist = []; showPage(story.start, -1); });
+    endEl.querySelector('[data-a="say"]').addEventListener('click', () => { tasks = []; narrate(story.pages[pid]); });
     endEl.querySelector('[data-a="lib"]').addEventListener('click', () => { Sound.tap(); renderLib(); });
     Sound.win(); burst();
     if (isNew) {

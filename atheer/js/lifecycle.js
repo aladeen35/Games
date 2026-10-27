@@ -208,7 +208,7 @@
   }
   function waves(c, s, y0, col) {
     c.fillStyle = col[0]; c.beginPath(); c.moveTo(-s * .48, s * .48); c.lineTo(-s * .48, y0);
-    for (let i = 0; i <= 8; i++) { const x = -s * .48 + i * s * .12; c.quadraticCurveTo(x + s * .03, y0 - s * .07, x + s * .06, y0); c.quadraticCurveTo(x + s * .09, y0 + s * .05, x + s * .12, y0); }
+    for (let i = 0; i < 8; i++) { const x = -s * .48 + i * s * .12; c.quadraticCurveTo(x + s * .03, y0 - s * .07, x + s * .06, y0); c.quadraticCurveTo(x + s * .09, y0 + s * .05, x + s * .12, y0); }
     c.lineTo(s * .48, s * .48); c.closePath();
     const g = c.createLinearGradient(0, y0, 0, s * .48); g.addColorStop(0, col[0]); g.addColorStop(1, col[1]); c.fillStyle = g; c.fill();
     c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = s * .025; c.lineCap = 'round';
@@ -467,8 +467,8 @@
   }
   function layoutGrow() {
     const g = grow; if (!g) return;
-    g.groundY = portrait ? H * .7 : H * .72;
-    g.potX = W / 2; g.potY = portrait ? H * .74 : H * .78;
+    g.groundY = portrait ? H * .7 : H * .64;
+    g.potX = W / 2; g.potY = portrait ? H * .74 : H * .7;
     g.ps = clamp(Math.min(W * .62, (g.potY - topY) * .95), 180, 420);
     const bs = clamp(Math.min(W, H) * .17, 74, 110);
     const by = H - bs * .7 - 16;
@@ -827,14 +827,16 @@
       textFit(ctx, num(sl.i + 1), 0, 0, w, h * .42, mix(cyc.c, '#ffffff', .4));
       ctx.restore();
     }
-    // شارات الأرقام على البطاقات الموضوعة
+  }
+  function drawBadges() {
     for (const sl of slots) {
       if (!(sl.card && sl.card.st === 'placed')) continue;
       const bx = sl.x + (lang === 'ar' ? 1 : -1) * sl.w * .44, by = sl.y - sl.h * .44, br = Math.max(11, sl.w * .14);
       ball(ctx, bx, by, br, mix(cyc.c, '#ffffff', .5), cyc.c, shade(cyc.c, -.3)); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(bx, by, br, 0, TAU); ctx.stroke();
       textFit(ctx, num(sl.i + 1), bx, by + 1, br * 1.6, br * 1.15, '#fff');
     }
-    // علم البداية
+  }
+  function drawStart() {
     const s0 = slots[0]; if (s0) { const fy = s0.y - s0.h / 2 - 14; label(lang === 'ar' ? 'ابدأ' : 'Start', s0.x, fy, cyc.c, clamp(ring.cs * .15, 11, 15)); }
   }
   function label(text, x, y, col, size) {
@@ -984,9 +986,12 @@
     else {
       background(cyc.bg);
       if (trayBox) shelf(trayBox);
-      drawRing(); drawCenter(); drawSlots();
+      drawRing(); drawCenter(); drawSlots(); drawStart();
       const order = cards.slice().sort((a, b) => (a.st === 'drag') - (b.st === 'drag') || (a.st === 'fly') - (b.st === 'fly'));
-      for (const cd of order) { cd.lit = play && cd.done && slots[play.i] && slots[play.i].card === cd && play.t < 1.3; drawCard(cd); }
+      const top_ = order.filter(c => c.st === 'drag' || c.st === 'fly' || c.st === 'back');
+      for (const cd of order) { if (top_.includes(cd)) continue; cd.lit = play && cd.done && slots[play.i] && slots[play.i].card === cd && play.t < 1.3; drawCard(cd); }
+      drawBadges();
+      for (const cd of top_) drawCard(cd);
     }
     for (const r of rings) { const t = r.age / r.life; ctx.strokeStyle = `rgba(255,255,255,${(1 - t) * .9})`; ctx.lineWidth = 4 * (1 - t) + 1; ctx.beginPath(); ctx.arc(r.x, r.y, 10 + t * 60, 0, TAU); ctx.stroke(); }
     for (const q of parts) {

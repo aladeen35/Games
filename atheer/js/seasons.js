@@ -311,10 +311,16 @@
   }
   function leafShape(c, x, y, s, rot, col) {
     c.save(); c.translate(x, y); c.rotate(rot);
-    c.fillStyle = col; c.beginPath(); c.moveTo(0, -s);
-    for (let i = 0; i < 5; i++) { const a = -Math.PI / 2 + (i - 2) * .62; c.lineTo(Math.cos(a) * s, Math.sin(a) * s); c.lineTo(Math.cos(a + .31) * s * .55, Math.sin(a + .31) * s * .55); }
-    c.lineTo(0, s * .3); c.closePath(); c.fill();
-    c.strokeStyle = 'rgba(120,40,0,.45)'; c.lineWidth = s * .08; c.beginPath(); c.moveTo(0, s * .7); c.lineTo(0, -s * .7); c.stroke();
+    c.fillStyle = col; c.beginPath(); c.moveTo(0, s);
+    c.bezierCurveTo(s * .95, s * .45, s * .75, -s * .55, 0, -s);
+    c.bezierCurveTo(-s * .75, -s * .55, -s * .95, s * .45, 0, s); c.fill();
+    if (s > 5) {
+      c.fillStyle = 'rgba(255,255,255,.28)'; c.beginPath(); c.ellipse(-s * .25, -s * .2, s * .14, s * .38, .3, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(120,40,0,.45)'; c.lineWidth = Math.max(1, s * .07); c.lineCap = 'round';
+      c.beginPath(); c.moveTo(0, s * 1.25); c.lineTo(0, -s * .75);
+      for (const t of [-.35, .05, .45]) { c.moveTo(0, t * s); c.lineTo(s * .38, t * s - s * .3); c.moveTo(0, t * s); c.lineTo(-s * .38, t * s - s * .3); }
+      c.stroke();
+    }
     c.restore();
   }
   const WXI = {
@@ -603,7 +609,7 @@
       if (S.w < 20) return;
       const l = S.mkLayer();
       if (instant) { l.a = 1; S.layers = [l]; Object.assign(S.p, WP[wx]); S.clouds.forEach(c => { c.a = c.i < WP[wx].clouds ? 1 : 0; }); }
-      else S.layers.push(l);
+      else { S.layers.push(l); S.parts.forEach(q => { if (q.t === 'snow' || q.t === 'rain' || q.t === 'dust') q.life = Math.min(q.life, q.age + 1); }); }
       if (S.layers.length > 3) S.layers.splice(0, S.layers.length - 3);
     };
     const area = () => (S.w * S.h) / (390 * 700);
@@ -708,7 +714,7 @@
       for (const q of S.parts) {
         if (q.t === 'rain') { c.strokeStyle = 'rgba(210,230,255,.75)'; c.lineWidth = 1.6 * (S.mini ? .8 : 1); const k = q.l / Math.hypot(q.vx, q.vy); c.beginPath(); c.moveTo(q.x, q.y); c.lineTo(q.x - q.vx * k, q.y - q.vy * k); c.stroke(); }
         else if (q.t === 'spl') { const t = q.age / q.life; c.strokeStyle = `rgba(230,240,255,${.8 * (1 - t)})`; c.lineWidth = 1.2; c.beginPath(); c.ellipse(q.x, q.y, (2 + t * 9) * q.s, (1 + t * 3) * q.s, 0, 0, TAU); c.stroke(); }
-        else if (q.t === 'snow') { c.fillStyle = 'rgba(255,255,255,.95)'; c.beginPath(); c.arc(q.x, q.y, q.r, 0, TAU); c.fill(); }
+        else if (q.t === 'snow') { c.fillStyle = `rgba(255,255,255,${.95 * Math.min(1, q.life - q.age)})`; c.beginPath(); c.arc(q.x, q.y, q.r, 0, TAU); c.fill(); }
         else if (q.t === 'leaf') leafShape(c, q.x, q.y, q.s, q.rot, q.c);
         else if (q.t === 'petal') { c.save(); c.translate(q.x, q.y); c.rotate(q.rot); c.fillStyle = q.c; c.beginPath(); c.ellipse(0, 0, q.s * .7, q.s * .4, 0, 0, TAU); c.fill(); c.restore(); }
         else if (q.t === 'dust') { c.fillStyle = 'rgba(160,100,40,.55)'; c.beginPath(); c.arc(q.x, q.y, q.r, 0, TAU); c.fill(); }
@@ -740,7 +746,7 @@
     c.fillStyle = 'rgba(20,30,10,.25)'; c.beginPath(); c.ellipse(x, y, 22 * u * (1 - (k.jump || 0) * .004), 5 * u, 0, 0, TAU); c.fill();
     const sh = k.shiver ? Math.sin(k.t * 48) * k.shiver * 1.1 * u : 0;
     const br = Math.sin(k.t * 2.2) * .012;
-    c.translate(x + sh, y - (k.jump || 0) * u); c.scale(u * (1 - br * .5), u * (1 + br));
+    c.translate(x + sh, y - (k.jump || 0) * u * .5); c.scale(u * (1 - br * .5), u * (1 + br));
     c.lineCap = 'round'; c.lineJoin = 'round';
     const hood = has('raincoat') && !has('sunhat');
     const umb = has('umbrella');

@@ -377,7 +377,8 @@
     U = Math.max(16, U);
     for (const b of blocks) if (b.st === 'mat') { const c = cellCenter(b); b.px = c[0]; b.py = c[1]; }
     sideL.style.bottom = (Hd - tray.y + 12) + 'px';
-    sideR.style.bottom = (Hd - tray.y + 12) + 'px';
+    if (portrait && free) { sideR.style.bottom = 'auto'; sideR.style.top = 'calc(max(10px,env(safe-area-inset-top)) + 58px)'; sideR.style.flexDirection = 'row'; }
+    else { sideR.style.top = 'auto'; sideR.style.bottom = (Hd - tray.y + 12) + 'px'; sideR.style.flexDirection = 'column'; }
   }
   function cellCenter(b, x = b.x, z = b.z) { const [w, h] = fpOf(b.t, b.r); return [gx0 + (x + w / 2) * U, gy0 - (z + h / 2) * U]; }
 
@@ -854,7 +855,7 @@
   function loop(now) {
     if (!running) return;
     raf = requestAnimationFrame(loop);
-    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now;
+    const dt = clamp((now - last) / 1000 || 0, 0, .05); last = now;
     if (paused || document.hidden) return;
     update(dt); render();
   }
