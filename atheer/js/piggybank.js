@@ -1025,7 +1025,7 @@
         if (isAr()) c.roundRect(mx + mw / 2 - 3 - (mw - 6) * f, my - mh / 2 + 3, (mw - 6) * f, mh - 6, 6); else c.roundRect(mx - mw / 2 + 3, my - mh / 2 + 3, (mw - 6) * f, mh - 6, 6);
         c.fill();
       }
-      c.font = `900 15px ${FONT}`; c.fillStyle = '#7A1F4E'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.font = `900 15px ${FONT}`; c.fillStyle = '#7A1F4E'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = isAr() ? 'rtl' : 'ltr';
       c.fillText(isAr() ? `${dg(saveTot)} / ${dg(saveGoal)}` : `${saveTot} / ${saveGoal}`, mx, my + 1);
     }
   }
