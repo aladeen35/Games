@@ -175,10 +175,10 @@
      المستويات
      ===================================================================== */
   const LV = [
-    { key: 'match', ic: '🔺', t: 'طابِق الثقوب', sub: () => dg(1) + ' – ' + dg(4), rounds: 2 },
+    { key: 'match', ic: '🔺', t: 'مطابقة الثقوب', sub: () => dg(1) + ' – ' + dg(4), rounds: 2 },
     { key: 'match6', ic: '⬢', t: 'حتى الستة', sub: () => dg(1) + ' – ' + dg(6), rounds: 2 },
-    { key: 'stack', ic: '🗼', t: 'ابنِ برجًا', sub: () => 'تكديس', rounds: 2 },
-    { key: 'count', ic: '👂', t: 'اسمع وضَع', sub: () => (lang === 'ar' ? 'ضع ' : 'Put ') + dg(3), rounds: 2 },
+    { key: 'stack', ic: '🗼', t: 'برج الأشكال', sub: () => 'تكديس', rounds: 2 },
+    { key: 'count', ic: '👂', t: 'العدّ بالسمع', sub: () => (lang === 'ar' ? 'ضع ' : 'Put ') + dg(3), rounds: 2 },
     { key: 'numer', ic: '🔢', t: 'الأرقام', sub: () => dg(3) + ' = •••', rounds: 2 },
     { key: 'color', ic: '🎨', t: 'الألوان والأشكال', sub: () => lang === 'ar' ? 'مثلث أصفر' : 'yellow triangle', rounds: 2 },
     { key: 'add', ic: '➕', t: 'الجمع', sub: () => dg(2) + ' + ' + dg(1), rounds: 4 }
@@ -854,8 +854,8 @@
   function drawMini(cvs, s, size) {
     cvs.width = size * 2; cvs.height = size * 2;
     const c = cvs.getContext('2d'); c.scale(2, 2);
-    const sv = U; U = size * .82;
-    const t = Object.assign({}, s, { gx: size / 2, gy: size * .54, y: 0, sc: 1, rot: 0, tilt: 0, sq: 0, alpha: 1 });
+    const sv = U, mr = Math.max(...geo(s.kind).pts.map(q => Math.hypot(q[0], q[1] / GK))); U = size * .4 / mr;
+    const t = Object.assign({}, s, { gx: size / 2, gy: size * .5 + TH * HK * U * .5, y: 0, sc: 1, rot: 0, tilt: 0, sq: 0, alpha: 1 });
     drawShape(c, t); U = sv;
   }
   function setPrompt(bump) {
@@ -865,7 +865,7 @@
     if (L.key === 'count') h = `<span class="pt">${ar ? App.g('ضعي', 'ضع') : 'Put'}</span><b class="nm">${dg(Pp)}</b>`;
     else if (L.key === 'color') h = `<canvas class="pc"></canvas><span class="pt">${ar ? nameAr(Pp) : nameEn(Pp)}</span>`;
     else if (L.key === 'add') h = `<b class="nm">${dg(R.a)}</b><i>+</i><b class="nm">${dg(R.b)}</b><i>=</i><b class="nm q">${ar ? '؟' : '?'}</b>`;
-    else if (L.key === 'numer') h = `<span class="pt">🔢 ${ar ? 'طابِق الرقم مع عدد الأوتاد' : 'Match numbers and pegs'}</span>`;
+    else if (L.key === 'numer') h = `<span class="pt">🔢 ${ar ? App.g('طابقي', 'طابق') + ' الرقم مع عدد الأوتاد' : 'Match numbers and pegs'}</span>`;
     else if (L.key === 'stack') h = `<span class="pt">🗼 ${ar ? App.g('كدّسي الأشكال على أوتادها', 'كدّس الأشكال على أوتادها') : 'Stack the shapes on their pegs'}</span>`;
     else h = `<span class="pt">🪵 ${ar ? App.g('ضعي كل شكل على أوتاده', 'ضع كل شكل على أوتاده') : 'Put each shape on its pegs'}</span>`;
     prm.innerHTML = h; prm.dir = ar ? 'rtl' : 'ltr';
@@ -1115,7 +1115,7 @@
     help: () => [
       '🪵 ' + App.g('اسحبي', 'اسحب') + ' الشكل الملوّن ' + App.g('وضعيه', 'وضعه') + ' على مجموعة الأوتاد التي عددها يساوي عدد ثقوبه',
       '🔢 عند التركيب نعدّ الأوتاد معًا: واحد، اثنان، ثلاثة…',
-      '🗼 المستويات: طابِق الثقوب، ابنِ برجًا، اسمع وضَع، الأرقام، الألوان والأشكال، والجمع',
+      '🗼 المستويات: مطابقة الثقوب، برج الأشكال، العدّ بالسمع، الأرقام، الألوان والأشكال، والجمع',
       '🔊 الزر الأصفر يعيد السؤال، و«عربي / English» يبدّل لغة النطق والأرقام',
       '⭐ ' + App.g('أكملي', 'أكمل') + ' المستوى دون أخطاء ' + App.g('لتحصلي', 'لتحصل') + ' على ٣ نجوم، و✕ يفتح المستويات'
     ],

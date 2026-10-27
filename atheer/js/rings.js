@@ -63,18 +63,18 @@
      الرسم: حلقة، عمود، قاعدة، كرة بوجه مبتسم
      ===================================================================== */
   function ringPath(c, R, th) {
-    const h2 = th / 2, Rs = R * .94;
+    const h2 = th / 2, Rs = R * .84;
     c.beginPath();
     c.moveTo(-Rs, -h2);
-    c.quadraticCurveTo(-R * 1.06, 0, -Rs, h2);
+    c.quadraticCurveTo(-R * 1.16, 0, -Rs, h2);
     c.ellipse(0, h2, Rs, Rs * KY, 0, Math.PI, 0, true);
-    c.quadraticCurveTo(R * 1.06, 0, Rs, -h2);
+    c.quadraticCurveTo(R * 1.16, 0, Rs, -h2);
     c.ellipse(0, -h2, Rs, Rs * KY, 0, 0, Math.PI, true);
     c.closePath();
   }
   /** حلقة دونات لامعة مركزها (0,0) */
   function drawRing(c, R, th, hex, hr, o = {}) {
-    const P = pal(hex), h2 = th / 2, Rs = R * .94;
+    const P = pal(hex), h2 = th / 2, Rs = R * .84;
     // الجسم
     ringPath(c, R, th);
     let g = c.createLinearGradient(-R, 0, R, 0);
@@ -331,7 +331,7 @@
     trayR.forEach((r, i) => r.slot = i);
     phase = 'play';
     layout(true);
-    for (const r of rings) if (r.st === 'tray') { r.x = r.hx + rand(-30, 30); r.y = Hd + 80 + r.slot * 18; r.sc = ts; r.anim = { t0: T + .08 * r.slot, dur: .55, fx: r.x, fy: r.y, tx: r.hx, ty: r.hy, arc: 40, done: () => Sound.tone(500 + r.slot * 60, .08, 'sine', .06) }; }
+    for (const r of rings) if (r.st === 'tray') { r.x = r.hx + rand(-30, 30); r.y = tray.y + tray.h + 30; r.sc = ts; r.anim = { t0: T + .06 * r.slot, dur: .45, fx: r.x, fy: r.y, tx: r.hx, ty: r.hy, arc: 40, done: () => Sound.tone(500 + r.slot * 60, .08, 'sine', .06) }; }
     paintTitle(); paintPrompt(); paintBar(); paintAns();
     lastAct = T;
     after(.5, promptSpeak);
@@ -352,8 +352,8 @@
     for (let pass = 0; pass < 2; pass++) {
       const avail = Hd - top - trayH - 24;
       th = clamp(avail / (cap + 3.1), 22, 62);
-      Rmax = Math.min(playW * (two ? .2 : .32), th * 3.1, 150);
-      Rmin = Math.max(Rmax * .42, th * 1.15);
+      Rmax = Math.min(playW * (two ? .21 : .33), th * 3.4, 160);
+      Rmin = Math.max(Rmax * .45, th * 1.5);
       ts = portrait ? .52 : .6;
       let rows;
       const packW = playW - 40;
@@ -909,6 +909,7 @@
     drawTray(c);
     // الحلقات في الصينية
     const tr = rings.filter(r => !r.pole && r.st !== 'drag' && !(r.st === 'fly'));
+    for (const r of tr) if (r.st === 'tray') { c.fillStyle = 'rgba(90,50,150,.16)'; c.beginPath(); c.ellipse(r.x, r.y + (th / 2 + r.R * KY) * r.sc + 3, r.R * r.sc * .9, r.R * r.sc * KY * .7, 0, 0, TAU); c.fill(); }
     tr.sort((a, b) => a.y - b.y).forEach(r => drawRingObj(c, r));
     for (const b of balls) if (!b.pole && b.st !== 'drag' && b.st !== 'fly') drawBallObj(c, b);
     // المتحركة والمسحوبة فوق الكل
@@ -1004,7 +1005,7 @@
     resume() { paused = false; last = performance.now(); },
     back() { if (lvOv.classList.contains('on')) { act('close'); return true; } return false; },
     /* للاختبار الآلي */
-    _state() { return { lvl, mode: L.m, phase, mistakes, done, steps, poles: poles.map(p => ({ x: p.x, bY: p.bY, topY: p.topY, n: p.stack.filter(Boolean).length, ci: p.ci })), rings: rings.map(r => ({ x: r.x, y: r.y, s: r.s, ci: r.ci, st: r.st, on: !!r.pole })), balls: balls.map(b => ({ x: b.x, y: b.y, st: b.st })), seq, countN, missS }; },
+    _state() { return { lvl, mode: L.m, phase, mistakes, done, steps, poles: poles.map(p => ({ wig: p.wig, x: p.x, bY: p.bY, topY: p.topY, n: p.stack.filter(Boolean).length, ci: p.ci })), rings: rings.map(r => ({ x: r.x, y: r.y, s: r.s, ci: r.ci, st: r.st, on: !!r.pole })), balls: balls.map(b => ({ x: b.x, y: b.y, st: b.st })), seq, countN, missS }; },
     _start: n => startLevel(n)
   });
 })();

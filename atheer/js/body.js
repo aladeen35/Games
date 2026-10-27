@@ -62,7 +62,7 @@
     hat:        { ar: 'القبعة', en: 'hat', e: () => girl ? '👒' : '🧢', ok: ['head', 'hair'], slot: 'head', v: 'wear' },
     crown:      { ar: 'التاج', en: 'crown', e: () => '👑', ok: ['head', 'hair'], slot: 'head', v: 'put' },
     glasses:    { ar: 'النظارة', en: 'glasses', e: () => '👓', ok: ['eyes', 'nose'], slot: 'eyes', v: 'wear' },
-    scarf:      { ar: 'الوشاح', en: 'scarf', e: () => '🧣', ok: ['neck'], slot: 'neck', v: 'wear' },
+    scarf:      { ar: 'الوشاح', en: 'scarf', e: () => '🧣', ok: ['neck', 'shoulders'], slot: 'neck', v: 'wear' },
     gloves:     { ar: 'القفازات', en: 'gloves', e: () => '🧤', ok: ['hands', 'fingers'], slot: 'hands', v: 'wear' },
     shoes:      { ar: 'الحذاء', en: 'shoes', e: () => '👟', ok: ['feet', 'toes'], slot: 'feet', v: 'wear' },
     socks:      { ar: 'الجوارب', en: 'socks', e: () => '🧦', ok: ['feet', 'toes'], slot: 'feet', v: 'wear' },
@@ -678,19 +678,21 @@
       if (dist(H.x, H.y, x, y) < 13) return 'hands';
     }
     if (front) {
-      if (mouthBox) {
+      if (mouthBox && P.mo > .6) {
         const m = mouthBox, my = m.y + P.faceDY * 0;
         if (Math.abs(x - m.x) < m.w + 3 && y > my - 7 && y < my + m.tH + 2) return 'teeth';
-        if (Math.abs(x - m.x) < m.w + 3 && y >= my + m.tH + 2 && y < my + m.h * 1.7 + m.tg * 18 + 3) return 'tongue';
+        if (Math.abs(x - m.x) < m.w + 3 && y >= my + m.tH + 2 && y < my + m.h * 1.45 + m.tg * 20) return 'tongue';
       }
       if (dist(fx, fy + 15, x, y) < 9.5) return 'nose';
       for (const s of [-1, 1]) if (dist(fx + s * 18, fy, x, y) < 13) return 'eyes';
       if (Math.abs(x - fx) < 15 && Math.abs(y - (fy + 30)) < 9) return 'mouth';
       for (const s of [-1, 1]) if (dist(fx + s * 31, fy + 22, x, y) < 11) return 'cheeks';
-      if (Math.abs(x - fx) < 17 && y > fy + 38 && y < h.y + h.r + 5) return 'chin';
+      if (Math.abs(x - fx) < 17 && y > fy + 37 && y < h.y + h.r - 1) return 'chin';
     }
     for (const s of [-1, 1]) if (dist(h.x + s * 50, h.y + 6, x, y) < 12) return 'ears';
     if (girl) for (const s of [-1, 1]) if (dist(h.x + s * 64, h.y - 6, x, y) < 18) return 'hair';
+    const nx = G.headX * .6 + G.bodyX * .4;
+    if (Math.abs(x - nx) < 17 && y > h.y + h.r - 3 && y < 128 + G.bodyY) return 'neck';
     const dh = dist(h.x, h.y, x, y);
     if (dh < h.r + 5) {
       if (!front) return y < h.y + 20 ? 'hair' : 'head';
@@ -706,8 +708,6 @@
       if (front && Math.abs(y - (ft.y + 5)) < 6 && Math.abs(x - (ft.x - s * 1)) < 14) return 'toes';
       if (Math.abs(x - ft.x) < 18 && Math.abs(y - ft.y) < 12) return 'feet';
     }
-    const nx = G.headX * .6 + G.bodyX * .4;
-    if (Math.abs(x - nx) < 12 && y > h.y + h.r - 4 && y < 124 + G.bodyY) return 'neck';
     for (const L of sides) if (dist(G['S' + L].x, G['S' + L].y - 3, x, y) < 13) return 'shoulders';
     for (const L of sides) if (segDist(p, G['S' + L], G['W' + L]) < 11) return 'arms';
     if (Math.abs(x - G.bodyX) < 38 && y > 118 + G.bodyY && y < 214 + G.bodyY) return front ? 'tummy' : 'back';
@@ -721,7 +721,7 @@
     const L = { head: [h.x, h.y - 10], hair: [h.x, h.y - 42], eyes: [fx + 18, fy], ears: [h.x + 50, h.y + 6], nose: [fx, fy + 15], mouth: [fx, fy + 30], teeth: [fx, fy + 31], tongue: [fx, fy + 40],
       cheeks: [fx + 31, fy + 22], chin: [fx, fy + 44], neck: [G.bodyX, 114 + G.bodyY], shoulders: [G.SR.x, G.SR.y - 4], arms: [lerp(G.SR.x, G.ER.x, .5), lerp(G.SR.y, G.ER.y, .5)],
       elbows: [G.ER.x, G.ER.y], hands: [G.HR.x, G.HR.y], fingers: [G.HR.x + Math.sin(G.HR.a) * 12, G.HR.y + Math.cos(G.HR.a) * 12], tummy: [G.bodyX, 168 + G.bodyY], back: [G.bodyX, 160 + G.bodyY],
-      knees: [G.knR.x, G.knR.y], legs: [lerp(G.knR.x, G.anR.x, .5), lerp(G.knR.y, G.anR.y, .5)], feet: [G.ftR.x, G.ftR.y], toes: [G.ftR.x, G.ftR.y + 5] }[id] || [0, 130];
+      knees: [G.knR.x, G.knR.y], legs: [lerp(G.knR.x, G.anR.x, .5), lerp(G.knR.y, G.anR.y, .5)], feet: [G.ftR.x, G.ftR.y - 5], toes: [G.ftR.x, G.ftR.y + 5] }[id] || [0, 130];
     return { x: CX + L[0] * K * sx, y: TOPY + L[1] * K };
   }
   const partVisible = id => view === 'front' ? id !== 'back' : !FRONT_ONLY.includes(id);

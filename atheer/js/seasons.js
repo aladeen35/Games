@@ -581,7 +581,7 @@
       p: Object.assign({}, WP.sunny), t: Math.random() * 20, flash: 0, bolt: null, nextBolt: 2.5, acc: {}, mini
     };
     S.mkLayer = () => {
-      const tsz = Math.min(S.w * (S.mini ? .4 : .44), (S.h - S.top) * (S.mini ? .62 : .5), 330);
+      const tsz = Math.min(S.w * (S.mini ? .4 : .4), (S.h - S.top) * (S.mini ? .62 : .5), 330);
       return { se: S.se, wx: S.wx, bg: getBg(S.se, S.wx, S.w, S.h, S.hz, S.mini), tree: getTree(S.se, S.wx, tsz), tsz, a: 0 };
     };
     S.resize = (w, h, hzr, top = 0) => {
@@ -1107,7 +1107,7 @@
     trayGrid(cards.filter(c => !c.done), ccols, 12, W - 12, trayTop, cw, ch, 8);
     trayRect = { y: trayTop - 12 };
     const areaTop = topY + 4, areaBot = trayTop - 22, aw = Math.min(W - 24, portrait ? 520 : 1100);
-    const fw = (aw - (cols - 1) * gap) / cols, fh = Math.min((areaBot - areaTop - (rows - 1) * gap) / rows, fw * (portrait ? 1.25 : .95));
+    const fw = (aw - (cols - 1) * gap) / cols, fh = Math.min((areaBot - areaTop - (rows - 1) * gap) / rows, fw * (portrait ? 1.75 : 1.1));
     const totalH = rows * fh + (rows - 1) * gap, y0 = areaTop + (areaBot - areaTop - totalH) / 2, x0 = (W - aw) / 2;
     minis.forEach((m, i) => {
       const r = Math.floor(i / cols), j = i % cols, jj = lang === 'ar' ? cols - 1 - j : j;
@@ -1133,7 +1133,7 @@
     trayGrid(cards, cols, 12, W - 12, trayTop, cw, ch, 8);
     trayRect = { y: trayTop - 12 };
     // لوحة النشرة
-    const bw = Math.min(W - 28, portrait ? 360 : 460), bh = Math.min(portrait ? 210 : 190, (trayTop - topY) * .62);
+    const bw = Math.min(W - 28, portrait ? 360 : 460), bh = Math.min(portrait ? 175 : 190, (trayTop - topY) * .5);
     const bx = (W - bw) / 2 + (portrait ? 0 : 60), by = trayTop - 22 - bh;
     board = { x: bx, y: by, w: bw, h: bh };
     const ns = def.temp ? 2 : 1, ss = Math.min(bh * .58, (bw - 30) / ns - 16);
@@ -1142,7 +1142,7 @@
       sl.w = ss; sl.h = ss; sl.x = bx + bw / 2 + (jj - (ns - 1) / 2) * (ss + 26); sl.y = by + bh * .58;
       if (sl.card) { sl.card.x = sl.x; sl.card.y = sl.y; sl.card.w = ss * .92; sl.card.h = ss * .92; }
     });
-    if (kid) { kid.s = clamp(bh * 1.2, 120, 260); kid.x = portrait ? bx + bw * .08 : bx - kid.s * .28; kid.y = by + (portrait ? 4 : bh); }
+    if (kid) { kid.s = clamp(portrait ? bh * 1.05 : bh * 1.3, 120, 260); kid.x = portrait ? bx + kid.s * .3 + 4 : bx - kid.s * .32; kid.y = by + (portrait ? 2 : bh); }
   }
   let board = null;
 
@@ -1638,11 +1638,12 @@
     ctx.fillStyle = g; rr(ctx, x + 6, y + 6, w - 12, h - 12, 21); ctx.fill();
     // عنوان
     const ts = clamp(h * .12, 14, 21);
-    ctx.fillStyle = '#7950F2'; rr(ctx, x + w * .18, y - ts * .7, w * .64, ts * 1.7, ts * .85); ctx.fill();
+    const tx0 = portrait ? x + w * .4 : x + w * .18, tw = portrait ? w * .56 : w * .64;
+    ctx.fillStyle = '#7950F2'; rr(ctx, tx0, y - ts * .7, tw, ts * 1.7, ts * .85); ctx.fill();
     ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
-    textFit(ctx, (lang === 'ar' ? 'النشرة الجوية' : 'Weather Report') + ' 📺', x + w / 2, y + ts * .16, w * .6, ts, '#fff');
-    // ON AIR
-    ctx.fillStyle = Math.sin(T * 4) > 0 ? '#FA5252' : '#FFA8A8'; ctx.beginPath(); ctx.arc(x + (lang === 'ar' ? w - 26 : 26), y + 26, 7, 0, TAU); ctx.fill();
+    textFit(ctx, (lang === 'ar' ? 'النشرة الجوية' : 'Weather Report') + ' 📺', tx0 + tw / 2, y + ts * .16, tw * .9, ts, '#fff');
+    // على الهواء
+    ctx.fillStyle = Math.sin(T * 4) > 0 ? '#FA5252' : '#FFA8A8'; ctx.beginPath(); ctx.arc(x + w - 24, y + 26, 7, 0, TAU); ctx.fill();
     // الخانات
     for (const sl of slots) {
       const filled = !!sl.card, hov = drag && !filled && slotAt(drag.cd.x, drag.cd.y) === sl;
