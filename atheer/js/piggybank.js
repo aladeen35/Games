@@ -2,7 +2,8 @@
    حصّالتي — نقود لعب (جنيه سوداني أو ريال سعودي) وحصّالة وردية ودكّان صغير
    التعرّف على العملات، العدّ في الحصّالة، الدفع بالمبلغ الصحيح، الباقي،
    والادّخار لشراء لعبة — بالعربية (١٢٣) أو الإنجليزية (123)
-   النقود هنا رسوم لعب مبسّطة (ليست نسخًا من العملات الحقيقية)
+   النقود صور حقيقية صغيرة (img/money) عليها شريط «لعبة تعليمية» ولا تُرسم الورقة
+   أعرض من ٤٥٪ من الشاشة؛ وإن لم تُحمَّل الصورة نرسم نقودًا مبسّطة بديلة
    ===================================================================== */
 (() => {
   'use strict';
@@ -16,43 +17,57 @@
     'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
   const TAR = ['', 'عشرة', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون', 'مئة'];
   const TEN = ['', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'one hundred'];
-  const arNum = n => n <= 20 ? WAR[n] : n % 10 === 0 ? TAR[n / 10] : WAR[n % 10] + ' و' + TAR[Math.floor(n / 10)];
-  const enNum = n => n <= 20 ? WEN[n] : n % 10 === 0 ? TEN[n / 10] : TEN[Math.floor(n / 10)] + ' ' + WEN[n % 10];
+  const HAR = ['', 'مئة', 'مئتان', 'ثلاثمئة', 'أربعمئة', 'خمسمئة', 'ستمئة', 'سبعمئة', 'ثمانمئة', 'تسعمئة'];
+  /* obl: حالة النصب/الجر (اثنين، عشرين، مئتين) */
+  function arNum0(n, obl) {
+    if (n <= 20) return obl ? (n === 2 ? 'اثنين' : n === 12 ? 'اثني عشر' : n === 20 ? 'عشرين' : WAR[n]) : WAR[n];
+    const t = TAR[Math.floor(n / 10)].replace(/ون$/, obl ? 'ين' : 'ون');
+    return n % 10 === 0 ? t : arNum0(n % 10, obl) + ' و' + t;
+  }
+  function arNum(n, obl = false) {
+    if (n < 100) return arNum0(n, obl);
+    const h = Math.floor(n / 100), r = n % 100, hw = h === 2 ? (obl ? 'مئتين' : 'مئتان') : HAR[h];
+    return r ? hw + ' و' + arNum0(r, obl) : hw;
+  }
+  const enNum0 = n => n <= 20 ? WEN[n] : n % 10 === 0 ? TEN[n / 10] : TEN[Math.floor(n / 10)] + ' ' + WEN[n % 10];
+  const enNum = n => n < 100 ? enNum0(n) : WEN[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' ' + enNum0(n % 100) : '');
 
   /* العملتان: ألوان مبسّطة يسهل تمييزها، ورموز لطيفة (نخلة / نيل وشمس) */
   const CUR = {
     sdg: {
-      coins: [1, 2], notes: [5, 10, 20, 50], ar1: 'جنيه', ar2: 'جنيهان', arPl: 'جنيهات', arAcc: 'جنيها', en1: 'pound', enPl: 'pounds',
+      coins: [1], notes: [2, 5, 10, 20, 50, 100, 200, 500], ar1: 'جنيه', ar2: 'جنيهان', ar2o: 'جنيهين', arPl: 'جنيهات', arAcc: 'جنيها', en1: 'pound', enPl: 'pounds',
       abAr: 'ج.س', abEn: 'SDG', name: 'جنيه سوداني', motif: 'nile', flag: '🇸🇩',
-      col: { 1: ['#FFE9A0', '#E5B23A', '#A9761A'], 2: ['#F4F7FB', '#BCC5D2', '#7D8898'], 5: '#C47A3D', 10: '#E0505A', 20: '#2FA36B', 50: '#7E5BD6' }
+      col: { 1: ['#F4F7FB', '#BCC5D2', '#7D8898'], 2: '#D9B23A', 5: '#C47A3D', 10: '#E0505A', 20: '#2FA36B', 50: '#7E5BD6', 100: '#3D8BD6', 200: '#E0782E', 500: '#8E6BD6' }
     },
     sar: {
-      coins: [1, 2], notes: [5, 10, 50, 100], ar1: 'ريال', ar2: 'ريالان', arPl: 'ريالات', arAcc: 'ريالا', en1: 'riyal', enPl: 'riyals',
+      coins: [1, 2], notes: [5, 10, 50, 100, 500], ar1: 'ريال', ar2: 'ريالان', ar2o: 'ريالين', arPl: 'ريالات', arAcc: 'ريالا', en1: 'riyal', enPl: 'riyals',
       abAr: 'ر.س', abEn: 'SAR', name: 'ريال سعودي', motif: 'palm', flag: '🇸🇦',
-      col: { 1: ['#F4F7FB', '#BCC5D2', '#7D8898', '#E5B23A'], 2: ['#FFE9A0', '#E5B23A', '#A9761A', '#BCC5D2'], 5: '#8E5BD6', 10: '#9C7448', 50: '#2FA36B', 100: '#E0505A' }
+      col: { 1: ['#F4F7FB', '#BCC5D2', '#7D8898', '#E5B23A'], 2: ['#FFE9A0', '#E5B23A', '#A9761A', '#BCC5D2'], 5: '#8E5BD6', 10: '#9C7448', 50: '#2FA36B', 100: '#E0505A', 500: '#3D8BD6' }
     }
   };
   const ITEMS = [
     { e: '🍎', ar: 'تفاحة', en: 'Apple', p: [1, 4] }, { e: '🍌', ar: 'موزة', en: 'Banana', p: [1, 4] }, { e: '🍊', ar: 'برتقالة', en: 'Orange', p: [1, 5] },
     { e: '🧃', ar: 'عصير', en: 'Juice', p: [2, 8] }, { e: '🍦', ar: 'آيس كريم', en: 'Ice cream', p: [3, 10] }, { e: '🍉', ar: 'بطيخ', en: 'Watermelon', p: [4, 15] },
-    { e: '🍇', ar: 'عنب', en: 'Grapes', p: [3, 12] }, { e: '🎈', ar: 'بالون', en: 'Balloon', p: [1, 6] }, { e: '⚽', ar: 'كرة', en: 'Ball', p: [5, 25] },
-    { e: '🧸', ar: 'دبدوب', en: 'Teddy bear', p: [8, 50] }, { e: '🚗', ar: 'سيارة', en: 'Car', p: [8, 50] }, { e: '🪁', ar: 'طائرة ورقية', en: 'Kite', p: [5, 30] },
-    { e: '🥁', ar: 'طبل', en: 'Drum', p: [10, 50] }, { e: '🎁', ar: 'هدية', en: 'Gift', p: [10, 50] }, { e: '🚲', ar: 'دراجة', en: 'Bicycle', p: [15, 50] }
+    { e: '🍇', ar: 'عنب', en: 'Grapes', p: [3, 12] }, { e: '🎈', ar: 'بالون', en: 'Balloon', p: [1, 6] }, { e: '⚽', ar: 'كرة', en: 'Ball', p: [5, 40] },
+    { e: '🧸', ar: 'دبدوب', en: 'Teddy bear', p: [8, 150] }, { e: '🚗', ar: 'سيارة', en: 'Car', p: [8, 250] }, { e: '🪁', ar: 'طائرة ورقية', en: 'Kite', p: [5, 40] },
+    { e: '🥁', ar: 'طبل', en: 'Drum', p: [10, 150] }, { e: '🎁', ar: 'هدية', en: 'Gift', p: [10, 500] }, { e: '🚲', ar: 'دراجة', en: 'Bicycle', p: [30, 500] }
   ];
   /* المستويات */
   const LV = [
     { k: ['find', 'find', 'find', 'find', 'find'], den: [1, 2, 5], ic: '🔍' },
-    { k: ['find', 'find', 'find', 'find', 'find'], den: 'all', ic: '🔍' },
+    { k: ['find', 'find', 'find', 'find', 'find'], den: 'all', dmax: 50, ic: '🔍' },
     { k: ['count', 'count', 'count', 'count', 'count'], den: [1], tot: [3, 8], ic: '🐷' },
     { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2], tot: [4, 12], ic: '🐷' },
     { k: ['pay', 'pay', 'pay', 'pay', 'pay'], den: [1, 2], price: [2, 6], ic: '🛒' },
     { k: ['pay', 'pay', 'count', 'pay', 'pay'], den: [1, 2, 5], price: [5, 10], tot: [6, 15], ic: '🛒' },
     { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2, 5, 10], tot: [10, 25], ic: '🐷' },
-    { k: ['pay', 'pay', 'pay', 'pay', 'pay'], den: [1, 2, 5, 10], price: [8, 20], ic: '🛒' },
+    { k: ['pay', 'pay', 'pay', 'pay', 'pay'], den: [1, 2, 5, 10, 20], price: [8, 30], ic: '🛒' },
+    /* الباقي: chg بعدد «الخطوات» — خطوة ١ للأوراق الصغيرة و١٠ لورقة ١٠٠/٢٠٠ و١٠٠ لورقة ٥٠٠ */
     { k: ['change', 'change', 'change', 'change', 'change'], pay: [5, 10], chg: [1, 5], ic: '🪙' },
-    { k: ['change', 'change', 'change', 'change', 'change'], pay: 'big', chg: [1, 9], ic: '🪙' },
-    { k: ['save', 'save', 'save', 'save', 'save'], goal: [12, 20], ic: '🎯' },
-    { k: ['find', 'count', 'pay', 'change', 'pay'], den: [1, 2, 5, 10], price: [6, 20], tot: [8, 25], pay: 'big', chg: [1, 9], ic: '🏆' }
+    { k: ['change', 'change', 'change', 'change', 'change'], pay: [20, 50, 100], chg: [1, 9], ic: '🪙' },
+    /* الادّخار: ثمن اللعبة كبير ويُجمع بالأوراق على خمس دفعات */
+    { k: ['save', 'save', 'save', 'save', 'save'], goal: [50, 100, 200, 500], ic: '🎯' },
+    { k: ['find', 'count', 'pay', 'change', 'pay'], fden: [50, 100, 200, 500], den: [1, 2, 5, 10, 20, 50], price: [20, 90], tot: [15, 45], pay: [100, 200, 500], chg: [1, 9], ic: '🏆' }
   ];
   const NL = LV.length, ROUNDS = 5;
   const CARDC = [['#FF9A3D', '#E86F0C'], ['#4D9BFF', '#1F6FE0'], ['#A66BFF', '#7A3EE0']];
@@ -75,8 +90,19 @@
   const isCoin = v => C().coins.includes(v);
   const allDen = () => C().coins.concat(C().notes);
   function say(ar, en) { if (isAr()) App.speak(ar); else App.speak(en, 'en'); }
-  function arAmt(n) { const c = C(); if (n === 1) return c.ar1 + ' واحد'; if (n === 2) return c.ar2; if (n === 100) return 'مئة ' + c.ar1; return arNum(n) + ' ' + (n <= 10 ? c.arPl : c.arAcc); }
+  /* المبلغ منطوقًا مع مطابقة العدد والمعدود؛ obl للنصب/الجر: «ادفعي مئتي جنيه»، «ورقة عشرين جنيها» */
+  function arAmt(n, obl = false) {
+    const c = C(), r = n % 100;
+    if (n === 1) return c.ar1 + ' واحد';
+    if (n === 2) return obl ? c.ar2o : c.ar2;
+    if (n <= 10) return arNum(n) + ' ' + c.arPl;
+    if (!r) { const h = n / 100; return (h === 2 ? (obl ? 'مئتي' : 'مئتا') : HAR[h]) + ' ' + c.ar1; }
+    return arNum(n, obl) + ' ' + (r >= 3 && r <= 10 ? c.arPl : r <= 2 ? c.ar1 : c.arAcc);
+  }
   const enAmt = n => enNum(n) + ' ' + (n === 1 ? C().en1 : C().enPl);
+  /* «أين ورقة خمسين جنيها؟» / «Where is the fifty pound note?» */
+  const arName = v => isCoin(v) ? arAmt(v) : 'ورقة ' + arAmt(v, true);
+  const enName = v => 'the ' + enNum(v) + ' ' + C().en1 + (isCoin(v) ? ' coin' : ' note');
   const sayAmt = n => say(arAmt(n), enAmt(n));
   const sayNum = n => say(arNum(n), enNum(n));
   const unitTxt = n => isAr() ? (n >= 3 && n <= 10 ? C().arPl : C().ar1) : (n === 1 ? C().en1 : C().enPl);
@@ -203,7 +229,7 @@
   let money = [], parts = [], timers = [], drag = null, shake = 0;
   let S = null; // التخطيط
   let pig = { x: 0, y: 0, s: 100, wig: 0, sq: 0, blink: 0, blinkAt: 2, total: 0, show: false, hop: 0 };
-  let tray = null, item = null, bub = { v: 0, pop: 0 }, saveTot = 0, saveGoal = 0, saveItem = null, banT = 0;
+  let tray = null, item = null, bub = { v: 0, pop: 0 }, saveTot = 0, saveGoal = 0, saveUnit = 1, saveItem = null, banT = 0;
 
   function later(s, fn) { timers.push({ at: T + s, fn }); }
   function clearLater() { timers = []; }
@@ -230,11 +256,71 @@
     c.restore();
   }
   function motif(c, x, y, s, col) { if (C().motif === 'palm') palm(c, x, y, s, col); else nile(c, x, y, s, col); }
+  /* صور النقود الحقيقية: تُحمَّل مسبقًا، وإن لم تجهز بعد نرسم البديل المبسّط */
+  const IMGS = {};
+  let styl = false; // رسم مبسّط إجباري (لأيقونة القائمة)
+  const imgFile = (c, v) => `${c}_${CUR[c].coins.includes(v) ? 'c' + v + '.png' : v + '.jpg'}`;
+  for (const c of Object.keys(CUR)) for (const v of CUR[c].coins.concat(CUR[c].notes)) {
+    const im = new Image(); im.decoding = 'async';
+    im.onload = () => { if (typeof paintCurBtn === 'function' && root && v === 1) paintCurBtn(); };
+    im.onerror = () => { im.bad = true; };
+    im.src = 'img/money/' + imgFile(c, v);
+    IMGS[c + v] = im;
+  }
+  function moneyImg(v) { const im = IMGS[cur + v]; return !styl && im && !im.bad && im.complete && im.naturalWidth ? im : null; }
+  const STAMP = 'لعبة تعليمية';
+  /* عملة حقيقية: الصورة الدائرية مع لمعة خفيفة على الحافة */
+  function drawCoinImg(c, im, r) {
+    c.save(); c.beginPath(); c.arc(0, 0, r, 0, TAU); c.clip();
+    c.drawImage(im, -r, -r, r * 2, r * 2);
+    let g = c.createRadialGradient(-r * .35, -r * .45, r * .05, 0, 0, r * 1.05);
+    g.addColorStop(0, 'rgba(255,255,255,.28)'); g.addColorStop(.45, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.14)');
+    c.fillStyle = g; c.fillRect(-r, -r, r * 2, r * 2);
+    c.restore();
+    g = c.createLinearGradient(-r, -r, r, r);
+    g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(.45, 'rgba(255,255,255,.12)'); g.addColorStop(.6, 'rgba(0,0,0,.06)'); g.addColorStop(1, 'rgba(0,0,0,.28)');
+    c.strokeStyle = g; c.lineWidth = Math.max(1.2, r * .055); c.beginPath(); c.arc(0, 0, r * .972, 0, TAU); c.stroke();
+    c.strokeStyle = 'rgba(40,40,40,.22)'; c.lineWidth = Math.max(.6, r * .015); c.beginPath(); c.arc(0, 0, r - c.lineWidth / 2, 0, TAU); c.stroke();
+  }
+  /* ورقة حقيقية: الصورة بزوايا مستديرة وإطار أبيض رفيع، وشريط مائل «لعبة تعليمية» دائمًا */
+  function drawNoteImg(c, im, w, h) {
+    const rr = h * .08, iw = im.naturalWidth, ih = im.naturalHeight, ins = .022;
+    c.save(); c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.clip();
+    c.fillStyle = '#fff'; c.fillRect(-w / 2, -h / 2, w, h);
+    c.drawImage(im, iw * ins, ih * ins, iw * (1 - ins * 2), ih * (1 - ins * 2), -w / 2, -h / 2, w, h);
+    // لمعة ورقية خفيفة
+    let g = c.createLinearGradient(-w / 2, -h / 2, w * .1, h / 2);
+    g.addColorStop(0, 'rgba(255,255,255,.22)'); g.addColorStop(.5, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.06)');
+    c.fillStyle = g; c.fillRect(-w / 2, -h / 2, w, h);
+    // الشريط المائل عند الزاوية
+    const bw = h * .2, d = h * .36;
+    c.translate(-w / 2 + d, -h / 2 + d); c.rotate(-Math.PI / 4);
+    c.fillStyle = 'rgba(232,48,120,.72)'; c.fillRect(-h, -bw / 2, h * 2, bw);
+    c.fillStyle = 'rgba(255,255,255,.55)'; c.fillRect(-h, -bw / 2, h * 2, Math.max(.6, bw * .07)); c.fillRect(-h, bw / 2 - Math.max(.6, bw * .07), h * 2, Math.max(.6, bw * .07));
+    c.font = `900 ${bw * .62}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
+    c.fillStyle = 'rgba(255,255,255,.95)'; c.fillText(STAMP, 0, bw * .04);
+    c.restore();
+    const lw = Math.max(1.4, h * .035);
+    c.strokeStyle = '#fff'; c.lineWidth = lw; c.beginPath(); c.roundRect(-w / 2 + lw / 2, -h / 2 + lw / 2, w - lw, h - lw, rr - lw / 2); c.stroke();
+    c.strokeStyle = 'rgba(20,50,40,.25)'; c.lineWidth = .8; c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.stroke();
+  }
   /* يرسم ورقة/عملة في لوحة منفصلة بحجم معطى */
   function moneyCanvas(v, size) {
-    const key = cur + v + '|' + Math.round(size) + lang;
+    const im = moneyImg(v);
+    const key = cur + v + '|' + Math.round(size) + lang + (im ? 'i' : 's');
     if (cache.has(key)) return cache.get(key);
-    const coin = isCoin(v), k = 2;
+    const coin = isCoin(v), k = Math.max(2, Math.min(3, window.devicePixelRatio || 1));
+    if (im) {
+      const w = coin ? size * 2 : size * 3.2, h = coin ? size * 2 : w * im.naturalHeight / im.naturalWidth, pad = size * .1;
+      const cnv = document.createElement('canvas'); cnv.width = Math.ceil((w + pad * 2) * k); cnv.height = Math.ceil((h + pad * 2) * k);
+      const c = cnv.getContext('2d'); c.scale(k, k); c.translate(pad + w / 2, pad + h / 2);
+      c.imageSmoothingQuality = 'high';
+      if (coin) drawCoinImg(c, im, size); else drawNoteImg(c, im, w, h);
+      const out = { cnv, w: w + pad * 2, h: h + pad * 2, bw: w, bh: h };
+      if (cache.size > 120) cache.clear();
+      cache.set(key, out);
+      return out;
+    }
     const w = coin ? size * 2 : size * 3.2, h = coin ? size * 2 : size * 1.62, pad = size * .2;
     const cnv = document.createElement('canvas'); cnv.width = Math.ceil((w + pad * 2) * k); cnv.height = Math.ceil((h + pad * 2) * k);
     const c = cnv.getContext('2d'); c.scale(k, k); c.translate(pad + w / 2, pad + h / 2);
@@ -279,16 +365,22 @@
       c.fillStyle = 'rgba(255,255,255,.88)'; c.beginPath(); c.arc(ex, 0, h * .3, 0, TAU); c.fill();
       motif(c, ex, h * .02, h * .36, base);
       // الرقم الكبير
-      c.font = `900 ${h * .52}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.font = `900 ${h * (txt.length > 2 ? .4 : .52)}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
       c.fillStyle = 'rgba(0,0,0,.2)'; c.fillText(txt, w * .23, h * .02 + h * .04);
       c.fillStyle = '#fff'; c.fillText(txt, w * .23, h * .02);
       c.font = `800 ${h * .17}px ${FONT}`; c.fillStyle = 'rgba(255,255,255,.95)';
       c.fillText(isAr() ? (v >= 3 && v <= 10 ? C().arPl : C().ar1) : (C().enPl), w * .23, h * .33);
-      c.font = `900 ${h * .17}px ${FONT}`; c.fillText(txt, -w * .4, -h * .3); c.fillText(txt, -w * .4, h * .3);
+      c.font = `900 ${h * (txt.length > 2 ? .12 : .17)}px ${FONT}`; c.fillText(txt, -w * .4, -h * .3); c.fillText(txt, -w * .4, h * .3);
       // لمعة
       g = c.createLinearGradient(0, -h / 2, 0, 0); g.addColorStop(0, 'rgba(255,255,255,.3)'); g.addColorStop(1, 'rgba(255,255,255,0)');
       c.fillStyle = g; c.beginPath(); c.roundRect(-w / 2 + 2, -h / 2 + 2, w - 4, h * .45, rr); c.fill();
       c.strokeStyle = mix(base, '#000000', .3); c.lineWidth = 1.5; c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.stroke();
+      // شريط «لعبة تعليمية» على البديل أيضًا
+      c.save(); c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.clip();
+      const bw = h * .2, d = h * .36; c.translate(-w / 2 + d, -h / 2 + d); c.rotate(-Math.PI / 4);
+      c.fillStyle = 'rgba(232,48,120,.72)'; c.fillRect(-h, -bw / 2, h * 2, bw);
+      c.font = `900 ${bw * .62}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = 'rgba(255,255,255,.95)'; c.fillText(STAMP, 0, bw * .04);
+      c.restore();
     }
     const out = { cnv, w: w + pad * 2, h: h + pad * 2, bw: w, bh: h };
     if (cache.size > 120) cache.clear();
@@ -297,8 +389,13 @@
   }
   function drawMoneyAt(c, v, x, y, size, rot = 0, sx = 1, sy = 1, alpha = 1) {
     const m = moneyCanvas(v, size);
+    if (!isCoin(v)) {
+      // لا تُرسم الورقة أعرض من ٤٥٪ من عرض الشاشة (حتى لا تصلح للطباعة بحجمها الحقيقي)
+      const maxW = (window.innerWidth || W || 400) * .45, ew = m.bw * Math.abs(sx);
+      if (ew > maxW) { const f = maxW / ew; sx *= f; sy *= f; }
+    }
     c.save(); c.globalAlpha = alpha; c.translate(x, y); c.rotate(rot); c.scale(sx, sy);
-    c.shadowColor = 'rgba(20,60,50,.28)'; c.shadowBlur = size * .25; c.shadowOffsetY = size * .12;
+    c.shadowColor = 'rgba(20,60,50,.3)'; c.shadowBlur = size * .3; c.shadowOffsetY = size * .12;
     c.drawImage(m.cnv, -m.w / 2, -m.h / 2, m.w, m.h);
     c.restore();
   }
@@ -477,12 +574,14 @@
   function flyTo(m, x, y, d, arc = 60, to = null, onEnd = null) { m.fly = { x0: m.x, y0: m.y, x1: x, y1: y, t: 0, d, arc, to, onEnd }; }
 
   /* ---------- توليد الجولات ---------- */
-  function denList(L) {
-    const all = allDen();
-    if (L.den === 'all' || !L.den) return all.filter(v => v <= 100);
-    const out = L.den.filter(v => all.includes(v));
+  function denList(L, key = 'den') {
+    const all = allDen(), d = L[key] || L.den;
+    if (d === 'all' || !d) return all.filter(v => v <= (L.dmax || Infinity));
+    const out = d.filter(v => all.includes(v));
     return out.length ? out : all.slice(0, 3);
   }
+  /* خطوة الباقي/الادّخار حسب الورقة: ٥٠٠ ← ١٠٠، ١٠٠ و٢٠٠ ← ١٠، وغير ذلك ← ١ */
+  const chStep = M => M >= 500 ? 100 : M >= 100 ? 10 : 1;
   function itemFor(price, toy) {
     let pool = ITEMS.filter(it => price >= it.p[0] && price <= it.p[1] && (!toy || it.p[1] >= 30));
     if (!pool.length) pool = ITEMS.filter(it => price <= it.p[1]);
@@ -492,8 +591,10 @@
   function genRound(L, type) {
     const r = { type };
     if (type === 'find') {
-      const den = denList(L); let v, g = 0; do { v = pick(den); } while (v === lastV && g++ < 20); lastV = v;
-      const others = shuffle(allDen().filter(d => d !== v)).slice(0, 2);
+      const den = denList(L, 'fden'); let v, g = 0; do { v = pick(den); } while (v === lastV && g++ < 20); lastV = v;
+      // البدائل من فئات المستوى نفسه، ثم أقرب الفئات إليها
+      const near = allDen().filter(d => d !== v && !den.includes(d)).sort((a, b) => Math.abs(Math.log(a / v)) - Math.abs(Math.log(b / v)));
+      const others = shuffle(den.filter(d => d !== v)).slice(0, 2).concat(near).slice(0, 2);
       r.v = v; r.opts = shuffle([v, ...others]);
     } else if (type === 'count') {
       const den = denList(L), [lo, hi] = L.tot; let tot = ri(lo, hi), coins = [];
@@ -514,24 +615,25 @@
       if ((r.wallet.reduce((a, b) => a + b, 0)) < r.P || !subsetSum(r.wallet, r.P)) r.wallet = shuffle(base.concat(extra.slice(0, 1)));
       r.it = itemFor(r.P);
     } else if (type === 'change') {
-      let notes = C().notes.filter(v => L.pay === 'big' ? v >= 10 && v <= 50 : (L.pay || []).includes(v));
+      let notes = C().notes.filter(v => (L.pay || []).includes(v));
       if (!notes.length) notes = [10];
-      r.M = pick(notes); const [c0, c1] = L.chg; r.N = ri(c0, Math.min(c1, r.M - 1)); r.P = r.M - r.N;
-      r.ch = makeChoices(r.N, 1, r.M - 1);
+      r.M = pick(notes); const st = chStep(r.M), [c0, c1] = L.chg, hi = Math.min(c1, r.M / st - 1);
+      r.N = ri(Math.min(c0, hi), hi) * st; r.P = r.M - r.N;
+      r.ch = makeChoices(r.N, st, r.M - st, st);
       r.it = itemFor(r.P);
     } else if (type === 'save') {
       if (qi === 0 || !saveGoal) {
-        saveGoal = ri(L.goal[0], L.goal[1]); saveTot = 0; saveItem = itemFor(saveGoal, true);
-        // تقسيم الهدف إلى خمس دفعات
-        const k = []; let left = saveGoal;
-        for (let i = 0; i < ROUNDS - 1; i++) { const rem = ROUNDS - 1 - i; const d = clamp(Math.round(left / (rem + 1) + ri(-1, 1)), 1, left - rem); k.push(d); left -= d; }
-        k.push(left); R && (R.dep = k);
+        saveGoal = pick(L.goal); saveTot = 0; saveItem = itemFor(saveGoal, true); saveUnit = saveGoal / 10;
+        // تقسيم الهدف (١٠ وحدات) إلى خمس دفعات
+        const k = []; let left = 10;
+        for (let i = 0; i < ROUNDS - 1; i++) { const rem = ROUNDS - 1 - i; const d = clamp(Math.round(left / (rem + 1) + ri(-1, 1)), 1, left - rem); k.push(d * saveUnit); left -= d; }
+        k.push(left * saveUnit);
         r.deps = k;
       }
       r.deps = r.deps || (R && R.deps) || [saveGoal - saveTot];
       const d = qi < ROUNDS - 1 ? r.deps[qi] : saveGoal - saveTot;
-      r.d = d; r.coins = shuffle(decompose(d, [1, 2, 5]) || [d]);
-      r.N = saveGoal - saveTot - d; r.ch = r.N > 0 ? makeChoices(r.N, 1, saveGoal) : null;
+      r.d = d; r.coins = shuffle(decompose(d, allDen()) || [d]);
+      r.N = saveGoal - saveTot - d; r.ch = r.N > 0 ? makeChoices(r.N, saveUnit, saveGoal, saveUnit) : null;
       r.it = saveItem;
     }
     return r;
@@ -540,10 +642,10 @@
     const can = new Set([0]); for (const v of arr) for (const s of [...can]) if (s + v <= target) can.add(s + v);
     return can.has(target);
   }
-  function makeChoices(ans, mn, mx) {
-    const c = [ans], cand = shuffle([ans - 1, ans + 1, ans - 2, ans + 2]).concat([ans + 3, ans - 3, ans + 5]);
+  function makeChoices(ans, mn, mx, st = 1) {
+    const c = [ans], cand = shuffle([-1, 1, -2, 2]).concat([3, -3, 5]).map(k => ans + k * st);
     for (const v of cand) { if (c.length >= 3) break; if (v >= mn && v <= mx && !c.includes(v)) c.push(v); }
-    for (let v = mn; c.length < 3; v++) if (!c.includes(v)) c.push(v);
+    for (let v = mn; c.length < 3; v += st) if (!c.includes(v)) c.push(v);
     return shuffle(c);
   }
 
@@ -551,7 +653,7 @@
   function setBanner(bump = true) {
     const t = R.type;
     let h = '';
-    if (t === 'find') h = isAr() ? `🔍 أين <span class="eq"><b>${dg(R.v)}</b></span> ${unitTxt(R.v)}؟` : `🔍 Where is <span class="eq"><b>${dg(R.v)}</b></span> ${unitTxt(R.v)}?`;
+    if (t === 'find') h = isAr() ? `🔍 أين ${isCoin(R.v) ? '' : 'ورقة '}<span class="eq"><b>${dg(R.v)}</b></span> ${unitTxt(R.v)}؟` : `🔍 Where is the <span class="eq"><b>${dg(R.v)}</b></span> ${C().en1} ${isCoin(R.v) ? 'coin' : 'note'}?`;
     else if (t === 'count') h = phase === 'ask' ? (isAr() ? '🐷 كم في الحصّالة؟' : '🐷 How much is inside?') : (isAr() ? `🐷 ${App.g('ضعي', 'ضع')} النقود في الحصّالة` : '🐷 Put the money in the piggy bank');
     else if (t === 'pay') h = (isAr() ? `🛒 ${App.g('ادفعي', 'ادفع')}` : '🛒 Pay') + ` <span class="eq"><b>${dg(R.P)}</b></span> <small>${unitTxt(R.P)}</small>`;
     else if (t === 'change') {
@@ -567,10 +669,10 @@
     spkBtn.classList.remove('talk'); void spkBtn.offsetWidth; spkBtn.classList.add('talk');
     const t = R.type;
     const put = () => say(App.g('ضعي النقود في الحصالة', 'ضع النقود في الحصالة'), 'Put the money in the piggy bank');
-    if (t === 'find') say('أين ' + arAmt(R.v) + '؟', 'Where is ' + enAmt(R.v) + '?');
+    if (t === 'find') say('أين ' + arName(R.v) + '؟', 'Where is ' + enName(R.v) + '?');
     else if (t === 'count') { if (phase === 'ask') say('كم في الحصالة؟', 'How much is in the piggy bank?'); else put(); }
-    else if (t === 'pay') say(App.g('ادفعي', 'ادفع') + ' ' + arAmt(R.P), 'Pay ' + enAmt(R.P));
-    else if (t === 'change') { if (phase === 'ask') say('كم الباقي؟', 'How much change?'); else say(App.g('ادفعي', 'ادفع') + ' ' + arAmt(R.M), 'Pay ' + enAmt(R.M)); }
+    else if (t === 'pay') say(App.g('ادفعي', 'ادفع') + ' ' + arAmt(R.P, true), 'Pay ' + enAmt(R.P));
+    else if (t === 'change') { if (phase === 'ask') say('كم الباقي؟', 'How much change?'); else say(App.g('ادفعي', 'ادفع') + ' ' + arAmt(R.M, true), 'Pay ' + enAmt(R.M)); }
     else if (t === 'save') { if (phase === 'ask') say('كم نحتاج بعد؟', 'How much more do we need?'); else put(); }
   }
   function renderProg() {
@@ -591,7 +693,6 @@
     const L = LV[lvl - 1], type = L.k[qi];
     if (type !== 'save') { saveGoal = 0; }
     R = genRound(L, type);
-    if (type === 'save' && R.deps) R.deps = R.deps;
     item = null; pig.total = type === 'save' ? saveTot : 0; pig.wig = 0;
     showCards(null); showDone(false);
     phase = 'enter'; setBanner(); renderProg();
@@ -713,7 +814,7 @@
   }
   function goalReached() {
     phase = 'solved'; App.achieve('piggybank_saver');
-    say('جمعنا ' + arAmt(saveGoal), 'We saved ' + enAmt(saveGoal));
+    say('جمعنا ' + arAmt(saveGoal, true), 'We saved ' + enAmt(saveGoal));
     pig.wig = 1; pig.hop = 1; coinRain(16); confetti(70); Sound.win();
     if (item) item.pop = 1;
     later(1.8, praise);
@@ -785,7 +886,7 @@
       roundSolved(2.3);
     } else {
       mistakes++; fails++; m.wob = 1; Sound.error(); vibrate(20);
-      sayAmt(m.v);
+      say(isCoin(m.v) ? arAmt(m.v) : 'ورقة ' + arAmt(m.v, true), isCoin(m.v) ? enAmt(m.v) : enNum(m.v) + ' ' + C().enPl);
       if (fails >= 2) { const t = money.find(x => x.v === R.v); if (t) t.hl = 3; }
       later(1.4, () => { if (phase === 'play') sayPrompt(); });
     }
@@ -1103,12 +1204,12 @@
     let g = c.createRadialGradient(s * .5, s * .3, s * .05, s * .5, s * .5, s * .8);
     g.addColorStop(0, '#E9FFF6'); g.addColorStop(.6, '#9FE3C8'); g.addColorStop(1, '#3FB98E');
     c.fillStyle = g; c.fillRect(0, 0, s, s);
-    const sv = { lang, cur }; lang = 'ar'; cur = store.get('piggybankCur', 'sdg') === 'sar' ? 'sar' : 'sdg';
+    const sv = { lang, cur }; lang = 'ar'; cur = store.get('piggybankCur', 'sdg') === 'sar' ? 'sar' : 'sdg'; styl = true;
     try {
       drawMoneyAt(c, C().notes[1], s * .3, s * .3, s * .12, -.3);
       drawPiggy(c, s * .52, s * .9, s * .78, 0, 0, 0, true);
       drawMoneyAt(c, 1, s * .54, s * .2, s * .13, 0, .9, 1);
-    } finally { lang = sv.lang; cur = sv.cur; }
+    } finally { lang = sv.lang; cur = sv.cur; styl = false; }
   }
 
   /* ---------- التسجيل ---------- */
