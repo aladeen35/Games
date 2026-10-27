@@ -565,7 +565,8 @@
     #wudu .main{flex-direction:row;justify-content:center;align-items:center;gap:26px;padding-top:4px}
     #wudu .stage{width:min(46vw,calc((100vh - 140px) * 1.33),560px)}
     #wudu .scard.sq~*,#wudu .stage.sqs{width:min(44vw,calc(100vh - 140px),560px)}
-    #wudu .side{width:min(44vw,480px)}
+    #wudu .side{width:min(44vw,480px);flex:none}
+    #wudu .stage{flex:none}
     #wudu .main>*{margin-top:auto!important;margin-bottom:auto!important}
   }
   `);
@@ -701,7 +702,7 @@
   function pour(n = 18) {
     const p = pourPoint(); if (!p) return;
     const g = kidGeom(), X = g.x + p[0] * g.u, Y = g.y + p[1] * g.u;
-    const sx = X + g.u * 1.7, sy = Y - g.u * 2.1;
+    const sx = X + g.u * 1.7, sy = Math.max(g.u * 1.1, Y - g.u * 2.1);
     for (let i = 0; i < n; i++) { const ft = rand(.3, .42), tx = X + rand(-g.u * .3, g.u * .3), ty = Y + rand(-g.u * .15, g.u * .2); drops.push({ x: sx + rand(-2, 2), y: sy, vx: (tx - sx) / ft, vy: (ty - sy - 450 * ft * ft) / ft, ty, r: rand(2.2, 4.2) * g.u / 45, life: 2, splashed: false, delay: i * .045 }); }
     Sound.noise(.5, 600, 2400, .05, 1.2); Sound.tone(rand(900, 1300), .12, 'sine', .05, 400);
     // لمعان مبلل يبقى قليلًا
@@ -728,7 +729,7 @@
   }
   function showLearn() {
     clearTasks(); const st = list[li], en = lang === 'en';
-    lbox.classList.toggle('en', en);
+    lbox.classList.toggle('en', en); cntEl.style.direction = en ? 'ltr' : 'rtl';
     stN.textContent = num(li + 1); stIc.textContent = st.ic || '';
     stIc.style.display = st.ic ? '' : 'none';
     stT.textContent = en ? st.en : st.ar;
@@ -1207,7 +1208,7 @@
       kidFront(c, g.x, g.y, g.u, { T, hR: kf.hR, hL: kf.hL, eyes: kf.eyes, mouth: kf.mouth, puff: kf.puff, liftR: kf.liftR, liftL: kf.liftL, finger: kf.finger, heart: kf.heart, glow: kf.glow, wet: kf.wet, side: kf.side, lookUp: kf.lookUp });
       // الإبريق يصب فوق العضو
       const p = pourPoint();
-      if (p && drops.length) { const k = g.u * .75 / 40, jx = g.x + p[0] * g.u + g.u * 1.7 + 51.6 * k, jy = g.y + p[1] * g.u - g.u * 2.1; drawJug(c, jx, jy, g.u * .75, -.55); }
+      if (p && drops.length) { const k = g.u * .75 / 40, jx = g.x + p[0] * g.u + g.u * 1.7 + 51.6 * k, jy = Math.max(g.u * 1.1, g.y + p[1] * g.u - g.u * 2.1); drawJug(c, jx, jy, g.u * .75, -.55); }
       if (kf.bubble) bubble(c, g.x + g.u * 2.2, g.y - g.u * 6.6, plain(kf.bubble.ar), Math.min(1, kf.bubble.t * 3));
       if (kf.finger) { const a = Math.min(1, (act ? act.t : 0)); void a; }
     } else if (view === 'side') {

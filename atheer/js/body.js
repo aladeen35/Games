@@ -167,7 +167,7 @@
   #body .aq .ai{font-size:clamp(34px,10vw,46px);line-height:1;font-family:${EMOJI_FONT};filter:drop-shadow(0 3px 0 rgba(160,60,40,.18));flex:none}
   #body .aq .at{min-width:0}
   #body .aq .at small{display:block;font-size:13px;font-weight:800;color:#C2502E;opacity:.85;line-height:1.2}
-  #body .aq .at.en{font-family:system-ui,"Segoe UI",sans-serif;font-weight:800}
+  #body .aq .at.en{direction:ltr;text-align:left;font-family:system-ui,"Segoe UI",sans-serif;font-weight:800}
   #body .item{flex:none;width:76px;height:76px;border-radius:24px;display:none;place-items:center;font-size:48px;font-family:${EMOJI_FONT};cursor:grab;
     background:linear-gradient(#FFF7D9,#FFE79A);border:3px solid #fff;box-shadow:0 5px 0 #E9B940,0 8px 14px rgba(0,0,0,.15);touch-action:none}
   #body .item.on{display:grid;animation:bdWob 1.6s ease-in-out infinite}
@@ -185,7 +185,7 @@
   #body .btn{background:linear-gradient(#FF9C7A,#FF6B47 60%,#EE5230);box-shadow:0 5px 0 #C9431F,0 8px 12px rgba(200,70,30,.25)}
   #body .btn:active{box-shadow:0 1px 0 #C9431F}
   #body .btn.alt{background:#fff;color:#D9512F;box-shadow:0 5px 0 #FFC9B5;border:3px solid #FFE3D8}
-  #body .wkid{font-size:50px;line-height:1.1;font-family:${EMOJI_FONT}}
+  #body .wkid{white-space:nowrap;letter-spacing:4px;font-size:40px;line-height:1.1;font-family:${EMOJI_FONT}}
   #body .lvp{width:min(94vw,460px);max-height:90vh;overflow-y:auto;touch-action:pan-y;padding:16px 12px 14px}
   #body .lvg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 12px}
   #body .lvb{position:relative;border-radius:22px;background:linear-gradient(#fff,#FFF4EE);border:3px solid #FFC9B5;box-shadow:0 5px 0 #F3A68C;
@@ -910,7 +910,7 @@
     cur = qs[qi]; wrongNow = 0; hintT = 0; idleT = 0; lock = 0;
     if (!cur) return;
     showQ(); setProg(); sayQ();
-    if (window.gsap && Fx.on) gsap.fromTo(askEl, { scale: .9 }, { scale: 1, duration: .5, ease: 'elastic.out(1,0.5)', clearProps: 'scale' });
+    if (window.gsap && typeof Fx !== 'undefined' && Fx.on) gsap.fromTo(root.querySelector('.aq'), { scale: .85 }, { scale: 1, duration: .55, ease: 'elastic.out(1,0.5)', clearProps: 'transform' });
   }
 
   /* ---------- التفاعل ---------- */
@@ -1013,7 +1013,7 @@
     tags.push({ id, txt: lang === 'ar' ? (p.arn || p.ar) : cap(p.en), x: px, y: py, age: 0, life: 1.4, ok: false, e: p.e });
     if (wrongNow === 1) sayPart(p);
     else later(.1, sayQ);
-    if (cur.type === 'dress' && window.gsap && Fx.on) gsap.fromTo(itemEl, { x: -8 }, { x: 0, duration: .5, ease: 'elastic.out(1.2,0.3)', clearProps: 'x' });
+    if (cur.type === 'dress' && window.gsap && typeof Fx !== 'undefined' && Fx.on) gsap.fromTo(itemEl, { x: -8 }, { x: 0, duration: .5, ease: 'elastic.out(1.2,0.3)', clearProps: 'x' });
     if (wrongNow >= 2) hintT = 3;
   }
   function needsTurn() {
@@ -1034,7 +1034,8 @@
     store.set('bodyProg', pr);
     setProg();
     for (let i = 0; i < 120; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 240), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF6B6B', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF7EB9'][i % 6] });
-    Sound.win(); react('tummy', 1.6); react('hands', 1.8);
+    Sound.win();
+    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = App.g('أحسنتِ!', 'أحسنتَ!'); react('tummy', 1.6); react('hands', 1.8);
     later(1.4, () => {
       if (App.current !== ID) return;
       root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنتَ!') + ' 🎉';
@@ -1044,7 +1045,7 @@
       root.querySelector('.wP').textContent = msg + (mistakes ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
-      if (window.Fx && Fx.overlayIn) Fx.overlayIn(winOv);
+      if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(winOv);
       sayGood();
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('body_first');
@@ -1067,7 +1068,7 @@
       Sound.tap(); startLevel(n);
     });
     winOv.classList.remove('on'); lvOv.classList.add('on');
-    if (window.Fx && Fx.overlayIn) Fx.overlayIn(lvOv);
+    if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(lvOv);
   }
   function act(a) {
     Sound.tap();

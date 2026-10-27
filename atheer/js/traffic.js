@@ -34,7 +34,7 @@
     street: [
       { bg: 'street', it: [['🚗', .8, .8, .3], ['🧒', .38, .84, .34], ['⚽', .57, .88, .14]], safe: false, ar: 'اللعب بالكرة في الشارع', en: 'Playing ball in the street', rar: 'نلعب في الحديقة لا في الشارع', ren: 'We play in the park, not in the street' },
       { bg: 'park', it: [['🧒', .4, .86, .34], ['⚽', .62, .9, .14], ['🌳', .84, .74, .36]], safe: true, ar: 'اللعب في الحديقة', en: 'Playing in the park' },
-      { bg: 'zebra', it: [['👩‍👧', .5, .88, .42]], safe: true, ar: 'العبور مع الكبار من ممر المشاة', en: 'Crossing with a grown-up at the crossing' },
+      { bg: 'zebra', it: [['👩', .44, .88, .44], ['👧', .58, .9, .3]], safe: true, ar: 'العبور مع الكبار من ممر المشاة', en: 'Crossing with a grown-up at the crossing' },
       { bg: 'street', it: [['🏃', .46, .84, .34], ['🚙', .84, .8, .3], ['🚗', .13, .78, .28]], safe: false, ar: 'الركض بين السيارات', en: 'Running between cars', rar: 'نعبر من ممر المشاة مع الكبار', ren: 'We cross at the crossing with a grown-up' },
       { bg: 'park', it: [['🚴', .5, .88, .44]], safe: true, ar: 'ركوب الدراجة بالخوذة', en: 'Riding a bike with a helmet' },
       { bg: 'street', light: 'red', it: [['🚶', .5, .86, .32]], safe: false, ar: 'العبور والإشارة حمراء', en: 'Crossing when the light is red', rar: 'أحمر يعني قف', ren: 'Red means stop' }
@@ -736,7 +736,7 @@
     const yAt = z => drive.hz + ((st.carY || H) - drive.hz) * F / (Math.max(z, -F * .9) + F);
     const hwAt = z => drive.rb * F / (Math.max(z, -F * .9) + F);
     const lay = () => {
-      const bs = clamp(Math.min(stage.w * .3, stage.h * .16), 76, 130);
+      const bs = clamp(Math.min(stage.w * .3, stage.h * (portrait ? .16 : .22)), 80, 140);
       st.carY = H - Math.max(14, stage.h * .03) - bs * .2; st.carW = clamp(stage.w * .36, 120, 250);
       st.btns = [
         { k: 'stop', col: '#E02424', w: bs, h: bs, x: stage.x + 10, y: H - bs - 14, draw: (c, cx, cy, b) => { sign(c, 'stop', cx, cy - b.h * .08, b.h * .27, {}); text(c, L('قف', 'Stop'), cx, cy + b.h * .32, b.h * .15, '#C81E1E'); } },
@@ -1054,7 +1054,7 @@
       if (portrait && n === 4) { cols = 2; rows = 2; }
       if (st.phase === 'learn') { cols = portrait ? 2 : n; rows = Math.ceil(n / cols); }
       const gap = 12, bw = Math.min((stage.w - 16 - gap * (cols - 1)) / cols, 230);
-      const bh = Math.min((ah - gap * (rows - 1)) / rows, st.phase === 'learn' ? bw * 1.1 : (st.q && st.q.t === 'safe' ? 120 : bw * 1.0));
+      const bh = Math.min((ah - gap * (rows - 1)) / rows, st.phase === 'learn' ? bw * 1.1 : (st.q && st.q.t === 'safe' ? 140 : bw * 1.0));
       const tw = cols * bw + (cols - 1) * gap, th = rows * bh + (rows - 1) * gap;
       st.btns.forEach((b, i) => {
         const r = Math.floor(i / cols), cI = i % cols, cc = lang === 'ar' ? cols - 1 - cI : cI;
@@ -1082,8 +1082,8 @@
         showHint(() => '🚦 ' + L('ماذا نفعل؟', 'What do we do?'));
       } else {
         st.btns = [
-          { safe: true, col: '#2FB344', pop: 1, draw: (c, cx, cy, b) => { emo(c, '✅', cx - (lang === 'ar' ? -1 : 1) * b.w * .22, cy + b.h * .2, b.h * .4); text(c, L('آمن', 'Safe'), cx + (lang === 'ar' ? -1 : 1) * b.w * .12, cy, b.h * .26, '#1F8A33', { max: b.w * .5 }); } },
-          { safe: false, col: '#F26A1B', pop: 1, draw: (c, cx, cy, b) => { emo(c, '✋', cx - (lang === 'ar' ? -1 : 1) * b.w * .22, cy + b.h * .2, b.h * .4); text(c, L('خطر', 'Not safe'), cx + (lang === 'ar' ? -1 : 1) * b.w * .12, cy, b.h * .26, '#C2500E', { max: b.w * .5 }); } }
+          { safe: true, col: '#2FB344', pop: 1, draw: (c, cx, cy, b) => { emo(c, '✅', cx, cy + b.h * .1, b.h * .42); text(c, L('آمن', 'Safe'), cx, cy + b.h * .3, b.h * .19, '#1F8A33', { max: b.w * .8 }); } },
+          { safe: false, col: '#F26A1B', pop: 1, draw: (c, cx, cy, b) => { emo(c, '✋', cx, cy + b.h * .1, b.h * .42); text(c, L('خطر', 'Not safe'), cx, cy + b.h * .3, b.h * .19, '#C2500E', { max: b.w * .8 }); } }
         ];
         showHint(() => '🤔 ' + L('هل هذا آمن؟', 'Is this safe?'));
       }
@@ -1486,6 +1486,7 @@
     lang = l === 'en' ? 'en' : 'ar'; store.set('trafficLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
     setProg();
+    hintEl.dir = lang === 'en' ? 'ltr' : 'rtl';
     if (hintFn) hintT.textContent = hintFn();
   }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {

@@ -478,7 +478,7 @@
   #jobs .aq .ai{font-size:clamp(32px,9vw,44px);line-height:1;font-family:${EMOJI_FONT};filter:drop-shadow(0 3px 0 rgba(40,70,160,.18));flex:none}
   #jobs .aq .at{min-width:0}
   #jobs .aq .at small{display:block;font-size:14px;font-weight:800;color:#4263EB;opacity:.9;line-height:1.25}
-  #jobs .aq .at.en{font-family:system-ui,"Segoe UI",sans-serif;font-weight:800}
+  #jobs .aq .at.en{direction:ltr;text-align:left;font-family:system-ui,"Segoe UI",sans-serif;font-weight:800}
   #jobs .nextb{flex:none;height:58px;padding:0 18px;border-radius:99px;font-size:22px;font-weight:900;color:#fff;display:none;align-items:center;gap:4px;
     background:linear-gradient(#8CE36B,#3FB52E 60%,#2E9A20);border:3px solid #E8FFD9;box-shadow:0 5px 0 #237A17,0 8px 14px rgba(30,100,20,.25);text-shadow:0 1px 0 rgba(0,0,0,.2);transition:transform .14s var(--press)}
   #jobs .nextb.on{display:flex}
@@ -490,7 +490,7 @@
   #jobs .btn{background:linear-gradient(#748FFC,#4263EB 60%,#3651D4);box-shadow:0 5px 0 #2B44B5,0 8px 12px rgba(40,70,200,.25)}
   #jobs .btn:active{box-shadow:0 1px 0 #2B44B5}
   #jobs .btn.alt{background:#fff;color:#3B5BDB;box-shadow:0 5px 0 #C5D0FF;border:3px solid #E3E9FF}
-  #jobs .wkid{font-size:46px;line-height:1.1;font-family:${EMOJI_FONT}}
+  #jobs .wkid{white-space:nowrap;letter-spacing:4px;font-size:40px;line-height:1.1;font-family:${EMOJI_FONT}}
   #jobs .lvp{width:min(94vw,460px);max-height:90vh;overflow-y:auto;touch-action:pan-y;padding:16px 12px 14px}
   #jobs .lvg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 12px}
   #jobs .lvb{position:relative;border-radius:22px;background:linear-gradient(#fff,#F3F6FF);border:3px solid #C5D0FF;box-shadow:0 5px 0 #8EA2F0;
@@ -592,7 +592,7 @@
     const top = pbar.getBoundingClientRect().bottom + 8;
     const bot = askEl.getBoundingClientRect().top - 12;
     const av = Math.max(200, bot - top), aw = Math.min(W - 24, 900);
-    const sh = av * (portrait ? .47 : .5);
+    const sh = av * (portrait ? .47 : .56);
     stage = { x: (W - aw) / 2, y: top, w: aw, h: sh };
     opt = { x: (W - aw) / 2, y: top + sh + 6, w: aw, h: av - sh - 6 };
     placeCards();
@@ -630,7 +630,7 @@
     tasks = []; parts = []; flyers = []; cards = []; subj = null;
     winOv.classList.remove('on'); lvOv.classList.remove('on');
     qs = buildQuestions();
-    if (window.gsap) gsap.killTweensOf(askEl);
+    if (window.gsap) gsap.killTweensOf(root.querySelector('.aq'));
     later(.25, ask);
     setProg();
   }
@@ -663,7 +663,7 @@
     cards.forEach((c, i) => c.delay = .15 + i * .08);
     placeCards();
     showQ(); setProg(); sayQ();
-    if (window.gsap && window.Fx && Fx.on) gsap.fromTo(askEl, { scale: .92 }, { scale: 1, duration: .5, ease: 'elastic.out(1,0.5)', clearProps: 'scale' });
+    if (window.gsap && typeof Fx !== 'undefined' && Fx.on) gsap.fromTo(root.querySelector('.aq'), { scale: .85 }, { scale: 1, duration: .55, ease: 'elastic.out(1,0.5)', clearProps: 'transform' });
   }
   function dressCards() {
     const j = JOBS[cur.job];
@@ -685,8 +685,8 @@
       case 'place': return [`${f ? 'أين تعمل' : 'أين يعمل'} ${j.ar}؟`, `Where does the ${j.en} work?`, '', ''];
       case 'riddle': return ['من أنا؟', 'Who am I?', j.rid[0], j.rid[1]];
       case 'dress': return subj.step === 'hat'
-        ? [`${App.g('اختاري', 'اختر')} قبعة ${j.ar}`, `Choose the ${j.en}'s hat`, '', '']
-        : [`${App.g('اختاري', 'اختر')} زي ${j.ar}`, `Choose the ${j.en}'s uniform`, '', ''];
+        ? [`${App.g('اختاري', 'اختر')} قبعة ${j.ar}`, `Choose the hat for the ${j.en}`, '', '']
+        : [`${App.g('اختاري', 'اختر')} زي ${j.ar}`, `Choose the uniform for the ${j.en}`, '', ''];
     }
   }
   function showQ() {
@@ -792,6 +792,7 @@
     setProg();
     for (let i = 0; i < 120; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 240), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.5, 4), age: 0, s: rand(6, 11), c: ['#FF6B6B', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF7EB9'][i % 6] });
     Sound.win();
+    aiEl.style.display = ''; aiEl.textContent = '🏆'; atEl.className = 'at'; atEl.textContent = App.g('أحسنتِ!', 'أحسنتَ!');
     subj = { kind: 'parade', t: 0, jobs: def.jobs.slice(0, 5) };
     cards = [];
     later(1.3, () => {
@@ -803,7 +804,7 @@
       root.querySelector('.wP').textContent = msg + (mistakes || def.m === 'learn' ? '' : ' دون أخطاء! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
-      if (window.Fx && Fx.overlayIn) Fx.overlayIn(winOv);
+      if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(winOv);
       sayGood();
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('jobs_first');
@@ -826,7 +827,7 @@
       Sound.tap(); startLevel(n);
     });
     winOv.classList.remove('on'); lvOv.classList.add('on');
-    if (window.Fx && Fx.overlayIn) Fx.overlayIn(lvOv);
+    if (typeof Fx !== 'undefined' && Fx.overlayIn) Fx.overlayIn(lvOv);
   }
   function act(a) {
     Sound.tap();
@@ -1031,7 +1032,6 @@
         const done = cur && cards.some(c => c.state === 'ok');
         if (done) emoji(ctx, PLACES[j.place].e, bx, by, h * .17); else label('؟', bx, by + 2, h * .16, '#4263EB');
       }
-      if (subj.kind === 'learn') label(jName(j), sc.x, stage.y + 14, clamp(h * .09, 18, 30), '#26315C', lang === 'en');
       return;
     }
     if (subj.kind === 'tool') {

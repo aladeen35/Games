@@ -104,7 +104,7 @@
   const hex2 = h => { const n = parseInt(h.slice(1), 16); return [n >> 16, n >> 8 & 255, n & 255]; };
   const mix = (a, b, t) => { const A = hex2(a), B = hex2(b); return '#' + A.map((v, i) => Math.round(lerp(v, B[i], t)).toString(16).padStart(2, '0')).join(''); };
   const shade = (h, f) => App.shade ? App.shade(h, f) : h;
-  const rr = (c, x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); };
+  const rr = (c, x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, Array.isArray(r) ? r : Math.max(0, Math.min(r, w / 2, h / 2))); };
   const loadProg = () => { const p = store.get('seasonsProg', null) || {}; return { stars: p.stars || {}, unlocked: p.unlocked || 1 }; };
   let lang = 'ar';
   const num = n => lang === 'ar' ? String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(n);
@@ -855,9 +855,9 @@
       c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 1.2; c.beginPath(); c.arc(0, -73, 19.8, Math.PI * 1.2, Math.PI * 1.5); c.stroke();
     }
     if (has('scarf') && k.scarfUp) {
-      c.fillStyle = '#E64980'; rr(c, -15, -70.5, 30, 11.5, 5.5); c.fill();
-      c.fillStyle = '#C2255C'; rr(c, -12, -61, 24, 6, 3); c.fill();
-      c.fillStyle = 'rgba(255,255,255,.5)'; for (const xx of [-8, 0, 8]) c.fillRect(xx, -70, 1.6, 11);
+      c.fillStyle = '#E64980'; rr(c, -15.5, -67.5, 31, 10.5, 5); c.fill();
+      c.fillStyle = '#C2255C'; rr(c, -12, -59.5, 24, 6, 3); c.fill();
+      c.fillStyle = 'rgba(255,255,255,.5)'; for (const xx of [-8, 0, 8]) c.fillRect(xx, -66.5, 1.6, 9);
     }
     if (has('sunglasses')) { c.save(); c.translate(0, -72.5); c.scale(.42, .42); ICON.sunglasses(c, 40); c.restore(); }
     if (has('sunhat')) { c.save(); c.translate(0, -88); c.scale(1, 1); ICON.sunhat(c, 50); c.restore(); }

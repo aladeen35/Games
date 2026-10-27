@@ -227,7 +227,7 @@
   #woodblocks .spk:active,#woodblocks .rb:active{transform:translateY(3px)}
   #woodblocks .rb{width:52px;height:52px;border-radius:18px;font-size:24px;display:grid;place-items:center;border:3px solid #fff;color:#fff;
     background:linear-gradient(180deg,#7BD88F,#2FB457);box-shadow:0 5px 0 #1E8A3E,0 8px 14px rgba(0,0,0,.18)}
-  #woodblocks .rb.hint{background:linear-gradient(180deg,#FFF0B0,#FFD54A);box-shadow:0 5px 0 #D9A400,0 8px 14px rgba(0,0,0,.15)}
+  #woodblocks .rb.hn{background:linear-gradient(180deg,#FFF0B0,#FFD54A);box-shadow:0 5px 0 #D9A400,0 8px 14px rgba(0,0,0,.15)}
   #woodblocks .rb.alt{background:linear-gradient(180deg,#fff,#FFF1E0);box-shadow:0 5px 0 #F0C9A0,0 8px 14px rgba(0,0,0,.12)}
   #woodblocks .rb[hidden]{display:none}
   #woodblocks .sw{position:absolute;z-index:6;left:0;right:0;display:none;justify-content:center;gap:7px}
@@ -272,7 +272,7 @@
     <div class="side l"><button class="spk" aria-label="استمع">🔊</button></div>
     <div class="side r">
       <button class="rb ok" aria-label="تحقق">✔</button>
-      <button class="rb hint" aria-label="تلميح">💡</button>
+      <button class="rb hn" aria-label="تلميح">💡</button>
       <button class="rb alt save" aria-label="حفظ" hidden>💾</button>
       <button class="rb alt galb" aria-label="المعرض" hidden>🖼️</button>
       <button class="rb alt clr" aria-label="مسح" hidden>🗑️</button>
@@ -290,7 +290,7 @@
       <button class="btn alt" data-a="again">🔄 مرة أخرى</button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
-  const spk = root.querySelector('.spk'), okB = root.querySelector('.ok'), hintB = root.querySelector('.hint');
+  const spk = root.querySelector('.spk'), okB = root.querySelector('.ok'), hintB = root.querySelector(".hn");
   const saveB = root.querySelector('.save'), galB = root.querySelector('.galb'), clrB = root.querySelector('.clr');
   const swEl = root.querySelector('.sw');
   const lvOv = root.querySelector('#wbLv'), galOv = root.querySelector('#wbGal'), winOv = root.querySelector('#wbWin');
@@ -340,15 +340,16 @@
     // الصينية
     const items = blocks.filter(b => b.st === 'tray' || b.st === 'pal' || b.slot != null).sort((a, b) => a.slot - b.slot);
     const u0 = portrait ? Math.min((Wd - 40) / (NC + 1), 54) : 58;
-    ts = portrait ? .62 : .6;
+    ts = portrait ? .9 : .78;
     let rows, packW = playW - (portrait ? 30 : 160);
     const iw = b => { const [w] = fpOf(b.t, b.r); return Math.max(w, 1.6) * u0 * ts + u0 * DXK * ts + 18; };
     for (let k = 0; k < 6; k++) {
       rows = [[]]; let w = 0;
       for (const b of items) { const q = iw(b); if (w + q > packW && rows[rows.length - 1].length) { rows.push([]); w = 0; } rows[rows.length - 1].push([b, q]); w += q; }
-      if (rows.length <= 2 || ts < .4) break; ts -= .05;
+      const rh = u0 * ts * (items.some(b => fpOf(b.t, b.r)[1] > 1) ? 2 : 1.2) + 18;
+      if ((rows.length <= 2 && rows.length * rh + 26 <= Hd * .26) || ts < .4) break; ts -= .05;
     }
-    const rowH = u0 * ts * 2 + 18 - (items.some(b => fpOf(b.t, b.r)[1] > 1) ? 0 : u0 * ts * .8);
+    const rowH = u0 * ts * (items.some(b => fpOf(b.t, b.r)[1] > 1) ? 2 : 1.2) + 18;
     const swH = free ? 44 : 0;
     const th = rows.length * rowH + 26;
     tray = { x: x0 + 10, w: playW - 20, h: th, y: Hd - th - 12 - swH };
@@ -362,7 +363,7 @@
     // بطاقة الصورة والبساط
     const top = 66;
     if (portrait) {
-      card = { x: 12, y: top + 4, w: Wd - 24, h: free ? 0 : clamp(Hd * .16, 104, 150) };
+      card = { x: 12, y: top + 4, w: Wd - 24, h: free ? 0 : clamp(Hd * .19, 110, 180) };
       const mTop = card.y + card.h + (free ? 10 : 18), mBot = tray.y - 22;
       U = Math.min((Wd - 28) / (NC + DXK + .3), (mBot - mTop) / (NR - DYK + .45));
       gx0 = (Wd - (NC + DXK) * U) / 2; gy0 = mBot - U * .25;
@@ -373,6 +374,7 @@
       U = Math.min((mx1 - mx0) / (NC + DXK + .3), (mBot - mTop) / (NR - DYK + .45), 74);
       gx0 = mx0 + ((mx1 - mx0) - (NC + DXK) * U) / 2; gy0 = mBot - U * .25;
     }
+    U = Math.max(16, U);
     for (const b of blocks) if (b.st === 'mat') { const c = cellCenter(b); b.px = c[0]; b.py = c[1]; }
     sideL.style.bottom = (Hd - tray.y + 12) + 'px';
     sideR.style.bottom = (Hd - tray.y + 12) + 'px';

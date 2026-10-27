@@ -384,10 +384,11 @@
     bgKey = '';
     layout();
     setProg();
-    showHint('👆 ' + App.g('اسحبي', 'اسحب') + ' المفتاح المناسب إلى القفل');
+    showHint(introHint());
     later(.5, sayIntro);
     Sound.whoosh();
   }
+  const introHint = () => lang === 'ar' ? '👆 ' + App.g('اسحبي', 'اسحب') + ' المفتاح المناسب إلى القفل' : '👆 Drag the matching key to the lock';
   function showHint(t) { hintT.textContent = t; hintEl.style.opacity = 1; }
   function hideHint() { hintEl.style.opacity = 0; }
   function setProg() {
@@ -727,6 +728,7 @@
   function setLang(l) {
     lang = l === 'en' ? 'en' : 'ar'; store.set('locksLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+    hintEl.dir = lang === 'en' ? 'ltr' : 'rtl'; hintT.textContent = introHint();
     setProg();
   }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
