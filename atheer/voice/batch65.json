@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_en_wallet_p3_1_f",
+  "text": "She opened it and saw some money and a family photo.",
+  "plain": "She opened it and saw some money and a family photo.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p3_1_m",
+  "text": "He opened it and saw some money and a family photo.",
+  "plain": "He opened it and saw some money and a family photo.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p3_2_f",
+  "text": "What should Salma do?",
+  "plain": "What should Salma do?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p3_2_m",
+  "text": "What should Sami do?",
+  "plain": "What should Sami do?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p3_ch1",
+  "text": "Look for the owner",
+  "plain": "Look for the owner",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p3_ch2",
+  "text": "Take it to the park office",
+  "plain": "Take it to the park office",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4a_1_f",
+  "text": "Salma looked around and saw a grandpa searching the ground, worried.",
+  "plain": "Salma looked around and saw a grandpa searching the ground, worried.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4a_1_m",
+  "text": "Sami looked around and saw a grandpa searching the ground, worried.",
+  "plain": "Sami looked around and saw a grandpa searching the ground, worried.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4a_2_f",
+  "text": "She asked: Did you lose something, grandpa?",
+  "plain": "She asked: Did you lose something, grandpa?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4a_2_m",
+  "text": "He asked: Did you lose something, grandpa?",
+  "plain": "He asked: Did you lose something, grandpa?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e1_1",
+  "text": "Grandpa said: Yes, my red wallet!",
+  "plain": "Grandpa said: Yes, my red wallet!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e1_2_f",
+  "text": "Salma gave him the wallet, and he said: May Allah bless you!",
+  "plain": "Salma gave him the wallet, and he said: May Allah bless you!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e1_2_m",
+  "text": "Sami gave him the wallet, and he said: May Allah bless you!",
+  "plain": "Sami gave him the wallet, and he said: May Allah bless you!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e1_moral",
+  "text": "Honesty fills hearts with joy.",
+  "plain": "Honesty fills hearts with joy.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4b_1_f",
+  "text": "Salma carried the wallet to the park office.",
+  "plain": "Salma carried the wallet to the park office.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4b_1_m",
+  "text": "Sami carried the wallet to the park office.",
+  "plain": "Sami carried the wallet to the park office.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4b_2_f",
+  "text": "She said: I found this under the bench.",
+  "plain": "She said: I found this under the bench.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p4b_2_m",
+  "text": "He said: I found this under the bench.",
+  "plain": "He said: I found this under the bench.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e2_1",
+  "text": "A little later, a grandma came looking for her wallet.",
+  "plain": "A little later, a grandma came looking for her wallet.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e2_2_f",
+  "text": "Grandma was so happy, and she gave Salma a lovely rose.",
+  "plain": "Grandma was so happy, and she gave Salma a lovely rose.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e2_2_m",
+  "text": "Grandma was so happy, and she gave Sami a lovely rose.",
+  "plain": "Grandma was so happy, and she gave Sami a lovely rose.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_e2_moral",
+  "text": "What is not ours, we give back to its owner.",
+  "plain": "What is not ours, we give back to its owner.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_choose",
+  "text": "Choose a story",
+  "plain": "Choose a story",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "cheerful",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "stories_en_or",
+  "text": "or",
+  "plain": "or",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "cheerful",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_means_stop",
+  "text": "means stop",
+  "plain": "means stop",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_means_wait",
+  "text": "means wait",
+  "plain": "means wait",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_means_go",
+  "text": "means go",
+  "plain": "means go",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_touch_light",
+  "text": "Touch each light",
+  "plain": "Touch each light",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_what_do",
+  "text": "What do we do?",
+  "plain": "What do we do?",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_watch",
+  "text": "Watch the traffic light",
+  "plain": "Watch the traffic light",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_wait_green",
+  "text": "Wait for green",
+  "plain": "Wait for green",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_where_cross",
+  "text": "Where do we cross the street?",
+  "plain": "Where do we cross the street?",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_cross_zebra",
+  "text": "We cross at the zebra crossing",
+  "plain": "We cross at the zebra crossing",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_hold_hand",
+  "text": "Hold a grown-up's hand",
+  "plain": "Hold a grown-up's hand",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_look",
+  "text": "Look left and right",
+  "plain": "Look left and right",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 65,
+  "note": ""
+ }
+]

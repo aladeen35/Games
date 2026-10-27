@@ -1,0 +1,352 @@
+[
+ {
+  "id": "jobs_en_n_baker",
+  "text": "baker",
+  "plain": "baker",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_fisherman",
+  "text": "fisherman",
+  "plain": "fisherman",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_astronaut",
+  "text": "astronaut",
+  "plain": "astronaut",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_vet",
+  "text": "vet",
+  "plain": "vet",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_shepherd",
+  "text": "shepherd",
+  "plain": "shepherd",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_builder",
+  "text": "builder",
+  "plain": "builder",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_tailor",
+  "text": "tailor",
+  "plain": "tailor",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_barber",
+  "text": "barber",
+  "plain": "barber",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_n_pharmacist",
+  "text": "pharmacist",
+  "plain": "pharmacist",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_hospital",
+  "text": "hospital",
+  "plain": "hospital",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_hospital",
+  "text": "at the hospital",
+  "plain": "at the hospital",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_school",
+  "text": "school",
+  "plain": "school",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_school",
+  "text": "at the school",
+  "plain": "at the school",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_police",
+  "text": "police station",
+  "plain": "police station",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_police",
+  "text": "at the police station",
+  "plain": "at the police station",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_fire",
+  "text": "fire station",
+  "plain": "fire station",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_fire",
+  "text": "at the fire station",
+  "plain": "at the fire station",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_airport",
+  "text": "airport",
+  "plain": "airport",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_airport",
+  "text": "at the airport",
+  "plain": "at the airport",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_farm",
+  "text": "farm",
+  "plain": "farm",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_farm",
+  "text": "on the farm",
+  "plain": "on the farm",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_restaurant",
+  "text": "restaurant",
+  "plain": "restaurant",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_restaurant",
+  "text": "at the restaurant",
+  "plain": "at the restaurant",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_factory",
+  "text": "factory",
+  "plain": "factory",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_factory",
+  "text": "at the factory",
+  "plain": "at the factory",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_dental",
+  "text": "dental clinic",
+  "plain": "dental clinic",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_dental",
+  "text": "at the dental clinic",
+  "plain": "at the dental clinic",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_garage",
+  "text": "garage",
+  "plain": "garage",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_garage",
+  "text": "at the garage",
+  "plain": "at the garage",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_bakery",
+  "text": "bakery",
+  "plain": "bakery",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_bakery",
+  "text": "at the bakery",
+  "plain": "at the bakery",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_sea",
+  "text": "sea",
+  "plain": "sea",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_sea",
+  "text": "at sea",
+  "plain": "at sea",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_space",
+  "text": "space",
+  "plain": "space",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_space",
+  "text": "in space",
+  "plain": "in space",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 58,
+  "note": ""
+ }
+]

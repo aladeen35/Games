@@ -1,0 +1,35 @@
+1. stories_en_kitten_p3_1 — Mishmish sat down sadly between the shops.
+2. stories_en_kitten_p3_2 — What should Mishmish do?
+3. stories_en_kitten_p3_ch1 — Ask the little bird
+4. stories_en_kitten_p3_ch2 — Stay in place and meow
+5. stories_en_kitten_p4a_1 — The bird flew high above the souq.
+6. stories_en_kitten_p4a_2 — Then he said: I see a big cat at the date shop!
+7. stories_en_kitten_e1_1 — Mishmish ran to her mother and hugged her.
+8. stories_en_kitten_e1_2 — She told the bird: Thank you, my friend!
+9. stories_en_kitten_e1_moral — Asking for help is brave, and saying thank you is beautiful.
+10. stories_en_kitten_p4b_1 — Mishmish stayed where she was and said: Meow! Meow!
+11. stories_en_kitten_p4b_2 — Her mother heard her voice from far away.
+12. stories_en_kitten_e2_1 — Her mother hurried over and hugged Mishmish gently.
+13. stories_en_kitten_e2_2 — Mishmish promised to stay close to her mother.
+14. stories_en_kitten_e2_moral — If we get lost, we stay in place until our family finds us.
+15. stories_en_penguin_p1_1 — In the land of snow lived a little penguin called Bobo.
+16. stories_en_penguin_p1_2 — Bobo loved swimming and catching fish.
+17. stories_en_penguin_p2_1 — One cold day, Bobo dived into the water.
+18. stories_en_penguin_p2_2 — He came out with three shiny fish!
+19. stories_en_penguin_p3_1 — Bobo saw his friend Lulu sitting all alone.
+20. stories_en_penguin_p3_2 — She was hungry and had not caught anything.
+21. stories_en_penguin_p3_3 — What should Bobo do?
+22. stories_en_penguin_p3_ch1 — Give her a fish
+23. stories_en_penguin_p3_ch2 — Teach her to fish
+24. stories_en_penguin_p4a_1 — Bobo gave Lulu a big fish.
+25. stories_en_penguin_p4a_2 — Lulu smiled and said: Thank you, Bobo!
+26. stories_en_penguin_p4a_3 — What should they do next?
+27. stories_en_penguin_p4a_ch1 — Invite their friends
+28. stories_en_penguin_p4a_ch2 — Build a snowman
+29. stories_en_penguin_e1_1 — Their friends came, and they all shared the food.
+30. stories_en_penguin_e1_2 — The fish was little, but the joy was big!
+31. stories_en_penguin_e1_moral — When we share, happiness grows.
+32. stories_en_penguin_e3_1 — Bobo and Lulu built a smiling snowman.
+33. stories_en_penguin_e3_2 — They gave him a red scarf and laughed a lot!
+34. stories_en_penguin_e3_moral — Friendship makes playing more fun.
+35. stories_en_penguin_p4b_1 — Bobo said: Come, I will teach you to fish!

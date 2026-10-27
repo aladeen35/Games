@@ -1,0 +1,352 @@
+[
+ {
+  "id": "body_item_watch",
+  "text": "السَّاعَةَ",
+  "plain": "الساعة",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "body_item_ring",
+  "text": "الْخَاتَمَ",
+  "plain": "الخاتم",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "body_item_backpack",
+  "text": "الْحَقِيبَةَ",
+  "plain": "الحقيبة",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "body_item_headphones",
+  "text": "السَّمَّاعَاتِ",
+  "plain": "السماعات",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_doctor",
+  "text": "الطَّبِيبُ",
+  "plain": "الطبيب",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_nurse",
+  "text": "الْمُمَرِّضَةُ",
+  "plain": "الممرضة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_teacher",
+  "text": "الْمُعَلِّمَةُ",
+  "plain": "المعلمة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_police",
+  "text": "الشُّرْطِيُّ",
+  "plain": "الشرطي",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_firefighter",
+  "text": "رَجُلُ الْإِطْفَاءِ",
+  "plain": "رجل الإطفاء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_pilot",
+  "text": "الطَّيَّارُ",
+  "plain": "الطيار",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_farmer",
+  "text": "الْمُزَارِعُ",
+  "plain": "المزارع",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_chef",
+  "text": "الطَّاهِي",
+  "plain": "الطاهي",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_engineer",
+  "text": "الْمُهَنْدِسَةُ",
+  "plain": "المهندسة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_dentist",
+  "text": "طَبِيبَةُ الْأَسْنَانِ",
+  "plain": "طبيبة الأسنان",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_mechanic",
+  "text": "الْمِيكَانِيكِيُّ",
+  "plain": "الميكانيكي",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_baker",
+  "text": "الْخَبَّازُ",
+  "plain": "الخباز",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_fisherman",
+  "text": "الصَّيَّادُ",
+  "plain": "الصياد",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_astronaut",
+  "text": "رَائِدُ الْفَضَاءِ",
+  "plain": "رائد الفضاء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_vet",
+  "text": "الطَّبِيبَةُ الْبَيْطَرِيَّةُ",
+  "plain": "الطبيبة البيطرية",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_shepherd",
+  "text": "الرَّاعِي",
+  "plain": "الراعي",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_builder",
+  "text": "عَامِلُ الْبِنَاءِ",
+  "plain": "عامل البناء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_tailor",
+  "text": "الْخَيَّاطَةُ",
+  "plain": "الخياطة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_barber",
+  "text": "الْحَلَّاقُ",
+  "plain": "الحلاق",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_n_pharmacist",
+  "text": "الصَّيْدَلَانِيَّةُ",
+  "plain": "الصيدلانية",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_hospital",
+  "text": "الْمُسْتَشْفَى",
+  "plain": "المستشفى",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_school",
+  "text": "الْمَدْرَسَةِ",
+  "plain": "المدرسة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_police",
+  "text": "مَرْكَزِ الشُّرْطَةِ",
+  "plain": "مركز الشرطة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_fire",
+  "text": "مَرْكَزِ الْإِطْفَاءِ",
+  "plain": "مركز الإطفاء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_airport",
+  "text": "الْمَطَارِ",
+  "plain": "المطار",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_farm",
+  "text": "الْمَزْرَعَةِ",
+  "plain": "المزرعة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_restaurant",
+  "text": "الْمَطْعَمِ",
+  "plain": "المطعم",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_factory",
+  "text": "الْمَصْنَعِ",
+  "plain": "المصنع",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_dental",
+  "text": "عِيَادَةِ الْأَسْنَانِ",
+  "plain": "عيادة الأسنان",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_garage",
+  "text": "وَرْشَةِ السَّيَّارَاتِ",
+  "plain": "ورشة السيارات",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_bakery",
+  "text": "الْمَخْبَزِ",
+  "plain": "المخبز",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 47,
+  "note": ""
+ }
+]

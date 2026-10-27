@@ -1,0 +1,35 @@
+1. wudu_en_pray_ruku — Bowing (Ruku)
+2. wudu_en_pray_say_ruku — Glory be to my Lord, the Most Great
+3. wudu_en_pray_rise — Rising from bowing
+4. wudu_en_pray_say_rise — Allah hears whoever praises Him. Our Lord, to You is all praise
+5. wudu_en_pray_sujud — Prostration (Sujud)
+6. wudu_en_pray_say_sujud — Glory be to my Lord, the Most High
+7. wudu_en_pray_jalsa — Sitting between the prostrations
+8. wudu_en_pray_say_jalsa — My Lord, forgive me
+9. wudu_en_pray_sujud2 — The second prostration
+10. wudu_en_pray_tash — Tashahhud
+11. wudu_en_pray_say_tash — All greetings are for Allah
+12. wudu_en_pray_salam — Taslim
+13. wudu_en_pray_say_salam — Peace and the mercy of Allah be upon you
+14. wudu_en_time_fajr — Fajr
+15. wudu_en_time_desc_fajr — At dawn, before sunrise
+16. wudu_en_time_dhuhr — Dhuhr
+17. wudu_en_time_desc_dhuhr — At midday, when the sun is high
+18. wudu_en_time_asr — Asr
+19. wudu_en_time_desc_asr — In the afternoon, as the sun goes lower
+20. wudu_en_time_maghrib — Maghrib
+21. wudu_en_time_desc_maghrib — At sunset
+22. wudu_en_time_isha — Isha
+23. wudu_en_time_desc_isha — At night, when the stars come out
+24. wudu_en_right — Right
+25. wudu_en_left — Left
+26. wudu_en_where_wash — Where do we wash?
+27. wudu_en_where_wipe — Where do we wipe?
+28. wudu_en_first — What do we wash first?
+29. wudu_en_next — What comes next?
+30. wudu_en_order — Put the steps in order
+31. wudu_en_which_prayer — Which prayer is it?
+32. stories_en_kitten_p1_1 — Mishmish was a little kitten who loved to play.
+33. stories_en_kitten_p1_2 — She went with her mother to the big souq.
+34. stories_en_kitten_p2_1 — Mishmish saw a colorful butterfly and ran after it.
+35. stories_en_kitten_p2_2 — The butterfly flew away. Mishmish looked around, and her mother was gone!

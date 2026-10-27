@@ -1,0 +1,35 @@
+1. traffic_watch_m — اِنْتَبِهْ لِلإِشارَةِ
+2. traffic_wait_green_f — اِنْتَظِري الأَخْضَرَ
+3. traffic_wait_green_m — اِنْتَظِرِ الأَخْضَرَ
+4. traffic_where_cross — أَيْنَ نَعْبُرُ الشّارِعَ؟
+5. traffic_cross_zebra — نَعْبُرُ مِنْ مَمَرِّ المُشاةِ
+6. traffic_hold_hand_f — أَمْسِكي يَدَ الكَبيرِ
+7. traffic_hold_hand_m — أَمْسِكْ يَدَ الكَبيرِ
+8. traffic_look_f — اُنْظُري يَمينًا وَيَسارًا
+9. traffic_look_m — اُنْظُرْ يَمينًا وَيَسارًا
+10. traffic_right — يَمين
+11. traffic_left — يَسار
+12. traffic_lets_cross — هَيّا نَعْبُرُ
+13. traffic_wait_man_f — اِنْتَظِري الرَّجُلَ الأَخْضَرَ
+14. traffic_wait_man_m — اِنْتَظِرِ الرَّجُلَ الأَخْضَرَ
+15. traffic_where_sign — أَيْنَ إِشارَةُ
+16. traffic_sign — إِشارَةُ
+17. traffic_sign_stop — قِفْ
+18. traffic_sign_cross — مَمَرِّ المُشاةِ
+19. traffic_sign_school — مِنْطَقَةِ مَدْرَسَةٍ
+20. traffic_sign_noentry — مَمْنوعُ الدُّخولِ
+21. traffic_sign_lights — إِشاراتٌ ضَوْئِيَّةٌ
+22. traffic_touch_sign_f — اِلْمِسي كُلَّ إِشارَةٍ
+23. traffic_touch_sign_m — اِلْمِسْ كُلَّ إِشارَةٍ
+24. traffic_seat_f — اِسْحَبي الطِّفْلَ إلى مَقْعَدِ الأَطْفالِ
+25. traffic_seat_m — اِسْحَبِ الطِّفْلَ إلى مَقْعَدِ الأَطْفالِ
+26. traffic_sit_back — الأَطْفالُ يَجْلِسونَ في الخَلْفِ
+27. traffic_belt_f — اِرْبِطي حِزامَ الأَمانِ
+28. traffic_belt_m — اِرْبِطْ حِزامَ الأَمانِ
+29. traffic_lets_go — هَيّا نَنْطَلِقُ
+30. traffic_bike_wear — ماذا نَلْبَسُ لِرُكوبِ الدَّرّاجَةِ؟
+31. traffic_helmet_protects — الخوذَةُ تَحْمي رَأْسَكَ
+32. traffic_helmet_buckle_f — اِرْبِطي الخوذَةَ
+33. traffic_helmet_buckle_m — اِرْبِطِ الخوذَةَ
+34. traffic_is_safe — هَلْ هذا آمِنٌ؟
+35. traffic_s_ball_street — اللَّعِبُ بِالكُرَةِ في الشّارِعِ

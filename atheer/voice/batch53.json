@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_cloud_e1_2",
+  "text": "وَظَهَرَ قَوْسُ قُزَحٍ يَبْتَسِمُ لِلْجَمِيعِ.",
+  "plain": "وظهر قوس قزح يبتسم للجميع.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e1_moral",
+  "text": "مَعًا نَسْتَطِيعُ أَنْ نَصْنَعَ أَشْيَاءَ كَبِيرَةً.",
+  "plain": "معا نستطيع أن نصنع أشياء كبيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4b_1",
+  "text": "طَارَتْ رَذَاذُ فَوْقَ البَحْرِ، وَصَبَرَتْ يَوْمًا بَعْدَ يَوْمٍ.",
+  "plain": "طارت رذاذ فوق البحر، وصبرت يوما بعد يوم.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4b_2",
+  "text": "وَكَانَتْ تَكْبَرُ قَلِيلًا كُلَّ صَبَاحٍ.",
+  "plain": "وكانت تكبر قليلا كل صباح.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4b_3",
+  "text": "عَلَى مَنْ تُمْطِرُ رَذَاذُ؟",
+  "plain": "على من تمطر رذاذ؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4b_ch1",
+  "text": "عَلَى شَجَرَةٍ عَطْشَى",
+  "plain": "على شجرة عطشى",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4b_ch2",
+  "text": "عَلَى الصَّحْرَاءِ الوَاسِعَةِ",
+  "plain": "على الصحراء الواسعة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e2_1",
+  "text": "أَمْطَرَتْ رَذَاذُ عَلَى شَجَرَةٍ عَطْشَى.",
+  "plain": "أمطرت رذاذ على شجرة عطشى.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e2_2",
+  "text": "فَتَفَتَّحَتْ أَزْهَارُ الشَّجَرَةِ فَرَحًا!",
+  "plain": "فتفتحت أزهار الشجرة فرحا!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e2_moral",
+  "text": "بِالصَّبْرِ نَكْبَرُ، وَتَتَحَقَّقُ أَحْلَامُنَا.",
+  "plain": "بالصبر نكبر، وتتحقق أحلامنا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e4_1",
+  "text": "أَمْطَرَتْ رَذَاذُ عَلَى الصَّحْرَاءِ الوَاسِعَةِ.",
+  "plain": "أمطرت رذاذ على الصحراء الواسعة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e4_2",
+  "text": "فَتَفَتَّحَتْ زَهْرَةٌ صَغِيرَةٌ وَقَالَتْ: شُكْرًا يَا رَذَاذُ!",
+  "plain": "فتفتحت زهرة صغيرة وقالت: شكرا يا رذاذ!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e4_moral",
+  "text": "كُلُّ عَطَاءٍ، وَلَوْ كَانَ صَغِيرًا، يَصْنَعُ فَرْقًا.",
+  "plain": "كل عطاء، ولو كان صغيرا، يصنع فرقا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p1_1",
+  "text": "فِي السَّمَاءِ، كَانَتْ نَجْمَةٌ صَغِيرَةٌ اسْمُهَا لَمْعَةُ.",
+  "plain": "في السماء، كانت نجمة صغيرة اسمها لمعة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p1_2",
+  "text": "كَانَتْ خَجُولَةً، وَنُورُهَا ضَعِيفٌ.",
+  "plain": "كانت خجولة، ونورها ضعيف.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p2_1",
+  "text": "فِي لَيْلَةٍ مُظْلِمَةٍ، ضَاعَ قَارِبٌ صَغِيرٌ فِي البَحْرِ.",
+  "plain": "في ليلة مظلمة، ضاع قارب صغير في البحر.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p2_2",
+  "text": "كَانَتِ الغُيُومُ تُغَطِّي القَمَرَ وَالنُّجُومَ الكَبِيرَةَ.",
+  "plain": "كانت الغيوم تغطي القمر والنجوم الكبيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p3_1",
+  "text": "قَالَتْ لَمْعَةُ: هَلْ أَسْتَطِيعُ أَنْ أُسَاعِدَ؟",
+  "plain": "قالت لمعة: هل أستطيع أن أساعد؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p3_2",
+  "text": "مَاذَا تَفْعَلُ لَمْعَةُ؟",
+  "plain": "ماذا تفعل لمعة؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p3_ch1",
+  "text": "تَلْمَعُ بِكُلِّ قُوَّتِهَا",
+  "plain": "تلمع بكل قوتها",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p3_ch2",
+  "text": "تَطْلُبُ العَوْنَ مِنَ الرِّيحِ",
+  "plain": "تطلب العون من الريح",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p4a_1",
+  "text": "أَغْمَضَتْ لَمْعَةُ عَيْنَيْهَا، وَلَمَعَتْ أَقْوَى فَأَقْوَى!",
+  "plain": "أغمضت لمعة عينيها، ولمعت أقوى فأقوى!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p4a_2",
+  "text": "فَرَأَى البَحَّارُ نُورَهَا، وَعَرَفَ الطَّرِيقَ.",
+  "plain": "فرأى البحار نورها، وعرف الطريق.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e1_1",
+  "text": "وَصَلَ القَارِبُ إِلَى الشَّاطِئِ سَالِمًا.",
+  "plain": "وصل القارب إلى الشاطئ سالما.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e1_2",
+  "text": "وَصَارَتْ لَمْعَةُ أَشْجَعَ نَجْمَةٍ فِي السَّمَاءِ!",
+  "plain": "وصارت لمعة أشجع نجمة في السماء!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e1_moral",
+  "text": "نُورٌ صَغِيرٌ يَسْتَطِيعُ أَنْ يُضِيءَ طَرِيقًا كَبِيرًا.",
+  "plain": "نور صغير يستطيع أن يضيء طريقا كبيرا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p4b_1",
+  "text": "طَارَتْ لَمْعَةُ إِلَى الرِّيحِ وَقَالَتْ: سَاعِدِينَا مِنْ فَضْلِكِ!",
+  "plain": "طارت لمعة إلى الريح وقالت: ساعدينا من فضلك!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_p4b_2",
+  "text": "فَنَفَخَتِ الرِّيحُ، وَابْتَعَدَتِ الغُيُومُ.",
+  "plain": "فنفخت الريح، وابتعدت الغيوم.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e2_1",
+  "text": "أَضَاءَ القَمَرُ وَالنُّجُومُ البَحْرَ كُلَّهُ.",
+  "plain": "أضاء القمر والنجوم البحر كله.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e2_2",
+  "text": "وَعَادَ القَارِبُ إِلَى بَيْتِهِ، وَالجَمِيعُ يَبْتَسِمُ.",
+  "plain": "وعاد القارب إلى بيته، والجميع يبتسم.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_star_e2_moral",
+  "text": "مِنَ الشَّجَاعَةِ أَنْ نَطْلُبَ العَوْنَ لِنُسَاعِدَ غَيْرَنَا.",
+  "plain": "من الشجاعة أن نطلب العون لنساعد غيرنا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p1_1_f",
+  "text": "خَرَجَتْ سَلْمَى إِلَى الحَدِيقَةِ لِتَلْعَبَ بِالكُرَةِ.",
+  "plain": "خرجت سلمى إلى الحديقة لتلعب بالكرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p1_1_m",
+  "text": "خَرَجَ سَامِي إِلَى الحَدِيقَةِ لِيَلْعَبَ بِالكُرَةِ.",
+  "plain": "خرج سامي إلى الحديقة ليلعب بالكرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p1_2",
+  "text": "كَانَتِ الشَّمْسُ دَافِئَةً، وَالعَصَافِيرُ تُغَرِّدُ.",
+  "plain": "كانت الشمس دافئة، والعصافير تغرد.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p2_1",
+  "text": "تَدَحْرَجَتِ الكُرَةُ تَحْتَ مَقْعَدٍ خَشَبِيٍّ.",
+  "plain": "تدحرجت الكرة تحت مقعد خشبي.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 53,
+  "note": ""
+ }
+]

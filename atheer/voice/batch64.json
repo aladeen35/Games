@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_en_cloud_p4b_1",
+  "text": "Rathath floated over the sea and waited patiently, day after day.",
+  "plain": "Rathath floated over the sea and waited patiently, day after day.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_p4b_2",
+  "text": "Every morning she grew a little bigger.",
+  "plain": "Every morning she grew a little bigger.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_p4b_3",
+  "text": "Where should Rathath rain?",
+  "plain": "Where should Rathath rain?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_p4b_ch1",
+  "text": "On a thirsty tree",
+  "plain": "On a thirsty tree",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_p4b_ch2",
+  "text": "On the wide desert",
+  "plain": "On the wide desert",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e2_1",
+  "text": "Rathath rained on a thirsty tree.",
+  "plain": "Rathath rained on a thirsty tree.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e2_2",
+  "text": "And the tree burst into happy blossoms!",
+  "plain": "And the tree burst into happy blossoms!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e2_moral",
+  "text": "With patience we grow, and our dreams come true.",
+  "plain": "With patience we grow, and our dreams come true.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e4_1",
+  "text": "Rathath rained on the wide desert.",
+  "plain": "Rathath rained on the wide desert.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e4_2",
+  "text": "A tiny flower opened and said: Thank you, Rathath!",
+  "plain": "A tiny flower opened and said: Thank you, Rathath!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_cloud_e4_moral",
+  "text": "Every gift, even a small one, makes a difference.",
+  "plain": "Every gift, even a small one, makes a difference.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p1_1",
+  "text": "In the sky there was a little star called Lamaa.",
+  "plain": "In the sky there was a little star called Lamaa.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p1_2",
+  "text": "She was shy, and her light was weak.",
+  "plain": "She was shy, and her light was weak.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p2_1",
+  "text": "One dark night, a little boat got lost at sea.",
+  "plain": "One dark night, a little boat got lost at sea.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p2_2",
+  "text": "Clouds covered the moon and the big stars.",
+  "plain": "Clouds covered the moon and the big stars.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p3_1",
+  "text": "Lamaa said: Can I help?",
+  "plain": "Lamaa said: Can I help?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p3_2",
+  "text": "What should Lamaa do?",
+  "plain": "What should Lamaa do?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p3_ch1",
+  "text": "Shine with all her might",
+  "plain": "Shine with all her might",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p3_ch2",
+  "text": "Ask the wind for help",
+  "plain": "Ask the wind for help",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p4a_1",
+  "text": "Lamaa closed her eyes and shone brighter and brighter!",
+  "plain": "Lamaa closed her eyes and shone brighter and brighter!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p4a_2",
+  "text": "The sailor saw her light and found the way.",
+  "plain": "The sailor saw her light and found the way.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e1_1",
+  "text": "The boat reached the shore safely.",
+  "plain": "The boat reached the shore safely.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e1_2",
+  "text": "And Lamaa became the bravest star in the sky!",
+  "plain": "And Lamaa became the bravest star in the sky!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e1_moral",
+  "text": "A small light can light up a long way.",
+  "plain": "A small light can light up a long way.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p4b_1",
+  "text": "Lamaa flew to the wind and said: Please help us!",
+  "plain": "Lamaa flew to the wind and said: Please help us!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_p4b_2",
+  "text": "The wind blew, and the clouds drifted away.",
+  "plain": "The wind blew, and the clouds drifted away.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e2_1",
+  "text": "The moon and the stars lit up the whole sea.",
+  "plain": "The moon and the stars lit up the whole sea.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e2_2",
+  "text": "The boat went home, and everyone smiled.",
+  "plain": "The boat went home, and everyone smiled.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_star_e2_moral",
+  "text": "It is brave to ask for help so we can help others.",
+  "plain": "It is brave to ask for help so we can help others.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p1_1_f",
+  "text": "Salma went to the park to play with her ball.",
+  "plain": "Salma went to the park to play with her ball.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p1_1_m",
+  "text": "Sami went to the park to play with his ball.",
+  "plain": "Sami went to the park to play with his ball.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p1_2",
+  "text": "The sun was warm, and the birds were singing.",
+  "plain": "The sun was warm, and the birds were singing.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p2_1",
+  "text": "The ball rolled under a wooden bench.",
+  "plain": "The ball rolled under a wooden bench.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p2_2_f",
+  "text": "And there, Salma found a red wallet!",
+  "plain": "And there, Salma found a red wallet!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ },
+ {
+  "id": "stories_en_wallet_p2_2_m",
+  "text": "And there, Sami found a red wallet!",
+  "plain": "And there, Sami found a red wallet!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 64,
+  "note": ""
+ }
+]

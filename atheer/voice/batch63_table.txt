@@ -1,0 +1,35 @@
+1. stories_en_penguin_p4b_2 — So they dived together into the blue water.
+2. stories_en_penguin_e2_1 — Lulu caught her very first fish and was so happy.
+3. stories_en_penguin_e2_2 — Then they ate together under the sun.
+4. stories_en_penguin_e2_moral — Teaching a friend is a beautiful gift.
+5. stories_en_camel_p1_1 — On the bank of the Nile stood a tall palm tree.
+6. stories_en_camel_p1_2 — Jammoul the camel walked past it every day.
+7. stories_en_camel_p2_1 — On a hot day, Jammoul saw that the palm tree was sad.
+8. stories_en_camel_p2_2 — The palm said: I am thirsty, and the water is far away.
+9. stories_en_camel_p3_1 — Jammoul thought: How can I help her?
+10. stories_en_camel_p3_2 — What should Jammoul do?
+11. stories_en_camel_p3_ch1 — Carry water from the Nile
+12. stories_en_camel_p3_ch2 — Dig a little channel
+13. stories_en_camel_p4a_1 — Jammoul filled two buckets with Nile water.
+14. stories_en_camel_p4a_2 — He watered the palm tree day after day.
+15. stories_en_camel_e1_1 — The palm turned green and gave sweet dates.
+16. stories_en_camel_e1_2 — She said: These are for you, Jammoul. Thank you!
+17. stories_en_camel_e1_moral — Whoever plants kindness, harvests kindness.
+18. stories_en_camel_p4b_1 — Jammoul dug a little channel with his hoof.
+19. stories_en_camel_p4b_2 — The Nile water flowed all the way to the palm tree.
+20. stories_en_camel_e2_1 — The palm drank, and many flowers drank too.
+21. stories_en_camel_e2_2 — The place became a beautiful green garden!
+22. stories_en_camel_e2_moral — A clever idea can help many.
+23. stories_en_cloud_p1_1 — In the blue sky lived a little cloud called Rathath.
+24. stories_en_cloud_p1_2 — She wished she could rain like the big clouds.
+25. stories_en_cloud_p2_1 — Rathath tried to rain, but only two drops fell!
+26. stories_en_cloud_p2_2 — She said sadly: I am too small.
+27. stories_en_cloud_p3_1 — The wind came and said: Do not be sad, Rathath.
+28. stories_en_cloud_p3_2 — What should Rathath do?
+29. stories_en_cloud_p3_ch1 — Gather her cloud friends
+30. stories_en_cloud_p3_ch2 — Be patient and grow over the sea
+31. stories_en_cloud_p4a_1 — Rathath called the little clouds, and they gathered together.
+32. stories_en_cloud_p4a_2 — They became one big grey cloud!
+33. stories_en_cloud_e1_1 — Gentle rain fell on the thirsty fields.
+34. stories_en_cloud_e1_2 — And a rainbow appeared, smiling at everyone.
+35. stories_en_cloud_e1_moral — Together we can do big things.

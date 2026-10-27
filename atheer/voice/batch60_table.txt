@@ -1,0 +1,35 @@
+1. jobs_en_rid_baker — I bake bread and cakes in the oven
+2. jobs_en_rid_fisherman — I catch fish from the sea
+3. jobs_en_rid_astronaut — I travel to space in a rocket
+4. jobs_en_rid_vet — I help sick animals
+5. jobs_en_rid_shepherd — I look after sheep and camels in the desert
+6. jobs_en_rid_builder — I build houses with bricks
+7. jobs_en_rid_tailor — I sew clothes with a needle and thread
+8. jobs_en_rid_barber — I cut hair with scissors
+9. jobs_en_rid_pharmacist — I give people medicine at the pharmacy
+10. jobs_en_who_am_i — Who am I?
+11. jobs_en_whose — Whose is this?
+12. jobs_en_the — The
+13. jobs_en_works — works
+14. jobs_en_where_does — Where does the
+15. jobs_en_work — work?
+16. jobs_en_i_am — I am the
+17. jobs_en_choose_hat — Choose the hat for the
+18. jobs_en_choose_uni — Choose the uniform for the
+19. wudu_en_step_niyyah — Intention
+20. wudu_en_niyyah_desc — We intend wudu in our hearts
+21. wudu_en_step_bism — Say Bismillah
+22. wudu_en_step_hands — Wash the hands
+23. wudu_en_step_mouth — Rinse the mouth
+24. wudu_en_step_nose — Rinse the nose
+25. wudu_en_step_face — Wash the face
+26. wudu_en_step_arms — Wash the arms to the elbows
+27. wudu_en_step_head — Wipe the head
+28. wudu_en_step_ears — Wipe the ears
+29. wudu_en_step_feet — Wash the feet to the ankles
+30. wudu_en_step_shahada — The Shahada after wudu
+31. wudu_en_say_shahada — I bear witness that there is no god but Allah, alone without partner, and that Muhammad is His servant and Messenger
+32. wudu_en_pray_takbir — Stand and say Allahu Akbar
+33. wudu_en_pray_say_takbir — Allah is the Greatest
+34. wudu_en_pray_fatiha — Recite Al-Fatiha
+35. wudu_en_pray_say_fatiha — All praise is for Allah, Lord of all the worlds

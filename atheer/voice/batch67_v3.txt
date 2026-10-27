@@ -1,0 +1,137 @@
+[neutral] Washing hands
+
+...
+
+[neutral] Drinking cleaning liquids
+
+...
+
+[neutral] Cleaning liquids are not for drinking
+
+...
+
+[neutral] Summer
+
+...
+
+[neutral] Autumn
+
+...
+
+[neutral] Winter
+
+...
+
+[neutral] Spring
+
+...
+
+[neutral] Sunny
+
+...
+
+[neutral] Cloudy
+
+...
+
+[neutral] Rainy
+
+...
+
+[neutral] Windy
+
+...
+
+[neutral] Stormy
+
+...
+
+[neutral] Snowy
+
+...
+
+[neutral] Dusty
+
+...
+
+[neutral] warm
+
+...
+
+[neutral] It is sunny
+
+...
+
+[neutral] It is cloudy
+
+...
+
+[neutral] It is rainy
+
+...
+
+[neutral] It is windy
+
+...
+
+[neutral] It is stormy
+
+...
+
+[neutral] It is snowy
+
+...
+
+[neutral] A dust storm! It is dusty
+
+...
+
+[neutral] What should we wear?
+
+...
+
+[neutral] Which season is it?
+
+...
+
+[neutral] What do we do in each season?
+
+...
+
+[neutral] What is the weather today?
+
+...
+
+[neutral] Sun hat
+
+...
+
+[neutral] Sunglasses
+
+...
+
+[neutral] T-shirt
+
+...
+
+[neutral] Shorts
+
+...
+
+[neutral] Coat
+
+...
+
+[neutral] Boots
+
+...
+
+[neutral] Raincoat
+
+...
+
+[neutral] Swim
+
+...
+
+[neutral] Drink cold juice

@@ -1,0 +1,35 @@
+1. stories_en_wallet_p3_1_f — She opened it and saw some money and a family photo.
+2. stories_en_wallet_p3_1_m — He opened it and saw some money and a family photo.
+3. stories_en_wallet_p3_2_f — What should Salma do?
+4. stories_en_wallet_p3_2_m — What should Sami do?
+5. stories_en_wallet_p3_ch1 — Look for the owner
+6. stories_en_wallet_p3_ch2 — Take it to the park office
+7. stories_en_wallet_p4a_1_f — Salma looked around and saw a grandpa searching the ground, worried.
+8. stories_en_wallet_p4a_1_m — Sami looked around and saw a grandpa searching the ground, worried.
+9. stories_en_wallet_p4a_2_f — She asked: Did you lose something, grandpa?
+10. stories_en_wallet_p4a_2_m — He asked: Did you lose something, grandpa?
+11. stories_en_wallet_e1_1 — Grandpa said: Yes, my red wallet!
+12. stories_en_wallet_e1_2_f — Salma gave him the wallet, and he said: May Allah bless you!
+13. stories_en_wallet_e1_2_m — Sami gave him the wallet, and he said: May Allah bless you!
+14. stories_en_wallet_e1_moral — Honesty fills hearts with joy.
+15. stories_en_wallet_p4b_1_f — Salma carried the wallet to the park office.
+16. stories_en_wallet_p4b_1_m — Sami carried the wallet to the park office.
+17. stories_en_wallet_p4b_2_f — She said: I found this under the bench.
+18. stories_en_wallet_p4b_2_m — He said: I found this under the bench.
+19. stories_en_wallet_e2_1 — A little later, a grandma came looking for her wallet.
+20. stories_en_wallet_e2_2_f — Grandma was so happy, and she gave Salma a lovely rose.
+21. stories_en_wallet_e2_2_m — Grandma was so happy, and she gave Sami a lovely rose.
+22. stories_en_wallet_e2_moral — What is not ours, we give back to its owner.
+23. stories_en_choose — Choose a story
+24. stories_en_or — or
+25. traffic_en_means_stop — means stop
+26. traffic_en_means_wait — means wait
+27. traffic_en_means_go — means go
+28. traffic_en_touch_light — Touch each light
+29. traffic_en_what_do — What do we do?
+30. traffic_en_watch — Watch the traffic light
+31. traffic_en_wait_green — Wait for green
+32. traffic_en_where_cross — Where do we cross the street?
+33. traffic_en_cross_zebra — We cross at the zebra crossing
+34. traffic_en_hold_hand — Hold a grown-up's hand
+35. traffic_en_look — Look left and right

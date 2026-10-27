@@ -1,0 +1,137 @@
+[storytelling] She opened it and saw some money and a family photo.
+
+...
+
+[storytelling] He opened it and saw some money and a family photo.
+
+...
+
+[curious] What should Salma do?
+
+...
+
+[curious] What should Sami do?
+
+...
+
+[curious] Look for the owner
+
+...
+
+[curious] Take it to the park office
+
+...
+
+[storytelling] Salma looked around and saw a grandpa searching the ground, worried.
+
+...
+
+[storytelling] Sami looked around and saw a grandpa searching the ground, worried.
+
+...
+
+[curious] She asked: Did you lose something, grandpa?
+
+...
+
+[curious] He asked: Did you lose something, grandpa?
+
+...
+
+[storytelling] Grandpa said: Yes, my red wallet!
+
+...
+
+[storytelling] Salma gave him the wallet, and he said: May Allah bless you!
+
+...
+
+[storytelling] Sami gave him the wallet, and he said: May Allah bless you!
+
+...
+
+[warm] Honesty fills hearts with joy.
+
+...
+
+[storytelling] Salma carried the wallet to the park office.
+
+...
+
+[storytelling] Sami carried the wallet to the park office.
+
+...
+
+[storytelling] She said: I found this under the bench.
+
+...
+
+[storytelling] He said: I found this under the bench.
+
+...
+
+[storytelling] A little later, a grandma came looking for her wallet.
+
+...
+
+[storytelling] Grandma was so happy, and she gave Salma a lovely rose.
+
+...
+
+[storytelling] Grandma was so happy, and she gave Sami a lovely rose.
+
+...
+
+[warm] What is not ours, we give back to its owner.
+
+...
+
+[cheerful] Choose a story
+
+...
+
+[cheerful] or
+
+...
+
+[neutral] means stop
+
+...
+
+[neutral] means wait
+
+...
+
+[neutral] means go
+
+...
+
+[neutral] Touch each light
+
+...
+
+[neutral] What do we do?
+
+...
+
+[neutral] Watch the traffic light
+
+...
+
+[neutral] Wait for green
+
+...
+
+[neutral] Where do we cross the street?
+
+...
+
+[neutral] We cross at the zebra crossing
+
+...
+
+[neutral] Hold a grown-up's hand
+
+...
+
+[neutral] Look left and right

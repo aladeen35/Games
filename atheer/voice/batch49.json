@@ -1,0 +1,352 @@
+[
+ {
+  "id": "jobs_rid_engineer",
+  "text": "أَرْسُمُ الْمَبَانِيَ وَالْجُسُورَ وَأُصَمِّمُهَا",
+  "plain": "أرسم المباني والجسور وأصممها",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_dentist",
+  "text": "أُعَالِجُ الْأَسْنَانَ وَأُنَظِّفُهَا",
+  "plain": "أعالج الأسنان وأنظفها",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_mechanic",
+  "text": "أُصْلِحُ السَّيَّارَاتِ الْمُعَطَّلَةَ",
+  "plain": "أصلح السيارات المعطلة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_baker",
+  "text": "أَخْبِزُ الْخُبْزَ وَالْكَعْكَ فِي الْفُرْنِ",
+  "plain": "أخبز الخبز والكعك في الفرن",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_fisherman",
+  "text": "أَصْطَادُ السَّمَكَ مِنَ الْبَحْرِ",
+  "plain": "أصطاد السمك من البحر",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_astronaut",
+  "text": "أُسَافِرُ بِالصَّارُوخِ إِلَى الْفَضَاءِ",
+  "plain": "أسافر بالصاروخ إلى الفضاء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_vet",
+  "text": "أُعَالِجُ الْحَيَوَانَاتِ الْمَرِيضَةَ",
+  "plain": "أعالج الحيوانات المريضة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_shepherd",
+  "text": "أَرْعَى الْغَنَمَ وَالْإِبِلَ فِي الصَّحْرَاءِ",
+  "plain": "أرعى الغنم والإبل في الصحراء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_builder",
+  "text": "أَبْنِي الْبُيُوتَ بِالطُّوبِ",
+  "plain": "أبني البيوت بالطوب",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_tailor",
+  "text": "أَخِيطُ الْمَلَابِسَ بِالْإِبْرَةِ وَالْخَيْطِ",
+  "plain": "أخيط الملابس بالإبرة والخيط",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_barber",
+  "text": "أَقُصُّ الشَّعْرَ بِالْمِقَصِّ",
+  "plain": "أقص الشعر بالمقص",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_pharmacist",
+  "text": "أُعْطِي النَّاسَ الدَّوَاءَ فِي الصَّيْدَلِيَّةِ",
+  "plain": "أعطي الناس الدواء في الصيدلية",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_who_am_i",
+  "text": "مَنْ أَنَا؟",
+  "plain": "من أنا؟",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_whose",
+  "text": "لِمَنْ هَذَا؟",
+  "plain": "لمن هذا؟",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_works_m",
+  "text": "يَعْمَلُ فِي",
+  "plain": "يعمل في",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_works_f",
+  "text": "تَعْمَلُ فِي",
+  "plain": "تعمل في",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_where_m",
+  "text": "أَيْنَ يَعْمَلُ",
+  "plain": "أين يعمل",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_where_f",
+  "text": "أَيْنَ تَعْمَلُ",
+  "plain": "أين تعمل",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_i_am",
+  "text": "أَنَا",
+  "plain": "أنا",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_choose_f",
+  "text": "اخْتَارِي",
+  "plain": "اختاري",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "jobs_choose_m",
+  "text": "اخْتَرْ",
+  "plain": "اختر",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_niyyah",
+  "text": "النِّيَّةُ",
+  "plain": "النية",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_niyyah_desc",
+  "text": "نَنْوِي الوُضُوءَ بِقُلُوبِنَا",
+  "plain": "ننوي الوضوء بقلوبنا",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_hands",
+  "text": "غَسْلُ الكَفَّيْنِ",
+  "plain": "غسل الكفين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_mouth",
+  "text": "المَضْمَضَةُ",
+  "plain": "المضمضة",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_nose",
+  "text": "الاسْتِنْشَاقُ وَالاسْتِنْثَارُ",
+  "plain": "الاستنشاق والاستنثار",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_face",
+  "text": "غَسْلُ الوَجْهِ",
+  "plain": "غسل الوجه",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_arms",
+  "text": "غَسْلُ اليَدَيْنِ إِلَى المِرْفَقَيْنِ",
+  "plain": "غسل اليدين إلى المرفقين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_head",
+  "text": "مَسْحُ الرَّأْسِ",
+  "plain": "مسح الرأس",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_ears",
+  "text": "مَسْحُ الأُذُنَيْنِ",
+  "plain": "مسح الأذنين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_feet",
+  "text": "غَسْلُ الرِّجْلَيْنِ إِلَى الكَعْبَيْنِ",
+  "plain": "غسل الرجلين إلى الكعبين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_step_shahada",
+  "text": "الشَّهَادَةُ بَعْدَ الوُضُوءِ",
+  "plain": "الشهادة بعد الوضوء",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_say_shahada",
+  "text": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+  "plain": "أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمدا عبده ورسوله",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_takbir",
+  "text": "القِيَامُ وَتَكْبِيرَةُ الإِحْرَامِ",
+  "plain": "القيام وتكبيرة الإحرام",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_takbir",
+  "text": "اللَّهُ أَكْبَرُ",
+  "plain": "الله أكبر",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 49,
+  "note": ""
+ }
+]

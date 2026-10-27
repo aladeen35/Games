@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_en_kitten_p3_1",
+  "text": "Mishmish sat down sadly between the shops.",
+  "plain": "Mishmish sat down sadly between the shops.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p3_2",
+  "text": "What should Mishmish do?",
+  "plain": "What should Mishmish do?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p3_ch1",
+  "text": "Ask the little bird",
+  "plain": "Ask the little bird",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p3_ch2",
+  "text": "Stay in place and meow",
+  "plain": "Stay in place and meow",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p4a_1",
+  "text": "The bird flew high above the souq.",
+  "plain": "The bird flew high above the souq.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p4a_2",
+  "text": "Then he said: I see a big cat at the date shop!",
+  "plain": "Then he said: I see a big cat at the date shop!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e1_1",
+  "text": "Mishmish ran to her mother and hugged her.",
+  "plain": "Mishmish ran to her mother and hugged her.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e1_2",
+  "text": "She told the bird: Thank you, my friend!",
+  "plain": "She told the bird: Thank you, my friend!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e1_moral",
+  "text": "Asking for help is brave, and saying thank you is beautiful.",
+  "plain": "Asking for help is brave, and saying thank you is beautiful.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p4b_1",
+  "text": "Mishmish stayed where she was and said: Meow! Meow!",
+  "plain": "Mishmish stayed where she was and said: Meow! Meow!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p4b_2",
+  "text": "Her mother heard her voice from far away.",
+  "plain": "Her mother heard her voice from far away.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e2_1",
+  "text": "Her mother hurried over and hugged Mishmish gently.",
+  "plain": "Her mother hurried over and hugged Mishmish gently.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e2_2",
+  "text": "Mishmish promised to stay close to her mother.",
+  "plain": "Mishmish promised to stay close to her mother.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_e2_moral",
+  "text": "If we get lost, we stay in place until our family finds us.",
+  "plain": "If we get lost, we stay in place until our family finds us.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p1_1",
+  "text": "In the land of snow lived a little penguin called Bobo.",
+  "plain": "In the land of snow lived a little penguin called Bobo.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p1_2",
+  "text": "Bobo loved swimming and catching fish.",
+  "plain": "Bobo loved swimming and catching fish.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p2_1",
+  "text": "One cold day, Bobo dived into the water.",
+  "plain": "One cold day, Bobo dived into the water.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p2_2",
+  "text": "He came out with three shiny fish!",
+  "plain": "He came out with three shiny fish!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p3_1",
+  "text": "Bobo saw his friend Lulu sitting all alone.",
+  "plain": "Bobo saw his friend Lulu sitting all alone.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p3_2",
+  "text": "She was hungry and had not caught anything.",
+  "plain": "She was hungry and had not caught anything.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p3_3",
+  "text": "What should Bobo do?",
+  "plain": "What should Bobo do?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p3_ch1",
+  "text": "Give her a fish",
+  "plain": "Give her a fish",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p3_ch2",
+  "text": "Teach her to fish",
+  "plain": "Teach her to fish",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4a_1",
+  "text": "Bobo gave Lulu a big fish.",
+  "plain": "Bobo gave Lulu a big fish.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4a_2",
+  "text": "Lulu smiled and said: Thank you, Bobo!",
+  "plain": "Lulu smiled and said: Thank you, Bobo!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4a_3",
+  "text": "What should they do next?",
+  "plain": "What should they do next?",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4a_ch1",
+  "text": "Invite their friends",
+  "plain": "Invite their friends",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4a_ch2",
+  "text": "Build a snowman",
+  "plain": "Build a snowman",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e1_1",
+  "text": "Their friends came, and they all shared the food.",
+  "plain": "Their friends came, and they all shared the food.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e1_2",
+  "text": "The fish was little, but the joy was big!",
+  "plain": "The fish was little, but the joy was big!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e1_moral",
+  "text": "When we share, happiness grows.",
+  "plain": "When we share, happiness grows.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e3_1",
+  "text": "Bobo and Lulu built a smiling snowman.",
+  "plain": "Bobo and Lulu built a smiling snowman.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e3_2",
+  "text": "They gave him a red scarf and laughed a lot!",
+  "plain": "They gave him a red scarf and laughed a lot!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_e3_moral",
+  "text": "Friendship makes playing more fun.",
+  "plain": "Friendship makes playing more fun.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 62,
+  "note": ""
+ },
+ {
+  "id": "stories_en_penguin_p4b_1",
+  "text": "Bobo said: Come, I will teach you to fish!",
+  "plain": "Bobo said: Come, I will teach you to fish!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 62,
+  "note": ""
+ }
+]

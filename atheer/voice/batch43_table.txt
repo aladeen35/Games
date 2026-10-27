@@ -1,0 +1,35 @@
+1. traffic_r_play_park — نَلْعَبُ في الحَديقَةِ لا في الشّارِعِ
+2. traffic_s_park — اللَّعِبُ في الحَديقَةِ
+3. traffic_s_cross_adult — العُبورُ مَعَ الكِبارِ مِنْ مَمَرِّ المُشاةِ
+4. traffic_s_run_cars — الرَّكْضُ بَيْنَ السَّيّاراتِ
+5. traffic_r_cross_adult — نَعْبُرُ مِنْ مَمَرِّ المُشاةِ مَعَ الكِبارِ
+6. traffic_s_bike_helmet — رُكوبُ الدَّرّاجَةِ بِالخوذَةِ
+7. traffic_s_cross_red — العُبورُ وَالإِشارَةُ حَمْراءُ
+8. traffic_s_stove — لَمْسُ المَوْقِدِ السّاخِنِ
+9. traffic_r_stove — المَوْقِدُ ساخِنٌ لا نَلْمِسُهُ
+10. traffic_s_plug — وَضْعُ الأَصابِعِ في الكَهْرَباءِ
+11. traffic_r_plug — الكَهْرَباءُ خَطيرَةٌ
+12. traffic_s_medicine — أَخْذُ الدَّواءِ وَحْدي
+13. traffic_r_medicine — الكِبارُ فَقَطْ يُعْطونَنا الدَّواءَ
+14. traffic_s_toys — اللَّعِبُ بِالأَلْعابِ
+15. traffic_s_milk — شُرْبُ الحَليبِ
+16. traffic_s_knife — اللَّعِبُ بِالسِّكّينِ
+17. traffic_r_knife — السِّكّينُ تَجْرَحُ
+18. traffic_s_wash — غَسْلُ اليَدَيْنِ
+19. traffic_s_cleaner — شُرْبُ مَوادِّ التَّنْظيفِ
+20. traffic_r_cleaner — مَوادُّ التَّنْظيفِ لَيْسَتْ لِلشُّرْبِ
+21. seasons_summer — الصَّيْفُ
+22. seasons_autumn — الخَرِيفُ
+23. seasons_winter — الشِّتَاءُ
+24. seasons_spring — الرَّبِيعُ
+25. seasons_in_summer — فِي الصَّيْفِ
+26. seasons_in_autumn — فِي الخَرِيفِ
+27. seasons_in_winter — فِي الشِّتَاءِ
+28. seasons_in_spring — فِي الرَّبِيعِ
+29. seasons_the_weather — الجَوُّ
+30. seasons_sunny — مُشْمِسٌ
+31. seasons_cloudy — غَائِمٌ
+32. seasons_rainy — مَاطِرٌ
+33. seasons_windy — عَاصِفٌ
+34. seasons_stormy — رَعْدِيٌّ
+35. seasons_snowy — مُثْلِجٌ

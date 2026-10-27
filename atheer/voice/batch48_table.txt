@@ -1,0 +1,35 @@
+1. jobs_pl_sea — الْبَحْرِ
+2. jobs_pl_space — الْفَضَاءِ
+3. jobs_pl_vetclinic — عِيَادَةِ الْحَيَوَانَاتِ
+4. jobs_pl_desert — الصَّحْرَاءِ
+5. jobs_pl_site — مَوْقِعِ الْبِنَاءِ
+6. jobs_pl_tailorshop — مَحَلِّ الْخِيَاطَةِ
+7. jobs_pl_barbershop — صَالُونِ الْحِلَاقَةِ
+8. jobs_pl_pharmacy — الصَّيْدَلِيَّةِ
+9. jobs_t_doctor — السَّمَّاعَةُ
+10. jobs_t_nurse — الْحُقْنَةُ
+11. jobs_t_teacher — الْكُتُبُ
+12. jobs_t_police — سَيَّارَةُ الشُّرْطَةِ
+13. jobs_t_firefighter — طَفَّايَةُ الْحَرِيقِ
+14. jobs_t_pilot — الطَّائِرَةُ
+15. jobs_t_farmer — الْجَرَّارُ
+16. jobs_t_chef — الْمِقْلَاةُ
+17. jobs_t_engineer — الْمِسْطَرَةُ
+18. jobs_t_dentist — فُرْشَاةُ الْأَسْنَانِ
+19. jobs_t_mechanic — مِفْتَاحُ الرَّبْطِ
+20. jobs_t_baker — الْخُبْزُ
+21. jobs_t_fisherman — الصِّنَّارَةُ
+22. jobs_t_astronaut — الصَّارُوخُ
+23. jobs_t_shepherd — الْخَرُوفُ
+24. jobs_t_builder — الطُّوبُ
+25. jobs_t_tailor — الْإِبْرَةُ وَالْخَيْطُ
+26. jobs_t_barber — الْمِقَصُّ
+27. jobs_t_pharmacist — الدَّوَاءُ
+28. jobs_rid_doctor — أُعَالِجُ الْمَرْضَى وَأَفْحَصُهُمْ بِالسَّمَّاعَةِ
+29. jobs_rid_nurse — أُسَاعِدُ الطَّبِيبَ وَأَعْتَنِي بِالْمَرْضَى
+30. jobs_rid_teacher — أُعَلِّمُ الْأَطْفَالَ الْقِرَاءَةَ وَالْكِتَابَةَ
+31. jobs_rid_police — أُحَافِظُ عَلَى الْأَمْنِ وَأُنَظِّمُ الْمُرُورَ
+32. jobs_rid_firefighter — أُطْفِئُ الْحَرَائِقَ بِالْمَاءِ
+33. jobs_rid_pilot — أَقُودُ الطَّائِرَةَ فِي السَّمَاءِ
+34. jobs_rid_farmer — أَزْرَعُ الْخُضَارَ وَأَسْقِي النَّبَاتَاتِ
+35. jobs_rid_chef — أَطْبُخُ الطَّعَامَ اللَّذِيذَ

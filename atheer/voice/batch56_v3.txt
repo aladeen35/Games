@@ -1,0 +1,137 @@
+[calm] Pay
+
+...
+
+[gentle] That's too much
+
+...
+
+[gentle] Not enough
+
+...
+
+[curious] How much change?
+
+...
+
+[curious] How much more do we need?
+
+...
+
+[excited] We saved
+
+...
+
+[cheerful] Drag the key to the lock
+
+...
+
+[cheerful] Turn the key
+
+...
+
+[excited] Surprise!
+
+...
+
+[excited] You opened all the doors!
+
+...
+
+[neutral] Panda
+
+...
+
+[curious] Touch any part
+
+...
+
+[curious] Touch the
+
+...
+
+[neutral] head
+
+...
+
+[neutral] hair
+
+...
+
+[neutral] eyes
+
+...
+
+[neutral] ears
+
+...
+
+[neutral] nose
+
+...
+
+[neutral] mouth
+
+...
+
+[neutral] teeth
+
+...
+
+[neutral] tongue
+
+...
+
+[neutral] cheeks
+
+...
+
+[neutral] chin
+
+...
+
+[neutral] neck
+
+...
+
+[neutral] shoulders
+
+...
+
+[neutral] arms
+
+...
+
+[neutral] elbows
+
+...
+
+[neutral] hands
+
+...
+
+[neutral] fingers
+
+...
+
+[neutral] tummy
+
+...
+
+[neutral] knees
+
+...
+
+[neutral] legs
+
+...
+
+[neutral] feet
+
+...
+
+[neutral] toes
+
+...
+
+[neutral] back

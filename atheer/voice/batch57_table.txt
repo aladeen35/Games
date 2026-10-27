@@ -1,0 +1,35 @@
+1. body_en_sense_smell — What do we smell with?
+2. body_en_sense_see — What do we see with?
+3. body_en_sense_hear — What do we hear with?
+4. body_en_sense_taste — What do we taste with?
+5. body_en_sense_touch — What do we touch with?
+6. body_en_sense_walk — What do we walk with?
+7. body_en_sense_chew — What do we chew with?
+8. body_en_sense_clap — What do we clap with?
+9. body_en_sense_think — What do we think with?
+10. body_en_sense_kick — What do we kick the ball with?
+11. body_en_sense_hug — What do we hug with?
+12. body_en_where_wear — Where do we wear the
+13. body_en_where_put — Where do we put the
+14. body_en_where_carry — Where do we carry the
+15. body_en_item_crown — crown
+16. body_en_item_glasses — glasses
+17. body_en_item_scarf — scarf
+18. body_en_item_gloves — gloves
+19. body_en_item_shoes — shoes
+20. body_en_item_socks — socks
+21. body_en_item_watch — watch
+22. body_en_item_ring — ring
+23. body_en_item_backpack — backpack
+24. body_en_item_headphones — headphones
+25. jobs_en_n_doctor — doctor
+26. jobs_en_n_nurse — nurse
+27. jobs_en_n_teacher — teacher
+28. jobs_en_n_police — police officer
+29. jobs_en_n_firefighter — firefighter
+30. jobs_en_n_pilot — pilot
+31. jobs_en_n_farmer — farmer
+32. jobs_en_n_chef — chef
+33. jobs_en_n_engineer — engineer
+34. jobs_en_n_dentist — dentist
+35. jobs_en_n_mechanic — mechanic

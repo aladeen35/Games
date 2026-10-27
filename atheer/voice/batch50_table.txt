@@ -1,0 +1,35 @@
+1. wudu_pray_fatiha — قِرَاءَةُ الفَاتِحَةِ
+2. wudu_pray_say_fatiha — الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+3. wudu_pray_ruku — الرُّكُوعُ
+4. wudu_pray_say_ruku — سُبْحَانَ رَبِّيَ الْعَظِيمِ
+5. wudu_pray_rise — الرَّفْعُ مِنَ الرُّكُوعِ
+6. wudu_pray_say_rise — سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ، رَبَّنَا وَلَكَ الْحَمْدُ
+7. wudu_pray_sujud — السُّجُودُ
+8. wudu_pray_say_sujud — سُبْحَانَ رَبِّيَ الْأَعْلَى
+9. wudu_pray_jalsa — الجُلُوسُ بَيْنَ السَّجْدَتَيْنِ
+10. wudu_pray_say_jalsa — رَبِّ اغْفِرْ لِي
+11. wudu_pray_sujud2 — السَّجْدَةُ الثَّانِيَةُ
+12. wudu_pray_tash — التَّشَهُّدُ
+13. wudu_pray_say_tash — التَّحِيَّاتُ لِلَّهِ
+14. wudu_pray_salam — التَّسْلِيمُ
+15. wudu_pray_say_salam — السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ
+16. wudu_time_fajr — الفَجْرُ
+17. wudu_time_desc_fajr — عِنْدَ الفَجْرِ، قَبْلَ شُرُوقِ الشَّمْسِ
+18. wudu_time_desc_dhuhr — فِي وَسَطِ النَّهَارِ، وَالشَّمْسُ عَالِيَةٌ
+19. wudu_time_asr — العَصْرُ
+20. wudu_time_desc_asr — بَعْدَ الظُّهْرِ، حِينَ تَمِيلُ الشَّمْسُ
+21. wudu_time_maghrib — المَغْرِبُ
+22. wudu_time_desc_maghrib — عِنْدَ غُرُوبِ الشَّمْسِ
+23. wudu_time_isha — العِشَاءُ
+24. wudu_time_desc_isha — فِي اللَّيْلِ، حِينَ تَظْهَرُ النُّجُومُ
+25. wudu_right — اليُمْنَى
+26. wudu_left — اليُسْرَى
+27. wudu_where_wash — أَيْنَ نَغْسِلُ؟
+28. wudu_where_wipe — أَيْنَ نَمْسَحُ؟
+29. wudu_first — مَاذَا نَغْسِلُ أَوَّلًا؟
+30. wudu_next — وَمَاذَا بَعْدَ ذَلِكَ؟
+31. wudu_order_f — رَتِّبِي الخُطُوَاتِ
+32. wudu_order_m — رَتِّبِ الخُطُوَاتِ
+33. wudu_which_prayer — أَيُّ صَلَاةٍ هَذِهِ؟
+34. stories_kitten_p1_1 — كَانَتْ مِشْمِشُ قِطَّةً صَغِيرَةً تُحِبُّ اللَّعِبَ.
+35. stories_kitten_p1_2 — ذَهَبَتْ مَعَ أُمِّهَا إِلَى السُّوقِ الكَبِيرِ.

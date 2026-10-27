@@ -1,0 +1,35 @@
+1. stories_en_cloud_p4b_1 — Rathath floated over the sea and waited patiently, day after day.
+2. stories_en_cloud_p4b_2 — Every morning she grew a little bigger.
+3. stories_en_cloud_p4b_3 — Where should Rathath rain?
+4. stories_en_cloud_p4b_ch1 — On a thirsty tree
+5. stories_en_cloud_p4b_ch2 — On the wide desert
+6. stories_en_cloud_e2_1 — Rathath rained on a thirsty tree.
+7. stories_en_cloud_e2_2 — And the tree burst into happy blossoms!
+8. stories_en_cloud_e2_moral — With patience we grow, and our dreams come true.
+9. stories_en_cloud_e4_1 — Rathath rained on the wide desert.
+10. stories_en_cloud_e4_2 — A tiny flower opened and said: Thank you, Rathath!
+11. stories_en_cloud_e4_moral — Every gift, even a small one, makes a difference.
+12. stories_en_star_p1_1 — In the sky there was a little star called Lamaa.
+13. stories_en_star_p1_2 — She was shy, and her light was weak.
+14. stories_en_star_p2_1 — One dark night, a little boat got lost at sea.
+15. stories_en_star_p2_2 — Clouds covered the moon and the big stars.
+16. stories_en_star_p3_1 — Lamaa said: Can I help?
+17. stories_en_star_p3_2 — What should Lamaa do?
+18. stories_en_star_p3_ch1 — Shine with all her might
+19. stories_en_star_p3_ch2 — Ask the wind for help
+20. stories_en_star_p4a_1 — Lamaa closed her eyes and shone brighter and brighter!
+21. stories_en_star_p4a_2 — The sailor saw her light and found the way.
+22. stories_en_star_e1_1 — The boat reached the shore safely.
+23. stories_en_star_e1_2 — And Lamaa became the bravest star in the sky!
+24. stories_en_star_e1_moral — A small light can light up a long way.
+25. stories_en_star_p4b_1 — Lamaa flew to the wind and said: Please help us!
+26. stories_en_star_p4b_2 — The wind blew, and the clouds drifted away.
+27. stories_en_star_e2_1 — The moon and the stars lit up the whole sea.
+28. stories_en_star_e2_2 — The boat went home, and everyone smiled.
+29. stories_en_star_e2_moral — It is brave to ask for help so we can help others.
+30. stories_en_wallet_p1_1_f — Salma went to the park to play with her ball.
+31. stories_en_wallet_p1_1_m — Sami went to the park to play with his ball.
+32. stories_en_wallet_p1_2 — The sun was warm, and the birds were singing.
+33. stories_en_wallet_p2_1 — The ball rolled under a wooden bench.
+34. stories_en_wallet_p2_2_f — And there, Salma found a red wallet!
+35. stories_en_wallet_p2_2_m — And there, Sami found a red wallet!

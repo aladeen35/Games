@@ -1,0 +1,352 @@
+[
+ {
+  "id": "wudu_en_pray_ruku",
+  "text": "Bowing (Ruku)",
+  "plain": "Bowing (Ruku)",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_ruku",
+  "text": "Glory be to my Lord, the Most Great",
+  "plain": "Glory be to my Lord, the Most Great",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_rise",
+  "text": "Rising from bowing",
+  "plain": "Rising from bowing",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_rise",
+  "text": "Allah hears whoever praises Him. Our Lord, to You is all praise",
+  "plain": "Allah hears whoever praises Him. Our Lord, to You is all praise",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_sujud",
+  "text": "Prostration (Sujud)",
+  "plain": "Prostration (Sujud)",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_sujud",
+  "text": "Glory be to my Lord, the Most High",
+  "plain": "Glory be to my Lord, the Most High",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_jalsa",
+  "text": "Sitting between the prostrations",
+  "plain": "Sitting between the prostrations",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_jalsa",
+  "text": "My Lord, forgive me",
+  "plain": "My Lord, forgive me",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_sujud2",
+  "text": "The second prostration",
+  "plain": "The second prostration",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_tash",
+  "text": "Tashahhud",
+  "plain": "Tashahhud",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_tash",
+  "text": "All greetings are for Allah",
+  "plain": "All greetings are for Allah",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_salam",
+  "text": "Taslim",
+  "plain": "Taslim",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_salam",
+  "text": "Peace and the mercy of Allah be upon you",
+  "plain": "Peace and the mercy of Allah be upon you",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_fajr",
+  "text": "Fajr",
+  "plain": "Fajr",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_desc_fajr",
+  "text": "At dawn, before sunrise",
+  "plain": "At dawn, before sunrise",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_dhuhr",
+  "text": "Dhuhr",
+  "plain": "Dhuhr",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_desc_dhuhr",
+  "text": "At midday, when the sun is high",
+  "plain": "At midday, when the sun is high",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_asr",
+  "text": "Asr",
+  "plain": "Asr",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_desc_asr",
+  "text": "In the afternoon, as the sun goes lower",
+  "plain": "In the afternoon, as the sun goes lower",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_maghrib",
+  "text": "Maghrib",
+  "plain": "Maghrib",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_desc_maghrib",
+  "text": "At sunset",
+  "plain": "At sunset",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_isha",
+  "text": "Isha",
+  "plain": "Isha",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_time_desc_isha",
+  "text": "At night, when the stars come out",
+  "plain": "At night, when the stars come out",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_right",
+  "text": "Right",
+  "plain": "Right",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_left",
+  "text": "Left",
+  "plain": "Left",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_where_wash",
+  "text": "Where do we wash?",
+  "plain": "Where do we wash?",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_where_wipe",
+  "text": "Where do we wipe?",
+  "plain": "Where do we wipe?",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_first",
+  "text": "What do we wash first?",
+  "plain": "What do we wash first?",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_next",
+  "text": "What comes next?",
+  "plain": "What comes next?",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_order",
+  "text": "Put the steps in order",
+  "plain": "Put the steps in order",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_which_prayer",
+  "text": "Which prayer is it?",
+  "plain": "Which prayer is it?",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p1_1",
+  "text": "Mishmish was a little kitten who loved to play.",
+  "plain": "Mishmish was a little kitten who loved to play.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p1_2",
+  "text": "She went with her mother to the big souq.",
+  "plain": "She went with her mother to the big souq.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p2_1",
+  "text": "Mishmish saw a colorful butterfly and ran after it.",
+  "plain": "Mishmish saw a colorful butterfly and ran after it.",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 61,
+  "note": ""
+ },
+ {
+  "id": "stories_en_kitten_p2_2",
+  "text": "The butterfly flew away. Mishmish looked around, and her mother was gone!",
+  "plain": "The butterfly flew away. Mishmish looked around, and her mother was gone!",
+  "lang": "en",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 61,
+  "note": ""
+ }
+]

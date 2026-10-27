@@ -1,0 +1,352 @@
+[
+ {
+  "id": "abacus_and_90",
+  "text": "وَتِسْعُونَ",
+  "plain": "وتسعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pound",
+  "text": "جُنَيْه",
+  "plain": "جنيه",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pound_2",
+  "text": "جُنَيْهَانِ",
+  "plain": "جنيهان",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pounds",
+  "text": "جُنَيْهَاتٍ",
+  "plain": "جنيهات",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pounds_acc",
+  "text": "جُنَيْهًا",
+  "plain": "جنيها",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_riyal",
+  "text": "رِيَال",
+  "plain": "ريال",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_riyal_2",
+  "text": "رِيَالَانِ",
+  "plain": "ريالان",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_riyals",
+  "text": "رِيَالَاتٍ",
+  "plain": "ريالات",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_riyals_acc",
+  "text": "رِيَالًا",
+  "plain": "ريالا",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_sdg",
+  "text": "جُنَيْه سُودَانِيّ",
+  "plain": "جنيه سوداني",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_sar",
+  "text": "رِيَال سُعُودِيّ",
+  "plain": "ريال سعودي",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_put_f",
+  "text": "ضَعِي النُّقُودَ فِي الحَصَّالَةِ",
+  "plain": "ضعي النقود في الحصالة",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_put_m",
+  "text": "ضَعِ النُّقُودَ فِي الحَصَّالَةِ",
+  "plain": "ضع النقود في الحصالة",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_how_much_inside",
+  "text": "كَمْ فِي الحَصَّالَةِ؟",
+  "plain": "كم في الحصالة؟",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pay_f",
+  "text": "اِدْفَعِي",
+  "plain": "ادفعي",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_pay_m",
+  "text": "اِدْفَعْ",
+  "plain": "ادفع",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_too_much",
+  "text": "هَذَا كَثِيرٌ",
+  "plain": "هذا كثير",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "gentle",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_not_enough",
+  "text": "هَذَا لَا يَكْفِي",
+  "plain": "هذا لا يكفي",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "gentle",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_change",
+  "text": "كَمِ البَاقِي؟",
+  "plain": "كم الباقي؟",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_how_much_more",
+  "text": "كَمْ نَحْتَاجُ بَعْدُ؟",
+  "plain": "كم نحتاج بعد؟",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_we_saved",
+  "text": "جَمَعْنَا",
+  "plain": "جمعنا",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "excited",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "piggybank_juice",
+  "text": "عَصِيرٌ",
+  "plain": "عصير",
+  "lang": "ar",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_drag_f",
+  "text": "اِسْحَبي المِفْتاحَ إلى القُفْلِ",
+  "plain": "اسحبي المفتاح إلى القفل",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_drag_m",
+  "text": "اِسْحَبِ المِفْتاحَ إلى القُفْلِ",
+  "plain": "اسحب المفتاح إلى القفل",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_turn_f",
+  "text": "أَديري المِفْتاحَ",
+  "plain": "أديري المفتاح",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_turn_m",
+  "text": "أَدِرِ المِفْتاحَ",
+  "plain": "أدر المفتاح",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_surprise",
+  "text": "مُفاجَأَة!",
+  "plain": "مفاجأة!",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "excited",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "locks_all_open_f",
+  "text": "فَتَحْتِ كُلَّ الأَبْوابِ!",
+  "plain": "فتحت كل الأبواب!",
+  "lang": "ar",
+  "game": "locks",
+  "emotion": "excited",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_means_stop",
+  "text": "يَعْني قِفْ",
+  "plain": "يعني قف",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_means_wait",
+  "text": "يَعْني انْتَظِرْ",
+  "plain": "يعني انتظر",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_means_go",
+  "text": "يَعْني امْشِ",
+  "plain": "يعني امش",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_touch_light_f",
+  "text": "اِلْمِسي كُلَّ ضَوْءٍ",
+  "plain": "المسي كل ضوء",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_touch_light_m",
+  "text": "اِلْمِسْ كُلَّ ضَوْءٍ",
+  "plain": "المس كل ضوء",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "cheerful",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_what_do",
+  "text": "ماذا نَفْعَلُ؟",
+  "plain": "ماذا نفعل؟",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "curious",
+  "batch": 41,
+  "note": ""
+ },
+ {
+  "id": "traffic_watch_f",
+  "text": "اِنْتَبِهي لِلإِشارَةِ",
+  "plain": "انتبهي للإشارة",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "calm",
+  "batch": 41,
+  "note": ""
+ }
+]

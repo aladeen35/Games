@@ -1,0 +1,35 @@
+1. lifecycle_chrysalis — شَرْنَقَةٌ
+2. lifecycle_eggs — بَيْضٌ
+3. lifecycle_tadpole — شُرْغُوفٌ
+4. lifecycle_froglet — ضِفْدَعٌ صَغِيرٌ
+5. lifecycle_chick — كَتْكُوتٌ
+6. lifecycle_baby — رَضِيعٌ
+7. lifecycle_child — طِفْلٌ
+8. lifecycle_grownup — شَابٌّ
+9. lifecycle_sea — بَحْرٌ
+10. lifecycle_evaporation — تَبَخُّرٌ
+11. lifecycle_need_water — أُرِيدُ المَاءَ
+12. lifecycle_need_sun — أُرِيدُ الشَّمْسَ
+13. lifecycle_grow_seed_f — ازْرَعِي البِذْرَةَ
+14. lifecycle_grow_seed_m — ازْرَعِ البِذْرَةَ
+15. body_touch_f — الْمِسِي
+16. body_touch_m — الْمِسْ
+17. body_any_part — أَيَّ جُزْءٍ
+18. body_p_head — الرَّأْسَ
+19. body_p_hair — الشَّعْرَ
+20. body_p_eyes — الْعَيْنَيْنِ
+21. body_pn_eyes — الْعَيْنَانِ
+22. body_p_ears — الْأُذُنَيْنِ
+23. body_pn_ears — الْأُذُنَانِ
+24. body_p_nose — الْأَنْفَ
+25. body_p_mouth — الْفَمَ
+26. body_p_teeth — الْأَسْنَانَ
+27. body_p_tongue — اللِّسَانَ
+28. body_p_cheeks — الْخَدَّيْنِ
+29. body_pn_cheeks — الْخَدَّانِ
+30. body_p_chin — الذَّقْنَ
+31. body_p_neck — الرَّقَبَةَ
+32. body_p_shoulders — الْكَتِفَيْنِ
+33. body_pn_shoulders — الْكَتِفَانِ
+34. body_p_arms — الذِّرَاعَيْنِ
+35. body_pn_arms — الذِّرَاعَانِ

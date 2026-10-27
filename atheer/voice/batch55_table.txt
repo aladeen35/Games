@@ -1,0 +1,35 @@
+1. magicpad_en_draw — Draw
+2. magicpad_en_connect — Connect the dots
+3. magicpad_en_line_straight — Straight line
+4. magicpad_en_line_zigzag — Zigzag line
+5. magicpad_en_line_wave — Wavy line
+6. magicpad_en_spiral — Spiral
+7. pegs_en_match — Put each shape on its pegs
+8. pegs_en_put — Put
+9. pegs_en_rectangle — rectangle
+10. pegs_en_pentagon — pentagon
+11. pegs_en_hexagon — hexagon
+12. abacus_en_show — Show the number
+13. abacus_en_how_many — How many beads?
+14. abacus_en_add — Add
+15. abacus_en_more — more
+16. abacus_en_altogether — How many altogether?
+17. abacus_en_take_away — Take away
+18. abacus_en_left — How many are left?
+19. abacus_en_make — How many more to make
+20. abacus_en_30 — thirty
+21. abacus_en_40 — forty
+22. abacus_en_50 — fifty
+23. abacus_en_60 — sixty
+24. abacus_en_70 — seventy
+25. abacus_en_80 — eighty
+26. abacus_en_90 — ninety
+27. abacus_en_100 — one hundred
+28. piggybank_en_pound — pound
+29. piggybank_en_pounds — pounds
+30. piggybank_en_riyal — riyal
+31. piggybank_en_riyals — riyals
+32. piggybank_en_sdg — Sudanese pound
+33. piggybank_en_sar — Saudi riyal
+34. piggybank_en_put — Put the money in the piggy bank
+35. piggybank_en_inside — How much is in the piggy bank?

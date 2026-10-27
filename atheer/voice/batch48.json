@@ -1,0 +1,352 @@
+[
+ {
+  "id": "jobs_pl_sea",
+  "text": "الْبَحْرِ",
+  "plain": "البحر",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_space",
+  "text": "الْفَضَاءِ",
+  "plain": "الفضاء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_vetclinic",
+  "text": "عِيَادَةِ الْحَيَوَانَاتِ",
+  "plain": "عيادة الحيوانات",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_desert",
+  "text": "الصَّحْرَاءِ",
+  "plain": "الصحراء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_site",
+  "text": "مَوْقِعِ الْبِنَاءِ",
+  "plain": "موقع البناء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_tailorshop",
+  "text": "مَحَلِّ الْخِيَاطَةِ",
+  "plain": "محل الخياطة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_barbershop",
+  "text": "صَالُونِ الْحِلَاقَةِ",
+  "plain": "صالون الحلاقة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_pl_pharmacy",
+  "text": "الصَّيْدَلِيَّةِ",
+  "plain": "الصيدلية",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_doctor",
+  "text": "السَّمَّاعَةُ",
+  "plain": "السماعة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_nurse",
+  "text": "الْحُقْنَةُ",
+  "plain": "الحقنة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_teacher",
+  "text": "الْكُتُبُ",
+  "plain": "الكتب",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_police",
+  "text": "سَيَّارَةُ الشُّرْطَةِ",
+  "plain": "سيارة الشرطة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_firefighter",
+  "text": "طَفَّايَةُ الْحَرِيقِ",
+  "plain": "طفاية الحريق",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_pilot",
+  "text": "الطَّائِرَةُ",
+  "plain": "الطائرة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_farmer",
+  "text": "الْجَرَّارُ",
+  "plain": "الجرار",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_chef",
+  "text": "الْمِقْلَاةُ",
+  "plain": "المقلاة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_engineer",
+  "text": "الْمِسْطَرَةُ",
+  "plain": "المسطرة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_dentist",
+  "text": "فُرْشَاةُ الْأَسْنَانِ",
+  "plain": "فرشاة الأسنان",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_mechanic",
+  "text": "مِفْتَاحُ الرَّبْطِ",
+  "plain": "مفتاح الربط",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_baker",
+  "text": "الْخُبْزُ",
+  "plain": "الخبز",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_fisherman",
+  "text": "الصِّنَّارَةُ",
+  "plain": "الصنارة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_astronaut",
+  "text": "الصَّارُوخُ",
+  "plain": "الصاروخ",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_shepherd",
+  "text": "الْخَرُوفُ",
+  "plain": "الخروف",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_builder",
+  "text": "الطُّوبُ",
+  "plain": "الطوب",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_tailor",
+  "text": "الْإِبْرَةُ وَالْخَيْطُ",
+  "plain": "الإبرة والخيط",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_barber",
+  "text": "الْمِقَصُّ",
+  "plain": "المقص",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_t_pharmacist",
+  "text": "الدَّوَاءُ",
+  "plain": "الدواء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_doctor",
+  "text": "أُعَالِجُ الْمَرْضَى وَأَفْحَصُهُمْ بِالسَّمَّاعَةِ",
+  "plain": "أعالج المرضى وأفحصهم بالسماعة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_nurse",
+  "text": "أُسَاعِدُ الطَّبِيبَ وَأَعْتَنِي بِالْمَرْضَى",
+  "plain": "أساعد الطبيب وأعتني بالمرضى",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_teacher",
+  "text": "أُعَلِّمُ الْأَطْفَالَ الْقِرَاءَةَ وَالْكِتَابَةَ",
+  "plain": "أعلم الأطفال القراءة والكتابة",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_police",
+  "text": "أُحَافِظُ عَلَى الْأَمْنِ وَأُنَظِّمُ الْمُرُورَ",
+  "plain": "أحافظ على الأمن وأنظم المرور",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_firefighter",
+  "text": "أُطْفِئُ الْحَرَائِقَ بِالْمَاءِ",
+  "plain": "أطفئ الحرائق بالماء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_pilot",
+  "text": "أَقُودُ الطَّائِرَةَ فِي السَّمَاءِ",
+  "plain": "أقود الطائرة في السماء",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_farmer",
+  "text": "أَزْرَعُ الْخُضَارَ وَأَسْقِي النَّبَاتَاتِ",
+  "plain": "أزرع الخضار وأسقي النباتات",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ },
+ {
+  "id": "jobs_rid_chef",
+  "text": "أَطْبُخُ الطَّعَامَ اللَّذِيذَ",
+  "plain": "أطبخ الطعام اللذيذ",
+  "lang": "ar",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 48,
+  "note": ""
+ }
+]

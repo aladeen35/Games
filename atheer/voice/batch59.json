@@ -1,0 +1,352 @@
+[
+ {
+  "id": "jobs_en_pl_vetclinic",
+  "text": "animal clinic",
+  "plain": "animal clinic",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_vetclinic",
+  "text": "at the animal clinic",
+  "plain": "at the animal clinic",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_desert",
+  "text": "desert",
+  "plain": "desert",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_desert",
+  "text": "in the desert",
+  "plain": "in the desert",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_site",
+  "text": "building site",
+  "plain": "building site",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_site",
+  "text": "at the building site",
+  "plain": "at the building site",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_tailorshop",
+  "text": "tailor shop",
+  "plain": "tailor shop",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_tailorshop",
+  "text": "at the tailor shop",
+  "plain": "at the tailor shop",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_barbershop",
+  "text": "barber shop",
+  "plain": "barber shop",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_barbershop",
+  "text": "at the barber shop",
+  "plain": "at the barber shop",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_pl_pharmacy",
+  "text": "pharmacy",
+  "plain": "pharmacy",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_plp_pharmacy",
+  "text": "at the pharmacy",
+  "plain": "at the pharmacy",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_doctor",
+  "text": "stethoscope",
+  "plain": "stethoscope",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_nurse",
+  "text": "syringe",
+  "plain": "syringe",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_teacher",
+  "text": "books",
+  "plain": "books",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_police",
+  "text": "police car",
+  "plain": "police car",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_firefighter",
+  "text": "fire extinguisher",
+  "plain": "fire extinguisher",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_chef",
+  "text": "frying pan",
+  "plain": "frying pan",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_dentist",
+  "text": "toothbrush",
+  "plain": "toothbrush",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_baker",
+  "text": "bread",
+  "plain": "bread",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_fisherman",
+  "text": "fishing rod",
+  "plain": "fishing rod",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_builder",
+  "text": "bricks",
+  "plain": "bricks",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_tailor",
+  "text": "needle and thread",
+  "plain": "needle and thread",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_t_pharmacist",
+  "text": "medicine",
+  "plain": "medicine",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "neutral",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_doctor",
+  "text": "I check sick people with my stethoscope",
+  "plain": "I check sick people with my stethoscope",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_nurse",
+  "text": "I help the doctor and care for patients",
+  "plain": "I help the doctor and care for patients",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_teacher",
+  "text": "I teach children to read and write",
+  "plain": "I teach children to read and write",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_police",
+  "text": "I keep everyone safe and direct traffic",
+  "plain": "I keep everyone safe and direct traffic",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_firefighter",
+  "text": "I put out fires with water",
+  "plain": "I put out fires with water",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_pilot",
+  "text": "I fly the airplane in the sky",
+  "plain": "I fly the airplane in the sky",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_farmer",
+  "text": "I grow vegetables and water the plants",
+  "plain": "I grow vegetables and water the plants",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_chef",
+  "text": "I cook yummy food",
+  "plain": "I cook yummy food",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_engineer",
+  "text": "I design buildings and bridges",
+  "plain": "I design buildings and bridges",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_dentist",
+  "text": "I look after your teeth",
+  "plain": "I look after your teeth",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_mechanic",
+  "text": "I fix broken cars",
+  "plain": "I fix broken cars",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 59,
+  "note": ""
+ }
+]

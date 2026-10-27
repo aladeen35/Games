@@ -1,0 +1,35 @@
+1. body_item_watch — السَّاعَةَ
+2. body_item_ring — الْخَاتَمَ
+3. body_item_backpack — الْحَقِيبَةَ
+4. body_item_headphones — السَّمَّاعَاتِ
+5. jobs_n_doctor — الطَّبِيبُ
+6. jobs_n_nurse — الْمُمَرِّضَةُ
+7. jobs_n_teacher — الْمُعَلِّمَةُ
+8. jobs_n_police — الشُّرْطِيُّ
+9. jobs_n_firefighter — رَجُلُ الْإِطْفَاءِ
+10. jobs_n_pilot — الطَّيَّارُ
+11. jobs_n_farmer — الْمُزَارِعُ
+12. jobs_n_chef — الطَّاهِي
+13. jobs_n_engineer — الْمُهَنْدِسَةُ
+14. jobs_n_dentist — طَبِيبَةُ الْأَسْنَانِ
+15. jobs_n_mechanic — الْمِيكَانِيكِيُّ
+16. jobs_n_baker — الْخَبَّازُ
+17. jobs_n_fisherman — الصَّيَّادُ
+18. jobs_n_astronaut — رَائِدُ الْفَضَاءِ
+19. jobs_n_vet — الطَّبِيبَةُ الْبَيْطَرِيَّةُ
+20. jobs_n_shepherd — الرَّاعِي
+21. jobs_n_builder — عَامِلُ الْبِنَاءِ
+22. jobs_n_tailor — الْخَيَّاطَةُ
+23. jobs_n_barber — الْحَلَّاقُ
+24. jobs_n_pharmacist — الصَّيْدَلَانِيَّةُ
+25. jobs_pl_hospital — الْمُسْتَشْفَى
+26. jobs_pl_school — الْمَدْرَسَةِ
+27. jobs_pl_police — مَرْكَزِ الشُّرْطَةِ
+28. jobs_pl_fire — مَرْكَزِ الْإِطْفَاءِ
+29. jobs_pl_airport — الْمَطَارِ
+30. jobs_pl_farm — الْمَزْرَعَةِ
+31. jobs_pl_restaurant — الْمَطْعَمِ
+32. jobs_pl_factory — الْمَصْنَعِ
+33. jobs_pl_dental — عِيَادَةِ الْأَسْنَانِ
+34. jobs_pl_garage — وَرْشَةِ السَّيَّارَاتِ
+35. jobs_pl_bakery — الْمَخْبَزِ

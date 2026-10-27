@@ -1,0 +1,352 @@
+[
+ {
+  "id": "seasons_haboob",
+  "text": "هَبُوبٌ!",
+  "plain": "هبوب",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "surprised",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_dusty",
+  "text": "مُغْبَرٌّ",
+  "plain": "مغبر",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_mild",
+  "text": "مُعْتَدِلٌ",
+  "plain": "معتدل",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_and_hot",
+  "text": "وَحَارٌّ",
+  "plain": "وحار",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_and_mild",
+  "text": "وَمُعْتَدِلٌ",
+  "plain": "ومعتدل",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_and_cold",
+  "text": "وَبَارِدٌ",
+  "plain": "وبارد",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_today",
+  "text": "اليَوْمَ",
+  "plain": "اليوم",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_what_wear",
+  "text": "مَاذَا نَلْبَسُ؟",
+  "plain": "ماذا نلبس؟",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "curious",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_which_season",
+  "text": "أَيُّ فَصْلٍ هَذَا؟",
+  "plain": "أي فصل هذا؟",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "curious",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_what_do",
+  "text": "مَاذَا نَفْعَلُ فِي كُلِّ فَصْلٍ؟",
+  "plain": "ماذا نفعل في كل فصل؟",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "curious",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_how_weather",
+  "text": "كَيْفَ الطَّقْسُ اليَوْمَ؟",
+  "plain": "كيف الطقس اليوم؟",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "curious",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_sunglasses",
+  "text": "نَظَّارَةٌ شَمْسِيَّةٌ",
+  "plain": "نظارة شمسية",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_coat",
+  "text": "مِعْطَفٌ",
+  "plain": "معطف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_scarf",
+  "text": "وِشَاحٌ",
+  "plain": "وشاح",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_raincoat",
+  "text": "مِعْطَفُ المَطَرِ",
+  "plain": "معطف المطر",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_swim",
+  "text": "نَسْبَحُ",
+  "plain": "نسبح",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_juice",
+  "text": "نَشْرَبُ العَصِيرَ البَارِدَ",
+  "plain": "نشرب العصير البارد",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_kite",
+  "text": "نُطَيِّرُ الطَّائِرَةَ الوَرَقِيَّةَ",
+  "plain": "نطير الطائرة الورقية",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_leaves",
+  "text": "نَجْمَعُ أَوْرَاقَ الشَّجَرِ",
+  "plain": "نجمع أوراق الشجر",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_make",
+  "text": "نَصْنَعُ",
+  "plain": "نصنع",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_milk",
+  "text": "نَشْرَبُ الحَلِيبَ السَّاخِنَ",
+  "plain": "نشرب الحليب الساخن",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_plant",
+  "text": "نَزْرَعُ الزُّهُورَ",
+  "plain": "نزرع الزهور",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "seasons_act_bfly",
+  "text": "نُشَاهِدُ الفَرَاشَاتِ",
+  "plain": "نشاهد الفراشات",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_plant",
+  "text": "دَوْرَةُ حَيَاةِ النَّبَاتِ",
+  "plain": "دورة حياة النبات",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_butterfly",
+  "text": "دَوْرَةُ حَيَاةِ الفَرَاشَةِ",
+  "plain": "دورة حياة الفراشة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_frog",
+  "text": "دَوْرَةُ حَيَاةِ الضِّفْدَعِ",
+  "plain": "دورة حياة الضفدع",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_chicken",
+  "text": "دَوْرَةُ حَيَاةِ الدَّجَاجَةِ",
+  "plain": "دورة حياة الدجاجة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_human",
+  "text": "دَوْرَةُ حَيَاةِ الإِنْسَانِ",
+  "plain": "دورة حياة الإنسان",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_water",
+  "text": "دَوْرَةُ المَاءِ",
+  "plain": "دورة الماء",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_order_f",
+  "text": "رَتِّبِي المَرَاحِلَ",
+  "plain": "رتبي المراحل",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "encouraging",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_order_m",
+  "text": "رَتِّبِ المَرَاحِلَ",
+  "plain": "رتب المراحل",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "encouraging",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_seed",
+  "text": "بِذْرَةٌ",
+  "plain": "بذرة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_sprout",
+  "text": "بُرْعُمٌ",
+  "plain": "برعم",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_small_plant",
+  "text": "نَبْتَةٌ",
+  "plain": "نبتة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 44,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_fruit",
+  "text": "ثَمَرَةٌ",
+  "plain": "ثمرة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "happy",
+  "batch": 44,
+  "note": ""
+ }
+]

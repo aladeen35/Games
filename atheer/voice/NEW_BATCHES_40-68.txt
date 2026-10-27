@@ -1,0 +1,4016 @@
+دفعات التسجيل الجديدة 40–68 (Eleven v3، نفس صوت الطفلة)
+تُنسخ كل دفعة كما هي إلى ElevenLabs v3، ويُرسل ملف MP3 لكل دفعة باسم رقمها (مثل 40.mp3). اتركوا وقفة واضحة بين الجمل.
+يمكن أيضًا تسجيل أي جملة بأصواتكم من داخل التطبيق: الإعدادات ← سجّل الأصوات.
+
+════════════ الدفعة 40 (35 مقطعًا) ════════════
+
+[excited] ارْسُمي
+
+...
+
+[excited] ارْسُمْ
+
+...
+
+[cheerful] صِلي النِّقاطَ
+
+...
+
+[cheerful] صِلِ النِّقاطَ
+
+...
+
+[neutral] خَطٌّ مُسْتَقيم
+
+...
+
+[neutral] خَطٌّ مُتَعَرِّج
+
+...
+
+[neutral] خَطٌّ مُتَمَوِّج
+
+...
+
+[neutral] خَطٌّ حَلَزونِيّ
+
+...
+
+[encouraging] ضَعِي كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ
+
+...
+
+[encouraging] ضَعْ كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ
+
+...
+
+[neutral] ضَعِي
+
+...
+
+[neutral] ضَعْ
+
+...
+
+[calm] اِعْرِضِي العَدَدَ
+
+...
+
+[calm] اِعْرِضِ العَدَدَ
+
+...
+
+[curious] كَمْ خَرَزَةً؟
+
+...
+
+[calm] أَضِيفِي
+
+...
+
+[calm] أَضِفْ
+
+...
+
+[calm] أَرْجِعِي
+
+...
+
+[calm] أَرْجِعْ
+
+...
+
+[curious] كَمْ نَحْتَاجُ لِنَصْنَعَ
+
+...
+
+[calm] ثَلَاثُونَ
+
+...
+
+[calm] أَرْبَعُونَ
+
+...
+
+[calm] خَمْسُونَ
+
+...
+
+[calm] سِتُّونَ
+
+...
+
+[calm] سَبْعُونَ
+
+...
+
+[calm] ثَمَانُونَ
+
+...
+
+[calm] تِسْعُونَ
+
+...
+
+[excited] مِئَةٌ
+
+...
+
+[calm] وَعِشْرُونَ
+
+...
+
+[calm] وَثَلَاثُونَ
+
+...
+
+[calm] وَأَرْبَعُونَ
+
+...
+
+[calm] وَخَمْسُونَ
+
+...
+
+[calm] وَسِتُّونَ
+
+...
+
+[calm] وَسَبْعُونَ
+
+...
+
+[calm] وَثَمَانُونَ
+
+════════════ الدفعة 41 (35 مقطعًا) ════════════
+
+[calm] وَتِسْعُونَ
+
+...
+
+[calm] جُنَيْه
+
+...
+
+[calm] جُنَيْهَانِ
+
+...
+
+[calm] جُنَيْهَاتٍ
+
+...
+
+[calm] جُنَيْهًا
+
+...
+
+[calm] رِيَال
+
+...
+
+[calm] رِيَالَانِ
+
+...
+
+[calm] رِيَالَاتٍ
+
+...
+
+[calm] رِيَالًا
+
+...
+
+[happy] جُنَيْه سُودَانِيّ
+
+...
+
+[happy] رِيَال سُعُودِيّ
+
+...
+
+[happy] ضَعِي النُّقُودَ فِي الحَصَّالَةِ
+
+...
+
+[happy] ضَعِ النُّقُودَ فِي الحَصَّالَةِ
+
+...
+
+[curious] كَمْ فِي الحَصَّالَةِ؟
+
+...
+
+[calm] اِدْفَعِي
+
+...
+
+[calm] اِدْفَعْ
+
+...
+
+[gentle] هَذَا كَثِيرٌ
+
+...
+
+[gentle] هَذَا لَا يَكْفِي
+
+...
+
+[curious] كَمِ البَاقِي؟
+
+...
+
+[curious] كَمْ نَحْتَاجُ بَعْدُ؟
+
+...
+
+[excited] جَمَعْنَا
+
+...
+
+[happy] عَصِيرٌ
+
+...
+
+[cheerful] اِسْحَبي المِفْتاحَ إلى القُفْلِ
+
+...
+
+[cheerful] اِسْحَبِ المِفْتاحَ إلى القُفْلِ
+
+...
+
+[cheerful] أَديري المِفْتاحَ
+
+...
+
+[cheerful] أَدِرِ المِفْتاحَ
+
+...
+
+[excited] مُفاجَأَة!
+
+...
+
+[excited] فَتَحْتِ كُلَّ الأَبْوابِ!
+
+...
+
+[calm] يَعْني قِفْ
+
+...
+
+[calm] يَعْني انْتَظِرْ
+
+...
+
+[cheerful] يَعْني امْشِ
+
+...
+
+[cheerful] اِلْمِسي كُلَّ ضَوْءٍ
+
+...
+
+[cheerful] اِلْمِسْ كُلَّ ضَوْءٍ
+
+...
+
+[curious] ماذا نَفْعَلُ؟
+
+...
+
+[calm] اِنْتَبِهي لِلإِشارَةِ
+
+════════════ الدفعة 42 (35 مقطعًا) ════════════
+
+[calm] اِنْتَبِهْ لِلإِشارَةِ
+
+...
+
+[gently] اِنْتَظِري الأَخْضَرَ
+
+...
+
+[gently] اِنْتَظِرِ الأَخْضَرَ
+
+...
+
+[curious] أَيْنَ نَعْبُرُ الشّارِعَ؟
+
+...
+
+[calm] نَعْبُرُ مِنْ مَمَرِّ المُشاةِ
+
+...
+
+[gently] أَمْسِكي يَدَ الكَبيرِ
+
+...
+
+[gently] أَمْسِكْ يَدَ الكَبيرِ
+
+...
+
+[calm] اُنْظُري يَمينًا وَيَسارًا
+
+...
+
+[calm] اُنْظُرْ يَمينًا وَيَسارًا
+
+...
+
+[neutral] يَمين
+
+...
+
+[neutral] يَسار
+
+...
+
+[cheerful] هَيّا نَعْبُرُ
+
+...
+
+[gently] اِنْتَظِري الرَّجُلَ الأَخْضَرَ
+
+...
+
+[gently] اِنْتَظِرِ الرَّجُلَ الأَخْضَرَ
+
+...
+
+[curious] أَيْنَ إِشارَةُ
+
+...
+
+[neutral] إِشارَةُ
+
+...
+
+[neutral] قِفْ
+
+...
+
+[neutral] مَمَرِّ المُشاةِ
+
+...
+
+[neutral] مِنْطَقَةِ مَدْرَسَةٍ
+
+...
+
+[neutral] مَمْنوعُ الدُّخولِ
+
+...
+
+[neutral] إِشاراتٌ ضَوْئِيَّةٌ
+
+...
+
+[cheerful] اِلْمِسي كُلَّ إِشارَةٍ
+
+...
+
+[cheerful] اِلْمِسْ كُلَّ إِشارَةٍ
+
+...
+
+[cheerful] اِسْحَبي الطِّفْلَ إلى مَقْعَدِ الأَطْفالِ
+
+...
+
+[cheerful] اِسْحَبِ الطِّفْلَ إلى مَقْعَدِ الأَطْفالِ
+
+...
+
+[gently] الأَطْفالُ يَجْلِسونَ في الخَلْفِ
+
+...
+
+[cheerful] اِرْبِطي حِزامَ الأَمانِ
+
+...
+
+[cheerful] اِرْبِطْ حِزامَ الأَمانِ
+
+...
+
+[excited] هَيّا نَنْطَلِقُ
+
+...
+
+[curious] ماذا نَلْبَسُ لِرُكوبِ الدَّرّاجَةِ؟
+
+...
+
+[gently] الخوذَةُ تَحْمي رَأْسَكَ
+
+...
+
+[cheerful] اِرْبِطي الخوذَةَ
+
+...
+
+[cheerful] اِرْبِطِ الخوذَةَ
+
+...
+
+[curious] هَلْ هذا آمِنٌ؟
+
+...
+
+[neutral] اللَّعِبُ بِالكُرَةِ في الشّارِعِ
+
+════════════ الدفعة 43 (35 مقطعًا) ════════════
+
+[gently] نَلْعَبُ في الحَديقَةِ لا في الشّارِعِ
+
+...
+
+[neutral] اللَّعِبُ في الحَديقَةِ
+
+...
+
+[neutral] العُبورُ مَعَ الكِبارِ مِنْ مَمَرِّ المُشاةِ
+
+...
+
+[neutral] الرَّكْضُ بَيْنَ السَّيّاراتِ
+
+...
+
+[gently] نَعْبُرُ مِنْ مَمَرِّ المُشاةِ مَعَ الكِبارِ
+
+...
+
+[neutral] رُكوبُ الدَّرّاجَةِ بِالخوذَةِ
+
+...
+
+[neutral] العُبورُ وَالإِشارَةُ حَمْراءُ
+
+...
+
+[neutral] لَمْسُ المَوْقِدِ السّاخِنِ
+
+...
+
+[gently] المَوْقِدُ ساخِنٌ لا نَلْمِسُهُ
+
+...
+
+[neutral] وَضْعُ الأَصابِعِ في الكَهْرَباءِ
+
+...
+
+[gently] الكَهْرَباءُ خَطيرَةٌ
+
+...
+
+[neutral] أَخْذُ الدَّواءِ وَحْدي
+
+...
+
+[gently] الكِبارُ فَقَطْ يُعْطونَنا الدَّواءَ
+
+...
+
+[neutral] اللَّعِبُ بِالأَلْعابِ
+
+...
+
+[neutral] شُرْبُ الحَليبِ
+
+...
+
+[neutral] اللَّعِبُ بِالسِّكّينِ
+
+...
+
+[gently] السِّكّينُ تَجْرَحُ
+
+...
+
+[neutral] غَسْلُ اليَدَيْنِ
+
+...
+
+[neutral] شُرْبُ مَوادِّ التَّنْظيفِ
+
+...
+
+[gently] مَوادُّ التَّنْظيفِ لَيْسَتْ لِلشُّرْبِ
+
+...
+
+[happy] الصَّيْفُ
+
+...
+
+[happy] الخَرِيفُ
+
+...
+
+[happy] الشِّتَاءُ
+
+...
+
+[happy] الرَّبِيعُ
+
+...
+
+[neutral] فِي الصَّيْفِ
+
+...
+
+[neutral] فِي الخَرِيفِ
+
+...
+
+[neutral] فِي الشِّتَاءِ
+
+...
+
+[neutral] فِي الرَّبِيعِ
+
+...
+
+[neutral] الجَوُّ
+
+...
+
+[happy] مُشْمِسٌ
+
+...
+
+[neutral] غَائِمٌ
+
+...
+
+[neutral] مَاطِرٌ
+
+...
+
+[neutral] عَاصِفٌ
+
+...
+
+[surprised] رَعْدِيٌّ
+
+...
+
+[happy] مُثْلِجٌ
+
+════════════ الدفعة 44 (35 مقطعًا) ════════════
+
+[surprised] هَبُوبٌ!
+
+...
+
+[neutral] مُغْبَرٌّ
+
+...
+
+[neutral] مُعْتَدِلٌ
+
+...
+
+[neutral] وَحَارٌّ
+
+...
+
+[neutral] وَمُعْتَدِلٌ
+
+...
+
+[neutral] وَبَارِدٌ
+
+...
+
+[neutral] اليَوْمَ
+
+...
+
+[curious] مَاذَا نَلْبَسُ؟
+
+...
+
+[curious] أَيُّ فَصْلٍ هَذَا؟
+
+...
+
+[curious] مَاذَا نَفْعَلُ فِي كُلِّ فَصْلٍ؟
+
+...
+
+[curious] كَيْفَ الطَّقْسُ اليَوْمَ؟
+
+...
+
+[neutral] نَظَّارَةٌ شَمْسِيَّةٌ
+
+...
+
+[neutral] مِعْطَفٌ
+
+...
+
+[neutral] وِشَاحٌ
+
+...
+
+[neutral] مِعْطَفُ المَطَرِ
+
+...
+
+[happy] نَسْبَحُ
+
+...
+
+[happy] نَشْرَبُ العَصِيرَ البَارِدَ
+
+...
+
+[happy] نُطَيِّرُ الطَّائِرَةَ الوَرَقِيَّةَ
+
+...
+
+[happy] نَجْمَعُ أَوْرَاقَ الشَّجَرِ
+
+...
+
+[happy] نَصْنَعُ
+
+...
+
+[happy] نَشْرَبُ الحَلِيبَ السَّاخِنَ
+
+...
+
+[happy] نَزْرَعُ الزُّهُورَ
+
+...
+
+[happy] نُشَاهِدُ الفَرَاشَاتِ
+
+...
+
+[neutral] دَوْرَةُ حَيَاةِ النَّبَاتِ
+
+...
+
+[neutral] دَوْرَةُ حَيَاةِ الفَرَاشَةِ
+
+...
+
+[neutral] دَوْرَةُ حَيَاةِ الضِّفْدَعِ
+
+...
+
+[neutral] دَوْرَةُ حَيَاةِ الدَّجَاجَةِ
+
+...
+
+[neutral] دَوْرَةُ حَيَاةِ الإِنْسَانِ
+
+...
+
+[neutral] دَوْرَةُ المَاءِ
+
+...
+
+[encouraging] رَتِّبِي المَرَاحِلَ
+
+...
+
+[encouraging] رَتِّبِ المَرَاحِلَ
+
+...
+
+[neutral] بِذْرَةٌ
+
+...
+
+[neutral] بُرْعُمٌ
+
+...
+
+[neutral] نَبْتَةٌ
+
+...
+
+[happy] ثَمَرَةٌ
+
+════════════ الدفعة 45 (35 مقطعًا) ════════════
+
+[neutral] شَرْنَقَةٌ
+
+...
+
+[neutral] بَيْضٌ
+
+...
+
+[neutral] شُرْغُوفٌ
+
+...
+
+[neutral] ضِفْدَعٌ صَغِيرٌ
+
+...
+
+[happy] كَتْكُوتٌ
+
+...
+
+[neutral] رَضِيعٌ
+
+...
+
+[neutral] طِفْلٌ
+
+...
+
+[neutral] شَابٌّ
+
+...
+
+[neutral] بَحْرٌ
+
+...
+
+[neutral] تَبَخُّرٌ
+
+...
+
+[pleading] أُرِيدُ المَاءَ
+
+...
+
+[pleading] أُرِيدُ الشَّمْسَ
+
+...
+
+[encouraging] ازْرَعِي البِذْرَةَ
+
+...
+
+[encouraging] ازْرَعِ البِذْرَةَ
+
+...
+
+[curious] الْمِسِي
+
+...
+
+[curious] الْمِسْ
+
+...
+
+[curious] أَيَّ جُزْءٍ
+
+...
+
+[neutral] الرَّأْسَ
+
+...
+
+[neutral] الشَّعْرَ
+
+...
+
+[neutral] الْعَيْنَيْنِ
+
+...
+
+[neutral] الْعَيْنَانِ
+
+...
+
+[neutral] الْأُذُنَيْنِ
+
+...
+
+[neutral] الْأُذُنَانِ
+
+...
+
+[neutral] الْأَنْفَ
+
+...
+
+[neutral] الْفَمَ
+
+...
+
+[neutral] الْأَسْنَانَ
+
+...
+
+[neutral] اللِّسَانَ
+
+...
+
+[neutral] الْخَدَّيْنِ
+
+...
+
+[neutral] الْخَدَّانِ
+
+...
+
+[neutral] الذَّقْنَ
+
+...
+
+[neutral] الرَّقَبَةَ
+
+...
+
+[neutral] الْكَتِفَيْنِ
+
+...
+
+[neutral] الْكَتِفَانِ
+
+...
+
+[neutral] الذِّرَاعَيْنِ
+
+...
+
+[neutral] الذِّرَاعَانِ
+
+════════════ الدفعة 46 (35 مقطعًا) ════════════
+
+[neutral] الْمِرْفَقَيْنِ
+
+...
+
+[neutral] الْمِرْفَقَانِ
+
+...
+
+[neutral] الْيَدَيْنِ
+
+...
+
+[neutral] الْيَدَانِ
+
+...
+
+[neutral] الْأَصَابِعَ
+
+...
+
+[neutral] الْبَطْنَ
+
+...
+
+[neutral] الرُّكْبَتَيْنِ
+
+...
+
+[neutral] الرُّكْبَتَانِ
+
+...
+
+[neutral] الرِّجْلَيْنِ
+
+...
+
+[neutral] الرِّجْلَانِ
+
+...
+
+[neutral] الْقَدَمَيْنِ
+
+...
+
+[neutral] الْقَدَمَانِ
+
+...
+
+[neutral] أَصَابِعَ الْقَدَمَيْنِ
+
+...
+
+[neutral] الظَّهْرَ
+
+...
+
+[curious] بِمَاذَا نَشُمُّ؟
+
+...
+
+[curious] بِمَاذَا نَرَى؟
+
+...
+
+[curious] بِمَاذَا نَسْمَعُ؟
+
+...
+
+[curious] بِمَاذَا نَتَذَوَّقُ؟
+
+...
+
+[curious] بِمَاذَا نَلْمِسُ؟
+
+...
+
+[curious] بِمَاذَا نَمْشِي؟
+
+...
+
+[curious] بِمَاذَا نَمْضَغُ؟
+
+...
+
+[curious] بِمَاذَا نُصَفِّقُ؟
+
+...
+
+[curious] بِمَاذَا نُفَكِّرُ؟
+
+...
+
+[curious] بِمَاذَا نَرْكُلُ الْكُرَةَ؟
+
+...
+
+[curious] بِمَاذَا نُعَانِقُ؟
+
+...
+
+[curious] أَيْنَ نَلْبَسُ
+
+...
+
+[curious] أَيْنَ نَضَعُ
+
+...
+
+[curious] أَيْنَ نَحْمِلُ
+
+...
+
+[neutral] الْقُبَّعَةَ
+
+...
+
+[neutral] التَّاجَ
+
+...
+
+[neutral] النَّظَّارَةَ
+
+...
+
+[neutral] الْوِشَاحَ
+
+...
+
+[neutral] الْقُفَّازَاتِ
+
+...
+
+[neutral] الْحِذَاءَ
+
+...
+
+[neutral] الْجَوَارِبَ
+
+════════════ الدفعة 47 (35 مقطعًا) ════════════
+
+[neutral] السَّاعَةَ
+
+...
+
+[neutral] الْخَاتَمَ
+
+...
+
+[neutral] الْحَقِيبَةَ
+
+...
+
+[neutral] السَّمَّاعَاتِ
+
+...
+
+[neutral] الطَّبِيبُ
+
+...
+
+[neutral] الْمُمَرِّضَةُ
+
+...
+
+[neutral] الْمُعَلِّمَةُ
+
+...
+
+[neutral] الشُّرْطِيُّ
+
+...
+
+[neutral] رَجُلُ الْإِطْفَاءِ
+
+...
+
+[neutral] الطَّيَّارُ
+
+...
+
+[neutral] الْمُزَارِعُ
+
+...
+
+[neutral] الطَّاهِي
+
+...
+
+[neutral] الْمُهَنْدِسَةُ
+
+...
+
+[neutral] طَبِيبَةُ الْأَسْنَانِ
+
+...
+
+[neutral] الْمِيكَانِيكِيُّ
+
+...
+
+[neutral] الْخَبَّازُ
+
+...
+
+[neutral] الصَّيَّادُ
+
+...
+
+[neutral] رَائِدُ الْفَضَاءِ
+
+...
+
+[neutral] الطَّبِيبَةُ الْبَيْطَرِيَّةُ
+
+...
+
+[neutral] الرَّاعِي
+
+...
+
+[neutral] عَامِلُ الْبِنَاءِ
+
+...
+
+[neutral] الْخَيَّاطَةُ
+
+...
+
+[neutral] الْحَلَّاقُ
+
+...
+
+[neutral] الصَّيْدَلَانِيَّةُ
+
+...
+
+[neutral] الْمُسْتَشْفَى
+
+...
+
+[neutral] الْمَدْرَسَةِ
+
+...
+
+[neutral] مَرْكَزِ الشُّرْطَةِ
+
+...
+
+[neutral] مَرْكَزِ الْإِطْفَاءِ
+
+...
+
+[neutral] الْمَطَارِ
+
+...
+
+[neutral] الْمَزْرَعَةِ
+
+...
+
+[neutral] الْمَطْعَمِ
+
+...
+
+[neutral] الْمَصْنَعِ
+
+...
+
+[neutral] عِيَادَةِ الْأَسْنَانِ
+
+...
+
+[neutral] وَرْشَةِ السَّيَّارَاتِ
+
+...
+
+[neutral] الْمَخْبَزِ
+
+════════════ الدفعة 48 (35 مقطعًا) ════════════
+
+[neutral] الْبَحْرِ
+
+...
+
+[neutral] الْفَضَاءِ
+
+...
+
+[neutral] عِيَادَةِ الْحَيَوَانَاتِ
+
+...
+
+[neutral] الصَّحْرَاءِ
+
+...
+
+[neutral] مَوْقِعِ الْبِنَاءِ
+
+...
+
+[neutral] مَحَلِّ الْخِيَاطَةِ
+
+...
+
+[neutral] صَالُونِ الْحِلَاقَةِ
+
+...
+
+[neutral] الصَّيْدَلِيَّةِ
+
+...
+
+[neutral] السَّمَّاعَةُ
+
+...
+
+[neutral] الْحُقْنَةُ
+
+...
+
+[neutral] الْكُتُبُ
+
+...
+
+[neutral] سَيَّارَةُ الشُّرْطَةِ
+
+...
+
+[neutral] طَفَّايَةُ الْحَرِيقِ
+
+...
+
+[neutral] الطَّائِرَةُ
+
+...
+
+[neutral] الْجَرَّارُ
+
+...
+
+[neutral] الْمِقْلَاةُ
+
+...
+
+[neutral] الْمِسْطَرَةُ
+
+...
+
+[neutral] فُرْشَاةُ الْأَسْنَانِ
+
+...
+
+[neutral] مِفْتَاحُ الرَّبْطِ
+
+...
+
+[neutral] الْخُبْزُ
+
+...
+
+[neutral] الصِّنَّارَةُ
+
+...
+
+[neutral] الصَّارُوخُ
+
+...
+
+[neutral] الْخَرُوفُ
+
+...
+
+[neutral] الطُّوبُ
+
+...
+
+[neutral] الْإِبْرَةُ وَالْخَيْطُ
+
+...
+
+[neutral] الْمِقَصُّ
+
+...
+
+[neutral] الدَّوَاءُ
+
+...
+
+[playful] أُعَالِجُ الْمَرْضَى وَأَفْحَصُهُمْ بِالسَّمَّاعَةِ
+
+...
+
+[playful] أُسَاعِدُ الطَّبِيبَ وَأَعْتَنِي بِالْمَرْضَى
+
+...
+
+[playful] أُعَلِّمُ الْأَطْفَالَ الْقِرَاءَةَ وَالْكِتَابَةَ
+
+...
+
+[playful] أُحَافِظُ عَلَى الْأَمْنِ وَأُنَظِّمُ الْمُرُورَ
+
+...
+
+[playful] أُطْفِئُ الْحَرَائِقَ بِالْمَاءِ
+
+...
+
+[playful] أَقُودُ الطَّائِرَةَ فِي السَّمَاءِ
+
+...
+
+[playful] أَزْرَعُ الْخُضَارَ وَأَسْقِي النَّبَاتَاتِ
+
+...
+
+[playful] أَطْبُخُ الطَّعَامَ اللَّذِيذَ
+
+════════════ الدفعة 49 (35 مقطعًا) ════════════
+
+[playful] أَرْسُمُ الْمَبَانِيَ وَالْجُسُورَ وَأُصَمِّمُهَا
+
+...
+
+[playful] أُعَالِجُ الْأَسْنَانَ وَأُنَظِّفُهَا
+
+...
+
+[playful] أُصْلِحُ السَّيَّارَاتِ الْمُعَطَّلَةَ
+
+...
+
+[playful] أَخْبِزُ الْخُبْزَ وَالْكَعْكَ فِي الْفُرْنِ
+
+...
+
+[playful] أَصْطَادُ السَّمَكَ مِنَ الْبَحْرِ
+
+...
+
+[playful] أُسَافِرُ بِالصَّارُوخِ إِلَى الْفَضَاءِ
+
+...
+
+[playful] أُعَالِجُ الْحَيَوَانَاتِ الْمَرِيضَةَ
+
+...
+
+[playful] أَرْعَى الْغَنَمَ وَالْإِبِلَ فِي الصَّحْرَاءِ
+
+...
+
+[playful] أَبْنِي الْبُيُوتَ بِالطُّوبِ
+
+...
+
+[playful] أَخِيطُ الْمَلَابِسَ بِالْإِبْرَةِ وَالْخَيْطِ
+
+...
+
+[playful] أَقُصُّ الشَّعْرَ بِالْمِقَصِّ
+
+...
+
+[playful] أُعْطِي النَّاسَ الدَّوَاءَ فِي الصَّيْدَلِيَّةِ
+
+...
+
+[curious] مَنْ أَنَا؟
+
+...
+
+[curious] لِمَنْ هَذَا؟
+
+...
+
+[curious] يَعْمَلُ فِي
+
+...
+
+[curious] تَعْمَلُ فِي
+
+...
+
+[curious] أَيْنَ يَعْمَلُ
+
+...
+
+[curious] أَيْنَ تَعْمَلُ
+
+...
+
+[curious] أَنَا
+
+...
+
+[curious] اخْتَارِي
+
+...
+
+[curious] اخْتَرْ
+
+...
+
+[calm] النِّيَّةُ
+
+...
+
+[calm] نَنْوِي الوُضُوءَ بِقُلُوبِنَا
+
+...
+
+[calm] غَسْلُ الكَفَّيْنِ
+
+...
+
+[calm] المَضْمَضَةُ
+
+...
+
+[calm] الاسْتِنْشَاقُ وَالاسْتِنْثَارُ
+
+...
+
+[calm] غَسْلُ الوَجْهِ
+
+...
+
+[calm] غَسْلُ اليَدَيْنِ إِلَى المِرْفَقَيْنِ
+
+...
+
+[calm] مَسْحُ الرَّأْسِ
+
+...
+
+[calm] مَسْحُ الأُذُنَيْنِ
+
+...
+
+[calm] غَسْلُ الرِّجْلَيْنِ إِلَى الكَعْبَيْنِ
+
+...
+
+[calm] الشَّهَادَةُ بَعْدَ الوُضُوءِ
+
+...
+
+[calm] أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ
+
+...
+
+[calm] القِيَامُ وَتَكْبِيرَةُ الإِحْرَامِ
+
+...
+
+[calm] اللَّهُ أَكْبَرُ
+
+════════════ الدفعة 50 (35 مقطعًا) ════════════
+
+[calm] قِرَاءَةُ الفَاتِحَةِ
+
+...
+
+[calm] الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+
+...
+
+[calm] الرُّكُوعُ
+
+...
+
+[calm] سُبْحَانَ رَبِّيَ الْعَظِيمِ
+
+...
+
+[calm] الرَّفْعُ مِنَ الرُّكُوعِ
+
+...
+
+[calm] سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ، رَبَّنَا وَلَكَ الْحَمْدُ
+
+...
+
+[calm] السُّجُودُ
+
+...
+
+[calm] سُبْحَانَ رَبِّيَ الْأَعْلَى
+
+...
+
+[calm] الجُلُوسُ بَيْنَ السَّجْدَتَيْنِ
+
+...
+
+[calm] رَبِّ اغْفِرْ لِي
+
+...
+
+[calm] السَّجْدَةُ الثَّانِيَةُ
+
+...
+
+[calm] التَّشَهُّدُ
+
+...
+
+[calm] التَّحِيَّاتُ لِلَّهِ
+
+...
+
+[calm] التَّسْلِيمُ
+
+...
+
+[calm] السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ
+
+...
+
+[calm] الفَجْرُ
+
+...
+
+[calm] عِنْدَ الفَجْرِ، قَبْلَ شُرُوقِ الشَّمْسِ
+
+...
+
+[calm] فِي وَسَطِ النَّهَارِ، وَالشَّمْسُ عَالِيَةٌ
+
+...
+
+[calm] العَصْرُ
+
+...
+
+[calm] بَعْدَ الظُّهْرِ، حِينَ تَمِيلُ الشَّمْسُ
+
+...
+
+[calm] المَغْرِبُ
+
+...
+
+[calm] عِنْدَ غُرُوبِ الشَّمْسِ
+
+...
+
+[calm] العِشَاءُ
+
+...
+
+[calm] فِي اللَّيْلِ، حِينَ تَظْهَرُ النُّجُومُ
+
+...
+
+[curious] اليُمْنَى
+
+...
+
+[curious] اليُسْرَى
+
+...
+
+[curious] أَيْنَ نَغْسِلُ؟
+
+...
+
+[curious] أَيْنَ نَمْسَحُ؟
+
+...
+
+[curious] مَاذَا نَغْسِلُ أَوَّلًا؟
+
+...
+
+[curious] وَمَاذَا بَعْدَ ذَلِكَ؟
+
+...
+
+[curious] رَتِّبِي الخُطُوَاتِ
+
+...
+
+[curious] رَتِّبِ الخُطُوَاتِ
+
+...
+
+[curious] أَيُّ صَلَاةٍ هَذِهِ؟
+
+...
+
+[storytelling] كَانَتْ مِشْمِشُ قِطَّةً صَغِيرَةً تُحِبُّ اللَّعِبَ.
+
+...
+
+[storytelling] ذَهَبَتْ مَعَ أُمِّهَا إِلَى السُّوقِ الكَبِيرِ.
+
+════════════ الدفعة 51 (35 مقطعًا) ════════════
+
+[storytelling] رَأَتْ مِشْمِشُ فَرَاشَةً مُلَوَّنَةً، فَرَكَضَتْ خَلْفَهَا.
+
+...
+
+[storytelling] طَارَتِ الفَرَاشَةُ بَعِيدًا، وَالْتَفَتَتْ مِشْمِشُ، فَلَمْ تَجِدْ أُمَّهَا!
+
+...
+
+[storytelling] جَلَسَتْ مِشْمِشُ حَزِينَةً بَيْنَ الدَّكَاكِينِ.
+
+...
+
+[curious] مَاذَا تَفْعَلُ مِشْمِشُ؟
+
+...
+
+[curious] تَسْأَلُ العُصْفُورَ
+
+...
+
+[curious] تَبْقَى مَكَانَهَا وَتَمُوءُ
+
+...
+
+[storytelling] طَارَ العُصْفُورُ عَالِيًا فَوْقَ السُّوقِ.
+
+...
+
+[storytelling] ثُمَّ قَالَ: أَرَى قِطَّةً كَبِيرَةً عِنْدَ دُكَّانِ التَّمْرِ!
+
+...
+
+[storytelling] رَكَضَتْ مِشْمِشُ إِلَى أُمِّهَا وَعَانَقَتْهَا.
+
+...
+
+[storytelling] وَقَالَتْ لِلْعُصْفُورِ: شُكْرًا يَا صَدِيقِي!
+
+...
+
+[warm] طَلَبُ المُسَاعَدَةِ شَجَاعَةٌ، وَالشُّكْرُ جَمِيلٌ.
+
+...
+
+[storytelling] بَقِيَتْ مِشْمِشُ فِي مَكَانِهَا، وَقَالَتْ: مِيَاو! مِيَاو!
+
+...
+
+[storytelling] فَسَمِعَتْ أُمُّهَا صَوْتَهَا مِنْ بَعِيدٍ.
+
+...
+
+[storytelling] جَاءَتِ الأُمُّ مُسْرِعَةً، وَضَمَّتْ مِشْمِشَ بِحَنَانٍ.
+
+...
+
+[storytelling] وَوَعَدَتْ مِشْمِشُ أَنْ تَبْقَى قَرِيبَةً مِنْ أُمِّهَا.
+
+...
+
+[warm] إِذَا ضِعْنَا، نَبْقَى فِي مَكَانِنَا حَتَّى يَجِدَنَا أَهْلُنَا.
+
+...
+
+[storytelling] فِي بِلَادِ الثَّلْجِ، عَاشَ بِطْرِيقٌ صَغِيرٌ اسْمُهُ بُوبُو.
+
+...
+
+[storytelling] كَانَ بُوبُو يُحِبُّ السِّبَاحَةَ وَصَيْدَ السَّمَكِ.
+
+...
+
+[storytelling] فِي يَوْمٍ بَارِدٍ، غَاصَ بُوبُو فِي المَاءِ.
+
+...
+
+[storytelling] وَخَرَجَ وَمَعَهُ ثَلَاثُ سَمَكَاتٍ لَامِعَةٍ!
+
+...
+
+[storytelling] رَأَى بُوبُو صَدِيقَتَهُ لُولُو جَالِسَةً وَحْدَهَا.
+
+...
+
+[storytelling] كَانَتْ جَائِعَةً، وَلَمْ تَصْطَدْ شَيْئًا.
+
+...
+
+[curious] مَاذَا يَفْعَلُ بُوبُو؟
+
+...
+
+[curious] يُعْطِيهَا سَمَكَةً
+
+...
+
+[curious] يُعَلِّمُهَا الصَّيْدَ
+
+...
+
+[storytelling] أَعْطَى بُوبُو لُولُو سَمَكَةً كَبِيرَةً.
+
+...
+
+[storytelling] ابْتَسَمَتْ لُولُو وَقَالَتْ: شُكْرًا يَا بُوبُو!
+
+...
+
+[curious] مَاذَا يَفْعَلَانِ بَعْدَ ذَلِكَ؟
+
+...
+
+[curious] يَدْعُوَانِ الأَصْدِقَاءَ
+
+...
+
+[curious] يَبْنِيَانِ رَجُلَ ثَلْجٍ
+
+...
+
+[storytelling] جَاءَ الأَصْدِقَاءُ، وَتَقَاسَمُوا الطَّعَامَ مَعًا.
+
+...
+
+[storytelling] صَارَ السَّمَكُ قَلِيلًا، لَكِنَّ الفَرَحَ صَارَ كَبِيرًا!
+
+...
+
+[warm] حِينَ نَتَقَاسَمُ، يَكْبُرُ الفَرَحُ.
+
+...
+
+[storytelling] بَنَى بُوبُو وَلُولُو رَجُلَ ثَلْجٍ ضَاحِكًا.
+
+...
+
+[storytelling] وَأَلْبَسَاهُ وِشَاحًا أَحْمَرَ، وَضَحِكَا كَثِيرًا!
+
+════════════ الدفعة 52 (35 مقطعًا) ════════════
+
+[warm] الصَّدَاقَةُ تَجْعَلُ اللَّعِبَ أَجْمَلَ.
+
+...
+
+[storytelling] قَالَ بُوبُو: تَعَالَيْ، سَأُعَلِّمُكِ الصَّيْدَ!
+
+...
+
+[storytelling] فَغَاصَا مَعًا فِي المَاءِ الأَزْرَقِ.
+
+...
+
+[storytelling] اصْطَادَتْ لُولُو سَمَكَتَهَا الأُولَى، وَفَرِحَتْ كَثِيرًا.
+
+...
+
+[storytelling] ثُمَّ أَكَلَا مَعًا تَحْتَ الشَّمْسِ.
+
+...
+
+[warm] أَنْ نُعَلِّمَ صَدِيقَنَا، هَدِيَّةٌ جَمِيلَةٌ.
+
+...
+
+[storytelling] عَلَى ضِفَّةِ النِّيلِ، كَانَتْ نَخْلَةٌ طَوِيلَةٌ.
+
+...
+
+[storytelling] وَكَانَ الجَمَلُ جَمَّولُ يَمُرُّ بِهَا كُلَّ يَوْمٍ.
+
+...
+
+[storytelling] فِي يَوْمٍ حَارٍّ، رَأَى جَمَّولُ النَّخْلَةَ حَزِينَةً.
+
+...
+
+[storytelling] قَالَتِ النَّخْلَةُ: أَنَا عَطْشَى، وَالمَاءُ بَعِيدٌ عَنِّي.
+
+...
+
+[curious] فَكَّرَ جَمَّولُ: كَيْفَ أُسَاعِدُهَا؟
+
+...
+
+[curious] مَاذَا يَفْعَلُ جَمَّولُ؟
+
+...
+
+[curious] يَحْمِلُ المَاءَ مِنَ النِّيلِ
+
+...
+
+[curious] يَحْفِرُ قَنَاةً صَغِيرَةً
+
+...
+
+[storytelling] مَلَأَ جَمَّولُ دَلْوَيْنِ مِنْ مَاءِ النِّيلِ.
+
+...
+
+[storytelling] وَسَقَى النَّخْلَةَ يَوْمًا بَعْدَ يَوْمٍ.
+
+...
+
+[storytelling] اخْضَرَّتِ النَّخْلَةُ، وَأَعْطَتْ تَمْرًا حُلْوًا.
+
+...
+
+[storytelling] وَقَالَتْ: هَذَا لَكَ يَا جَمَّولُ، شُكْرًا لَكَ!
+
+...
+
+[warm] مَنْ يَزْرَعِ الخَيْرَ، يَحْصُدِ الخَيْرَ.
+
+...
+
+[storytelling] حَفَرَ جَمَّولُ بِخُفِّهِ قَنَاةً صَغِيرَةً.
+
+...
+
+[storytelling] فَجَرَى مَاءُ النِّيلِ حَتَّى وَصَلَ إِلَى النَّخْلَةِ.
+
+...
+
+[storytelling] شَرِبَتِ النَّخْلَةُ، وَشَرِبَتْ مَعَهَا زُهُورٌ كَثِيرَةٌ.
+
+...
+
+[storytelling] فَصَارَ المَكَانُ حَدِيقَةً خَضْرَاءَ جَمِيلَةً!
+
+...
+
+[warm] الفِكْرَةُ الذَّكِيَّةُ تَنْفَعُ الكَثِيرِينَ.
+
+...
+
+[storytelling] فِي السَّمَاءِ الزَّرْقَاءِ، عَاشَتْ غَيْمَةٌ صَغِيرَةٌ اسْمُهَا رَذَاذُ.
+
+...
+
+[storytelling] كَانَتْ تَتَمَنَّى أَنْ تُمْطِرَ مِثْلَ الغُيُومِ الكَبِيرَةِ.
+
+...
+
+[storytelling] حَاوَلَتْ رَذَاذُ أَنْ تُمْطِرَ، فَنَزَلَتْ قَطْرَتَانِ فَقَطْ!
+
+...
+
+[storytelling] فَقَالَتْ بِحُزْنٍ: أَنَا صَغِيرَةٌ جِدًّا.
+
+...
+
+[storytelling] جَاءَتِ الرِّيحُ وَقَالَتْ: لَا تَحْزَنِي يَا رَذَاذُ.
+
+...
+
+[curious] مَاذَا تَفْعَلُ رَذَاذُ؟
+
+...
+
+[curious] تَجْمَعُ صَدِيقَاتِهَا الغُيُومَ
+
+...
+
+[curious] تَصْبِرُ وَتَكْبَرُ فَوْقَ البَحْرِ
+
+...
+
+[storytelling] نَادَتْ رَذَاذُ الغُيُومَ الصَّغِيرَةَ، فَاجْتَمَعْنَ مَعًا.
+
+...
+
+[storytelling] وَصِرْنَ غَيْمَةً كَبِيرَةً رَمَادِيَّةً!
+
+...
+
+[storytelling] هَطَلَ مَطَرٌ لَطِيفٌ عَلَى الحُقُولِ العَطْشَى.
+
+════════════ الدفعة 53 (35 مقطعًا) ════════════
+
+[storytelling] وَظَهَرَ قَوْسُ قُزَحٍ يَبْتَسِمُ لِلْجَمِيعِ.
+
+...
+
+[warm] مَعًا نَسْتَطِيعُ أَنْ نَصْنَعَ أَشْيَاءَ كَبِيرَةً.
+
+...
+
+[storytelling] طَارَتْ رَذَاذُ فَوْقَ البَحْرِ، وَصَبَرَتْ يَوْمًا بَعْدَ يَوْمٍ.
+
+...
+
+[storytelling] وَكَانَتْ تَكْبَرُ قَلِيلًا كُلَّ صَبَاحٍ.
+
+...
+
+[curious] عَلَى مَنْ تُمْطِرُ رَذَاذُ؟
+
+...
+
+[curious] عَلَى شَجَرَةٍ عَطْشَى
+
+...
+
+[curious] عَلَى الصَّحْرَاءِ الوَاسِعَةِ
+
+...
+
+[storytelling] أَمْطَرَتْ رَذَاذُ عَلَى شَجَرَةٍ عَطْشَى.
+
+...
+
+[storytelling] فَتَفَتَّحَتْ أَزْهَارُ الشَّجَرَةِ فَرَحًا!
+
+...
+
+[warm] بِالصَّبْرِ نَكْبَرُ، وَتَتَحَقَّقُ أَحْلَامُنَا.
+
+...
+
+[storytelling] أَمْطَرَتْ رَذَاذُ عَلَى الصَّحْرَاءِ الوَاسِعَةِ.
+
+...
+
+[storytelling] فَتَفَتَّحَتْ زَهْرَةٌ صَغِيرَةٌ وَقَالَتْ: شُكْرًا يَا رَذَاذُ!
+
+...
+
+[warm] كُلُّ عَطَاءٍ، وَلَوْ كَانَ صَغِيرًا، يَصْنَعُ فَرْقًا.
+
+...
+
+[storytelling] فِي السَّمَاءِ، كَانَتْ نَجْمَةٌ صَغِيرَةٌ اسْمُهَا لَمْعَةُ.
+
+...
+
+[storytelling] كَانَتْ خَجُولَةً، وَنُورُهَا ضَعِيفٌ.
+
+...
+
+[storytelling] فِي لَيْلَةٍ مُظْلِمَةٍ، ضَاعَ قَارِبٌ صَغِيرٌ فِي البَحْرِ.
+
+...
+
+[storytelling] كَانَتِ الغُيُومُ تُغَطِّي القَمَرَ وَالنُّجُومَ الكَبِيرَةَ.
+
+...
+
+[curious] قَالَتْ لَمْعَةُ: هَلْ أَسْتَطِيعُ أَنْ أُسَاعِدَ؟
+
+...
+
+[curious] مَاذَا تَفْعَلُ لَمْعَةُ؟
+
+...
+
+[curious] تَلْمَعُ بِكُلِّ قُوَّتِهَا
+
+...
+
+[curious] تَطْلُبُ العَوْنَ مِنَ الرِّيحِ
+
+...
+
+[storytelling] أَغْمَضَتْ لَمْعَةُ عَيْنَيْهَا، وَلَمَعَتْ أَقْوَى فَأَقْوَى!
+
+...
+
+[storytelling] فَرَأَى البَحَّارُ نُورَهَا، وَعَرَفَ الطَّرِيقَ.
+
+...
+
+[storytelling] وَصَلَ القَارِبُ إِلَى الشَّاطِئِ سَالِمًا.
+
+...
+
+[storytelling] وَصَارَتْ لَمْعَةُ أَشْجَعَ نَجْمَةٍ فِي السَّمَاءِ!
+
+...
+
+[warm] نُورٌ صَغِيرٌ يَسْتَطِيعُ أَنْ يُضِيءَ طَرِيقًا كَبِيرًا.
+
+...
+
+[storytelling] طَارَتْ لَمْعَةُ إِلَى الرِّيحِ وَقَالَتْ: سَاعِدِينَا مِنْ فَضْلِكِ!
+
+...
+
+[storytelling] فَنَفَخَتِ الرِّيحُ، وَابْتَعَدَتِ الغُيُومُ.
+
+...
+
+[storytelling] أَضَاءَ القَمَرُ وَالنُّجُومُ البَحْرَ كُلَّهُ.
+
+...
+
+[storytelling] وَعَادَ القَارِبُ إِلَى بَيْتِهِ، وَالجَمِيعُ يَبْتَسِمُ.
+
+...
+
+[warm] مِنَ الشَّجَاعَةِ أَنْ نَطْلُبَ العَوْنَ لِنُسَاعِدَ غَيْرَنَا.
+
+...
+
+[storytelling] خَرَجَتْ سَلْمَى إِلَى الحَدِيقَةِ لِتَلْعَبَ بِالكُرَةِ.
+
+...
+
+[storytelling] خَرَجَ سَامِي إِلَى الحَدِيقَةِ لِيَلْعَبَ بِالكُرَةِ.
+
+...
+
+[storytelling] كَانَتِ الشَّمْسُ دَافِئَةً، وَالعَصَافِيرُ تُغَرِّدُ.
+
+...
+
+[storytelling] تَدَحْرَجَتِ الكُرَةُ تَحْتَ مَقْعَدٍ خَشَبِيٍّ.
+
+════════════ الدفعة 54 (28 مقطعًا) ════════════
+
+[storytelling] وَهُنَاكَ وَجَدَتْ سَلْمَى مَحْفَظَةً حَمْرَاءَ!
+
+...
+
+[storytelling] وَهُنَاكَ وَجَدَ سَامِي مَحْفَظَةً حَمْرَاءَ!
+
+...
+
+[storytelling] فَتَحَتْهَا، فَرَأَتْ فِيهَا نُقُودًا وَصُورَةَ عَائِلَةٍ.
+
+...
+
+[storytelling] فَتَحَهَا، فَرَأَى فِيهَا نُقُودًا وَصُورَةَ عَائِلَةٍ.
+
+...
+
+[storytelling] مَاذَا تَفْعَلُ سَلْمَى؟
+
+...
+
+[storytelling] مَاذَا يَفْعَلُ سَامِي؟
+
+...
+
+[curious] تَبْحَثُ عَنْ صَاحِبِهَا
+
+...
+
+[curious] يَبْحَثُ عَنْ صَاحِبِهَا
+
+...
+
+[curious] تَأْخُذُهَا إِلَى مَكْتَبِ الحَدِيقَةِ
+
+...
+
+[curious] يَأْخُذُهَا إِلَى مَكْتَبِ الحَدِيقَةِ
+
+...
+
+[storytelling] نَظَرَتْ سَلْمَى حَوْلَهَا، فَرَأَتْ جَدًّا يَبْحَثُ فِي الأَرْضِ قَلِقًا.
+
+...
+
+[storytelling] نَظَرَ سَامِي حَوْلَهُ، فَرَأَى جَدًّا يَبْحَثُ فِي الأَرْضِ قَلِقًا.
+
+...
+
+[storytelling] فَسَأَلَتْهُ: هَلْ أَضَعْتَ شَيْئًا يَا جَدِّي؟
+
+...
+
+[storytelling] فَسَأَلَهُ: هَلْ أَضَعْتَ شَيْئًا يَا جَدِّي؟
+
+...
+
+[storytelling] قَالَ الجَدُّ: نَعَمْ، مَحْفَظَتِي الحَمْرَاءُ!
+
+...
+
+[storytelling] أَعْطَتْهُ سَلْمَى المَحْفَظَةَ، فَقَالَ: بَارَكَ اللَّهُ فِيكِ!
+
+...
+
+[storytelling] أَعْطَاهُ سَامِي المَحْفَظَةَ، فَقَالَ: بَارَكَ اللَّهُ فِيكَ!
+
+...
+
+[warm] الأَمَانَةُ تَمْلَأُ القُلُوبَ فَرَحًا.
+
+...
+
+[storytelling] حَمَلَتْ سَلْمَى المَحْفَظَةَ إِلَى مَكْتَبِ الحَدِيقَةِ.
+
+...
+
+[storytelling] حَمَلَ سَامِي المَحْفَظَةَ إِلَى مَكْتَبِ الحَدِيقَةِ.
+
+...
+
+[storytelling] وَقَالَتْ: وَجَدْتُ هَذِهِ تَحْتَ المَقْعَدِ.
+
+...
+
+[storytelling] وَقَالَ: وَجَدْتُ هَذِهِ تَحْتَ المَقْعَدِ.
+
+...
+
+[storytelling] بَعْدَ قَلِيلٍ، جَاءَتْ جَدَّةٌ تَبْحَثُ عَنْ مَحْفَظَتِهَا.
+
+...
+
+[storytelling] فَرِحَتِ الجَدَّةُ، وَأَهْدَتْ سَلْمَى وَرْدَةً جَمِيلَةً.
+
+...
+
+[storytelling] فَرِحَتِ الجَدَّةُ، وَأَهْدَتْ سَامِي وَرْدَةً جَمِيلَةً.
+
+...
+
+[warm] مَا لَيْسَ لَنَا، نُعِيدُهُ إِلَى أَصْحَابِهِ.
+
+...
+
+[cheerful] اخْتَارِي قِصَّةً
+
+...
+
+[cheerful] اخْتَرْ قِصَّةً
+
+════════════ الدفعة 55 (35 مقطعًا) ════════════
+
+[excited] Draw
+
+...
+
+[cheerful] Connect the dots
+
+...
+
+[neutral] Straight line
+
+...
+
+[neutral] Zigzag line
+
+...
+
+[neutral] Wavy line
+
+...
+
+[neutral] Spiral
+
+...
+
+[encouraging] Put each shape on its pegs
+
+...
+
+[neutral] Put
+
+...
+
+[neutral] rectangle
+
+...
+
+[neutral] pentagon
+
+...
+
+[neutral] hexagon
+
+...
+
+[calm] Show the number
+
+...
+
+[curious] How many beads?
+
+...
+
+[calm] Add
+
+...
+
+[calm] more
+
+...
+
+[curious] How many altogether?
+
+...
+
+[calm] Take away
+
+...
+
+[curious] How many are left?
+
+...
+
+[curious] How many more to make
+
+...
+
+[calm] thirty
+
+...
+
+[calm] forty
+
+...
+
+[calm] fifty
+
+...
+
+[calm] sixty
+
+...
+
+[calm] seventy
+
+...
+
+[calm] eighty
+
+...
+
+[calm] ninety
+
+...
+
+[excited] one hundred
+
+...
+
+[calm] pound
+
+...
+
+[calm] pounds
+
+...
+
+[calm] riyal
+
+...
+
+[calm] riyals
+
+...
+
+[happy] Sudanese pound
+
+...
+
+[happy] Saudi riyal
+
+...
+
+[happy] Put the money in the piggy bank
+
+...
+
+[curious] How much is in the piggy bank?
+
+════════════ الدفعة 56 (35 مقطعًا) ════════════
+
+[calm] Pay
+
+...
+
+[gentle] That's too much
+
+...
+
+[gentle] Not enough
+
+...
+
+[curious] How much change?
+
+...
+
+[curious] How much more do we need?
+
+...
+
+[excited] We saved
+
+...
+
+[cheerful] Drag the key to the lock
+
+...
+
+[cheerful] Turn the key
+
+...
+
+[excited] Surprise!
+
+...
+
+[excited] You opened all the doors!
+
+...
+
+[neutral] Panda
+
+...
+
+[curious] Touch any part
+
+...
+
+[curious] Touch the
+
+...
+
+[neutral] head
+
+...
+
+[neutral] hair
+
+...
+
+[neutral] eyes
+
+...
+
+[neutral] ears
+
+...
+
+[neutral] nose
+
+...
+
+[neutral] mouth
+
+...
+
+[neutral] teeth
+
+...
+
+[neutral] tongue
+
+...
+
+[neutral] cheeks
+
+...
+
+[neutral] chin
+
+...
+
+[neutral] neck
+
+...
+
+[neutral] shoulders
+
+...
+
+[neutral] arms
+
+...
+
+[neutral] elbows
+
+...
+
+[neutral] hands
+
+...
+
+[neutral] fingers
+
+...
+
+[neutral] tummy
+
+...
+
+[neutral] knees
+
+...
+
+[neutral] legs
+
+...
+
+[neutral] feet
+
+...
+
+[neutral] toes
+
+...
+
+[neutral] back
+
+════════════ الدفعة 57 (35 مقطعًا) ════════════
+
+[curious] What do we smell with?
+
+...
+
+[curious] What do we see with?
+
+...
+
+[curious] What do we hear with?
+
+...
+
+[curious] What do we taste with?
+
+...
+
+[curious] What do we touch with?
+
+...
+
+[curious] What do we walk with?
+
+...
+
+[curious] What do we chew with?
+
+...
+
+[curious] What do we clap with?
+
+...
+
+[curious] What do we think with?
+
+...
+
+[curious] What do we kick the ball with?
+
+...
+
+[curious] What do we hug with?
+
+...
+
+[curious] Where do we wear the
+
+...
+
+[curious] Where do we put the
+
+...
+
+[curious] Where do we carry the
+
+...
+
+[neutral] crown
+
+...
+
+[neutral] glasses
+
+...
+
+[neutral] scarf
+
+...
+
+[neutral] gloves
+
+...
+
+[neutral] shoes
+
+...
+
+[neutral] socks
+
+...
+
+[neutral] watch
+
+...
+
+[neutral] ring
+
+...
+
+[neutral] backpack
+
+...
+
+[neutral] headphones
+
+...
+
+[neutral] doctor
+
+...
+
+[neutral] nurse
+
+...
+
+[neutral] teacher
+
+...
+
+[neutral] police officer
+
+...
+
+[neutral] firefighter
+
+...
+
+[neutral] pilot
+
+...
+
+[neutral] farmer
+
+...
+
+[neutral] chef
+
+...
+
+[neutral] engineer
+
+...
+
+[neutral] dentist
+
+...
+
+[neutral] mechanic
+
+════════════ الدفعة 58 (35 مقطعًا) ════════════
+
+[neutral] baker
+
+...
+
+[neutral] fisherman
+
+...
+
+[neutral] astronaut
+
+...
+
+[neutral] vet
+
+...
+
+[neutral] shepherd
+
+...
+
+[neutral] builder
+
+...
+
+[neutral] tailor
+
+...
+
+[neutral] barber
+
+...
+
+[neutral] pharmacist
+
+...
+
+[neutral] hospital
+
+...
+
+[neutral] at the hospital
+
+...
+
+[neutral] school
+
+...
+
+[neutral] at the school
+
+...
+
+[neutral] police station
+
+...
+
+[neutral] at the police station
+
+...
+
+[neutral] fire station
+
+...
+
+[neutral] at the fire station
+
+...
+
+[neutral] airport
+
+...
+
+[neutral] at the airport
+
+...
+
+[neutral] farm
+
+...
+
+[neutral] on the farm
+
+...
+
+[neutral] restaurant
+
+...
+
+[neutral] at the restaurant
+
+...
+
+[neutral] factory
+
+...
+
+[neutral] at the factory
+
+...
+
+[neutral] dental clinic
+
+...
+
+[neutral] at the dental clinic
+
+...
+
+[neutral] garage
+
+...
+
+[neutral] at the garage
+
+...
+
+[neutral] bakery
+
+...
+
+[neutral] at the bakery
+
+...
+
+[neutral] sea
+
+...
+
+[neutral] at sea
+
+...
+
+[neutral] space
+
+...
+
+[neutral] in space
+
+════════════ الدفعة 59 (35 مقطعًا) ════════════
+
+[neutral] animal clinic
+
+...
+
+[neutral] at the animal clinic
+
+...
+
+[neutral] desert
+
+...
+
+[neutral] in the desert
+
+...
+
+[neutral] building site
+
+...
+
+[neutral] at the building site
+
+...
+
+[neutral] tailor shop
+
+...
+
+[neutral] at the tailor shop
+
+...
+
+[neutral] barber shop
+
+...
+
+[neutral] at the barber shop
+
+...
+
+[neutral] pharmacy
+
+...
+
+[neutral] at the pharmacy
+
+...
+
+[neutral] stethoscope
+
+...
+
+[neutral] syringe
+
+...
+
+[neutral] books
+
+...
+
+[neutral] police car
+
+...
+
+[neutral] fire extinguisher
+
+...
+
+[neutral] frying pan
+
+...
+
+[neutral] toothbrush
+
+...
+
+[neutral] bread
+
+...
+
+[neutral] fishing rod
+
+...
+
+[neutral] bricks
+
+...
+
+[neutral] needle and thread
+
+...
+
+[neutral] medicine
+
+...
+
+[playful] I check sick people with my stethoscope
+
+...
+
+[playful] I help the doctor and care for patients
+
+...
+
+[playful] I teach children to read and write
+
+...
+
+[playful] I keep everyone safe and direct traffic
+
+...
+
+[playful] I put out fires with water
+
+...
+
+[playful] I fly the airplane in the sky
+
+...
+
+[playful] I grow vegetables and water the plants
+
+...
+
+[playful] I cook yummy food
+
+...
+
+[playful] I design buildings and bridges
+
+...
+
+[playful] I look after your teeth
+
+...
+
+[playful] I fix broken cars
+
+════════════ الدفعة 60 (35 مقطعًا) ════════════
+
+[playful] I bake bread and cakes in the oven
+
+...
+
+[playful] I catch fish from the sea
+
+...
+
+[playful] I travel to space in a rocket
+
+...
+
+[playful] I help sick animals
+
+...
+
+[playful] I look after sheep and camels in the desert
+
+...
+
+[playful] I build houses with bricks
+
+...
+
+[playful] I sew clothes with a needle and thread
+
+...
+
+[playful] I cut hair with scissors
+
+...
+
+[playful] I give people medicine at the pharmacy
+
+...
+
+[curious] Who am I?
+
+...
+
+[curious] Whose is this?
+
+...
+
+[curious] The
+
+...
+
+[curious] works
+
+...
+
+[curious] Where does the
+
+...
+
+[curious] work?
+
+...
+
+[curious] I am the
+
+...
+
+[curious] Choose the hat for the
+
+...
+
+[curious] Choose the uniform for the
+
+...
+
+[calm] Intention
+
+...
+
+[calm] We intend wudu in our hearts
+
+...
+
+[calm] Say Bismillah
+
+...
+
+[calm] Wash the hands
+
+...
+
+[calm] Rinse the mouth
+
+...
+
+[calm] Rinse the nose
+
+...
+
+[calm] Wash the face
+
+...
+
+[calm] Wash the arms to the elbows
+
+...
+
+[calm] Wipe the head
+
+...
+
+[calm] Wipe the ears
+
+...
+
+[calm] Wash the feet to the ankles
+
+...
+
+[calm] The Shahada after wudu
+
+...
+
+[calm] I bear witness that there is no god but Allah, alone without partner, and that Muhammad is His servant and Messenger
+
+...
+
+[calm] Stand and say Allahu Akbar
+
+...
+
+[calm] Allah is the Greatest
+
+...
+
+[calm] Recite Al-Fatiha
+
+...
+
+[calm] All praise is for Allah, Lord of all the worlds
+
+════════════ الدفعة 61 (35 مقطعًا) ════════════
+
+[calm] Bowing (Ruku)
+
+...
+
+[calm] Glory be to my Lord, the Most Great
+
+...
+
+[calm] Rising from bowing
+
+...
+
+[calm] Allah hears whoever praises Him. Our Lord, to You is all praise
+
+...
+
+[calm] Prostration (Sujud)
+
+...
+
+[calm] Glory be to my Lord, the Most High
+
+...
+
+[calm] Sitting between the prostrations
+
+...
+
+[calm] My Lord, forgive me
+
+...
+
+[calm] The second prostration
+
+...
+
+[calm] Tashahhud
+
+...
+
+[calm] All greetings are for Allah
+
+...
+
+[calm] Taslim
+
+...
+
+[calm] Peace and the mercy of Allah be upon you
+
+...
+
+[calm] Fajr
+
+...
+
+[calm] At dawn, before sunrise
+
+...
+
+[calm] Dhuhr
+
+...
+
+[calm] At midday, when the sun is high
+
+...
+
+[calm] Asr
+
+...
+
+[calm] In the afternoon, as the sun goes lower
+
+...
+
+[calm] Maghrib
+
+...
+
+[calm] At sunset
+
+...
+
+[calm] Isha
+
+...
+
+[calm] At night, when the stars come out
+
+...
+
+[curious] Right
+
+...
+
+[curious] Left
+
+...
+
+[curious] Where do we wash?
+
+...
+
+[curious] Where do we wipe?
+
+...
+
+[curious] What do we wash first?
+
+...
+
+[curious] What comes next?
+
+...
+
+[curious] Put the steps in order
+
+...
+
+[curious] Which prayer is it?
+
+...
+
+[storytelling] Mishmish was a little kitten who loved to play.
+
+...
+
+[storytelling] She went with her mother to the big souq.
+
+...
+
+[storytelling] Mishmish saw a colorful butterfly and ran after it.
+
+...
+
+[storytelling] The butterfly flew away. Mishmish looked around, and her mother was gone!
+
+════════════ الدفعة 62 (35 مقطعًا) ════════════
+
+[storytelling] Mishmish sat down sadly between the shops.
+
+...
+
+[curious] What should Mishmish do?
+
+...
+
+[curious] Ask the little bird
+
+...
+
+[curious] Stay in place and meow
+
+...
+
+[storytelling] The bird flew high above the souq.
+
+...
+
+[storytelling] Then he said: I see a big cat at the date shop!
+
+...
+
+[storytelling] Mishmish ran to her mother and hugged her.
+
+...
+
+[storytelling] She told the bird: Thank you, my friend!
+
+...
+
+[warm] Asking for help is brave, and saying thank you is beautiful.
+
+...
+
+[storytelling] Mishmish stayed where she was and said: Meow! Meow!
+
+...
+
+[storytelling] Her mother heard her voice from far away.
+
+...
+
+[storytelling] Her mother hurried over and hugged Mishmish gently.
+
+...
+
+[storytelling] Mishmish promised to stay close to her mother.
+
+...
+
+[warm] If we get lost, we stay in place until our family finds us.
+
+...
+
+[storytelling] In the land of snow lived a little penguin called Bobo.
+
+...
+
+[storytelling] Bobo loved swimming and catching fish.
+
+...
+
+[storytelling] One cold day, Bobo dived into the water.
+
+...
+
+[storytelling] He came out with three shiny fish!
+
+...
+
+[storytelling] Bobo saw his friend Lulu sitting all alone.
+
+...
+
+[storytelling] She was hungry and had not caught anything.
+
+...
+
+[curious] What should Bobo do?
+
+...
+
+[curious] Give her a fish
+
+...
+
+[curious] Teach her to fish
+
+...
+
+[storytelling] Bobo gave Lulu a big fish.
+
+...
+
+[storytelling] Lulu smiled and said: Thank you, Bobo!
+
+...
+
+[curious] What should they do next?
+
+...
+
+[curious] Invite their friends
+
+...
+
+[curious] Build a snowman
+
+...
+
+[storytelling] Their friends came, and they all shared the food.
+
+...
+
+[storytelling] The fish was little, but the joy was big!
+
+...
+
+[warm] When we share, happiness grows.
+
+...
+
+[storytelling] Bobo and Lulu built a smiling snowman.
+
+...
+
+[storytelling] They gave him a red scarf and laughed a lot!
+
+...
+
+[warm] Friendship makes playing more fun.
+
+...
+
+[storytelling] Bobo said: Come, I will teach you to fish!
+
+════════════ الدفعة 63 (35 مقطعًا) ════════════
+
+[storytelling] So they dived together into the blue water.
+
+...
+
+[storytelling] Lulu caught her very first fish and was so happy.
+
+...
+
+[storytelling] Then they ate together under the sun.
+
+...
+
+[warm] Teaching a friend is a beautiful gift.
+
+...
+
+[storytelling] On the bank of the Nile stood a tall palm tree.
+
+...
+
+[storytelling] Jammoul the camel walked past it every day.
+
+...
+
+[storytelling] On a hot day, Jammoul saw that the palm tree was sad.
+
+...
+
+[storytelling] The palm said: I am thirsty, and the water is far away.
+
+...
+
+[curious] Jammoul thought: How can I help her?
+
+...
+
+[curious] What should Jammoul do?
+
+...
+
+[curious] Carry water from the Nile
+
+...
+
+[curious] Dig a little channel
+
+...
+
+[storytelling] Jammoul filled two buckets with Nile water.
+
+...
+
+[storytelling] He watered the palm tree day after day.
+
+...
+
+[storytelling] The palm turned green and gave sweet dates.
+
+...
+
+[storytelling] She said: These are for you, Jammoul. Thank you!
+
+...
+
+[warm] Whoever plants kindness, harvests kindness.
+
+...
+
+[storytelling] Jammoul dug a little channel with his hoof.
+
+...
+
+[storytelling] The Nile water flowed all the way to the palm tree.
+
+...
+
+[storytelling] The palm drank, and many flowers drank too.
+
+...
+
+[storytelling] The place became a beautiful green garden!
+
+...
+
+[warm] A clever idea can help many.
+
+...
+
+[storytelling] In the blue sky lived a little cloud called Rathath.
+
+...
+
+[storytelling] She wished she could rain like the big clouds.
+
+...
+
+[storytelling] Rathath tried to rain, but only two drops fell!
+
+...
+
+[storytelling] She said sadly: I am too small.
+
+...
+
+[storytelling] The wind came and said: Do not be sad, Rathath.
+
+...
+
+[curious] What should Rathath do?
+
+...
+
+[curious] Gather her cloud friends
+
+...
+
+[curious] Be patient and grow over the sea
+
+...
+
+[storytelling] Rathath called the little clouds, and they gathered together.
+
+...
+
+[storytelling] They became one big grey cloud!
+
+...
+
+[storytelling] Gentle rain fell on the thirsty fields.
+
+...
+
+[storytelling] And a rainbow appeared, smiling at everyone.
+
+...
+
+[warm] Together we can do big things.
+
+════════════ الدفعة 64 (35 مقطعًا) ════════════
+
+[storytelling] Rathath floated over the sea and waited patiently, day after day.
+
+...
+
+[storytelling] Every morning she grew a little bigger.
+
+...
+
+[curious] Where should Rathath rain?
+
+...
+
+[curious] On a thirsty tree
+
+...
+
+[curious] On the wide desert
+
+...
+
+[storytelling] Rathath rained on a thirsty tree.
+
+...
+
+[storytelling] And the tree burst into happy blossoms!
+
+...
+
+[warm] With patience we grow, and our dreams come true.
+
+...
+
+[storytelling] Rathath rained on the wide desert.
+
+...
+
+[storytelling] A tiny flower opened and said: Thank you, Rathath!
+
+...
+
+[warm] Every gift, even a small one, makes a difference.
+
+...
+
+[storytelling] In the sky there was a little star called Lamaa.
+
+...
+
+[storytelling] She was shy, and her light was weak.
+
+...
+
+[storytelling] One dark night, a little boat got lost at sea.
+
+...
+
+[storytelling] Clouds covered the moon and the big stars.
+
+...
+
+[curious] Lamaa said: Can I help?
+
+...
+
+[curious] What should Lamaa do?
+
+...
+
+[curious] Shine with all her might
+
+...
+
+[curious] Ask the wind for help
+
+...
+
+[storytelling] Lamaa closed her eyes and shone brighter and brighter!
+
+...
+
+[storytelling] The sailor saw her light and found the way.
+
+...
+
+[storytelling] The boat reached the shore safely.
+
+...
+
+[storytelling] And Lamaa became the bravest star in the sky!
+
+...
+
+[warm] A small light can light up a long way.
+
+...
+
+[storytelling] Lamaa flew to the wind and said: Please help us!
+
+...
+
+[storytelling] The wind blew, and the clouds drifted away.
+
+...
+
+[storytelling] The moon and the stars lit up the whole sea.
+
+...
+
+[storytelling] The boat went home, and everyone smiled.
+
+...
+
+[warm] It is brave to ask for help so we can help others.
+
+...
+
+[storytelling] Salma went to the park to play with her ball.
+
+...
+
+[storytelling] Sami went to the park to play with his ball.
+
+...
+
+[storytelling] The sun was warm, and the birds were singing.
+
+...
+
+[storytelling] The ball rolled under a wooden bench.
+
+...
+
+[storytelling] And there, Salma found a red wallet!
+
+...
+
+[storytelling] And there, Sami found a red wallet!
+
+════════════ الدفعة 65 (35 مقطعًا) ════════════
+
+[storytelling] She opened it and saw some money and a family photo.
+
+...
+
+[storytelling] He opened it and saw some money and a family photo.
+
+...
+
+[curious] What should Salma do?
+
+...
+
+[curious] What should Sami do?
+
+...
+
+[curious] Look for the owner
+
+...
+
+[curious] Take it to the park office
+
+...
+
+[storytelling] Salma looked around and saw a grandpa searching the ground, worried.
+
+...
+
+[storytelling] Sami looked around and saw a grandpa searching the ground, worried.
+
+...
+
+[curious] She asked: Did you lose something, grandpa?
+
+...
+
+[curious] He asked: Did you lose something, grandpa?
+
+...
+
+[storytelling] Grandpa said: Yes, my red wallet!
+
+...
+
+[storytelling] Salma gave him the wallet, and he said: May Allah bless you!
+
+...
+
+[storytelling] Sami gave him the wallet, and he said: May Allah bless you!
+
+...
+
+[warm] Honesty fills hearts with joy.
+
+...
+
+[storytelling] Salma carried the wallet to the park office.
+
+...
+
+[storytelling] Sami carried the wallet to the park office.
+
+...
+
+[storytelling] She said: I found this under the bench.
+
+...
+
+[storytelling] He said: I found this under the bench.
+
+...
+
+[storytelling] A little later, a grandma came looking for her wallet.
+
+...
+
+[storytelling] Grandma was so happy, and she gave Salma a lovely rose.
+
+...
+
+[storytelling] Grandma was so happy, and she gave Sami a lovely rose.
+
+...
+
+[warm] What is not ours, we give back to its owner.
+
+...
+
+[cheerful] Choose a story
+
+...
+
+[cheerful] or
+
+...
+
+[neutral] means stop
+
+...
+
+[neutral] means wait
+
+...
+
+[neutral] means go
+
+...
+
+[neutral] Touch each light
+
+...
+
+[neutral] What do we do?
+
+...
+
+[neutral] Watch the traffic light
+
+...
+
+[neutral] Wait for green
+
+...
+
+[neutral] Where do we cross the street?
+
+...
+
+[neutral] We cross at the zebra crossing
+
+...
+
+[neutral] Hold a grown-up's hand
+
+...
+
+[neutral] Look left and right
+
+════════════ الدفعة 66 (35 مقطعًا) ════════════
+
+[neutral] Let's cross
+
+...
+
+[neutral] Wait for the green man
+
+...
+
+[neutral] Where is the
+
+...
+
+[neutral] stop sign
+
+...
+
+[neutral] pedestrian crossing
+
+...
+
+[neutral] school zone
+
+...
+
+[neutral] no entry
+
+...
+
+[neutral] traffic lights ahead
+
+...
+
+[neutral] Touch each sign
+
+...
+
+[neutral] Put the child in the car seat
+
+...
+
+[neutral] Children sit in the back
+
+...
+
+[neutral] Buckle the seat belt
+
+...
+
+[neutral] Let's go!
+
+...
+
+[neutral] What do we wear to ride a bike?
+
+...
+
+[neutral] A helmet protects your head
+
+...
+
+[neutral] Buckle the helmet
+
+...
+
+[neutral] Is this safe?
+
+...
+
+[neutral] Playing ball in the street
+
+...
+
+[neutral] We play in the park, not in the street
+
+...
+
+[neutral] Playing in the park
+
+...
+
+[neutral] Crossing with a grown-up at the crossing
+
+...
+
+[neutral] Running between cars
+
+...
+
+[neutral] We cross at the crossing with a grown-up
+
+...
+
+[neutral] Riding a bike with a helmet
+
+...
+
+[neutral] Crossing when the light is red
+
+...
+
+[neutral] Touching the hot stove
+
+...
+
+[neutral] The stove is hot, we do not touch it
+
+...
+
+[neutral] Putting fingers in the socket
+
+...
+
+[neutral] Electricity is dangerous
+
+...
+
+[neutral] Taking medicine alone
+
+...
+
+[neutral] Only grown-ups give us medicine
+
+...
+
+[neutral] Playing with toys
+
+...
+
+[neutral] Drinking milk
+
+...
+
+[neutral] Playing with a knife
+
+...
+
+[neutral] Knives can cut
+
+════════════ الدفعة 67 (35 مقطعًا) ════════════
+
+[neutral] Washing hands
+
+...
+
+[neutral] Drinking cleaning liquids
+
+...
+
+[neutral] Cleaning liquids are not for drinking
+
+...
+
+[neutral] Summer
+
+...
+
+[neutral] Autumn
+
+...
+
+[neutral] Winter
+
+...
+
+[neutral] Spring
+
+...
+
+[neutral] Sunny
+
+...
+
+[neutral] Cloudy
+
+...
+
+[neutral] Rainy
+
+...
+
+[neutral] Windy
+
+...
+
+[neutral] Stormy
+
+...
+
+[neutral] Snowy
+
+...
+
+[neutral] Dusty
+
+...
+
+[neutral] warm
+
+...
+
+[neutral] It is sunny
+
+...
+
+[neutral] It is cloudy
+
+...
+
+[neutral] It is rainy
+
+...
+
+[neutral] It is windy
+
+...
+
+[neutral] It is stormy
+
+...
+
+[neutral] It is snowy
+
+...
+
+[neutral] A dust storm! It is dusty
+
+...
+
+[neutral] What should we wear?
+
+...
+
+[neutral] Which season is it?
+
+...
+
+[neutral] What do we do in each season?
+
+...
+
+[neutral] What is the weather today?
+
+...
+
+[neutral] Sun hat
+
+...
+
+[neutral] Sunglasses
+
+...
+
+[neutral] T-shirt
+
+...
+
+[neutral] Shorts
+
+...
+
+[neutral] Coat
+
+...
+
+[neutral] Boots
+
+...
+
+[neutral] Raincoat
+
+...
+
+[neutral] Swim
+
+...
+
+[neutral] Drink cold juice
+
+════════════ الدفعة 68 (30 مقطعًا) ════════════
+
+[neutral] Fly a kite
+
+...
+
+[neutral] Collect leaves
+
+...
+
+[neutral] Drink warm milk
+
+...
+
+[neutral] Plant flowers
+
+...
+
+[neutral] Watch butterflies
+
+...
+
+[neutral] Seed
+
+...
+
+[neutral] Sprout
+
+...
+
+[neutral] Small plant
+
+...
+
+[neutral] Flowering plant
+
+...
+
+[neutral] Fruit
+
+...
+
+[neutral] Chrysalis
+
+...
+
+[neutral] Eggs
+
+...
+
+[neutral] Froglet
+
+...
+
+[neutral] Baby
+
+...
+
+[neutral] Child
+
+...
+
+[neutral] Grown-up
+
+...
+
+[neutral] Grandparent
+
+...
+
+[neutral] Evaporation
+
+...
+
+[neutral] Cloud
+
+...
+
+[neutral] Rain
+
+...
+
+[neutral] Plant life cycle
+
+...
+
+[neutral] Butterfly life cycle
+
+...
+
+[neutral] Frog life cycle
+
+...
+
+[neutral] Chicken life cycle
+
+...
+
+[neutral] Human life cycle
+
+...
+
+[neutral] The water cycle
+
+...
+
+[neutral] Put the stages in order
+
+...
+
+[neutral] I need water
+
+...
+
+[neutral] I need sunshine
+
+...
+
+[neutral] Grow the seed
+

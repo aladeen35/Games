@@ -1,0 +1,352 @@
+[
+ {
+  "id": "wudu_pray_fatiha",
+  "text": "قِرَاءَةُ الفَاتِحَةِ",
+  "plain": "قراءة الفاتحة",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_fatiha",
+  "text": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+  "plain": "الحمد لله رب العالمين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_ruku",
+  "text": "الرُّكُوعُ",
+  "plain": "الركوع",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_ruku",
+  "text": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+  "plain": "سبحان ربي العظيم",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_rise",
+  "text": "الرَّفْعُ مِنَ الرُّكُوعِ",
+  "plain": "الرفع من الركوع",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_rise",
+  "text": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ، رَبَّنَا وَلَكَ الْحَمْدُ",
+  "plain": "سمع الله لمن حمده، ربنا ولك الحمد",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_sujud",
+  "text": "السُّجُودُ",
+  "plain": "السجود",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_sujud",
+  "text": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+  "plain": "سبحان ربي الأعلى",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_jalsa",
+  "text": "الجُلُوسُ بَيْنَ السَّجْدَتَيْنِ",
+  "plain": "الجلوس بين السجدتين",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_jalsa",
+  "text": "رَبِّ اغْفِرْ لِي",
+  "plain": "رب اغفر لي",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_sujud2",
+  "text": "السَّجْدَةُ الثَّانِيَةُ",
+  "plain": "السجدة الثانية",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_tash",
+  "text": "التَّشَهُّدُ",
+  "plain": "التشهد",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_tash",
+  "text": "التَّحِيَّاتُ لِلَّهِ",
+  "plain": "التحيات لله",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_salam",
+  "text": "التَّسْلِيمُ",
+  "plain": "التسليم",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_pray_say_salam",
+  "text": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+  "plain": "السلام عليكم ورحمة الله",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_fajr",
+  "text": "الفَجْرُ",
+  "plain": "الفجر",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_desc_fajr",
+  "text": "عِنْدَ الفَجْرِ، قَبْلَ شُرُوقِ الشَّمْسِ",
+  "plain": "عند الفجر، قبل شروق الشمس",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_desc_dhuhr",
+  "text": "فِي وَسَطِ النَّهَارِ، وَالشَّمْسُ عَالِيَةٌ",
+  "plain": "في وسط النهار، والشمس عالية",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_asr",
+  "text": "العَصْرُ",
+  "plain": "العصر",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_desc_asr",
+  "text": "بَعْدَ الظُّهْرِ، حِينَ تَمِيلُ الشَّمْسُ",
+  "plain": "بعد الظهر، حين تميل الشمس",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_maghrib",
+  "text": "المَغْرِبُ",
+  "plain": "المغرب",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_desc_maghrib",
+  "text": "عِنْدَ غُرُوبِ الشَّمْسِ",
+  "plain": "عند غروب الشمس",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_isha",
+  "text": "العِشَاءُ",
+  "plain": "العشاء",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_time_desc_isha",
+  "text": "فِي اللَّيْلِ، حِينَ تَظْهَرُ النُّجُومُ",
+  "plain": "في الليل، حين تظهر النجوم",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_right",
+  "text": "اليُمْنَى",
+  "plain": "اليمنى",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_left",
+  "text": "اليُسْرَى",
+  "plain": "اليسرى",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_where_wash",
+  "text": "أَيْنَ نَغْسِلُ؟",
+  "plain": "أين نغسل؟",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_where_wipe",
+  "text": "أَيْنَ نَمْسَحُ؟",
+  "plain": "أين نمسح؟",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_first",
+  "text": "مَاذَا نَغْسِلُ أَوَّلًا؟",
+  "plain": "ماذا نغسل أولا؟",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_next",
+  "text": "وَمَاذَا بَعْدَ ذَلِكَ؟",
+  "plain": "وماذا بعد ذلك؟",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_order_f",
+  "text": "رَتِّبِي الخُطُوَاتِ",
+  "plain": "رتبي الخطوات",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_order_m",
+  "text": "رَتِّبِ الخُطُوَاتِ",
+  "plain": "رتب الخطوات",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "wudu_which_prayer",
+  "text": "أَيُّ صَلَاةٍ هَذِهِ؟",
+  "plain": "أي صلاة هذه؟",
+  "lang": "ar",
+  "game": "wudu",
+  "emotion": "curious",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p1_1",
+  "text": "كَانَتْ مِشْمِشُ قِطَّةً صَغِيرَةً تُحِبُّ اللَّعِبَ.",
+  "plain": "كانت مشمش قطة صغيرة تحب اللعب.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 50,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p1_2",
+  "text": "ذَهَبَتْ مَعَ أُمِّهَا إِلَى السُّوقِ الكَبِيرِ.",
+  "plain": "ذهبت مع أمها إلى السوق الكبير.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 50,
+  "note": ""
+ }
+]

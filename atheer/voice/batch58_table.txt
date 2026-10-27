@@ -1,0 +1,35 @@
+1. jobs_en_n_baker — baker
+2. jobs_en_n_fisherman — fisherman
+3. jobs_en_n_astronaut — astronaut
+4. jobs_en_n_vet — vet
+5. jobs_en_n_shepherd — shepherd
+6. jobs_en_n_builder — builder
+7. jobs_en_n_tailor — tailor
+8. jobs_en_n_barber — barber
+9. jobs_en_n_pharmacist — pharmacist
+10. jobs_en_pl_hospital — hospital
+11. jobs_en_plp_hospital — at the hospital
+12. jobs_en_pl_school — school
+13. jobs_en_plp_school — at the school
+14. jobs_en_pl_police — police station
+15. jobs_en_plp_police — at the police station
+16. jobs_en_pl_fire — fire station
+17. jobs_en_plp_fire — at the fire station
+18. jobs_en_pl_airport — airport
+19. jobs_en_plp_airport — at the airport
+20. jobs_en_pl_farm — farm
+21. jobs_en_plp_farm — on the farm
+22. jobs_en_pl_restaurant — restaurant
+23. jobs_en_plp_restaurant — at the restaurant
+24. jobs_en_pl_factory — factory
+25. jobs_en_plp_factory — at the factory
+26. jobs_en_pl_dental — dental clinic
+27. jobs_en_plp_dental — at the dental clinic
+28. jobs_en_pl_garage — garage
+29. jobs_en_plp_garage — at the garage
+30. jobs_en_pl_bakery — bakery
+31. jobs_en_plp_bakery — at the bakery
+32. jobs_en_pl_sea — sea
+33. jobs_en_plp_sea — at sea
+34. jobs_en_pl_space — space
+35. jobs_en_plp_space — in space

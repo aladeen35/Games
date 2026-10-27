@@ -1,0 +1,35 @@
+1. body_p_elbows — الْمِرْفَقَيْنِ
+2. body_pn_elbows — الْمِرْفَقَانِ
+3. body_p_hands — الْيَدَيْنِ
+4. body_pn_hands — الْيَدَانِ
+5. body_p_fingers — الْأَصَابِعَ
+6. body_p_tummy — الْبَطْنَ
+7. body_p_knees — الرُّكْبَتَيْنِ
+8. body_pn_knees — الرُّكْبَتَانِ
+9. body_p_legs — الرِّجْلَيْنِ
+10. body_pn_legs — الرِّجْلَانِ
+11. body_p_feet — الْقَدَمَيْنِ
+12. body_pn_feet — الْقَدَمَانِ
+13. body_p_toes — أَصَابِعَ الْقَدَمَيْنِ
+14. body_p_back — الظَّهْرَ
+15. body_sense_smell — بِمَاذَا نَشُمُّ؟
+16. body_sense_see — بِمَاذَا نَرَى؟
+17. body_sense_hear — بِمَاذَا نَسْمَعُ؟
+18. body_sense_taste — بِمَاذَا نَتَذَوَّقُ؟
+19. body_sense_touch — بِمَاذَا نَلْمِسُ؟
+20. body_sense_walk — بِمَاذَا نَمْشِي؟
+21. body_sense_chew — بِمَاذَا نَمْضَغُ؟
+22. body_sense_clap — بِمَاذَا نُصَفِّقُ؟
+23. body_sense_think — بِمَاذَا نُفَكِّرُ؟
+24. body_sense_kick — بِمَاذَا نَرْكُلُ الْكُرَةَ؟
+25. body_sense_hug — بِمَاذَا نُعَانِقُ؟
+26. body_where_wear — أَيْنَ نَلْبَسُ
+27. body_where_put — أَيْنَ نَضَعُ
+28. body_where_carry — أَيْنَ نَحْمِلُ
+29. body_item_hat — الْقُبَّعَةَ
+30. body_item_crown — التَّاجَ
+31. body_item_glasses — النَّظَّارَةَ
+32. body_item_scarf — الْوِشَاحَ
+33. body_item_gloves — الْقُفَّازَاتِ
+34. body_item_shoes — الْحِذَاءَ
+35. body_item_socks — الْجَوَارِبَ

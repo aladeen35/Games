@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_penguin_e3_moral",
+  "text": "الصَّدَاقَةُ تَجْعَلُ اللَّعِبَ أَجْمَلَ.",
+  "plain": "الصداقة تجعل اللعب أجمل.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4b_1",
+  "text": "قَالَ بُوبُو: تَعَالَيْ، سَأُعَلِّمُكِ الصَّيْدَ!",
+  "plain": "قال بوبو: تعالي، سأعلمك الصيد!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4b_2",
+  "text": "فَغَاصَا مَعًا فِي المَاءِ الأَزْرَقِ.",
+  "plain": "فغاصا معا في الماء الأزرق.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e2_1",
+  "text": "اصْطَادَتْ لُولُو سَمَكَتَهَا الأُولَى، وَفَرِحَتْ كَثِيرًا.",
+  "plain": "اصطادت لولو سمكتها الأولى، وفرحت كثيرا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e2_2",
+  "text": "ثُمَّ أَكَلَا مَعًا تَحْتَ الشَّمْسِ.",
+  "plain": "ثم أكلا معا تحت الشمس.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e2_moral",
+  "text": "أَنْ نُعَلِّمَ صَدِيقَنَا، هَدِيَّةٌ جَمِيلَةٌ.",
+  "plain": "أن نعلم صديقنا، هدية جميلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p1_1",
+  "text": "عَلَى ضِفَّةِ النِّيلِ، كَانَتْ نَخْلَةٌ طَوِيلَةٌ.",
+  "plain": "على ضفة النيل، كانت نخلة طويلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p1_2",
+  "text": "وَكَانَ الجَمَلُ جَمَّولُ يَمُرُّ بِهَا كُلَّ يَوْمٍ.",
+  "plain": "وكان الجمل جمول يمر بها كل يوم.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p2_1",
+  "text": "فِي يَوْمٍ حَارٍّ، رَأَى جَمَّولُ النَّخْلَةَ حَزِينَةً.",
+  "plain": "في يوم حار، رأى جمول النخلة حزينة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p2_2",
+  "text": "قَالَتِ النَّخْلَةُ: أَنَا عَطْشَى، وَالمَاءُ بَعِيدٌ عَنِّي.",
+  "plain": "قالت النخلة: أنا عطشى، والماء بعيد عني.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p3_1",
+  "text": "فَكَّرَ جَمَّولُ: كَيْفَ أُسَاعِدُهَا؟",
+  "plain": "فكر جمول: كيف أساعدها؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p3_2",
+  "text": "مَاذَا يَفْعَلُ جَمَّولُ؟",
+  "plain": "ماذا يفعل جمول؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p3_ch1",
+  "text": "يَحْمِلُ المَاءَ مِنَ النِّيلِ",
+  "plain": "يحمل الماء من النيل",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p3_ch2",
+  "text": "يَحْفِرُ قَنَاةً صَغِيرَةً",
+  "plain": "يحفر قناة صغيرة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p4a_1",
+  "text": "مَلَأَ جَمَّولُ دَلْوَيْنِ مِنْ مَاءِ النِّيلِ.",
+  "plain": "ملأ جمول دلوين من ماء النيل.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p4a_2",
+  "text": "وَسَقَى النَّخْلَةَ يَوْمًا بَعْدَ يَوْمٍ.",
+  "plain": "وسقى النخلة يوما بعد يوم.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e1_1",
+  "text": "اخْضَرَّتِ النَّخْلَةُ، وَأَعْطَتْ تَمْرًا حُلْوًا.",
+  "plain": "اخضرت النخلة، وأعطت تمرا حلوا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e1_2",
+  "text": "وَقَالَتْ: هَذَا لَكَ يَا جَمَّولُ، شُكْرًا لَكَ!",
+  "plain": "وقالت: هذا لك يا جمول، شكرا لك!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e1_moral",
+  "text": "مَنْ يَزْرَعِ الخَيْرَ، يَحْصُدِ الخَيْرَ.",
+  "plain": "من يزرع الخير، يحصد الخير.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p4b_1",
+  "text": "حَفَرَ جَمَّولُ بِخُفِّهِ قَنَاةً صَغِيرَةً.",
+  "plain": "حفر جمول بخفه قناة صغيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_p4b_2",
+  "text": "فَجَرَى مَاءُ النِّيلِ حَتَّى وَصَلَ إِلَى النَّخْلَةِ.",
+  "plain": "فجرى ماء النيل حتى وصل إلى النخلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e2_1",
+  "text": "شَرِبَتِ النَّخْلَةُ، وَشَرِبَتْ مَعَهَا زُهُورٌ كَثِيرَةٌ.",
+  "plain": "شربت النخلة، وشربت معها زهور كثيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e2_2",
+  "text": "فَصَارَ المَكَانُ حَدِيقَةً خَضْرَاءَ جَمِيلَةً!",
+  "plain": "فصار المكان حديقة خضراء جميلة!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_camel_e2_moral",
+  "text": "الفِكْرَةُ الذَّكِيَّةُ تَنْفَعُ الكَثِيرِينَ.",
+  "plain": "الفكرة الذكية تنفع الكثيرين.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p1_1",
+  "text": "فِي السَّمَاءِ الزَّرْقَاءِ، عَاشَتْ غَيْمَةٌ صَغِيرَةٌ اسْمُهَا رَذَاذُ.",
+  "plain": "في السماء الزرقاء، عاشت غيمة صغيرة اسمها رذاذ.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p1_2",
+  "text": "كَانَتْ تَتَمَنَّى أَنْ تُمْطِرَ مِثْلَ الغُيُومِ الكَبِيرَةِ.",
+  "plain": "كانت تتمنى أن تمطر مثل الغيوم الكبيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p2_1",
+  "text": "حَاوَلَتْ رَذَاذُ أَنْ تُمْطِرَ، فَنَزَلَتْ قَطْرَتَانِ فَقَطْ!",
+  "plain": "حاولت رذاذ أن تمطر، فنزلت قطرتان فقط!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p2_2",
+  "text": "فَقَالَتْ بِحُزْنٍ: أَنَا صَغِيرَةٌ جِدًّا.",
+  "plain": "فقالت بحزن: أنا صغيرة جدا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p3_1",
+  "text": "جَاءَتِ الرِّيحُ وَقَالَتْ: لَا تَحْزَنِي يَا رَذَاذُ.",
+  "plain": "جاءت الريح وقالت: لا تحزني يا رذاذ.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p3_2",
+  "text": "مَاذَا تَفْعَلُ رَذَاذُ؟",
+  "plain": "ماذا تفعل رذاذ؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p3_ch1",
+  "text": "تَجْمَعُ صَدِيقَاتِهَا الغُيُومَ",
+  "plain": "تجمع صديقاتها الغيوم",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p3_ch2",
+  "text": "تَصْبِرُ وَتَكْبَرُ فَوْقَ البَحْرِ",
+  "plain": "تصبر وتكبر فوق البحر",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4a_1",
+  "text": "نَادَتْ رَذَاذُ الغُيُومَ الصَّغِيرَةَ، فَاجْتَمَعْنَ مَعًا.",
+  "plain": "نادت رذاذ الغيوم الصغيرة، فاجتمعن معا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_p4a_2",
+  "text": "وَصِرْنَ غَيْمَةً كَبِيرَةً رَمَادِيَّةً!",
+  "plain": "وصرن غيمة كبيرة رمادية!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ },
+ {
+  "id": "stories_cloud_e1_1",
+  "text": "هَطَلَ مَطَرٌ لَطِيفٌ عَلَى الحُقُولِ العَطْشَى.",
+  "plain": "هطل مطر لطيف على الحقول العطشى.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 52,
+  "note": ""
+ }
+]

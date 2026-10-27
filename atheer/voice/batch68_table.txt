@@ -1,0 +1,30 @@
+1. seasons_en_kite — Fly a kite
+2. seasons_en_leaves — Collect leaves
+3. seasons_en_milk — Drink warm milk
+4. seasons_en_plant — Plant flowers
+5. seasons_en_bfly — Watch butterflies
+6. lifecycle_en_seed — Seed
+7. lifecycle_en_sprout — Sprout
+8. lifecycle_en_small_plant — Small plant
+9. lifecycle_en_flowering — Flowering plant
+10. lifecycle_en_fruit — Fruit
+11. lifecycle_en_chrysalis — Chrysalis
+12. lifecycle_en_eggs — Eggs
+13. lifecycle_en_froglet — Froglet
+14. lifecycle_en_baby — Baby
+15. lifecycle_en_child — Child
+16. lifecycle_en_grownup — Grown-up
+17. lifecycle_en_grandparent — Grandparent
+18. lifecycle_en_evaporation — Evaporation
+19. lifecycle_en_cloud — Cloud
+20. lifecycle_en_rain — Rain
+21. lifecycle_en_cyc_plant — Plant life cycle
+22. lifecycle_en_cyc_butterfly — Butterfly life cycle
+23. lifecycle_en_cyc_frog — Frog life cycle
+24. lifecycle_en_cyc_chicken — Chicken life cycle
+25. lifecycle_en_cyc_human — Human life cycle
+26. lifecycle_en_cyc_water — The water cycle
+27. lifecycle_en_order — Put the stages in order
+28. lifecycle_en_need_water — I need water
+29. lifecycle_en_need_sun — I need sunshine
+30. lifecycle_en_grow — Grow the seed

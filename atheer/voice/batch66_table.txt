@@ -1,0 +1,35 @@
+1. traffic_en_lets_cross — Let's cross
+2. traffic_en_wait_man — Wait for the green man
+3. traffic_en_where_is_the — Where is the
+4. traffic_en_stop_sign — stop sign
+5. traffic_en_ped_crossing — pedestrian crossing
+6. traffic_en_school_zone — school zone
+7. traffic_en_no_entry — no entry
+8. traffic_en_lights_ahead — traffic lights ahead
+9. traffic_en_touch_sign — Touch each sign
+10. traffic_en_seat — Put the child in the car seat
+11. traffic_en_sit_back — Children sit in the back
+12. traffic_en_belt — Buckle the seat belt
+13. traffic_en_lets_go — Let's go!
+14. traffic_en_bike_wear — What do we wear to ride a bike?
+15. traffic_en_helmet_protects — A helmet protects your head
+16. traffic_en_helmet_buckle — Buckle the helmet
+17. traffic_en_is_safe — Is this safe?
+18. traffic_en_s_ball_street — Playing ball in the street
+19. traffic_en_r_play_park — We play in the park, not in the street
+20. traffic_en_s_park — Playing in the park
+21. traffic_en_s_cross_adult — Crossing with a grown-up at the crossing
+22. traffic_en_s_run_cars — Running between cars
+23. traffic_en_r_cross_adult — We cross at the crossing with a grown-up
+24. traffic_en_s_bike_helmet — Riding a bike with a helmet
+25. traffic_en_s_cross_red — Crossing when the light is red
+26. traffic_en_s_stove — Touching the hot stove
+27. traffic_en_r_stove — The stove is hot, we do not touch it
+28. traffic_en_s_plug — Putting fingers in the socket
+29. traffic_en_r_plug — Electricity is dangerous
+30. traffic_en_s_medicine — Taking medicine alone
+31. traffic_en_r_medicine — Only grown-ups give us medicine
+32. traffic_en_s_toys — Playing with toys
+33. traffic_en_s_milk — Drinking milk
+34. traffic_en_s_knife — Playing with a knife
+35. traffic_en_r_knife — Knives can cut

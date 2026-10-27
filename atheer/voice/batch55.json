@@ -1,0 +1,352 @@
+[
+ {
+  "id": "magicpad_en_draw",
+  "text": "Draw",
+  "plain": "Draw",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "excited",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "magicpad_en_connect",
+  "text": "Connect the dots",
+  "plain": "Connect the dots",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "cheerful",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "magicpad_en_line_straight",
+  "text": "Straight line",
+  "plain": "Straight line",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "magicpad_en_line_zigzag",
+  "text": "Zigzag line",
+  "plain": "Zigzag line",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "magicpad_en_line_wave",
+  "text": "Wavy line",
+  "plain": "Wavy line",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "magicpad_en_spiral",
+  "text": "Spiral",
+  "plain": "Spiral",
+  "lang": "en",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "pegs_en_match",
+  "text": "Put each shape on its pegs",
+  "plain": "Put each shape on its pegs",
+  "lang": "en",
+  "game": "pegs",
+  "emotion": "encouraging",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "pegs_en_put",
+  "text": "Put",
+  "plain": "Put",
+  "lang": "en",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "pegs_en_rectangle",
+  "text": "rectangle",
+  "plain": "rectangle",
+  "lang": "en",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "pegs_en_pentagon",
+  "text": "pentagon",
+  "plain": "pentagon",
+  "lang": "en",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "pegs_en_hexagon",
+  "text": "hexagon",
+  "plain": "hexagon",
+  "lang": "en",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_show",
+  "text": "Show the number",
+  "plain": "Show the number",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_how_many",
+  "text": "How many beads?",
+  "plain": "How many beads?",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_add",
+  "text": "Add",
+  "plain": "Add",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_more",
+  "text": "more",
+  "plain": "more",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_altogether",
+  "text": "How many altogether?",
+  "plain": "How many altogether?",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_take_away",
+  "text": "Take away",
+  "plain": "Take away",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_left",
+  "text": "How many are left?",
+  "plain": "How many are left?",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_make",
+  "text": "How many more to make",
+  "plain": "How many more to make",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_30",
+  "text": "thirty",
+  "plain": "thirty",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_40",
+  "text": "forty",
+  "plain": "forty",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_50",
+  "text": "fifty",
+  "plain": "fifty",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_60",
+  "text": "sixty",
+  "plain": "sixty",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_70",
+  "text": "seventy",
+  "plain": "seventy",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_80",
+  "text": "eighty",
+  "plain": "eighty",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_90",
+  "text": "ninety",
+  "plain": "ninety",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "abacus_en_100",
+  "text": "one hundred",
+  "plain": "one hundred",
+  "lang": "en",
+  "game": "abacus",
+  "emotion": "excited",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_pound",
+  "text": "pound",
+  "plain": "pound",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_pounds",
+  "text": "pounds",
+  "plain": "pounds",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_riyal",
+  "text": "riyal",
+  "plain": "riyal",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_riyals",
+  "text": "riyals",
+  "plain": "riyals",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_sdg",
+  "text": "Sudanese pound",
+  "plain": "Sudanese pound",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_sar",
+  "text": "Saudi riyal",
+  "plain": "Saudi riyal",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_put",
+  "text": "Put the money in the piggy bank",
+  "plain": "Put the money in the piggy bank",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "happy",
+  "batch": 55,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_inside",
+  "text": "How much is in the piggy bank?",
+  "plain": "How much is in the piggy bank?",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 55,
+  "note": ""
+ }
+]

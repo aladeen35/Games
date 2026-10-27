@@ -1,0 +1,352 @@
+[
+ {
+  "id": "traffic_en_lets_cross",
+  "text": "Let's cross",
+  "plain": "Let's cross",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_wait_man",
+  "text": "Wait for the green man",
+  "plain": "Wait for the green man",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_where_is_the",
+  "text": "Where is the",
+  "plain": "Where is the",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_stop_sign",
+  "text": "stop sign",
+  "plain": "stop sign",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_ped_crossing",
+  "text": "pedestrian crossing",
+  "plain": "pedestrian crossing",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_school_zone",
+  "text": "school zone",
+  "plain": "school zone",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_no_entry",
+  "text": "no entry",
+  "plain": "no entry",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_lights_ahead",
+  "text": "traffic lights ahead",
+  "plain": "traffic lights ahead",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_touch_sign",
+  "text": "Touch each sign",
+  "plain": "Touch each sign",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_seat",
+  "text": "Put the child in the car seat",
+  "plain": "Put the child in the car seat",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_sit_back",
+  "text": "Children sit in the back",
+  "plain": "Children sit in the back",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_belt",
+  "text": "Buckle the seat belt",
+  "plain": "Buckle the seat belt",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_lets_go",
+  "text": "Let's go!",
+  "plain": "Let's go!",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_bike_wear",
+  "text": "What do we wear to ride a bike?",
+  "plain": "What do we wear to ride a bike?",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_helmet_protects",
+  "text": "A helmet protects your head",
+  "plain": "A helmet protects your head",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_helmet_buckle",
+  "text": "Buckle the helmet",
+  "plain": "Buckle the helmet",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_is_safe",
+  "text": "Is this safe?",
+  "plain": "Is this safe?",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_ball_street",
+  "text": "Playing ball in the street",
+  "plain": "Playing ball in the street",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_play_park",
+  "text": "We play in the park, not in the street",
+  "plain": "We play in the park, not in the street",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_park",
+  "text": "Playing in the park",
+  "plain": "Playing in the park",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_cross_adult",
+  "text": "Crossing with a grown-up at the crossing",
+  "plain": "Crossing with a grown-up at the crossing",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_run_cars",
+  "text": "Running between cars",
+  "plain": "Running between cars",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_cross_adult",
+  "text": "We cross at the crossing with a grown-up",
+  "plain": "We cross at the crossing with a grown-up",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_bike_helmet",
+  "text": "Riding a bike with a helmet",
+  "plain": "Riding a bike with a helmet",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_cross_red",
+  "text": "Crossing when the light is red",
+  "plain": "Crossing when the light is red",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_stove",
+  "text": "Touching the hot stove",
+  "plain": "Touching the hot stove",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_stove",
+  "text": "The stove is hot, we do not touch it",
+  "plain": "The stove is hot, we do not touch it",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_plug",
+  "text": "Putting fingers in the socket",
+  "plain": "Putting fingers in the socket",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_plug",
+  "text": "Electricity is dangerous",
+  "plain": "Electricity is dangerous",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_medicine",
+  "text": "Taking medicine alone",
+  "plain": "Taking medicine alone",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_medicine",
+  "text": "Only grown-ups give us medicine",
+  "plain": "Only grown-ups give us medicine",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_toys",
+  "text": "Playing with toys",
+  "plain": "Playing with toys",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_milk",
+  "text": "Drinking milk",
+  "plain": "Drinking milk",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_knife",
+  "text": "Playing with a knife",
+  "plain": "Playing with a knife",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_knife",
+  "text": "Knives can cut",
+  "plain": "Knives can cut",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 66,
+  "note": ""
+ }
+]

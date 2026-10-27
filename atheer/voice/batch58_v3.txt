@@ -1,0 +1,137 @@
+[neutral] baker
+
+...
+
+[neutral] fisherman
+
+...
+
+[neutral] astronaut
+
+...
+
+[neutral] vet
+
+...
+
+[neutral] shepherd
+
+...
+
+[neutral] builder
+
+...
+
+[neutral] tailor
+
+...
+
+[neutral] barber
+
+...
+
+[neutral] pharmacist
+
+...
+
+[neutral] hospital
+
+...
+
+[neutral] at the hospital
+
+...
+
+[neutral] school
+
+...
+
+[neutral] at the school
+
+...
+
+[neutral] police station
+
+...
+
+[neutral] at the police station
+
+...
+
+[neutral] fire station
+
+...
+
+[neutral] at the fire station
+
+...
+
+[neutral] airport
+
+...
+
+[neutral] at the airport
+
+...
+
+[neutral] farm
+
+...
+
+[neutral] on the farm
+
+...
+
+[neutral] restaurant
+
+...
+
+[neutral] at the restaurant
+
+...
+
+[neutral] factory
+
+...
+
+[neutral] at the factory
+
+...
+
+[neutral] dental clinic
+
+...
+
+[neutral] at the dental clinic
+
+...
+
+[neutral] garage
+
+...
+
+[neutral] at the garage
+
+...
+
+[neutral] bakery
+
+...
+
+[neutral] at the bakery
+
+...
+
+[neutral] sea
+
+...
+
+[neutral] at sea
+
+...
+
+[neutral] space
+
+...
+
+[neutral] in space

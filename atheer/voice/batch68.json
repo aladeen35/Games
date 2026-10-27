@@ -1,0 +1,302 @@
+[
+ {
+  "id": "seasons_en_kite",
+  "text": "Fly a kite",
+  "plain": "Fly a kite",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_leaves",
+  "text": "Collect leaves",
+  "plain": "Collect leaves",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_milk",
+  "text": "Drink warm milk",
+  "plain": "Drink warm milk",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_plant",
+  "text": "Plant flowers",
+  "plain": "Plant flowers",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_bfly",
+  "text": "Watch butterflies",
+  "plain": "Watch butterflies",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_seed",
+  "text": "Seed",
+  "plain": "Seed",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_sprout",
+  "text": "Sprout",
+  "plain": "Sprout",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_small_plant",
+  "text": "Small plant",
+  "plain": "Small plant",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_flowering",
+  "text": "Flowering plant",
+  "plain": "Flowering plant",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_fruit",
+  "text": "Fruit",
+  "plain": "Fruit",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_chrysalis",
+  "text": "Chrysalis",
+  "plain": "Chrysalis",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_eggs",
+  "text": "Eggs",
+  "plain": "Eggs",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_froglet",
+  "text": "Froglet",
+  "plain": "Froglet",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_baby",
+  "text": "Baby",
+  "plain": "Baby",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_child",
+  "text": "Child",
+  "plain": "Child",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_grownup",
+  "text": "Grown-up",
+  "plain": "Grown-up",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_grandparent",
+  "text": "Grandparent",
+  "plain": "Grandparent",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_evaporation",
+  "text": "Evaporation",
+  "plain": "Evaporation",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cloud",
+  "text": "Cloud",
+  "plain": "Cloud",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_rain",
+  "text": "Rain",
+  "plain": "Rain",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_plant",
+  "text": "Plant life cycle",
+  "plain": "Plant life cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_butterfly",
+  "text": "Butterfly life cycle",
+  "plain": "Butterfly life cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_frog",
+  "text": "Frog life cycle",
+  "plain": "Frog life cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_chicken",
+  "text": "Chicken life cycle",
+  "plain": "Chicken life cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_human",
+  "text": "Human life cycle",
+  "plain": "Human life cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_cyc_water",
+  "text": "The water cycle",
+  "plain": "The water cycle",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_order",
+  "text": "Put the stages in order",
+  "plain": "Put the stages in order",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_need_water",
+  "text": "I need water",
+  "plain": "I need water",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_need_sun",
+  "text": "I need sunshine",
+  "plain": "I need sunshine",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_en_grow",
+  "text": "Grow the seed",
+  "plain": "Grow the seed",
+  "lang": "en",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 68,
+  "note": ""
+ }
+]

@@ -1,0 +1,35 @@
+1. seasons_haboob — هَبُوبٌ!
+2. seasons_dusty — مُغْبَرٌّ
+3. seasons_mild — مُعْتَدِلٌ
+4. seasons_and_hot — وَحَارٌّ
+5. seasons_and_mild — وَمُعْتَدِلٌ
+6. seasons_and_cold — وَبَارِدٌ
+7. seasons_today — اليَوْمَ
+8. seasons_what_wear — مَاذَا نَلْبَسُ؟
+9. seasons_which_season — أَيُّ فَصْلٍ هَذَا؟
+10. seasons_what_do — مَاذَا نَفْعَلُ فِي كُلِّ فَصْلٍ؟
+11. seasons_how_weather — كَيْفَ الطَّقْسُ اليَوْمَ؟
+12. seasons_sunglasses — نَظَّارَةٌ شَمْسِيَّةٌ
+13. seasons_coat — مِعْطَفٌ
+14. seasons_scarf — وِشَاحٌ
+15. seasons_raincoat — مِعْطَفُ المَطَرِ
+16. seasons_act_swim — نَسْبَحُ
+17. seasons_act_juice — نَشْرَبُ العَصِيرَ البَارِدَ
+18. seasons_act_kite — نُطَيِّرُ الطَّائِرَةَ الوَرَقِيَّةَ
+19. seasons_act_leaves — نَجْمَعُ أَوْرَاقَ الشَّجَرِ
+20. seasons_act_make — نَصْنَعُ
+21. seasons_act_milk — نَشْرَبُ الحَلِيبَ السَّاخِنَ
+22. seasons_act_plant — نَزْرَعُ الزُّهُورَ
+23. seasons_act_bfly — نُشَاهِدُ الفَرَاشَاتِ
+24. lifecycle_plant — دَوْرَةُ حَيَاةِ النَّبَاتِ
+25. lifecycle_butterfly — دَوْرَةُ حَيَاةِ الفَرَاشَةِ
+26. lifecycle_frog — دَوْرَةُ حَيَاةِ الضِّفْدَعِ
+27. lifecycle_chicken — دَوْرَةُ حَيَاةِ الدَّجَاجَةِ
+28. lifecycle_human — دَوْرَةُ حَيَاةِ الإِنْسَانِ
+29. lifecycle_water — دَوْرَةُ المَاءِ
+30. lifecycle_order_f — رَتِّبِي المَرَاحِلَ
+31. lifecycle_order_m — رَتِّبِ المَرَاحِلَ
+32. lifecycle_seed — بِذْرَةٌ
+33. lifecycle_sprout — بُرْعُمٌ
+34. lifecycle_small_plant — نَبْتَةٌ
+35. lifecycle_fruit — ثَمَرَةٌ

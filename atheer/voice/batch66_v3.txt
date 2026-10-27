@@ -1,0 +1,137 @@
+[neutral] Let's cross
+
+...
+
+[neutral] Wait for the green man
+
+...
+
+[neutral] Where is the
+
+...
+
+[neutral] stop sign
+
+...
+
+[neutral] pedestrian crossing
+
+...
+
+[neutral] school zone
+
+...
+
+[neutral] no entry
+
+...
+
+[neutral] traffic lights ahead
+
+...
+
+[neutral] Touch each sign
+
+...
+
+[neutral] Put the child in the car seat
+
+...
+
+[neutral] Children sit in the back
+
+...
+
+[neutral] Buckle the seat belt
+
+...
+
+[neutral] Let's go!
+
+...
+
+[neutral] What do we wear to ride a bike?
+
+...
+
+[neutral] A helmet protects your head
+
+...
+
+[neutral] Buckle the helmet
+
+...
+
+[neutral] Is this safe?
+
+...
+
+[neutral] Playing ball in the street
+
+...
+
+[neutral] We play in the park, not in the street
+
+...
+
+[neutral] Playing in the park
+
+...
+
+[neutral] Crossing with a grown-up at the crossing
+
+...
+
+[neutral] Running between cars
+
+...
+
+[neutral] We cross at the crossing with a grown-up
+
+...
+
+[neutral] Riding a bike with a helmet
+
+...
+
+[neutral] Crossing when the light is red
+
+...
+
+[neutral] Touching the hot stove
+
+...
+
+[neutral] The stove is hot, we do not touch it
+
+...
+
+[neutral] Putting fingers in the socket
+
+...
+
+[neutral] Electricity is dangerous
+
+...
+
+[neutral] Taking medicine alone
+
+...
+
+[neutral] Only grown-ups give us medicine
+
+...
+
+[neutral] Playing with toys
+
+...
+
+[neutral] Drinking milk
+
+...
+
+[neutral] Playing with a knife
+
+...
+
+[neutral] Knives can cut

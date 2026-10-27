@@ -1,0 +1,352 @@
+[
+ {
+  "id": "magicpad_draw_f",
+  "text": "ارْسُمي",
+  "plain": "ارسمي",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "excited",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_draw_m",
+  "text": "ارْسُمْ",
+  "plain": "ارسم",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "excited",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_connect_f",
+  "text": "صِلي النِّقاطَ",
+  "plain": "صِلي النقاط",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "cheerful",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_connect_m",
+  "text": "صِلِ النِّقاطَ",
+  "plain": "صِل النقاط",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "cheerful",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_line_straight",
+  "text": "خَطٌّ مُسْتَقيم",
+  "plain": "خط مستقيم",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_line_zigzag",
+  "text": "خَطٌّ مُتَعَرِّج",
+  "plain": "خط متعرج",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_line_wave",
+  "text": "خَطٌّ مُتَمَوِّج",
+  "plain": "خط متموج",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "magicpad_line_spiral",
+  "text": "خَطٌّ حَلَزونِيّ",
+  "plain": "خط حلزوني",
+  "lang": "ar",
+  "game": "magicpad",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "pegs_match_f",
+  "text": "ضَعِي كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ",
+  "plain": "ضعي كل شكل على أوتاده",
+  "lang": "ar",
+  "game": "pegs",
+  "emotion": "encouraging",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "pegs_match_m",
+  "text": "ضَعْ كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ",
+  "plain": "ضع كل شكل على أوتاده",
+  "lang": "ar",
+  "game": "pegs",
+  "emotion": "encouraging",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "pegs_put_f",
+  "text": "ضَعِي",
+  "plain": "ضعي",
+  "lang": "ar",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "pegs_put_m",
+  "text": "ضَعْ",
+  "plain": "ضع",
+  "lang": "ar",
+  "game": "pegs",
+  "emotion": "neutral",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_show_f",
+  "text": "اِعْرِضِي العَدَدَ",
+  "plain": "اعرضي العدد",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_show_m",
+  "text": "اِعْرِضِ العَدَدَ",
+  "plain": "اعرض العدد",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_how_many_beads",
+  "text": "كَمْ خَرَزَةً؟",
+  "plain": "كم خرزة؟",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_add_f",
+  "text": "أَضِيفِي",
+  "plain": "أضيفي",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_add_m",
+  "text": "أَضِفْ",
+  "plain": "أضف",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_back_f",
+  "text": "أَرْجِعِي",
+  "plain": "أرجعي",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_back_m",
+  "text": "أَرْجِعْ",
+  "plain": "أرجع",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_make",
+  "text": "كَمْ نَحْتَاجُ لِنَصْنَعَ",
+  "plain": "كم نحتاج لنصنع",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "curious",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_30",
+  "text": "ثَلَاثُونَ",
+  "plain": "ثلاثون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_40",
+  "text": "أَرْبَعُونَ",
+  "plain": "أربعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_50",
+  "text": "خَمْسُونَ",
+  "plain": "خمسون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_60",
+  "text": "سِتُّونَ",
+  "plain": "ستون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_70",
+  "text": "سَبْعُونَ",
+  "plain": "سبعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_80",
+  "text": "ثَمَانُونَ",
+  "plain": "ثمانون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_90",
+  "text": "تِسْعُونَ",
+  "plain": "تسعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_100",
+  "text": "مِئَةٌ",
+  "plain": "مئة",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "excited",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_20",
+  "text": "وَعِشْرُونَ",
+  "plain": "وعشرون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_30",
+  "text": "وَثَلَاثُونَ",
+  "plain": "وثلاثون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_40",
+  "text": "وَأَرْبَعُونَ",
+  "plain": "وأربعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_50",
+  "text": "وَخَمْسُونَ",
+  "plain": "وخمسون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_60",
+  "text": "وَسِتُّونَ",
+  "plain": "وستون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_70",
+  "text": "وَسَبْعُونَ",
+  "plain": "وسبعون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ },
+ {
+  "id": "abacus_and_80",
+  "text": "وَثَمَانُونَ",
+  "plain": "وثمانون",
+  "lang": "ar",
+  "game": "abacus",
+  "emotion": "calm",
+  "batch": 40,
+  "note": ""
+ }
+]

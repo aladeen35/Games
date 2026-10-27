@@ -1,0 +1,352 @@
+[
+ {
+  "id": "traffic_en_s_wash",
+  "text": "Washing hands",
+  "plain": "Washing hands",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_s_cleaner",
+  "text": "Drinking cleaning liquids",
+  "plain": "Drinking cleaning liquids",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "traffic_en_r_cleaner",
+  "text": "Cleaning liquids are not for drinking",
+  "plain": "Cleaning liquids are not for drinking",
+  "lang": "en",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_summer",
+  "text": "Summer",
+  "plain": "Summer",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_autumn",
+  "text": "Autumn",
+  "plain": "Autumn",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_winter",
+  "text": "Winter",
+  "plain": "Winter",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_spring",
+  "text": "Spring",
+  "plain": "Spring",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_sunny",
+  "text": "Sunny",
+  "plain": "Sunny",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_cloudy",
+  "text": "Cloudy",
+  "plain": "Cloudy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_rainy",
+  "text": "Rainy",
+  "plain": "Rainy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_windy",
+  "text": "Windy",
+  "plain": "Windy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_stormy",
+  "text": "Stormy",
+  "plain": "Stormy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_snowy",
+  "text": "Snowy",
+  "plain": "Snowy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_dusty",
+  "text": "Dusty",
+  "plain": "Dusty",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_warm",
+  "text": "warm",
+  "plain": "warm",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_sunny",
+  "text": "It is sunny",
+  "plain": "It is sunny",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_cloudy",
+  "text": "It is cloudy",
+  "plain": "It is cloudy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_rainy",
+  "text": "It is rainy",
+  "plain": "It is rainy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_windy",
+  "text": "It is windy",
+  "plain": "It is windy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_stormy",
+  "text": "It is stormy",
+  "plain": "It is stormy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_it_is_snowy",
+  "text": "It is snowy",
+  "plain": "It is snowy",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_haboob",
+  "text": "A dust storm! It is dusty",
+  "plain": "A dust storm! It is dusty",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_what_wear",
+  "text": "What should we wear?",
+  "plain": "What should we wear?",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_which_season",
+  "text": "Which season is it?",
+  "plain": "Which season is it?",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_what_do",
+  "text": "What do we do in each season?",
+  "plain": "What do we do in each season?",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_how_weather",
+  "text": "What is the weather today?",
+  "plain": "What is the weather today?",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_sunhat",
+  "text": "Sun hat",
+  "plain": "Sun hat",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_sunglasses",
+  "text": "Sunglasses",
+  "plain": "Sunglasses",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_tshirt",
+  "text": "T-shirt",
+  "plain": "T-shirt",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_shorts",
+  "text": "Shorts",
+  "plain": "Shorts",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_coat",
+  "text": "Coat",
+  "plain": "Coat",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_boots",
+  "text": "Boots",
+  "plain": "Boots",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_raincoat",
+  "text": "Raincoat",
+  "plain": "Raincoat",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_swim",
+  "text": "Swim",
+  "plain": "Swim",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ },
+ {
+  "id": "seasons_en_juice",
+  "text": "Drink cold juice",
+  "plain": "Drink cold juice",
+  "lang": "en",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 67,
+  "note": ""
+ }
+]

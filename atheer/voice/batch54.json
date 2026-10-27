@@ -1,0 +1,282 @@
+[
+ {
+  "id": "stories_wallet_p2_2_f",
+  "text": "وَهُنَاكَ وَجَدَتْ سَلْمَى مَحْفَظَةً حَمْرَاءَ!",
+  "plain": "وهناك وجدت سلمى محفظة حمراء!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p2_2_m",
+  "text": "وَهُنَاكَ وَجَدَ سَامِي مَحْفَظَةً حَمْرَاءَ!",
+  "plain": "وهناك وجد سامي محفظة حمراء!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_1_f",
+  "text": "فَتَحَتْهَا، فَرَأَتْ فِيهَا نُقُودًا وَصُورَةَ عَائِلَةٍ.",
+  "plain": "فتحتها، فرأت فيها نقودا وصورة عائلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_1_m",
+  "text": "فَتَحَهَا، فَرَأَى فِيهَا نُقُودًا وَصُورَةَ عَائِلَةٍ.",
+  "plain": "فتحها، فرأى فيها نقودا وصورة عائلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_2_f",
+  "text": "مَاذَا تَفْعَلُ سَلْمَى؟",
+  "plain": "ماذا تفعل سلمى؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_2_m",
+  "text": "مَاذَا يَفْعَلُ سَامِي؟",
+  "plain": "ماذا يفعل سامي؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_ch1_f",
+  "text": "تَبْحَثُ عَنْ صَاحِبِهَا",
+  "plain": "تبحث عن صاحبها",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_ch1_m",
+  "text": "يَبْحَثُ عَنْ صَاحِبِهَا",
+  "plain": "يبحث عن صاحبها",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_ch2_f",
+  "text": "تَأْخُذُهَا إِلَى مَكْتَبِ الحَدِيقَةِ",
+  "plain": "تأخذها إلى مكتب الحديقة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p3_ch2_m",
+  "text": "يَأْخُذُهَا إِلَى مَكْتَبِ الحَدِيقَةِ",
+  "plain": "يأخذها إلى مكتب الحديقة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4a_1_f",
+  "text": "نَظَرَتْ سَلْمَى حَوْلَهَا، فَرَأَتْ جَدًّا يَبْحَثُ فِي الأَرْضِ قَلِقًا.",
+  "plain": "نظرت سلمى حولها، فرأت جدا يبحث في الأرض قلقا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4a_1_m",
+  "text": "نَظَرَ سَامِي حَوْلَهُ، فَرَأَى جَدًّا يَبْحَثُ فِي الأَرْضِ قَلِقًا.",
+  "plain": "نظر سامي حوله، فرأى جدا يبحث في الأرض قلقا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4a_2_f",
+  "text": "فَسَأَلَتْهُ: هَلْ أَضَعْتَ شَيْئًا يَا جَدِّي؟",
+  "plain": "فسألته: هل أضعت شيئا يا جدي؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4a_2_m",
+  "text": "فَسَأَلَهُ: هَلْ أَضَعْتَ شَيْئًا يَا جَدِّي؟",
+  "plain": "فسأله: هل أضعت شيئا يا جدي؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e1_1",
+  "text": "قَالَ الجَدُّ: نَعَمْ، مَحْفَظَتِي الحَمْرَاءُ!",
+  "plain": "قال الجد: نعم، محفظتي الحمراء!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e1_2_f",
+  "text": "أَعْطَتْهُ سَلْمَى المَحْفَظَةَ، فَقَالَ: بَارَكَ اللَّهُ فِيكِ!",
+  "plain": "أعطته سلمى المحفظة، فقال: بارك الله فيك!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e1_2_m",
+  "text": "أَعْطَاهُ سَامِي المَحْفَظَةَ، فَقَالَ: بَارَكَ اللَّهُ فِيكَ!",
+  "plain": "أعطاه سامي المحفظة، فقال: بارك الله فيك!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e1_moral",
+  "text": "الأَمَانَةُ تَمْلَأُ القُلُوبَ فَرَحًا.",
+  "plain": "الأمانة تملأ القلوب فرحا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4b_1_f",
+  "text": "حَمَلَتْ سَلْمَى المَحْفَظَةَ إِلَى مَكْتَبِ الحَدِيقَةِ.",
+  "plain": "حملت سلمى المحفظة إلى مكتب الحديقة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4b_1_m",
+  "text": "حَمَلَ سَامِي المَحْفَظَةَ إِلَى مَكْتَبِ الحَدِيقَةِ.",
+  "plain": "حمل سامي المحفظة إلى مكتب الحديقة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4b_2_f",
+  "text": "وَقَالَتْ: وَجَدْتُ هَذِهِ تَحْتَ المَقْعَدِ.",
+  "plain": "وقالت: وجدت هذه تحت المقعد.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_p4b_2_m",
+  "text": "وَقَالَ: وَجَدْتُ هَذِهِ تَحْتَ المَقْعَدِ.",
+  "plain": "وقال: وجدت هذه تحت المقعد.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e2_1",
+  "text": "بَعْدَ قَلِيلٍ، جَاءَتْ جَدَّةٌ تَبْحَثُ عَنْ مَحْفَظَتِهَا.",
+  "plain": "بعد قليل، جاءت جدة تبحث عن محفظتها.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e2_2_f",
+  "text": "فَرِحَتِ الجَدَّةُ، وَأَهْدَتْ سَلْمَى وَرْدَةً جَمِيلَةً.",
+  "plain": "فرحت الجدة، وأهدت سلمى وردة جميلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e2_2_m",
+  "text": "فَرِحَتِ الجَدَّةُ، وَأَهْدَتْ سَامِي وَرْدَةً جَمِيلَةً.",
+  "plain": "فرحت الجدة، وأهدت سامي وردة جميلة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_wallet_e2_moral",
+  "text": "مَا لَيْسَ لَنَا، نُعِيدُهُ إِلَى أَصْحَابِهِ.",
+  "plain": "ما ليس لنا، نعيده إلى أصحابه.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_choose_f",
+  "text": "اخْتَارِي قِصَّةً",
+  "plain": "اختاري قصة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "cheerful",
+  "batch": 54,
+  "note": ""
+ },
+ {
+  "id": "stories_choose_m",
+  "text": "اخْتَرْ قِصَّةً",
+  "plain": "اختر قصة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "cheerful",
+  "batch": 54,
+  "note": ""
+ }
+]

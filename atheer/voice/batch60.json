@@ -1,0 +1,352 @@
+[
+ {
+  "id": "jobs_en_rid_baker",
+  "text": "I bake bread and cakes in the oven",
+  "plain": "I bake bread and cakes in the oven",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_fisherman",
+  "text": "I catch fish from the sea",
+  "plain": "I catch fish from the sea",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_astronaut",
+  "text": "I travel to space in a rocket",
+  "plain": "I travel to space in a rocket",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_vet",
+  "text": "I help sick animals",
+  "plain": "I help sick animals",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_shepherd",
+  "text": "I look after sheep and camels in the desert",
+  "plain": "I look after sheep and camels in the desert",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_builder",
+  "text": "I build houses with bricks",
+  "plain": "I build houses with bricks",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_tailor",
+  "text": "I sew clothes with a needle and thread",
+  "plain": "I sew clothes with a needle and thread",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_barber",
+  "text": "I cut hair with scissors",
+  "plain": "I cut hair with scissors",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_rid_pharmacist",
+  "text": "I give people medicine at the pharmacy",
+  "plain": "I give people medicine at the pharmacy",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "playful",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_who_am_i",
+  "text": "Who am I?",
+  "plain": "Who am I?",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_whose",
+  "text": "Whose is this?",
+  "plain": "Whose is this?",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_the",
+  "text": "The",
+  "plain": "The",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_works",
+  "text": "works",
+  "plain": "works",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_where_does",
+  "text": "Where does the",
+  "plain": "Where does the",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_work",
+  "text": "work?",
+  "plain": "work?",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_i_am",
+  "text": "I am the",
+  "plain": "I am the",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_choose_hat",
+  "text": "Choose the hat for the",
+  "plain": "Choose the hat for the",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "jobs_en_choose_uni",
+  "text": "Choose the uniform for the",
+  "plain": "Choose the uniform for the",
+  "lang": "en",
+  "game": "jobs",
+  "emotion": "curious",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_niyyah",
+  "text": "Intention",
+  "plain": "Intention",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_niyyah_desc",
+  "text": "We intend wudu in our hearts",
+  "plain": "We intend wudu in our hearts",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_bism",
+  "text": "Say Bismillah",
+  "plain": "Say Bismillah",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_hands",
+  "text": "Wash the hands",
+  "plain": "Wash the hands",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_mouth",
+  "text": "Rinse the mouth",
+  "plain": "Rinse the mouth",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_nose",
+  "text": "Rinse the nose",
+  "plain": "Rinse the nose",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_face",
+  "text": "Wash the face",
+  "plain": "Wash the face",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_arms",
+  "text": "Wash the arms to the elbows",
+  "plain": "Wash the arms to the elbows",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_head",
+  "text": "Wipe the head",
+  "plain": "Wipe the head",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_ears",
+  "text": "Wipe the ears",
+  "plain": "Wipe the ears",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_feet",
+  "text": "Wash the feet to the ankles",
+  "plain": "Wash the feet to the ankles",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_step_shahada",
+  "text": "The Shahada after wudu",
+  "plain": "The Shahada after wudu",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_say_shahada",
+  "text": "I bear witness that there is no god but Allah, alone without partner, and that Muhammad is His servant and Messenger",
+  "plain": "I bear witness that there is no god but Allah, alone without partner, and that Muhammad is His servant and Messenger",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_takbir",
+  "text": "Stand and say Allahu Akbar",
+  "plain": "Stand and say Allahu Akbar",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_takbir",
+  "text": "Allah is the Greatest",
+  "plain": "Allah is the Greatest",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_fatiha",
+  "text": "Recite Al-Fatiha",
+  "plain": "Recite Al-Fatiha",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ },
+ {
+  "id": "wudu_en_pray_say_fatiha",
+  "text": "All praise is for Allah, Lord of all the worlds",
+  "plain": "All praise is for Allah, Lord of all the worlds",
+  "lang": "en",
+  "game": "wudu",
+  "emotion": "calm",
+  "batch": 60,
+  "note": ""
+ }
+]

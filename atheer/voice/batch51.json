@@ -1,0 +1,352 @@
+[
+ {
+  "id": "stories_kitten_p2_1",
+  "text": "رَأَتْ مِشْمِشُ فَرَاشَةً مُلَوَّنَةً، فَرَكَضَتْ خَلْفَهَا.",
+  "plain": "رأت مشمش فراشة ملونة، فركضت خلفها.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p2_2",
+  "text": "طَارَتِ الفَرَاشَةُ بَعِيدًا، وَالْتَفَتَتْ مِشْمِشُ، فَلَمْ تَجِدْ أُمَّهَا!",
+  "plain": "طارت الفراشة بعيدا، والتفتت مشمش، فلم تجد أمها!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p3_1",
+  "text": "جَلَسَتْ مِشْمِشُ حَزِينَةً بَيْنَ الدَّكَاكِينِ.",
+  "plain": "جلست مشمش حزينة بين الدكاكين.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p3_2",
+  "text": "مَاذَا تَفْعَلُ مِشْمِشُ؟",
+  "plain": "ماذا تفعل مشمش؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p3_ch1",
+  "text": "تَسْأَلُ العُصْفُورَ",
+  "plain": "تسأل العصفور",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p3_ch2",
+  "text": "تَبْقَى مَكَانَهَا وَتَمُوءُ",
+  "plain": "تبقى مكانها وتموء",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p4a_1",
+  "text": "طَارَ العُصْفُورُ عَالِيًا فَوْقَ السُّوقِ.",
+  "plain": "طار العصفور عاليا فوق السوق.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p4a_2",
+  "text": "ثُمَّ قَالَ: أَرَى قِطَّةً كَبِيرَةً عِنْدَ دُكَّانِ التَّمْرِ!",
+  "plain": "ثم قال: أرى قطة كبيرة عند دكان التمر!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e1_1",
+  "text": "رَكَضَتْ مِشْمِشُ إِلَى أُمِّهَا وَعَانَقَتْهَا.",
+  "plain": "ركضت مشمش إلى أمها وعانقتها.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e1_2",
+  "text": "وَقَالَتْ لِلْعُصْفُورِ: شُكْرًا يَا صَدِيقِي!",
+  "plain": "وقالت للعصفور: شكرا يا صديقي!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e1_moral",
+  "text": "طَلَبُ المُسَاعَدَةِ شَجَاعَةٌ، وَالشُّكْرُ جَمِيلٌ.",
+  "plain": "طلب المساعدة شجاعة، والشكر جميل.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p4b_1",
+  "text": "بَقِيَتْ مِشْمِشُ فِي مَكَانِهَا، وَقَالَتْ: مِيَاو! مِيَاو!",
+  "plain": "بقيت مشمش في مكانها، وقالت: مياو! مياو!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_p4b_2",
+  "text": "فَسَمِعَتْ أُمُّهَا صَوْتَهَا مِنْ بَعِيدٍ.",
+  "plain": "فسمعت أمها صوتها من بعيد.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e2_1",
+  "text": "جَاءَتِ الأُمُّ مُسْرِعَةً، وَضَمَّتْ مِشْمِشَ بِحَنَانٍ.",
+  "plain": "جاءت الأم مسرعة، وضمت مشمش بحنان.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e2_2",
+  "text": "وَوَعَدَتْ مِشْمِشُ أَنْ تَبْقَى قَرِيبَةً مِنْ أُمِّهَا.",
+  "plain": "ووعدت مشمش أن تبقى قريبة من أمها.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_kitten_e2_moral",
+  "text": "إِذَا ضِعْنَا، نَبْقَى فِي مَكَانِنَا حَتَّى يَجِدَنَا أَهْلُنَا.",
+  "plain": "إذا ضعنا، نبقى في مكاننا حتى يجدنا أهلنا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p1_1",
+  "text": "فِي بِلَادِ الثَّلْجِ، عَاشَ بِطْرِيقٌ صَغِيرٌ اسْمُهُ بُوبُو.",
+  "plain": "في بلاد الثلج، عاش بطريق صغير اسمه بوبو.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p1_2",
+  "text": "كَانَ بُوبُو يُحِبُّ السِّبَاحَةَ وَصَيْدَ السَّمَكِ.",
+  "plain": "كان بوبو يحب السباحة وصيد السمك.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p2_1",
+  "text": "فِي يَوْمٍ بَارِدٍ، غَاصَ بُوبُو فِي المَاءِ.",
+  "plain": "في يوم بارد، غاص بوبو في الماء.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p2_2",
+  "text": "وَخَرَجَ وَمَعَهُ ثَلَاثُ سَمَكَاتٍ لَامِعَةٍ!",
+  "plain": "وخرج ومعه ثلاث سمكات لامعة!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p3_1",
+  "text": "رَأَى بُوبُو صَدِيقَتَهُ لُولُو جَالِسَةً وَحْدَهَا.",
+  "plain": "رأى بوبو صديقته لولو جالسة وحدها.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p3_2",
+  "text": "كَانَتْ جَائِعَةً، وَلَمْ تَصْطَدْ شَيْئًا.",
+  "plain": "كانت جائعة، ولم تصطد شيئا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p3_3",
+  "text": "مَاذَا يَفْعَلُ بُوبُو؟",
+  "plain": "ماذا يفعل بوبو؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p3_ch1",
+  "text": "يُعْطِيهَا سَمَكَةً",
+  "plain": "يعطيها سمكة",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p3_ch2",
+  "text": "يُعَلِّمُهَا الصَّيْدَ",
+  "plain": "يعلمها الصيد",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4a_1",
+  "text": "أَعْطَى بُوبُو لُولُو سَمَكَةً كَبِيرَةً.",
+  "plain": "أعطى بوبو لولو سمكة كبيرة.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4a_2",
+  "text": "ابْتَسَمَتْ لُولُو وَقَالَتْ: شُكْرًا يَا بُوبُو!",
+  "plain": "ابتسمت لولو وقالت: شكرا يا بوبو!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4a_3",
+  "text": "مَاذَا يَفْعَلَانِ بَعْدَ ذَلِكَ؟",
+  "plain": "ماذا يفعلان بعد ذلك؟",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4a_ch1",
+  "text": "يَدْعُوَانِ الأَصْدِقَاءَ",
+  "plain": "يدعوان الأصدقاء",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_p4a_ch2",
+  "text": "يَبْنِيَانِ رَجُلَ ثَلْجٍ",
+  "plain": "يبنيان رجل ثلج",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "curious",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e1_1",
+  "text": "جَاءَ الأَصْدِقَاءُ، وَتَقَاسَمُوا الطَّعَامَ مَعًا.",
+  "plain": "جاء الأصدقاء، وتقاسموا الطعام معا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e1_2",
+  "text": "صَارَ السَّمَكُ قَلِيلًا، لَكِنَّ الفَرَحَ صَارَ كَبِيرًا!",
+  "plain": "صار السمك قليلا، لكن الفرح صار كبيرا!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e1_moral",
+  "text": "حِينَ نَتَقَاسَمُ، يَكْبُرُ الفَرَحُ.",
+  "plain": "حين نتقاسم، يكبر الفرح.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "warm",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e3_1",
+  "text": "بَنَى بُوبُو وَلُولُو رَجُلَ ثَلْجٍ ضَاحِكًا.",
+  "plain": "بنى بوبو ولولو رجل ثلج ضاحكا.",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ },
+ {
+  "id": "stories_penguin_e3_2",
+  "text": "وَأَلْبَسَاهُ وِشَاحًا أَحْمَرَ، وَضَحِكَا كَثِيرًا!",
+  "plain": "وألبساه وشاحا أحمر، وضحكا كثيرا!",
+  "lang": "ar",
+  "game": "stories",
+  "emotion": "storytelling",
+  "batch": 51,
+  "note": ""
+ }
+]

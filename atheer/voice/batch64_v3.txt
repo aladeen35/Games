@@ -1,0 +1,137 @@
+[storytelling] Rathath floated over the sea and waited patiently, day after day.
+
+...
+
+[storytelling] Every morning she grew a little bigger.
+
+...
+
+[curious] Where should Rathath rain?
+
+...
+
+[curious] On a thirsty tree
+
+...
+
+[curious] On the wide desert
+
+...
+
+[storytelling] Rathath rained on a thirsty tree.
+
+...
+
+[storytelling] And the tree burst into happy blossoms!
+
+...
+
+[warm] With patience we grow, and our dreams come true.
+
+...
+
+[storytelling] Rathath rained on the wide desert.
+
+...
+
+[storytelling] A tiny flower opened and said: Thank you, Rathath!
+
+...
+
+[warm] Every gift, even a small one, makes a difference.
+
+...
+
+[storytelling] In the sky there was a little star called Lamaa.
+
+...
+
+[storytelling] She was shy, and her light was weak.
+
+...
+
+[storytelling] One dark night, a little boat got lost at sea.
+
+...
+
+[storytelling] Clouds covered the moon and the big stars.
+
+...
+
+[curious] Lamaa said: Can I help?
+
+...
+
+[curious] What should Lamaa do?
+
+...
+
+[curious] Shine with all her might
+
+...
+
+[curious] Ask the wind for help
+
+...
+
+[storytelling] Lamaa closed her eyes and shone brighter and brighter!
+
+...
+
+[storytelling] The sailor saw her light and found the way.
+
+...
+
+[storytelling] The boat reached the shore safely.
+
+...
+
+[storytelling] And Lamaa became the bravest star in the sky!
+
+...
+
+[warm] A small light can light up a long way.
+
+...
+
+[storytelling] Lamaa flew to the wind and said: Please help us!
+
+...
+
+[storytelling] The wind blew, and the clouds drifted away.
+
+...
+
+[storytelling] The moon and the stars lit up the whole sea.
+
+...
+
+[storytelling] The boat went home, and everyone smiled.
+
+...
+
+[warm] It is brave to ask for help so we can help others.
+
+...
+
+[storytelling] Salma went to the park to play with her ball.
+
+...
+
+[storytelling] Sami went to the park to play with his ball.
+
+...
+
+[storytelling] The sun was warm, and the birds were singing.
+
+...
+
+[storytelling] The ball rolled under a wooden bench.
+
+...
+
+[storytelling] And there, Salma found a red wallet!
+
+...
+
+[storytelling] And there, Sami found a red wallet!

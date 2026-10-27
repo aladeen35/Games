@@ -1,0 +1,35 @@
+1. jobs_en_pl_vetclinic — animal clinic
+2. jobs_en_plp_vetclinic — at the animal clinic
+3. jobs_en_pl_desert — desert
+4. jobs_en_plp_desert — in the desert
+5. jobs_en_pl_site — building site
+6. jobs_en_plp_site — at the building site
+7. jobs_en_pl_tailorshop — tailor shop
+8. jobs_en_plp_tailorshop — at the tailor shop
+9. jobs_en_pl_barbershop — barber shop
+10. jobs_en_plp_barbershop — at the barber shop
+11. jobs_en_pl_pharmacy — pharmacy
+12. jobs_en_plp_pharmacy — at the pharmacy
+13. jobs_en_t_doctor — stethoscope
+14. jobs_en_t_nurse — syringe
+15. jobs_en_t_teacher — books
+16. jobs_en_t_police — police car
+17. jobs_en_t_firefighter — fire extinguisher
+18. jobs_en_t_chef — frying pan
+19. jobs_en_t_dentist — toothbrush
+20. jobs_en_t_baker — bread
+21. jobs_en_t_fisherman — fishing rod
+22. jobs_en_t_builder — bricks
+23. jobs_en_t_tailor — needle and thread
+24. jobs_en_t_pharmacist — medicine
+25. jobs_en_rid_doctor — I check sick people with my stethoscope
+26. jobs_en_rid_nurse — I help the doctor and care for patients
+27. jobs_en_rid_teacher — I teach children to read and write
+28. jobs_en_rid_police — I keep everyone safe and direct traffic
+29. jobs_en_rid_firefighter — I put out fires with water
+30. jobs_en_rid_pilot — I fly the airplane in the sky
+31. jobs_en_rid_farmer — I grow vegetables and water the plants
+32. jobs_en_rid_chef — I cook yummy food
+33. jobs_en_rid_engineer — I design buildings and bridges
+34. jobs_en_rid_dentist — I look after your teeth
+35. jobs_en_rid_mechanic — I fix broken cars

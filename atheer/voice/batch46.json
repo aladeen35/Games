@@ -1,0 +1,352 @@
+[
+ {
+  "id": "body_p_elbows",
+  "text": "الْمِرْفَقَيْنِ",
+  "plain": "المرفقين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_pn_elbows",
+  "text": "الْمِرْفَقَانِ",
+  "plain": "المرفقان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_hands",
+  "text": "الْيَدَيْنِ",
+  "plain": "اليدين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_pn_hands",
+  "text": "الْيَدَانِ",
+  "plain": "اليدان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_fingers",
+  "text": "الْأَصَابِعَ",
+  "plain": "الأصابع",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_tummy",
+  "text": "الْبَطْنَ",
+  "plain": "البطن",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_knees",
+  "text": "الرُّكْبَتَيْنِ",
+  "plain": "الركبتين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_pn_knees",
+  "text": "الرُّكْبَتَانِ",
+  "plain": "الركبتان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_legs",
+  "text": "الرِّجْلَيْنِ",
+  "plain": "الرجلين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_pn_legs",
+  "text": "الرِّجْلَانِ",
+  "plain": "الرجلان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_feet",
+  "text": "الْقَدَمَيْنِ",
+  "plain": "القدمين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_pn_feet",
+  "text": "الْقَدَمَانِ",
+  "plain": "القدمان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_toes",
+  "text": "أَصَابِعَ الْقَدَمَيْنِ",
+  "plain": "أصابع القدمين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_p_back",
+  "text": "الظَّهْرَ",
+  "plain": "الظهر",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_smell",
+  "text": "بِمَاذَا نَشُمُّ؟",
+  "plain": "بماذا نشم؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_see",
+  "text": "بِمَاذَا نَرَى؟",
+  "plain": "بماذا نرى؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_hear",
+  "text": "بِمَاذَا نَسْمَعُ؟",
+  "plain": "بماذا نسمع؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_taste",
+  "text": "بِمَاذَا نَتَذَوَّقُ؟",
+  "plain": "بماذا نتذوق؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_touch",
+  "text": "بِمَاذَا نَلْمِسُ؟",
+  "plain": "بماذا نلمس؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_walk",
+  "text": "بِمَاذَا نَمْشِي؟",
+  "plain": "بماذا نمشي؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_chew",
+  "text": "بِمَاذَا نَمْضَغُ؟",
+  "plain": "بماذا نمضغ؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_clap",
+  "text": "بِمَاذَا نُصَفِّقُ؟",
+  "plain": "بماذا نصفق؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_think",
+  "text": "بِمَاذَا نُفَكِّرُ؟",
+  "plain": "بماذا نفكر؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_kick",
+  "text": "بِمَاذَا نَرْكُلُ الْكُرَةَ؟",
+  "plain": "بماذا نركل الكرة؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_sense_hug",
+  "text": "بِمَاذَا نُعَانِقُ؟",
+  "plain": "بماذا نعانق؟",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_where_wear",
+  "text": "أَيْنَ نَلْبَسُ",
+  "plain": "أين نلبس",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_where_put",
+  "text": "أَيْنَ نَضَعُ",
+  "plain": "أين نضع",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_where_carry",
+  "text": "أَيْنَ نَحْمِلُ",
+  "plain": "أين نحمل",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_hat",
+  "text": "الْقُبَّعَةَ",
+  "plain": "القبعة",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_crown",
+  "text": "التَّاجَ",
+  "plain": "التاج",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_glasses",
+  "text": "النَّظَّارَةَ",
+  "plain": "النظارة",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_scarf",
+  "text": "الْوِشَاحَ",
+  "plain": "الوشاح",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_gloves",
+  "text": "الْقُفَّازَاتِ",
+  "plain": "القفازات",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_shoes",
+  "text": "الْحِذَاءَ",
+  "plain": "الحذاء",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ },
+ {
+  "id": "body_item_socks",
+  "text": "الْجَوَارِبَ",
+  "plain": "الجوارب",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 46,
+  "note": ""
+ }
+]

@@ -1,0 +1,137 @@
+[neutral] animal clinic
+
+...
+
+[neutral] at the animal clinic
+
+...
+
+[neutral] desert
+
+...
+
+[neutral] in the desert
+
+...
+
+[neutral] building site
+
+...
+
+[neutral] at the building site
+
+...
+
+[neutral] tailor shop
+
+...
+
+[neutral] at the tailor shop
+
+...
+
+[neutral] barber shop
+
+...
+
+[neutral] at the barber shop
+
+...
+
+[neutral] pharmacy
+
+...
+
+[neutral] at the pharmacy
+
+...
+
+[neutral] stethoscope
+
+...
+
+[neutral] syringe
+
+...
+
+[neutral] books
+
+...
+
+[neutral] police car
+
+...
+
+[neutral] fire extinguisher
+
+...
+
+[neutral] frying pan
+
+...
+
+[neutral] toothbrush
+
+...
+
+[neutral] bread
+
+...
+
+[neutral] fishing rod
+
+...
+
+[neutral] bricks
+
+...
+
+[neutral] needle and thread
+
+...
+
+[neutral] medicine
+
+...
+
+[playful] I check sick people with my stethoscope
+
+...
+
+[playful] I help the doctor and care for patients
+
+...
+
+[playful] I teach children to read and write
+
+...
+
+[playful] I keep everyone safe and direct traffic
+
+...
+
+[playful] I put out fires with water
+
+...
+
+[playful] I fly the airplane in the sky
+
+...
+
+[playful] I grow vegetables and water the plants
+
+...
+
+[playful] I cook yummy food
+
+...
+
+[playful] I design buildings and bridges
+
+...
+
+[playful] I look after your teeth
+
+...
+
+[playful] I fix broken cars

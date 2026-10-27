@@ -1,0 +1,352 @@
+[
+ {
+  "id": "lifecycle_chrysalis",
+  "text": "شَرْنَقَةٌ",
+  "plain": "شرنقة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_eggs",
+  "text": "بَيْضٌ",
+  "plain": "بيض",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_tadpole",
+  "text": "شُرْغُوفٌ",
+  "plain": "شرغوف",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_froglet",
+  "text": "ضِفْدَعٌ صَغِيرٌ",
+  "plain": "ضفدع صغير",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_chick",
+  "text": "كَتْكُوتٌ",
+  "plain": "كتكوت",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "happy",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_baby",
+  "text": "رَضِيعٌ",
+  "plain": "رضيع",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_child",
+  "text": "طِفْلٌ",
+  "plain": "طفل",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_grownup",
+  "text": "شَابٌّ",
+  "plain": "شاب",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_sea",
+  "text": "بَحْرٌ",
+  "plain": "بحر",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_evaporation",
+  "text": "تَبَخُّرٌ",
+  "plain": "تبخر",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_need_water",
+  "text": "أُرِيدُ المَاءَ",
+  "plain": "أريد الماء",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "pleading",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_need_sun",
+  "text": "أُرِيدُ الشَّمْسَ",
+  "plain": "أريد الشمس",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "pleading",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_grow_seed_f",
+  "text": "ازْرَعِي البِذْرَةَ",
+  "plain": "ازرعي البذرة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "encouraging",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "lifecycle_grow_seed_m",
+  "text": "ازْرَعِ البِذْرَةَ",
+  "plain": "ازرع البذرة",
+  "lang": "ar",
+  "game": "lifecycle",
+  "emotion": "encouraging",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_touch_f",
+  "text": "الْمِسِي",
+  "plain": "المسي",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_touch_m",
+  "text": "الْمِسْ",
+  "plain": "المس",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_any_part",
+  "text": "أَيَّ جُزْءٍ",
+  "plain": "أي جزء",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_head",
+  "text": "الرَّأْسَ",
+  "plain": "الرأس",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_hair",
+  "text": "الشَّعْرَ",
+  "plain": "الشعر",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_eyes",
+  "text": "الْعَيْنَيْنِ",
+  "plain": "العينين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_pn_eyes",
+  "text": "الْعَيْنَانِ",
+  "plain": "العينان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_ears",
+  "text": "الْأُذُنَيْنِ",
+  "plain": "الأذنين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_pn_ears",
+  "text": "الْأُذُنَانِ",
+  "plain": "الأذنان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_nose",
+  "text": "الْأَنْفَ",
+  "plain": "الأنف",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_mouth",
+  "text": "الْفَمَ",
+  "plain": "الفم",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_teeth",
+  "text": "الْأَسْنَانَ",
+  "plain": "الأسنان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_tongue",
+  "text": "اللِّسَانَ",
+  "plain": "اللسان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_cheeks",
+  "text": "الْخَدَّيْنِ",
+  "plain": "الخدين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_pn_cheeks",
+  "text": "الْخَدَّانِ",
+  "plain": "الخدان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_chin",
+  "text": "الذَّقْنَ",
+  "plain": "الذقن",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_neck",
+  "text": "الرَّقَبَةَ",
+  "plain": "الرقبة",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_shoulders",
+  "text": "الْكَتِفَيْنِ",
+  "plain": "الكتفين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_pn_shoulders",
+  "text": "الْكَتِفَانِ",
+  "plain": "الكتفان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_p_arms",
+  "text": "الذِّرَاعَيْنِ",
+  "plain": "الذراعين",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ },
+ {
+  "id": "body_pn_arms",
+  "text": "الذِّرَاعَانِ",
+  "plain": "الذراعان",
+  "lang": "ar",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 45,
+  "note": ""
+ }
+]

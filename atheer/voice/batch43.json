@@ -1,0 +1,352 @@
+[
+ {
+  "id": "traffic_r_play_park",
+  "text": "نَلْعَبُ في الحَديقَةِ لا في الشّارِعِ",
+  "plain": "نلعب في الحديقة لا في الشارع",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_park",
+  "text": "اللَّعِبُ في الحَديقَةِ",
+  "plain": "اللعب في الحديقة",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_cross_adult",
+  "text": "العُبورُ مَعَ الكِبارِ مِنْ مَمَرِّ المُشاةِ",
+  "plain": "العبور مع الكبار من ممر المشاة",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_run_cars",
+  "text": "الرَّكْضُ بَيْنَ السَّيّاراتِ",
+  "plain": "الركض بين السيارات",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_cross_adult",
+  "text": "نَعْبُرُ مِنْ مَمَرِّ المُشاةِ مَعَ الكِبارِ",
+  "plain": "نعبر من ممر المشاة مع الكبار",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_bike_helmet",
+  "text": "رُكوبُ الدَّرّاجَةِ بِالخوذَةِ",
+  "plain": "ركوب الدراجة بالخوذة",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_cross_red",
+  "text": "العُبورُ وَالإِشارَةُ حَمْراءُ",
+  "plain": "العبور والإشارة حمراء",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_stove",
+  "text": "لَمْسُ المَوْقِدِ السّاخِنِ",
+  "plain": "لمس الموقد الساخن",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_stove",
+  "text": "المَوْقِدُ ساخِنٌ لا نَلْمِسُهُ",
+  "plain": "الموقد ساخن لا نلمسه",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_plug",
+  "text": "وَضْعُ الأَصابِعِ في الكَهْرَباءِ",
+  "plain": "وضع الأصابع في الكهرباء",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_plug",
+  "text": "الكَهْرَباءُ خَطيرَةٌ",
+  "plain": "الكهرباء خطيرة",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_medicine",
+  "text": "أَخْذُ الدَّواءِ وَحْدي",
+  "plain": "أخذ الدواء وحدي",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_medicine",
+  "text": "الكِبارُ فَقَطْ يُعْطونَنا الدَّواءَ",
+  "plain": "الكبار فقط يعطوننا الدواء",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_toys",
+  "text": "اللَّعِبُ بِالأَلْعابِ",
+  "plain": "اللعب بالألعاب",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_milk",
+  "text": "شُرْبُ الحَليبِ",
+  "plain": "شرب الحليب",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_knife",
+  "text": "اللَّعِبُ بِالسِّكّينِ",
+  "plain": "اللعب بالسكين",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_knife",
+  "text": "السِّكّينُ تَجْرَحُ",
+  "plain": "السكين تجرح",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_wash",
+  "text": "غَسْلُ اليَدَيْنِ",
+  "plain": "غسل اليدين",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_s_cleaner",
+  "text": "شُرْبُ مَوادِّ التَّنْظيفِ",
+  "plain": "شرب مواد التنظيف",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "traffic_r_cleaner",
+  "text": "مَوادُّ التَّنْظيفِ لَيْسَتْ لِلشُّرْبِ",
+  "plain": "مواد التنظيف ليست للشرب",
+  "lang": "ar",
+  "game": "traffic",
+  "emotion": "gently",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_summer",
+  "text": "الصَّيْفُ",
+  "plain": "الصيف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_autumn",
+  "text": "الخَرِيفُ",
+  "plain": "الخريف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_winter",
+  "text": "الشِّتَاءُ",
+  "plain": "الشتاء",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_spring",
+  "text": "الرَّبِيعُ",
+  "plain": "الربيع",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_in_summer",
+  "text": "فِي الصَّيْفِ",
+  "plain": "في الصيف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_in_autumn",
+  "text": "فِي الخَرِيفِ",
+  "plain": "في الخريف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_in_winter",
+  "text": "فِي الشِّتَاءِ",
+  "plain": "في الشتاء",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_in_spring",
+  "text": "فِي الرَّبِيعِ",
+  "plain": "في الربيع",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_the_weather",
+  "text": "الجَوُّ",
+  "plain": "الجو",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_sunny",
+  "text": "مُشْمِسٌ",
+  "plain": "مشمس",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_cloudy",
+  "text": "غَائِمٌ",
+  "plain": "غائم",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_rainy",
+  "text": "مَاطِرٌ",
+  "plain": "ماطر",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_windy",
+  "text": "عَاصِفٌ",
+  "plain": "عاصف",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "neutral",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_stormy",
+  "text": "رَعْدِيٌّ",
+  "plain": "رعدي",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "surprised",
+  "batch": 43,
+  "note": ""
+ },
+ {
+  "id": "seasons_snowy",
+  "text": "مُثْلِجٌ",
+  "plain": "مثلج",
+  "lang": "ar",
+  "game": "seasons",
+  "emotion": "happy",
+  "batch": 43,
+  "note": ""
+ }
+]

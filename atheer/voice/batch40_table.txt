@@ -1,0 +1,35 @@
+1. magicpad_draw_f — ارْسُمي
+2. magicpad_draw_m — ارْسُمْ
+3. magicpad_connect_f — صِلي النِّقاطَ
+4. magicpad_connect_m — صِلِ النِّقاطَ
+5. magicpad_line_straight — خَطٌّ مُسْتَقيم
+6. magicpad_line_zigzag — خَطٌّ مُتَعَرِّج
+7. magicpad_line_wave — خَطٌّ مُتَمَوِّج
+8. magicpad_line_spiral — خَطٌّ حَلَزونِيّ
+9. pegs_match_f — ضَعِي كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ
+10. pegs_match_m — ضَعْ كُلَّ شَكْلٍ عَلَى أَوْتَادِهِ
+11. pegs_put_f — ضَعِي
+12. pegs_put_m — ضَعْ
+13. abacus_show_f — اِعْرِضِي العَدَدَ
+14. abacus_show_m — اِعْرِضِ العَدَدَ
+15. abacus_how_many_beads — كَمْ خَرَزَةً؟
+16. abacus_add_f — أَضِيفِي
+17. abacus_add_m — أَضِفْ
+18. abacus_back_f — أَرْجِعِي
+19. abacus_back_m — أَرْجِعْ
+20. abacus_make — كَمْ نَحْتَاجُ لِنَصْنَعَ
+21. abacus_30 — ثَلَاثُونَ
+22. abacus_40 — أَرْبَعُونَ
+23. abacus_50 — خَمْسُونَ
+24. abacus_60 — سِتُّونَ
+25. abacus_70 — سَبْعُونَ
+26. abacus_80 — ثَمَانُونَ
+27. abacus_90 — تِسْعُونَ
+28. abacus_100 — مِئَةٌ
+29. abacus_and_20 — وَعِشْرُونَ
+30. abacus_and_30 — وَثَلَاثُونَ
+31. abacus_and_40 — وَأَرْبَعُونَ
+32. abacus_and_50 — وَخَمْسُونَ
+33. abacus_and_60 — وَسِتُّونَ
+34. abacus_and_70 — وَسَبْعُونَ
+35. abacus_and_80 — وَثَمَانُونَ

@@ -1,0 +1,35 @@
+1. piggybank_en_pay — Pay
+2. piggybank_en_too_much — That's too much
+3. piggybank_en_not_enough — Not enough
+4. piggybank_en_change — How much change?
+5. piggybank_en_more — How much more do we need?
+6. piggybank_en_we_saved — We saved
+7. locks_en_drag — Drag the key to the lock
+8. locks_en_turn — Turn the key
+9. locks_en_surprise — Surprise!
+10. locks_en_all_open — You opened all the doors!
+11. en_word_panda — Panda
+12. body_en_touch_any — Touch any part
+13. body_en_touch_the — Touch the
+14. body_en_head — head
+15. body_en_hair — hair
+16. body_en_eyes — eyes
+17. body_en_ears — ears
+18. body_en_nose — nose
+19. body_en_mouth — mouth
+20. body_en_teeth — teeth
+21. body_en_tongue — tongue
+22. body_en_cheeks — cheeks
+23. body_en_chin — chin
+24. body_en_neck — neck
+25. body_en_shoulders — shoulders
+26. body_en_arms — arms
+27. body_en_elbows — elbows
+28. body_en_hands — hands
+29. body_en_fingers — fingers
+30. body_en_tummy — tummy
+31. body_en_knees — knees
+32. body_en_legs — legs
+33. body_en_feet — feet
+34. body_en_toes — toes
+35. body_en_back — back

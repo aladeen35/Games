@@ -1,0 +1,35 @@
+1. traffic_en_s_wash — Washing hands
+2. traffic_en_s_cleaner — Drinking cleaning liquids
+3. traffic_en_r_cleaner — Cleaning liquids are not for drinking
+4. seasons_en_summer — Summer
+5. seasons_en_autumn — Autumn
+6. seasons_en_winter — Winter
+7. seasons_en_spring — Spring
+8. seasons_en_sunny — Sunny
+9. seasons_en_cloudy — Cloudy
+10. seasons_en_rainy — Rainy
+11. seasons_en_windy — Windy
+12. seasons_en_stormy — Stormy
+13. seasons_en_snowy — Snowy
+14. seasons_en_dusty — Dusty
+15. seasons_en_warm — warm
+16. seasons_en_it_is_sunny — It is sunny
+17. seasons_en_it_is_cloudy — It is cloudy
+18. seasons_en_it_is_rainy — It is rainy
+19. seasons_en_it_is_windy — It is windy
+20. seasons_en_it_is_stormy — It is stormy
+21. seasons_en_it_is_snowy — It is snowy
+22. seasons_en_haboob — A dust storm! It is dusty
+23. seasons_en_what_wear — What should we wear?
+24. seasons_en_which_season — Which season is it?
+25. seasons_en_what_do — What do we do in each season?
+26. seasons_en_how_weather — What is the weather today?
+27. seasons_en_sunhat — Sun hat
+28. seasons_en_sunglasses — Sunglasses
+29. seasons_en_tshirt — T-shirt
+30. seasons_en_shorts — Shorts
+31. seasons_en_coat — Coat
+32. seasons_en_boots — Boots
+33. seasons_en_raincoat — Raincoat
+34. seasons_en_swim — Swim
+35. seasons_en_juice — Drink cold juice

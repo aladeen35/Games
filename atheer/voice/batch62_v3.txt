@@ -1,0 +1,137 @@
+[storytelling] Mishmish sat down sadly between the shops.
+
+...
+
+[curious] What should Mishmish do?
+
+...
+
+[curious] Ask the little bird
+
+...
+
+[curious] Stay in place and meow
+
+...
+
+[storytelling] The bird flew high above the souq.
+
+...
+
+[storytelling] Then he said: I see a big cat at the date shop!
+
+...
+
+[storytelling] Mishmish ran to her mother and hugged her.
+
+...
+
+[storytelling] She told the bird: Thank you, my friend!
+
+...
+
+[warm] Asking for help is brave, and saying thank you is beautiful.
+
+...
+
+[storytelling] Mishmish stayed where she was and said: Meow! Meow!
+
+...
+
+[storytelling] Her mother heard her voice from far away.
+
+...
+
+[storytelling] Her mother hurried over and hugged Mishmish gently.
+
+...
+
+[storytelling] Mishmish promised to stay close to her mother.
+
+...
+
+[warm] If we get lost, we stay in place until our family finds us.
+
+...
+
+[storytelling] In the land of snow lived a little penguin called Bobo.
+
+...
+
+[storytelling] Bobo loved swimming and catching fish.
+
+...
+
+[storytelling] One cold day, Bobo dived into the water.
+
+...
+
+[storytelling] He came out with three shiny fish!
+
+...
+
+[storytelling] Bobo saw his friend Lulu sitting all alone.
+
+...
+
+[storytelling] She was hungry and had not caught anything.
+
+...
+
+[curious] What should Bobo do?
+
+...
+
+[curious] Give her a fish
+
+...
+
+[curious] Teach her to fish
+
+...
+
+[storytelling] Bobo gave Lulu a big fish.
+
+...
+
+[storytelling] Lulu smiled and said: Thank you, Bobo!
+
+...
+
+[curious] What should they do next?
+
+...
+
+[curious] Invite their friends
+
+...
+
+[curious] Build a snowman
+
+...
+
+[storytelling] Their friends came, and they all shared the food.
+
+...
+
+[storytelling] The fish was little, but the joy was big!
+
+...
+
+[warm] When we share, happiness grows.
+
+...
+
+[storytelling] Bobo and Lulu built a smiling snowman.
+
+...
+
+[storytelling] They gave him a red scarf and laughed a lot!
+
+...
+
+[warm] Friendship makes playing more fun.
+
+...
+
+[storytelling] Bobo said: Come, I will teach you to fish!

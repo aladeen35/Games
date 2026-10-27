@@ -1,0 +1,137 @@
+[excited] Draw
+
+...
+
+[cheerful] Connect the dots
+
+...
+
+[neutral] Straight line
+
+...
+
+[neutral] Zigzag line
+
+...
+
+[neutral] Wavy line
+
+...
+
+[neutral] Spiral
+
+...
+
+[encouraging] Put each shape on its pegs
+
+...
+
+[neutral] Put
+
+...
+
+[neutral] rectangle
+
+...
+
+[neutral] pentagon
+
+...
+
+[neutral] hexagon
+
+...
+
+[calm] Show the number
+
+...
+
+[curious] How many beads?
+
+...
+
+[calm] Add
+
+...
+
+[calm] more
+
+...
+
+[curious] How many altogether?
+
+...
+
+[calm] Take away
+
+...
+
+[curious] How many are left?
+
+...
+
+[curious] How many more to make
+
+...
+
+[calm] thirty
+
+...
+
+[calm] forty
+
+...
+
+[calm] fifty
+
+...
+
+[calm] sixty
+
+...
+
+[calm] seventy
+
+...
+
+[calm] eighty
+
+...
+
+[calm] ninety
+
+...
+
+[excited] one hundred
+
+...
+
+[calm] pound
+
+...
+
+[calm] pounds
+
+...
+
+[calm] riyal
+
+...
+
+[calm] riyals
+
+...
+
+[happy] Sudanese pound
+
+...
+
+[happy] Saudi riyal
+
+...
+
+[happy] Put the money in the piggy bank
+
+...
+
+[curious] How much is in the piggy bank?

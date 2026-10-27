@@ -1,0 +1,35 @@
+1. abacus_and_90 — وَتِسْعُونَ
+2. piggybank_pound — جُنَيْه
+3. piggybank_pound_2 — جُنَيْهَانِ
+4. piggybank_pounds — جُنَيْهَاتٍ
+5. piggybank_pounds_acc — جُنَيْهًا
+6. piggybank_riyal — رِيَال
+7. piggybank_riyal_2 — رِيَالَانِ
+8. piggybank_riyals — رِيَالَاتٍ
+9. piggybank_riyals_acc — رِيَالًا
+10. piggybank_sdg — جُنَيْه سُودَانِيّ
+11. piggybank_sar — رِيَال سُعُودِيّ
+12. piggybank_put_f — ضَعِي النُّقُودَ فِي الحَصَّالَةِ
+13. piggybank_put_m — ضَعِ النُّقُودَ فِي الحَصَّالَةِ
+14. piggybank_how_much_inside — كَمْ فِي الحَصَّالَةِ؟
+15. piggybank_pay_f — اِدْفَعِي
+16. piggybank_pay_m — اِدْفَعْ
+17. piggybank_too_much — هَذَا كَثِيرٌ
+18. piggybank_not_enough — هَذَا لَا يَكْفِي
+19. piggybank_change — كَمِ البَاقِي؟
+20. piggybank_how_much_more — كَمْ نَحْتَاجُ بَعْدُ؟
+21. piggybank_we_saved — جَمَعْنَا
+22. piggybank_juice — عَصِيرٌ
+23. locks_drag_f — اِسْحَبي المِفْتاحَ إلى القُفْلِ
+24. locks_drag_m — اِسْحَبِ المِفْتاحَ إلى القُفْلِ
+25. locks_turn_f — أَديري المِفْتاحَ
+26. locks_turn_m — أَدِرِ المِفْتاحَ
+27. locks_surprise — مُفاجَأَة!
+28. locks_all_open_f — فَتَحْتِ كُلَّ الأَبْوابِ!
+29. traffic_means_stop — يَعْني قِفْ
+30. traffic_means_wait — يَعْني انْتَظِرْ
+31. traffic_means_go — يَعْني امْشِ
+32. traffic_touch_light_f — اِلْمِسي كُلَّ ضَوْءٍ
+33. traffic_touch_light_m — اِلْمِسْ كُلَّ ضَوْءٍ
+34. traffic_what_do — ماذا نَفْعَلُ؟
+35. traffic_watch_f — اِنْتَبِهي لِلإِشارَةِ

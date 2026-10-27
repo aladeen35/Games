@@ -1,0 +1,352 @@
+[
+ {
+  "id": "piggybank_en_pay",
+  "text": "Pay",
+  "plain": "Pay",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "calm",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_too_much",
+  "text": "That's too much",
+  "plain": "That's too much",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "gentle",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_not_enough",
+  "text": "Not enough",
+  "plain": "Not enough",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "gentle",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_change",
+  "text": "How much change?",
+  "plain": "How much change?",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_more",
+  "text": "How much more do we need?",
+  "plain": "How much more do we need?",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "curious",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "piggybank_en_we_saved",
+  "text": "We saved",
+  "plain": "We saved",
+  "lang": "en",
+  "game": "piggybank",
+  "emotion": "excited",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "locks_en_drag",
+  "text": "Drag the key to the lock",
+  "plain": "Drag the key to the lock",
+  "lang": "en",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "locks_en_turn",
+  "text": "Turn the key",
+  "plain": "Turn the key",
+  "lang": "en",
+  "game": "locks",
+  "emotion": "cheerful",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "locks_en_surprise",
+  "text": "Surprise!",
+  "plain": "Surprise!",
+  "lang": "en",
+  "game": "locks",
+  "emotion": "excited",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "locks_en_all_open",
+  "text": "You opened all the doors!",
+  "plain": "You opened all the doors!",
+  "lang": "en",
+  "game": "locks",
+  "emotion": "excited",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "en_word_panda",
+  "text": "Panda",
+  "plain": "Panda",
+  "lang": "en",
+  "game": "en",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_touch_any",
+  "text": "Touch any part",
+  "plain": "Touch any part",
+  "lang": "en",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_touch_the",
+  "text": "Touch the",
+  "plain": "Touch the",
+  "lang": "en",
+  "game": "body",
+  "emotion": "curious",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_head",
+  "text": "head",
+  "plain": "head",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_hair",
+  "text": "hair",
+  "plain": "hair",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_eyes",
+  "text": "eyes",
+  "plain": "eyes",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_ears",
+  "text": "ears",
+  "plain": "ears",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_nose",
+  "text": "nose",
+  "plain": "nose",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_mouth",
+  "text": "mouth",
+  "plain": "mouth",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_teeth",
+  "text": "teeth",
+  "plain": "teeth",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_tongue",
+  "text": "tongue",
+  "plain": "tongue",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_cheeks",
+  "text": "cheeks",
+  "plain": "cheeks",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_chin",
+  "text": "chin",
+  "plain": "chin",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_neck",
+  "text": "neck",
+  "plain": "neck",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_shoulders",
+  "text": "shoulders",
+  "plain": "shoulders",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_arms",
+  "text": "arms",
+  "plain": "arms",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_elbows",
+  "text": "elbows",
+  "plain": "elbows",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_hands",
+  "text": "hands",
+  "plain": "hands",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_fingers",
+  "text": "fingers",
+  "plain": "fingers",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_tummy",
+  "text": "tummy",
+  "plain": "tummy",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_knees",
+  "text": "knees",
+  "plain": "knees",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_legs",
+  "text": "legs",
+  "plain": "legs",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_feet",
+  "text": "feet",
+  "plain": "feet",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_toes",
+  "text": "toes",
+  "plain": "toes",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ },
+ {
+  "id": "body_en_back",
+  "text": "back",
+  "plain": "back",
+  "lang": "en",
+  "game": "body",
+  "emotion": "neutral",
+  "batch": 56,
+  "note": ""
+ }
+]
