@@ -9,7 +9,12 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
-ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
+SDK36="$REPO/android/tools/sdk/android-36.jar"   # يُنزَّل بـ bash atheer/android/fetch-sdk.sh
+ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"   # لربط الموارد (aapt2)
+JAVA_JAR="$ANDROID_JAR"                                                                 # لترجمة جافا
+if [ -f "$SDK36" ]; then JAVA_JAR="$SDK36"; TARGET_SDK=36; fi
+TARGET_SDK="${TARGET_SDK:-34}"
+BUNDLETOOL="${BUNDLETOOL:-$REPO/android/tools/sdk/bundletool.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
 VERSION_CODE=10
 VERSION_NAME=7.0
@@ -45,12 +50,12 @@ build() {
     -R "$OUT/compiled/base.zip" "${OVERLAY[@]}" --auto-add-overlay \
     -A "$OUT/assets" --java "$OUT/gen" \
     --rename-manifest-package "$PKG" \
-    --min-sdk-version 21 --target-sdk-version 34 \
+    --min-sdk-version 21 --target-sdk-version $TARGET_SDK \
     --version-code $VERSION_CODE --version-name $VERSION_NAME --replace-version
 
   echo "④ ترجمة جافا وتوليد classes.dex"
   javac -nowarn -source 8 -target 8 -encoding UTF-8 \
-    -bootclasspath "$ANDROID_JAR" -classpath "$ANDROID_JAR" -d "$OUT/classes" \
+    -bootclasspath "$JAVA_JAR" -classpath "$JAVA_JAR" -d "$OUT/classes" \
     $(find "$AND/java" "$OUT/gen" -name '*.java')
   java -cp "$DX_JAR" com.android.dx.command.Main --dex --min-sdk-version=21 --output="$OUT/classes.dex" "$OUT/classes"
   ( cd "$OUT" && zip -q -X base.apk classes.dex )
@@ -65,6 +70,24 @@ build() {
     --out "$DIST/$OUTNAME-$VERSION_NAME.apk" "$OUT/aligned.apk"
   apksigner verify --print-certs "$DIST/$OUTNAME-$VERSION_NAME.apk" | grep -m1 'SHA-256'
   echo "✅ $DIST/$OUTNAME-$VERSION_NAME.apk ($(du -h "$DIST/$OUTNAME-$VERSION_NAME.apk" | cut -f1))"
+
+  # ⑥ ملف AAB للرفع على Google Play (يحتاج bundletool.jar)
+  if [ -f "$BUNDLETOOL" ]; then
+    echo "⑥ بناء ملف AAB لـ Google Play (targetSdk $TARGET_SDK)"
+    local B="$OUT/bundle"; rm -rf "$B"; mkdir -p "$B/mod/manifest" "$B/mod/dex"
+    aapt2 link --proto-format -o "$B/proto.zip" -I "$ANDROID_JAR" \
+      --manifest "$AND/AndroidManifest.xml" \
+      -R "$OUT/compiled/base.zip" "${OVERLAY[@]}" --auto-add-overlay \
+      -A "$OUT/assets" --rename-manifest-package "$PKG" \
+      --min-sdk-version 21 --target-sdk-version $TARGET_SDK \
+      --version-code $VERSION_CODE --version-name $VERSION_NAME --replace-version
+    ( cd "$B/mod" && unzip -q ../proto.zip && mv AndroidManifest.xml manifest/ && cp "$OUT/classes.dex" dex/ && zip -q -r -X ../base.zip . )
+    rm -f "$DIST/$OUTNAME-$VERSION_NAME.aab"
+    java -jar "$BUNDLETOOL" build-bundle --modules="$B/base.zip" --output="$DIST/$OUTNAME-$VERSION_NAME.aab"
+    jarsigner -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KS" -storepass "$KS_PASS" -keypass "$KS_PASS" \
+      "$DIST/$OUTNAME-$VERSION_NAME.aab" "$ALIAS" >/dev/null
+    echo "✅ $DIST/$OUTNAME-$VERSION_NAME.aab ($(du -h "$DIST/$OUTNAME-$VERSION_NAME.aab" | cut -f1))"
+  fi
 }
 
 WHICH="${1:-atheer}"
