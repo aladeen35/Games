@@ -283,7 +283,7 @@
     c.strokeStyle = 'rgba(40,40,40,.22)'; c.lineWidth = Math.max(.6, r * .015); c.beginPath(); c.arc(0, 0, r - c.lineWidth / 2, 0, TAU); c.stroke();
   }
   /* ورقة حقيقية: الصورة بزوايا مستديرة وإطار أبيض رفيع، وشريط مائل «لعبة تعليمية» دائمًا */
-  function drawNoteImg(c, im, w, h) {
+  function drawNoteImg(c, im, w, h, v) {
     const rr = h * .08, iw = im.naturalWidth, ih = im.naturalHeight, ins = .022;
     c.save(); c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.clip();
     c.fillStyle = '#fff'; c.fillRect(-w / 2, -h / 2, w, h);
@@ -300,6 +300,13 @@
     c.font = `900 ${bw * .62}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
     c.fillStyle = 'rgba(255,255,255,.95)'; c.fillText(STAMP, 0, bw * .04);
     c.restore();
+    // شارة صغيرة بقيمة الورقة (بأرقام اللغة الحالية) ليسهل على الطفل قراءتها
+    const t = dg(v), fh = h * .25; c.font = `900 ${fh}px ${FONT}`;
+    const cw = Math.max(fh * 1.25, c.measureText(t).width + fh * .7);
+    const cx2 = w / 2 - cw / 2 - h * .07, cy2 = h / 2 - fh * .62 - h * .07;
+    c.fillStyle = 'rgba(20,60,50,.25)'; c.beginPath(); c.roundRect(cx2 - cw / 2, cy2 - fh * .62 + fh * .08, cw, fh * 1.24, fh * .62); c.fill();
+    c.fillStyle = '#fff'; c.beginPath(); c.roundRect(cx2 - cw / 2, cy2 - fh * .62, cw, fh * 1.24, fh * .62); c.fill();
+    c.fillStyle = '#C2185B'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillText(t, cx2, cy2 + fh * .06);
     const lw = Math.max(1.4, h * .035);
     c.strokeStyle = '#fff'; c.lineWidth = lw; c.beginPath(); c.roundRect(-w / 2 + lw / 2, -h / 2 + lw / 2, w - lw, h - lw, rr - lw / 2); c.stroke();
     c.strokeStyle = 'rgba(20,50,40,.25)'; c.lineWidth = .8; c.beginPath(); c.roundRect(-w / 2, -h / 2, w, h, rr); c.stroke();
@@ -315,7 +322,7 @@
       const cnv = document.createElement('canvas'); cnv.width = Math.ceil((w + pad * 2) * k); cnv.height = Math.ceil((h + pad * 2) * k);
       const c = cnv.getContext('2d'); c.scale(k, k); c.translate(pad + w / 2, pad + h / 2);
       c.imageSmoothingQuality = 'high';
-      if (coin) drawCoinImg(c, im, size); else drawNoteImg(c, im, w, h);
+      if (coin) drawCoinImg(c, im, size); else drawNoteImg(c, im, w, h, v);
       const out = { cnv, w: w + pad * 2, h: h + pad * 2, bw: w, bh: h };
       if (cache.size > 120) cache.clear();
       cache.set(key, out);
@@ -532,13 +539,15 @@
     if (t === 'save') return { y0: topY + sh * .68, y1: botY };
     return { y0: topY + sh * .66, y1: botY };
   }
+  /* نسبة حجم العملة والورقة إلى وحدة التخطيط (العملة أصغر من الورقة كما في الواقع) */
+  const CK = .82, NK = .92;
   function layoutMoney(snap) {
     const z = wallZone(), u = S.u;
     const list = money.filter(m => m.st === 'wallet');
     let size = R.type === 'find' ? u * 1.25 : u, rowsL, rh;
     const maxW = Math.min(S.sw, 600);
     for (let it = 0; it < 8; it++) {
-      const wOf = m => (isCoin(m.v) ? size * 2.1 : size * 2.8) + size * .25;
+      const wOf = m => (isCoin(m.v) ? size * CK * 2.1 : size * NK * 3.2) + size * .25;
       rowsL = []; let rowA = [], rw = 0;
       list.forEach(m => { const w = wOf(m); if (rowA.length && rw + w > maxW) { rowsL.push(rowA); rowA = []; rw = 0; } rowA.push(m); rw += w; });
       if (rowA.length) rowsL.push(rowA);
@@ -546,14 +555,14 @@
       if (rh >= size * 2.2 || size < 16) break;
       size *= .9;
     }
-    const wOf = m => (isCoin(m.v) ? size * 2.1 : size * 2.8) + size * .25;
+    const wOf = m => (isCoin(m.v) ? size * CK * 2.1 : size * NK * 3.2) + size * .25;
     const y0 = (z.y0 + z.y1) / 2 - rh * rowsL.length / 2 + rh / 2;
     rowsL.forEach((row, k) => {
       const tw = row.reduce((a, m) => a + wOf(m), 0);
       let x = S.cx + dirX() * tw / 2;
       row.forEach(m => {
         const w = wOf(m); x -= dirX() * w / 2;
-        m.hx = x; m.hy = y0 + k * rh; m.size = isCoin(m.v) ? size : size * .82;
+        m.hx = x; m.hy = y0 + k * rh; m.size = isCoin(m.v) ? size * CK : size * NK;
         if (snap) { m.x = m.hx; m.y = m.hy; } else if (!m.fly && !m.drag) flyTo(m, m.hx, m.hy, .3, 0);
         x -= dirX() * w / 2;
       });
