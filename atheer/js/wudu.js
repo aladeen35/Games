@@ -474,7 +474,7 @@
   #wudu .main{position:absolute;left:0;right:0;bottom:0;top:calc(max(10px,env(safe-area-inset-top)) + 90px);display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 14px max(14px,env(safe-area-inset-bottom));overflow-y:auto;touch-action:pan-y}
   #wudu .main>:first-child{margin-top:auto}#wudu .main>:last-child{margin-bottom:auto}
   #wudu .stage{width:min(100%,520px);flex:none;display:flex;flex-direction:column;align-items:center;gap:8px}
-  #wudu .scard{position:relative;width:100%;aspect-ratio:4/3;border-radius:30px;background:#fff;padding:7px;box-shadow:0 7px 0 #A8D8E8,0 14px 28px rgba(20,80,110,.18);border:4px solid #D3EEF7;transition:aspect-ratio .3s}
+  #wudu .scard{position:relative;width:100%;aspect-ratio:4/3;border-radius:30px;background:#fff;padding:7px;box-shadow:0 7px 0 #A8D8E8,0 14px 28px rgba(20,80,110,.18);border:4px solid #D3EEF7}
   #wudu .scard.sq{aspect-ratio:1/1}
   #wudu .scard.wide{aspect-ratio:16/9}
   #wudu .scard canvas{width:100%;height:100%;display:block;border-radius:22px;touch-action:none}
@@ -521,15 +521,15 @@
   #wudu .slot.next{border-color:#3BB2E0;background:rgba(220,244,252,.9);animation:wuSlot 1.1s ease-in-out infinite alternate}
   @keyframes wuSlot{to{box-shadow:0 0 0 4px rgba(59,178,224,.25)}}
   #wudu .slot.hot{background:#D7F3FF;border-style:solid}
-  #wudu .card{position:relative;width:100%;min-height:72px;border-radius:18px;background:#fff;border:3px solid #CFE6EF;box-shadow:0 4px 0 #B5D6E3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 3px;gap:1px;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;color:#1F5469}
-  #wudu .card .ci{font-family:${EMOJI_FONT};font-size:24px;line-height:1.1}
-  #wudu .card canvas{width:56px;height:38px}
-  #wudu .card .cl{font-size:12.5px;font-weight:900;line-height:1.2;text-align:center}
-  #wudu .ord.en .card .cl{font-family:${EN_FONT};font-size:11.5px}
-  #wudu .card.drag{position:fixed;z-index:50;pointer-events:none;box-shadow:0 12px 24px rgba(20,80,110,.3);border-color:#3BB2E0}
-  #wudu .card.ghost{opacity:.25}
-  #wudu .card.done{background:linear-gradient(#F0FFF6,#DDF8E8);border-color:#7ED9A4;box-shadow:0 4px 0 #5DBF86;cursor:default}
-  #wudu .card.bad{animation:wuShake .4s;border-color:#F28B7B}
+  #wudu .wc{position:relative;width:100%;min-height:72px;border-radius:18px;background:#fff;border:3px solid #CFE6EF;box-shadow:0 4px 0 #B5D6E3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 3px;gap:1px;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;color:#1F5469}
+  #wudu .wc .ci{font-family:${EMOJI_FONT};font-size:24px;line-height:1.1}
+  #wudu .wc canvas{width:56px;height:38px}
+  #wudu .wc .cl{font-size:12.5px;font-weight:900;line-height:1.2;text-align:center}
+  #wudu .ord.en .wc .cl{font-family:${EN_FONT};font-size:11.5px}
+  #wudu .wc.drag{position:fixed;z-index:50;pointer-events:none;box-shadow:0 12px 24px rgba(20,80,110,.3);border-color:#3BB2E0}
+  #wudu .wc.ghost{opacity:.25}
+  #wudu .wc.done{background:linear-gradient(#F0FFF6,#DDF8E8);border-color:#7ED9A4;box-shadow:0 4px 0 #5DBF86;cursor:default}
+  #wudu .wc.bad{animation:wuShake .4s;border-color:#F28B7B}
   /* أوقات الصلاة */
   #wudu .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
   #wudu .tc{background:#fff;border-radius:20px;border:3px solid #DCEBF0;box-shadow:0 5px 0 #C2DCE6;padding:10px 4px;font-weight:900;font-size:clamp(19px,5.3vw,24px);color:#1E4E62;min-height:62px}
@@ -908,18 +908,18 @@
   function cardHTML(st, i) {
     const en = lang === 'en';
     const pic = def.k === 'orderP' ? `<canvas data-pose="${st.pose}"></canvas>` : `<span class="ci">${st.ic}</span>`;
-    return `<div class="card" data-i="${i}">${pic}<span class="cl">${esc(en ? st.en : plain(st.ar))}</span></div>`;
+    return `<div class="wc" data-i="${i}">${pic}<span class="cl">${esc(en ? st.en : plain(st.ar))}</span></div>`;
   }
   function buildOrder() {
     const en = lang === 'en';
     ordEl.classList.toggle('en', en);
     slotsEl.style.direction = trayEl.style.direction = en ? 'ltr' : 'rtl';
-    slotsEl.innerHTML = ordList.map((_, i) => `<div class="slot${i === ordNext ? ' next' : ''}" data-s="${i}"><span class="sn">${num(i + 1)}</span>${i < ordNext ? cardHTML(ordList[i], i).replace('class="card"', 'class="card done"') : ''}</div>`).join('');
+    slotsEl.innerHTML = ordList.map((_, i) => `<div class="slot${i === ordNext ? ' next' : ''}" data-s="${i}"><span class="sn">${num(i + 1)}</span>${i < ordNext ? cardHTML(ordList[i], i).replace('class="wc"', 'class="wc done"') : ''}</div>`).join('');
     const rest = shuffle(ordList.map((s, i) => i).filter(i => i >= ordNext));
     trayEl.innerHTML = rest.map(i => cardHTML(ordList[i], i)).join('');
     trayEl.style.display = rest.length ? '' : 'none';
     root.querySelectorAll('.ord canvas[data-pose]').forEach(drawPoseThumb);
-    trayEl.querySelectorAll('.card').forEach((el, k) => {
+    trayEl.querySelectorAll('.wc').forEach((el, k) => {
       if (window.gsap) gsap.from(el, { scale: .6, opacity: 0, duration: .35, delay: k * .04, ease: 'back.out(2)' });
       el.addEventListener('pointerdown', e => dragStart(e, el));
     });
@@ -980,13 +980,13 @@
     const r = slot.getBoundingClientRect(), st = ordList[ordNext];
     const fin = () => {
       d.clone.remove(); d.el.remove();
-      slot.classList.remove('next'); slot.insertAdjacentHTML('beforeend', cardHTML(st, ordNext).replace('class="card"', 'class="card done"'));
+      slot.classList.remove('next'); slot.insertAdjacentHTML('beforeend', cardHTML(st, ordNext).replace('class="wc"', 'class="wc done"'));
       const pc = slot.querySelector('canvas[data-pose]'); if (pc) drawPoseThumb(pc);
-      if (window.gsap) gsap.from(slot.querySelector('.card'), { scale: 1.25, duration: .45, ease: 'elastic.out(1,.5)' });
+      if (window.gsap) gsap.from(slot.querySelector('.wc'), { scale: 1.25, duration: .45, ease: 'elastic.out(1,.5)' });
       if (pstates[ordNext] !== 'no') pstates[ordNext] = 'on';
       ordNext++;
       const nx = slotsEl.querySelector(`.slot[data-s="${ordNext}"]`); if (nx) nx.classList.add('next');
-      if (!trayEl.querySelector('.card')) trayEl.style.display = 'none';
+      if (!trayEl.querySelector('.wc')) trayEl.style.display = 'none';
       setProg(ordList.length, pstates, ordNext);
       // المشهد يعرض الخطوة
       clearTasks();
@@ -1130,7 +1130,7 @@
     if (mode === 'learn') { if (e.key === 'Enter' || e.key === 'ArrowLeft') goBtn.click(); else if (e.key === 'ArrowRight') prevBtn.click(); }
     else if (mode === 'times') { const k = parseInt(e.key, 10), cs = choicesEl.querySelectorAll('.tc'); if (k >= 1 && k <= cs.length) pickTime(cs[k - 1]); }
     else if (mode === 'order' && (e.key === 'Enter' || e.key === ' ')) { // يضع البطاقة الصحيحة التالية كتلميح
-      e.preventDefault(); const el = trayEl.querySelector(`.card[data-i="${ordNext}"]`); if (el) { el.classList.remove('bad'); void el.offsetWidth; el.classList.add('bad'); }
+      e.preventDefault(); const el = trayEl.querySelector(`.wc[data-i="${ordNext}"]`); if (el) { el.classList.remove('bad'); void el.offsetWidth; el.classList.add('bad'); }
     }
   });
 
@@ -1209,7 +1209,7 @@
       if (kf.finger) { const a = Math.min(1, (act ? act.t : 0)); void a; }
     } else if (view === 'side') {
       prayerRoom(c, W, H, T, 1);
-      const u = Math.min(H / 7.6, W / 7.4), fx = W * .4, fy = H * .86;
+      const u = Math.min(H / 8.3, W / 7.6), fx = W * .4, fy = H * .88;
       mat(c, fx - 2.2 * u, fx + 4.6 * u, fy, u);
       kidSide(c, fx, fy, u, ks.pose, { T, calm: true });
     } else {

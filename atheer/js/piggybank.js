@@ -119,12 +119,12 @@
   #piggybank .foot{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 12px max(14px,env(safe-area-inset-bottom));display:flex;justify-content:center;pointer-events:none}
   #piggybank .ctl{width:min(100%,620px);display:flex;align-items:center;justify-content:center;gap:12px;min-height:96px}
   #piggybank .cards{display:flex;gap:10px;justify-content:center;flex:1}
-  #piggybank .cd{pointer-events:auto;flex:0 1 118px;min-height:92px;border-radius:24px;background:linear-gradient(#fff 0%,#fff 70%,#F2FBF7 100%);border:5px solid var(--c);
+  #piggybank .cd{pointer-events:auto;flex:0 1 112px;min-width:0;min-height:92px;border-radius:24px;background:linear-gradient(#fff 0%,#fff 70%,#F2FBF7 100%);border:5px solid var(--c);
     box-shadow:0 7px 0 var(--d),0 14px 20px rgba(20,80,60,.2);color:var(--d);font-weight:900;line-height:1;padding:6px 4px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .16s cubic-bezier(.3,1.7,.55,1),box-shadow .16s,opacity .3s}
   #piggybank .cd b{font-size:40px;line-height:1}
   #piggybank .cd small{font-size:13px;opacity:.8}
-  #piggybank .cd img{width:96px;height:44px;object-fit:contain;display:block}
+  #piggybank .cd img{width:100%;max-width:92px;height:42px;object-fit:contain;display:block}
   #piggybank .cd:active{transform:translateY(5px) scale(1.04,.95);box-shadow:0 2px 0 var(--d)}
   #piggybank .cd.no{animation:pbNo .45s;filter:saturate(.3);opacity:.5}
   #piggybank .cd.ok{background:linear-gradient(#E9FFE6,#BFF5B8);border-color:#3DBE52;color:#1E8A35;box-shadow:0 7px 0 #1E8A35,0 0 0 6px rgba(80,220,100,.35)}
@@ -415,7 +415,7 @@
     const ps = clamp(Math.min(sw * .42, sh * (t === 'find' ? .26 : .32)), 80, 210);
     pig.s = ps; pig.show = t === 'count' || t === 'save' || t === 'find';
     if (t === 'count') { pig.x = cx; pig.y = topY + sh * .5; }
-    else if (t === 'save') { pig.x = cx - dirX() * sw * .1; pig.y = topY + sh * .55; }
+    else if (t === 'save') { pig.x = cx - dirX() * sw * .12; pig.y = topY + sh * .6; }
     else if (t === 'find') { pig.x = cx; pig.y = topY + sh * .97; }
     S.counterY = t === 'find' ? topY + sh * .72 : topY + sh * .58;
     if (t === 'pay' || t === 'change') {
@@ -424,7 +424,7 @@
       const tw = Math.min(sw * .86, 440), th = clamp(u * 2.4, 66, 110);
       tray = { x: cx, y: topY + sh * .45, w: tw, h: th };
     } else if (t === 'save') {
-      item = item || {}; item.x = cx + dirX() * sw * .3; item.y = topY + sh * .2; item.s = clamp(u * 2.1, 56, 100); tray = null;
+      item = item || {}; item.x = cx + dirX() * sw * .28; item.y = topY + sh * .24; item.s = clamp(u * 2.1, 56, 100); tray = null;
     } else { tray = null; }
     layoutMoney(snap);
   }
@@ -432,27 +432,31 @@
     const { topY, sh, botY } = S, t = R.type;
     if (t === 'find') return { y0: topY + sh * .1, y1: topY + sh * .62 };
     if (t === 'count') return { y0: topY + sh * .62, y1: botY };
-    if (t === 'save') return { y0: topY + sh * .66, y1: botY };
+    if (t === 'save') return { y0: topY + sh * .68, y1: botY };
     return { y0: topY + sh * .66, y1: botY };
   }
   function layoutMoney(snap) {
     const z = wallZone(), u = S.u;
     const list = money.filter(m => m.st === 'wallet');
-    const size = R.type === 'find' ? u * 1.25 : u;
-    const wOf = m => (isCoin(m.v) ? size * 2.1 : size * 3.3) + u * .3;
+    let size = R.type === 'find' ? u * 1.25 : u, rowsL, rh;
     const maxW = Math.min(S.sw, 600);
-    // تجميع في صفوف
-    const rowsL = []; let rowA = [], rw = 0;
-    list.forEach(m => { const w = wOf(m); if (rowA.length && rw + w > maxW) { rowsL.push(rowA); rowA = []; rw = 0; } rowA.push(m); rw += w; });
-    if (rowA.length) rowsL.push(rowA);
-    const rh = Math.min((z.y1 - z.y0) / Math.max(1, rowsL.length), size * 2.5);
+    for (let it = 0; it < 8; it++) {
+      const wOf = m => (isCoin(m.v) ? size * 2.1 : size * 2.8) + size * .25;
+      rowsL = []; let rowA = [], rw = 0;
+      list.forEach(m => { const w = wOf(m); if (rowA.length && rw + w > maxW) { rowsL.push(rowA); rowA = []; rw = 0; } rowA.push(m); rw += w; });
+      if (rowA.length) rowsL.push(rowA);
+      rh = Math.min((z.y1 - z.y0) / Math.max(1, rowsL.length), size * 2.6);
+      if (rh >= size * 2.2 || size < 16) break;
+      size *= .9;
+    }
+    const wOf = m => (isCoin(m.v) ? size * 2.1 : size * 2.8) + size * .25;
     const y0 = (z.y0 + z.y1) / 2 - rh * rowsL.length / 2 + rh / 2;
     rowsL.forEach((row, k) => {
       const tw = row.reduce((a, m) => a + wOf(m), 0);
       let x = S.cx + dirX() * tw / 2;
       row.forEach(m => {
         const w = wOf(m); x -= dirX() * w / 2;
-        m.hx = x; m.hy = y0 + k * rh; m.size = isCoin(m.v) ? size : size * .78;
+        m.hx = x; m.hy = y0 + k * rh; m.size = isCoin(m.v) ? size : size * .82;
         if (snap) { m.x = m.hx; m.y = m.hy; } else if (!m.fly && !m.drag) flyTo(m, m.hx, m.hy, .3, 0);
         x -= dirX() * w / 2;
       });
@@ -901,7 +905,7 @@
     priceTag(c, item.x - dirX() * item.s * .95, item.y - item.s * .05, v, clamp(item.s * .6, 40, 64));
     if (R.type === 'save') {
       // عدّاد الادخار
-      const mw = Math.min(S.sw * .5, 260), mx = S.cx - dirX() * S.sw * .12, my = item.y + item.s * .78, mh = 18;
+      const mw = Math.min(S.sw * .7, 340), mx = S.cx, my = S.topY + 16, mh = 20;
       const f = clamp(saveTot / saveGoal, 0, 1);
       c.fillStyle = 'rgba(30,70,55,.15)'; c.beginPath(); c.roundRect(mx - mw / 2, my - mh / 2 + 3, mw, mh, 9); c.fill();
       c.fillStyle = '#fff'; c.beginPath(); c.roundRect(mx - mw / 2, my - mh / 2, mw, mh, 9); c.fill();

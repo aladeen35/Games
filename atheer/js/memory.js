@@ -592,7 +592,7 @@
     if (duo && phase === 'play') { turn ^= 1; updDuo(); setBanner(turnText(), turn ? '#3E8BFF' : '#FF5C8A'); }
   }
   function starsFor(p, m) { return m <= p ? 3 : m <= p * 2 ? 2 : 1; }
-  const isGirl = n => /^(أثير|بشرى|ريلا)$/.test(n) || App.PROFILES.some(p => p.name === n && p.theme === 'girls');
+  const isGirl = n => { const p = App.PROFILES.find(p => p.name === n); return p ? (p.gender ? p.gender === 'girl' : p.theme === 'girls') : /^(أثير|بشرى|ريلا)$/.test(n); };
   function win() {
     confetti(); Sound.win(); vibrate(30);
     if (def.p >= 12) App.achieve('mem_big');

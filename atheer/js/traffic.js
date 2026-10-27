@@ -657,9 +657,9 @@
     total = 3 + st.order.length;
     const lay = () => {
       const s = clamp(Math.min(stage.h * .062, stage.w * .1), 18, 46);
-      st.s = s; st.lx = portrait ? stage.x + stage.w * .34 : W * .4; st.ly = stage.y + stage.h * .04;
+      st.s = s; st.lx = portrait ? stage.x + stage.w * .26 : W * .4; st.ly = stage.y + stage.h * .04;
       st.ground = stage.y + stage.h * .66;
-      st.kx = portrait ? stage.x + stage.w * .74 : W * .6; st.kh = Math.min(stage.h * .3, 200);
+      st.kx = portrait ? stage.x + stage.w * .78 : W * .62; st.kh = Math.min(stage.h * .3, 200);
       const bh = Math.min(stage.h * .22, 150), bw = Math.min((stage.w - 40) / 3, 170), gap = 12, tw = bw * 3 + gap * 2;
       st.btns.forEach((b, i) => { b.w = bw; b.h = bh; b.x = W / 2 - tw / 2 + (lang === 'ar' ? 2 - i : i) * (bw + gap); b.y = stage.y + stage.h - bh - 8; });
     };
@@ -718,7 +718,7 @@
           // أسماء الألوان بجانب المصابيح
           for (let i = 0; i < 3; i++) {
             const ly = st.ly + st.s * 1.35 + i * st.s * 2.6, lx = st.lx + st.s * 2.1 * (lang === 'ar' ? -1 : 1) - (lang === 'ar' ? st.s * 1.2 : -st.s * 1.2);
-            if (st.seen[i]) text(ctx, L(LIGHTS[i].ar, LIGHTS[i].en), st.lx + (lang === 'ar' ? -1 : 1) * st.s * 3.6, ly, clamp(st.s * .6, 13, 24), ['#E02424', '#D08A00', '#1F9A3A'][i], { stroke: '#fff' });
+            if (st.seen[i]) { const fs = clamp(st.s * .55, 13, 22); ctx.save(); ctx.font = `900 ${fs}px ${lang === 'en' ? EN_FONT : FONT}`; const tw = ctx.measureText(L(LIGHTS[i].ar, LIGHTS[i].en)).width; ctx.restore(); text(ctx, L(LIGHTS[i].ar, LIGHTS[i].en), st.lx + st.s * 1.45 + 10 + tw / 2, ly, fs, ['#E02424', '#D08A00', '#1F9A3A'][i], { stroke: '#fff' }); }
           }
           if (glowI >= 0) { const t = (T * .9) % 1; ctx.save(); ctx.globalAlpha = t > .8 ? (1 - t) / .2 : 1; emo(ctx, '👆', st.lx + st.s * .8, st.ly + st.s * 1.35 + glowI * st.s * 2.6 + st.s * 1.8 + Math.sin(t * Math.PI) * -10, st.s * 1.6); ctx.restore(); }
         } else st.btns.forEach(b => card(ctx, b));
@@ -783,8 +783,8 @@
         if (st.phase === 'approach') {
           if (st.kind === 'red' && st.light === 'green' && st.z < 52) { st.light = 'yellow'; st.lightT = 0; }
           if (st.kind === 'yellow' && st.light === 'green' && st.z < 40) { st.light = 'yellow'; st.lightT = 0; sayRule(LIGHTS[1]); }
-          if (st.light === 'yellow') { st.lightT += dt; if (st.lightT > (st.kind === 'yellow' ? 1.3 : .9)) { st.light = 'red'; sayRule(LIGHTS[0]); B('stop').glow = 3; } }
         }
+        if (st.light === 'yellow') { st.lightT += dt; if (st.lightT > (st.kind === 'yellow' ? 1.3 : .9)) { st.light = 'red'; st.waitT = 0; if (st.phase === 'approach') { sayRule(LIGHTS[0]); B('stop').glow = 3; } } }
         // الحركة
         if (st.phase === 'approach') {
           st.v += (VC - st.v) * Math.min(1, dt * 2);
@@ -795,7 +795,7 @@
           }
           if (st.z < -4 && st.light === 'green') { st.phase = 'passed'; okRound(); }
         } else if (st.phase === 'braking') {
-          const stopAt = st.autoB ? 1.2 : 3, dist = Math.max(.3, st.z - stopAt);
+          const stopAt = st.autoB ? .8 : 1.8, dist = Math.max(.3, st.z - stopAt);
           const dec = st.v * st.v / (2 * dist); st.v = Math.max(0, st.v - Math.max(dec, 3) * dt);
           if (st.v <= .05 || st.z <= stopAt) { st.v = 0; st.phase = 'stopped'; st.waitT = 0; Sound.thud(); }
         } else if (st.phase === 'stopped') {
@@ -854,7 +854,7 @@
         st.btns.forEach(b => card(ctx, b));
         // فقاعة الإشارة الحالية
         const li = LIGHTS.find(l => l.id === st.light);
-        if (st.z < 60) bubble(ctx, li.ar ? L(li.ar + ' ' + li.rar, li.en + ' ' + li.ren) : '', W / 2, drive.hz + 26, clamp(stage.w * .045, 14, 22), ['#E02424', '#C08000', '#1F9A3A'][LIGHTS.indexOf(li)]);
+        if (st.z < 60) bubble(ctx, li.ar ? L(li.ar + ' ' + li.rar, li.en + ' ' + li.ren) : '', W / 2, drive.hz - 34, clamp(stage.w * .045, 14, 22), ['#E02424', '#C08000', '#1F9A3A'][LIGHTS.indexOf(li)]);
       },
       _s: () => ({ phase: st.phase, light: st.light, z: st.z, v: st.v, round: st.round, stop: B('stop') && { x: B('stop').x + B('stop').w / 2, y: B('stop').y + B('stop').h / 2 }, go: B('go') && { x: B('go').x + B('go').w / 2, y: B('go').y + B('go').h / 2 } })
     };
