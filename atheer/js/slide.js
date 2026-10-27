@@ -638,25 +638,28 @@
   }
 
   const PICS = [
-    { n: 'الشعار', logo: true },
-    { n: 'قلعة السحاب', p: paintCastle },
-    { n: 'تحت البحر', p: paintSea },
-    { n: 'الفضاء', p: paintSpace },
-    { n: 'أرض الحلوى', p: paintCandy },
-    { n: 'المزرعة', p: paintFarm },
-    { n: 'قوس قزح', p: paintRainbow },
-    { n: 'الديناصور', p: paintDino },
-    { n: 'السيارة', p: paintCar },
-    { n: 'حديقة الزهور', p: paintGarden },
-    { n: 'المدينة ليلًا', p: paintCity },
-    { n: 'الشاطئ', p: paintBeach }
+    { n: 'الشعار', en: 'Our logo', logo: true },
+    { n: 'قلعة السحاب', en: 'Cloud Castle', p: paintCastle },
+    { n: 'تحت البحر', en: 'Under the Sea', p: paintSea },
+    { n: 'الفضاء', en: 'Space', p: paintSpace },
+    { n: 'أرض الحلوى', en: 'Candy Land', p: paintCandy },
+    { n: 'المزرعة', en: 'The Farm', p: paintFarm },
+    { n: 'قوس قزح', en: 'Rainbow', p: paintRainbow },
+    { n: 'الديناصور', en: 'Dinosaur', p: paintDino },
+    { n: 'السيارة', en: 'The Car', p: paintCar },
+    { n: 'حديقة الزهور', en: 'Flower Garden', p: paintGarden },
+    { n: 'المدينة ليلًا', en: 'City at Night', p: paintCity },
+    { n: 'الشاطئ', en: 'The Beach', p: paintBeach }
   ];
+  /* أسماء صور العائلة تبقى كما هي، وتُترجم كلمات القرابة فقط (العم/العمة) */
+  const photoEn = s => s.replace(/^العمة\s+/, 'Aunt ').replace(/^العم\s+/, 'Uncle ');
+  const picName = i => App.t(PICS[i].n, PICS[i].en || PICS[i].n);
   /* صور العائلة: معرّفات جديدة (12..18) كي لا يتغيّر تقدّم الصور القديمة المحفوظ */
   const PHOTO0 = PICS.length, NPHOTO = 7;
   const photoImgs = [];
   for (let k = 0; k < NPHOTO; k++) {
     const id = PHOTO0 + k, im = new Image();
-    PICS.push({ n: App.PHOTO_NAMES[k] || ('صورتنا ' + (k + 1)), photo: k });
+    PICS.push({ n: App.PHOTO_NAMES[k] || ('صورتنا ' + (k + 1)), en: App.PHOTO_NAMES[k] ? photoEn(App.PHOTO_NAMES[k]) : 'Our photo ' + (k + 1), photo: k });
     im.onload = () => { im.ok = true; invalidate(id); };
     im.src = 'img/photos/p' + (k + 1) + '.jpg';
     photoImgs.push(im);
@@ -721,6 +724,7 @@
   const isUnlocked = (pr, i) => reqOf(i) < 0 || solvedAny(pr, reqOf(i));
   const nextId = i => { const j = ORDER.indexOf(i); return j >= 0 && j + 1 < ORDER.length ? ORDER[j + 1] : -1; };
   function puzzlesWord(n) { return n === 1 ? 'لغزًا واحدًا' : n === 2 ? 'لغزين' : n <= 10 ? n + ' ألغاز' : n + ' لغزًا'; }
+  const solvedText = n => App.t(`${App.g('حللتِ', 'حللت')} ${puzzlesWord(n)}`, `You solved ${n === 1 ? 'one puzzle' : n + ' puzzles'}`);
 
   /* ---------- الواجهة ---------- */
   App.css(`
@@ -770,28 +774,36 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib galbtn" aria-label="الألغاز">🖼️</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib galbtn" aria-label="الألغاز" data-aen="Puzzles">🖼️</button>
       <span class="grow"></span>
-      <div class="chip"><small>الوقت</small><b class="cT">0:00</b></div>
-      <div class="chip"><small>الحركات</small><b class="cM">0</b></div>
+      <div class="chip"><small data-en="Time">الوقت</small><b class="cT">0:00</b></div>
+      <div class="chip"><small data-en="Moves">الحركات</small><b class="cM">0</b></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
     <div class="foot">
-      <button class="ib rebtn" aria-label="خلط من جديد">🔀</button>
-      <button class="peek" aria-label="انظر إلى الصورة"><canvas width="96" height="96"></canvas><span class="peekT">👁️ الصورة</span></button>
-      <button class="ib numbtn" aria-label="الأرقام">🔢</button>
+      <button class="ib rebtn" aria-label="خلط من جديد" data-aen="Shuffle again">🔀</button>
+      <button class="peek" aria-label="انظر إلى الصورة" data-aen="Look at the picture"><canvas width="96" height="96"></canvas><span class="peekT" data-en="👁️ Picture">👁️ الصورة</span></button>
+      <button class="ib numbtn" aria-label="الأرقام" data-aen="Numbers">🔢</button>
     </div>
-    <div class="overlay" id="slGal"><div class="panel gal"><h3>🖼️ ألغاز الصور</h3><p class="galP"></p><div class="gg"></div>
-      <button class="btn" data-a="close">▶️ متابعة</button></div></div>
+    <div class="overlay" id="slGal"><div class="panel gal"><h3 data-en="🖼️ Picture Puzzles">🖼️ ألغاز الصور</h3><p class="galP"></p><div class="gg"></div>
+      <button class="btn" data-a="close" data-en="▶️ Continue">▶️ متابعة</button></div></div>
     <div class="overlay" id="slWin"><div class="panel">
       <h3 class="wT"></h3><canvas class="wThumb" width="240" height="240"></canvas><div class="stars3 wS"></div>
-      <div class="wStat"><div><small>الوقت</small><span class="wTi"></span></div><div><small>الحركات</small><span class="wMo"></span></div></div>
+      <div class="wStat"><div><small data-en="Time">الوقت</small><span class="wTi"></span></div><div><small data-en="Moves">الحركات</small><span class="wMo"></span></div></div>
       <div class="wRec"></div>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again" aria-label="مرة أخرى">🔄</button><button class="btn alt" data-a="levels">🖼️ الألغاز</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="مرة أخرى" data-aen="Again">🔄</button><button class="btn alt" data-a="levels" data-en="🖼️ Puzzles">🖼️ الألغاز</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar'), foot = root.querySelector('.foot');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
@@ -906,7 +918,7 @@
     }
     scramble = { g: g2, gr, gc };
     layout(); bakeTiles(); drawPeekThumb(); updChips();
-    setHint('🖼️ ' + PICS[P].n + ' · ' + N + '×' + N);
+    setHint(() => '🖼️ ' + picName(P) + ' · ' + N + '×' + N);
   }
   function doScramble() {
     scrambled = true;
@@ -919,7 +931,8 @@
     Sound.whoosh();
     for (let i = 0; i < 5; i++) Sound.noise(.08, 500, 1300, .05, 2, .1 + i * .07);
   }
-  function setHint(t) { hintT.textContent = t; hintEl.style.opacity = t ? 1 : 0; }
+  let hintFn = null; // نص التلميح دالة كي يتبع تغيير اللغة
+  function setHint(t) { hintFn = typeof t === 'function' ? t : null; if (hintFn) t = hintFn(); hintT.textContent = t; hintEl.style.opacity = t ? 1 : 0; }
   function updChips() { cT.textContent = fmtT(time); cM.textContent = moves; }
   function isSolved() { for (let i = 0; i < N * N - 1; i++) if (grid[i] !== i) return false; return true; }
   function canPlay() { return phase === 'play' && !paused && !galOv.classList.contains('on') && !winOv.classList.contains('on') && !$('#sheetWrap').classList.contains('on'); }
@@ -966,11 +979,10 @@
   function showPanel() {
     panelShown = true;
     const r = result;
-    root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
+    panelText();
     root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= r.stars ? '' : 'off'}">⭐</span>`).join('');
     root.querySelector('.wTi').textContent = '⏱️ ' + fmtT(time);
     root.querySelector('.wMo').textContent = '👣 ' + moves;
-    root.querySelector('.wRec').textContent = r.unlocked.length > 1 ? '🔓 ' + App.g('فتحتِ', 'فتحت') + ' ' + r.unlocked.length + ' صور جديدة!' : r.unlocked.length ? '🔓 ' + App.g('فتحتِ', 'فتحت') + ' صورة جديدة: ' + PICS[r.unlocked[0]].n : (r.recT || r.recM) ? '🏆 رقم قياسي جديد!' : r.first ? '' : '';
     const tc = root.querySelector('.wThumb').getContext('2d'); tc.clearRect(0, 0, 240, 240); tc.drawImage(getPic(P, 256), 0, 0, 240, 240);
     const nx = nextOf();
     root.querySelector('[data-a="next"]').style.display = nx ? '' : 'none';
@@ -979,6 +991,12 @@
     App.achieve('slide_first');
     if (N >= 4) App.achieve('slide_4');
     if (N === 3 && time < 60) App.achieve('slide_fast');
+  }
+  function panelText() {
+    const r = result; if (!r) return;
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wRec').textContent = r.unlocked.length > 1 ? '🔓 ' + App.t(App.g('فتحتِ', 'فتحت') + ' ' + r.unlocked.length + ' صور جديدة!', `You unlocked ${r.unlocked.length} new pictures!`)
+      : r.unlocked.length ? '🔓 ' + App.t(App.g('فتحتِ', 'فتحت') + ' صورة جديدة: ', 'You unlocked a new picture: ') + picName(r.unlocked[0]) : (r.recT || r.recM) ? App.t('🏆 رقم قياسي جديد!', '🏆 New record!') : '';
   }
   function nextOf() {
     const nx = nextId(P);
@@ -992,12 +1010,12 @@
     const pr = loadProg();
     const gg = root.querySelector('.gg');
     const solved = Object.keys(pr.b).length;
-    root.querySelector('.galP').textContent = solved ? `🏆 ${App.g('حللتِ', 'حللت')} ${puzzlesWord(solved)}` : App.g('اختاري صورة وحجمًا', 'اختر صورة وحجمًا') + ' 👇';
+    root.querySelector('.galP').textContent = solved ? `🏆 ${solvedText(solved)}` : App.t(App.g('اختاري صورة وحجمًا', 'اختر صورة وحجمًا'), 'Pick a picture and a size') + ' 👇';
     gg.innerHTML = ORDER.map((i, pos) => {
       const pc = PICS[i], lock = !isUnlocked(pr, i);
       return `<div class="pc${lock ? ' lock' : ''}${i === P ? ' cur' : ''}" data-i="${i}">
-        <button class="thb" data-p="${i}" aria-label="${pc.n}"><canvas class="th" width="240" height="240"></canvas>${lock ? '<span class="lk">🔒</span>' : ''}</button>
-        <div class="nm">${pos + 1}. ${pc.n}</div>
+        <button class="thb" data-p="${i}" aria-label="${picName(i)}"><canvas class="th" width="240" height="240"></canvas>${lock ? '<span class="lk">🔒</span>' : ''}</button>
+        <div class="nm">${pos + 1}. ${picName(i)}</div>
         <div class="sz">${SIZES.map(n => {
           const b = pr.b[i + '_' + n];
           return `<button data-p="${i}" data-n="${n}" class="${b ? 'done' : ''}">${n}×${n}<i>${b ? [1, 2, 3].map(k => `<span class="${k <= b.s ? '' : 'off'}">⭐</span>`).join('') : ''}</i>${b ? `<small>⏱${fmtT(b.t)}</small><small>👣${b.m}</small>` : ''}</button>`;
@@ -1009,7 +1027,7 @@
       if (!isUnlocked(p2, i)) {
         Sound.error(); vibrate(20);
         b.closest('.pc').animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-4deg)' }, { transform: 'rotate(4deg)' }, { transform: 'rotate(0)' }], { duration: 300 });
-        App.toast(App.g('حُلّي', 'حُلّ') + ' لغز «' + PICS[reqOf(i)].n + '» أولًا 🔓'); return;
+        App.toast(App.t(App.g('حُلّي', 'حُلّ') + ' لغز «' + PICS[reqOf(i)].n + '» أولًا 🔓', 'Solve the «' + picName(reqOf(i)) + '» puzzle first 🔓')); return;
       }
       let n = +b.dataset.n || 0;
       if (!n) n = SIZES.find(s => !p2.b[i + '_' + s]) || 3;
@@ -1114,7 +1132,7 @@
       if (!scrambled && introT > .9) doScramble();
       if (scrambled && tiles.every(t => t.a >= 1)) {
         phase = 'play';
-        if (!loadProg().b[P + '_' + N] || !hintMode) { hintMode = 'tap'; setHint('👆 ' + App.g('المسي قطعة بجانب الفراغ أو اسحبيها', 'المس قطعة بجانب الفراغ أو اسحبها')); }
+        if (!loadProg().b[P + '_' + N] || !hintMode) { hintMode = 'tap'; setHint(() => '👆 ' + App.t(App.g('المسي قطعة بجانب الفراغ أو اسحبيها', 'المس قطعة بجانب الفراغ أو اسحبها'), 'Tap a piece next to the gap, or drag it')); }
       }
     }
     if (phase === 'play' && timing && !overlay) { time += dt; if (Math.floor(time) !== Math.floor(time - dt)) updChips(); }
@@ -1133,7 +1151,7 @@
       if (winT > .32 && !wfx.thud) { wfx.thud = true; Sound.thud(); vibrate(25); shake = 4; }
       if (winT > .7 && !wfx.party) {
         wfx.party = true; shine = 0; Sound.win(); vibrate(30);
-        App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+        if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
         const cols = ['#FF6B6B', '#FFC93C', '#3EC1D3', '#7ED957', '#A77BFF', '#FF7EB9'];
         for (let i = 0; i < 150; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-H * .4, -10), vx: rand(-60, 60), vy: rand(80, 260), rot: rand(0, TAU), vr: rand(-8, 8), life: rand(2.5, 4), age: 0, s: rand(6, 11), c: cols[i % 6] });
         for (let i = 0; i < 30; i++) { const a = rand(0, TAU), v = rand(150, 420); parts.push({ t: 'star', x: board.x + board.s / 2, y: board.y + board.s / 2, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 80, rot: rand(0, TAU), vr: rand(-6, 6), life: rand(.7, 1.2), age: 0, s: rand(7, 13), c: i % 2 ? '#FFE26B' : '#fff' }); }
@@ -1270,8 +1288,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'ألغاز الصور المنزلقة', icon2: '🧩', isNew: false, music: 'slide',
+    id: ID, title: 'ألغاز الصور المنزلقة', titleEn: 'Sliding Picture Puzzles', icon2: '🧩', isNew: false, music: 'slide',
     desc: () => App.g('حرّكي القطع وأعيدي الصورة', 'حرّك القطع وأعِد الصورة'),
+    descEn: () => 'Slide the pieces and put the picture back together',
+    helpEn: () => [
+      '👆 Tap a piece next to the gap to slide it in, or drag it with your finger',
+      '↔️ Tapping a piece in the same row or column moves several pieces together',
+      '🎯 Arrange the pieces until the picture is complete again',
+      '👁️ Press and hold the «Picture» button to see it, and 🔢 shows helper numbers',
+      '⭐ Solve the puzzle in fewer moves and less time to get 3 stars, and every picture unlocks the next one!'
+    ],
     help: () => [
       '👆 ' + App.g('المسي', 'المس') + ' قطعة بجانب الفراغ ' + App.g('لتنزلق', 'لتنزلق') + ' إليه، أو ' + App.g('اسحبيها', 'اسحبها') + ' بإصبعك',
       '↔️ لمس قطعة في نفس الصف أو العمود يحرّك عدة قطع معًا',
@@ -1284,9 +1310,15 @@
       const pr = loadProg(), ks = Object.keys(pr.b);
       if (!ks.length) return '';
       const st = ks.reduce((a, k) => a + (pr.b[k].s || 0), 0);
-      return `🏆 ${App.g('حللتِ', 'حللت')} ${puzzlesWord(ks.length)} · ⭐ ${st}`;
+      return `🏆 ${solvedText(ks.length)} · ⭐ ${st}`;
+    },
+    onLang() {
+      i18n(); if (hintFn) setHint(hintFn);
+      if (winOv.classList.contains('on')) panelText();
+      if (galOv.classList.contains('on')) renderGallery();
     },
     enter() {
+      i18n();
       paused = false;
       nums = !!store.get('slideNums', false); numBtn.classList.toggle('on', nums);
       const pr = loadProg();

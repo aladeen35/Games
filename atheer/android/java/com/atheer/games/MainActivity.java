@@ -8,14 +8,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
@@ -38,7 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * ألعاب أثير وبشرى — غلاف أصلي يعرض الألعاب الثلاث من assets عبر نطاق https داخلي،
+ * ألعاب أطفالنا — غلاف أصلي يعرض الألعاب من assets عبر نطاق https داخلي،
  * فلا يخرج أي طلب إلى الشبكة ويعمل التطبيق دون إنترنت.
  */
 public class MainActivity extends Activity {
@@ -47,6 +55,16 @@ public class MainActivity extends Activity {
     private static final String START_URL = "https://" + HOST + "/index.html";
 
     private WebView web;
+    /** حاوية الصفحة: تُزاح الصفحة عن أشرطة النظام (edge-to-edge في أندرويد 15+)، ويُلوَّن مكان الشريطين بلون الواجهة */
+    private FrameLayout root;
+    private View barTop, barBottom;
+    private int insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0;
+    private int colTop = SPLASH_BG, colBottom = SPLASH_BG;
+    /** لون شاشة البداية (res/values/colors.xml و #splash في index.html) */
+    private static final int SPLASH_BG = 0xFFFFF4FA;
+    /** تبقى شاشة البداية الأصلية ظاهرة (الصفحة شفافة) حتى ترسم الصفحة شاشة بدايتها بنفس الشعار */
+    private boolean revealed = false;
+    private OnBackInvokedCallback backCb;
     private TextToSpeech tts, ttsEn;
     private boolean ttsReady = false, ttsEnReady = false;
 
@@ -75,15 +93,134 @@ public class MainActivity extends Activity {
         s.setBuiltInZoomControls(false);
         s.setTextZoom(100);
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        web.setBackgroundColor(0xFFFFF0F6);
+        web.setBackgroundColor(SPLASH_BG);
+        web.setAlpha(0f); // حتى تجهز شاشة البداية في الصفحة (Bridge.splashShown)
         web.setWebViewClient(new AssetClient());
         web.setWebChromeClient(new Chrome());
         web.addJavascriptInterface(new Bridge(), "AndroidBridge");
 
-        setContentView(web);
+        root = new FrameLayout(this);
+        barTop = new View(this);
+        barBottom = new View(this);
+        barTop.setBackgroundColor(SPLASH_BG);
+        barBottom.setBackgroundColor(SPLASH_BG);
+        root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        root.addView(barTop, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 0, Gravity.TOP));
+        root.addView(barBottom, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 0, Gravity.BOTTOM));
+        root.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override public WindowInsets onApplyWindowInsets(View v, WindowInsets in) {
+                applyInsets(in);
+                return in;
+            }
+        });
+        setContentView(root);
+        edgeToEdge();
+        registerBack();
         web.loadUrl(START_URL);
+        // احتياط: إن لم تُبلغ الصفحة بجاهزيتها نُظهرها بعد قليل
+        root.postDelayed(new Runnable() { @Override public void run() { reveal(); } }, 3500);
 
         initTts();
+    }
+
+    /** المحتوى خلف أشرطة النظام في كل الإصدارات (كما يفرضه أندرويد 15+)، ثم نزيحه بمقدار الأشرطة بأنفسنا */
+    @SuppressWarnings("deprecation")
+    private void edgeToEdge() {
+        android.view.Window w = getWindow();
+        w.setStatusBarColor(Color.TRANSPARENT);
+        w.setNavigationBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= 30) {
+            w.setDecorFitsSystemWindows(false);
+            WindowInsetsController c = w.getInsetsController();
+            if (c != null) {
+                c.hide(WindowInsets.Type.navigationBars());
+                c.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+            }
+        } else {
+            w.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | (Build.VERSION.SDK_INT >= 23 && light(colTop) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0));
+        }
+        lightBars();
+    }
+
+    /** أيقونات داكنة فوق شريط فاتح، وفاتحة فوق شريط داكن */
+    private void lightBars() {
+        if (Build.VERSION.SDK_INT >= 30) {
+            WindowInsetsController c = getWindow().getInsetsController();
+            if (c == null) return;
+            int m = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;
+            int v = (light(colTop) ? WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS : 0)
+                  | (light(colBottom) ? WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS : 0);
+            c.setSystemBarsAppearance(v, m);
+        }
+    }
+
+    private static boolean light(int c) {
+        return (Color.red(c) * 299 + Color.green(c) * 587 + Color.blue(c) * 114) / 1000 > 150;
+    }
+
+    @SuppressWarnings("deprecation")
+    private void applyInsets(WindowInsets in) {
+        int t, b, l, r;
+        if (Build.VERSION.SDK_INT >= 30) {
+            android.graphics.Insets i = in.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+            t = i.top; b = i.bottom; l = i.left; r = i.right;
+        } else {
+            t = in.getSystemWindowInsetTop(); b = in.getSystemWindowInsetBottom();
+            l = in.getSystemWindowInsetLeft(); r = in.getSystemWindowInsetRight();
+        }
+        if (t == insetTop && b == insetBottom && l == insetLeft && r == insetRight && web.getLayoutParams() != null
+            && ((FrameLayout.LayoutParams) web.getLayoutParams()).topMargin == t) return;
+        insetTop = t; insetBottom = b; insetLeft = l; insetRight = r;
+        FrameLayout.LayoutParams wp = (FrameLayout.LayoutParams) web.getLayoutParams();
+        wp.setMargins(l, t, r, b);
+        web.setLayoutParams(wp);
+        FrameLayout.LayoutParams tp = (FrameLayout.LayoutParams) barTop.getLayoutParams();
+        tp.height = t; barTop.setLayoutParams(tp);
+        FrameLayout.LayoutParams bp = (FrameLayout.LayoutParams) barBottom.getLayoutParams();
+        bp.height = b; barBottom.setLayoutParams(bp);
+    }
+
+    /** إظهار الصفحة فوق شاشة البداية الأصلية (مرة واحدة) */
+    private void reveal() {
+        if (revealed || web == null) return;
+        revealed = true;
+        web.setAlpha(1f);
+        // بعد إطار واحد: خلفية النافذة لون فقط (لا حاجة للشعار تحت الصفحة)
+        root.postDelayed(new Runnable() { @Override public void run() {
+            getWindow().setBackgroundDrawable(new ColorDrawable(colBottom));
+        }}, 300);
+    }
+
+    private void setBarColors(int top, int bottom) {
+        colTop = top; colBottom = bottom;
+        barTop.setBackgroundColor(top);
+        barBottom.setBackgroundColor(bottom);
+        if (revealed) getWindow().setBackgroundDrawable(new ColorDrawable(bottom));
+        if (Build.VERSION.SDK_INT >= 30) lightBars(); else edgeToEdge();
+    }
+
+    /** زر الرجوع في أندرويد 13+ (onBackPressed لا يُستدعى مع targetSdk 36 في أندرويد 16) */
+    private void registerBack() {
+        if (Build.VERSION.SDK_INT < 33) return;
+        backCb = new OnBackInvokedCallback() {
+            @Override public void onBackInvoked() { handleBack(); }
+        };
+        getOnBackInvokedDispatcher().registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, backCb);
+    }
+
+    /** يسأل الصفحة: تغلق نافذة أو تعود للقائمة، وإلا يُغلق التطبيق */
+    private void handleBack() {
+        if (web == null) { finish(); return; }
+        web.evaluateJavascript("(window.__androidBack ? window.__androidBack() : 'exit')",
+            new ValueCallback<String>() {
+                @Override public void onReceiveValue(String value) {
+                    if (value == null || value.contains("exit")) finish();
+                }
+            });
     }
 
     private SharedPreferences prefs() { return getSharedPreferences("tts", MODE_PRIVATE); }
@@ -161,6 +298,27 @@ public class MainActivity extends Activity {
 
     /** نطق عربي لأسماء الأشكال والتشجيع داخل الألعاب. */
     private class Bridge {
+        /** رسمت الصفحة شاشة بدايتها (الشعار في مكان شعار النظام نفسه): نُظهرها */
+        @JavascriptInterface
+        public void splashShown() {
+            runOnUiThread(new Runnable() { @Override public void run() { reveal(); } });
+        }
+
+        /** مقدار أشرطة النظام بوحدة CSS (dp): "أعلى,أسفل" — كي تضع الصفحة الشعار في وسط الشاشة كلها */
+        @JavascriptInterface
+        public String insets() {
+            float d = getResources().getDisplayMetrics().density;
+            return Math.round(insetTop / d) + "," + Math.round(insetBottom / d);
+        }
+
+        /** لونا شريط الحالة وشريط التنقل (يتبعان ثيم الواجهة)، مثل "#FFB9DC" */
+        @JavascriptInterface
+        public void setBars(final String top, final String bottom) {
+            runOnUiThread(new Runnable() { @Override public void run() {
+                try { setBarColors(Color.parseColor(top), Color.parseColor(bottom)); } catch (Exception e) { /* لون غير صالح */ }
+            }});
+        }
+
         @JavascriptInterface
         public void speak(String text) {
             if (!ttsReady || text == null) return;
@@ -368,31 +526,21 @@ public class MainActivity extends Activity {
         if (l.endsWith(".png"))  return "image/png";
         if (l.endsWith(".jpg") || l.endsWith(".jpeg")) return "image/jpeg";
         if (l.endsWith(".woff2")) return "font/woff2";
+        if (l.endsWith(".webp")) return "image/webp";
+        if (l.endsWith(".css"))  return "text/css";
         if (l.endsWith(".mp3"))  return "audio/mpeg";
         return "application/octet-stream";
     }
 
     /** زر الرجوع: يعود إلى قائمة الألعاب أولًا، ثم يغلق التطبيق. */
     @Override
-    public void onBackPressed() {
-        web.evaluateJavascript("(window.__androidBack ? window.__androidBack() : 'exit')",
-            new ValueCallback<String>() {
-                @Override public void onReceiveValue(String value) {
-                    if (value == null || value.contains("exit")) finish();
-                }
-            });
-    }
+    @SuppressWarnings("deprecation")
+    public void onBackPressed() { handleBack(); } // أندرويد 12 وما قبله
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (!hasFocus) return;
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-              | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        if (hasFocus) edgeToEdge(); // إخفاء شريط التنقل من جديد بعد ظهوره
     }
 
     @Override protected void onPause() { if (web != null) web.onPause(); super.onPause(); }
@@ -400,6 +548,7 @@ public class MainActivity extends Activity {
     @Override protected void onDestroy() {
         if (tts != null) { tts.stop(); tts.shutdown(); }
         if (ttsEn != null) { ttsEn.stop(); ttsEn.shutdown(); }
+        if (backCb != null && Build.VERSION.SDK_INT >= 33) getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(backCb);
         if (web != null) { web.destroy(); web = null; }
         super.onDestroy();
     }

@@ -755,13 +755,13 @@
   `);
   const root = App.section(ID, `
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib libb hidden" aria-label="المكتبة">📚</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib libb hidden" data-i="lib">📚</button>
       <span class="grow"></span>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
-    <div class="scr lib"><h2>📚 مكتبة القصص</h2><div class="sub"></div><div class="shelf"></div></div>
+    <div class="scr lib"><h2></h2><div class="sub"></div><div class="shelf"></div></div>
     <div class="scr reader hidden"><div class="rd">
       <div class="prog"></div>
       <div class="book"><div class="page"><canvas></canvas><span class="pn"></span></div></div>
@@ -770,9 +770,9 @@
       <div class="chs hidden"></div>
       <div class="endb hidden"></div>
       <div class="nav">
-        <button class="nb sq prev" aria-label="السابق">▶</button>
-        <button class="ib snd nb play" aria-label="اسمع">🔊</button>
-        <button class="nb go">التالي ◀</button>
+        <button class="nb sq prev" data-i="prev">▶</button>
+        <button class="ib snd nb play" data-i="listen">🔊</button>
+        <button class="nb go"></button>
       </div>
     </div></div>`);
   const libEl = root.querySelector('.lib'), shelf = root.querySelector('.shelf'), readerEl = root.querySelector('.reader');
@@ -784,6 +784,15 @@
   let ctx, W = 0, H = 0, raf = 0, last = 0, running = false, paused = false, T = 0, sceneT = 0;
   let view = 'lib', story = null, pid = null, hist = [], tasks = [], nar = null, turning = false;
   function later(s, fn) { tasks.push({ t: s, fn }); }
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), lib: App.t('المكتبة', 'Library'), prev: App.t('السابق', 'Previous'), listen: App.t('اسمع', 'Listen') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    const en = App.lang === 'en';
+    prevBtn.textContent = en ? '◀' : '▶';
+    goBtn.textContent = App.t('التالي ◀', 'Next ▶');
+    const h2 = root.querySelector('.lib h2');
+    h2.textContent = '📚 ' + App.t('مكتبة القصص', 'Story Library'); h2.style.fontFamily = en ? EN_FONT : '';
+  }
   function layout() { const f = fitCanvas(cv); ctx = f.ctx; W = f.w; H = f.h; }
 
   /* ---------- المكتبة ---------- */
@@ -792,9 +801,8 @@
     libEl.classList.remove('hidden'); readerEl.classList.add('hidden'); libBtn.classList.add('hidden');
     const F = found(), en = lang === 'en';
     const got = STORIES.reduce((a, s) => a + (F[s.id] || []).length, 0);
-    root.querySelector('.lib h2').textContent = en ? '📚 Story Library' : '📚 مكتبة القصص';
-    root.querySelector('.lib h2').style.fontFamily = en ? EN_FONT : '';
-    root.querySelector('.lib .sub').textContent = `${App.g('اختاري', 'اختر')} قصة · ⭐ ${num(got)} / ${num(TOTAL_ENDS)} ${'نهايات'}`;
+    chrome();
+    root.querySelector('.lib .sub').textContent = App.t(`${App.g('اختاري', 'اختر')} قصة · ⭐ ${num(got)} / ${num(TOTAL_ENDS)} نهايات`, `Choose a story · ⭐ ${num(got)} / ${num(TOTAL_ENDS)} endings`);
     shelf.innerHTML = STORIES.map(s => {
       const ends = endingsOf(s), f = F[s.id] || [];
       return `<button class="cover" data-s="${s.id}" style="--c1:${s.col[0]};--c2:${s.col[1]}"><canvas></canvas><span class="ic">${s.ic}</span>
@@ -908,9 +916,9 @@
     if (isNew) { list.push(pid); F[story.id] = list; store.set('storiesEnds', F); }
     const ends = endingsOf(story), got = ends.filter(e => list.includes(e)).length;
     const lastCh = [...hist].reverse().find(k => story.pages[k].ch);
-    endEl.innerHTML = `<div style="width:100%;text-align:center"><span class="badge${isNew ? '' : ' old'}">${isNew ? '⭐ نهاية جديدة!' : '✓ النهاية'} ${num(got)} / ${num(ends.length)}</span></div>
-      ${got < ends.length && lastCh ? `<button class="nb go" data-a="other">🔀 ${App.g('جرّبي', 'جرّب')} نهاية أخرى</button>` : ''}
-      <button class="nb" data-a="again">🔄 من البداية</button><button class="nb sq" data-a="say" aria-label="اسمع">🔊</button><button class="nb" data-a="lib">📚 المكتبة</button>`;
+    endEl.innerHTML = `<div style="width:100%;text-align:center"><span class="badge${isNew ? '' : ' old'}">${isNew ? App.t('⭐ نهاية جديدة!', '⭐ New ending!') : App.t('✓ النهاية', '✓ The end')} ${num(got)} / ${num(ends.length)}</span></div>
+      ${got < ends.length && lastCh ? `<button class="nb go" data-a="other">🔀 ${App.t(App.g('جرّبي', 'جرّب') + ' نهاية أخرى', 'Try another ending')}</button>` : ''}
+      <button class="nb" data-a="again">🔄 ${App.t('من البداية', 'From the start')}</button><button class="nb sq" data-a="say" aria-label="${App.t('اسمع', 'Listen')}">🔊</button><button class="nb" data-a="lib">📚 ${App.t('المكتبة', 'Library')}</button>`;
     endEl.classList.remove('hidden');
     endEl.querySelector('[data-a="other"]') && endEl.querySelector('[data-a="other"]').addEventListener('click', () => { Sound.tap(); const k = hist.indexOf(lastCh); hist = hist.slice(0, k + 1); showPage(lastCh, -1); });
     endEl.querySelector('[data-a="again"]').addEventListener('click', () => { Sound.tap(); hist = []; showPage(story.start, -1); });
@@ -931,16 +939,17 @@
   prevBtn.addEventListener('click', () => { if (hist.length < 2 || turning) return; Sound.tap(); hist.pop(); const k = hist[hist.length - 1]; showPage(k, -1); });
   root.querySelector('.nb.play').addEventListener('click', () => { if (!story) return; tasks = []; chsEl.classList.add('hidden'); narrate(story.pages[pid]); });
   libBtn.addEventListener('click', () => { Sound.tap(); renderLib(); });
-  function setLang(l) { lang = l === 'en' ? 'en' : 'ar'; store.set('storiesLang', lang); root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
+  function setLang(l, nosave) { lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('storiesLang', lang); root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); chrome(); }
+  function contentLang() { if (view === 'lib') renderLib(); else { tasks = []; const h = hist.slice(); hist = h.slice(0, -1); showPage(pid, 0); } }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.l === lang) return; Sound.tap(); setLang(b.dataset.l);
-    if (view === 'lib') renderLib(); else { tasks = []; const h = hist.slice(); hist = h.slice(0, -1); showPage(pid, 0); }
+    if (b.dataset.l === lang) return; Sound.tap(); setLang(b.dataset.l); contentLang();
   }));
   window.addEventListener('keydown', e => {
     if (App.current !== ID || $('#sheetWrap').classList.contains('on') || view !== 'read') return;
     const p = story.pages[pid];
-    if (e.key === 'Enter' || e.key === 'ArrowLeft' && lang === 'ar' || e.key === 'ArrowRight' && lang === 'en') { if (p.next) goBtn.click(); }
-    else if (e.key === 'ArrowRight' && lang === 'ar' || e.key === 'ArrowLeft' && lang === 'en') prevBtn.click();
+    const uen = App.lang === 'en';
+    if (e.key === 'Enter' || e.key === 'ArrowLeft' && !uen || e.key === 'ArrowRight' && uen) { if (p.next) goBtn.click(); }
+    else if (e.key === 'ArrowRight' && !uen || e.key === 'ArrowLeft' && uen) prevBtn.click();
     else if (p.ch && (e.key === '1' || e.key === '2') && !chsEl.classList.contains('hidden')) choose(+e.key - 1);
   });
 
@@ -983,8 +992,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'قصص تفاعلية', icon2: '📖', isNew: true, music: 'shapes',
+    id: ID, title: 'قصص تفاعلية', titleEn: 'Interactive Stories', icon2: '📖', isNew: true, music: 'shapes',
     desc: () => App.g('اقرئي واختاري ماذا يحدث في القصة', 'اقرأ واختر ماذا يحدث في القصة'),
+    descEn: () => 'Read along and choose what happens in the story',
+    helpEn: () => [
+      '📚 Choose a story from the library',
+      '🔊 The story is read sentence by sentence; touch any word to hear it',
+      '🔀 On some pages you choose what happens next!',
+      "⭐ Every new ending gives you a star on the story's cover",
+      '🌍 The «English» button reads the story in English'
+    ],
     help: () => [
       '📚 ' + App.g('اختاري', 'اختر') + ' قصة من المكتبة',
       '🔊 القصة تُقرأ جملةً جملة، ' + App.g('والمسي', 'والمس') + ' أي كلمة لتسمعها',
@@ -994,7 +1011,8 @@
     ],
     icon,
     best() { const F = found(); const got = STORIES.reduce((a, s) => a + (F[s.id] || []).length, 0); return got ? `📖 ${got}/${TOTAL_ENDS} ⭐` : ''; },
-    enter() { paused = false; setLang(store.get('storiesLang', 'ar')); renderLib(); startLoop(); },
+    enter() { paused = false; setLang(App.gameLang(ID), true); renderLib(); startLoop(); },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg) contentLang(); else if (view === 'lib') renderLib(); else if (!endEl.classList.contains('hidden') && story && story.pages[pid]) { tasks = []; const h = hist.slice(); hist = h.slice(0, -1); showPage(pid, 0); } },
     leave() { stopLoop(); tasks = []; stopNar(); },
     pause() { paused = true; },
     resume() { paused = false; last = performance.now(); },

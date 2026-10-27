@@ -9,6 +9,21 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>ألعاب أطفالنا</title>
+<script>
+/* قبل أول رسم: اللغة والاتجاه والثيم المحفوظة، كي لا تومض الواجهة */
+(function () {
+  var H = document.documentElement, g = function (k) { try { return JSON.parse(localStorage.getItem('app:' + k)); } catch (e) { return null; } };
+  var en = g('lang') === 'en';
+  H.lang = en ? 'en' : 'ar'; H.dir = en ? 'ltr' : 'rtl'; H.setAttribute('data-lang', H.lang);
+  if (en) document.title = 'Our Kids Games';
+  var kids = g('kids'), id = g('profile'), k = null;
+  if (kids && kids.length) { for (var i = 0; i < kids.length; i++) if (kids[i] && kids[i].id === id) k = kids[i]; k = k || kids[0]; }
+  if (k && k.theme === 'boys') H.setAttribute('data-theme', 'boys');
+})();
+</script>
+<link rel="preload" href="img/splash-logo.webp" as="image">
+<link rel="preload" href="fonts/baloo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/baloo-arabic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:'Baloo Bhaijaan 2';font-style:normal;font-weight:400 900;font-display:swap;src:url('fonts/baloo-arabic.woff2') format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFC,U+200C-200E,U+2010-2011}
 @font-face{font-family:'Baloo Bhaijaan 2';font-style:normal;font-weight:400 900;font-display:swap;src:url('fonts/baloo-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122}
@@ -73,7 +88,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 .tb.gift{animation:wiggle 1.6s ease-in-out infinite;background:linear-gradient(180deg,#FFE27A,var(--t-accent) 60%,var(--t-accent-d));border-color:#FFF2C2;color:#fff;box-shadow:0 5px 0 var(--t-accent-d),0 9px 16px rgba(232,155,12,.35)}
 .tb.gift::after{content:'';position:absolute;top:4px;left:18%;right:18%;height:36%;border-radius:20px;background:var(--gloss);pointer-events:none}
 .tb.gift.done{animation:none;opacity:.55;filter:saturate(.4)}
-#mStars{background:linear-gradient(180deg,#FFF8DC,#FFEBA6);border-color:#FFF6CF;color:#9A5A00;padding:0 14px 0 12px;box-shadow:0 5px 0 #F2C14E,0 9px 16px rgba(232,155,12,.25)}
+#mStars{background:linear-gradient(180deg,#FFF8DC,#FFEBA6);border-color:#FFF6CF;color:#9A5A00;padding:0 13px;box-shadow:0 5px 0 #F2C14E,0 9px 16px rgba(232,155,12,.25)}
 @keyframes wiggle{0%,60%,100%{transform:rotate(0)}10%{transform:rotate(-12deg) scale(1.06)}25%{transform:rotate(10deg) scale(1.06)}40%{transform:rotate(-6deg)}}
 .grow{flex:1}
 
@@ -142,7 +157,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 .tbtn.danger{background:linear-gradient(180deg,#FF9A9A 0%,#F2484B 60%,#C8262D 130%);box-shadow:0 5px 0 #B3232A,0 9px 14px rgba(179,35,42,.25)}
 .tbtn.sm{font-size:15px;padding:6px 16px}
 .kchips{display:flex;gap:6px;flex-wrap:wrap}
-.kchip{display:flex;align-items:center;gap:6px;padding:3px 12px 3px 4px;border-radius:99px;background:#fff;border:2px solid var(--t-soft);font-weight:800;font-size:14px;color:var(--t-ink)}
+.kchip{display:flex;align-items:center;gap:6px;padding-block:3px;padding-inline:4px 12px;border-radius:99px;background:#fff;border:2px solid var(--t-soft);font-weight:800;font-size:14px;color:var(--t-ink)}
 .kchip.on{background:linear-gradient(180deg,var(--t-main-l),var(--t-main));color:#fff;border-color:#fff;box-shadow:0 3px 0 var(--t-main-d)}
 .mini{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#fff;overflow:hidden;flex:0 0 30px}
 .mini img{width:100%;height:100%;object-fit:cover}
@@ -275,6 +290,60 @@ html.gs .card,html.gs .kav{will-change:transform}
   border:3px solid #FFD95A;box-shadow:0 4px 0 #F2B630,0 10px 18px rgba(0,0,0,.18);animation:tst 2.6s ease forwards}
 @keyframes tst{0%{opacity:0;transform:translateY(-16px) scale(.7)}10%{opacity:1;transform:scale(1.06)}16%{transform:none}85%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
 
+/* ============ شاشة البداية (تُرسم فورًا قبل أي سكربت، وتتسلّم من شاشة أندرويد بنفس اللون والشعار ومكانه) ============ */
+#splash{position:fixed;inset:0;z-index:300;overflow:hidden;touch-action:none;--dy:0px;font-family:var(--font);cursor:pointer}
+#splash .sp-bgc{position:absolute;inset:0;background:#FFF4FA}
+#splash .sp-blob{position:absolute;border-radius:50%;opacity:0;filter:blur(36px);will-change:transform}
+#splash .b1{width:300px;height:300px;left:-90px;top:-70px;background:#FFC2DD}
+#splash .b2{width:280px;height:280px;right:-90px;top:12%;background:#BFDDFF}
+#splash .b3{width:320px;height:320px;left:18%;bottom:-120px;background:#C9F0CF}
+#splash .sp-c{position:absolute;left:50%;top:calc(50% - var(--dy));width:0;height:0}
+#splash .sp-logo{position:absolute;left:-96px;top:-96px;width:192px;height:192px;transform-origin:50% 90%}
+#splash .sp-logo img{width:100%;height:100%;display:block;pointer-events:none}
+#splash .sp-kid{position:absolute;left:-27px;top:-27px;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:29px;line-height:1;opacity:0;
+  background:linear-gradient(180deg,#fff,#F4F0FA);box-shadow:0 0 0 3px #fff,0 0 0 6px var(--kc,#FF8CC6),0 7px 12px rgba(120,40,100,.22)}
+#splash .sp-kid img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+#splash .sp-kid[data-g=boy]{--kc:#6FB0FF}
+#splash .sp-g{position:absolute;font-style:normal;font-weight:900;opacity:0;text-shadow:0 2px 0 #fff,0 4px 8px rgba(0,0,0,.08);pointer-events:none}
+#splash .sp-title{position:absolute;left:0;right:0;top:calc(50% - var(--dy) + 132px);text-align:center;white-space:nowrap;font-size:36px;font-weight:900;line-height:1.2;opacity:0}
+#splash .sp-title span{display:inline-block;margin:0 .14em;color:var(--sc);
+  text-shadow:0 2px 0 #fff,2px 0 0 #fff,-2px 0 0 #fff,0 -2px 0 #fff,2px 2px 0 #fff,-2px 2px 0 #fff,2px -2px 0 #fff,-2px -2px 0 #fff,0 6px 0 var(--ss)}
+#splash .sp-title.ch span{margin:0}
+#splash .sp-title.ch span.sp{width:.3em}
+#splash .sp-bar{position:absolute;left:50%;bottom:calc(58px + env(safe-area-inset-bottom));width:200px;margin-left:-100px;height:14px;border-radius:99px;background:#fff;opacity:0;overflow:hidden;
+  box-shadow:inset 0 2px 3px rgba(224,33,127,.14),0 3px 0 #FFD6E8}
+#splash .sp-bar i{position:absolute;inset:3px;border-radius:99px;background:linear-gradient(90deg,#FF8CC6,#B49BFF 45%,#6FB0FF 70%,#7AD68C);transform:scaleX(0);transform-origin:0 50%}
+html[dir=rtl] #splash .sp-bar i{transform-origin:100% 50%;background:linear-gradient(270deg,#FF8CC6,#B49BFF 45%,#6FB0FF 70%,#7AD68C)}
+@media (max-height:520px){#splash .sp-title{top:calc(50% - var(--dy) + 112px);font-size:28px}#splash .sp-bar{bottom:18px}}
+/* بلا GSAP: ظهور بسيط بـ CSS */
+#splash.sp-css .sp-title,#splash.sp-css .sp-bar{animation:spIn .5s .1s both}
+#splash.sp-css .sp-bar i{transition:transform .5s ease-out}
+#splash.sp-out{opacity:0;transition:opacity .4s;pointer-events:none}
+@keyframes spIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- مفتاح اللغة في الشاشة الرئيسية: «عربي | English» بقرص ينزلق ---------- */
+.langpill{position:relative;display:inline-flex;align-items:stretch;padding:4px;border-radius:99px;background:rgba(255,255,255,.9);border:3px solid #fff;
+  box-shadow:0 4px 0 var(--t-edge),0 8px 14px var(--t-shadow);margin-top:10px}
+.langpill::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:99px;
+  background:linear-gradient(180deg,var(--t-main-l),var(--t-main) 70%,var(--t-main-d));box-shadow:0 3px 0 var(--t-main-d),inset 0 2px 0 rgba(255,255,255,.4);
+  transition:transform .42s cubic-bezier(.3,1.5,.5,1)}
+html[data-lang=en] .langpill::before{transform:translateX(100%)}
+.langpill button{position:relative;z-index:1;min-width:84px;padding:4px 14px;border-radius:99px;background:none;font-size:16px;font-weight:900;color:var(--t-main-d);line-height:1.5;transition:color .25s}
+.langpill button.on{color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.langpill button span{font-size:15px;margin-inline-end:4px}
+@media (min-width:720px){.langpill{margin-top:0}}
+
+/* ---------- الاتجاه من اليسار لليمين (الإنجليزية): عكس العناصر المثبّتة على جانب ---------- */
+html[dir=ltr] .sheet .close{float:right;margin:-4px 0 0 -2px}
+html[dir=ltr] .ked{left:auto;right:-8px}
+html[dir=ltr] .kf-g button.on::after,html[dir=ltr] .themes button.on::after{left:auto;right:-8px}
+html[dir=ltr] .card .newtag{left:auto;right:-6px;transform:rotate(10deg);animation-name:tagpopL}
+@keyframes tagpopL{0%,80%,100%{transform:rotate(10deg)}88%{transform:rotate(10deg) scale(1.15)}}
+html[dir=ltr] .ib .cnt{left:auto;right:-5px}
+html[dir=ltr] .sky .sun{left:auto;right:-60px}
+html[lang=en] .hello{letter-spacing:.2px}
+html[lang=en] .card h2{font-size:17px}
+
 /* ============ عناصر مشتركة داخل الألعاب (ثابتة لا تتأثر بالثيم) ============ */
 .bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;z-index:5;padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left))}
 .ib{width:46px;height:46px;flex:0 0 46px;border-radius:50%;background:linear-gradient(180deg,#fff 0%,#fff 55%,#EEEAF4 100%);color:var(--pink-d);font-size:21px;display:grid;place-items:center;
@@ -316,6 +385,155 @@ html.gs .card,html.gs .kav{will-change:transform}
 </head>
 <body>
 
+<!-- ====================== شاشة البداية ====================== -->
+<div id="splash" aria-hidden="true">
+  <div class="sp-bgc"></div><i class="sp-blob b1"></i><i class="sp-blob b2"></i><i class="sp-blob b3"></i>
+  <div class="sp-glyphs"></div>
+  <div class="sp-c"><div class="sp-orbit"></div><div class="sp-logo"><img src="img/splash-logo.webp" alt="" decoding="sync"></div></div>
+  <div class="sp-title"></div>
+  <div class="sp-bar"><i></i></div>
+</div>
+<script>
+/* شاشة البداية: تظهر فورًا بنفس لون شاشة أندرويد وشعارها في المكان نفسه، ثم تتحرك بـ GSAP حين يُحمَّل،
+   وتختفي متى جهز التطبيق (بحدّ أدنى قصير). النقر يتخطّاها، وتحترم تقليل الحركة، ولا تعلق أبدًا إن فشل GSAP. */
+window.Splash = (function () {
+  var el = document.getElementById('splash'), H = document.documentElement, t0 = Date.now();
+  var S = { active: true }, cbs = [], loaded = false, skip = false, ended = false, G = null, intro = null, orbit = null, bar = 0;
+  var reduce = false; try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  var MIN = reduce ? 450 : 1350;
+  var q = function (s) { return el.querySelector(s); };
+  var get = function (k) { try { return JSON.parse(localStorage.getItem('app:' + k)); } catch (e) { return null; } };
+  /* أندرويد: الصفحة مُزاحة عن أشرطة النظام، فنرفع الشعار بنصف الفرق كي يطابق وسط الشاشة كلها */
+  function fitDy() { try { if (window.AndroidBridge && AndroidBridge.insets) { var a = String(AndroidBridge.insets()).split(','); el.style.setProperty('--dy', ((+a[0] || 0) - (+a[1] || 0)) / 2 + 'px'); } } catch (e) {} }
+  fitDy(); addEventListener('resize', fitDy);
+  /* العنوان: كلمات في العربية (كي لا ينكسر وصل الحروف) وحروف في الإنجليزية */
+  var en = H.lang === 'en', title = q('.sp-title'), C = [['#E0217F', '#FFC7E0'], ['#2E86F5', '#C4E4FF'], ['#22A35A', '#C9F0CF'], ['#F08A00', '#FFE2A8']];
+  var parts = en ? 'Our Kids Games'.split('') : ['ألعاب', 'أطفالنا'];
+  title.className = 'sp-title' + (en ? ' ch' : '');
+  title.innerHTML = parts.map(function (p, i) {
+    if (p === ' ') return '<span class="sp"> </span>';
+    var c = C[(en ? i : i * 2) % C.length]; return '<span style="--sc:' + c[0] + ';--ss:' + c[1] + '">' + p + '</span>';
+  }).join('');
+  /* الأطفال يدورون حول الشعار (من قائمة الأطفال المحفوظة، أو الخمسة الأوائل) */
+  var kids = get('kids'); if (!kids || !kids.length) kids = [{ id: 'atheer', av: '👑', gender: 'girl' }, { id: 'bushra', av: '⭐', gender: 'girl' }, { id: 'kuti', av: '🚗', gender: 'boy' }, { id: 'rila', av: '🎀', gender: 'girl' }, { id: 'owaison', av: '🦖', gender: 'boy' }];
+  kids = kids.filter(function (k) { return k && k.id; }).slice(0, 8);
+  var orb = q('.sp-orbit');
+  kids.forEach(function (k) {
+    var d = document.createElement('div'); d.className = 'sp-kid'; d.setAttribute('data-k', k.id); d.setAttribute('data-g', k.gender === 'boy' ? 'boy' : 'girl');
+    if (k.photo && /^data:image\//.test(k.photo)) { var im = new Image(); im.src = k.photo; im.alt = ''; d.appendChild(im); } else d.textContent = k.av || '⭐';
+    orb.appendChild(d);
+  });
+  /* حروف وأرقام ونجوم تطفو في الخلفية */
+  var GL = en ? ['A', 'B', 'C', '1', '2', '3', '★', '♥', '✿', 'a', 'b', '+'] : ['أ', 'ب', 'ت', '١', '٢', '٣', '★', '♥', '✿', 'A', 'B', '+'];
+  var gbox = q('.sp-glyphs'), gc = ['#FF6FAE', '#5AA2FF', '#45C46A', '#FFB020', '#A77BFF'];
+  GL.forEach(function (g, i) {
+    var e = document.createElement('i'); e.className = 'sp-g'; e.textContent = g;
+    var col = i % 2 ? 1 : 0, r = ((i * 37) % 100) / 100;
+    e.style.cssText = 'left:' + (col ? 62 + r * 30 : 4 + r * 30) + '%;top:' + (6 + ((i * 53) % 88)) + '%;font-size:' + (22 + (i * 7) % 18) + 'px;color:' + gc[i % gc.length];
+    gbox.appendChild(e);
+  });
+  /* إبلاغ أندرويد بعد أول رسم للشعار كي يُظهر الصفحة فوق شاشته الأصلية */
+  var img = q('.sp-logo img'), told = false;
+  function shown() { if (told) return; told = true; requestAnimationFrame(function () { requestAnimationFrame(function () { try { window.AndroidBridge && AndroidBridge.splashShown && AndroidBridge.splashShown(); } catch (e) {} }); }); }
+  if (img.complete) shown(); else { img.onload = img.onerror = shown; setTimeout(shown, 800); }
+  /* شريط التقدّم: السكربتات التي وصلها المحلّل + الوقت، ثم يكتمل عند الجاهزية */
+  var fill = q('.sp-bar i');
+  function setBar(p) {
+    if (p <= bar) return; bar = p;
+    if (G) G.to(fill, { scaleX: p, duration: .35, ease: 'power2.out', overwrite: 'auto' }); else fill.style.transform = 'scaleX(' + p + ')';
+  }
+  var tick = setInterval(function () {
+    if (ended) { clearInterval(tick); return; }
+    var n = document.querySelectorAll('script[src]').length, el2 = (Date.now() - t0) / 1000;
+    setBar(Math.min(.92, Math.max(n / 58 * .9, 1 - Math.exp(-el2 * 1.6))));
+  }, 120);
+
+  /* الحركة الافتتاحية (حين يجهز GSAP) */
+  S.go = function () {
+    if (intro || ended || !window.gsap) return;
+    G = window.gsap;
+    if (reduce) { G.to([title, q('.sp-bar')], { autoAlpha: 1, duration: .3 }); return; }
+    var kidEls = el.querySelectorAll('.sp-kid'), n = kidEls.length, R = Math.min(150, innerWidth * .36), pos = { a: -90, r: 0 };
+    var place = function () { for (var i = 0; i < n; i++) { var a = (pos.a + i * 360 / n) * Math.PI / 180; G.set(kidEls[i], { x: Math.cos(a) * pos.r, y: Math.sin(a) * pos.r }); } };
+    intro = G.timeline();
+    intro.to('.sp-blob', { autoAlpha: .75, scale: 1.15, duration: 1, ease: 'sine.out', stagger: .1 }, 0)
+      // الشعار: انضغاط ثم قفزة ثم ارتداد مطاطي
+      .to('.sp-logo', { scaleX: 1.14, scaleY: .84, duration: .14, ease: 'power2.in' }, 0)
+      .to('.sp-logo', { scaleX: .93, scaleY: 1.1, y: -22, duration: .22, ease: 'power2.out' })
+      .to('.sp-logo', { scaleX: 1, scaleY: 1, y: 0, duration: .75, ease: 'elastic.out(1,0.38)' })
+      // الأطفال يخرجون من الشعار إلى مداراتهم
+      .to(kidEls, { autoAlpha: 1, duration: .2, stagger: .06 }, .2)
+      .fromTo(kidEls, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: .6, ease: 'back.out(2.4)', stagger: .06 }, .2)
+      .to(pos, { r: R, duration: .7, ease: 'back.out(1.6)', onUpdate: place }, .2)
+      .fromTo(title.children, { y: 26, scale: .4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .55, ease: 'back.out(2.2)', stagger: en ? .035 : .12 }, .35)
+      .set(title, { autoAlpha: 1 }, .35)
+      .fromTo('.sp-bar', { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .4, ease: 'back.out(2)' }, .5)
+      .fromTo('.sp-g', { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: .7, duration: .5, ease: 'back.out(2)', stagger: { each: .04, from: 'random' } }, .3);
+    place();
+    orbit = G.to(pos, { a: 270, duration: 9, ease: 'none', onUpdate: place, delay: .2 });
+    el.querySelectorAll('.sp-g').forEach(function (g, i) { G.to(g, { y: -40 - (i % 4) * 14, rotation: (i % 2 ? 1 : -1) * 25, duration: 2.6 + (i % 3) * .5, ease: 'sine.inOut', yoyo: true, repeat: -1 }); });
+    fill.style.transform = ''; G.set(fill, { scaleX: bar });
+  };
+  function css() { if (!G && !ended) el.classList.add('sp-css'); }
+  setTimeout(css, 1200);
+
+  function maybeEnd() {
+    if (ended || !loaded) return;
+    var left = MIN - (Date.now() - t0);
+    if (skip || left <= 0) end(); else setTimeout(maybeEnd, left);
+  }
+  /* الخروج: الخلفية تذوب، والشعار يطير إلى شعار القائمة، وكل طفل يطير إلى صورته في صف الأطفال */
+  function end() {
+    if (ended) return; ended = true; S.active = false; clearInterval(tick);
+    var done = function () { if (el.parentNode) el.parentNode.removeChild(el); };
+    var run = function () { var l = cbs; cbs = []; l.forEach(function (f) { try { f(); } catch (e) { console.warn(e); } }); };
+    if (!G || reduce) {
+      run(); el.classList.add('sp-out'); setTimeout(done, 450); return;
+    }
+    if (intro) intro.progress(1); if (orbit) orbit.kill();
+    S.handoff = true;
+    var L = q('.sp-logo'), menuLogo = document.getElementById('logo'), tl = G.timeline({ onComplete: done });
+    G.to(fill, { scaleX: 1, duration: .2, overwrite: 'auto' });
+    var fly = function (from, to, sizeFrom, sizeTo) {
+      var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+      return { x: '+=' + ((b.left + b.width / 2) - (a.left + a.width / 2)), y: '+=' + ((b.top + b.height / 2) - (a.top + a.height / 2)), scale: (b.width / (sizeFrom || a.width)) * (sizeTo || 1) };
+    };
+    var real = [];
+    if (menuLogo && menuLogo.getBoundingClientRect().width) {
+      var v = fly(L, menuLogo, 192, 1.12); real.push(menuLogo);
+      tl.to(L, { x: v.x, y: v.y, scale: v.scale, duration: .62, ease: 'power3.inOut' }, .05).to(L, { autoAlpha: 0, duration: .18 }, '>-.04');
+    } else tl.to(L, { scale: 1.3, autoAlpha: 0, duration: .45, ease: 'power2.in' }, 0);
+    el.querySelectorAll('.sp-kid').forEach(function (k, i) {
+      var t = document.querySelector('#kids .kid[data-k="' + (window.CSS && CSS.escape ? CSS.escape(k.getAttribute('data-k')) : k.getAttribute('data-k')) + '"] .kav');
+      var r = t && t.getBoundingClientRect();
+      if (r && r.width && r.right > 0 && r.left < innerWidth && r.top < innerHeight) {
+        var v2 = fly(k, t, 54, 1); real.push(t);
+        tl.to(k, { x: v2.x, y: v2.y, scale: v2.scale, rotation: 360, duration: .6, ease: 'power3.inOut' }, .08 + i * .04).to(k, { autoAlpha: 0, duration: .15 }, '>-.03');
+      } else tl.to(k, { scale: 0, autoAlpha: 0, duration: .3, ease: 'back.in(2)' }, i * .03);
+    });
+    G.set(real, { autoAlpha: 0 });
+    tl.add(function () { G.set(real, { clearProps: 'opacity,visibility' }); }, .66)
+      .to([title, q('.sp-bar')], { y: 20, autoAlpha: 0, duration: .3, ease: 'power2.in' }, 0)
+      .to('.sp-g', { scale: 0, autoAlpha: 0, duration: .25, stagger: .015 }, 0)
+      .to(['.sp-bgc', '.sp-blob'], { autoAlpha: 0, duration: .45, ease: 'power1.inOut' }, .12)
+      .add(run, .2);
+    el.style.pointerEvents = 'none';
+  }
+  /** يُستدعى من App.boot بعد بناء القائمة؛ ننتظر الخطوط قليلًا كي يظهر العنوان بخطه */
+  S.ready = function () {
+    if (loaded) return;
+    var go = function () { if (loaded) return; loaded = true; setBar(1); maybeEnd(); };
+    try { (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go, go); } catch (e) { go(); }
+    setTimeout(go, 700);
+  };
+  S.onEnd = function (f) { if (ended && !cbs.length) { f(); } else cbs.push(f); };
+  el.addEventListener('pointerdown', function () { skip = true; if (!loaded) { /* يتخطّى حين يجهز */ } maybeEnd(); });
+  /* احتياط: إن تعطّل الإقلاع لا تبقى الشاشة إلى الأبد */
+  setTimeout(function () { if (!ended) { loaded = true; skip = true; maybeEnd(); } }, 6000);
+  return S;
+})();
+</script>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
 </svg>
@@ -336,6 +554,7 @@ html.gs .card,html.gs .kav{will-change:transform}
     <div class="hero">
       <div class="logo" id="logo"></div>
       <div class="hero-txt">
+        <div class="langpill" id="mLang" role="group" dir="ltr" aria-label="اللغة"><button data-l="ar" lang="ar"><span>🇸🇦</span>عربي</button><button data-l="en" lang="en"><span>🇬🇧</span>English</button></div>
         <h1 class="hello" id="hello"></h1>
         <p class="sub" id="sub"></p>
         <div class="kids" id="kids" aria-label="الأطفال"></div>
@@ -354,9 +573,9 @@ html.gs .card,html.gs .kav{will-change:transform}
 <div id="curtain" aria-hidden="true"></div>
 <div id="fxl" aria-hidden="true"></div>
 
+<script src="js/vendor/gsap.min.js" onload="Splash.go()"></script>
 <script src="js/edition.js"></script>
 <script src="voice/index.js"></script>
-<script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/Flip.min.js"></script>
 <script src="js/vendor/CustomEase.min.js"></script>
 <script src="js/vendor/Draggable.min.js"></script>

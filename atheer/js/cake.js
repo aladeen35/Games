@@ -13,58 +13,61 @@
 
   /* ---------- البيانات ---------- */
   const SHAPES = [
-    { id: 'round', n: 'دائرية', s: 'دائرية' },
-    { id: 'square', n: 'مربعة', s: 'مربعة' },
-    { id: 'heart', n: 'قلب', s: 'على شكل قلب' },
-    { id: 'star', n: 'نجمة', s: 'على شكل نجمة' }
+    { id: 'round', n: 'دائرية', s: 'دائرية', en: 'Round', se: 'round' },
+    { id: 'square', n: 'مربعة', s: 'مربعة', en: 'Square', se: 'square' },
+    { id: 'heart', n: 'قلب', s: 'على شكل قلب', en: 'Heart', se: 'heart-shaped' },
+    { id: 'star', n: 'نجمة', s: 'على شكل نجمة', en: 'Star', se: 'star-shaped' }
   ];
   const FLAV = {
-    vanilla: { n: 'فانيليا', s: 'بالفانيليا', side: '#F4CF83', crust: '#E2AA58' },
-    choco: { n: 'شوكولاتة', s: 'بالشوكولاتة', side: '#7E4A2A', crust: '#5E3219' },
-    straw: { n: 'فراولة', s: 'بالفراولة', side: '#F7A2B6', crust: '#E07C96' },
-    rainbow: { n: 'قوس قزح', s: 'بألوان قوس قزح', side: '#FFE066', crust: '#F0C77A', layers: ['#B98CFF', '#6BB8FF', '#7BE08A', '#FFE066', '#FFA94D', '#FF6B7A'] }
+    vanilla: { n: 'فانيليا', s: 'بالفانيليا', en: 'Vanilla', side: '#F4CF83', crust: '#E2AA58' },
+    choco: { n: 'شوكولاتة', s: 'بالشوكولاتة', en: 'Chocolate', side: '#7E4A2A', crust: '#5E3219' },
+    straw: { n: 'فراولة', s: 'بالفراولة', en: 'Strawberry', side: '#F7A2B6', crust: '#E07C96' },
+    rainbow: { n: 'قوس قزح', s: 'بألوان قوس قزح', en: 'Rainbow', side: '#FFE066', crust: '#F0C77A', layers: ['#B98CFF', '#6BB8FF', '#7BE08A', '#FFE066', '#FFA94D', '#FF6B7A'] }
   };
   const FLAV_IDS = ['vanilla', 'choco', 'straw', 'rainbow'];
   const FROST = [
-    { id: 'white', n: 'بيضاء', c: '#FFFBF4', coat: '#F4E5D2' },
-    { id: 'pink', n: 'وردية', c: '#FF7FB8' },
-    { id: 'choco', n: 'بالشوكولاتة', c: '#5E3018', coat: '#B98560' },
-    { id: 'red', n: 'حمراء', c: '#F2405A' },
-    { id: 'purple', n: 'بنفسجية', c: '#A982FF' },
-    { id: 'mint', n: 'بالنعناع', c: '#5FD6A8' },
-    { id: 'blue', n: 'زرقاء', c: '#5DB8FF' },
-    { id: 'yellow', n: 'صفراء', c: '#FFD447' },
-    { id: 'caramel', n: 'بالكراميل', c: '#D98F3A' }
+    { id: 'white', n: 'بيضاء', en: 'white', c: '#FFFBF4', coat: '#F4E5D2' },
+    { id: 'pink', n: 'وردية', en: 'pink', c: '#FF7FB8' },
+    { id: 'choco', n: 'بالشوكولاتة', en: 'chocolate', c: '#5E3018', coat: '#B98560' },
+    { id: 'red', n: 'حمراء', en: 'red', c: '#F2405A' },
+    { id: 'purple', n: 'بنفسجية', en: 'purple', c: '#A982FF' },
+    { id: 'mint', n: 'بالنعناع', en: 'mint', c: '#5FD6A8' },
+    { id: 'blue', n: 'زرقاء', en: 'blue', c: '#5DB8FF' },
+    { id: 'yellow', n: 'صفراء', en: 'yellow', c: '#FFD447' },
+    { id: 'caramel', n: 'بالكراميل', en: 'caramel', c: '#D98F3A' }
   ];
   FROST.forEach(f => { if (!f.coat) f.coat = mixHex(f.c, '#FFF6EC', .58); });
   const CREAM = ['#FFFDF8', '#FF9CCB', '#7A4426', '#FFE27A', '#8FD0FF', '#86E3BE', '#C7A6FF', '#FF6B81'];
   const TIPS = [
-    { id: 'star', n: 'وردة', r: .066, gap: .068 },
-    { id: 'dot', n: 'نقاط', r: .043, gap: .1 },
-    { id: 'ruffle', n: 'كشكشة', r: .062, gap: .03 },
-    { id: 'swirl', n: 'دوّامة', r: .08, gap: .15 }
+    { id: 'star', n: 'وردة', en: 'Rose', r: .066, gap: .068 },
+    { id: 'dot', n: 'نقاط', en: 'Dots', r: .043, gap: .1 },
+    { id: 'ruffle', n: 'كشكشة', en: 'Ruffle', r: .062, gap: .03 },
+    { id: 'swirl', n: 'دوّامة', en: 'Swirl', r: .08, gap: .15 }
   ];
   /* e: نصف عرض صندوق الرسم بوحدة الكعكة (نقطة التلامس عند 1.6e من الأعلى) */
   const TOPS = [
-    { id: 'cherry', n: 'كرز', e: .2, nv: 1 },
-    { id: 'straw', n: 'فراولة', e: .16, nv: 1 },
-    { id: 'blue', n: 'توت', e: .07, nv: 1 },
-    { id: 'choc', n: 'شوكولاتة', e: .12, nv: 3 },
-    { id: 'spr', n: 'رشّات', e: .1, nv: 1 },
-    { id: 'mac', n: 'ماكرون', e: .1, nv: 5 },
-    { id: 'candy', n: 'حلوى', e: .11, nv: 4 },
-    { id: 'lolly', n: 'مصاصة', e: .2, nv: 3 },
-    { id: 'flower', n: 'وردة', e: .1, nv: 5 },
-    { id: 'heart', n: 'قلب', e: .1, nv: 3 },
-    { id: 'star', n: 'نجمة', e: .1, nv: 3 },
-    { id: 'candle', n: 'شمعة', e: .2, nv: 5 },
-    { id: 'plq', n: 'لوحة', e: .3, nv: 1 }
+    { id: 'cherry', n: 'كرز', en: 'Cherry', e: .2, nv: 1 },
+    { id: 'straw', n: 'فراولة', en: 'Strawberry', e: .16, nv: 1 },
+    { id: 'blue', n: 'توت', en: 'Blueberry', e: .07, nv: 1 },
+    { id: 'choc', n: 'شوكولاتة', en: 'Chocolate', e: .12, nv: 3 },
+    { id: 'spr', n: 'رشّات', en: 'Sprinkles', e: .1, nv: 1 },
+    { id: 'mac', n: 'ماكرون', en: 'Macaron', e: .1, nv: 5 },
+    { id: 'candy', n: 'حلوى', en: 'Candy', e: .11, nv: 4 },
+    { id: 'lolly', n: 'مصاصة', en: 'Lollipop', e: .2, nv: 3 },
+    { id: 'flower', n: 'وردة', en: 'Flower', e: .1, nv: 5 },
+    { id: 'heart', n: 'قلب', en: 'Heart', e: .1, nv: 3 },
+    { id: 'star', n: 'نجمة', en: 'Star', e: .1, nv: 3 },
+    { id: 'candle', n: 'شمعة', en: 'Candle', e: .2, nv: 5 },
+    { id: 'plq', n: 'لوحة', en: 'Sign', e: .3, nv: 1 }
   ];
   const TOP = Object.fromEntries(TOPS.map(t => [t.id, t]));
+  const isEn = () => App.gameLang(ID) === 'en';
+  const N = o => isEn() ? o.en : o.n;               // اسم المحتوى حسب لغة اللعبة
+  const say = (ar, en) => isEn() ? App.speak(en, 'en') : App.speak(ar);
   const SPR_COLS = ['#FF4F8B', '#FFD23F', '#3ED1A0', '#4FA8FF', '#B07CFF', '#FF8A3D', '#FFFFFF'];
   const STEPS = [
-    { i: '🎂', n: 'الشكل' }, { i: '🍰', n: 'الكيك' }, { i: '🍯', n: 'الكريمة' },
-    { i: '🧁', n: 'التزيين' }, { i: '🍒', n: 'الإضافات' }, { i: '🎉', n: 'تم!' }
+    { i: '🎂', n: 'الشكل', en: 'Shape' }, { i: '🍰', n: 'الكيك', en: 'Cake' }, { i: '🍯', n: 'الكريمة', en: 'Frosting' },
+    { i: '🧁', n: 'التزيين', en: 'Decorate' }, { i: '🍒', n: 'الإضافات', en: 'Toppings' }, { i: '🎉', n: 'تم!', en: 'Done!' }
   ];
   /* الطلبات: shape, tiers, flavor, frost, pipe (عدد خطوط الكريمة), items */
   const ORDERS = [
@@ -558,8 +561,8 @@
         c.strokeStyle = '#FF8DBF'; c.lineWidth = .008 * u; c.setLineDash([.012 * u, .01 * u]);
         c.beginPath(); c.roundRect(-w / 2 + .018 * u, y0 + .018 * u, w - .036 * u, h - .036 * u, .028 * u); c.stroke(); c.setLineDash([]);
         c.fillStyle = 'rgba(255,255,255,.8)'; c.beginPath(); c.roundRect(-w / 2 + .03 * u, y0 + .01 * u, w * .5, .012 * u, .006 * u); c.fill();
-        c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
-        c.fillStyle = '#E0457F'; c.font = `800 ${.052 * u}px ${FONT}`; c.fillText('عيد ميلاد سعيد', 0, y0 + h * .36);
+        c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = isEn() ? 'ltr' : 'rtl';
+        c.fillStyle = '#E0457F'; c.font = `800 ${.052 * u}px ${FONT}`; c.fillText(isEn() ? 'Happy Birthday' : 'عيد ميلاد سعيد', 0, y0 + h * .36);
         const nm = App.profile ? App.profile.name : '';
         c.fillStyle = '#7A3E1E'; c.font = `900 ${.06 * u}px ${FONT}`; c.fillText(nm, 0, y0 + h * .7);
         break;
@@ -637,7 +640,7 @@
   }
 
   /* ---------- ذاكرة الصور الجاهزة ---------- */
-  let SPR = new Map();
+  let SPR = new Map(), builtLang = '';
   function itemSprite(k, v, u, pr) {
     const e = TOP[k].e, P = Math.max(8, Math.round(u * pr / 3) * 3), key = 'i' + k + v + '|' + P;
     let s = SPR.get(key);
@@ -928,7 +931,7 @@
       <button class="ib galb" aria-label="المعرض">🖼️</button>
       <span class="grow"></span>
       <div class="chip"><small class="mL">الوضع</small><b class="mV">حر</b></div>
-      <div class="chip"><small>كعكاتي</small><b class="cN">0</b></div>
+      <div class="chip"><small data-ar="كعكاتي" data-en="My cakes">كعكاتي</small><b class="cN">0</b></div>
     </div>
     <div class="order"><div class="cust">🧒</div><div class="bub"><div class="ot"></div><div class="reqs"></div></div></div>
     <div class="tools"><button class="ib undo" aria-label="تراجع">↩️</button><button class="ib clr" aria-label="مسح الزينة">🗑️</button></div>
@@ -937,15 +940,15 @@
       <div class="tray"></div>
       <div class="steps"></div>
     </div>
-    <div class="overlay" id="ckMode"><div class="panel lvp"><h3>🎂 زينة الكيك</h3>
-      <div class="mbig"><button class="f" data-m="free"><span>🎨</span>حر<small class="fs"></small></button><button class="g" data-m="orders"><span>📋</span>طلبات<small class="gs"></small></button></div>
-      <div class="lvh">📋 طلبات الزبائن</div>
+    <div class="overlay" id="ckMode"><div class="panel lvp"><h3 data-ar="🎂 زينة الكيك" data-en="🎂 Cake Maker">🎂 زينة الكيك</h3>
+      <div class="mbig"><button class="f" data-m="free"><span>🎨</span><b data-ar="حر" data-en="Free">حر</b><small class="fs"></small></button><button class="g" data-m="orders"><span>📋</span><b data-ar="طلبات" data-en="Orders">طلبات</b><small class="gs"></small></button></div>
+      <div class="lvh" data-ar="📋 طلبات الزبائن" data-en="📋 Customer orders">📋 طلبات الزبائن</div>
       <div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
-    <div class="overlay" id="ckGal"><div class="panel lvp"><h3>🖼️ معرض الكعكات</h3><div class="gal"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
-    <div class="overlay" id="ckPic"><div class="panel"><h3>📸 صورة كعكتك</h3><img class="pimg" alt=""><p class="pp"></p>
-      <button class="btn" data-a="close">👍 حسنًا</button></div></div>`);
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="ckGal"><div class="panel lvp"><h3 data-ar="🖼️ معرض الكعكات" data-en="🖼️ Cake gallery">🖼️ معرض الكعكات</h3><div class="gal"></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="ckPic"><div class="panel"><h3 data-ar="📸 صورة كعكتك" data-en="📸 Your cake picture">📸 صورة كعكتك</h3><img class="pimg" alt=""><p class="pp"></p>
+      <button class="btn" data-a="close" data-ar="👍 حسنًا" data-en="👍 OK">👍 حسنًا</button></div></div>`);
   const cv = root.querySelector('canvas.sc'), bar = root.querySelector('.bar');
   const orderEl = root.querySelector('.order'), custEl = root.querySelector('.cust'), otEl = root.querySelector('.ot'), reqsEl = root.querySelector('.reqs');
   const toolsEl = root.querySelector('.tools'), undoB = root.querySelector('.undo'), clrB = root.querySelector('.clr');
@@ -953,6 +956,11 @@
   const modeOv = root.querySelector('#ckMode'), galOv = root.querySelector('#ckGal'), picOv = root.querySelector('#ckPic');
   const mV = root.querySelector('.mV'), mL = root.querySelector('.mL'), cN = root.querySelector('.cN');
   const overlays = [modeOv, galOv, picOv];
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.modeb', 'الطلبات', 'Orders'], ['.galb', 'المعرض', 'Gallery'], ['.undo', 'تراجع', 'Undo'], ['.clr', 'مسح الزينة', 'Clear decorations']]
+      .forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, bgLayer = null, raf = 0, last = 0, T = 0, running = false, paused = false, built = false;
@@ -1078,7 +1086,14 @@
   function regoal() { goal = goalView(); buildBg(); }
 
   /* ---------- الشريط السفلي ---------- */
-  const tipText = () => [
+  const tipText = () => App.lang === 'en' ? [
+    'Choose the cake shape and number of layers',
+    'Choose the cake flavor inside',
+    'Choose the frosting color and watch it pour!',
+    'Draw with cream on the cake with your finger ✍️',
+    'Drag the toppings onto the cake, or choose one and tap',
+    cake && cake.tops.some(i => i.k === 'candle' && i.lit) ? 'Tap the candles to blow them out! 🌬️' : 'What a lovely cake! 🎉'
+  ][step - 1] : [
     App.g('اختاري شكل الكعكة وعدد الطبقات', 'اختر شكل الكعكة وعدد الطبقات'),
     App.g('اختاري نكهة الكيك من الداخل', 'اختر نكهة الكيك من الداخل'),
     App.g('اختاري لون الكريمة وشاهديها تنسكب!', 'اختر لون الكريمة وشاهدها تنسكب!'),
@@ -1086,21 +1101,22 @@
     App.g('اسحبي الإضافات إلى الكعكة، أو اختاري ثم اضغطي', 'اسحب الإضافات إلى الكعكة، أو اختر ثم اضغط'),
     cake && cake.tops.some(i => i.k === 'candle' && i.lit) ? App.g('اضغطي على الشموع لإطفائها! 🌬️', 'اضغط على الشموع لإطفائها! 🌬️') : App.g('كعكة رائعة! 🎉', 'كعكة رائعة! 🎉')
   ][step - 1];
+  const tiersName = n => isEn() ? ['One layer', 'Two layers', '3 layers'][n - 1] : ['طبقة واحدة', 'طبقتان', '3 طبقات'][n - 1];
   function buildTray() {
     built = true;
     const op = (attr, img, label, cls = '') => `<button class="op ${cls}" ${attr}><img src="${img}" alt="">${label}</button>`;
     const sw = (attr, c, cls = '') => `<button class="sw ${cls}" ${attr} style="--c:${c};--d:${shade(c, -.28)}"></button>`;
     tray.innerHTML = `
-      <div class="pane" data-p="1"><div class="rw">${SHAPES.map(s => op(`data-shape="${s.id}"`, icon('shape:' + s.id), s.n, 'mid')).join('')}</div>
-        <div class="rw">${[1, 2, 3].map(n => op(`data-tiers="${n}"`, icon('tiers:' + n), ['طبقة واحدة', 'طبقتان', '3 طبقات'][n - 1], 'mid')).join('')}</div></div>
-      <div class="pane" data-p="2"><div class="rw">${FLAV_IDS.map(f => op(`data-flav="${f}"`, icon('flav:' + f), FLAV[f].n, 'wide')).join('')}</div></div>
-      <div class="pane" data-p="3"><div class="rw">${FROST.slice(0, 5).map((f, i) => sw(`data-frost="${i}" aria-label="${f.n}"`, f.c)).join('')}</div>
-        <div class="rw">${FROST.slice(5).map((f, i) => sw(`data-frost="${i + 5}" aria-label="${f.n}"`, f.c)).join('')}</div></div>
-      <div class="pane" data-p="4"><div class="rw">${TIPS.map(t => op(`data-tip="${t.id}"`, icon('tip:' + t.id), t.n)).join('')}</div>
+      <div class="pane" data-p="1"><div class="rw">${SHAPES.map(s => op(`data-shape="${s.id}"`, icon('shape:' + s.id), N(s), 'mid')).join('')}</div>
+        <div class="rw">${[1, 2, 3].map(n => op(`data-tiers="${n}"`, icon('tiers:' + n), tiersName(n), 'mid')).join('')}</div></div>
+      <div class="pane" data-p="2"><div class="rw">${FLAV_IDS.map(f => op(`data-flav="${f}"`, icon('flav:' + f), N(FLAV[f]), 'wide')).join('')}</div></div>
+      <div class="pane" data-p="3"><div class="rw">${FROST.slice(0, 5).map((f, i) => sw(`data-frost="${i}" aria-label="${N(f)}"`, f.c)).join('')}</div>
+        <div class="rw">${FROST.slice(5).map((f, i) => sw(`data-frost="${i + 5}" aria-label="${N(f)}"`, f.c)).join('')}</div></div>
+      <div class="pane" data-p="4"><div class="rw">${TIPS.map(t => op(`data-tip="${t.id}"`, icon('tip:' + t.id), N(t))).join('')}</div>
         <div class="rw">${CREAM.map((c, i) => sw(`data-cream="${i}"`, c, 'sm')).join('')}</div></div>
-      <div class="pane" data-p="5"><div class="grid2">${TOPS.map(t => op(`data-top="${t.id}"`, icon('top:' + t.id), t.n)).join('')}</div></div>
+      <div class="pane" data-p="5"><div class="grid2">${TOPS.map(t => op(`data-top="${t.id}"`, icon('top:' + t.id), N(t))).join('')}</div></div>
       <div class="pane" data-p="6"><div class="fin"></div></div>`;
-    stepsEl.innerHTML = STEPS.map((s, i) => `<button class="st" data-s="${i + 1}"><i>${s.i}</i>${s.n}</button>`).join('') + `<button class="nx"></button>`;
+    stepsEl.innerHTML = STEPS.map((s, i) => `<button class="st" data-s="${i + 1}"><i>${s.i}</i>${App.t(s.n, s.en)}</button>`).join('') + `<button class="nx"></button>`;
   }
   function syncTray() {
     tray.querySelectorAll('.pane').forEach(p => p.classList.toggle('on', +p.dataset.p === step));
@@ -1113,15 +1129,15 @@
     tray.querySelectorAll('[data-top]').forEach(b => b.classList.toggle('on', b.dataset.top === topSel));
     stepsEl.querySelectorAll('.st').forEach(b => { const s = +b.dataset.s; b.classList.toggle('on', s === step); b.classList.toggle('done', s !== step && s < maxStep); });
     const nx = stepsEl.querySelector('.nx');
-    nx.textContent = step < 5 ? 'التالي ◀' : '✔ ' + App.g('انتهيت', 'انتهيت');
+    nx.textContent = step < 5 ? App.t('التالي ◀', 'Next ▶') : '✔ ' + App.t('انتهيت', 'Done');
     nx.classList.toggle('hide', step === 6);
     toolsEl.classList.toggle('on', step === 4 || step === 5);
     tipEl.textContent = tipText();
     undoB.disabled = !cake.hist.length; clrB.disabled = !cake.pipes.length && !cake.tops.length;
   }
   function updateChips() {
-    if (mode === 'orders') { mL.textContent = 'الطلب'; mV.textContent = `${orderI + 1}/${ORDERS.length}`; }
-    else { mL.textContent = 'الوضع'; mV.textContent = 'حر 🎨'; }
+    if (mode === 'orders') { mL.textContent = App.t('الطلب', 'Order'); mV.textContent = `${orderI + 1}/${ORDERS.length}`; }
+    else { mL.textContent = App.t('الوضع', 'Mode'); mV.textContent = App.t('حر', 'Free') + ' 🎨'; }
     cN.textContent = store.get('cakeMade', 0);
   }
 
@@ -1149,6 +1165,14 @@
   }
   const reqOk = (r, ck) => (r.k === 'pipe' || r.k === 'item') ? reqHave(r, ck) >= r.n : !!reqHave(r, ck);
   function orderSentence(o) {
+    if (isEn()) {
+      const adj = [o.shape ? SHAPES.find(x => x.id === o.shape).se : '', o.flavor ? FLAV[o.flavor].en.toLowerCase() : ''].filter(Boolean).join(' ');
+      let e = 'I want a ' + (adj ? adj + ' ' : '') + 'cake';
+      const fr = o.frost ? FROST.find(f => f.id === o.frost).en + ' frosting' : '';
+      if (o.tiers) e += ' with ' + (o.tiers === 2 ? 'two' : 'three') + ' layers' + (fr ? ' and ' + fr : '');
+      else if (fr) e += ' with ' + fr;
+      return e;
+    }
     let s = 'أريد كعكة';
     if (o.shape) s += ' ' + SHAPES.find(x => x.id === o.shape).s;
     if (o.flavor) s += ' ' + FLAV[o.flavor].s;
@@ -1160,16 +1184,16 @@
     if (mode !== 'orders') return;
     const o = ORDERS[orderI];
     custEl.textContent = o.who;
-    otEl.textContent = `طلب ${orderI + 1}: ${orderSentence(o)}`;
+    otEl.textContent = `${isEn() ? 'Order' : 'طلب'} ${orderI + 1}: ${orderSentence(o)}`;
     reqsEl.innerHTML = reqsOf(o).map(r => {
       const ok = reqOk(r, cake) ? 'ok' : '';
-      if (r.k === 'shape') return `<span class="rq ${ok}"><img src="${icon('shape:' + r.v)}" alt="">${SHAPES.find(s => s.id === r.v).n}</span>`;
-      if (r.k === 'tiers') return `<span class="rq ${ok}"><img src="${icon('tiers:' + r.v)}" alt="">${r.v === 2 ? 'طبقتان' : '3 طبقات'}</span>`;
-      if (r.k === 'flavor') return `<span class="rq ${ok}"><img src="${icon('flav:' + r.v)}" alt="">${FLAV[r.v].n}</span>`;
-      if (r.k === 'frost') { const f = FROST.find(x => x.id === r.v); return `<span class="rq ${ok}"><i style="background:${f.c}"></i>كريمة</span>`; }
+      if (r.k === 'shape') return `<span class="rq ${ok}"><img src="${icon('shape:' + r.v)}" alt="">${N(SHAPES.find(s => s.id === r.v))}</span>`;
+      if (r.k === 'tiers') return `<span class="rq ${ok}"><img src="${icon('tiers:' + r.v)}" alt="">${tiersName(r.v)}</span>`;
+      if (r.k === 'flavor') return `<span class="rq ${ok}"><img src="${icon('flav:' + r.v)}" alt="">${N(FLAV[r.v])}</span>`;
+      if (r.k === 'frost') { const f = FROST.find(x => x.id === r.v); return `<span class="rq ${ok}"><i style="background:${f.c}"></i>${isEn() ? 'Frosting' : 'كريمة'}</span>`; }
       const h = Math.min(reqHave(r, cake), r.n);
       if (r.k === 'pipe') return `<span class="rq ${ok}"><img src="${icon('tip:star')}" alt=""><bdi>${h}/${r.n}</bdi></span>`;
-      if (r.t === 'spr' || r.t === 'plq') return `<span class="rq ${ok}"><img src="${icon('top:' + r.t)}" alt="">${TOP[r.t].n}</span>`;
+      if (r.t === 'spr' || r.t === 'plq') return `<span class="rq ${ok}"><img src="${icon('top:' + r.t)}" alt="">${N(TOP[r.t])}</span>`;
       return `<span class="rq ${ok}"><img src="${icon('top:' + r.t)}" alt=""><bdi>${h}/${r.n}</bdi></span>`;
     }).join('');
   }
@@ -1203,14 +1227,14 @@
     const G = tiersGeo(3);
     for (const p of cake.pipes) for (const b of p.pts) { const r = clampIn(s, b.x, b.z, G[p.tier].R * 1.04); b.x = r[0]; b.z = r[1]; }
     for (const it of cake.tops) { const r = clampIn(s, it.x, it.z, G[it.tier].R * .95); it.x = r[0]; it.z = r[1]; }
-    wobble(); Sound.pop(); vibrate(10); App.speak(SHAPES.find(x => x.id === s).n); changed();
+    wobble(); Sound.pop(); vibrate(10); { const o = SHAPES.find(x => x.id === s); say(o.n, o.en); } changed();
   }
   function setTiers(n) {
     if (cake.tiers === n) { wobble(); Sound.pop(); return; }
     cake.tiers = n; regoal(); wobble(); Sound.merge(n + 1); vibrate(15); changed();
   }
   function setFlavor(f) {
-    cake.flavor = f; wobble(); Sound.pop(); App.speak(FLAV[f].n); changed();
+    cake.flavor = f; wobble(); Sound.pop(); say(FLAV[f].n, FLAV[f].en); changed();
   }
   function setFrost(i) {
     cake.frost = i; cake.pour = 0; snd.pour(); vibrate(15); changed();
@@ -1315,7 +1339,7 @@
     else {
       snd.blow(); for (let i = 0; i < 6; i++) burst(x, yy, 1, 'smoke', '#CFC6CC');
       if (step === 6 && !cake.tops.some(i => i.k === 'candle' && i.lit && i.tier < cake.tiers) && !allOutSaid) {
-        allOutSaid = true; setTimeout(() => { confetti(60); Sound.win(); App.speak(App.g('عيد ميلاد سعيد!', 'عيد ميلاد سعيد!')); }, 300);
+        allOutSaid = true; setTimeout(() => { confetti(60); Sound.win(); say('عيد ميلاد سعيد!', 'Happy birthday!'); }, 300);
       }
     }
     vibrate(12); syncTray();
@@ -1448,14 +1472,14 @@
   function startOrder(i) {
     mode = 'orders'; orderI = i; orderCake = newCake(); cake = orderCake; step = 1; maxStep = 1;
     showOrderCard(true); updateChips(); syncTray(); layout();
-    setTimeout(() => { if (App.current === ID && mode === 'orders') App.speak(orderSentence(ORDERS[i])); }, 400);
+    setTimeout(() => { if (App.current === ID && mode === 'orders') say(orderSentence(ORDERS[i]), orderSentence(ORDERS[i])); }, 400);
     Sound.star();
   }
   function newFree() { freeCake = newCake(); cake = freeCake; step = 1; maxStep = 1; parts = []; regoal(); syncTray(); Sound.whoosh(); }
   function openMode() {
     const pr = loadProg();
     const done = Object.keys(pr.stars).filter(k => pr.stars[k]).length;
-    modeOv.querySelector('.fs').textContent = App.g('زيّني كما تحبين', 'زيّن كما تحب');
+    modeOv.querySelector('.fs').textContent = App.t(App.g('زيّني كما تحبين', 'زيّن كما تحب'), 'Decorate as you like');
     modeOv.querySelector('.gs').textContent = `${done}/${ORDERS.length}`;
     modeOv.querySelector('.f').classList.toggle('on', mode === 'free');
     modeOv.querySelector('.g').classList.toggle('on', mode === 'orders');
@@ -1468,7 +1492,7 @@
   }
   function openGallery() {
     const gal = store.get('cakeGallery', []);
-    galOv.querySelector('.gal').innerHTML = gal.length ? gal.map(g => `<img src="${g.img}" alt="">`).join('') : `<div class="empty">${App.g('لا توجد كعكات بعد… زيّني أول كعكة! 🎂', 'لا توجد كعكات بعد… زيّن أول كعكة! 🎂')}</div>`;
+    galOv.querySelector('.gal').innerHTML = gal.length ? gal.map(g => `<img src="${g.img}" alt="">`).join('') : `<div class="empty">${App.t(App.g('لا توجد كعكات بعد… زيّني أول كعكة! 🎂', 'لا توجد كعكات بعد… زيّن أول كعكة! 🎂'), 'No cakes yet… decorate your first cake! 🎂')}</div>`;
     galOv.classList.add('on');
   }
 
@@ -1477,7 +1501,7 @@
     finT = T; allOutSaid = false;
     cake.tops.forEach(it => { if (it.k === 'candle') it.lit = true; });
     confetti(110); Sound.win(); vibrate(30);
-    setTimeout(() => { if (App.current === ID && step === 6) App.speak(App.g('واو! كعكة رائعة!', 'واو! كعكة رائعة!')); }, 500);
+    setTimeout(() => { if (App.current === ID && step === 6) say('واو! كعكة رائعة!', 'Wow! What a lovely cake!'); }, 500);
     if (!cake.finished) {
       cake.finished = true;
       store.set('cakeMade', store.get('cakeMade', 0) + 1);
@@ -1507,12 +1531,12 @@
     let h = '';
     if (lastRes) {
       const r = lastRes, em = ['🙂', '😊', '😍'][r.st - 1];
-      const msg = r.st === 3 ? App.g('طلب مثالي! الزبون سعيد جدًا', 'طلب مثالي! الزبون سعيد جدًا') : r.st === 2 ? 'جميل! ينقصه القليل' : App.g('شكرًا! حاولي مطابقة الطلب أكثر', 'شكرًا! حاول مطابقة الطلب أكثر');
+      const msg = r.st === 3 ? App.t('طلب مثالي! الزبون سعيد جدًا', 'Perfect order! The customer is very happy') : r.st === 2 ? App.t('جميل! ينقصه القليل', 'Lovely! Just a little is missing') : App.t(App.g('شكرًا! حاولي مطابقة الطلب أكثر', 'شكرًا! حاول مطابقة الطلب أكثر'), 'Thank you! Try to match the order more closely');
       h += `<div class="res"><span class="em">${em}</span><div><div class="stars3">${[0, 1, 2].map(j => `<span class="${j < r.st ? '' : 'off'}">⭐</span>`).join('')}</div>${msg}</div></div>`;
-      h += `<div class="btns">${orderI < ORDERS.length - 1 ? '<button class="btn ok" data-a="nextO">الطلب التالي ◀</button>' : ''}<button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="save">💾 صورة</button><button class="btn alt" data-a="edit">✏️</button></div>`;
+      h += `<div class="btns">${orderI < ORDERS.length - 1 ? `<button class="btn ok" data-a="nextO">${App.t('الطلب التالي ◀', 'Next order ▶')}</button>` : ''}<button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="save">💾 ${App.t('صورة', 'Picture')}</button><button class="btn alt" data-a="edit">✏️</button></div>`;
     } else {
-      h += `<div class="res"><span class="em">🎂</span>${App.g('كعكتك جاهزة! يمكنك حفظ صورتها', 'كعكتك جاهزة! يمكنك حفظ صورتها')}</div>`;
-      h += `<div class="btns"><button class="btn" data-a="save">💾 حفظ الصورة</button><button class="btn ok" data-a="new">🎂 كعكة جديدة</button><button class="btn alt" data-a="edit">✏️ تعديل</button></div>`;
+      h += `<div class="res"><span class="em">🎂</span>${App.t('كعكتك جاهزة! يمكنك حفظ صورتها', 'Your cake is ready! You can save its picture')}</div>`;
+      h += `<div class="btns"><button class="btn" data-a="save">💾 ${App.t('حفظ الصورة', 'Save picture')}</button><button class="btn ok" data-a="new">🎂 ${App.t('كعكة جديدة', 'New cake')}</button><button class="btn alt" data-a="edit">✏️ ${App.t('تعديل', 'Edit')}</button></div>`;
     }
     fin.innerHTML = h;
   }
@@ -1532,8 +1556,9 @@
     paintBg(c, size, size, by + S * .24, size * .02, S);
     drawScene(c, { cx: size / 2, by, S, th: V.th }, cake, { T, pr: 1 });
     // شريط العنوان
-    const t = 'كعكة ' + (App.profile ? App.profile.name : '') + ' 🎂', fs = size * .055;
-    c.font = `900 ${fs}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
+    const nm = App.profile ? App.profile.name : '';
+    const t = App.lang === 'en' ? (nm ? nm + "'s cake 🎂" : 'My cake 🎂') : 'كعكة ' + nm + ' 🎂', fs = size * .055;
+    c.font = `900 ${fs}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = App.lang === 'en' ? 'ltr' : 'rtl';
     const tw = c.measureText(t).width + fs * 1.6, ty = size - fs * 1.15;
     c.fillStyle = 'rgba(255,255,255,.92)'; c.beginPath(); c.roundRect(size / 2 - tw / 2, ty - fs * .8, tw, fs * 1.6, fs * .8); c.fill();
     c.fillStyle = '#E0457F'; c.fillText(t, size / 2, ty + fs * .05);
@@ -1557,7 +1582,7 @@
     const android = !!window.AndroidBridge;
     if (!android) { try { const a = document.createElement('a'); a.href = url; a.download = 'cake-' + Date.now() + '.png'; document.body.appendChild(a); a.click(); a.remove(); } catch (e) {} }
     picOv.querySelector('.pimg').src = url;
-    picOv.querySelector('.pp').textContent = android ? App.g('اضغطي مطوّلًا على الصورة لحفظها', 'اضغط مطوّلًا على الصورة لحفظها') : 'تم تنزيل الصورة 📥';
+    picOv.querySelector('.pp').textContent = android ? App.t(App.g('اضغطي مطوّلًا على الصورة لحفظها', 'اضغط مطوّلًا على الصورة لحفظها'), 'Press and hold the picture to save it') : App.t('تم تنزيل الصورة 📥', 'Picture downloaded 📥');
     picOv.classList.add('on'); Sound.star();
   }
 
@@ -1619,11 +1644,11 @@
     ctx.save(); ctx.shadowColor = 'rgba(120,20,70,.22)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 5;
     ctx.fillStyle = 'rgba(255,255,255,.95)'; ctx.beginPath(); ctx.roundRect(x, y, cw, ch, 20); ctx.fill(); ctx.restore();
     ctx.strokeStyle = '#FFD3E6'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(x, y, cw, ch, 20); ctx.stroke();
-    ctx.fillStyle = '#D63F7A'; ctx.font = `800 13px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'rtl';
-    ctx.fillText('من الداخل', x + cw / 2, y + 15);
+    ctx.fillStyle = '#D63F7A'; ctx.font = `800 13px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = App.lang === 'en' ? 'ltr' : 'rtl';
+    ctx.fillText(App.t('من الداخل', 'Inside'), x + cw / 2, y + 15);
     const sw = cw * .5;
     drawSlice(ctx, x + cw * .36, y + ch * .44, sw, cake.flavor, step === 3 ? cake.frost : -1);
-    ctx.fillStyle = '#8A2D55'; ctx.font = `800 12px ${FONT}`; ctx.fillText(FLAV[cake.flavor].n, x + cw / 2, y + ch - 13);
+    ctx.fillStyle = '#8A2D55'; ctx.font = `800 12px ${FONT}`; ctx.fillText(N(FLAV[cake.flavor]), x + cw / 2, y + ch - 13);
   }
   function render() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1693,7 +1718,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'زينة الكيك', icon2: '🎂', isNew: false, music: 'cake',
+    titleEn: 'Cake Maker',
     desc: () => App.g('صمّمي كعكتك وزيّنيها بالكريمة والفواكه', 'صمّم كعكتك وزيّنها بالكريمة والفواكه'),
+    descEn: () => 'Design your cake and decorate it with cream and fruit',
+    helpEn: () => [
+      '🎂 Choose the shape and layers, then the flavor, then the frosting color and watch it pour',
+      '🧁 Draw with cream on the cake with your finger: rose, dots, ruffle or swirl',
+      '🍒 Drag fruit, candy and candles onto the cake, and tap a candle to light it or blow it out',
+      '📋 In orders mode make the cake the customer asks for to win up to 3 stars ⭐',
+      '↩️ to undo, 🗑️ to clear the decorations, and 💾 to save a picture of your cake in the gallery 🖼️'
+    ],
     help: () => [
       '🎂 ' + App.g('اختاري', 'اختر') + ' الشكل والطبقات، ثم النكهة، ثم لون الكريمة وشاهدها تنسكب',
       '🧁 ' + App.g('ارسمي', 'ارسم') + ' بالكريمة بإصبعك على الكعكة: وردة، نقاط، كشكشة أو دوّامة',
@@ -1705,7 +1739,7 @@
     best() {
       const pr = loadProg(), done = Object.keys(pr.stars).filter(k => pr.stars[k]).length, made = store.get('cakeMade', 0);
       const a = [];
-      if (done) a.push(`🏆 طلبات ${done}/${ORDERS.length}`);
+      if (done) a.push(`🏆 ${App.t('طلبات', 'Orders')} ${done}/${ORDERS.length}`);
       if (made) a.push(`🎂 ${made}`);
       return a.join(' · ');
     },
@@ -1713,10 +1747,19 @@
       paused = false;
       const pid = App.profile ? App.profile.id : '';
       if (pid !== profId) { profId = pid; freeCake = newCake(); orderCake = null; mode = 'free'; cake = freeCake; step = 1; maxStep = 1; SPR = new Map(); parts = []; }
-      if (!built) buildTray();
+      relabel();
+      if (!built || builtLang !== App.gameLang(ID) + App.lang) { buildTray(); builtLang = App.gameLang(ID) + App.lang; }
       showOrderCard(mode === 'orders');
       updateChips(); syncTray(); if (step === 6) renderFin();
       layout(); startLoop();
+    },
+    onLang() {
+      relabel(); buildTray(); builtLang = App.gameLang(ID) + App.lang;
+      ICONS.delete('top:plq'); SPR = new Map();
+      updateChips(); syncTray(); if (step === 6) renderFin();
+      renderOrder();
+      if (modeOv.classList.contains('on')) openMode();
+      if (galOv.classList.contains('on')) openGallery();
     },
     leave() {
       stopLoop(); stroke = null; drag = null; tdrag = null;

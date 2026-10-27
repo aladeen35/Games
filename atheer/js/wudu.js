@@ -572,9 +572,9 @@
   `);
   const root = App.section(ID, `
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🔢</button>
       <span class="grow"></span>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
@@ -585,26 +585,26 @@
         <div class="learn">
           <div class="lbox"><div class="st"><span class="n"></span><span class="ic"></span><span class="tt"></span></div><div class="say"></div><div class="sub"></div><div class="cnt"></div></div>
           <div class="nav" style="margin-top:12px">
-            <button class="nb prev" aria-label="السابق">▶</button>
-            <button class="ib snd nb play" aria-label="اسمع">🔊</button>
+            <button class="nb prev" data-i="prev">▶</button>
+            <button class="ib snd nb play" data-i="listen">🔊</button>
             <button class="nb go"></button>
           </div>
         </div>
         <div class="quiz hidden">
-          <div class="ask"><button class="ib snd sayb" aria-label="اسمع">🔊</button><span class="at"></span><span class="ai"></span></div>
+          <div class="ask"><button class="ib snd sayb" data-i="listen">🔊</button><span class="at"></span><span class="ai"></span></div>
           <div class="choices hidden"></div>
         </div>
         <div class="ord hidden"><div class="slots"></div><div class="tray"></div></div>
       </div>
     </div>
-    <div class="overlay" id="wuLv"><div class="panel lvp"><h3>🔢 المستويات</h3>
-      <div class="lvh">💧 الوضوء</div><div class="lvg g1"></div>
-      <div class="lvh">🕌 الصلاة</div><div class="lvg g2"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="wuLv"><div class="panel lvp"><h3 class="hLv"></h3>
+      <div class="lvh h1"></div><div class="lvg g1"></div>
+      <div class="lvh h2"></div><div class="lvg g2"></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="wuWin"><div class="panel">
       <h3 class="wT"></h3><div class="wI" style="font-size:54px;line-height:1.1;font-family:${EMOJI_FONT}">🕌</div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('.scard canvas'), scard = root.querySelector('.scard'), stageEl = root.querySelector('.stage');
   const progEl = root.querySelector('.prog');
@@ -615,6 +615,26 @@
   const askEl = root.querySelector('.ask'), askT = askEl.querySelector('.at'), askI = askEl.querySelector('.ai'), choicesEl = root.querySelector('.choices');
   const slotsEl = root.querySelector('.slots'), trayEl = root.querySelector('.tray');
   const lvOv = root.querySelector('#wuLv'), winOv = root.querySelector('#wuWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), prev: App.t('السابق', 'Previous'), listen: App.t('اسمع', 'Listen') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    prevBtn.textContent = App.lang === 'en' ? '◀' : '▶';
+    root.querySelector('.hLv').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+    root.querySelector('.lvh.h1').textContent = '💧 ' + App.t('الوضوء', 'Wudu');
+    root.querySelector('.lvh.h2').textContent = '🕌 ' + App.t('الصلاة', 'Prayer');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🔢 ' + App.t('المستويات', 'Levels');
+  }
+  let winMis = 0;
+  function winText() {
+    /* «ما شاء الله» ذِكر يبقى بالعربية في اللغتين */
+    root.querySelector('.wT').textContent = 'ما شاء الله! ' + App.t(App.g('أحسنتِ', 'أحسنتَ'), 'Well done') + ' 🌟';
+    const done = App.lang === 'en'
+      ? { learnW: 'You learned the steps of wudu 💧', learnP: 'You learned the steps of a rak\'ah 🕌', times: 'You know the times of the five prayers 🌅' }[def.k]
+      : { learnW: App.g('تعلّمتِ', 'تعلّمتَ') + ' خطوات الوضوء 💧', learnP: App.g('تعلّمتِ', 'تعلّمتَ') + ' خطوات الركعة 🕌', times: App.g('عرفتِ', 'عرفتَ') + ' أوقات الصلوات الخمس 🌅' }[def.k];
+    root.querySelector('.wP').textContent = done || (App.t(App.g('أنهيتِ', 'أنهيتَ') + ` «${def.t}»`, `You finished «${def.te}»`) + (winMis ? '' : App.t(' دون أخطاء!', ' No mistakes!') + ' 💯'));
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, raf = 0, last = 0, T = 0, running = false, paused = false;
@@ -737,7 +757,7 @@
     setProg(list.length, list.map((_, i) => i < li ? 'on' : ''), li);
     prevBtn.style.visibility = li > 0 ? '' : 'hidden';
     const lastOne = li >= list.length - 1;
-    goBtn.textContent = lastOne ? (def.k === 'times' ? 'هيا نختبر! ◀' : 'إنهاء ✓') : 'التالي ◀';
+    goBtn.textContent = lastOne ? (def.k === 'times' ? App.t('هيا نختبر! ◀', 'Quiz time! ▶') : App.t('إنهاء ✓', 'Finish ✓')) : App.t('التالي ◀', 'Next ▶');
     goBtn.classList.remove('glow');
     if (view === 'front') runWudu(st);
     else if (view === 'side') runPrayer(st);
@@ -1073,11 +1093,9 @@
     if (view === 'front') { resetKid(); kf.eyes = 'happy'; kf.mouth = 'open'; kf.tR = [-1.6, -5.6]; kf.tL = [1.6, -5.6]; }
     later(1, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = 'ما شاء الله! ' + App.g('أحسنتِ', 'أحسنتَ') + ' 🌟';
+      winMis = mistakes; winText();
       root.querySelector('.wI').textContent = def.ic;
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      const done = { learnW: App.g('تعلّمتِ', 'تعلّمتَ') + ' خطوات الوضوء 💧', learnP: App.g('تعلّمتِ', 'تعلّمتَ') + ' خطوات الركعة 🕌', times: App.g('عرفتِ', 'عرفتَ') + ' أوقات الصلوات الخمس 🌅' }[def.k];
-      root.querySelector('.wP').textContent = done || (App.g('أنهيتِ', 'أنهيتَ') + ` «${def.t}»` + (mistakes ? '' : ' دون أخطاء! 💯'));
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       lang === 'ar' ? App.speak(App.g('أحسنتِ!', 'أحسنتَ!')) : App.speak('Well done!', 'en');
@@ -1093,7 +1111,7 @@
     const pr = loadProg();
     const btn = (L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, en = lang === 'en';
-      return `<button class="lvb${n === lvl ? ' cur' : ''}${n > 5 ? ' pr' : ''}" data-l="${n}"><span class="e">${L.ic}</span><span class="t">${L.t}</span>
+      return `<button class="lvb${n === lvl ? ' cur' : ''}${n > 5 ? ' pr' : ''}" data-l="${n}"><span class="e">${L.ic}</span><span class="t">${App.t(L.t, L.te)}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     };
     root.querySelector('.lvg.g1').innerHTML = LEVELS.slice(0, 5).map((L, i) => btn(L, i)).join('');
@@ -1114,24 +1132,29 @@
     if (answered || over) return; clearTasks();
     if (mode === 'tap') askTap(); else if (mode === 'times') say('أيُّ صلاةٍ هذه؟', 'Which prayer is it?');
   });
-  function setLang(l) {
-    lang = l === 'en' ? 'en' : 'ar'; store.set('wuduLang', lang);
+  function setLang(l, nosave) {
+    lang = l === 'en' ? 'en' : 'ar'; if (!nosave) store.set('wuduLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+    chrome(); if (over && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
   }
   root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
     if (b.dataset.l === lang) return;
-    Sound.tap(); setLang(b.dataset.l); cntEl.className = 'cnt';
+    Sound.tap(); setLang(b.dataset.l); contentLang();
+  }));
+  function contentLang() {
+    cntEl.className = 'cnt';
     if (over) return;
     if (mode === 'learn') showLearn();
     else if (mode === 'tap') { if (!answered) { clearTasks(); askTap(); } }
     else if (mode === 'times') { if (!answered) { clearTasks(); askTime(); } }
     else if (mode === 'order') { buildOrder(); setProg(ordList.length, pstates, ordNext); }
-  }));
+  }
   window.addEventListener('keydown', e => {
     if (App.current !== ID || $('#sheetWrap').classList.contains('on')) return;
     if (winOv.classList.contains('on') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); actBtn(lvl < LEVELS.length ? 'next' : 'levels'); return; }
     if (lvOv.classList.contains('on') || winOv.classList.contains('on')) return;
-    if (mode === 'learn') { if (e.key === 'Enter' || e.key === 'ArrowLeft') goBtn.click(); else if (e.key === 'ArrowRight') prevBtn.click(); }
+    if (mode === 'learn') { const fw = App.lang === 'en' ? 'ArrowRight' : 'ArrowLeft'; if (e.key === 'Enter' || e.key === fw) goBtn.click(); else if (e.key === (fw === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft')) prevBtn.click(); }
     else if (mode === 'times') { const k = parseInt(e.key, 10), cs = choicesEl.querySelectorAll('.tc'); if (k >= 1 && k <= cs.length) pickTime(cs[k - 1]); }
     else if (mode === 'order' && (e.key === 'Enter' || e.key === ' ')) { // يضع البطاقة الصحيحة التالية كتلميح
       e.preventDefault(); const el = trayEl.querySelector(`.wc[data-i="${ordNext}"]`); if (el) { el.classList.remove('bad'); void el.offsetWidth; el.classList.add('bad'); }
@@ -1292,8 +1315,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'الوضوء والصلاة', icon2: '🕌', isNew: true, music: 'tubes',
+    id: ID, title: 'الوضوء والصلاة', titleEn: 'Wudu & Prayer', icon2: '🕌', isNew: true, music: 'tubes',
     desc: () => App.g('تعلّمي الوضوء والصلاة خطوة بخطوة', 'تعلّم الوضوء والصلاة خطوة بخطوة'),
+    descEn: () => 'Learn wudu and prayer step by step',
+    helpEn: () => [
+      '💧 «Learn wudu» shows every step with the water and the counting: 1, 2, 3',
+      '🧩 Drag the cards to their places in the right order',
+      "👆 Touch the right part on the child's body",
+      '🕌 Learn the positions of a rak\'ah and the names and times of the five prayers',
+      '🌍 The «English» button shows the names of the steps in English; the dhikr stays in Arabic'
+    ],
     help: () => [
       '💧 «تعلّم الوضوء» يعرض كل خطوة مع الماء والعدّ: ١، ٢، ٣',
       '🧩 ' + App.g('اسحبي', 'اسحب') + ' البطاقات إلى أماكنها بالترتيب الصحيح',
@@ -1309,12 +1340,13 @@
     },
     enter() {
       paused = false;
-      setLang(store.get('wuduLang', 'ar'));
+      setLang(App.gameLang(ID), true);
       layout();
       startLevel(store.get('wuduLast', 1));
       requestAnimationFrame(() => { layout(); render(); });
       startLoop();
     },
+    onLang(l) { const chg = l !== lang; setLang(l, true); if (chg) contentLang(); else if (mode === 'learn' && !over) { const lastOne = li >= list.length - 1; goBtn.textContent = lastOne ? (def.k === 'times' ? App.t('هيا نختبر! ◀', 'Quiz time! ▶') : App.t('إنهاء ✓', 'Finish ✓')) : App.t('التالي ◀', 'Next ▶'); } },
     leave() { stopLoop(); clearTasks(); if (drag) { drag.clone.remove(); drag = null; } winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; },
     resume() { paused = false; last = performance.now(); },
