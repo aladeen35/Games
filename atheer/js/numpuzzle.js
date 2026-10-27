@@ -729,7 +729,7 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: TITLE, icon2: ICON2, isNew: true, music: MUSIC,
+    id: ID, title: TITLE, icon2: ICON2, isNew: false, music: MUSIC,
     desc: DESC, help: HELP, icon,
     best() {
       let tot = 0, top = 0;

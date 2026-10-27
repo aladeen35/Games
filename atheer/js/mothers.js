@@ -935,7 +935,7 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'أين أمي؟', icon2: '🐄', isNew: true, music: 'shapes',
+    id: ID, title: 'أين أمي؟', icon2: '🐄', isNew: false, music: 'shapes',
     desc: () => App.g('أعيدي كل صغير إلى أمّه', 'أعِد كل صغير إلى أمّه'),
     help: () => [
       '😢 صغير حيوان تائه يبكي! ' + App.g('اسحبيه', 'اسحبه') + ' إلى أمّه',

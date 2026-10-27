@@ -688,7 +688,7 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'ظل من؟', icon2: '👤', isNew: true, music: 'shapes',
+    id: ID, title: 'ظل من؟', icon2: '👤', isNew: false, music: 'shapes',
     desc: () => App.g('طابقي كل صورة مع ظلّها', 'طابق كل صورة مع ظلّها'),
     help: () => [
       '👤 ' + App.g('انظري', 'انظر') + ' إلى الظلال الداكنة: لكل صورة ظلّ يشبهها تمامًا',
