@@ -33,6 +33,29 @@
       ['🍦', 'آيس كريم'], ['🎂', 'كعكة عيد ميلاد'], ['🍮', 'بودينغ'], ['🥧', 'فطيرة'], ['🍯', 'عسل'], ['🥞', 'بان كيك'], ['🍨', 'بوظة']] }
   };
   const DECK_KEYS = Object.keys(DECKS);
+  /* الأسماء الإنجليزية للبطاقات */
+  const NAMES_EN = {
+    '🐶': 'Dog', '🐱': 'Cat', '🐰': 'Rabbit', '🦁': 'Lion', '🐘': 'Elephant', '🦒': 'Giraffe', '🐼': 'Panda',
+    '🐵': 'Monkey', '🐸': 'Frog', '🐧': 'Penguin', '🦊': 'Fox', '🐮': 'Cow', '🐔': 'Hen', '🐴': 'Horse',
+    '🍎': 'Apple', '🍌': 'Banana', '🍇': 'Grapes', '🍓': 'Strawberry', '🍉': 'Watermelon', '🍊': 'Orange', '🍋': 'Lemon',
+    '🍒': 'Cherries', '🍍': 'Pineapple', '🥝': 'Kiwi', '🍑': 'Peach', '🥭': 'Mango', '🍐': 'Pear', '🥥': 'Coconut',
+    '🚗': 'Car', '🚌': 'Bus', '✈️': 'Airplane', '🚲': 'Bicycle', '⛵': 'Boat', '🚂': 'Train', '🚁': 'Helicopter',
+    '🚒': 'Fire truck', '🚑': 'Ambulance', '🚓': 'Police car', '🚜': 'Tractor', '🛵': 'Motorbike', '🚕': 'Taxi', '🚢': 'Ship',
+    '🚀': 'Rocket', '☀️': 'Sun', '🌙': 'Moon', '⭐': 'Star', '🪐': 'Saturn', '🌍': 'Earth', '☄️': 'Comet',
+    '🛸': 'UFO', '👽': 'Alien', '🧑‍🚀': 'Astronaut', '🔭': 'Telescope', '🛰️': 'Satellite', '🌠': 'Shooting star', '🌌': 'Galaxy',
+    '🐟': 'Fish', '🐠': 'Tropical fish', '🐡': 'Pufferfish', '🐙': 'Octopus', '🦀': 'Crab', '🐳': 'Whale', '🐬': 'Dolphin',
+    '🐚': 'Shell', '🦈': 'Shark', '🐢': 'Turtle', '🦑': 'Squid', '🦞': 'Lobster', '🦐': 'Shrimp', '⚓': 'Anchor',
+    '🍰': 'Cake', '🍩': 'Donut', '🍪': 'Cookie', '🍭': 'Lollipop', '🍬': 'Candy', '🍫': 'Chocolate', '🧁': 'Cupcake',
+    '🍦': 'Ice cream', '🎂': 'Birthday cake', '🍮': 'Pudding', '🥧': 'Pie', '🍯': 'Honey', '🥞': 'Pancakes', '🍨': 'Sundae'
+  };
+  /* أسماء العائلة بالإنجليزية (للعرض والنطق في الوضع الإنجليزي) */
+  const PEOPLE_EN = { 'العم علاء الدين': 'Uncle Alaa', 'كوتي': 'Kuti', 'ريلا': 'Rila', 'العمة إيثار': 'Aunt Ithar', 'البشرى': 'Bushra', 'بشرى': 'Bushra',
+    'جنان': 'Jinan', 'العم ضياء': 'Uncle Diaa', 'أثير': 'Atheer', 'لاعب 1': 'Player 1', 'لاعب 2': 'Player 2' };
+  const isEn = () => App.gameLang(ID) === 'en';
+  const say = (ar, en) => isEn() ? App.speak(en, 'en') : App.speak(ar);
+  /* اسم لاعب للعرض: «لاعب 1/2» تُترجم، وأسماء الأطفال تبقى كما كُتبت */
+  const pName = n => App.lang === 'en' && /^لاعب \d$/.test(n) ? PEOPLE_EN[n] : n;
+  const mkIt = o => Object.defineProperty(o, 'n', { get() { return isEn() ? (this.en || this.ar) : this.ar; }, enumerable: true });
   /* صور العائلة: صور حقيقية تُحمَّل من مجلد التطبيق، مع اسم صاحب كل صورة */
   DECKS.photos = { t: 'صور العائلة', ic: '🖼️', c: ['#FFF8E6', '#FFE3A8', '#E9B93A', '#8A5A00'], items: [] };
   const PHOTOS = [1, 2, 3, 4, 5, 6, 7].map(n => {
@@ -222,7 +245,7 @@
       while (x.measureText(it.n).width > iw - 10 && fs > 7) { fs -= .5; x.font = `800 ${fs}px 'Baloo Bhaijaan 2',system-ui,sans-serif`; }
       const bh = fs * 1.5, by = h - b - bh - 2;
       x.fillStyle = 'rgba(255,255,255,.88)'; x.beginPath(); x.roundRect(b + 3, by, iw - 6, bh, bh / 2); x.fill();
-      x.fillStyle = D[3]; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'rtl'; x.fillText(it.n, w / 2, by + bh / 2 + 1);
+      x.fillStyle = D[3]; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = /[\u0600-\u06FF]/.test(it.n) ? 'rtl' : 'ltr'; x.fillText(it.n, w / 2, by + bh / 2 + 1);
     }
     // قلب صغير في الزاوية
     x.save(); x.translate(w - b - w * .1, b + w * .1); x.fillStyle = '#FF5C8A'; x.strokeStyle = '#fff'; x.lineWidth = 1.5; heartPath(x, w * .06); x.fill(); x.stroke(); x.restore();
@@ -313,24 +336,29 @@
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib lvbtn" aria-label="المستويات">🔢</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip cMsC"><small>الأخطاء</small><b class="cMs">0</b></div>
+      <div class="chip"><small data-ar="المستوى" data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip cMsC"><small data-ar="الأخطاء" data-en="Mistakes">الأخطاء</small><b class="cMs">0</b></div>
       <div class="chip cXC"><small class="cXL">المحاولات</small><b class="cX">0</b></div>
     </div>
     <div class="duo"><div class="pp q0"><span class="av p0"></span><b class="nm"></b><span class="sc p0">0</span></div><span class="vs">VS</span>
       <div class="pp q1"><span class="av p1"></span><b class="nm"></b><span class="sc p1">0</span></div></div>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="mmLv"><div class="panel lvp"><h3>🃏 المستويات</h3>
-      <div class="mode"><button data-m="1">👤 لاعب واحد</button><button data-m="2">👥 لاعبان</button></div>
+    <div class="overlay" id="mmLv"><div class="panel lvp"><h3 data-ar="🃏 المستويات" data-en="🃏 Levels">🃏 المستويات</h3>
+      <div class="mode"><button data-m="1" data-ar="👤 لاعب واحد" data-en="👤 One player">👤 لاعب واحد</button><button data-m="2" data-ar="👥 لاعبان" data-en="👥 Two players">👥 لاعبان</button></div>
       <div class="who"><div class="pr" data-s="0"></div><div class="pr" data-s="1"></div></div>
       <div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="mmEnd"><div class="panel endp"></div></div>`);
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
   const duoEl = root.querySelector('.duo'), pps = [...root.querySelectorAll('.pp')];
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const lvOv = root.querySelector('#mmLv'), endOv = root.querySelector('#mmEnd'), endP = root.querySelector('.endp');
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'المستويات', 'Levels']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  let hintKey = '';
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, cw = 80, ch = 100, gap = 8, cols = 2, rows = 3, mat = { x: 0, y: 0, w: 0, h: 0 };
@@ -438,13 +466,13 @@
   function pickItems(d, n, ph) {
     if (d === 'photos') { ph = n; d = 'animals'; }
     if (ph) {
-      const phs = shuffle(PHOTOS.filter(p => !p.bad)).slice(0, Math.min(ph, n)).map(p => ({ e: p.id, n: p.name, d: 'photos', photo: p }));
+      const phs = shuffle(PHOTOS.filter(p => !p.bad)).slice(0, Math.min(ph, n)).map(p => mkIt({ e: p.id, ar: p.name, en: PEOPLE_EN[p.name] || p.name, d: 'photos', photo: p }));
       return shuffle([...phs, ...pickItems(d, n - phs.length, 0)]);
     }
     if (!n) return [];
-    if (d !== 'mix') return shuffle(DECKS[d].items.slice()).slice(0, n).map(([e, nm]) => ({ e, n: nm, d }));
+    if (d !== 'mix') return shuffle(DECKS[d].items.slice()).slice(0, n).map(([e, nm]) => mkIt({ e, ar: nm, en: NAMES_EN[e], d }));
     const pool = [];
-    shuffle(DECK_KEYS.slice()).forEach(k => shuffle(DECKS[k].items.slice()).forEach(([e, nm]) => pool.push({ e, n: nm, d: k })));
+    shuffle(DECK_KEYS.slice()).forEach(k => shuffle(DECKS[k].items.slice()).forEach(([e, nm]) => pool.push(mkIt({ e, ar: nm, en: NAMES_EN[e], d: k }))));
     const out = [], used = new Set();
     for (let round = 0; out.length < n && round < 20; round++)
       for (const k of DECK_KEYS) { const it = pool.find(p => p.d === k && !used.has(p.e)); if (it && out.length < n) { used.add(it.e); out.push(it); } }
@@ -462,19 +490,24 @@
     phase = 'deal';
     const d = loadDuo(); players = [d.a, d.b];
     duoEl.classList.toggle('on', duo);
-    if (duo) { pps.forEach((p, i) => { p.querySelector('.nm').textContent = players[i]; p.querySelector('.av').textContent = avOf(players[i], i); }); }
+    if (duo) { pps.forEach((p, i) => { p.querySelector('.nm').textContent = pName(players[i]); p.querySelector('.av').textContent = avOf(players[i], i); }); }
     updChips(); updDuo();
     layout();
     later(cards.length * .035 + .55, afterDeal);
     for (let i = 0; i < Math.min(cards.length, 12); i++) Sound.tone(900 + i * 40, .04, 'triangle', .04, 200, i * .05);
     Sound.whoosh();
     const pr = loadProg();
-    let h = '';
-    if (def.peek) h = '👀 ' + App.g('تذكّري', 'تذكّر') + ' أماكن الصور جيدًا!';
-    else if (duo) h = '👥 الزوج الصحيح يعطي دورًا إضافيًا!';
-    else if (timed) h = '⏱️ ' + App.g('أسرعي', 'أسرع') + ' قبل انتهاء الوقت!';
-    else if (!pr.stars[lvl]) h = '👆 ' + App.g('اقلبي بطاقتين وابحثي عن الصورتين المتشابهتين', 'اقلب بطاقتين وابحث عن الصورتين المتشابهتين');
-    showHint(h, 7);
+    hintKey = def.peek ? 'peek' : duo ? 'duo' : timed ? 'timed' : !pr.stars[lvl] ? 'first' : '';
+    showHint(hintText(), 7);
+  }
+  function hintText() {
+    switch (hintKey) {
+      case 'peek': return '👀 ' + App.t(App.g('تذكّري', 'تذكّر') + ' أماكن الصور جيدًا!', 'Remember where the pictures are!');
+      case 'duo': return '👥 ' + App.t('الزوج الصحيح يعطي دورًا إضافيًا!', 'A correct pair gives an extra turn!');
+      case 'timed': return '⏱️ ' + App.t(App.g('أسرعي', 'أسرع') + ' قبل انتهاء الوقت!', 'Hurry before the time runs out!');
+      case 'first': return '👆 ' + App.t(App.g('اقلبي بطاقتين وابحثي عن الصورتين المتشابهتين', 'اقلب بطاقتين وابحث عن الصورتين المتشابهتين'), 'Flip two cards and find the matching pictures');
+    }
+    return '';
   }
   function showHint(t, dur) { hintT.textContent = t; hintEl.style.opacity = t ? 1 : 0; hintTimer = t ? dur : 0; }
   function afterDeal() {
@@ -482,7 +515,7 @@
       phase = 'peek';
       const dur = 1.2 + def.p * .18;
       cards.forEach((c, i) => later(i * .025, () => { c.tgt = 1; }));
-      later(.15, () => { Sound.whoosh(); setBanner('👀 ' + App.g('تذكّري!', 'تذكّر!'), '#8A2BB8'); });
+      later(.15, () => { Sound.whoosh(); setBanner('👀 ' + App.t(App.g('تذكّري!', 'تذكّر!'), 'Remember!'), '#8A2BB8'); });
       later(dur, () => { cards.forEach((c, i) => later(i * .02, () => { c.tgt = 0; })); flipSound(); });
       later(dur + FLIP + cards.length * .02 + .05, beginPlay);
     } else beginPlay();
@@ -491,12 +524,12 @@
     phase = 'play';
     if (duo) setBanner(turnText(), turn ? '#3E8BFF' : '#FF5C8A');
   }
-  const turnText = () => '🎲 دور ' + players[turn];
+  const turnText = () => '🎲 ' + App.t('دور ' + players[turn], pName(players[turn]) + "'s turn");
   function updChips() {
     root.querySelector('.cLv').textContent = lvl + '/' + LEVELS.length;
     root.querySelector('.cMs').textContent = mistakes;
     root.querySelector('.cMsC').style.display = duo ? 'none' : '';
-    root.querySelector('.cXL').textContent = timed ? 'الوقت' : 'المحاولات';
+    root.querySelector('.cXL').textContent = timed ? App.t('الوقت', 'Time') : App.t('المحاولات', 'Tries');
     const s = Math.max(0, Math.ceil(timeLeft));
     root.querySelector('.cX').textContent = timed ? `${s / 60 | 0}:${String(s % 60).padStart(2, '0')}` : moves;
     root.querySelector('.cXC').classList.toggle('warn', timed && timeLeft <= 10 && phase === 'play');
@@ -516,8 +549,8 @@
     const who = root.querySelector('.who'); who.classList.toggle('on', d.on);
     who.querySelectorAll('.pr').forEach(row => {
       const s = +row.dataset.s, cur = s ? d.b : d.a;
-      row.innerHTML = `<span class="tag p${s}">${s ? '🔵 الثاني' : '🔴 الأول'}</span>` +
-        duoOptions(s).map(o => `<button class="pk p${s}b ${o.n === cur ? 'on' : ''}" data-n="${o.n}">${o.av} ${o.n}</button>`).join('');
+      row.innerHTML = `<span class="tag p${s}">${s ? '🔵 ' + App.t('الثاني', 'Second') : '🔴 ' + App.t('الأول', 'First')}</span>` +
+        duoOptions(s).map(o => `<button class="pk p${s}b ${o.n === cur ? 'on' : ''}" data-n="${o.n}">${o.av} ${pName(o.n)}</button>`).join('');
       row.querySelectorAll('.pk').forEach(b => b.onclick = () => {
         Sound.tap(); const dd = loadDuo(), nm = b.dataset.n;
         if (s) { if (nm === dd.a) dd.a = dd.b; dd.b = nm; } else { if (nm === dd.b) dd.b = dd.a; dd.a = nm; }
@@ -529,9 +562,9 @@
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
       const D = DECKS[L.d === 'mix' ? 'space' : L.d].c;
       const style = L.d === 'mix' ? '--a:#FFF6D8;--b:#FFE08A;--e:#E9B93A' : `--a:${D[0]};--b:${D[1]};--e:${D[2]}`;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="${style}" data-l="${n}" aria-label="المستوى ${n}">
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="${style}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
         <span class="n">${n}</span><span class="bd">${L.ph ? '📷' : ''}${L.time ? '⏱️' : ''}${L.peek ? '👀' : ''}</span><span class="e">${deckIcon(L.d)}</span>
-        <span class="q">${L.p * 2} ${L.p * 2 <= 10 ? 'بطاقات' : 'بطاقة'}</span><span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
+        <span class="q">${L.p * 2} ${App.t(L.p * 2 <= 10 ? 'بطاقات' : 'بطاقة', 'cards')}</span><span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
       const n = +b.dataset.l;
@@ -548,7 +581,7 @@
   function flipSound() { Sound.noise(.07, 1800, 3600, .05, 1.4); Sound.tone(760, .05, 'triangle', .06, 240); }
   function tapCard(c) {
     if (phase !== 'play' || paused) return;
-    if (c.matched) { c.pop = 1; if (c.it.photo) { chime(); App.speak(c.it.n); } else { Sound.pop(); App.speak(c.it.n); } return; }
+    if (c.matched) { c.pop = 1; if (c.it.photo) { chime(); say(c.it.ar, c.it.en); } else { Sound.pop(); say(c.it.ar, c.it.en); } return; }
     if (c.tgt === 1) return;
     if (open.length >= 2) {
       if (!pend) return;           // ننتظر نتيجة المحاولة
@@ -569,12 +602,13 @@
       for (const c of [a, b]) { c.matched = true; c.mt = 0; c.pop = 1; sparkle(c.x, c.y, DECKS[c.it.d].c[2]); }
       streak++;
       Sound.star(); later(.08, () => Sound.merge(Math.min(10, streak + 2))); vibrate(25); shake = Math.max(shake, 2.5);
-      if (a.it.photo) { chime(); App.speak(a.it.n); } else App.speak(a.it.n);
+      if (a.it.photo) chime();
+      say(a.it.ar, a.it.en);
       if (duo) { scores[turn]++; updDuo(turn); }
       const left = cards.some(c => !c.matched);
       if (!left) { phase = 'over'; later(.8, win); }
-      else if (duo) setBanner('⭐ دور إضافي لـ' + players[turn] + '!', turn ? '#3E8BFF' : '#FF5C8A');
-      else if (streak >= 2) setBanner(['رائع! 🌟', 'ممتاز! ✨', 'مذهل! 💫', 'عبقري! 🧠'][Math.min(3, streak - 2)], '#E0218A');
+      else if (duo) setBanner('⭐ ' + App.t('دور إضافي لـ' + players[turn] + '!', 'Extra turn for ' + pName(players[turn]) + '!'), turn ? '#3E8BFF' : '#FF5C8A');
+      else if (streak >= 2) setBanner(App.t(['رائع! 🌟', 'ممتاز! ✨', 'مذهل! 💫', 'عبقري! 🧠'], ['Great! 🌟', 'Excellent! ✨', 'Amazing! 💫', 'Genius! 🧠'])[Math.min(3, streak - 2)], '#E0218A');
       if (hintTimer > 0) hintTimer = Math.min(hintTimer, .6);
     } else {
       if (!duo) { mistakes++; updChips(); }
@@ -600,13 +634,10 @@
       const [s0, s1] = scores, w = s0 === s1 ? -1 : s0 > s1 ? 0 : 1;
       later(.9, () => {
         if (App.current !== ID) return;
-        endP.innerHTML = `<h3>${w < 0 ? 'تعادل! 🤝' : '🏆 فاز ' + players[w] + '!'}</h3>
-          <div class="res">${[0, 1].map(i => `<div class="${i === w ? 'win' : ''}">${avOf(players[i], i)} ${players[i]}<b>${scores[i]}</b></div>`).join('')}</div>
-          <p>${w < 0 ? 'ذاكرتكما قوية جدًا! 💪' : 'مباراة رائعة! 🎉'}</p>
-          <button class="btn" data-a="again">🔄 مباراة جديدة</button><br>
-          ${lvl < loadProg().unlocked ? '<button class="btn alt" data-a="next">التالي ▶️</button>' : ''}<button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
-        bindEnd(); endOv.classList.add('on');
-        App.speak(w < 0 ? 'تعادل' : (isGirl(players[w]) ? 'فازت ' : 'فاز ') + players[w]);
+        endInfo = { k: 'duo', w }; renderEnd();
+        endOv.classList.add('on');
+        if (isEn()) App.speak(w < 0 ? "It's a tie!" : (PEOPLE_EN[players[w]] ? PEOPLE_EN[players[w]] + ' wins!' : 'We have a winner!'), 'en');
+        else App.speak(w < 0 ? 'تعادل' : (isGirl(players[w]) ? 'فازت ' : 'فاز ') + players[w]);
         App.achieve('mem_first');
       });
       return;
@@ -619,14 +650,9 @@
     later(.9, () => {
       if (App.current !== ID) return;
       const tUsed = def.time ? Math.round(def.time - timeLeft) : 0;
-      endP.innerHTML = `<h3>${App.g('أحسنتِ!', 'أحسنت!')} 🎉</h3>
-        <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('')}</div>
-        <div class="res"><div>المحاولات<b>${moves}</b></div><div>الأخطاء<b>${mistakes}</b></div>${def.time ? `<div>الوقت<b>${tUsed}ث</b></div>` : ''}</div>
-        <p>${mistakes <= 1 && def.p >= 4 ? 'ذاكرة حديدية! 🧠' : stars === 3 ? 'ذاكرة رائعة! 🌟' : App.g('حاولي', 'حاول') + ' بأخطاء أقل لتحصل' + App.g('ي', '') + ' على 3 نجوم'}</p>
-        ${lvl < LEVELS.length ? '<button class="btn" data-a="next">التالي ▶️</button><br>' : '<p>🏆 ' + App.g('أنهيتِ', 'أنهيتَ') + ' كل المستويات!</p>'}
-        <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
-      bindEnd(); endOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      endInfo = { k: 'win', stars, tUsed }; renderEnd();
+      endOv.classList.add('on');
+      say(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('mem_first');
       if (mistakes <= 1 && def.p >= 4) App.achieve('mem_perfect');
@@ -640,12 +666,39 @@
     later(1.4, () => {
       if (App.current !== ID) return;
       const left = cards.filter(c => !c.matched).length / 2;
-      endP.innerHTML = `<h3>⏰ انتهى الوقت!</h3><div class="big" style="font-size:54px">🙈</div>
-        <p>بقي ${left} ${left === 1 ? 'زوج' : left === 2 ? 'زوجان' : left <= 10 ? 'أزواج' : 'زوجًا'} فقط! ${App.g('حاولي', 'حاول')} مرة أخرى 💪</p>
-        <button class="btn" data-a="again">🔄 إعادة</button><br>
-        <button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>`;
-      bindEnd(); endOv.classList.add('on');
+      endInfo = { k: 'lose', left }; renderEnd();
+      endOv.classList.add('on');
     });
+  }
+  let endInfo = null;
+  const homeBtn = () => `<button class="btn alt home" aria-label="${App.t('الرئيسية', 'Home')}">🏠</button>`;
+  const lvBtn = () => `<button class="btn alt" data-a="levels">🔢 ${App.t('المستويات', 'Levels')}</button>`;
+  const nextBtn = cls => `<button class="btn${cls}" data-a="next">${App.t('التالي', 'Next')} ▶️</button>`;
+  function renderEnd() {
+    const E = endInfo; if (!E) return;
+    if (E.k === 'duo') {
+      const w = E.w;
+      endP.innerHTML = `<h3>${w < 0 ? App.t('تعادل!', "It's a tie!") + ' 🤝' : '🏆 ' + App.t('فاز ' + players[w] + '!', pName(players[w]) + ' wins!')}</h3>
+          <div class="res">${[0, 1].map(i => `<div class="${i === w ? 'win' : ''}">${avOf(players[i], i)} ${pName(players[i])}<b>${scores[i]}</b></div>`).join('')}</div>
+          <p>${w < 0 ? App.t('ذاكرتكما قوية جدًا! 💪', 'You both have super memories! 💪') : App.t('مباراة رائعة! 🎉', 'Great match! 🎉')}</p>
+          <button class="btn" data-a="again">🔄 ${App.t('مباراة جديدة', 'New match')}</button><br>
+          ${lvl < loadProg().unlocked ? nextBtn(' alt') : ''}${lvBtn()}${homeBtn()}`;
+    } else if (E.k === 'win') {
+      const { stars, tUsed } = E;
+      endP.innerHTML = `<h3>${App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!')} 🎉</h3>
+        <div class="stars3">${[1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('')}</div>
+        <div class="res"><div>${App.t('المحاولات', 'Tries')}<b>${moves}</b></div><div>${App.t('الأخطاء', 'Mistakes')}<b>${mistakes}</b></div>${def.time ? `<div>${App.t('الوقت', 'Time')}<b>${tUsed}${App.t('ث', 's')}</b></div>` : ''}</div>
+        <p>${mistakes <= 1 && def.p >= 4 ? App.t('ذاكرة حديدية! 🧠', 'Memory of steel! 🧠') : stars === 3 ? App.t('ذاكرة رائعة! 🌟', 'Amazing memory! 🌟') : App.t(App.g('حاولي', 'حاول') + ' بأخطاء أقل لتحصل' + App.g('ي', '') + ' على 3 نجوم', 'Try with fewer mistakes to get 3 stars')}</p>
+        ${lvl < LEVELS.length ? nextBtn('') + '<br>' : '<p>🏆 ' + App.t(App.g('أنهيتِ', 'أنهيتَ') + ' كل المستويات!', 'You finished all the levels!') + '</p>'}
+        <button class="btn alt" data-a="again">🔄</button>${lvBtn()}${homeBtn()}`;
+    } else {
+      const left = E.left;
+      endP.innerHTML = `<h3>⏰ ${App.t('انتهى الوقت!', "Time's up!")}</h3><div class="big" style="font-size:54px">🙈</div>
+        <p>${App.t(`بقي ${left} ${left === 1 ? 'زوج' : left === 2 ? 'زوجان' : left <= 10 ? 'أزواج' : 'زوجًا'} فقط! ${App.g('حاولي', 'حاول')} مرة أخرى`, `Only ${left} ${left === 1 ? 'pair' : 'pairs'} left! Try again`)} 💪</p>
+        <button class="btn" data-a="again">🔄 ${App.t('إعادة', 'Retry')}</button><br>
+        ${lvBtn()}${homeBtn()}`;
+    }
+    bindEnd();
   }
   function bindEnd() { endP.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => act(b.dataset.a))); }
   function act(a) {
@@ -877,7 +930,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'بطاقات الذاكرة', icon2: '🃏', isNew: false, music: 'memory',
+    titleEn: 'Memory Cards',
     desc: () => App.g('اقلبي البطاقات وابحثي عن الأزواج المتشابهة', 'اقلب البطاقات وابحث عن الأزواج المتشابهة'),
+    descEn: () => 'Flip the cards and find the matching pairs',
+    helpEn: () => [
+      '👆 Flip two cards each time with a single touch',
+      '🧠 If the two pictures match they stay face up, otherwise they flip back: remember where they are!',
+      '⭐ Fewer mistakes = more stars. 👀 Some levels show the cards for a moment at the start, and ⏱️ some have a time limit',
+      '👥 From the levels button 🔢 choose «Two players» to take turns: a correct pair gives an extra turn!',
+      '🖼️ Look for real family photos in the 📷 levels, and 🔊 touch any open card to hear its name'
+    ],
     help: () => [
       '👆 ' + App.g('اقلبي', 'اقلب') + ' بطاقتين في كل مرة بلمسة واحدة',
       '🧠 إذا تشابهت الصورتان تبقيان مكشوفتين، وإلا تنقلبان من جديد: ' + App.g('تذكّري', 'تذكّر') + ' مكانهما!',
@@ -889,14 +951,23 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       duo = loadDuo().on;
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       render(); startLoop();
+    },
+    onLang() {
+      relabel(); updChips();
+      if (duo) pps.forEach((p, i) => { p.querySelector('.nm').textContent = pName(players[i]); });
+      if (hintTimer > 0) hintT.textContent = hintText();
+      for (const k in faces) if (k.startsWith('photo:')) delete faces[k];
+      if (cards.length) bakeFaces();
+      if (lvOv.classList.contains('on')) openLevels();
+      if (endP.innerHTML && endInfo) renderEnd();
     },
     leave() { stopLoop(); events = []; pend = null; lvOv.classList.remove('on'); endOv.classList.remove('on'); },
     pause() { paused = true; },

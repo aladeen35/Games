@@ -175,13 +175,13 @@
      المستويات
      ===================================================================== */
   const LV = [
-    { key: 'match', ic: '🔺', t: 'مطابقة الثقوب', sub: () => dg(1) + ' – ' + dg(4), rounds: 2 },
-    { key: 'match6', ic: '⬢', t: 'حتى الستة', sub: () => dg(1) + ' – ' + dg(6), rounds: 2 },
-    { key: 'stack', ic: '🗼', t: 'برج الأشكال', sub: () => 'تكديس', rounds: 2 },
-    { key: 'count', ic: '👂', t: 'العدّ بالسمع', sub: () => (lang === 'ar' ? 'ضع ' : 'Put ') + dg(3), rounds: 2 },
-    { key: 'numer', ic: '🔢', t: 'الأرقام', sub: () => dg(3) + ' = •••', rounds: 2 },
-    { key: 'color', ic: '🎨', t: 'الألوان والأشكال', sub: () => lang === 'ar' ? 'مثلث أصفر' : 'yellow triangle', rounds: 2 },
-    { key: 'add', ic: '➕', t: 'الجمع', sub: () => dg(2) + ' + ' + dg(1), rounds: 4 }
+    { key: 'match', ic: '🔺', t: 'مطابقة الثقوب', te: 'Match the holes', sub: () => dg(1) + ' – ' + dg(4), rounds: 2 },
+    { key: 'match6', ic: '⬢', t: 'حتى الستة', te: 'Up to six', sub: () => dg(1) + ' – ' + dg(6), rounds: 2 },
+    { key: 'stack', ic: '🗼', t: 'برج الأشكال', te: 'Shape tower', sub: () => App.t('تكديس', 'Stacking'), rounds: 2 },
+    { key: 'count', ic: '👂', t: 'العدّ بالسمع', te: 'Count by ear', sub: () => (lang === 'ar' ? 'ضع ' : 'Put ') + dg(3), rounds: 2 },
+    { key: 'numer', ic: '🔢', t: 'الأرقام', te: 'Numbers', sub: () => dg(3) + ' = •••', rounds: 2 },
+    { key: 'color', ic: '🎨', t: 'الألوان والأشكال', te: 'Colors & shapes', sub: () => lang === 'ar' ? 'مثلث أصفر' : 'yellow triangle', rounds: 2 },
+    { key: 'add', ic: '➕', t: 'الجمع', te: 'Adding', sub: () => dg(2) + ' + ' + dg(1), rounds: 4 }
   ];
   const NL = LV.length;
   const loadProg = () => { const p = store.get('pegsProg', null) || {}; return { unlocked: clamp(p.unlocked || 1, 1, NL), stars: p.stars || {} }; };
@@ -317,30 +317,48 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
       <span class="grow"></span>
-      <button class="ib xbtn" aria-label="المستويات">✕</button>
+      <button class="ib xbtn" data-i="levels">✕</button>
     </div>
-    <div class="ttl"><span class="tN">لوح الأوتاد</span><small class="tP"></small></div>
-    <div class="prm off" role="button" aria-label="إعادة السؤال"></div>
+    <div class="ttl"><span class="tN"></span><small class="tP"></small></div>
+    <div class="prm off" role="button" data-i="repeat"></div>
     <div class="bot">
-      <button class="spk" aria-label="استمع">🔊</button>
+      <button class="spk" data-i="listen">🔊</button>
       <div class="pbar"></div>
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
-    <div class="overlay" id="pgLv"><div class="panel lvp"><h3>🪵 المستويات</h3>
+    <div class="overlay" id="pgLv"><div class="panel lvp"><h3 class="hLv"></h3>
       <div class="grid"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="pgWin"><div class="panel">
       <h3 class="wT"></h3><div class="wN" style="font-weight:800;font-size:18px"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">المستوى التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🪵 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels"></button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const prm = root.querySelector('.prm'), pbar = root.querySelector('.pbar'), spk = root.querySelector('.spk'), botEl = root.querySelector('.bot');
   const lvOv = root.querySelector('#pgLv'), winOv = root.querySelector('#pgWin');
   const tP = root.querySelector('.tP');
+  const LT = V => App.t(V.t, V.te);
+  /* نصوص الواجهة حسب لغة التطبيق */
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), repeat: App.t('إعادة السؤال', 'Repeat the question'), listen: App.t('استمع', 'Listen') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.tN').textContent = App.t('لوح الأوتاد', 'Peg Board');
+    root.querySelector('.hLv').textContent = '🪵 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('المستوى التالي', 'Next level') + ' ▶️';
+    root.querySelector('[data-a="levels"]').textContent = '🪵 ' + App.t('المستويات', 'Levels');
+    if (L) tP.textContent = App.t('المستوى ', 'Level ') + dg(lvl) + ' · ' + LT(L);
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wN').textContent = L.ic + ' ' + LT(L);
+    root.querySelector('.wP').textContent = winMis ? App.t('الأخطاء: ', 'Mistakes: ') + dg(winMis) : App.t('دون أي خطأ!', 'No mistakes!') + ' 💯';
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, Wd = 0, Hd = 0, dpr = 1, portrait = true, U = 100;
@@ -668,7 +686,7 @@
     rounds = Array.from({ length: L.rounds }, (_, r) => makeRound(L.key, r));
     total = rounds.reduce((a, r) => a + r.need, 0);
     round = 0; done = 0; mistakes = 0; wrongN = 0;
-    tP.textContent = 'المستوى ' + dg(lvl) + ' · ' + L.t;
+    chrome();
     buildRound(0, true);
   }
   function buildRound(r, first) {
@@ -829,10 +847,8 @@
     if (stars > prev) pr.stars[lvl] = stars;
     if (lvl >= pr.unlocked) pr.unlocked = Math.min(NL, lvl + 1);
     store.set('pegsProg', pr);
-    root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-    root.querySelector('.wN').textContent = L.ic + ' ' + L.t;
+    winMis = mistakes; winText();
     root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-    root.querySelector('.wP').textContent = mistakes ? `الأخطاء: ${dg(mistakes)}` : 'دون أي خطأ! 💯';
     root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
     winOv.classList.add('on');
     if (HAS()) gsap.fromTo(winOv.querySelector('.panel'), { scale: .6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .5, ease: 'back.out(1.8)' });
@@ -902,8 +918,8 @@
     const pr = loadProg(), grid = root.querySelector('.grid');
     grid.innerHTML = LV.map((V, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">
-        <span class="n">${dg(n)}</span><canvas data-t="${i}"></canvas><b>${V.ic} ${V.t}</b>
+      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
+        <span class="n">${dg(n)}</span><canvas data-t="${i}"></canvas><b>${V.ic} ${LT(V)}</b>
         <span class="md" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${V.sub()}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -924,6 +940,10 @@
   function setLang(l) {
     if (l === lang) return;
     lang = l; store.set('pegsLang', l); Sound.tap();
+    langChanged();
+  }
+  function langChanged() {
+    chrome(); if (phase === 'over' && L) winText();
     setPrompt(true); renderBar();
     if (phase === 'play' && !busy) speakPrompt();
     if (lvOv.classList.contains('on')) openLevels();
@@ -1110,8 +1130,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'لوح الأوتاد', icon2: '🪵', isNew: true, music: 'shapes',
+    id: ID, title: 'لوح الأوتاد', titleEn: 'Peg Board', icon2: '🪵', isNew: true, music: 'shapes',
     desc: () => App.g('ركّبي الأشكال الخشبية على الأوتاد وعُدّي معنا', 'ركّب الأشكال الخشبية على الأوتاد وعُدّ معنا'),
+    descEn: () => 'Fit the wooden shapes onto the pegs and count along',
+    helpEn: () => [
+      '🪵 Drag the colored shape onto the group of pegs that matches its number of holes',
+      '🔢 When it fits we count the pegs together: one, two, three…',
+      '🗼 Levels: match the holes, shape tower, count by ear, numbers, colors & shapes, and adding',
+      '🔊 The yellow button repeats the question, and «عربي / English» switches the spoken language and digits',
+      '⭐ Finish a level with no mistakes to get 3 stars; ✕ opens the levels'
+    ],
     help: () => [
       '🪵 ' + App.g('اسحبي', 'اسحب') + ' الشكل الملوّن ' + App.g('وضعيه', 'وضعه') + ' على مجموعة الأوتاد التي عددها يساوي عدد ثقوبه',
       '🔢 عند التركيب نعدّ الأوتاد معًا: واحد، اثنان، ثلاثة…',
@@ -1127,13 +1155,14 @@
     },
     enter() {
       paused = false;
-      lang = store.get('pegsLang', 'ar') === 'en' ? 'en' : 'ar';
+      lang = App.gameLang(ID);
       const pr = loadProg();
       let n = 1; for (let i = 1; i <= pr.unlocked; i++) { n = i; if (!pr.stars[i]) break; }
       layout();
       startLevel(n);
       render(); startLoop();
     },
+    onLang(l) { if (l === lang) { chrome(); if (phase === 'over' && L) winText(); if (lvOv.classList.contains('on')) openLevels(); return; } lang = l; langChanged(); },
     leave() { stopLoop(); A.killAll(); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; A.pause(); if (drag) { const s = drag.s; drag = null; backToTray(s); } },
     resume() { paused = false; last = performance.now(); A.resume(); },

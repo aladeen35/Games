@@ -38,6 +38,7 @@
   ];
   const NL = LV.length;
   const TIER_T = ['كلمات قصيرة', 'ثلاثة حروف', 'أربعة حروف'];
+  const TIER_E = ['Short words', 'Three letters', 'Four letters'];
   const TIER_I = ['🚂', '🚃', '🚄'];
 
   const AR_POOL = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'.split('');
@@ -215,23 +216,23 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️<span class="cnt">١</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️<span class="cnt">١</span></button>
       <span class="grow"></span>
       <div class="lang top"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <button class="spk" aria-label="أعد سماع الكلمة">🔊</button>
-    <div class="overlay" id="wtLv"><div class="panel lvp"><h3>🚂 المستويات</h3>
+    <button class="spk" aria-label="أعد سماع الكلمة" data-al="Hear the word again">🔊</button>
+    <div class="overlay" id="wtLv"><div class="panel lvp"><h3 data-en="🚂 Levels">🚂 المستويات</h3>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
-      <div class="case"><span>شكل الحروف:</span><button data-c="lower">abc</button><button data-c="upper">ABC</button></div>
+      <div class="case"><span data-en="Letters:">شكل الحروف:</span><button data-c="lower">abc</button><button data-c="upper">ABC</button></div>
       <div class="lvl"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="wtWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again" aria-label="أعد">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="أعد" data-al="Again">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const progEl = root.querySelector('.prog'), spk = root.querySelector('.spk');
@@ -249,6 +250,12 @@
   const clearTimers = () => { timers.forEach(clearTimeout); timers.length = 0; };
 
   const isAr = () => lang === 'ar';
+  const uiN = n => App.lang === 'en' ? String(n) : numL(n, 'ar');
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   const dir = () => isAr() ? 1 : -1;
   const disp = ch => isAr() ? ch : (ucase ? ch.toUpperCase() : ch);
   const say = t => App.speak(t, lang === 'en' ? 'en' : 'ar');
@@ -791,10 +798,8 @@
     store.set('wordtrainProg', pr);
     Sound.win(); confetti(140);
     later(700, () => {
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').innerHTML = `🚂 ${App.g('أوصلتِ', 'أوصلتَ')} ${numL(words.length, lang)} ${words.length > 2 && words.length < 11 ? 'قطارات' : 'قطار'}` +
-        (mistakes ? ` · الأخطاء: ${numL(mistakes, lang)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on');
       praise();
@@ -803,6 +808,12 @@
     });
   }
 
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').innerHTML = App.t(`🚂 ${App.g('أوصلتِ', 'أوصلتَ')} ${uiN(words.length)} ${words.length > 2 && words.length < 11 ? 'قطارات' : 'قطار'}` +
+      (mistakes ? ` · الأخطاء: ${uiN(mistakes)}` : ' دون أي خطأ! 💯'),
+      `🚂 You delivered ${words.length} train${words.length === 1 ? '' : 's'}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
   /* ---------- القائمة/المستويات ---------- */
   function paintLang() {
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
@@ -821,11 +832,11 @@
     const cols = [['#FF9A5C', '#E8590C', '#B8460A'], ['#5BB0FF', '#2F80E8', '#1F5CC4'], ['#B57CFF', '#8B4FE0', '#6A33B3']];
     let html = '';
     [0, 1, 2].forEach(t => {
-      html += `<div class="tier">${TIER_I[t]} ${t === 0 && !isAr() ? 'كلمات قصيرة (الحرف الأول جاهز)' : TIER_T[t]}</div><div class="lvg">`;
+      html += `<div class="tier">${TIER_I[t]} ${t === 0 && !isAr() ? App.t('كلمات قصيرة (الحرف الأول جاهز)', 'Short words (first letter given)') : App.t(TIER_T[t], TIER_E[t])}</div><div class="lvg">`;
       LV.forEach((L, i) => {
         if (L.t !== t) return;
         const n = i + 1, s = my.stars[n] || 0, lock = n > my.unlocked, [l, c, d] = cols[t];
-        html += `<button class="lv${lock ? ' lock' : ''}${n === lvl && phase !== 'idle' ? ' cur' : ''}" data-l="${n}" style="--l:${l};--c:${c};--d:${d}" aria-label="المستوى ${n}">${numL(n, lang)}
+        html += `<button class="lv${lock ? ' lock' : ''}${n === lvl && phase !== 'idle' ? ' cur' : ''}" data-l="${n}" style="--l:${l};--c:${c};--d:${d}" aria-label="${App.t('المستوى', 'Level')} ${n}">${numL(n, lang)}
           <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
       });
       html += '</div>';
@@ -1027,6 +1038,15 @@
   App.register({
     id: ID, title: 'قطار الكلمات', icon2: '🚂', isNew: false, music: 'letters',
     desc: () => App.g('اسمعي الكلمة وضعي حروفها في عربات القطار', 'اسمع الكلمة وضع حروفها في عربات القطار'),
+    titleEn: 'Word Train',
+    descEn: () => 'Hear the word and put its letters in the train cars',
+    helpEn: () => [
+      '🔊 Listen to the word and look at its picture above the engine',
+      '👆 Drag the letters into the cars in order, the first letter next to the engine',
+      '❌ A wrong letter goes back to its place; tap a letter to hear its name',
+      '🚂 When the word is complete the train whistles and goes!',
+      '🌍 Choose «عربي» or «English» at the top'
+    ],
     help: () => [
       '🔊 ' + App.g('اسمعي', 'اسمع') + ' الكلمة و' + App.g('انظري', 'انظر') + ' إلى صورتها فوق القاطرة',
       '👆 ' + App.g('اسحبي', 'اسحب') + ' الحروف إلى العربات بالترتيب، أول حرف بجانب القاطرة',
@@ -1038,17 +1058,29 @@
     best() {
       const pr = loadProg(); let n = 0, st = 0;
       for (const l of ['ar', 'en']) for (const k in pr[l].stars) { if (pr[l].stars[k]) { n++; st += pr[l].stars[k]; } }
-      return n ? `🚂 ${n} مستوى · ⭐ ${st}` : '';
+      return n ? App.t(`🚂 ${n} مستوى · ⭐ ${st}`, `🚂 ${n} level${n === 1 ? '' : 's'} · ⭐ ${st}`) : '';
     },
     enter() {
       paused = false; measureSafe();
-      lang = store.get('wordtrainLang', 'ar') === 'en' ? 'en' : 'ar';
+      lang = App.gameLang(ID); trUI();
       ucase = !!store.get('wordtrainCase', false);
       paintLang(); bcache.clear(); bgKey = '';
       layout();
       startLevel(Math.min(loadProg()[lang].unlocked, NL));
       render();
       startLoop();
+    },
+    onLang(l) {
+      trUI();
+      if (l !== lang) {
+        lang = l; paintLang(); bcache.clear(); bgKey = '';
+        if (lvOv.classList.contains('on')) renderLevels();
+        if (phase === 'over') winOv.classList.remove('on');
+        startLevel(Math.min(loadProg()[lang].unlocked, NL));
+      } else {
+        if (lvOv.classList.contains('on')) renderLevels();
+        if (winOv.classList.contains('on')) winText();
+      }
     },
     leave() { stopLoop(); clearTimers(); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const b = drag.b; drag = null; b.x = b.hx; b.y = b.hy; } },

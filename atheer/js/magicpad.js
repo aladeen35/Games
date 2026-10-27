@@ -63,13 +63,13 @@
   ];
 
   const MODES = [
-    { id: 'free', icon: '🎨', col: '#FF6FA8', t: () => 'رسم حر', d: () => App.g('ارسمي ما تحبّين', 'ارسم ما تحبّ') },
-    { id: 'ar', icon: 'ب', col: '#F2484B', t: () => 'الحروف العربية', d: () => 'ا ← ي' },
-    { id: 'en', icon: 'Aa', col: '#4263EB', t: () => 'الحروف الإنجليزية', d: () => 'A–Z  a–z' },
-    { id: 'num', icon: '١٢٣', col: '#12B886', t: () => 'الأرقام', d: () => lang === 'ar' ? '٠ ← ٩' : '0 – 9' },
-    { id: 'shp', icon: '⭐', col: '#F59F00', t: () => 'أشكال وخطوط', d: () => 'دائرة، نجمة، خط متعرج…' },
-    { id: 'hear', icon: '👂', col: '#AE3EC9', t: () => App.g('اسمعي وارسمي', 'اسمع وارسم'), d: () => App.g('ارسمي ما تسمعينه', 'ارسم ما تسمعه') },
-    { id: 'dots', icon: '🔢', col: '#1098AD', t: () => 'صِل النقاط', d: () => 'صورة مخفية تظهر!' }
+    { id: 'free', icon: '🎨', col: '#FF6FA8', t: () => App.t('رسم حر', 'Free drawing'), d: () => App.t(App.g('ارسمي ما تحبّين', 'ارسم ما تحبّ'), 'Draw anything you like') },
+    { id: 'ar', icon: 'ب', col: '#F2484B', t: () => App.t('الحروف العربية', 'Arabic letters'), d: () => 'ا ← ي' },
+    { id: 'en', icon: 'Aa', col: '#4263EB', t: () => App.t('الحروف الإنجليزية', 'English letters'), d: () => 'A–Z  a–z' },
+    { id: 'num', icon: '١٢٣', col: '#12B886', t: () => App.t('الأرقام', 'Numbers'), d: () => lang === 'ar' ? '٠ ← ٩' : '0 – 9' },
+    { id: 'shp', icon: '⭐', col: '#F59F00', t: () => App.t('أشكال وخطوط', 'Shapes & lines'), d: () => App.t('دائرة، نجمة، خط متعرج…', 'Circle, star, zigzag…') },
+    { id: 'hear', icon: '👂', col: '#AE3EC9', t: () => App.t(App.g('اسمعي وارسمي', 'اسمع وارسم'), 'Listen & draw'), d: () => App.t(App.g('ارسمي ما تسمعينه', 'ارسم ما تسمعه'), 'Draw what you hear') },
+    { id: 'dots', icon: '🔢', col: '#1098AD', t: () => App.t('صِل النقاط', 'Connect the dots'), d: () => App.t('صورة مخفية تظهر!', 'A hidden picture appears!') }
   ];
   const HEAR_ROUNDS = 5;
   const GAL_MAX = 12;
@@ -662,20 +662,20 @@
   root = App.section(ID, `
     <canvas class="bgc"></canvas>
     <div class="scr"><canvas class="cg"></canvas><canvas class="cw"></canvas><canvas class="ci"></canvas><canvas class="cf"></canvas><div class="gloss"></div></div>
-    <button class="trash" aria-label="مسح اللوح">${TRASH_SVG}</button>
+    <button class="trash" data-i="wipe">${TRASH_SVG}</button>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
       <div class="chip ttl"><small></small><b></b></div>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" data-i="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="segp"></div>
     <div class="msg"><span></span></div>
     <div class="tools"></div>
     <div class="res"></div>
     <div class="lv"><div class="lvw">
-      <div class="lvh"><canvas width="148" height="192"></canvas><div><h1>اللوح السحري</h1><p class="lvs"></p></div></div>
+      <div class="lvh"><canvas width="148" height="192"></canvas><div><h1 class="hT"></h1><p class="lvs"></p></div></div>
       <div class="cards"></div>
     </div></div>
     <div class="overlay ov-win"><div class="panel"></div></div>
@@ -689,6 +689,11 @@
   const msgEl = root.querySelector('.msg'), segEl = root.querySelector('.segp'), ttlEl = root.querySelector('.ttl');
 
   let msgTimer = 0;
+  function chrome() {
+    const AL = { wipe: App.t('مسح اللوح', 'Clear the pad'), home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), lang: App.t('اللغة', 'Language') };
+    root.querySelectorAll('[data-i]').forEach(e => { if (AL[e.dataset.i]) e.setAttribute('aria-label', AL[e.dataset.i]); });
+    root.querySelector('.hT').textContent = App.t('اللوح السحري', 'Magic Pad');
+  }
   function msg(text, ms = 2600) {
     msgEl.querySelector('span').textContent = text; msgEl.classList.add('on');
     clearTimeout(msgTimer); msgTimer = setTimeout(() => msgEl.classList.remove('on'), ms);
@@ -702,13 +707,17 @@
   }
 
   /* ---------- أدوات أسفل الشاشة ---------- */
-  const TOOLSET = {
-    free: [['lv', '🗂️', '', 'المستويات'], ['undo', '↩️', '', 'تراجع'], ['save', '💾', 'pink', 'حفظ في المعرض'], ['gal', '🖼️', 'blue', 'المعرض']],
-    trace: [['lv', '🗂️', '', 'المستويات'], ['undo', '↩️', '', 'تراجع'], ['prev', '▶', 'blue', 'السابق'], ['say', '🔊', 'yellow', 'استمع'], ['next', '◀', 'blue', 'التالي'], ['grid', '🔢', '', 'كل العناصر']],
-    hear: [['lv', '🗂️', '', 'المستويات'], ['undo', '↩️', '', 'تراجع'], ['say', '🔊', 'yellow', 'استمع'], ['check', '✔️', 'green', 'انتهيت']]
+  const toolset = () => {
+    const en = App.lang === 'en', LV = ['lv', '🗂️', '', App.t('المستويات', 'Levels')], UN = ['undo', '↩️', '', App.t('تراجع', 'Undo')], SAY = ['say', '🔊', 'yellow', App.t('استمع', 'Listen')];
+    return {
+      free: [LV, UN, ['save', '💾', 'pink', App.t('حفظ في المعرض', 'Save to gallery')], ['gal', '🖼️', 'blue', App.t('المعرض', 'Gallery')]],
+      trace: [LV, UN, ['prev', en ? '◀' : '▶', 'blue', App.t('السابق', 'Previous')], SAY, ['next', en ? '▶' : '◀', 'blue', App.t('التالي', 'Next')], ['grid', '🔢', '', App.t('كل العناصر', 'All items')]],
+      hear: [LV, UN, SAY, ['check', '✔️', 'green', App.t('انتهيت', 'Done')]]
+    };
   };
+  const nextLbl = () => App.t('التالي ◀', 'Next ▶');
   function buildTools() {
-    const set = mode === 'free' ? TOOLSET.free : mode === 'hear' ? TOOLSET.hear : TOOLSET.trace;
+    const TOOLSET = toolset(), set = mode === 'free' ? TOOLSET.free : mode === 'hear' ? TOOLSET.hear : TOOLSET.trace;
     // في الواجهة العربية (من اليمين لليسار): «التالي» يشير إلى اليسار
     toolsEl.innerHTML = set.map(([a, ic, cls, lab]) => `<button class="tb2 ${cls}" data-a="${a}" aria-label="${lab}">${ic}${a === 'gal' ? '<span class="cnt"></span>' : ''}</button>`).join('');
     toolsEl.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { if (busy && b.dataset.a !== 'lv') return; Sound.tap(); act(b.dataset.a); });
@@ -1000,7 +1009,7 @@
     T.finished = true; T.failN++;
     Sound.error(); vibrate(30);
     App.speak(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'));
-    msg(App.g('على الخط المنقّط يا بطلة ✏️ حاولي مرة أخرى', 'على الخط المنقّط يا بطل ✏️ حاول مرة أخرى'));
+    msg(App.t(App.g('على الخط المنقّط يا بطلة ✏️ حاولي مرة أخرى', 'على الخط المنقّط يا بطل ✏️ حاول مرة أخرى'), 'Stay on the dotted line ✏️ Try again'));
     busy = true;
     setTimeout(() => wipe(() => { busy = false; strokes = []; T.finished = false; traceRecount(); drawGuide(); }), 650);
   }
@@ -1140,7 +1149,7 @@
     const L = layoutGeom({ w: 100, h: 100 }, .8);
     const keepN = keep && DT && DT.it.key === it.key ? DT.n : 0, keepDone = keep && DT && DT.it.key === it.key && DT.done;
     DT = { it, pic, L, P: pic.dots.map(([x, y]) => [L.X(x), L.Y(y)]), n: keepN, done: keepDone, reveal: keepDone ? 1 : 0, hitR: clamp(L.s * 100 * .055, 18, 30) };
-    setTitle(`صِل النقاط  ${dg(idx + 1)}/${dg(its.length)}`, keepDone ? it.label : '؟');
+    setTitle(`${MODES[6].t()}  ${dg(idx + 1)}/${dg(its.length)}`, keepDone ? it.label : (lang === 'ar' ? '؟' : '?'));
     setSeg(pic.dots.length + (pic.closed ? 1 : 0), DT.n);
     redrawInk(); drawDotsGuide();
     if (!keep) {
@@ -1203,7 +1212,7 @@
     if (old < 3) { p[DT.it.key] = 3; saveProg(); App.addStars(3 - old); }
     App.achieve('magicpad_first'); checkAch();
     Sound.win(); vibrate([20, 40, 20]);
-    setTitle(`صِل النقاط  ${dg(idx + 1)}/${dg(PICS.length)}`, DT.it.label);
+    setTitle(`${MODES[6].t()}  ${dg(idx + 1)}/${dg(PICS.length)}`, DT.it.label);
     const o = { r: 0 };
     tween(o, { r: 1, duration: .9, ease: 'back.out(1.4)', onUpdate: () => { DT.reveal = o.r; drawDotsGuide(); }, onComplete: () => { DT.reveal = 1; drawDotsGuide(); } });
     DT.P.forEach(([x, y], i) => setTimeout(() => burst(x, y, 6, 1), i * 40));
@@ -1296,7 +1305,7 @@
     const it = HR.list[HR.r];
     const b = toolsEl.querySelector('[data-a=say]'); if (b) uiFrom(b, { scale: 1.35, duration: .5, ease: 'elastic.out(1,.4)', clearProps: 'transform' });
     say(App.g('ارسمي', 'ارسم') + ' ' + it.ar, 'Draw ' + it.en);
-    msg((lang === 'ar' ? '👂 ' + App.g('اسمعي وارسمي', 'اسمع وارسم') : '👂 Listen and draw'), 2200);
+    msg('👂 ' + App.t(App.g('اسمعي وارسمي', 'اسمع وارسم'), 'Listen and draw'), 2200);
   }
   function paintHearTools() {
     const b = toolsEl.querySelector('[data-a=check]'); if (!b) return;
@@ -1348,7 +1357,7 @@
     }, 300);
     const last = HR.r >= HEAR_ROUNDS - 1;
     resEl.innerHTML = `<div class="rt"><b>${lang === 'en' && !it.isNum ? `<span dir="ltr">${it.en}</span>` : it.label}</b><div class="st">${[0, 1, 2].map(i => `<span class="${i < stars ? '' : 'off'}">⭐</span>`).join('')}</div></div>
-      ${stars ? '' : `<button class="btn alt" data-r="again">🔁</button>`}<button class="btn" data-r="next">${last ? '🏁' : 'التالي ◀'}</button>`;
+      ${stars ? '' : `<button class="btn alt" data-r="again">🔁</button>`}<button class="btn" data-r="next">${last ? '🏁' : nextLbl()}</button>`;
     resEl.classList.add('on');
     uiFrom(resEl, { y: 40, autoAlpha: 0, duration: .45, ease: 'back.out(1.8)' });
     resEl.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
@@ -1384,7 +1393,7 @@
      الرسم الحر: حفظ في المعرض
      ===================================================================== */
   function saveDrawing() {
-    if (!strokes.length) { Sound.error(); msg(App.g('ارسمي شيئًا أولًا ✏️', 'ارسم شيئًا أولًا ✏️')); return; }
+    if (!strokes.length) { Sound.error(); msg(App.t(App.g('ارسمي شيئًا أولًا ✏️', 'ارسم شيئًا أولًا ✏️'), 'Draw something first ✏️')); return; }
     const tw = 220, th = Math.round(tw * S.h / S.w), c = mk(tw, th), x = c.getContext('2d');
     x.fillStyle = '#0B0E12'; x.fillRect(0, 0, tw, th);
     x.filter = 'blur(3px)'; x.globalAlpha = .7; x.globalCompositeOperation = 'lighter'; x.drawImage(cw, 0, 0, tw, th);
@@ -1396,7 +1405,7 @@
     store.set('magicpadGallery', gal);
     prog.saves++; saveProg();
     Sound.star(); vibrate(15);
-    msg(dropped ? 'حُفظت الرسمة 🖼️ (حُذفت أقدم رسمة)' : 'حُفظت الرسمة في المعرض 🖼️');
+    msg(dropped ? App.t('حُفظت الرسمة 🖼️ (حُذفت أقدم رسمة)', 'Drawing saved 🖼️ (oldest one removed)') : App.t('حُفظت الرسمة في المعرض 🖼️', 'Drawing saved to the gallery 🖼️'));
     if (strokes.length >= 3 && prog.saves <= 20) App.addStars(1);
     App.achieve('magicpad_first'); if (prog.saves >= 5) App.achieve('magicpad_artist');
     paintGalCount();
@@ -1412,9 +1421,9 @@
   function openGallery() {
     const gal = store.get('magicpadGallery', []);
     const p = ovGal.querySelector('.panel');
-    p.innerHTML = `<h3>🖼️ ${App.g('معرض رسوماتك', 'معرض رسوماتك')}</h3>
-      ${gal.length ? `<div class="gal">${gal.slice().reverse().map((g, i) => `<button class="th" data-i="${gal.length - 1 - i}"><img src="${g.img}" alt="رسمة"></button>`).join('')}</div>` : `<p class="empty">لا توجد رسومات بعد.<br>${App.g('ارسمي ثم اضغطي', 'ارسم ثم اضغط')} 💾</p>`}
-      <button class="btn" data-x="close">رجوع</button>`;
+    p.innerHTML = `<h3>🖼️ ${App.t('معرض رسوماتك', 'Your gallery')}</h3>
+      ${gal.length ? `<div class="gal">${gal.slice().reverse().map((g, i) => `<button class="th" data-i="${gal.length - 1 - i}"><img src="${g.img}" alt="${App.t('رسمة', 'Drawing')}"></button>`).join('')}</div>` : `<p class="empty">${App.t('لا توجد رسومات بعد.', 'No drawings yet.')}<br>${App.t(App.g('ارسمي ثم اضغطي', 'ارسم ثم اضغط'), 'Draw, then press')} 💾</p>`}
+      <button class="btn" data-x="close">${App.t('رجوع', 'Back')}</button>`;
     p.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { Sound.tap(); viewArt(+b.dataset.i); });
     p.querySelector('[data-x=close]').onclick = () => { Sound.tap(); closeOv(ovGal); };
     openOv(ovGal);
@@ -1423,12 +1432,12 @@
   function viewArt(i) {
     const gal = store.get('magicpadGallery', []), g = gal[i]; if (!g) return;
     const p = ovGal.querySelector('.panel');
-    p.innerHTML = `<img class="bigimg" src="${g.img}" alt="رسمة">
-      <button class="btn alt" data-x="del">🗑️ حذف</button><button class="btn" data-x="back">رجوع</button>`;
+    p.innerHTML = `<img class="bigimg" src="${g.img}" alt="${App.t('رسمة', 'Drawing')}">
+      <button class="btn alt" data-x="del">🗑️ ${App.t('حذف', 'Delete')}</button><button class="btn" data-x="back">${App.t('رجوع', 'Back')}</button>`;
     let armed = false;
     p.querySelector('[data-x=del]').onclick = e => {
       Sound.tap();
-      if (!armed) { armed = true; e.currentTarget.textContent = 'اضغط مرة أخرى للحذف'; return; }
+      if (!armed) { armed = true; e.currentTarget.textContent = App.t(App.g('اضغطي مرة أخرى للحذف', 'اضغط مرة أخرى للحذف'), 'Press again to delete'); return; }
       gal.splice(i, 1); store.set('magicpadGallery', gal); Sound.poof(); paintGalCount(); openGallery();
     };
     p.querySelector('[data-x=back]').onclick = () => { Sound.tap(); openGallery(); };
@@ -1441,14 +1450,14 @@
   function closeOv(o) { o.classList.remove('on'); }
   function anyOv() { return [ovWin, ovPick, ovGal].find(o => o.classList.contains('on')); }
   function showWin(stars, it, isHear) {
-    const p = ovWin.querySelector('.panel');
-    const titles = [App.g('أحسنتِ!', 'أحسنت!'), 'رائع! 🌟', App.g('ممتازة!', 'ممتاز!'), 'يا سلام! ✨'];
+    const p = ovWin.querySelector('.panel'); lastWin = [stars, it, isHear];
+    const titles = App.lang === 'en' ? ['Well done!', 'Great! 🌟', 'Excellent!', 'Wow! ✨'] : [App.g('أحسنتِ!', 'أحسنت!'), 'رائع! 🌟', App.g('ممتازة!', 'ممتاز!'), 'يا سلام! ✨'];
     const lastItem = !isHear && idx >= itemsOf(mode).length - 1;
-    p.innerHTML = `<h3>${isHear && !stars ? App.g('حاولي مرة أخرى', 'حاول مرة أخرى') : titles[(Math.random() * titles.length) | 0]}</h3>
+    p.innerHTML = `<h3>${isHear && !stars ? App.t(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'), 'Try again') : titles[(Math.random() * titles.length) | 0]}</h3>
       <div class="lcdbox"><canvas width="300" height="240"></canvas></div>
       <div class="stars3">${[0, 1, 2].map(i => `<span class="${i < stars ? '' : 'off'}">⭐</span>`).join('')}</div>
       ${isHear ? `<p>${dg(HR.scores.reduce((a, b) => a + b, 0))} / ${dg(HEAR_ROUNDS * 3)} ⭐</p>` : ''}
-      <div>${isHear ? `<button class="btn" data-w="again">🔁 ${App.g('العبي مجددًا', 'العب مجددًا')}</button>` : `<button class="btn" data-w="next">${lastItem ? '🏁 المستويات' : 'التالي ◀'}</button><button class="btn alt" data-w="again">🔁</button>`}
+      <div>${isHear ? `<button class="btn" data-w="again">🔁 ${App.t(App.g('العبي مجددًا', 'العب مجددًا'), 'Play again')}</button>` : `<button class="btn" data-w="next">${lastItem ? '🏁 ' + App.t('المستويات', 'Levels') : nextLbl()}</button><button class="btn alt" data-w="again">🔁</button>`}
       <button class="btn alt" data-w="lv">🗂️</button></div>`;
     // صورة من اللوح نفسه
     const pc = p.querySelector('canvas'), x = pc.getContext('2d');
@@ -1475,7 +1484,7 @@
     const small = mode === 'shp' || mode === 'dots';
     p.innerHTML = `<h3>${MODES.find(m => m.id === mode).t()}</h3>
       <div class="grid" ${mode === 'en' ? 'dir="ltr"' : ''}>${its.map((it, i) => `<button class="it ${small ? 'sm' : ''} ${i === idx ? 'cur' : ''}" data-i="${i}" ${mode === 'en' || (lang === 'en' && small) ? 'dir="ltr"' : ''}>${mode === 'dots' && !pr[it.key] ? '❔' : it.label}<i>${pr[it.key] ? '⭐'.repeat(pr[it.key]) : ''}</i></button>`).join('')}</div>
-      <button class="btn alt" data-x="close">رجوع</button>`;
+      <button class="btn alt" data-x="close">${App.t('رجوع', 'Back')}</button>`;
     p.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { Sound.tap(); closeOv(ovPick); gotoItem(+b.dataset.i); });
     p.querySelector('[data-x=close]').onclick = () => { Sound.tap(); closeOv(ovPick); };
     openOv(ovPick);
@@ -1537,7 +1546,7 @@
     }).join('');
     cards.querySelectorAll('canvas').forEach((cv, i) => { const x = cv.getContext('2d'); try { drawMini(x, cv.width, cv.height, MODES[i].id); } catch (e) { console.warn(e); } });
     cards.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { Sound.tap(); openMode(b.dataset.m); });
-    root.querySelector('.lvs').textContent = `⭐ ${dg(totalStars())}  ·  ${App.g('ارسمي وتعلّمي', 'ارسم وتعلّم')} ✏️`;
+    chrome(); root.querySelector('.lvs').textContent = `⭐ ${dg(totalStars())}  ·  ${App.t(App.g('ارسمي وتعلّمي', 'ارسم وتعلّم'), 'Draw and learn')} ✏️`;
     const hc = root.querySelector('.lvh canvas'), hx = hc.getContext('2d'); hx.clearRect(0, 0, 148, 192);
     const G = devGeom(8, 8, 132, 176); drawDevice(hx, G, { mini: true });
     hx.save(); rr(hx, G.S.x, G.S.y, G.S.w, G.S.h, G.S.r); hx.clip(); const gr = rainbow(hx, G.S.x, G.S.y, G.S.x + 40, G.S.y + G.S.h);
@@ -1554,10 +1563,10 @@
     T = null; DT = null; HR = null; strokes = []; clearInk(); xg.clearRect(0, 0, S.w, S.h); xf.clearRect(0, 0, S.w, S.h);
     trashBtn.classList.remove('glow');
     if (m === 'free') {
-      setTitle('رسم حر', '🎨 ' + App.g('ارسمي!', 'ارسم!')); setSeg(0);
+      setTitle(MODES[0].t(), '🎨 ' + App.t(App.g('ارسمي!', 'ارسم!'), 'Draw!')); setSeg(0);
       if (freeKeep) { strokes = freeKeep; redrawInk(); }
       freeKeep = strokes;
-      msg(App.g('ارسمي بإصبعك ✏️ و🗑️ يمسح اللوح', 'ارسم بإصبعك ✏️ و🗑️ يمسح اللوح'));
+      msg(App.t(App.g('ارسمي بإصبعك ✏️ و🗑️ يمسح اللوح', 'ارسم بإصبعك ✏️ و🗑️ يمسح اللوح'), 'Draw with your finger ✏️ and 🗑️ clears the pad'));
     } else if (m === 'hear') startHear();
     else {
       const its = itemsOf(m);
@@ -1681,12 +1690,28 @@
     const l = b.dataset.l; if (l === lang) return;
     lang = l; store.set('magicpadLang', l); Sound.tap(); paintLang();
     uiFrom(b, { scale: 1.25, duration: .4, ease: 'back.out(3)' });
+    contentLang();
+  });
+  function contentLang() {
     if (view === 'levels') { showLevels(); return; }
     // تحديث الأرقام والأسماء في المستوى الحالي
     if (mode === 'num' || mode === 'shp' || mode === 'ar' || mode === 'en') { if (mode === 'num' || mode === 'shp') startItem(idx); else { drawGuide(); if (T) setTitle(`${MODES.find(m => m.id === mode).t()}  ${dg(idx + 1)}/${dg(itemsOf(mode).length)}`, T.it.label); } }
     else if (mode === 'dots') startDots(true);
     else if (mode === 'hear') startHear();
-  });
+  }
+  let lastWin = null;
+  function onLang(l) {
+    chrome();
+    const chg = l !== lang; lang = l; paintLang();
+    if (view === 'levels') { showLevels(); return; }
+    buildTools(); if (mode === 'hear') paintHearTools();
+    if (mode === 'free') setTitle(MODES[0].t(), '🎨 ' + App.t(App.g('ارسمي!', 'ارسم!'), 'Draw!'));
+    if (ovWin.classList.contains('on') && lastWin) { showWin(...lastWin); return; }
+    if (ovGal.classList.contains('on')) openGallery();
+    if (ovPick.classList.contains('on')) openPicker();
+    if (chg && mode !== 'free' && !(mode === 'hear' && HR && HR.checked)) contentLang();
+    else if (mode !== 'free' && mode !== 'hear' && T) setTitle(`${MODES.find(m => m.id === mode).t()}  ${dg(idx + 1)}/${dg(itemsOf(mode).length)}`, T.it.label);
+  }
 
   trashBtn.onclick = () => {
     if (view !== 'pad' || busy || wipeFx) return;
@@ -1714,9 +1739,17 @@
      التسجيل
      ===================================================================== */
   App.register({
-    id: ID, title: 'اللوح السحري', icon2: '✏️', isNew: true,
+    id: ID, title: 'اللوح السحري', titleEn: 'Magic Pad', icon2: '✏️', isNew: true,
     desc: () => App.g('ارسمي وتتبّعي الحروف على لوح LCD سحري', 'ارسم وتتبّع الحروف على لوح LCD سحري'),
     music: 'letters',
+    descEn: () => 'Draw and trace letters on a magic LCD pad',
+    helpEn: () => [
+      '✏️ Draw on the pad with your finger, and the lines glow in rainbow colors just like a real pad!',
+      '🗑️ The bin button wipes the whole pad with a flash, and ↩️ erases only the last line',
+      '🔤 Trace letters, numbers and shapes from the green circle ① following the arrows',
+      '👂 Listen, then draw; and 🔢 connect the dots in order to reveal a hidden picture',
+      '🌐 Choose the language at the top: عربي / English'
+    ],
     help: () => [
       `✏️ ${App.g('ارسمي بإصبعك على اللوح', 'ارسم بإصبعك على اللوح')}، والخطوط تتوهّج بألوان قوس قزح مثل اللوح الحقيقي!`,
       '🗑️ زر السلة يمسح اللوح كله بومضة، و↩️ يمسح آخر خط فقط',
@@ -1742,11 +1775,12 @@
     },
     best() { try { const p = loadProg(), n = ['ar', 'en', 'num', 'shp', 'dots'].reduce((a, m) => a + Object.values(p[m]).reduce((x, y) => x + y, 0), 0) + (p.hear || 0); return n ? `⭐ ${n}` : ''; } catch (e) { return ''; } },
     enter() {
-      lang = store.get('magicpadLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); chrome();
       prog = loadProg(); paused = false; busy = false; freeKeep = null;
       ensureFont();
       showLevels();
     },
+    onLang,
     leave() { stopLoop(); token++; pid = null; cur = null; busy = false; if (window.gsap) gsap.killTweensOf(cg); [ovWin, ovPick, ovGal].forEach(closeOv); },
     /** للاختبار الآلي فقط: مسارات الدليل الحالية بإحداثيات الشاشة */
     _dbg() { const r = scr.getBoundingClientRect(); return { x: r.left, y: r.top, w: S.w, h: S.h, mode, idx, view, tol: T && T.tol, st: T && T.st.map(s => s.dot ? { dot: 1, x: s.x, y: s.y } : { pts: s.pts }), dots: DT && DT.P, prog }; },

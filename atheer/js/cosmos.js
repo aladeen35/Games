@@ -4,19 +4,19 @@
    ===================================================================== */
 (() => {
   const CELESTIAL = [
-    { v: 2,    name: 'غبار نجمي',   c: ['#C9C3D9', '#7C7396'], kind: 'dust',   fact: 'الغبار النجمي حبيبات صغيرة جدًا تسبح في الفضاء، ومنها تتكوّن النجوم والكواكب.' },
-    { v: 4,    name: 'كويكب',        c: ['#B8A08A', '#5E4A3C'], kind: 'rock',   fact: 'الكويكبات صخور فضائية، يدور أكثرها حول الشمس بين المريخ والمشتري.' },
-    { v: 8,    name: 'مذنّب',        c: ['#BDF3FF', '#3AA6D8'], kind: 'comet',  fact: 'المذنّب كرة من الجليد والغبار، وحين يقترب من الشمس يظهر له ذيل لامع طويل.' },
-    { v: 16,   name: 'قمر صغير',     c: ['#F2F0E6', '#9C988A'], kind: 'moon',   fact: 'لبعض الكواكب أقمار صغيرة جدًا، مثل قمري المريخ: فوبوس وديموس.' },
-    { v: 32,   name: 'قمر',          c: ['#FFF6D6', '#C7B98A'], kind: 'moon2',  fact: 'القمر يدور حول الأرض، ويبدو منيرًا لأنه يعكس ضوء الشمس.' },
-    { v: 64,   name: 'كوكب أحمر',    c: ['#FF9B6A', '#A8381E'], kind: 'mars',   fact: 'المريخ هو الكوكب الأحمر، ولونه بسبب الصدأ في تربته!' },
-    { v: 128,  name: 'كوكب أزرق',    c: ['#7FD8FF', '#1E5FB8'], kind: 'earth',  fact: 'الأرض هي الكوكب الأزرق لأن الماء يغطي معظم سطحها، وهي بيتنا الجميل.' },
-    { v: 256,  name: 'كوكب الحلقات', c: ['#FFE3A3', '#C98B3A'], kind: 'ring',   fact: 'زحل مشهور بحلقاته الجميلة المصنوعة من الجليد والصخور.' },
-    { v: 512,  name: 'عملاق غازي',   c: ['#FFC9A8', '#B05A3A'], kind: 'giant',  fact: 'المشتري أكبر كواكب المجموعة الشمسية، ويتّسع لأكثر من 1000 كرة بحجم الأرض!' },
-    { v: 1024, name: 'نجم',          c: ['#FFFBD0', '#FFB21E'], kind: 'star',   fact: 'النجوم كرات ضخمة من الغاز المتوهّج، وبعضها أكبر من الشمس بكثير.' },
-    { v: 2048, name: 'شمس متوهّجة',  c: ['#FFFFFF', '#FF8A00'], kind: 'sun',    fact: 'الشمس نجم قريب منا تمنحنا الضوء والدفء، ويصل ضوؤها إلينا في نحو 8 دقائق.' },
-    { v: 4096, name: 'عملاق أزرق',   c: ['#FFFFFF', '#3A7BFF'], kind: 'blue',   fact: 'العمالقة الزرقاء نجوم شديدة الحرارة واللمعان، ولونها أزرق لأنها أسخن من الشمس.' },
-    { v: 8192, name: 'مجرّة',        c: ['#FFD6F5', '#7A3AFF'], kind: 'galaxy', fact: 'المجرّة مدينة من مليارات النجوم، ونحن نعيش في مجرّة درب التبانة.' }
+    { v: 2,    name: 'غبار نجمي',   c: ['#C9C3D9', '#7C7396'], kind: 'dust',   fact: 'الغبار النجمي حبيبات صغيرة جدًا تسبح في الفضاء، ومنها تتكوّن النجوم والكواكب.', en: 'Stardust', factEn: 'Stardust is tiny little grains floating in space, and stars and planets are made from it.' },
+    { v: 4,    name: 'كويكب',        c: ['#B8A08A', '#5E4A3C'], kind: 'rock',   fact: 'الكويكبات صخور فضائية، يدور أكثرها حول الشمس بين المريخ والمشتري.', en: 'Asteroid', factEn: 'Asteroids are space rocks. Most of them go around the Sun between Mars and Jupiter.' },
+    { v: 8,    name: 'مذنّب',        c: ['#BDF3FF', '#3AA6D8'], kind: 'comet',  fact: 'المذنّب كرة من الجليد والغبار، وحين يقترب من الشمس يظهر له ذيل لامع طويل.', en: 'Comet', factEn: 'A comet is a ball of ice and dust. When it comes near the Sun it grows a long shiny tail.' },
+    { v: 16,   name: 'قمر صغير',     c: ['#F2F0E6', '#9C988A'], kind: 'moon',   fact: 'لبعض الكواكب أقمار صغيرة جدًا، مثل قمري المريخ: فوبوس وديموس.', en: 'Small moon', factEn: 'Some planets have very small moons, like the two moons of Mars: Phobos and Deimos.' },
+    { v: 32,   name: 'قمر',          c: ['#FFF6D6', '#C7B98A'], kind: 'moon2',  fact: 'القمر يدور حول الأرض، ويبدو منيرًا لأنه يعكس ضوء الشمس.', en: 'Moon', factEn: 'The Moon goes around the Earth. It looks bright because it reflects the light of the Sun.' },
+    { v: 64,   name: 'كوكب أحمر',    c: ['#FF9B6A', '#A8381E'], kind: 'mars',   fact: 'المريخ هو الكوكب الأحمر، ولونه بسبب الصدأ في تربته!', en: 'Red planet', factEn: 'Mars is the red planet. Its color comes from rust in its soil!' },
+    { v: 128,  name: 'كوكب أزرق',    c: ['#7FD8FF', '#1E5FB8'], kind: 'earth',  fact: 'الأرض هي الكوكب الأزرق لأن الماء يغطي معظم سطحها، وهي بيتنا الجميل.', en: 'Blue planet', factEn: 'Earth is the blue planet because water covers most of it. It is our beautiful home.' },
+    { v: 256,  name: 'كوكب الحلقات', c: ['#FFE3A3', '#C98B3A'], kind: 'ring',   fact: 'زحل مشهور بحلقاته الجميلة المصنوعة من الجليد والصخور.', en: 'Ringed planet', factEn: 'Saturn is famous for its beautiful rings made of ice and rocks.' },
+    { v: 512,  name: 'عملاق غازي',   c: ['#FFC9A8', '#B05A3A'], kind: 'giant',  fact: 'المشتري أكبر كواكب المجموعة الشمسية، ويتّسع لأكثر من 1000 كرة بحجم الأرض!', en: 'Gas giant', factEn: 'Jupiter is the biggest planet in the Solar System. More than 1000 Earths could fit inside it!' },
+    { v: 1024, name: 'نجم',          c: ['#FFFBD0', '#FFB21E'], kind: 'star',   fact: 'النجوم كرات ضخمة من الغاز المتوهّج، وبعضها أكبر من الشمس بكثير.', en: 'Star', factEn: 'Stars are huge balls of glowing gas, and some are much bigger than the Sun.' },
+    { v: 2048, name: 'شمس متوهّجة',  c: ['#FFFFFF', '#FF8A00'], kind: 'sun',    fact: 'الشمس نجم قريب منا تمنحنا الضوء والدفء، ويصل ضوؤها إلينا في نحو 8 دقائق.', en: 'Blazing sun', factEn: 'The Sun is a star close to us. It gives us light and warmth, and its light reaches us in about 8 minutes.' },
+    { v: 4096, name: 'عملاق أزرق',   c: ['#FFFFFF', '#3A7BFF'], kind: 'blue',   fact: 'العمالقة الزرقاء نجوم شديدة الحرارة واللمعان، ولونها أزرق لأنها أسخن من الشمس.', en: 'Blue giant', factEn: 'Blue giants are very hot, very bright stars. They are blue because they are hotter than the Sun.' },
+    { v: 8192, name: 'مجرّة',        c: ['#FFD6F5', '#7A3AFF'], kind: 'galaxy', fact: 'المجرّة مدينة من مليارات النجوم، ونحن نعيش في مجرّة درب التبانة.', en: 'Galaxy', factEn: 'A galaxy is a city of billions of stars. We live in the Milky Way galaxy.' }
   ];
   const lvl = v => Math.log2(v) - 1;
 
@@ -70,43 +70,52 @@
   const root = App.section('cosmos', `
     <canvas class="sky" id="cSky"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib" id="cMode" aria-label="الأوضاع">📐</button>
-      <button class="ib" id="cBook" aria-label="الموسوعة">📖</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib" id="cMode" aria-label="الأوضاع" data-aen="Modes">📐</button>
+      <button class="ib" id="cBook" aria-label="الموسوعة" data-aen="Encyclopedia">📖</button>
       <span class="grow"></span>
-      <div class="chip"><small>النقاط</small><b id="cScore">0</b></div>
+      <div class="chip"><small data-en="Score">النقاط</small><b id="cScore">0</b></div>
       <div class="chip"><small id="cBestL">الأفضل</small><b id="cBest">0</b></div>
     </div>
     <div class="cwrap">
-      <div class="ctitle">✨ دمج الأجرام ✨ <small id="cInfo">4×4</small></div>
+      <div class="ctitle"><span data-en="✨ Space Merge ✨">✨ دمج الأجرام ✨</span> <small id="cInfo">4×4</small></div>
       <div class="goal" id="cGoal"></div>
       <div id="cBoard"><div class="arrow" id="cArrow"></div></div>
       <div class="tools">
-        <button class="ib" id="cUndo" aria-label="تراجع">↶</button>
-        <button class="ib" id="cHint" aria-label="تلميح">💡<span class="cnt" id="nHint">3</span></button>
-        <button class="ib" id="cBomb" aria-label="قنبلة نجمية">💥<span class="cnt" id="nBomb">1</span></button>
-        <button class="ib" id="cSwap" aria-label="تبديل">🔀<span class="cnt" id="nSwap">1</span></button>
-        <button class="ib" id="cNew" aria-label="لعبة جديدة">🔄</button>
+        <button class="ib" id="cUndo" aria-label="تراجع" data-aen="Undo">↶</button>
+        <button class="ib" id="cHint" aria-label="تلميح" data-aen="Hint">💡<span class="cnt" id="nHint">3</span></button>
+        <button class="ib" id="cBomb" aria-label="قنبلة نجمية" data-aen="Star bomb">💥<span class="cnt" id="nBomb">1</span></button>
+        <button class="ib" id="cSwap" aria-label="تبديل" data-aen="Swap">🔀<span class="cnt" id="nSwap">1</span></button>
+        <button class="ib" id="cNew" aria-label="لعبة جديدة" data-aen="New game">🔄</button>
       </div>
     </div>
     <div class="toast" id="cToast"></div>
     <div class="overlay" id="cOver"><div class="panel">
       <h3 id="cOverT"></h3><div class="big" id="cFinal"></div><p id="cOverP"></p>
-      <button class="btn" id="cAgain">🔁 مجرّة جديدة</button>
-      <button class="btn alt" id="cKeep" style="display:none">🚀 متابعة اللعب</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <button class="btn" id="cAgain" data-en="🔁 New galaxy">🔁 مجرّة جديدة</button>
+      <button class="btn alt" id="cKeep" style="display:none" data-en="🚀 Keep playing">🚀 متابعة اللعب</button>
+      <button class="btn alt home" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>
     <div class="overlay" id="cModes"><div class="panel">
-      <h3>📐 اختر المجرّة</h3>
-      <p style="margin:0">حجم الشبكة</p><div class="opt" id="oSize"></div>
-      <p style="margin:0">الوضع</p><div class="opt" id="oMode"></div>
-      <button class="btn" id="oGo">🚀 ابدأ</button><button class="btn alt" id="oX">إغلاق</button>
+      <h3 data-en="📐 Choose the galaxy">📐 اختر المجرّة</h3>
+      <p style="margin:0" data-en="Grid size">حجم الشبكة</p><div class="opt" id="oSize"></div>
+      <p style="margin:0" data-en="Mode">الوضع</p><div class="opt" id="oMode"></div>
+      <button class="btn" id="oGo" data-en="🚀 Start">🚀 ابدأ</button><button class="btn alt" id="oX" data-en="Close">إغلاق</button>
     </div></div>
     <div class="overlay" id="cEncy"><div class="panel" style="width:min(94vw,480px)">
-      <h3>📖 موسوعة الأجرام</h3><div class="ency" id="cEncyL"></div>
-      <button class="btn" id="cEncyX" style="margin-top:10px">إغلاق</button>
+      <h3 data-en="📖 Space Encyclopedia">📖 موسوعة الأجرام</h3><div class="ency" id="cEncyL"></div>
+      <button class="btn" id="cEncyX" style="margin-top:10px" data-en="Close">إغلاق</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  const nm = d => App.t(d.name, d.en);
 
   const board = root.querySelector('#cBoard');
   let N = 4, mode = 'classic', grid, score, best, bestTile, won, keepGoing, busy = false, hist = [], idc = 0;
@@ -191,14 +200,17 @@
     if (sv && sv.g && sv.g.length === N && sv.g.flat().some(v => v)) { restore(sv); won = sv.won; keepGoing = sv.keepGoing; }
     else { addRandom(); addRandom(); save(); }
     if (mode === 'timed') { timeLeft = 180; startTimer(); }
-    $('#cInfo').textContent = `${N}×${N} · ${mode === 'timed' ? '⏱️ تحدٍّ زمني' : 'كلاسيكي'}`;
-    $('#cGoal').textContent = mode === 'timed' ? App.g('اجمعي أكبر عدد من النقاط قبل نهاية الوقت!', 'اجمع أكبر عدد من النقاط قبل نهاية الوقت!') : App.g('اسحبي لتحريك الأجرام — جرمان متشابهان يندمجان في جرم أكبر', 'اسحب لتحريك الأجرام — جرمان متشابهان يندمجان في جرم أكبر');
+    infoText();
     paint(); $('#cOver').classList.remove('on');
+  }
+  function infoText() {
+    $('#cInfo').textContent = `${N}×${N} · ${mode === 'timed' ? App.t('⏱️ تحدٍّ زمني', '⏱️ Time challenge') : App.t('كلاسيكي', 'Classic')}`;
+    $('#cGoal').textContent = mode === 'timed' ? App.t(App.g('اجمعي أكبر عدد من النقاط قبل نهاية الوقت!', 'اجمع أكبر عدد من النقاط قبل نهاية الوقت!'), 'Score as many points as you can before time runs out!') : App.t(App.g('اسحبي لتحريك الأجرام — جرمان متشابهان يندمجان في جرم أكبر', 'اسحب لتحريك الأجرام — جرمان متشابهان يندمجان في جرم أكبر'), 'Swipe to move the space objects — two matching ones merge into a bigger one');
   }
   function paint() {
     $('#cScore').textContent = score;
-    if (mode === 'timed') { $('#cBestL').textContent = 'الوقت'; $('#cBest').textContent = `${Math.floor(timeLeft / 60)}:${String(Math.max(0, timeLeft | 0) % 60).padStart(2, '0')}`; }
-    else { if (score > best) { best = score; store.set(sfx() + 'Best', best); } $('#cBestL').textContent = 'الأفضل'; $('#cBest').textContent = best; }
+    if (mode === 'timed') { $('#cBestL').textContent = App.t('الوقت', 'Time'); $('#cBest').textContent = `${Math.floor(timeLeft / 60)}:${String(Math.max(0, timeLeft | 0) % 60).padStart(2, '0')}`; }
+    else { if (score > best) { best = score; store.set(sfx() + 'Best', best); } $('#cBestL').textContent = App.t('الأفضل', 'Best'); $('#cBest').textContent = best; }
     $('#nHint').textContent = powers.hint; $('#nBomb').textContent = powers.bomb; $('#nSwap').textContent = powers.swap;
     $('#cHint').disabled = !powers.hint; $('#cBomb').disabled = !powers.bomb; $('#cSwap').disabled = !powers.swap;
     $('#cUndo').disabled = !hist.length || mode === 'timed';
@@ -294,17 +306,17 @@
       score += gained;
       while (score >= nextPower) { // مكافأة القدرات كل 1000 نقطة
         nextPower += 1000; powers.hint++; if ((nextPower / 1000) % 2) powers.swap++; else powers.bomb++;
-        toast('🎁 قدرة جديدة!'); Sound.star();
+        toast(App.t('🎁 قدرة جديدة!', '🎁 New power!')); Sound.star();
       }
       const mt = maxTile();
       if (mt >= 32) App.achieve('cosmos_moon');
       if (mt >= 128) App.achieve('cosmos_planet');
       if (mt >= 2048) App.achieve('cosmos_sun');
-      if (mt > bestTile) { bestTile = mt; store.set('cosmosBestTile', bestTile); if (mt >= 16) { toast(`✨ ${CELESTIAL[lvl(mt)].name} جديد!`); App.addStars(2); } }
+      if (mt > bestTile) { bestTile = mt; store.set('cosmosBestTile', bestTile); if (mt >= 16) { toast(App.t(`✨ ${CELESTIAL[lvl(mt)].name} جديد!`, `✨ New: ${CELESTIAL[lvl(mt)].en}!`)); App.addStars(2); } }
       addRandom(); paint(); save(); busy = false;
       if (mode === 'classic' && !won && !keepGoing && mt >= 2048) { won = true; save(); end('win'); }
       else if (!canMove()) {
-        if (powers.bomb || powers.swap) toast(App.g('اللوحة ممتلئة! استخدمي 💥 أو 🔀', 'اللوحة ممتلئة! استخدم 💥 أو 🔀'));
+        if (powers.bomb || powers.swap) toast(App.t(App.g('اللوحة ممتلئة! استخدمي 💥 أو 🔀', 'اللوحة ممتلئة! استخدم 💥 أو 🔀'), 'The board is full! Use 💥 or 🔀'));
         else end('full');
       }
     }, 125);
@@ -322,20 +334,27 @@
     if (ended && why !== 'win') return;
     const mt = maxTile(), d = CELESTIAL[lvl(mt)];
     if (why !== 'win') { ended = true; stopTimer(); }
-    $('#cOverT').textContent = why === 'win' ? App.g('☀️ صنعتِ شمسًا متوهّجة!', '☀️ صنعت شمسًا متوهّجة!') : why === 'time' ? '⏱️ انتهى الوقت!' : 'امتلأت المجرّة! 🌌';
-    $('#cFinal').textContent = why === 'time' ? score : d ? d.name : mt;
-    $('#cOverP').textContent = why === 'win' ? `النقاط: ${score} — تابع اللعب لصنع عملاق أزرق!` : why === 'time' ? `أكبر جرم: ${d ? d.name : mt}` : `أكبر جرم صنعته • النقاط: ${score}`;
+    lastOver = { why, rec: false }; overText();
     $('#cKeep').style.display = why === 'win' ? '' : 'none';
     why === 'win' ? Sound.win() : Sound.lose();
     if (why === 'win') App.addStars(10);
     if (why === 'time') {
       const tb = store.get(sfx() + 'Best', 0);
-      if (score > tb) { store.set(sfx() + 'Best', score); $('#cOverP').textContent += ' • 🏆 رقم قياسي!'; }
+      if (score > tb) { store.set(sfx() + 'Best', score); lastOver.rec = true; overText(); }
       if (score >= 2000) App.achieve('cosmos_timed');
       const s = Math.floor(score / 1000); if (s) App.addStars(s);
     }
     if (why === 'full' && mode === 'classic') store.set(sfx() + 'State', null);
     setTimeout(() => $('#cOver').classList.add('on'), 350);
+  }
+  let lastOver = null;
+  function overText() {
+    if (!lastOver) return;
+    const { why, rec } = lastOver, mt = maxTile(), d = CELESTIAL[lvl(mt)];
+    $('#cOverT').textContent = why === 'win' ? App.t(App.g('☀️ صنعتِ شمسًا متوهّجة!', '☀️ صنعت شمسًا متوهّجة!'), '☀️ You made a blazing sun!') : why === 'time' ? App.t('⏱️ انتهى الوقت!', '⏱️ Time is up!') : App.t('امتلأت المجرّة! 🌌', 'The galaxy is full! 🌌');
+    $('#cFinal').textContent = why === 'time' ? score : d ? nm(d) : mt;
+    $('#cOverP').textContent = (why === 'win' ? App.t(`النقاط: ${score} — تابع اللعب لصنع عملاق أزرق!`, `Score: ${score} — keep playing to make a blue giant!`) : why === 'time' ? App.t(`أكبر جرم: ${d ? d.name : mt}`, `Biggest object: ${d ? d.en : mt}`) : App.t(`أكبر جرم صنعته • النقاط: ${score}`, `The biggest object you made • Score: ${score}`))
+      + (rec ? App.t(' • 🏆 رقم قياسي!', ' • 🏆 New record!') : '');
   }
   function sparkle(r, c, level) {
     const rect = board.getBoundingClientRect(), x = rect.left + geo.gap + c * (geo.ts + geo.gap) + geo.ts / 2, y = rect.top + geo.gap + r * (geo.ts + geo.gap) + geo.ts / 2;
@@ -353,7 +372,7 @@
     if (target === kind) { clearTarget(); return; }
     if (!powers[kind]) { Sound.error(); return; }
     clearTarget(); target = kind; board.classList.add('target'); $(kind === 'bomb' ? '#cBomb' : '#cSwap').classList.add('act');
-    toast(kind === 'bomb' ? App.g('اختاري جرمًا لتفجيره 💥', 'اختر جرمًا لتفجيره 💥') : App.g('اختاري جرمين لتبديلهما 🔀', 'اختر جرمين لتبديلهما 🔀'));
+    toast(kind === 'bomb' ? App.t(App.g('اختاري جرمًا لتفجيره 💥', 'اختر جرمًا لتفجيره 💥'), 'Pick an object to blow up 💥') : App.t(App.g('اختاري جرمين لتبديلهما 🔀', 'اختر جرمين لتبديلهما 🔀'), 'Pick two objects to swap 🔀'));
   }
   function tileAt(e) {
     const r0 = board.getBoundingClientRect(), x = e.clientX - r0.left - geo.gap, y = e.clientY - r0.top - geo.gap;
@@ -385,12 +404,12 @@
   }
 
   /* ---------- النوافذ ---------- */
-  let pickN = 4, pickMode = 'classic';
+  let pickN = 4, pickMode = 'classic', modesDraw = null;
   function modesPanel() {
     pickN = N; pickMode = mode;
-    const draw = () => {
+    const draw = modesDraw = () => {
       $('#oSize').innerHTML = [3, 4, 5, 6].map(n => `<button data-n="${n}" class="${n === pickN ? 'on' : ''}">${n}×${n}</button>`).join('');
-      $('#oMode').innerHTML = [['classic', '♾️ كلاسيكي'], ['timed', '⏱️ 3 دقائق']].map(([m, l]) => `<button data-m="${m}" class="${m === pickMode ? 'on' : ''}">${l}</button>`).join('');
+      $('#oMode').innerHTML = [['classic', App.t('♾️ كلاسيكي', '♾️ Classic')], ['timed', App.t('⏱️ 3 دقائق', '⏱️ 3 minutes')]].map(([m, l]) => `<button data-m="${m}" class="${m === pickMode ? 'on' : ''}">${l}</button>`).join('');
       $('#oSize').querySelectorAll('button').forEach(b => b.onclick = () => { Sound.tap(); pickN = +b.dataset.n; draw(); });
       $('#oMode').querySelectorAll('button').forEach(b => b.onclick = () => { Sound.tap(); pickMode = b.dataset.m; draw(); });
     };
@@ -400,7 +419,7 @@
     const bt = Math.max(store.get('cosmosBestTile', 0), maxTile());
     $('#cEncyL').innerHTML = CELESTIAL.map((d, i) => {
       const open = d.v <= bt, { bg, sh } = orbStyle(i);
-      return `<div class="${open ? '' : 'lock'}"><i style="background:${bg};box-shadow:${sh}"></i><b>${open ? d.name : '؟؟؟'} · ${d.v}</b><small>${open ? d.fact : App.g('اصنعي هذا الجرم لتكتشفي سرّه', 'اصنع هذا الجرم لتكتشف سرّه')}</small></div>`;
+      return `<div class="${open ? '' : 'lock'}"><i style="background:${bg};box-shadow:${sh}"></i><b>${open ? nm(d) : App.t('؟؟؟', '???')} · ${d.v}</b><small>${open ? App.t(d.fact, d.factEn) : App.t(App.g('اصنعي هذا الجرم لتكتشفي سرّه', 'اصنع هذا الجرم لتكتشف سرّه'), 'Make this object to discover its secret')}</small></div>`;
     }).join('');
     $('#cEncy').classList.add('on');
   }
@@ -469,8 +488,16 @@
   });
 
   App.register({
-    id: 'cosmos', title: 'دمج الأجرام', icon2: '🌌', music: 'space',
+    id: 'cosmos', title: 'دمج الأجرام', titleEn: 'Space Merge', icon2: '🌌', music: 'space',
     desc: () => App.g('ادمجي الكويكبات حتى تصنعي شمسًا متوهّجة', 'ادمج الكويكبات حتى تصنع شمسًا متوهّجة'),
+    descEn: () => 'Merge asteroids until you make a blazing sun',
+    helpEn: () => [
+      '👆 Swipe in any direction and all the space objects move together, or use the arrow keys.',
+      '✨ Two matching objects merge: dust → asteroid → comet → moon → planet → star → blazing sun!',
+      '💡 The hint shows the best move, 💥 the bomb removes an object, 🔀 swap trades two objects. You get more every 1000 points.',
+      '📐 Pick the grid size (3×3 up to 6×6) or the 3-minute time challenge.',
+      '📖 Every object you make opens a card in the encyclopedia with a fact about space.'
+    ],
     help: () => [
       App.g('👆 اسحبي في أي اتجاه فتتحرك كل الأجرام معًا، أو استخدمي الأسهم.', '👆 اسحب في أي اتجاه فتتحرك كل الأجرام معًا، أو استخدم الأسهم.'),
       '✨ جرمان متشابهان يندمجان: غبار ← كويكب ← مذنّب ← قمر ← كوكب ← نجم ← شمس متوهّجة!',
@@ -478,8 +505,15 @@
       '📐 اختر حجم الشبكة (3×3 حتى 6×6) أو وضع التحدي الزمني لمدة 3 دقائق.',
       App.g('📖 كل جرم تصنعينه يفتح بطاقة في الموسوعة فيها معلومة عن الفضاء.', '📖 كل جرم تصنعه يفتح بطاقة في الموسوعة فيها معلومة عن الفضاء.')
     ],
-    best() { const b = store.get('cosmosBestTile', 0); return b ? `🏆 أكبر جرم: ${CELESTIAL[lvl(b)] ? CELESTIAL[lvl(b)].name : b}` : ''; },
+    best() { const b = store.get('cosmosBestTile', 0); return b ? App.t(`🏆 أكبر جرم: ${CELESTIAL[lvl(b)] ? CELESTIAL[lvl(b)].name : b}`, `🏆 Biggest: ${CELESTIAL[lvl(b)] ? CELESTIAL[lvl(b)].en : b}`) : ''; },
+    onLang() {
+      i18n(); infoText(); paint();
+      if ($('#cOver').classList.contains('on')) overText();
+      if ($('#cModes').classList.contains('on') && modesDraw) modesDraw();
+      if ($('#cEncy').classList.contains('on')) encyPanel();
+    },
     enter() {
+      i18n();
       skyResize(); N = store.get('cosmosN', 4); mode = store.get('cosmosMode', 'classic');
       reset(true); paused = false; lastT = 0; cancelAnimationFrame(skyRaf); skyRaf = requestAnimationFrame(skyLoop);
     },

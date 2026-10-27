@@ -47,6 +47,36 @@
     // ديناصورات
     '🦕': 'ديناصور', '🦖': 'تيرانوصور', '🌋': 'بركان', '🦴': 'عظمة', '🌴': 'نخلة', '🐉': 'تنين', '🌿': 'عشب'
   };
+  const GEO_EN = {
+    circle: 'Circle', square: 'Square', triangle: 'Triangle', star: 'Star', heart: 'Heart', rect: 'Rectangle',
+    rhombus: 'Diamond', hexagon: 'Hexagon', moon: 'Crescent', oval: 'Oval', pentagon: 'Pentagon', cloud: 'Cloud',
+    plus: 'Plus', arrow: 'Arrow',
+    octagon: 'Octagon', semicircle: 'Semicircle', trapezoid: 'Trapezoid', parallelogram: 'Parallelogram',
+    drop: 'Drop', bolt: 'Lightning bolt', ring: 'Ring'
+  };
+  const EMO_EN = {
+    '🐈': 'Cat', '🐕': 'Dog', '🐇': 'Rabbit', '🦁': 'Lion', '🐘': 'Elephant', '🦒': 'Giraffe', '🐢': 'Turtle', '🦋': 'Butterfly',
+    '🍎': 'Apple', '🍌': 'Banana', '🍇': 'Grapes', '🍓': 'Strawberry', '🍉': 'Watermelon', '🍐': 'Pear', '🍊': 'Orange', '🍋': 'Lemon', '🍒': 'Cherries',
+    '🚗': 'Car', '🚌': 'Bus', '🚀': 'Rocket', '✈️': 'Airplane', '🚲': 'Bicycle', '⛵': 'Boat',
+    '🐟': 'Fish', '🐙': 'Octopus', '🦀': 'Crab', '🐳': 'Whale', '🐬': 'Dolphin', '🐚': 'Shell',
+    '⚽': 'Ball', '🧸': 'Teddy bear', '🎈': 'Balloon', '🏠': 'House', '☂️': 'Umbrella', '🎁': 'Gift',
+    '☀️': 'Sun', '🌙': 'Moon', '⭐': 'Star', '🌈': 'Rainbow', '☁️': 'Cloud', '🌸': 'Flower',
+    '🦜': 'Parrot', '🦉': 'Owl', '🦆': 'Duck', '🐧': 'Penguin', '🦩': 'Flamingo',
+    '🐝': 'Bee', '🐞': 'Ladybug', '🐜': 'Ant', '🐛': 'Caterpillar', '🐌': 'Snail',
+    '🍕': 'Pizza', '🍔': 'Burger', '🥕': 'Carrot', '🧀': 'Cheese', '🍞': 'Bread', '🥚': 'Egg',
+    '🎸': 'Guitar', '🥁': 'Drum', '🎹': 'Piano', '🎺': 'Trumpet', '🎻': 'Violin', '🎷': 'Saxophone',
+    '👕': 'T-shirt', '👖': 'Trousers', '👗': 'Dress', '🧦': 'Socks', '🧢': 'Cap', '👟': 'Shoe', '🧤': 'Gloves',
+    '🌧️': 'Rain', '❄️': 'Snow', '⚡': 'Lightning', '⛄': 'Snowman',
+    '🏀': 'Basketball', '🎾': 'Tennis ball', '🏐': 'Volleyball', '🏓': 'Table tennis', '🏸': 'Badminton', '🏆': 'Trophy',
+    '🥄': 'Spoon', '🍳': 'Frying pan', '☕': 'Cup', '🍽️': 'Plate', '🥛': 'Milk', '🧂': 'Salt', '🍯': 'Honey',
+    '🪐': 'Saturn', '🌍': 'Earth', '🛸': 'UFO', '☄️': 'Comet', '🛰️': 'Satellite', '🔭': 'Telescope',
+    '🐄': 'Cow', '🐑': 'Sheep', '🐐': 'Goat', '🐔': 'Hen', '🐴': 'Horse', '🐫': 'Camel', '🚜': 'Tractor',
+    '🐒': 'Monkey', '🐯': 'Tiger', '🦓': 'Zebra', '🦛': 'Hippo', '🐊': 'Crocodile', '🦍': 'Gorilla', '🐍': 'Snake',
+    '🦕': 'Dinosaur', '🦖': 'T-rex', '🌋': 'Volcano', '🦴': 'Bone', '🌴': 'Palm tree', '🐉': 'Dragon', '🌿': 'Grass'
+  };
+  const EN = () => App.gameLang(ID) === 'en';
+  const nameOf = k => EN() ? (GEO_EN[k] || EMO_EN[k] || k) : (GEO[k] || EMO[k]);
+  const say = p => EN() ? App.speak(nameOf(p.it.k), 'en') : App.speak(nameOf(p.it.k));
   const LEVELS = [
     { ic: '🔵', items: ['circle', 'square', 'triangle'] },
     { ic: '❤️', items: ['star', 'heart', 'moon', 'circle'] },
@@ -348,21 +378,36 @@
       <button class="ib helpbtn" aria-label="مساعدة">❓</button>
       <button class="ib lvbtn" aria-label="المستويات">🔢</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip"><small>الأخطاء</small><b class="cMs">0</b></div>
+      <div class="chip"><small data-ar="المستوى" data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip"><small data-ar="الأخطاء" data-en="Mistakes">الأخطاء</small><b class="cMs">0</b></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay" id="shLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="shLv"><div class="panel lvp"><h3 data-ar="🔢 المستويات" data-en="🔢 Levels">🔢 المستويات</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="shWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-ar="التالي ▶️" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels" data-ar="🔢 المستويات" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
   const hintEl = root.querySelector('.hint'), hintT = root.querySelector('.hintT');
   const lvOv = root.querySelector('#shLv'), winOv = root.querySelector('#shWin');
+  /* نصوص الواجهة الثابتة حسب لغة التطبيق */
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'المستويات', 'Levels']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  let winInfo = null;
+  function setHint() { hintT.textContent = '👆 ' + App.t(App.g('اسحبي كل قطعة إلى مكانها', 'اسحب كل قطعة إلى مكانها'), 'Drag each piece to its place'); }
+  function fillWin() {
+    if (!winInfo) return;
+    const { stars, n, ms } = winInfo;
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${n}` + (ms ? ` · الأخطاء: ${ms}` : ' دون أي خطأ! 💯'),
+      `You finished level ${n}` + (ms ? ` · Mistakes: ${ms}` : ' with no mistakes! 💯'));
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, S = 80, portrait = true;
@@ -508,7 +553,7 @@
     const hi = shuffle(def.items.map((_, i) => i)), si = shuffle(def.items.map((_, i) => i));
     pieces = def.items.map((k, i) => {
       const geo = !!GEO[k];
-      return { it: { k, geo, col: cols[i % cols.length] }, name: geo ? GEO[k] : EMO[k], hi: hi[i], si: si[i],
+      return { it: { k, geo, col: cols[i % cols.length] }, get name() { return nameOf(k); }, hi: hi[i], si: si[i],
         x: 0, y: 0, state: 'back', a: -.25 - i * .09, fx: 0, fy: 0, rot: 0, sc: 1, lift: 0, wob: 0, pop: 0, errs: 0, ph: Math.random() * TAU, flash: 0, hint: 0 };
     });
     mistakes = 0; over = false; drag = null; parts = []; rings = [];
@@ -516,7 +561,7 @@
     pieces.forEach(p => { p.state = 'back'; p.fx = p.homeX + (portrait ? 0 : W * .3); p.fy = p.homeY + (portrait ? H * .45 : 0); p.x = p.fx; p.y = p.fy; p.wob = 0; });
     updChips();
     const pr = loadProg();
-    if (!hintShown || !pr.stars[lvl]) { hintT.textContent = '👆 ' + App.g('اسحبي كل قطعة إلى مكانها', 'اسحب كل قطعة إلى مكانها'); hintEl.style.opacity = 1; }
+    if (!hintShown || !pr.stars[lvl]) { setHint(); hintEl.style.opacity = 1; }
     else hintEl.style.opacity = 0;
     Sound.whoosh();
   }
@@ -529,7 +574,7 @@
     const g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${n}</span><span class="e">${L.ic}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${n}</span><span class="e">${L.ic}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -554,12 +599,10 @@
     Sound.win(); vibrate(30);
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${lvl}` + (mistakes ? ` · الأخطاء: ${mistakes}` : ' دون أي خطأ! 💯');
+      winInfo = { stars, n: lvl, ms: mistakes }; fillWin();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (EN()) App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('shapes_first');
       if (!mistakes) App.achieve('shapes_perfect');
@@ -600,7 +643,7 @@
       return;
     }
     const d = hit(m.x, m.y, ['done']);
-    if (d) { d.pop = 1; Sound.pop(); App.speak(d.name); sparkle(d.x, d.y, d.it.col[0]); }
+    if (d) { d.pop = 1; Sound.pop(); say(d); sparkle(d.x, d.y, d.it.col[0]); }
   });
   cv.addEventListener('pointermove', e => {
     if (!drag || e.pointerId !== drag.id) return;
@@ -613,7 +656,7 @@
     if (!drag || e.pointerId !== drag.id) return;
     const d = drag, p = d.p; drag = null;
     if (!d.moved && performance.now() - d.t0 < 350) {           // لمسة: نطق الاسم
-      App.speak(p.name); p.pop = 1; Sound.pop();
+      say(p); p.pop = 1; Sound.pop();
       toTray(p, false); return;
     }
     const tol = S * .38;
@@ -666,7 +709,7 @@
         if (t >= 1) {
           p.state = 'done'; p.x = p.hx; p.y = p.hy; p.rot = 0; p.sc = 1 / .97; p.lift = 0; p.pop = 1;
           Sound.thud(); Sound.pop(); vibrate(25); shake = Math.max(shake, 3);
-          sparkle(p.x, p.y, p.it.col[0]); App.speak(p.name);
+          sparkle(p.x, p.y, p.it.col[0]); say(p);
           if (pieces.every(q => q.state === 'done')) win();
         }
       } else if (p.state === 'back') {
@@ -800,7 +843,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'مطابقة الأشكال', icon2: '🔷', isNew: false, music: 'shapes',
+    titleEn: 'Shape Match',
     desc: () => App.g('ضعي كل قطعة في مكانها الصحيح', 'ضع كل قطعة في مكانها الصحيح'),
+    descEn: () => 'Put every piece in its right place',
+    helpEn: () => [
+      '👆 Drag each piece from the tray to its hole in the wooden board',
+      '🔍 Look closely at the shape of each hole: every piece fits exactly one hole',
+      '🔊 Touch any piece to hear its name',
+      '⭐ Finish a level with no mistakes to get 3 stars',
+      '🔢 The levels button opens shapes, animals, fruits and vehicles for you!'
+    ],
     help: () => [
       '👆 ' + App.g('اسحبي', 'اسحب') + ' كل قطعة من الصينية إلى فتحتها في اللوح الخشبي',
       '🔍 ' + App.g('انظري', 'انظر') + ' إلى شكل الفتحة جيدًا: لكل قطعة فتحة واحدة تناسبها تمامًا',
@@ -812,15 +864,21 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       const pr = loadProg();
       let n = Math.min(pr.unlocked, LEVELS.length);
       startLevel(n);
       render();
       startLoop();
+    },
+    onLang() {
+      relabel();
+      if (hintEl.style.opacity !== '0') setHint();
+      if (winOv.classList.contains('on')) fillWin();
+      if (lvOv.classList.contains('on')) openLevels();
     },
     leave() { stopLoop(); clearTimeout(winTimer); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const p = drag.p; drag = null; toTray(p, false); } },

@@ -839,7 +839,7 @@ const App = {
     const a = this.ACH.find(x => x.id === id); if (!a) return;
     const got = store.get('ach', []); if (got.includes(id)) return;
     got.push(id); store.set('ach', got);
-    setTimeout(() => { this.toast(`🏆 إنجاز جديد: ${a.t}`, 'ach'); Sound.win(); this.addStars(10); }, 300);
+    setTimeout(() => { this.toast(this.t(`🏆 إنجاز جديد: ${a.t}`, `🏆 New achievement: ${a.te || a.t}`), 'ach'); Sound.win(); this.addStars(10); }, 300);
   },
   hasAch(id) { return store.get('ach', []).includes(id); },
   toast(text, kind) {
@@ -925,7 +925,7 @@ const App = {
     if (g && g.pause && !wasOn) g.pause();
     if (Fx.ok) { gsap.killTweensOf([W, $('#sheet')]); gsap.set([W, $('#sheet')], { clearProps: 'transform,opacity,visibility' }); }
     W.classList.remove('closing');
-    $('#sheet').innerHTML = `<button class="close" aria-label="إغلاق">✕</button>` + html;
+    $('#sheet').innerHTML = `<button class="close" aria-label="${this.t('إغلاق', 'Close')}">✕</button>` + html;
     W.classList.add('on');
     if (!wasOn && Fx.on) {
       gsap.fromTo(W, { autoAlpha: 0 }, { autoAlpha: 1, duration: .22, ease: 'power1.out', clearProps: 'opacity,visibility' });
@@ -959,86 +959,92 @@ const App = {
   },
   help(id) {
     const g = this.games[id]; if (!g) return;
-    const lines = typeof g.help === 'function' ? g.help() : g.help;
-    const s = this.openSheet(`<h3>${g.icon2 || '❓'} ${g.title}</h3><ul class="helpl">${lines.map(l => `<li>${l}</li>`).join('')}</ul>
-      <div class="center"><button class="tbtn" id="hGo">${this.g('هيا نلعب!', 'هيا نلعب!')} ▶️</button></div>`);
+    let lines = []; try { lines = this.gHelp(g) || []; } catch (e) {}
+    const s = this.openSheet(`<h3>${g.icon2 || '❓'} ${this.gTitle(g)}</h3><ul class="helpl">${lines.map(l => `<li>${l}</li>`).join('')}</ul>
+      <div class="center"><button class="tbtn" id="hGo">${this.t('هيا نلعب!', "Let's play!")} ▶️</button></div>`);
     s.querySelector('#hGo').onclick = () => { Sound.tap(); this.closeSheet(); };
   },
   settings() {
     const P = this.profile, th = this.theme;
     const seg = (key, opts, val) => `<div class="seg" data-k="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(v) === String(val) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
-    const s = this.openSheet(`<h3>⚙️ الإعدادات</h3>
-      <div class="row"><span class="lbl">👤 ${this.g('اللاعبة', 'اللاعب')}</span><div class="kchips">${this.PROFILES.map(k => `<button class="kchip ${k.id === P.id ? 'on' : ''}" data-kid="${k.id}"><span class="mini">${this.kidFace(k)}</span>${this.esc(k.name)}</button>`).join('')}</div>
-        <div style="display:flex;gap:6px;width:100%;justify-content:center"><button class="tbtn alt sm" id="sEdit">✏️ تعديل ${this.esc(P.name)}</button><button class="tbtn alt sm" id="sAdd">➕ طفل جديد</button></div></div>
-      <div class="row"><span class="lbl">🎨 الثيم</span>${seg('theme', [['girls', '👑 بناتي'], ['boys', '🚀 ولادي']], th)}</div>
-      <div class="row"><span class="lbl">🔊 المؤثرات</span>${seg('sfx', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('sfx', true))}</div>
-      <div class="row"><span class="lbl">🎵 الموسيقى</span>${seg('music', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('music', true))}</div>
-      <div class="row"><span class="lbl">📳 الاهتزاز</span>${seg('vib', [[true, 'تشغيل'], [false, 'إيقاف']], gstore.get('vib', true))}</div>
-      <div class="row"><span class="lbl">🎙️ أصوات التطبيق</span><button class="tbtn alt sm" id="sStudio">🎙️ سجّل الأصوات</button><button class="tbtn alt sm" id="sTts">🗣️ صوت الجهاز</button></div>
-      <div class="row"><span class="lbl">🔠 حجم الخط</span>${seg('font', [['normal', 'عادي'], ['large', 'كبير']], gstore.get('font', 'normal'))}</div>
-      <div class="row"><span class="lbl">🗑️ بيانات ${this.esc(P.name)}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">مسح النتائج</button></div>
-      <p class="center" style="font-size:12px;opacity:.6;margin:8px 0 0">الثيم يغيّر شكل القائمة فقط، ولا يغيّر الألعاب.</p>`);
+    const T = (a, e) => this.t(a, e), on = [true, T('تشغيل', 'On')], off = [false, T('إيقاف', 'Off')], nm = this.esc(this.kidName(P));
+    const s = this.openSheet(`<h3>⚙️ ${T('الإعدادات', 'Settings')}</h3>
+      <div class="row"><span class="lbl">🌐 ${T('اللغة', 'Language')}</span><div class="seg" data-k="lang" dir="rtl"><button data-v="ar" lang="ar" class="${this.lang === 'ar' ? 'on' : ''}">عربي</button><button data-v="en" lang="en" class="${this.lang === 'en' ? 'on' : ''}">English</button></div></div>
+      <div class="row"><span class="lbl">👤 ${T(this.g('اللاعبة', 'اللاعب'), 'Player')}</span><div class="kchips">${this.PROFILES.map(k => `<button class="kchip ${k.id === P.id ? 'on' : ''}" data-kid="${k.id}"><span class="mini">${this.kidFace(k)}</span>${this.esc(this.kidName(k))}</button>`).join('')}</div>
+        <div style="display:flex;gap:6px;width:100%;justify-content:center;flex-wrap:wrap"><button class="tbtn alt sm" id="sEdit">✏️ ${T('تعديل ' + nm, 'Edit ' + nm)}</button><button class="tbtn alt sm" id="sAdd">➕ ${T('طفل جديد', 'New child')}</button></div></div>
+      <div class="row"><span class="lbl">🎨 ${T('الثيم', 'Theme')}</span>${seg('theme', [['girls', T('👑 بناتي', '👑 Girly')], ['boys', T('🚀 ولادي', '🚀 Boyish')]], th)}</div>
+      <div class="row"><span class="lbl">🔊 ${T('المؤثرات', 'Sound effects')}</span>${seg('sfx', [on, off], gstore.get('sfx', true))}</div>
+      <div class="row"><span class="lbl">🎵 ${T('الموسيقى', 'Music')}</span>${seg('music', [on, off], gstore.get('music', true))}</div>
+      <div class="row"><span class="lbl">📳 ${T('الاهتزاز', 'Vibration')}</span>${seg('vib', [on, off], gstore.get('vib', true))}</div>
+      <div class="row"><span class="lbl">🎙️ ${T('أصوات التطبيق', 'App voices')}</span><button class="tbtn alt sm" id="sStudio">🎙️ ${T('سجّل الأصوات', 'Record voices')}</button><button class="tbtn alt sm" id="sTts">🗣️ ${T('صوت الجهاز', 'Device voice')}</button></div>
+      <div class="row"><span class="lbl">🔠 ${T('حجم الخط', 'Text size')}</span>${seg('font', [['normal', T('عادي', 'Normal')], ['large', T('كبير', 'Large')]], gstore.get('font', 'normal'))}</div>
+      <div class="row"><span class="lbl">🗑️ ${T('بيانات ' + nm, nm + "'s data")}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">${T('مسح النتائج', 'Clear scores')}</button></div>
+      <p class="center" style="font-size:12px;opacity:.6;margin:8px 0 0">${T('الثيم يغيّر شكل القائمة فقط، ولا يغيّر الألعاب.', 'The theme changes the menu look only, not the games.')}</p>`);
     s.querySelectorAll('[data-kid]').forEach(b => b.onclick = () => { Sound.tap(); if (b.dataset.kid !== P.id) { this.closeSheet(); this.switchKid(b.dataset.kid); } });
     s.querySelector('#sEdit').onclick = () => { Sound.tap(); this.kidForm(P); };
     s.querySelector('#sAdd').onclick = () => { Sound.tap(); this.kidForm(null); };
-    s.querySelector('#sStudio').onclick = () => { Sound.tap(); this.lazy(['voice/phrases.js', 'js/studio.js']).then(() => Studio.open()).catch(() => this.toast('تعذّر فتح الاستوديو')); };
-    s.querySelector('#sTts').onclick = () => { Sound.tap(); this.lazy(['js/studio.js']).then(() => Studio.tts()).catch(() => this.toast('تعذّر الفتح')); };
+    s.querySelector('#sStudio').onclick = () => { Sound.tap(); this.lazy(['voice/phrases.js', 'js/studio.js']).then(() => Studio.open()).catch(() => this.toast(T('تعذّر فتح الاستوديو', "Couldn't open the studio"))); };
+    s.querySelector('#sTts').onclick = () => { Sound.tap(); this.lazy(['js/studio.js']).then(() => Studio.tts()).catch(() => this.toast(T('تعذّر الفتح', "Couldn't open it"))); };
     s.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => {
       const k = sg.dataset.k, raw = b.dataset.v, v = raw === 'true' ? true : raw === 'false' ? false : raw;
       Sound.tap();
-      if (k === 'theme') { P.theme = v; this.saveKids(); store.set('theme', v); this.applyTheme(); }
+      if (k === 'lang') { if (v !== this.lang) this.setLang(v); }
+      else if (k === 'theme') { P.theme = v; this.saveKids(); store.set('theme', v); this.applyTheme(); }
       else if (k === 'font') { gstore.set('font', v); document.documentElement.dataset.font = v; }
       else { gstore.set(k, v); if (k === 'music') { if (v) { const g = this.games[this.current]; Music.play(g ? g.music : 'menu'); } else Music.stop(); } }
       this.settings();
     }));
     let armed = false;
     s.querySelector('#sReset').onclick = e => {
-      if (!armed) { armed = true; e.target.textContent = 'اضغط مرة أخرى للتأكيد'; return; }
+      if (!armed) { armed = true; e.target.textContent = T('اضغط مرة أخرى للتأكيد', 'Tap again to confirm'); return; }
       const keep = ['theme'];
       Object.keys(localStorage).filter(k => k.startsWith(P.id + ':') && !keep.includes(k.slice(P.id.length + 1))).forEach(k => localStorage.removeItem(k));
-      this.toast('تم مسح بيانات ' + P.name); this.closeSheet();
+      this.toast(T('تم مسح بيانات ' + P.name, this.kidName(P) + "'s data was cleared")); this.closeSheet();
     };
   },
   shopSheet(cat) {
     const cats = Object.keys(this.shopCats).filter(c => this.shop.some(i => i.cat === c));
     cat = cat || cats[0];
     const items = this.shop.filter(i => i.cat === cat), eq = this.equipped(cat), stars = this.stars();
-    const s = this.openSheet(`<h3>🛍️ المتجر <small style="font-size:16px;color:var(--t-accent-d)">⭐ ${stars}</small></h3>
-      <div class="tabs seg" style="display:flex;justify-content:center">${cats.map(c => `<button data-c="${c}" class="${c === cat ? 'on' : ''}">${this.shopCats[c].icon} ${this.shopCats[c].title}</button>`).join('')}</div>
+    const T = (a, e) => this.t(a, e);
+    const s = this.openSheet(`<h3>🛍️ ${T('المتجر', 'Shop')} <small style="font-size:16px;color:var(--t-accent-d)">⭐ ${stars}</small></h3>
+      <div class="tabs seg" style="display:flex;justify-content:center">${cats.map(c => `<button data-c="${c}" class="${c === cat ? 'on' : ''}">${this.shopCats[c].icon} ${T(this.shopCats[c].title, this.shopCats[c].te)}</button>`).join('')}</div>
       <div class="items">${items.map(i => {
         const own = this.owns(i.id), isEq = eq === i.id;
-        const btn = isEq ? `<button class="eqb" disabled>✔️ مختار</button>` : own ? `<button class="eqb" data-eq="${i.id}">اختيار</button>` :
-          `<button data-buy="${i.id}" class="${stars < i.price ? 'no' : ''}">شراء</button>`;
-        return `<div class="item ${isEq ? 'eq' : ''}"><canvas width="168" height="168" data-p="${i.id}"></canvas><b>${i.name}</b><span class="price">${own ? (i.price ? 'تملكه' : 'مجاني') : '⭐ ' + i.price}</span>${btn}</div>`;
+        const btn = isEq ? `<button class="eqb" disabled>✔️ ${T('مختار', 'Chosen')}</button>` : own ? `<button class="eqb" data-eq="${i.id}">${T('اختيار', 'Choose')}</button>` :
+          `<button data-buy="${i.id}" class="${stars < i.price ? 'no' : ''}">${T('شراء', 'Buy')}</button>`;
+        return `<div class="item ${isEq ? 'eq' : ''}"><canvas width="168" height="168" data-p="${i.id}"></canvas><b>${this.itemName(i)}</b><span class="price">${own ? (i.price ? T('تملكه', 'Yours') : T('مجاني', 'Free')) : '⭐ ' + i.price}</span>${btn}</div>`;
       }).join('')}</div>
-      <p class="center" style="font-size:13px;opacity:.7;margin:10px 0 0">اجمع النجوم باللعب والإنجازات والهدية اليومية ⭐</p>`);
+      <p class="center" style="font-size:13px;opacity:.7;margin:10px 0 0">${T('اجمع النجوم باللعب والإنجازات والهدية اليومية', 'Collect stars by playing, earning achievements and opening the daily gift')} ⭐</p>`);
     s.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { Sound.tap(); this.shopSheet(b.dataset.c); });
     s.querySelectorAll('canvas[data-p]').forEach(cv => { const it = this.shop.find(i => i.id === cv.dataset.p); const c = cv.getContext('2d'); c.scale(2, 2); try { it.draw(c, 84); } catch (e) { console.warn(e); } });
     s.querySelectorAll('[data-eq]').forEach(b => b.onclick = () => { Sound.tap(); store.set('eq:' + cat, b.dataset.eq); this.shopSheet(cat); });
     s.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => {
       const it = this.shop.find(i => i.id === b.dataset.buy);
-      if (this.stars() < it.price) { Sound.error(); this.toast(`تحتاج ${it.price - this.stars()} ⭐ أخرى`); return; }
+      if (this.stars() < it.price) { Sound.error(); this.toast(T(`تحتاج ${it.price - this.stars()} ⭐ أخرى`, `You need ${it.price - this.stars()} more ⭐`)); return; }
       this.addStars(-it.price); const own = store.get('own', []); own.push(it.id); store.set('own', own);
-      store.set('eq:' + cat, it.id); Sound.win(); this.toast(`🎉 ${it.name} أصبح لك!`); this.achieve('shop_first'); this.shopSheet(cat);
+      store.set('eq:' + cat, it.id); Sound.win(); this.toast(T(`🎉 ${it.name} أصبح لك!`, `🎉 The ${this.itemName(it)} is yours!`)); this.achieve('shop_first'); this.shopSheet(cat);
     });
   },
   achSheet() {
     const got = store.get('ach', []);
-    const s = this.openSheet(`<h3>🏆 الإنجازات (${got.length}/${this.ACH.length})</h3>` + this.ACH.map(a =>
-      `<div class="ach ${got.includes(a.id) ? '' : 'lock'}"><span class="ai">${a.i}</span><div><b>${a.t}</b><small>${a.d}</small></div><span class="ok">${got.includes(a.id) ? '✅' : '🔒'}</span></div>`).join('') +
-      `<p class="center" style="font-size:13px;opacity:.7">كل إنجاز يمنحك 10 ⭐</p>`);
+    const en = this.lang === 'en';
+    this.openSheet(`<h3>🏆 ${this.t('الإنجازات', 'Achievements')} (${got.length}/${this.ACH.length})</h3>` + this.ACH.map(a =>
+      `<div class="ach ${got.includes(a.id) ? '' : 'lock'}"><span class="ai">${a.i}</span><div><b>${en && a.te || a.t}</b><small>${en && a.de || a.d}</small></div><span class="ok">${got.includes(a.id) ? '✅' : '🔒'}</span></div>`).join('') +
+      `<p class="center" style="font-size:13px;opacity:.7">${this.t('كل إنجاز يمنحك 10 ⭐', 'Every achievement gives you 10 ⭐')}</p>`);
   },
   today() { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); },
   daily() {
     const st = store.get('daily', { last: '', streak: 0 });
-    if (st.last === this.today()) { this.toast('عُد غدًا لهدية جديدة 🎁'); return; }
+    if (st.last === this.today()) { this.toast(this.t('عُد غدًا لهدية جديدة 🎁', 'Come back tomorrow for a new gift 🎁')); return; }
     const y = new Date(Date.now() - 864e5), yk = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
     st.streak = st.last === yk ? st.streak + 1 : 1; st.last = this.today(); store.set('daily', st);
     const n = 5 + 2 * Math.min(st.streak - 1, 5);
-    const s = this.openSheet(`<h3>🎁 هدية اليوم</h3><div class="center" id="dStar" style="font-size:70px;${Fx.ok ? '' : 'animation:pop .5s'}">⭐</div>
-      <p class="center" style="font-size:22px;font-weight:800;margin:4px 0">+${n} نجمة</p>
-      <p class="center">${st.streak > 1 ? `🔥 ${st.streak} أيام متتالية!` : 'عُد غدًا لهدية أكبر'}</p>
-      <div class="center"><button class="tbtn" id="dOk">رائع! 💖</button></div>`);
+    const T = (a, e) => this.t(a, e);
+    const s = this.openSheet(`<h3>🎁 ${T('هدية اليوم', "Today's gift")}</h3><div class="center" id="dStar" style="font-size:70px;${Fx.ok ? '' : 'animation:pop .5s'}">⭐</div>
+      <p class="center" style="font-size:22px;font-weight:800;margin:4px 0">+${n} ${T('نجمة', 'stars')}</p>
+      <p class="center">${st.streak > 1 ? T(`🔥 ${st.streak} أيام متتالية!`, `🔥 ${st.streak} days in a row!`) : T('عُد غدًا لهدية أكبر', 'Come back tomorrow for a bigger gift')}</p>
+      <div class="center"><button class="tbtn" id="dOk">${T('رائع!', 'Awesome!')} 💖</button></div>`);
     s.querySelector('#dOk').onclick = () => { Sound.tap(); this.closeSheet(); };
     if (Fx.on) gsap.fromTo('#dStar', { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: .9, delay: .15, ease: 'elastic.out(1,0.45)' });
     this.addStars(n); Sound.win();

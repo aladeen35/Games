@@ -515,23 +515,23 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️<span class="cnt">١</span></button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️<span class="cnt">١</span></button>
       <span class="grow"></span>
       <div class="lang top"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
     <div class="q off"></div>
-    <button class="spk" aria-label="أعد السؤال">🔊</button>
-    <div class="overlay" id="opLv"><div class="panel lvp"><h3>🔀 المستويات</h3>
+    <button class="spk" aria-label="أعد السؤال" data-al="Repeat the question">🔊</button>
+    <div class="overlay" id="opLv"><div class="panel lvp"><h3 data-en="🔀 Levels">🔀 المستويات</h3>
       <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
       <div class="lvl"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="opWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again" aria-label="أعد">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="أعد" data-al="Again">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const progEl = root.querySelector('.prog'), qEl = root.querySelector('.q'), spk = root.querySelector('.spk');
@@ -547,6 +547,12 @@
   const later = (ms, f) => { const id = setTimeout(() => { const i = timers.indexOf(id); if (i >= 0) timers.splice(i, 1); if (App.current === ID) f(); }, ms); timers.push(id); };
   const clearTimers = () => { timers.forEach(clearTimeout); timers.length = 0; };
   const isAr = () => lang === 'ar';
+  const uiN = n => App.lang === 'en' ? String(n) : numL(n, 'ar');
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   const say = t => App.speak(t, isAr() ? 'ar' : 'en');
   const wordOf = (p, s) => PAIRS[p][lang][s];
   const praise = () => isAr() ? App.speak(App.g('أحسنتِ!', 'أحسنت!')) : App.speak('Great job!', 'en');
@@ -750,11 +756,8 @@
     store.set('oppositesProg', pr);
     Sound.win(); confetti(140);
     later(700, () => {
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = L.m === 'c'
-        ? `🔀 ${App.g('عرفتِ', 'عرفتَ')} ${numL(rounds.length, lang)} أضداد` + (mistakes ? ` · الأخطاء: ${numL(mistakes, lang)}` : ' دون أي خطأ! 💯')
-        : `🧠 ${App.g('طابقتِ', 'طابقتَ')} ${numL(L.pairs, lang)} أزواج في ${numL(moves, lang)} محاولة`;
+      winText();
       const nx = root.querySelector('[data-a="next"]');
       nx.style.display = (lvl === NC || lvl === NL) ? 'none' : '';
       winOv.classList.add('on');
@@ -774,6 +777,13 @@
     for (let i = 0; i < n; i++) parts.push({ t: 'conf', x: rand(0, W), y: rand(-60, -10), vx: rand(-40, 40), vy: rand(60, 180), s: rand(6, 11), age: 0, life: rand(2, 3.2), c: pick(['#FFD43B', '#FF7A2E', '#3E9BFF', '#4CC76A', '#FF5C7A', '#B26BFF']), rot: rand(0, TAU), vr: rand(-6, 6), g: 30 });
   }
 
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = L.m === 'c'
+      ? App.t(`🔀 ${App.g('عرفتِ', 'عرفتَ')} ${uiN(rounds.length)} أضداد` + (mistakes ? ` · الأخطاء: ${uiN(mistakes)}` : ' دون أي خطأ! 💯'),
+        `🔀 You found ${rounds.length} opposites` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'))
+      : App.t(`🧠 ${App.g('طابقتِ', 'طابقتَ')} ${uiN(L.pairs)} أزواج في ${uiN(moves)} محاولة`, `🧠 You matched ${L.pairs} pairs in ${moves} tries`);
+  }
   /* ---------- القائمة/المستويات ---------- */
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   function setLang(l, fromPanel) {
@@ -789,13 +799,13 @@
     const pr = loadProg(), box = root.querySelector('.lvl');
     const btn = (n, lock, l, c, d, lab) => {
       const s = pr.stars['l' + n] || 0;
-      return `<button class="lv${lock ? ' lock' : ''}${n === lvl && phase !== 'idle' ? ' cur' : ''}" data-l="${n}" style="--l:${l};--c:${c};--d:${d}" aria-label="المستوى ${n}">${lab}
+      return `<button class="lv${lock ? ' lock' : ''}${n === lvl && phase !== 'idle' ? ' cur' : ''}" data-l="${n}" style="--l:${l};--c:${c};--d:${d}" aria-label="${App.t('المستوى', 'Level')} ${n}">${lab}
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     };
-    let html = `<div class="tier">🔀 ${App.g('اختاري', 'اختر')} العكس</div><div class="lvg">`;
+    let html = `<div class="tier">🔀 ${App.t(App.g('اختاري', 'اختر') + ' العكس', 'Pick the opposite')}</div><div class="lvg">`;
     for (let n = 1; n <= NC; n++) html += btn(n, n > pr.uc, '#FF9EC2', '#E64980', '#A61E4D', numL(n, lang));
-    html += `</div><div class="tier">🧠 لعبة الذاكرة</div><div class="lvg m">`;
-    for (let n = NC + 1; n <= NL; n++) html += btn(n, n > pr.um, '#B794FF', '#7048E8', '#4F2BC2', `${numL(LV[n - 1].pairs * 2, lang)}<small>بطاقات</small>`);
+    html += `</div><div class="tier">🧠 ${App.t('لعبة الذاكرة', 'Memory game')}</div><div class="lvg m">`;
+    for (let n = NC + 1; n <= NL; n++) html += btn(n, n > pr.um, '#B794FF', '#7048E8', '#4F2BC2', `${numL(LV[n - 1].pairs * 2, lang)}<small>${App.t('بطاقات', 'cards')}</small>`);
     box.innerHTML = html + '</div>';
     box.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
       const n = +b.dataset.l, p = loadProg();
@@ -980,6 +990,14 @@
   App.register({
     id: ID, title: 'الأضداد', icon2: '🔀', isNew: false, music: 'memory',
     desc: () => App.g('اقلبي البطاقات واختاري عكس كل صورة', 'اقلب البطاقات واختر عكس كل صورة'),
+    titleEn: 'Opposites',
+    descEn: () => 'Flip the cards and pick the opposite of each picture',
+    helpEn: () => [
+      '👀 Look at the big card and listen to the word: big, hot, day…',
+      '👆 Pick its opposite from the cards below: tap it or drag it to the ❓ spot',
+      '🧠 In the memory game flip two cards; if they are opposites they stay face up',
+      '🔊 The yellow button repeats the question, and 🌍 choose «عربي» or «English» at the top'
+    ],
     help: () => [
       '👀 ' + App.g('انظري', 'انظر') + ' إلى البطاقة الكبيرة و' + App.g('اسمعي', 'اسمع') + ' الكلمة: كبير، حار، نهار…',
       '👆 ' + App.g('اختاري', 'اختر') + ' عكسها من البطاقات في الأسفل، ' + App.g('المسيها', 'المسها') + ' أو ' + App.g('اسحبيها', 'اسحبها') + ' إلى مكان ❓',
@@ -989,14 +1007,21 @@
     icon,
     best() {
       const pr = loadProg(), ks = Object.keys(pr.stars).filter(k => pr.stars[k]);
-      return ks.length ? `🔀 ${ks.length} مستوى · ⭐ ${ks.reduce((a, k) => a + pr.stars[k], 0)}` : '';
+      return ks.length ? `🔀 ${ks.length} ${App.t('مستوى', ks.length === 1 ? 'level' : 'levels')} · ⭐ ${ks.reduce((a, k) => a + pr.stars[k], 0)}` : '';
     },
     enter() {
       paused = false;
-      lang = store.get('oppositesLang', 'ar') === 'en' ? 'en' : 'ar';
+      lang = App.gameLang(ID); trUI();
       paintLang();
       startLevel(loadProg().uc);
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      const lvOn = lvOv.classList.contains('on');
+      if (l !== lang) setLang(l, lvOn);
+      if (lvOn) renderLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearTimers(); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { drag.o.tx = drag.o.hx; drag.o.ty = drag.o.hy; drag = null; } },

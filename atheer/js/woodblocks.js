@@ -263,31 +263,31 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
       <span class="grow"></span>
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
-      <button class="ib lvb" aria-label="المستويات">🗺️</button>
+      <button class="ib lvb" data-i="levels">🗺️</button>
     </div>
-    <div class="side l"><button class="spk" aria-label="استمع">🔊</button></div>
+    <div class="side l"><button class="spk" data-i="listen">🔊</button></div>
     <div class="side r">
-      <button class="rb ok" aria-label="تحقق">✔</button>
-      <button class="rb hn" aria-label="تلميح">💡</button>
-      <button class="rb alt save" aria-label="حفظ" hidden>💾</button>
-      <button class="rb alt galb" aria-label="المعرض" hidden>🖼️</button>
-      <button class="rb alt clr" aria-label="مسح" hidden>🗑️</button>
+      <button class="rb ok" data-i="check">✔</button>
+      <button class="rb hn" data-i="hint">💡</button>
+      <button class="rb alt save" data-i="save" hidden>💾</button>
+      <button class="rb alt galb" data-i="gallery" hidden>🖼️</button>
+      <button class="rb alt clr" data-i="clear" hidden>🗑️</button>
     </div>
     <div class="sw"></div>
-    <div class="overlay" id="wbLv"><div class="panel lvp"><h3>🧱 ماذا نبني؟</h3>
+    <div class="overlay" id="wbLv"><div class="panel lvp"><h3 class="hLv"></h3>
       <div class="grid"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
-    <div class="overlay" id="wbGal"><div class="panel lvp"><h3>🖼️ معرض المباني</h3>
+      <button class="btn alt" data-a="close"></button></div></div>
+    <div class="overlay" id="wbGal"><div class="panel lvp"><h3 class="hGal"></h3>
       <div class="gal"></div>
-      <button class="btn alt" data-a="gclose">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="gclose"></button></div></div>
     <div class="overlay" id="wbWin"><div class="panel">
       <h3 class="wT"></h3><canvas class="wC" style="width:200px;height:130px;display:block;margin:0 auto"></canvas><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄 مرة أخرى</button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again"></button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const spk = root.querySelector('.spk'), okB = root.querySelector('.ok'), hintB = root.querySelector(".hn");
@@ -295,6 +295,20 @@
   const swEl = root.querySelector('.sw');
   const lvOv = root.querySelector('#wbLv'), galOv = root.querySelector('#wbGal'), winOv = root.querySelector('#wbWin');
   const sideL = root.querySelector('.side.l'), sideR = root.querySelector('.side.r');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), listen: App.t('استمع', 'Listen'), check: App.t('تحقق', 'Check'), hint: App.t('تلميح', 'Hint'), save: App.t('حفظ', 'Save'), gallery: App.t('المعرض', 'Gallery'), clear: App.t('مسح', 'Clear') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🧱 ' + App.t('ماذا نبني؟', 'What shall we build?');
+    root.querySelector('.hGal').textContent = '🖼️ ' + App.t('معرض المباني', 'Buildings gallery');
+    root.querySelectorAll('[data-a="close"],[data-a="gclose"]').forEach(b => { b.textContent = '✕ ' + App.t('إغلاق', 'Close'); });
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="again"]').textContent = '🔄 ' + App.t('مرة أخرى', 'Again');
+  }
+  let winSt = 0;
+  function winText() {
+    winOv.querySelector('.wT').textContent = App.t(App.g('أحسنتِ! ', 'أحسنت! '), 'Well done! ') + M.ic;
+    winOv.querySelector('.wP').textContent = App.t(M.ar, M.en) + ' — ' + (winSt === 3 ? App.t(App.g('مطابق تمامًا! رائعة', 'مطابق تمامًا! رائع'), 'A perfect match! Amazing') : App.t('بناء جميل!', 'Lovely building!'));
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, Wd = 0, Hd = 0, raf = 0, last = 0, T = 0, running = false, paused = false;
@@ -324,7 +338,7 @@
     after(.6, promptSpeak);
   }
   function paintSw() {
-    swEl.innerHTML = CKEYS.map(k => `<button data-c="${k}" class="${k === curCol ? 'on' : ''}" style="--c:${COLS[k].h}" aria-label="${COLS[k].ar}"></button>`).join('');
+    swEl.innerHTML = CKEYS.map(k => `<button data-c="${k}" class="${k === curCol ? 'on' : ''}" style="--c:${COLS[k].h}" aria-label="${App.t(COLS[k].ar, COLS[k].en)}"></button>`).join('');
     swEl.querySelectorAll('button').forEach(b => b.onclick = () => {
       curCol = b.dataset.c; Sound.tap(); paintSw();
       blocks.forEach(x => { if (x.st === 'pal') { x.c = curCol; x.sqT = T; } });
@@ -497,12 +511,11 @@
     App.achieve('woodblocks_first');
     if (M.k === 'pyramids') App.achieve('woodblocks_pyramids');
     if (Object.keys(pr.stars).filter(k => pr.stars[k]).length >= NL) App.achieve('woodblocks_all');
-    winOv.querySelector('.wT').textContent = App.g('أحسنتِ! ', 'أحسنت! ') + M.ic;
+    winSt = st; winText();
     const wc = winOv.querySelector('.wC'), k = 2; wc.width = 200 * k; wc.height = 130 * k;
     const c = wc.getContext('2d'); c.scale(k, k);
     drawStructure(c, M.b.map(q => ({ t: q[0], x: q[1], z: q[2], r: q[3], c: q[4], id: 3 })), 10, 6, 180, 118, 40);
     winOv.querySelector('.wS').innerHTML = [1, 2, 3].map(i => `<span class="${i <= st ? '' : 'off'}">⭐</span>`).join('');
-    winOv.querySelector('.wP').textContent = (lang === 'en' ? M.en : M.ar) + ' — ' + (st === 3 ? App.g('مطابق تمامًا! رائعة', 'مطابق تمامًا! رائع') : App.g('بناء جميل!', 'بناء جميل!'));
     winOv.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
     winOv.classList.add('on');
   }
@@ -523,14 +536,14 @@
     const g = loadGal();
     g.unshift({ b: P.map(b => [b.t, b.x, b.z, b.r, b.c]), d: Date.now() });
     store.set('woodblocksGallery', g.slice(0, 15));
-    Sound.star(); App.toast(App.g('حُفظ بناؤك في المعرض 🖼️', 'حُفظ بناؤك في المعرض 🖼️'));
+    Sound.star(); App.toast(App.t('حُفظ بناؤك في المعرض 🖼️', 'Your building was saved to the gallery 🖼️'));
     for (let i = 0; i < 40; i++) confetti();
     App.achieve('woodblocks_free');
     if (g.length === 1) App.addStars(2);
   }
   function openGal() {
     const g = loadGal(), el = galOv.querySelector('.gal');
-    el.innerHTML = g.length ? g.map((it, i) => `<button data-i="${i}"><canvas></canvas><span class="x" data-del="${i}">✕</span></button>`).join('') : `<p>${App.g('لم تحفظي أي بناء بعد', 'لم تحفظ أي بناء بعد')} 💾</p>`;
+    el.innerHTML = g.length ? g.map((it, i) => `<button data-i="${i}"><canvas></canvas><span class="x" data-del="${i}">✕</span></button>`).join('') : `<p>${App.t(App.g('لم تحفظي أي بناء بعد', 'لم تحفظ أي بناء بعد'), 'No saved buildings yet')} 💾</p>`;
     el.querySelectorAll('canvas').forEach((c, i) => {
       const k = 2; c.width = 120 * k; c.height = 90 * k; const x = c.getContext('2d'); x.scale(k, k);
       drawStructure(x, g[i].b.map(q => ({ t: q[0], x: q[1], z: q[2], r: q[3], c: q[4], id: 5 })), 6, 6, 108, 78, 30);
@@ -565,10 +578,10 @@
     const pr = loadProg(), grid = lvOv.querySelector('.grid');
     grid.innerHTML = MODELS.map((V, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lv${lock ? ' lock' : ''}${!free && n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${V.ar}">
-        <span class="n">${dg(n)}</span><canvas></canvas><b>${lang === 'en' ? V.en : V.ar}</b>
+      return `<button class="lv${lock ? ' lock' : ''}${!free && n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t(V.ar, V.en)}">
+        <span class="n">${dg(n)}</span><canvas></canvas><b>${App.t(V.ar, V.en)}</b>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
-    }).join('') + `<button class="lv free" data-l="free"><span style="font-size:44px;line-height:66px">🎨</span><b>${lang === 'en' ? 'Free build' : 'البناء الحر'}</b><span class="s">🖼️</span></button>`;
+    }).join('') + `<button class="lv free" data-l="free"><span style="font-size:44px;line-height:66px">🎨</span><b>${App.t('البناء الحر', 'Free build')}</b><span class="s">🖼️</span></button>`;
     grid.querySelectorAll('canvas').forEach((c, i) => thumb(c, MODELS[i].b.map(q => ({ t: q[0], x: q[1], z: q[2], r: q[3], c: q[4], id: 4 })), 84, 66, 22));
     grid.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
       if (b.dataset.l === 'free') { Sound.tap(); startLevel(lvl, true); return; }
@@ -581,9 +594,13 @@
   function paintLang() { root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   function setLang(l) {
     if (l === lang) return;
-    lang = l; store.set('woodblocksLang', l); Sound.tap(); paintLang();
-    if (lvOv.classList.contains('on')) openLevels();
+    lang = l; store.set('woodblocksLang', l); Sound.tap(); langChanged();
     promptSpeak();
+  }
+  function langChanged() {
+    paintLang(); chrome(); if (phase === 'over') winText();
+    if (lvOv.classList.contains('on')) openLevels();
+    if (galOv.classList.contains('on')) openGal();
   }
   function act(a) {
     Sound.tap();
@@ -875,8 +892,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'المكعبات الخشبية', icon2: '🧱', isNew: true, music: 'blocks',
+    id: ID, title: 'المكعبات الخشبية', titleEn: 'Wooden Blocks', icon2: '🧱', isNew: true, music: 'blocks',
     desc: () => App.g('ابني مثل الصورة بالمكعبات الملوّنة', 'ابنِ مثل الصورة بالمكعبات الملوّنة'),
+    descEn: () => 'Build what you see in the picture with colorful blocks',
+    helpEn: () => [
+      '🖼️ Look at the picture, then build the same thing on the mat',
+      '👆 Drag a block onto the mat and it drops and settles; tap it to turn it ↻',
+      '✔ The check button compares your building with the picture, and 💡 shows a ghost of it on the mat',
+      '🎨 In «Free build» pick a color and build anything you like, then 💾 saves it to the gallery',
+      '🔊 The yellow button repeats the instructions, and «عربي / English» switches the language'
+    ],
     help: () => [
       '🖼️ ' + App.g('انظري', 'انظر') + ' إلى الصورة ثم ' + App.g('ابني', 'ابنِ') + ' مثلها على البساط',
       '👆 ' + App.g('اسحبي', 'اسحب') + ' القطعة إلى البساط فتسقط وتستقر، و' + App.g('المسيها', 'المسها') + ' لتدور ↻',
@@ -892,12 +917,13 @@
     },
     enter() {
       paused = false;
-      lang = store.get('woodblocksLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); chrome();
       const pr = loadProg();
       let n = 1; for (let i = 1; i <= pr.unlocked; i++) { n = i; if (!pr.stars[i]) break; }
       startLevel(n);
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; lang = l; langChanged(); if (chg && phase === 'play') promptSpeak(); },
     leave() { stopLoop(); drag = null; evs = []; winOv.classList.remove('on'); lvOv.classList.remove('on'); galOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { if (drag.moved) toTray(drag.b); else if (drag.b.st === 'drag') toTray(drag.b); drag = null; } },
     resume() { paused = false; last = performance.now(); },

@@ -29,6 +29,15 @@
     stripes: { def: 'المخططة', ind: 'مخططة', n: 'مخططة' }
   };
   const NUMW = { 2: 'فراشتين', 3: 'ثلاث', 4: 'أربع', 5: 'خمس' };
+  /* الإنجليزية */
+  const COL_EN = { red: 'red', yellow: 'yellow', blue: 'blue', green: 'green', pink: 'pink', purple: 'purple', orange: 'orange', white: 'white', black: 'black', brown: 'brown' };
+  const PAT_EN = { plain: '', dots: 'spotted', stripes: 'striped' };
+  const NUMW_EN = { 2: 'two', 3: 'three', 4: 'four', 5: 'five' };
+  const isEn = () => App.gameLang(ID) === 'en';
+  const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const say = (ar, en) => isEn() ? App.speak(en, 'en') : App.speak(ar);
+  const freeMsg = () => isEn() ? 'Touch any butterfly to hear its color' : App.g('المسي أي فراشة لتعرفي لونها', 'المس أي فراشة لتعرف لونها');
+  const colName = C => isEn() ? cap(COL_EN[C.k]) : C.n;
 
   /* ---------- تصميم المستويات ---------- */
   function lvDef(n) {
@@ -209,7 +218,7 @@
       <button class="ib frbtn" aria-label="حديقة حرة">🌸</button>
       <span class="grow"></span>
       <div class="chip c1"><small class="c1s">المستوى</small><b class="c1b">1</b></div>
-      <div class="chip c2"><small>الجولة</small><b class="c2b">1</b></div>
+      <div class="chip c2"><small data-ar="الجولة" data-en="Round">الجولة</small><b class="c2b">1</b></div>
     </div>
     <div class="prm off" role="button" aria-label="إعادة السؤال">
       <canvas class="sw" width="124" height="124"></canvas>
@@ -217,18 +226,18 @@
       <span class="spk">🔊</span>
       <div class="tmr"><i></i></div>
     </div>
-    <div class="overlay" id="bfLv"><div class="panel lvp"><h3>🔢 المستويات</h3><div class="lvg"></div>
-      <button class="btn freeb" data-a="free">🌸 حديقة حرة</button><br>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="bfLv"><div class="panel lvp"><h3 data-ar="🔢 المستويات" data-en="🔢 Levels">🔢 المستويات</h3><div class="lvg"></div>
+      <button class="btn freeb" data-a="free" data-ar="🌸 حديقة حرة" data-en="🌸 Free garden">🌸 حديقة حرة</button><br>
+      <button class="btn alt" data-a="close" data-ar="✕ إغلاق" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="bfWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-ar="التالي ▶️" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels" data-ar="🔢 المستويات" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>
     <div class="overlay" id="bfTo"><div class="panel">
-      <h3>⏰ انتهى الوقت</h3><div class="big">🦋💨</div><p class="toP"></p>
-      <button class="btn" data-a="again">🔄 مرة أخرى</button><br>
-      <button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <h3 data-ar="⏰ انتهى الوقت" data-en="⏰ Time's up">⏰ انتهى الوقت</h3><div class="big">🦋💨</div><p class="toP"></p>
+      <button class="btn" data-a="again" data-ar="🔄 مرة أخرى" data-en="🔄 Try again">🔄 مرة أخرى</button><br>
+      <button class="btn alt" data-a="levels" data-ar="🔢 المستويات" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const bar = root.querySelector('.bar');
@@ -236,7 +245,21 @@
   const swc = root.querySelector('.sw'), tmr = root.querySelector('.tmr'), tmrI = tmr.querySelector('i');
   const lvOv = root.querySelector('#bfLv'), winOv = root.querySelector('#bfWin'), toOv = root.querySelector('#bfTo');
   const frBtn = root.querySelector('.frbtn');
-
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['.lvbtn', 'المستويات', 'Levels'], ['.prm', 'إعادة السؤال', 'Repeat the question']].forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+    frBtn.setAttribute('aria-label', phase === 'free' ? App.t('المستويات', 'Levels') : App.t('حديقة حرة', 'Free garden'));
+  }
+  let winInfo = null;
+  function fillWin() {
+    if (!winInfo) return;
+    const { stars, n, c, ms } = winInfo;
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🦋';
+    root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
+    root.querySelector('.wP').textContent = App.t(`${App.g('أمسكتِ', 'أمسكتَ')} ${c} فراشة في المستوى ${n}` + (ms ? ` · الأخطاء: ${ms}` : ' دون أي خطأ! 💯'),
+      `You caught ${c} butterflies in level ${n}` + (ms ? ` · Mistakes: ${ms}` : ' with no mistakes! 💯'));
+    root.querySelector('.toP').textContent = App.t(App.g('لا بأس! حاولي مرة أخرى، أنتِ قادرة 💪', 'لا بأس! حاول مرة أخرى، أنت قادر 💪'), "That's OK! Try again, you can do it 💪");
+  }
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, S = 70, top = 140, meadowY = 600, areaX = 0, areaW = 400;
   let layers = [], flowers = [], clouds = [], pollen = [], grass = null;
@@ -421,7 +444,7 @@
     pool = COLS.slice(0, D.nc).map(c => c.k);
     tasks = makeTasks(); ti = 0; mistakes = 0; caughtL = 0; elapsed = 0;
     bs = []; parts = []; rings = []; floats = [];
-    phase = 'play'; frBtn.textContent = '🌸'; frBtn.setAttribute('aria-label', 'حديقة حرة');
+    phase = 'play'; frBtn.textContent = '🌸'; frBtn.setAttribute('aria-label', App.t('حديقة حرة', 'Free garden'));
     prm.classList.remove('off');
     task = tasks[0];
     for (let i = 0; i < D.count; i++) makeB(look(i < task.need + 1 ? true : false), true);
@@ -433,20 +456,25 @@
     ti = i; task = tasks[i]; got = 0; tLeft = D.timer; phase = 'play';
     ensureTargets(); paintPrompt(); updChips();
     prm.classList.remove('bump'); void prm.offsetWidth; prm.classList.add('bump');
-    clearTimeout(speakTimer); speakTimer = setTimeout(() => { if (App.current === ID && !paused) App.speak(taskText(task, true)); }, 250);
+    clearTimeout(speakTimer); speakTimer = setTimeout(() => { if (App.current === ID && !paused) sayTask(); }, 250);
   }
   function startFree() {
     clearTimeout(winTimer); clearTimeout(speakTimer); closeOverlays();
     D = FREE; pool = COLS.map(c => c.k); task = null; phase = 'free';
     bs = []; parts = []; rings = []; floats = [];
     for (let i = 0; i < D.count; i++) { const c = COLS[i % 10]; makeB({ col: c.k, pat: pick(['plain', 'plain', 'dots', 'stripes']) }, true); }
-    frBtn.textContent = '🎯'; frBtn.setAttribute('aria-label', 'المستويات');
+    frBtn.textContent = '🎯'; frBtn.setAttribute('aria-label', App.t('المستويات', 'Levels'));
     prm.classList.remove('off'); paintPrompt(); updChips();
-    const msg = App.g('المسي أي فراشة لتعرفي لونها', 'المس أي فراشة لتعرف لونها');
-    clearTimeout(speakTimer); speakTimer = setTimeout(() => { if (App.current === ID) App.speak(msg); }, 250);
+    clearTimeout(speakTimer); speakTimer = setTimeout(() => { if (App.current === ID) say(freeMsg(), freeMsg()); }, 250);
     Sound.whoosh();
   }
+  function sayTask() { if (task) say(taskText(task, true), taskText(task, true)); }
   function taskText(t, spoken) {
+    if (isEn()) {
+      const adj = [t.pat ? PAT_EN[t.pat] : '', t.col ? COL_EN[t.col] : ''].filter(Boolean).join(' ');
+      if (t.kind === 'cnt') return `Touch ${spoken ? NUMW_EN[t.need] : t.need} ${adj ? adj + ' ' : ''}butterflies!`;
+      return `Touch the ${adj ? adj + ' ' : ''}butterflies!`;
+    }
     const v = App.g('المسي', 'المس');
     const C = t.col ? CK[t.col] : null;
     if (t.kind === 'cnt') return `${v} ${spoken ? NUMW[t.need] : t.need} فراشات${C ? ' ' + C.i : ''}${t.pat ? ' ' + PATS[t.pat].ind : ''}!`;
@@ -482,7 +510,7 @@
   }
   function paintPrompt() {
     if (phase === 'free') {
-      ptxt.textContent = '🌸 ' + App.g('المسي أي فراشة لتعرفي لونها', 'المس أي فراشة لتعرف لونها');
+      ptxt.textContent = '🌸 ' + freeMsg();
       dotsEl.innerHTML = ''; tmr.classList.remove('on'); paintSwatch(null); return;
     }
     if (!task) return;
@@ -497,10 +525,10 @@
   }
   function updChips() {
     if (phase === 'free') {
-      root.querySelector('.c1s').textContent = 'حديقة حرة'; root.querySelector('.c1b').textContent = '🌸';
+      root.querySelector('.c1s').textContent = App.t('حديقة حرة', 'Free garden'); root.querySelector('.c1b').textContent = '🌸';
       root.querySelector('.c2').style.display = 'none';
     } else {
-      root.querySelector('.c1s').textContent = 'المستوى'; root.querySelector('.c1b').textContent = lvl + '/' + NL;
+      root.querySelector('.c1s').textContent = App.t('المستوى', 'Level'); root.querySelector('.c1b').textContent = lvl + '/' + NL;
       root.querySelector('.c2').style.display = '';
       root.querySelector('.c2b').textContent = (ti + 1) + '/' + tasks.length;
     }
@@ -533,15 +561,15 @@
     floats.push({ x: b.x, y: b.ry - b.S * .5, txt: '💨', col: '#fff', age: 0, life: .9, sz: 26 });
     prm.classList.remove('wig'); void prm.offsetWidth; prm.classList.add('wig');
     const C = CK[b.col];
-    App.speak(`هذه فراشة ${C.i}${b.pat !== 'plain' ? ' ' + PATS[b.pat].ind : ''}`);
+    say(`هذه فراشة ${C.i}${b.pat !== 'plain' ? ' ' + PATS[b.pat].ind : ''}`, `This is a ${b.pat !== 'plain' ? PAT_EN[b.pat] + ' ' : ''}${COL_EN[b.col]} butterfly`);
   }
   function freeTap(b) {
     const C = CK[b.col];
     b.pop = 1; b.hap = 1;
-    App.speak(C.n);
+    say(C.n, cap(COL_EN[C.k]));
     Sound.tone(880 + COLS.indexOf(C) * 60, .16, 'sine', .12); Sound.tone(1320 + COLS.indexOf(C) * 90, .14, 'triangle', .05, 0, .06);
     sparkle(b.x, b.ry, C.c, 12);
-    floats.push({ x: b.x, y: b.ry - b.S * .7, txt: C.n, col: C.c, dark: C.d, age: 0, life: 1.6, sz: 30, label: true });
+    floats.push({ x: b.x, y: b.ry - b.S * .7, txt: colName(C), col: C.c, dark: C.d, age: 0, life: 1.6, sz: 30, label: true });
     vibrate(10);
   }
   function taskDone() {
@@ -567,12 +595,10 @@
     for (const b of bs) if (b.st === 'fly' || b.st === 'rest') { b.st = 'fly'; b.fl = -1; b.hap = 1; }
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🦋';
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = `${App.g('أمسكتِ', 'أمسكتَ')} ${caughtL} فراشة في المستوى ${lvl}` + (mistakes ? ` · الأخطاء: ${mistakes}` : ' دون أي خطأ! 💯');
+      winInfo = { stars, n: lvl, c: caughtL, ms: mistakes }; fillWin();
       root.querySelector('#bfWin [data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on'); overOv = winOv;
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      say(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('bfly_first');
       if (pr.unlocked >= 10) App.achieve('bfly_lvl10');
@@ -584,7 +610,7 @@
     for (const b of bs) if (b.st === 'fly' || b.st === 'rest') { b.st = 'flee'; b.ang = -Math.PI / 2 + rand(-1, 1); }
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.toP').textContent = App.g('لا بأس! حاولي مرة أخرى، أنتِ قادرة 💪', 'لا بأس! حاول مرة أخرى، أنت قادر 💪');
+      winInfo = winInfo || {}; fillWin();
       toOv.classList.add('on'); overOv = toOv;
     }, 900);
   }
@@ -595,7 +621,7 @@
     const g = root.querySelector('.lvg');
     g.innerHTML = Array.from({ length: NL }, (_, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, d = lvDef(n), nc = COLS[d.nc - 1];
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl && phase !== 'free' ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl && phase !== 'free' ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
         <span class="c" style="background:${nc.c}"></span><span class="n">${n}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -622,8 +648,8 @@
   frBtn.addEventListener('click', () => { Sound.tap(); if (phase === 'free') startLevel(loadProg().unlocked); else startFree(); });
   prm.addEventListener('click', () => {
     Sound.tap();
-    if (phase === 'free') App.speak(App.g('المسي أي فراشة لتعرفي لونها', 'المس أي فراشة لتعرف لونها'));
-    else if (task) App.speak(taskText(task, true));
+    if (phase === 'free') say(freeMsg(), freeMsg());
+    else sayTask();
     prm.classList.remove('bump'); void prm.offsetWidth; prm.classList.add('bump');
   });
 
@@ -954,7 +980,7 @@
     for (const f of floats) {
       const t = f.age / f.life, sc = t < .15 ? ease.outBack(t / .15) : 1;
       ctx.save(); ctx.globalAlpha = 1 - clamp((t - .7) / .3, 0, 1); ctx.translate(f.x, f.y); ctx.scale(sc, sc);
-      ctx.font = `900 ${f.sz}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = f.label ? 'rtl' : 'ltr';
+      ctx.font = `900 ${f.sz}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = f.label && /[\u0600-\u06FF]/.test(f.txt) ? 'rtl' : 'ltr';
       if (f.label) {
         const w = ctx.measureText(f.txt).width + 28, h = f.sz + 14;
         ctx.fillStyle = 'rgba(255,255,255,.95)'; ctx.shadowColor = 'rgba(0,0,0,.2)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
@@ -1010,7 +1036,16 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: 'صيد الفراشات', icon2: '🦋', isNew: false, music: 'butterfly',
+    titleEn: 'Butterfly Catch',
     desc: () => App.g('امسكي الفراشات وتعلّمي الألوان', 'امسك الفراشات وتعلّم الألوان'),
+    descEn: () => 'Catch the butterflies and learn the colors',
+    helpEn: () => [
+      '🦋 Listen to the question, then touch the butterflies of the right color to catch them with the net',
+      '🎨 The colored circle at the top reminds you of the color. Touch it to hear the question again 🔊',
+      '🔍 In harder levels: spotted and striped butterflies, an exact number of butterflies, and a short time ⏰',
+      '⭐ Catch the right butterflies with no mistakes to get 3 stars',
+      '🌸 «Free garden»: touch any butterfly to hear the name of its color'
+    ],
     help: () => [
       '🦋 ' + App.g('اسمعي', 'اسمع') + ' السؤال ثم ' + App.g('المسي', 'المس') + ' الفراشات باللون المطلوب لتمسكها بالشبكة',
       '🎨 المربّع الملوّن في الأعلى يذكّرك باللون. ' + App.g('المسيه', 'المسه') + ' لتسمع السؤال مرة أخرى 🔊',
@@ -1022,16 +1057,21 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
-      paused = false;
+      paused = false; relabel();
       prm.classList.remove('off');
       layout();
       startLevel(loadProg().unlocked);
       layout(); // بعد ظهور بطاقة السؤال
       render();
       startLoop();
+    },
+    onLang() {
+      relabel(); updChips(); paintPrompt(); fillWin();
+      if (lvOv.classList.contains('on')) openLevels();
+      if (phase === 'free') say(freeMsg(), freeMsg()); else if (phase === 'play') sayTask();
     },
     leave() { stopLoop(); clearTimeout(winTimer); clearTimeout(speakTimer); closeOverlays(); phase = 'idle'; try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {} },
     pause() { paused = true; },

@@ -40,18 +40,21 @@
   const QM = () => lang === 'ar' ? '؟' : '?';
   const numWord = n => lang === 'ar' ? (AR_W[n] || String(n)) : (EN_W[n] || String(n));
   const sayNum = n => App.speak(numWord(n), lang === 'ar' ? 'ar' : 'en');
+  /* النطق بلغة المحتوى (مفتاح ١٢٣ / 123)، ونصوص الواجهة بلغة التطبيق */
+  const sayL = (ar, en) => lang === 'en' ? App.speak(en, 'en') : App.speak(ar);
+  const tName = T => App.t(T.name, T.en), tPlace = T => App.t(T.place, T.enP);
 
   /* ---------- الأبراج ---------- */
   const TOWERS = [
-    { key: 'fateh', name: 'برج الفاتح', place: 'الخرطوم 🇸🇩', scene: 'nile', col: '#3BB2C0', pat: 'glass', crownH: 1.2, oval: .64,
+    { key: 'fateh', name: 'برج الفاتح', place: 'الخرطوم 🇸🇩', en: 'Al-Fateh Tower', enP: 'Khartoum 🇸🇩', scene: 'nile', col: '#3BB2C0', pat: 'glass', crownH: 1.2, oval: .64,
       w: t => .2 + 2.7 * Math.pow(Math.max(0, Math.sin(Math.PI * (.2 + .74 * t))), .5) },
-    { key: 'kingdom', name: 'برج المملكة', place: 'الرياض 🇸🇦', scene: 'city', col: '#86AAD2', pat: 'glass2', crownH: .2, dz: .62,
+    { key: 'kingdom', name: 'برج المملكة', place: 'الرياض 🇸🇦', en: 'Kingdom Tower', enP: 'Riyadh 🇸🇦', scene: 'city', col: '#86AAD2', pat: 'glass2', crownH: .2, dz: .62,
       w: t => 2.3 * (1 - .16 * t), hole: t => t < .62 ? 0 : .43 * Math.sqrt((t - .62) / .38) },
-    { key: 'khalifa', name: 'برج خليفة', place: 'دبي 🇦🇪', scene: 'city', col: '#C3D0DE', pat: 'fins', crownH: 4.6, step: 1,
+    { key: 'khalifa', name: 'برج خليفة', place: 'دبي 🇦🇪', en: 'Burj Khalifa', enP: 'Dubai 🇦🇪', scene: 'city', col: '#C3D0DE', pat: 'fins', crownH: 4.6, step: 1,
       w: t => 2.5 * (1 - .78 * Math.floor(t * 6) / 6) },
-    { key: 'eiffel', name: 'برج إيفل', place: 'باريس 🇫🇷', scene: 'city', col: '#B8713D', pat: 'lattice', crownH: 2,
+    { key: 'eiffel', name: 'برج إيفل', place: 'باريس 🇫🇷', en: 'Eiffel Tower', enP: 'Paris 🇫🇷', scene: 'city', col: '#B8713D', pat: 'lattice', crownH: 2,
       w: t => .36 + 2.9 * Math.pow(1 - t, 2.3), legs: t => t < .36 },
-    { key: 'clock', name: 'ساعة مكة', place: 'مكة المكرمة 🇸🇦', scene: 'city', col: '#EAD9BC', pat: 'stone', crownH: 6.2, step: 1,
+    { key: 'clock', name: 'ساعة مكة', place: 'مكة المكرمة 🇸🇦', en: 'Makkah Clock Tower', enP: 'Makkah 🇸🇦', scene: 'city', col: '#EAD9BC', pat: 'stone', crownH: 6.2, step: 1,
       w: t => t < .3 ? 3.3 : 1.7 }
   ];
 
@@ -75,6 +78,7 @@
   ];
   const NL = LV.length;
   const MODE_SAY = { up: 'لنعد معا', down: 'لنعد تنازليا', down2: 'لنعد تنازليا', by2: 'لنعد بالاثنين', miss: 'ما الرقم الناقص؟' };
+  const MODE_SAY_EN = { up: 'Let\'s count together', down: 'Let\'s count down', down2: 'Let\'s count down', by2: 'Let\'s count by twos', miss: 'What is the missing number?' };
   const MODE_IC = { up: '⬆️', down: '⬇️', down2: '⬇️', by2: '✌️', miss: '❓' };
   function seqOf(L) {
     const s = [];
@@ -85,9 +89,9 @@
     return s;
   }
   function modeLabel(L) {
-    if (L.mode === 'miss') return dg(L.a) + ' ؟ ' + dg(L.b);
-    if (L.mode === 'by2' || L.mode === 'down2') { const s = seqOf(L); return [s[0], s[1], s[2]].map(dg).join('، ') + '…'; }
-    return dg(L.a) + ' ← ' + dg(L.b);
+    if (L.mode === 'miss') return dg(L.a) + ' ' + QM() + ' ' + dg(L.b);
+    if (L.mode === 'by2' || L.mode === 'down2') { const s = seqOf(L); return [s[0], s[1], s[2]].map(dg).join(lang === 'ar' ? '، ' : ', ') + '…'; }
+    return dg(L.a) + (lang === 'ar' ? ' ← ' : ' → ') + dg(L.b);
   }
   const loadProg = () => { const p = store.get('towerProg', null) || {}; return { unlocked: clamp(p.unlocked || 1, 1, NL), stars: p.stars || {} }; };
 
@@ -631,25 +635,25 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
       <span class="grow"></span>
-      <button class="ib xbtn" aria-label="المستويات">✕</button>
+      <button class="ib xbtn" aria-label="المستويات" data-al="Levels">✕</button>
     </div>
-    <div class="ttl"><span class="tN">برج الفاتح</span><small class="tP"></small></div>
-    <div class="prm off" role="button" aria-label="إعادة السؤال"></div>
+    <div class="ttl"><span class="tN"></span><small class="tP"></small></div>
+    <div class="prm off" role="button" aria-label="إعادة السؤال" data-al="Repeat the question"></div>
     <div class="bot">
-      <button class="spk" aria-label="استمع">🔊</button>
+      <button class="spk" aria-label="استمع" data-al="Listen">🔊</button>
       <div class="pbar"></div>
       <div class="lng"><button data-l="ar">١٢٣</button><button data-l="en">123</button></div>
     </div>
-    <div class="overlay" id="twLv"><div class="panel lvp"><h3>🏙️ اختر البرج</h3>
+    <div class="overlay" id="twLv"><div class="panel lvp"><h3 data-en="🏙️ Choose a tower">🏙️ اختر البرج</h3>
       <div class="grid"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="twWin"><div class="panel">
       <h3 class="wT"></h3><div class="wN" style="font-weight:800;font-size:18px"></div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">البرج التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🏙️ الأبراج</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next tower ▶️">البرج التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🏙️ Towers">🏙️ الأبراج</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const prm = root.querySelector('.prm'), pbar = root.querySelector('.pbar'), spk = root.querySelector('.spk');
@@ -774,12 +778,12 @@
     crownK = 0; crownT = -1; duskT = -1; litT = -1; finT = -1; towerShake = 0; camZT = 0;
     const T = TOWERS[L.tw];
     if (!SC || SC.kind !== T.scene) SC = buildScene(T.scene);
-    tN.textContent = T.name; tP.textContent = T.place;
+    tN.textContent = tName(T); tP.textContent = tPlace(T);
     phase = 'intro';
     layout(); camTargets(true);
     renderBar(); setPrompt();
     lastAct = Tm;
-    App.speak(T.name + '. ' + MODE_SAY[L.mode]);
+    sayL(T.name + '. ' + MODE_SAY[L.mode], T.en + '. ' + MODE_SAY_EN[L.mode]);
     after(.6, () => beginStep(true));
   }
   function beginStep(first) {
@@ -832,11 +836,11 @@
       cd.shake = Tm; cd.flash = Tm; cd.st = 'idle';
       Sound.error(); vibrate(35);
       if (wrongStep >= 2) { hintT = Tm; after(.1, () => promptSpeak()); }
-      else App.speak(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'));
+      else sayL(App.g('حاولي مرة أخرى', 'حاول مرة أخرى'), 'Try again');
     }
   }
   function promptSpeak() {
-    if (L.mode === 'miss') { App.speak(MODE_SAY.miss); if (wrongStep >= 2 || Tm - hintT < 3.5) after(1.6, () => sayNum(target())); }
+    if (L.mode === 'miss') { sayL(MODE_SAY.miss, MODE_SAY_EN.miss); if (wrongStep >= 2 || Tm - hintT < 3.5) after(1.6, () => sayNum(target())); }
     else sayNum(target());
   }
   function finale() {
@@ -844,7 +848,7 @@
     cards.forEach(cd => { cd.st = 'out'; cd.ot = Tm; });
     after(.35, () => { crownT = Tm; Sound.whoosh(); });
     after(.8, () => { if (TOWERS[L.tw].crownH > .3) { Sound.thud(); towerShake = 1.2; } camTargets(); });
-    after(1.5, () => { duskT = Tm; litT = Tm; Sound.win(); App.speak('بنينا ' + TOWERS[L.tw].name); });
+    after(1.5, () => { duskT = Tm; litT = Tm; Sound.win(); sayL('بنينا ' + TOWERS[L.tw].name, 'We built the ' + TOWERS[L.tw].en); });
     after(4.6, showWin);
   }
   function showWin() {
@@ -853,19 +857,28 @@
     if (stars > prev) pr.stars[lvl] = stars;
     if (lvl >= pr.unlocked) pr.unlocked = Math.min(NL, lvl + 1);
     store.set('towerProg', pr);
-    root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
-    root.querySelector('.wN').textContent = App.g('بنيتِ', 'بنيتَ') + ' ' + TOWERS[L.tw].name + ' 🏙️';
     root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-    root.querySelector('.wP').textContent = mistakes ? `الأخطاء: ${dg(mistakes)}` : 'دون أي خطأ! 💯';
+    winText();
     root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
     winOv.classList.add('on');
-    App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+    sayL(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
     if (stars > prev) App.addStars(stars - prev + 1);
     App.achieve('tower_first');
     if (Math.max(L.a, L.b) >= 20) App.achieve('tower_20');
     if (Array.from({ length: NL }, (_, i) => pr.stars[i + 1]).every(Boolean)) App.achieve('tower_all');
   }
 
+  function winText() {
+    const uN = n => App.lang === 'en' ? String(n) : String(n).replace(/\d/g, d => AD[d]);
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wN').textContent = App.t(App.g('بنيتِ', 'بنيتَ') + ' ' + TOWERS[L.tw].name, 'You built the ' + TOWERS[L.tw].en) + ' 🏙️';
+    root.querySelector('.wP').textContent = mistakes ? App.t(`الأخطاء: ${uN(mistakes)}`, `Mistakes: ${mistakes}`) : App.t('دون أي خطأ! 💯', 'No mistakes! 💯');
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   /* ---------- عناصر HTML ---------- */
   function setPrompt(bump, done) {
     if (phase === 'finale' || phase === 'over' || phase === 'intro' && !seq.length) { prm.classList.add('off'); return; }
@@ -905,8 +918,8 @@
     const pr = loadProg(), grid = root.querySelector('.grid');
     grid.innerHTML = LV.map((V, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">
-        <span class="n">${dg(n)}</span><canvas data-t="${V.tw}"></canvas><b>${TOWERS[V.tw].name}</b>
+      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
+        <span class="n">${dg(n)}</span><canvas data-t="${V.tw}"></canvas><b>${tName(TOWERS[V.tw])}</b>
         <span class="md" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${MODE_IC[V.mode]} ${modeLabel(V)}</span>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
@@ -937,7 +950,7 @@
   root.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => act(b.dataset.a)));
   root.querySelector('.xbtn').addEventListener('click', () => { Sound.tap(); openLevels(); });
   root.querySelectorAll('.lng button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
-  spk.addEventListener('click', () => { lastAct = Tm; if (phase === 'play') promptSpeak(); else if (phase === 'over' || phase === 'finale') App.speak(TOWERS[L.tw].name); spk.classList.remove('pulse'); void spk.offsetWidth; spk.classList.add('pulse'); });
+  spk.addEventListener('click', () => { lastAct = Tm; if (phase === 'play') promptSpeak(); else if (phase === 'over' || phase === 'finale') sayL(TOWERS[L.tw].name, TOWERS[L.tw].en); spk.classList.remove('pulse'); void spk.offsetWidth; spk.classList.add('pulse'); });
   prm.addEventListener('click', () => { if (phase === 'play') { promptSpeak(); setPrompt(true); } });
 
   /* ---------- الإدخال ---------- */
@@ -1119,6 +1132,15 @@
   App.register({
     id: ID, title: 'البرج', icon2: '🏙️', isNew: false, music: 'numbers',
     desc: () => App.g('دوّري الرقم الصحيح وابني البرج طابقًا فوق طابق', 'دوّر الرقم الصحيح وابنِ البرج طابقًا فوق طابق'),
+    titleEn: 'Tower',
+    descEn: () => 'Find the right number and build the tower floor by floor',
+    helpEn: () => [
+      '🔢 Listen to the next number, then tap it on the cards or drag it to the tower',
+      '🏗️ Every right number adds a new floor; at the end the tower lights up with fireworks 🎆',
+      '🔊 The yellow button repeats the question, and «١٢٣ / 123» switches between Arabic and English numerals',
+      '🏙️ Build Al-Fateh Tower, Kingdom Tower, Burj Khalifa, the Eiffel Tower and the Makkah Clock: count up, count down, count by twos and find the missing number',
+      '⭐ Build the tower with no mistakes to get 3 stars; ✕ opens the tower list'
+    ],
     help: () => [
       '🔢 ' + App.g('اسمعي', 'اسمع') + ' الرقم التالي ثم ' + App.g('المسيه', 'المسه') + ' من البطاقات، أو ' + App.g('اسحبيه', 'اسحبه') + ' إلى البرج',
       '🏗️ كل رقم صحيح يضيف طابقًا جديدًا، وفي النهاية يكتمل البرج بالأضواء والألعاب النارية 🎆',
@@ -1130,15 +1152,22 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏙️ ${ks.length} برج · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏙️ ${ks.length} ${App.t('برج', ks.length === 1 ? 'tower' : 'towers')} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('towerLang', 'ar') === 'en' ? 'en' : 'ar';
+      lang = App.gameLang(ID); trUI();
       const pr = loadProg();
       let n = 1; for (let i = 1; i <= pr.unlocked; i++) if (!pr.stars[i]) { n = i; break; } else n = i;
       startLevel(n);
       render(); startLoop();
+    },
+    onLang(l) {
+      trUI();
+      const T = TOWERS[L.tw]; tN.textContent = tName(T); tP.textContent = tPlace(T);
+      if (l !== lang) setLang(l);
+      else if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); drag = null; evs = []; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { drag.cd.st = 'back'; drag = null; } },

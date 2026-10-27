@@ -8,6 +8,8 @@
   const TAU = Math.PI * 2;
   const FONT = "'Baloo Bhaijaan 2',system-ui,'Segoe UI',Tahoma,sans-serif";
   const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  const NUM = n => App.lang === 'en' ? String(n) : AR(n);
+  const say = (ar, en) => App.lang === 'en' ? App.speak(en, 'en') : App.speak(ar);
   const lerp = (a, b, t) => a + (b - a) * t;
   const ease = {
     outCubic: t => 1 - Math.pow(1 - t, 3),
@@ -48,10 +50,10 @@
     { ls: 'دذرز', ks: KORDER }, { ls: 'سصثش', ks: KORDER }, { ls: 'كقعغ', ks: KORDER }
   ];
   const CH = [
-    { id: 'short', t: 'الفتحة والضمة والكسرة', tab: 'بَ بُ بِ', n: LETTERS.length, col: '#FF8A2A' },
-    { id: 'long',  t: 'المدود',                tab: 'بَا بُو بِي', n: LETTERS.length, col: '#3D8BFF' },
-    { id: 'sk',    t: 'السكون والتنوين',       tab: 'بْ بٌ', n: LETTERS.length, col: '#9B5CF6' },
-    { id: 'mix',   t: 'خلط الحروف',            tab: 'بَ تَ', n: MIX.length, col: '#20B486' }
+    { id: 'short', t: 'الفتحة والضمة والكسرة', en: 'Short vowels', tab: 'بَ بُ بِ', n: LETTERS.length, col: '#FF8A2A' },
+    { id: 'long',  t: 'المدود', en: 'Long vowels', tab: 'بَا بُو بِي', n: LETTERS.length, col: '#3D8BFF' },
+    { id: 'sk',    t: 'السكون والتنوين', en: 'Sukun & tanween', tab: 'بْ بٌ', n: LETTERS.length, col: '#9B5CF6' },
+    { id: 'mix',   t: 'خلط الحروف', en: 'Mixed letters', tab: 'بَ تَ', n: MIX.length, col: '#20B486' }
   ];
   const levelLabel = (c, i) => c === 3 ? MIX[i].ls.split('').join(' ') : c === 0 ? LETTERS[i].c + FA : c === 1 ? LETTERS[i].c + FA + 'ا' : LETTERS[i].c + SK;
   const QN = 10;
@@ -178,26 +180,26 @@
     <canvas class="hc"></canvas>
     <div class="hpb"></div>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️</button>
       <span class="grow"></span>
       <div class="gem"><span class="gi">💎</span><b class="gN">٠</b></div>
-      <button class="ib pbtn" aria-label="إيقاف مؤقت">⏸️</button>
+      <button class="ib pbtn" aria-label="إيقاف مؤقت" data-al="Pause">⏸️</button>
       <div class="prog">${'<i></i>'.repeat(QN)}</div>
     </div>
     <div class="overlay" id="hkPause"><div class="panel">
-      <h3>⏸️ استراحة</h3><p class="pP"></p>
-      <button class="btn go" data-a="resume">▶️ متابعة</button><br>
-      <button class="btn alt" data-a="again">🔄 من جديد</button><button class="btn alt" data-a="levels">🗺️ المستويات</button>
+      <h3 data-en="⏸️ Break">⏸️ استراحة</h3><p class="pP"></p>
+      <button class="btn go" data-a="resume" data-en="▶️ Continue">▶️ متابعة</button><br>
+      <button class="btn alt" data-a="again" data-en="🔄 Restart">🔄 من جديد</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button>
     </div></div>
-    <div class="overlay" id="hkLv"><div class="panel lvp"><h3>🗺️ المستويات</h3>
+    <div class="overlay" id="hkLv"><div class="panel lvp"><h3 data-en="🗺️ Levels">🗺️ المستويات</h3>
       <div class="tabs"></div><div class="chT"></div><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="hkWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><div class="wG"></div><p class="wP"></p>
-      <button class="btn go" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again" aria-label="من جديد">🔄</button><button class="btn alt" data-a="levels" aria-label="المستويات">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn go" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" aria-label="المستويات" data-al="Levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.hc');
   const segs = [...root.querySelectorAll('.prog i')];
@@ -242,7 +244,15 @@
       }
     } catch (e) {}
   }
-  const listenPhrase = () => lv.c === 3 ? App.g('اسمعي واختاري الصوت الصحيح', 'اسمع واختر الصوت الصحيح') : App.g('اسمعي واختاري الحركة', 'اسمع واختر الحركة');
+  const listenAr = () => lv.c === 3 ? App.g('اسمعي واختاري الصوت الصحيح', 'اسمع واختر الصوت الصحيح') : App.g('اسمعي واختاري الحركة', 'اسمع واختر الحركة');
+  const listenEn = () => lv.c === 3 ? 'Listen and choose the right sound' : 'Listen and choose the vowel';
+  const sayListen = () => say(listenAr(), listenEn());
+  const chT = C => App.t(C.t, C.en);
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   function sayLater(fn, ms) { clearTimeout(sayTimer); sayTimer = setTimeout(() => { if (App.current === ID && !paused) fn(); }, ms); }
 
   /* ---------- الإسقاط ---------- */
@@ -582,7 +592,7 @@
       ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(0, U(-3.12), U(.27), 0, TAU); ctx.fill();
       ctx.strokeStyle = '#FFC531'; ctx.lineWidth = U(.06); ctx.stroke();
       ctx.fillStyle = '#D42E3C'; ctx.font = `900 ${U(.3)}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(AR(g.n), 0, U(-3.1));
+      ctx.fillText(NUM(g.n), 0, U(-3.1));
     }
     ctx.restore();
   }
@@ -645,7 +655,7 @@
     ctx.fillStyle = '#FFD43B'; rr(-u * .14, -u * .42, u * .28, u * .12, u * .03); ctx.fill();
     ctx.strokeStyle = '#E0A800'; ctx.lineWidth = Math.max(1, u * .012); ctx.stroke();
     ctx.fillStyle = '#5A3A00'; ctx.font = `900 ${u * .085}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('١٢٣', 0, -u * .355);
+    ctx.fillText(NUM(123), 0, -u * .355);
     // أنبوب العادم
     ctx.fillStyle = '#7B8396'; rr(-u * .36, -u * .14, u * .1, u * .06, u * .03); ctx.fill();
     ctx.fillStyle = '#2A2E38'; ctx.beginPath(); ctx.ellipse(-u * .31, -u * .11, u * .03, u * .02, 0, 0, TAU); ctx.fill();
@@ -801,7 +811,7 @@
     for (let i = parts.length - 1; i >= 0; i--) {
       const p = parts[i];
       if (p.age >= p.life) {
-        if (p.t === 'gem') { gemEl.classList.remove('pop'); void gemEl.offsetWidth; gemEl.classList.add('pop'); gemN.textContent = AR(gems()); Sound.tone(1568, .1, 'sine', .1); }
+        if (p.t === 'gem') { gemEl.classList.remove('pop'); void gemEl.offsetWidth; gemEl.classList.add('pop'); gemN.textContent = NUM(gems()); Sound.tone(1568, .1, 'sine', .1); }
         parts.splice(i, 1);
       }
     }
@@ -871,8 +881,8 @@
     cardFx.forEach(f => { f.res = ''; f.rt = 0; f.shake = 0; });
     parts = []; lines = [];
     const pr = loadProg(); pr.last = lkey(c, i); store.set('harakatProg', pr);
-    setSegs(); gemN.textContent = AR(gems());
-    App.speak(listenPhrase());
+    setSegs(); gemN.textContent = NUM(gems());
+    sayListen();
   }
   function spawnQ() {
     const q = Q[qi];
@@ -903,7 +913,7 @@
       Sound.star(); Sound.whoosh(); vibrate(18);
       for (let k = 0; k < 14; k++) lines.push({ a: rand(0, TAU), r: rand(40, 160), v: rand(900, 1500), len: rand(40, 90), w: rand(2, 4) });
       const streak = (() => { let n = 0; for (let k = qi; k >= 0 && results[k] === true; k--) n++; return n; })();
-      if (streak && streak % 3 === 0) sayLater(() => App.speak(App.g('أحسنتِ!', 'أحسنت!')), 450);
+      if (streak && streak % 3 === 0) sayLater(() => say(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!'), 450);
     } else {
       bumpT = .7; v = Math.min(v, 1.2); car.wob = 1; car.squash = -1; shake = 7;
       const d = g.doors[lane]; d.wob = 1; d.flash = 1;
@@ -924,13 +934,13 @@
     confetti(150); Sound.win(); vibrate(30);
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = (stars === 3 ? App.g('رائعة!', 'رائع!') : App.g('أحسنتِ!', 'أحسنت!')) + ' 🏆';
+      root.querySelector('.wT').textContent = (stars === 3 ? App.t(App.g('رائعة!', 'رائع!'), 'Amazing!') : App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!')) + ' 🏆';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(n => `<span class="${n <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wG').textContent = `💎 +${AR(roundGems)}`;
-      root.querySelector('.wP').textContent = `${App.g('أصبتِ', 'أصبتَ')} ${AR(right)} من ${AR(QN)}` + (miss ? '' : ' 💯');
+      root.querySelector('.wG').textContent = `💎 +${NUM(roundGems)}`;
+      root.querySelector('.wP').textContent = App.t(`${App.g('أصبتِ', 'أصبتَ')} ${AR(right)} من ${AR(QN)}`, `You got ${right} of ${QN} right`) + (miss ? '' : ' 💯');
       root.querySelector('[data-a="next"]').style.display = nextLevel() ? '' : 'none';
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      say(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!');
       if (stars > prev) App.addStars(stars - prev);
       App.achieve('harakat_first');
       if (!miss) App.achieve('harakat_perfect');
@@ -961,13 +971,13 @@
     const pr = loadProg();
     if (tab == null) tab = lv.c;
     lvTab = tab;
-    root.querySelector('#hkLv .tabs').innerHTML = CH.map((C, c) => `<button class="tab${c === tab ? ' on' : ''}${chapOpen(pr, c) ? '' : ' lock'}" data-t="${c}" style="--c:${C.col}">${C.tab}<small>${C.t}</small></button>`).join('');
+    root.querySelector('#hkLv .tabs').innerHTML = CH.map((C, c) => `<button class="tab${c === tab ? ' on' : ''}${chapOpen(pr, c) ? '' : ' lock'}" data-t="${c}" style="--c:${C.col}">${C.tab}<small>${chT(C)}</small></button>`).join('');
     const C = CH[tab];
-    root.querySelector('#hkLv .chT').innerHTML = `${C.t} <small style="opacity:.6">· ${AR(doneIn(pr, tab))} من ${AR(C.n)}</small>` + (chapOpen(pr, tab) ? '' : `<br><small style="opacity:.7">🔒 ${App.g('أنهي', 'أنهِ')} ٣ مستويات من الفصل السابق</small>`);
+    root.querySelector('#hkLv .chT').innerHTML = `${chT(C)} <small style="opacity:.6">· ${App.t(`${AR(doneIn(pr, tab))} من ${AR(C.n)}`, `${doneIn(pr, tab)} of ${C.n}`)}</small>` + (chapOpen(pr, tab) ? '' : `<br><small style="opacity:.7">🔒 ${App.t(`${App.g('أنهي', 'أنهِ')} ٣ مستويات من الفصل السابق`, 'Finish 3 levels of the previous chapter')}</small>`);
     const dark = { '#FF8A2A': '#D9620B', '#3D8BFF': '#1E62D0', '#9B5CF6': '#6F32CF', '#20B486': '#11815F' }[C.col];
     root.querySelector('#hkLv .lvg').innerHTML = Array.from({ length: C.n }, (_, i) => {
       const s = pr.s[lkey(tab, i)] || 0, open = isOpen(pr, tab, i), lab = levelLabel(tab, i);
-      return `<button class="lvb${open ? '' : ' lock'}${tab === lv.c && i === lv.i ? ' cur' : ''}" data-l="${i}" style="--c:${C.col};--d:${dark}" aria-label="المستوى ${i + 1}">
+      return `<button class="lvb${open ? '' : ' lock'}${tab === lv.c && i === lv.i ? ' cur' : ''}" data-l="${i}" style="--c:${C.col};--d:${dark}" aria-label="${App.t('المستوى', 'Level')} ${i + 1}">
         <span class="e${tab === 3 ? ' sm' : ''}">${lab}</span><span class="s">${open ? [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('') : ''}</span></button>`;
     }).join('');
     root.querySelectorAll('#hkLv .tab').forEach(b => b.onclick = () => { Sound.tap(); openLevels(+b.dataset.t); });
@@ -982,7 +992,7 @@
   function openPause() {
     if (phase === 'end') return;
     paused = true;
-    root.querySelector('.pP').textContent = `${CH[lv.c].t} · ${levelLabel(lv.c, lv.i)}`;
+    root.querySelector('.pP').textContent = `${chT(CH[lv.c])} · ${levelLabel(lv.c, lv.i)}`;
     pauseOv.classList.add('on');
   }
   function act(a) {
@@ -1020,7 +1030,7 @@
   function markChosen() { if (cur && cur.kind === 'q' && !cur.res) { chosen = true; waitT = 0; } }
   function replay() {
     if (paused) return;
-    if (cur && cur.kind === 'q') speakSyl(cur.q.tgt); else if (phase === 'count') App.speak(listenPhrase());
+    if (cur && cur.kind === 'q') speakSyl(cur.q.tgt); else if (phase === 'count') sayListen();
   }
   cv.addEventListener('pointerdown', e => {
     if (App.current !== ID || paused) return;
@@ -1181,7 +1191,7 @@
     const n = Math.ceil(cdT);
     if (n > 3) return;
     const f = n - cdT; // 0..1 داخل كل ثانية
-    const txt = n >= 1 ? AR(n) : 'انطلق!';
+    const txt = n >= 1 ? NUM(n) : App.t('انطلق!', 'Go!');
     const sc = ease.outBack(clamp(f * 3, 0, 1)) * (1 + f * .15);
     ctx.save(); ctx.translate(cx, hy - (hy - UI.sky.y) * .1 + 40); ctx.scale(sc, sc); ctx.globalAlpha = clamp((1 - f) * 3, 0, 1);
     ctx.font = `900 ${n >= 1 ? 92 : 64}px ${FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -1233,6 +1243,15 @@
   App.register({
     id: ID, title: 'سباق الحركات', icon2: '🏎️', isNew: false, music: 'taxi',
     desc: () => App.g('اسمعي الحركة وقودي السيارة إلى بابها', 'اسمع الحركة وقُد السيارة إلى بابها'),
+    titleEn: 'Vowel Race',
+    descEn: () => 'Hear the vowel and drive the car through its door',
+    helpEn: () => [
+      '🔊 Listen carefully to the sound, like «بَ» or «بُو» or «بٌ»',
+      '🏎️ Steer the car with the arrows ⬅️ ➡️ or tap the right card at the bottom',
+      '🚪 Drive through the door of the right vowel to win a gem 💎',
+      '🟡 The yellow button or the flying card repeats the sound',
+      '🗺️ Levels: short vowels (fatha, damma, kasra), then long vowels, then sukun & tanween, then mixed letters'
+    ],
     help: () => [
       '🔊 ' + App.g('اسمعي', 'اسمع') + ' الصوت جيدًا، مثل «بَ» أو «بُو» أو «بٌ»',
       '🏎️ ' + App.g('حرّكي', 'حرّك') + ' السيارة بالسهمين ⬅️ ➡️ أو ' + App.g('المسي', 'المس') + ' البطاقة الصحيحة في الأسفل',
@@ -1244,10 +1263,10 @@
     best() {
       const pr = loadProg(), st = Object.values(pr.s).reduce((a, n) => a + n, 0), gm = gems();
       if (!st && !gm) return '';
-      return `💎 ${AR(gm)} · ⭐ ${AR(st)}`;
+      return `💎 ${NUM(gm)} · ⭐ ${NUM(st)}`;
     },
     enter() {
-      paused = false;
+      paused = false; trUI();
       resize();
       if (!props.length) initProps();
       const d = defaultLevel();
@@ -1258,6 +1277,18 @@
       stopLoop(); clearTimeout(winTimer); clearTimeout(sayTimer); swipe = null;
       [winOv, lvOv, pauseOv].forEach(o => o.classList.remove('on'));
       try { if (typeof Voice !== 'undefined') Voice.stop(); if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    },
+    onLang() {
+      trUI(); gemN.textContent = NUM(gems());
+      if (lvOv.classList.contains('on')) openLevels(lvTab);
+      if (pauseOv.classList.contains('on')) root.querySelector('.pP').textContent = `${chT(CH[lv.c])} · ${levelLabel(lv.c, lv.i)}`;
+      if (winOv.classList.contains('on')) {
+        const right = results.filter(Boolean).length, miss = QN - right, stars = miss === 0 ? 3 : miss <= 2 ? 2 : 1;
+        root.querySelector('.wT').textContent = (stars === 3 ? App.t(App.g('رائعة!', 'رائع!'), 'Amazing!') : App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!')) + ' 🏆';
+        root.querySelector('.wG').textContent = `💎 +${NUM(roundGems)}`;
+        root.querySelector('.wP').textContent = App.t(`${App.g('أصبتِ', 'أصبتَ')} ${AR(right)} من ${AR(QN)}`, `You got ${right} of ${QN} right`) + (miss ? '' : ' 💯');
+      }
+      if (phase === 'count') sayListen();
     },
     pause() { paused = true; },
     resume() { if (!pauseOv.classList.contains('on') && !lvOv.classList.contains('on')) { paused = false; last = performance.now(); } },

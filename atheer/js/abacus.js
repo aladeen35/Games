@@ -19,18 +19,18 @@
 
   /* المستويات: عدد الأسلاك، المدى، أنواع الجولات */
   const LV = [
-    { rows: 1, lo: 1, hi: 5, k: ['show', 'show', 'read', 'show', 'read'], ic: '👆', t: '١–٥' },
-    { rows: 1, lo: 1, hi: 10, k: ['show', 'read', 'show', 'read', 'show'], ic: '👆', t: '١–١٠' },
-    { rows: 1, lo: 1, hi: 6, k: ['add', 'add', 'read', 'add', 'show'], ic: '➕', t: 'حتى ٦' },
-    { rows: 1, lo: 1, hi: 10, k: ['add', 'add', 'add', 'read', 'add'], ic: '➕', t: 'حتى ١٠' },
-    { rows: 1, lo: 1, hi: 10, k: ['sub', 'sub', 'show', 'sub', 'sub'], ic: '➖', t: 'حتى ١٠' },
-    { rows: 1, lo: 1, hi: 10, k: ['bond', 'bond', 'bond', 'bond', 'bond'], T: 10, ic: '🤝', t: '١٠' },
-    { rows: 1, lo: 1, hi: 9, k: ['bond', 'bond', 'bond', 'bond', 'bond'], ic: '🔗', t: '٥–٩' },
-    { rows: 2, lo: 11, hi: 20, k: ['show', 'read', 'show', 'read', 'show'], ic: '🔟', t: '١١–٢٠' },
-    { rows: 2, lo: 1, hi: 18, k: ['add', 'add', 'read', 'add', 'add'], cross: true, ic: '➕', t: 'حتى ٢٠' },
-    { rows: 10, lo: 10, hi: 100, k: ['read', 'show', 'read', 'show', 'read'], tens: true, ic: '💯', t: '١٠،٢٠…' },
-    { rows: 10, lo: 21, hi: 99, k: ['read', 'show', 'read', 'read', 'show'], ic: '💯', t: '٢١–٩٩' },
-    { rows: 10, lo: 30, hi: 100, k: ['show', 'read', 'show', 'read', 'show'], ic: '🏆', t: 'حتى ١٠٠' }
+    { rows: 1, lo: 1, hi: 5, k: ['show', 'show', 'read', 'show', 'read'], ic: '👆', t: '١–٥', te: '1–5' },
+    { rows: 1, lo: 1, hi: 10, k: ['show', 'read', 'show', 'read', 'show'], ic: '👆', t: '١–١٠', te: '1–10' },
+    { rows: 1, lo: 1, hi: 6, k: ['add', 'add', 'read', 'add', 'show'], ic: '➕', t: 'حتى ٦', te: 'Up to 6' },
+    { rows: 1, lo: 1, hi: 10, k: ['add', 'add', 'add', 'read', 'add'], ic: '➕', t: 'حتى ١٠', te: 'Up to 10' },
+    { rows: 1, lo: 1, hi: 10, k: ['sub', 'sub', 'show', 'sub', 'sub'], ic: '➖', t: 'حتى ١٠', te: 'Up to 10' },
+    { rows: 1, lo: 1, hi: 10, k: ['bond', 'bond', 'bond', 'bond', 'bond'], T: 10, ic: '🤝', t: '١٠', te: '10' },
+    { rows: 1, lo: 1, hi: 9, k: ['bond', 'bond', 'bond', 'bond', 'bond'], ic: '🔗', t: '٥–٩', te: '5–9' },
+    { rows: 2, lo: 11, hi: 20, k: ['show', 'read', 'show', 'read', 'show'], ic: '🔟', t: '١١–٢٠', te: '11–20' },
+    { rows: 2, lo: 1, hi: 18, k: ['add', 'add', 'read', 'add', 'add'], cross: true, ic: '➕', t: 'حتى ٢٠', te: 'Up to 20' },
+    { rows: 10, lo: 10, hi: 100, k: ['read', 'show', 'read', 'show', 'read'], tens: true, ic: '💯', t: '١٠،٢٠…', te: '10, 20…' },
+    { rows: 10, lo: 21, hi: 99, k: ['read', 'show', 'read', 'read', 'show'], ic: '💯', t: '٢١–٩٩', te: '21–99' },
+    { rows: 10, lo: 30, hi: 100, k: ['show', 'read', 'show', 'read', 'show'], ic: '🏆', t: 'حتى ١٠٠', te: 'Up to 100' }
   ];
   const NL = LV.length, ROUNDS = 5;
   const ROWC = ['#FF4D5E', '#3D8BFF', '#FFB31A', '#36C26A', '#9B5CF6', '#FF7A2E', '#1DB8C9', '#FF5FAE', '#7AC43B', '#5B6CFF'];
@@ -138,30 +138,44 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
+      <button class="ib lvbtn" data-i="levels">🗺️</button>
       <span class="grow"></span>
-      <div class="lang" role="group" aria-label="اللغة"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" data-i="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
-    <div class="ban off" role="button" aria-label="إعادة السؤال"></div>
+    <div class="ban off" role="button" data-i="repeat"></div>
     <div class="foot"><div class="ctl">
       <div class="cards"></div>
-      <button class="done off2" aria-label="تم">تم ✓</button>
-      <button class="spk" aria-label="إعادة الصوت">🔊</button>
+      <button class="done off2" data-i="done"></button>
+      <button class="spk" data-i="listen">🔊</button>
     </div></div>
-    <div class="overlay" id="abLv"><div class="panel lvp"><h3>🧮 المستويات</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="abLv"><div class="panel lvp"><h3 class="hLv"></h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="abWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄 مرة أخرى</button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again"></button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const ban = root.querySelector('.ban'), progEl = root.querySelector('.prog'), cardsEl = root.querySelector('.cards');
   const doneBtn = root.querySelector('.done'), spkBtn = root.querySelector('.spk');
   const lvOv = root.querySelector('#abLv'), winOv = root.querySelector('#abWin');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), lang: App.t('اللغة', 'Language'), repeat: App.t('إعادة السؤال', 'Repeat the question'), done: App.t('تم', 'Done'), listen: App.t('إعادة الصوت', 'Replay sound') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    doneBtn.textContent = App.t('تم ✓', 'Done ✓');
+    root.querySelector('.hLv').textContent = '🧮 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="again"]').textContent = '🔄 ' + App.t('مرة أخرى', 'Again');
+  }
+  let winMis = 0;
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${dg(lvl)}`, `You finished level ${dg(lvl)}`) + (winMis ? App.t(' · الأخطاء: ', ' · Mistakes: ') + dg(winMis) : App.t(' دون أي خطأ!', ' with no mistakes!') + ' 💯');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, W = 0, H = 0, dpr = 1, bg = null;
@@ -403,9 +417,8 @@
     rows.forEach((r, ri) => r.beads.forEach((b, i) => later(.03 * (i + ri * 2), () => { b.hl = 1; b.sq = .5; })));
     later(1.2, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
+      winMis = mistakes; winText();
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${dg(lvl)}` + (mistakes ? ` · الأخطاء: ${dg(mistakes)}` : ' دون أي خطأ! 💯');
       root.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
       winOv.classList.add('on');
       const g = G(); if (g) g.from(winOv.querySelector('.panel'), { scale: .6, rotation: -6, duration: .6, ease: 'elastic.out(1,.55)' });
@@ -420,8 +433,8 @@
     const pr = loadProg(), grid = root.querySelector('.lvg');
     grid.innerHTML = LV.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${dg(n)}</span>
-        <span class="e">${L.ic}</span><span class="r">${L.t}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${dg(n)}</span>
+        <span class="e">${L.ic}</span><span class="r">${App.t(L.t, L.te)}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     grid.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -873,11 +886,15 @@
   ban.onclick = () => { if (R && phase !== 'over') sayPrompt(); };
   root.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
     const l = b.dataset.l; if (l === lang) return;
-    lang = l; store.set('abacusLang', l); Sound.tap(); paintLang();
-    if (!R) return;
-    computeGeo(); setBanner(); renderProg(); showCardsText();
-    if (phase === 'play') sayPrompt();
+    lang = l; store.set('abacusLang', l); Sound.tap(); langChanged();
+    if (R && phase === 'play') sayPrompt();
   });
+  function langChanged() {
+    paintLang(); chrome(); if (phase === 'over' && winOv.classList.contains('on')) winText();
+    if (lvOv.classList.contains('on')) openLevels();
+    if (!R) return;
+    computeGeo(); if (phase !== 'over') setBanner(); renderProg(); showCardsText();
+  }
   function showCardsText() { cardsEl.querySelectorAll('.cd').forEach(b => b.textContent = dg(+b.dataset.v)); }
   function paintLang() { root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   root.querySelector('.lvbtn').onclick = () => { Sound.tap(); openLevels(); };
@@ -923,8 +940,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'عدّاد الخرز', icon2: '🧮', isNew: true, music: 'numbers',
+    id: ID, title: 'عدّاد الخرز', titleEn: 'Bead Abacus', icon2: '🧮', isNew: true, music: 'numbers',
     desc: () => App.g('حرّكي الخرز وتعلّمي العدّ والجمع', 'حرّك الخرز وتعلّم العدّ والجمع'),
+    descEn: () => 'Slide the beads and learn counting and adding',
+    helpEn: () => [
+      '👆 Tap a bead or drag it along the wire, and the beads in front slide with it',
+      '🔢 Show the number asked, then press «Done ✓», or pick how many beads you see',
+      '➕➖ To add, slide more beads over; to take away, push them back to the other side',
+      '💯 Each full wire = ten, so three wires and seven beads = 37',
+      '🔤 The «عربي / English» button changes the digits and the voice, and 🔊 repeats the question'
+    ],
     help: () => [
       '👆 ' + App.g('المسي', 'المس') + ' خرزة أو ' + App.g('اسحبيها', 'اسحبها') + ' على السلك فتنزلق معها الخرزات التي أمامها',
       '🔢 ' + App.g('اعرضي', 'اعرض') + ' العدد المطلوب ثم ' + App.g('اضغطي', 'اضغط') + ' «تم ✓»، أو ' + App.g('اختاري', 'اختر') + ' كم خرزة ترين',
@@ -936,15 +961,16 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
     },
     enter() {
       paused = false;
-      lang = store.get('abacusLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); chrome();
       layout();
       startLevel(Math.min(loadProg().unlocked, NL));
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; lang = l; langChanged(); if (chg && R && phase === 'play') sayPrompt(); },
     leave() { stopLoop(); clearLater(); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { endDrag(); } },
     resume() { paused = false; last = performance.now(); },

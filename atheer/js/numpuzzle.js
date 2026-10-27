@@ -11,9 +11,11 @@
   const AR_N = ['صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة'];
   const EN_N = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
   const TRACKS = [
-    { id: 'ar', label: '١٢٣', name: 'الأرقام العربية', indic: true },
-    { id: 'en', label: '123', name: 'الأرقام الإنجليزية', indic: false }
+    { id: 'ar', label: '١٢٣', name: 'الأرقام العربية', nameEn: 'Arabic numerals', indic: true },
+    { id: 'en', label: '123', name: 'الأرقام الإنجليزية', nameEn: 'English numerals', indic: false }
   ];
+  /* مسار الأرقام هو لغة محتوى اللعبة (numpuzzleLang) */
+  const LANG_TRACK = true, TITLE_EN = 'Number Puzzle';
   const GROUPS = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3, 4, 5], [6, 7, 8, 9, 0], [0, 2, 4, 6, 8], [1, 3, 5, 7, 9], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]];
   const LEVELS = { ar: GROUPS, en: GROUPS };
   function ITEM(d, t) {
@@ -22,6 +24,14 @@
     return { ch: ar ? AR_D[d] : String(d), say: ar ? AR_N[d] : EN_N[d], lang: ar ? 'ar' : 'en', col: PAL[(d + 9) % 10], frac: ar && d === 0 ? .5 : 1 };
   }
   const SECTIONS = (t, i) => i === 0 ? '٣ أرقام' : i === 3 ? '٥ أرقام' : i === 7 ? 'كل الأرقام' : '';
+  const SECTIONS_EN = (t, i) => i === 0 ? '3 numbers' : i === 3 ? '5 numbers' : i === 7 ? 'All numbers' : '';
+  const HINT_EN = 'Drag each number to its place', DESC_EN = 'Put each number in its slot on the board';
+  const HELP_EN = () => [
+    '👆 Drag each colored number from the tray to the matching slot on the board',
+    '🔊 You will hear the number name when you pick it up and when you place it',
+    '١٢٣ The switch button at the top changes between Arabic numerals and English numerals 123',
+    '⭐ Finish the level with no mistakes to get 3 stars'
+  ];
   const HINT = () => App.g('اسحبي كل رقم إلى مكانه', 'اسحب كل رقم إلى مكانه');
   const DESC = () => App.g('ضعي كل رقم في فتحته على اللوح', 'ضع كل رقم في فتحته على اللوح');
   const HELP = () => [
@@ -241,23 +251,23 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
-      ${multi ? '<button class="ib trk" aria-label="تبديل"></button>' : ''}
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🗺️</button>
+      ${multi ? '<button class="ib trk" aria-label="تبديل" data-al="Switch"></button>' : ''}
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip ms"><small>الأخطاء</small><b class="cMs">0</b></div>
+      <div class="chip"><small data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip ms"><small data-en="Mistakes">الأخطاء</small><b class="cMs">0</b></div>
     </div>
     <div class="hint"><span class="hintT"></span></div>
-    <div class="overlay lvOv"><div class="panel lvp"><h3>🗺️ المستويات</h3>
+    <div class="overlay lvOv"><div class="panel lvp"><h3 data-en="🗺️ Levels">🗺️ المستويات</h3>
       ${multi ? `<div class="seg">${TRACKS.map(t => `<button data-t="${t.id}">${t.label}</button>`).join('')}</div>` : ''}
       <div class="lvl"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay winOv"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   if (multi) root.classList.add('multi');
   const cv = root.querySelector('canvas.sc');
@@ -414,17 +424,17 @@
     pieces.forEach(p => { p.state = 'back'; p.fx = p.homeX + (portrait ? 0 : W * .3); p.fy = p.homeY + (portrait ? H * .45 : 0); p.x = p.fx; p.y = p.fy; p.wob = 0; });
     updChips();
     const pr = loadProg();
-    if (!pr.stars[lvl]) { hintT.textContent = '👆 ' + HINT(); hintEl.style.opacity = 1; } else hintEl.style.opacity = 0;
-    store.set(PROG_KEY + 'Track', track);
+    if (!pr.stars[lvl]) { hintT.textContent = '👆 ' + App.t(HINT(), HINT_EN); hintEl.style.opacity = 1; } else hintEl.style.opacity = 0;
+    store.set(PROG_KEY + 'Track', track); store.set(ID + 'Lang', track);
     Sound.whoosh();
   }
   function updChips() {
     root.querySelector('.cLv').textContent = numStr(lvl) + '/' + numStr(LV().length);
     root.querySelector('.cMs').textContent = numStr(mistakes);
-    if (trkBtn) { trkBtn.textContent = trackDef().label; trkBtn.setAttribute('aria-label', trackDef().name); }
+    if (trkBtn) { trkBtn.textContent = trackDef().label; trkBtn.setAttribute('aria-label', App.t(trackDef().name, trackDef().nameEn)); }
   }
   /* أرقام الواجهة: هندية في المسار العربي */
-  function numStr(n) { return trackDef().indic ? String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(n); }
+  function numStr(n) { return trackDef().indic && App.lang !== 'en' ? String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(n); }
   function lvLabel(def) {
     const chs = def.map(k => ITEM(k, track));
     const show = chs.length <= 3 ? chs : [chs[0], { ch: '…', col: ['#B0703A'] }, chs[chs.length - 1]];
@@ -436,11 +446,11 @@
     let html = '', open = false;
     LV().forEach((def, i) => {
       const n = i + 1;
-      const sec = SECTIONS(track, i);
+      const sec = App.t(SECTIONS(track, i), SECTIONS_EN(track, i));
       if (sec) { if (open) html += '</div>'; html += `<div class="lvh">${sec}</div><div class="lvg">`; open = true; }
       else if (!open) { html += '<div class="lvg">'; open = true; }
       const s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${numStr(n)}</span><span class="e" style="direction:${trackDef().indic ? 'rtl' : 'ltr'}">${lvLabel(def)}</span>
+      html += `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${numStr(n)}</span><span class="e" style="direction:${trackDef().indic ? 'rtl' : 'ltr'}">${lvLabel(def)}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     });
     if (open) html += '</div>';
@@ -464,6 +474,16 @@
   root.querySelectorAll('.seg [data-t]').forEach(b => b.addEventListener('click', () => setTrack(b.dataset.t, true)));
   if (trkBtn) trkBtn.addEventListener('click', () => { const i = TRACKS.findIndex(t => t.id === track); setTrack(TRACKS[(i + 1) % TRACKS.length].id, false); });
 
+  function winText() {
+    root.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${numStr(lvl)}` + (mistakes ? ` · الأخطاء: ${numStr(mistakes)}` : ' دون أي خطأ! 💯'),
+      `You finished level ${lvl}` + (mistakes ? ` · Mistakes: ${mistakes}` : ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
+  }
   function win() {
     over = true;
     const pr = loadProg();
@@ -477,12 +497,11 @@
     Sound.win(); vibrate(30);
     winTimer = setTimeout(() => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = App.g('أحسنتِ!', 'أحسنت!') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('أنهيتِ', 'أنهيتَ') + ` المستوى ${numStr(lvl)}` + (mistakes ? ` · الأخطاء: ${numStr(mistakes)}` : ' دون أي خطأ! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LV().length ? '' : 'none';
       winOv.classList.add('on');
-      App.speak(App.g('أحسنتِ!', 'أحسنت!'));
+      if (App.lang === 'en') App.speak('Well done!', 'en'); else App.speak(App.g('أحسنتِ!', 'أحسنت!'));
       if (stars > prev) App.addStars(stars - prev);
       App.achieve(ID + '_first');
       if (!mistakes) App.achieve(ID + '_perfect');
@@ -730,20 +749,29 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, title: TITLE, icon2: ICON2, isNew: false, music: MUSIC,
-    desc: DESC, help: HELP, icon,
+    desc: DESC, help: HELP, icon, titleEn: TITLE_EN, descEn: () => DESC_EN, helpEn: HELP_EN,
     best() {
       let tot = 0, top = 0;
       for (const t of TRACKS) { const pr = loadProg(t.id); for (const n in pr.stars) if (pr.stars[n]) { tot += pr.stars[n]; top++; } }
-      return tot ? `🏆 ${top} مستوى · ⭐ ${tot}` : '';
+      return tot ? App.t(`🏆 ${top} مستوى · ⭐ ${tot}`, `🏆 ${top} level${top === 1 ? '' : 's'} · ⭐ ${tot}`) : '';
     },
     enter() {
-      paused = false;
-      const st = store.get(PROG_KEY + 'Track', TRACKS[0].id);
+      paused = false; trUI();
+      const st = App.gameLang(ID);
       track = LEVELS[st] ? st : TRACKS[0].id;
       ensureFonts();
       startLevel(Math.min(loadProg().unlocked, LV().length));
       render();
       startLoop();
+    },
+    onLang(l) {
+      trUI();
+      if (LANG_TRACK && l !== track && LEVELS[l]) { setTrack(l, lvOv.classList.contains('on')); return; }
+      updChips();
+      const pr = loadProg();
+      if (!pr.stars[lvl]) hintT.textContent = '👆 ' + App.t(HINT(), HINT_EN);
+      if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); clearTimeout(winTimer); drag = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { const p = drag.p; drag = null; toTray(p, false); } },

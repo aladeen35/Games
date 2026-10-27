@@ -30,36 +30,44 @@
   const root = App.section('jump', `
     <canvas id="jc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib" id="jPause" aria-label="إيقاف مؤقت">⏸</button>
-      <button class="ib" id="jCtl" aria-label="طريقة التحكم">📱</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib" id="jPause" aria-label="إيقاف مؤقت" data-aen="Pause">⏸</button>
+      <button class="ib" id="jCtl" aria-label="طريقة التحكم" data-aen="Controls">📱</button>
       <span class="grow"></span>
-      <div class="energy" title="طاقة النجوم">⭐<span id="jEnergy">0</span></div>
-      <div class="chip"><small>الارتفاع</small><b id="jScore">0</b></div>
-      <div class="chip jbestc"><small>الأفضل</small><b id="jBest">0</b></div>
+      <div class="energy" title="طاقة النجوم" data-aen="Star energy">⭐<span id="jEnergy">0</span></div>
+      <div class="chip"><small data-en="Height">الارتفاع</small><b id="jScore">0</b></div>
+      <div class="chip jbestc"><small data-en="Best">الأفضل</small><b id="jBest">0</b></div>
     </div>
     <div class="world" id="jWorld"></div>
     <div class="hint" id="jHint"><span id="jHintT"></span></div>
-    <button class="ctl l" id="jL" aria-label="يسار">⬅️</button>
-    <button class="ctl r" id="jR" aria-label="يمين">➡️</button>
+    <button class="ctl l" id="jL" aria-label="يسار" data-aen="Left">⬅️</button>
+    <button class="ctl r" id="jR" aria-label="يمين" data-aen="Right">➡️</button>
     <div class="pw">
-      <button id="jShield" aria-label="درع">🛡️<small>3⭐</small></button>
-      <button id="jRocket" aria-label="صاروخ">🚀<small>5⭐</small></button>
+      <button id="jShield" aria-label="درع" data-aen="Shield">🛡️<small>3⭐</small></button>
+      <button id="jRocket" aria-label="صاروخ" data-aen="Rocket">🚀<small>5⭐</small></button>
     </div>
     <div class="overlay" id="jOver"><div class="panel">
       <h3 id="jOverT">سقط الفارس!</h3>
-      <div class="big"><span id="jFinal">0</span> م</div>
+      <div class="big"><span id="jFinal">0</span> <span data-en="m">م</span></div>
       <p id="jOverP"></p>
-      <button class="btn" id="jAgain">🔁 مرة أخرى</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <button class="btn" id="jAgain" data-en="🔁 Play again">🔁 مرة أخرى</button>
+      <button class="btn alt home" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>
     <div class="overlay" id="jPaused"><div class="panel">
-      <h3>استراحة ☁️</h3><p id="jPauseP"></p>
-      <button class="btn" id="jResume">▶️ متابعة</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <h3 data-en="Break time ☁️">استراحة ☁️</h3><p id="jPauseP"></p>
+      <button class="btn" id="jResume" data-en="▶️ Continue">▶️ متابعة</button>
+      <button class="btn alt home" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>`);
 
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
   const cv = root.querySelector('#jc');
   let ctx, W, H;
   const G = 1500, JUMP_V = 760, SPRING_V = 1250, MOVE = 430, SHIELD_COST = 3, ROCKET_COST = 5;
@@ -69,12 +77,12 @@
   let skyStars = [], bgClouds = [];
   const PW = 92, PH = 26;
   const WORLDS = [
-    { at: 0,    name: 'عالم السحاب',     sub: 'ابدأ الرحلة نحو القلعة ☁️' },
-    { at: 500,  name: 'جسر قوس قزح',     sub: 'انتبه للطيور 🐦' },
-    { at: 1500, name: 'قلعة الأحلام',     sub: 'وصلت إلى القلعة! 🏰' },
-    { at: 3000, name: 'الفضاء الحالم',    sub: 'أعلى من النجوم 🚀' },
-    { at: 4500, name: 'مدينة الحلوى',     sub: 'مصّاصات وغيوم من السكّر 🍭' },
-    { at: 6500, name: 'مملكة النجوم',     sub: 'أضواء الشفق السحرية ✨' }
+    { at: 0,    name: 'عالم السحاب',     sub: 'ابدأ الرحلة نحو القلعة ☁️',     en: 'Cloud World',       subEn: 'Start the trip to the castle ☁️' },
+    { at: 500,  name: 'جسر قوس قزح',     sub: 'انتبه للطيور 🐦',                en: 'Rainbow Bridge',    subEn: 'Watch out for the birds 🐦' },
+    { at: 1500, name: 'قلعة الأحلام',     sub: 'وصلت إلى القلعة! 🏰',            en: 'Dream Castle',      subEn: 'You reached the castle! 🏰' },
+    { at: 3000, name: 'الفضاء الحالم',    sub: 'أعلى من النجوم 🚀',              en: 'Dreamy Space',      subEn: 'Higher than the stars 🚀' },
+    { at: 4500, name: 'مدينة الحلوى',     sub: 'مصّاصات وغيوم من السكّر 🍭',     en: 'Candy Town',        subEn: 'Lollipops and sugar clouds 🍭' },
+    { at: 6500, name: 'مملكة النجوم',     sub: 'أضواء الشفق السحرية ✨',         en: 'Star Kingdom',      subEn: 'Magic northern lights ✨' }
   ];
   /* شدّة ظهور عالم ما (0..1) حسب الارتفاع */
   const band = (h, a, b, fade) => clamp((h - a) / fade, 0, 1) * clamp((b - h) / fade, 0, 1);
@@ -110,14 +118,15 @@
     while (y > -H) { y -= rand(70, 105); plats.push(makePlat(y, 0)); }
     $('#jScore').textContent = 0; $('#jBest').textContent = best; paintEnergy();
     $('#jOver').classList.remove('on'); $('#jPaused').classList.remove('on');
-    $('#jHintT').textContent = App.g('المسي يمين الشاشة أو يسارها، أو استخدمي الأسهم ⬅️ ➡️', 'المس يمين الشاشة أو يسارها، أو استخدم الأسهم ⬅️ ➡️');
+    hintText();
     $('#jHint').style.opacity = .9;
     state = 'play';
     banner(0);
   }
+  function hintText() { $('#jHintT').textContent = App.t(App.g('المسي يمين الشاشة أو يسارها، أو استخدمي الأسهم ⬅️ ➡️', 'المس يمين الشاشة أو يسارها، أو استخدم الأسهم ⬅️ ➡️'), 'Touch the right or left side of the screen, or use the arrows ⬅️ ➡️'); }
   function banner(i) {
     const el = $('#jWorld'), w = WORLDS[i];
-    el.innerHTML = `${w.name}<small>${w.sub}</small>`;
+    el.innerHTML = `${App.t(w.name, w.en)}<small>${App.t(w.sub, w.subEn)}</small>`;
     el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
   }
   function paintEnergy() {
@@ -258,7 +267,7 @@
     if (k.y - camY > H + 40) {
       if (k.shield) { // الدرع ينقذ الفارس مرة واحدة
         k.shield = false; k.vy = -SPRING_V * 1.15; k.y = camY + H + 30; k.spin = 1; Sound.spring(); ring(kcx, camY + H - 20, '#9FE3FF');
-        App.toast(App.g('🛡️ أنقذكِ الدرع!', '🛡️ أنقذك الدرع!')); paintEnergy();
+        App.toast(App.t(App.g('🛡️ أنقذكِ الدرع!', '🛡️ أنقذك الدرع!'), '🛡️ The shield saved you!')); paintEnergy();
       } else gameOver();
     }
   }
@@ -273,12 +282,17 @@
     const isBest = score > best;
     if (isBest) { best = score; store.set('jumpBest', best); }
     $('#jBest').textContent = best; $('#jFinal').textContent = score;
-    $('#jOverT').textContent = isBest && score > 0 ? '🏆 رقم قياسي جديد!' : 'سقط البطل! ☁️';
-    $('#jOverP').textContent = (score < 500 ? App.g('القلعة تنتظرك في الأعلى — حاولي مرة أخرى!', 'القلعة تنتظرك في الأعلى — حاول مرة أخرى!')
-      : score < 1500 ? 'رائع! القلعة تقترب 🏰' : score < 3000 ? App.g('مذهل! أنتِ فارسة السماء 👑', 'مذهل! أنت فارس السماء 🛡️') : score < 4500 ? 'أسطوري! وصلت إلى الفضاء 🚀' : score < 6500 ? 'مدهش! وصلت إلى مدينة الحلوى 🍭' : 'خرافي! وصلت إلى مملكة النجوم ✨')
-      + (gemsRun ? ` • جمعت ${gemsRun} ⭐` : '');
+    lastBest = isBest; overText();
     const reward = gemsRun + (isBest && score > 200 ? 3 : 0);
     setTimeout(() => { $('#jOver').classList.add('on'); if (reward) App.addStars(reward); }, 450);
+  }
+
+  let lastBest = false;
+  function overText() {
+    $('#jOverT').textContent = lastBest && score > 0 ? App.t('🏆 رقم قياسي جديد!', '🏆 New record!') : App.t('سقط البطل! ☁️', 'The hero fell! ☁️');
+    $('#jOverP').textContent = (score < 500 ? App.t(App.g('القلعة تنتظرك في الأعلى — حاولي مرة أخرى!', 'القلعة تنتظرك في الأعلى — حاول مرة أخرى!'), 'The castle is waiting up high — try again!')
+      : score < 1500 ? App.t('رائع! القلعة تقترب 🏰', 'Great! The castle is getting close 🏰') : score < 3000 ? App.t(App.g('مذهل! أنتِ فارسة السماء 👑', 'مذهل! أنت فارس السماء 🛡️'), App.g('Amazing! You are the sky princess 👑', 'Amazing! You are the sky knight 🛡️')) : score < 4500 ? App.t('أسطوري! وصلت إلى الفضاء 🚀', 'Legendary! You reached space 🚀') : score < 6500 ? App.t('مدهش! وصلت إلى مدينة الحلوى 🍭', 'Wonderful! You reached Candy Town 🍭') : App.t('خرافي! وصلت إلى مملكة النجوم ✨', 'Fantastic! You reached the Star Kingdom ✨'))
+      + (gemsRun ? App.t(` • جمعت ${gemsRun} ⭐`, ` • You collected ${gemsRun} ⭐`) : '');
   }
 
   /* ---------- الرسم ---------- */
@@ -633,16 +647,16 @@
   function showCtl() {
     const b = root.querySelector('#jCtl');
     b.textContent = ctlMode === 'tilt' ? '📱' : '🎮';
-    b.title = ctlMode === 'tilt' ? 'التحكم: إمالة الهاتف' : 'التحكم: الأزرار فقط';
+    b.title = ctlMode === 'tilt' ? App.t('التحكم: إمالة الهاتف', 'Controls: tilt the phone') : App.t('التحكم: الأزرار فقط', 'Controls: buttons only');
   }
   root.querySelector('#jCtl').addEventListener('click', () => {
     Sound.tap();
     ctlMode = ctlMode === 'tilt' ? 'buttons' : 'tilt';
     store.set('jumpCtl', ctlMode); input.tilt = null; showCtl();
-    App.toast(ctlMode === 'tilt' ? '📱 التحكم بإمالة الهاتف' : '🎮 التحكم بالأزرار فقط — الإمالة متوقفة');
+    App.toast(ctlMode === 'tilt' ? App.t('📱 التحكم بإمالة الهاتف', '📱 Tilt the phone to steer') : App.t('🎮 التحكم بالأزرار فقط — الإمالة متوقفة', '🎮 Buttons only — tilt is off'));
   });
   function togglePause() {
-    if (state === 'play') { state = 'pause'; $('#jPauseP').textContent = App.g('البطل ينتظرك', 'البطل ينتظرك'); $('#jPaused').classList.add('on'); }
+    if (state === 'play') { state = 'pause'; $('#jPauseP').textContent = App.t('البطل ينتظرك', 'The hero is waiting for you'); $('#jPaused').classList.add('on'); }
     else if (state === 'pause') { state = 'play'; last = 0; $('#jPaused').classList.remove('on'); }
   }
   root.querySelector('#jPause').addEventListener('click', () => { Sound.tap(); togglePause(); });
@@ -652,9 +666,9 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden && App.current === 'jump' && state === 'play') togglePause(); });
 
   /* ---------- عناصر المتجر ---------- */
-  const HEROES = [['hero_knight', 'الفارس', 0], ['hero_princess', 'الأميرة', 30], ['hero_bunny', 'الأرنب', 40], ['hero_cat', 'القطة', 40], ['hero_astro', 'رائد الفضاء', 60]];
-  HEROES.forEach(([id, name, price]) => App.shopItem({
-    cat: 'hero', id, name, price,
+  const HEROES = [['hero_knight', 'الفارس', 0, 'Knight'], ['hero_princess', 'الأميرة', 30, 'Princess'], ['hero_bunny', 'الأرنب', 40, 'Bunny'], ['hero_cat', 'القطة', 40, 'Cat'], ['hero_astro', 'رائد الفضاء', 60, 'Astronaut']];
+  HEROES.forEach(([id, name, price, nameEn]) => App.shopItem({
+    cat: 'hero', id, name, nameEn, price,
     draw(c, s) {
       const g = c.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#C9E8FF'); g.addColorStop(1, '#FFE0F0');
       c.fillStyle = g; c.beginPath(); c.arc(s / 2, s / 2, s / 2, 0, 7); c.fill();
@@ -664,8 +678,16 @@
   }));
 
   App.register({
-    id: 'jump', title: 'فارس السحاب', icon2: '☁️', music: 'sky',
+    id: 'jump', title: 'فارس السحاب', titleEn: 'Cloud Knight', icon2: '☁️', music: 'sky',
     desc: () => App.g('اقفزي فوق الغيوم نحو قلعة الأحلام!', 'اقفز فوق الغيوم نحو قلعة الأحلام!'),
+    descEn: () => 'Jump over the clouds to the Dream Castle!',
+    helpEn: () => [
+      '🦘 The hero jumps by itself — steer left and right with the ⬅️ ➡️ buttons, by touching the sides of the screen, or by tilting the phone. The 📱/🎮 button picks: tilt the phone or buttons only.',
+      '⭐ Collect stars: 3 stars turn on the shield 🛡️, and 5 stars launch the rocket 🚀.',
+      '⚡ Thunder clouds won\'t hold you, and birds 🐦 push you down — the shield protects you and saves you from one fall.',
+      '🎈 Balloons lift you up high, and springs throw you hard!',
+      '🌈 Pass Cloud World, then Rainbow Bridge, then the Dream Castle, then space, then Candy Town 🍭, then the Star Kingdom ✨. You can change the hero in the shop 🛍️'
+    ],
     help: () => [
       App.g('🦘 البطل يقفز وحده — وجّهيه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف. زر 📱/🎮 يختار: إمالة الهاتف أو الأزرار فقط.', '🦘 البطل يقفز وحده — وجّهه يمينًا ويسارًا بالأزرار ⬅️ ➡️ أو بلمس جانبي الشاشة أو بإمالة الهاتف. زر 📱/🎮 يختار: إمالة الهاتف أو الأزرار فقط.'),
       App.g('⭐ اجمعي النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.', '⭐ اجمع النجوم: 3 نجوم تشغّل الدرع 🛡️، و5 نجوم تطلق الصاروخ 🚀.'),
@@ -673,10 +695,11 @@
       '🎈 البالونات ترفعك عاليًا، والنوابض ترميك بقوة!',
       '🌈 مرّ بعالم السحاب، ثم جسر قوس قزح، ثم قلعة الأحلام، ثم الفضاء، ثم مدينة الحلوى 🍭، ثم مملكة النجوم ✨. ويمكنك تغيير البطل من المتجر 🛍️'
     ],
-    best() { const b = store.get('jumpBest', 0); return b ? `🏆 أعلى ارتفاع: ${b} م` : ''; },
+    best() { const b = store.get('jumpBest', 0); return b ? App.t(`🏆 أعلى ارتفاع: ${b} م`, `🏆 Highest: ${b} m`) : ''; },
+    onLang() { i18n(); showCtl(); hintText(); if (state === 'over') overText(); if (state === 'pause') $('#jPauseP').textContent = App.t('البطل ينتظرك', 'The hero is waiting for you'); },
     /* للاختبار الآلي فقط */
     _warp(h) { maxH = h; },
-    enter() { ctlMode = store.get('jumpCtl', 'tilt'); input.tilt = null; showCtl(); resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
+    enter() { i18n(); ctlMode = store.get('jumpCtl', 'tilt'); input.tilt = null; showCtl(); resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
     leave() { cancelAnimationFrame(raf); state = 'idle'; input.touchX = null; input.btn = 0; input.keys = { l: 0, r: 0 }; },
     pause() { if (state === 'play') { state = 'held'; } },
     resume() { if (state === 'held') { state = 'play'; last = 0; } },

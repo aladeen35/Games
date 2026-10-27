@@ -236,27 +236,40 @@
   const root = App.section(ID, `
     <canvas class="sc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" data-i="home">🏠</button>
+      <button class="ib helpbtn" data-i="help">❓</button>
       <span class="grow"></span>
       <div class="lng"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
-      <button class="ib lvb" aria-label="المستويات">🗺️</button>
+      <button class="ib lvb" data-i="levels">🗺️</button>
     </div>
-    <div class="hud"><div class="row1"><div class="ttl"><span class="tN"></span><small class="tM"></small></div><div class="pbar"></div></div><div class="prm" role="button" aria-label="إعادة السؤال"></div></div>
-    <button class="spk" aria-label="استمع">🔊</button>
+    <div class="hud"><div class="row1"><div class="ttl"><span class="tN"></span><small class="tM"></small></div><div class="pbar"></div></div><div class="prm" role="button" data-i="repeat"></div></div>
+    <button class="spk" data-i="listen">🔊</button>
     <div class="ans"></div>
-    <div class="overlay" id="rgLv"><div class="panel lvp"><h3>🌈 المستويات</h3>
+    <div class="overlay" id="rgLv"><div class="panel lvp"><h3 class="hLv"></h3>
       <div class="grid"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+      <button class="btn alt" data-a="close"></button></div></div>
     <div class="overlay" id="rgWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄 مرة أخرى</button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next"></button><br>
+      <button class="btn alt" data-a="again"></button><button class="btn alt" data-a="levels">🗺️</button><button class="btn alt home" data-i="home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('canvas.sc');
   const pbar = root.querySelector('.pbar'), prm = root.querySelector('.prm'), spk = root.querySelector('.spk'), ansEl = root.querySelector('.ans');
   const lvOv = root.querySelector('#rgLv'), winOv = root.querySelector('#rgWin');
   const tN = root.querySelector('.tN'), tM = root.querySelector('.tM');
+  function chrome() {
+    const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), repeat: App.t('إعادة السؤال', 'Repeat the question'), listen: App.t('استمع', 'Listen') };
+    root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
+    root.querySelector('.hLv').textContent = '🌈 ' + App.t('المستويات', 'Levels');
+    root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
+    root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
+    root.querySelector('[data-a="again"]').textContent = '🔄 ' + App.t('مرة أخرى', 'Again');
+  }
+  let winSt = 0;
+  function winText() {
+    winOv.querySelector('.wT').textContent = App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!') + ' 🌈';
+    winOv.querySelector('.wP').textContent = winSt === 3 ? App.t(App.g('بلا أي خطأ! رائعة', 'بلا أي خطأ! رائع'), 'No mistakes! Amazing') : App.t(App.g('برج جميل! جرّبي مرة أخرى لثلاث نجوم', 'برج جميل! جرّب مرة أخرى لثلاث نجوم'), 'Lovely tower! Try again for three stars');
+  }
 
   /* ---------- الحالة ---------- */
   let ctx, Wd = 0, Hd = 0, raf = 0, last = 0, T = 0, running = false, paused = false;
@@ -396,9 +409,9 @@
   }
 
   /* ---------- النصوص والشريط ---------- */
-  function modeName() { return lang === 'en' ? MODE_EN[L.m] : MODE_AR[L.m]; }
+  function modeName() { return App.t(MODE_AR[L.m], MODE_EN[L.m]); }
   function paintTitle() {
-    tN.textContent = (lang === 'en' ? 'Level ' : 'المستوى ') + dg(lvl);
+    tN.textContent = App.t('المستوى ', 'Level ') + dg(lvl);
     tM.textContent = MODE_IC[L.m] + ' ' + modeName();
   }
   function dotsHTML(list, curI) { return `<span class="dots">${list.map((d, i) => `<i style="--c:${d.c};width:${d.s}px;height:${d.s}px" class="${i === curI ? 'cur' : i < curI ? 'dn' : ''}"></i>`).join('')}</span>`; }
@@ -606,9 +619,8 @@
     App.achieve('rings_first');
     if ((L.m === 'big' || L.m === 'color') && L.n >= 7) App.achieve('rings_rainbow');
     if (Object.keys(pr.stars).filter(k => pr.stars[k]).length >= NL) App.achieve('rings_all');
-    winOv.querySelector('.wT').textContent = App.g('أحسنتِ! 🌈', 'أحسنت! 🌈');
+    winSt = st; winText();
     winOv.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= st ? '' : 'off'}">⭐</span>`).join('');
-    winOv.querySelector('.wP').textContent = st === 3 ? App.g('بلا أي خطأ! رائعة', 'بلا أي خطأ! رائع') : App.g('برج جميل! جرّبي مرة أخرى لثلاث نجوم', 'برج جميل! جرّب مرة أخرى لثلاث نجوم');
     winOv.querySelector('[data-a="next"]').style.display = lvl < NL ? '' : 'none';
     winOv.classList.add('on');
   }
@@ -638,8 +650,8 @@
     const pr = loadProg(), grid = root.querySelector('.grid');
     grid.innerHTML = LV.map((V, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}">
-        <span class="n">${dg(n)}</span><canvas></canvas><b>${MODE_IC[V.m]} ${lang === 'en' ? MODE_EN[V.m] : MODE_AR[V.m]}</b>
+      return `<button class="lv${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
+        <span class="n">${dg(n)}</span><canvas></canvas><b>${MODE_IC[V.m]} ${App.t(MODE_AR[V.m], MODE_EN[V.m])}</b>
         <span class="s">${[1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     grid.querySelectorAll('canvas').forEach((c, i) => lvThumb(c, LV[i]));
@@ -655,11 +667,14 @@
   function paintLang() { root.querySelectorAll('.lng button').forEach(b => b.classList.toggle('on', b.dataset.l === lang)); }
   function setLang(l) {
     if (l === lang) return;
-    lang = l; store.set('ringsLang', l); Sound.tap(); paintLang();
-    paintTitle(); paintPrompt(true); paintBar();
+    lang = l; store.set('ringsLang', l); Sound.tap(); langChanged();
+    promptSpeak();
+  }
+  function langChanged() {
+    paintLang(); chrome(); if (phase === 'over') winText();
+    paintTitle(); if (phase !== 'done' && phase !== 'over') paintPrompt(true); paintBar();
     if (L.m === 'count' && phase === 'play') ansEl.querySelectorAll('button').forEach(b => { b.textContent = dg(+b.dataset.v); });
     if (lvOv.classList.contains('on')) openLevels();
-    promptSpeak();
   }
   function act(a) {
     Sound.tap();
@@ -978,8 +993,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'حلقات الهرم', icon2: '🌈', isNew: true, music: 'shapes',
+    id: ID, title: 'حلقات الهرم', titleEn: 'Stacking Rings', icon2: '🌈', isNew: true, music: 'shapes',
     desc: () => App.g('رتّبي الحلقات الملوّنة على العمود من الأكبر إلى الأصغر', 'رتّب الحلقات الملوّنة على العمود من الأكبر إلى الأصغر'),
+    descEn: () => 'Stack the colorful rings on the pole from biggest to smallest',
+    helpEn: () => [
+      '🌈 Drag a ring to the pole, or tap it and it flies up by itself',
+      '🔽 Start with the biggest ring, then smaller and smaller; a wrong ring bounces back',
+      '🟡 At the end put the ball on top and the tower smiles and dances',
+      '🎨 More modes: color order, two poles for sorting, counting rings, and the missing ring',
+      '🔊 The yellow button repeats the question, and «عربي / English» switches the language'
+    ],
     help: () => [
       '🌈 ' + App.g('اسحبي', 'اسحب') + ' الحلقة إلى العمود، أو ' + App.g('المسيها', 'المسها') + ' فتصعد وحدها',
       '🔽 ' + App.g('ابدئي', 'ابدأ') + ' بالحلقة الأكبر ثم الأصغر فالأصغر، والحلقة الخطأ ترتدّ',
@@ -995,12 +1018,13 @@
     },
     enter() {
       paused = false;
-      lang = store.get('ringsLang', 'ar') === 'en' ? 'en' : 'ar'; paintLang();
+      lang = App.gameLang(ID); paintLang(); chrome();
       const pr = loadProg();
       let n = 1; for (let i = 1; i <= pr.unlocked; i++) { n = i; if (!pr.stars[i]) break; }
       startLevel(n);
       render(); startLoop();
     },
+    onLang(l) { const chg = l !== lang; lang = l; langChanged(); if (chg && phase === 'play') promptSpeak(); },
     leave() { stopLoop(); drag = null; evs = []; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; if (drag) { backToTray(drag.r); drag = null; label = null; } },
     resume() { paused = false; last = performance.now(); },

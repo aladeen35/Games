@@ -23,23 +23,31 @@
   const root = App.section('chalk', `
     <canvas id="tc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
       <span class="grow"></span>
-      <button class="ib" id="tUndo" aria-label="تراجع">↶</button>
-      <button class="ib" id="tReset" aria-label="جولة جديدة">🧽</button>
-      <button class="ib" id="tSetup" aria-label="إعداد اللعبة">⚙️</button>
+      <button class="ib" id="tUndo" aria-label="تراجع" data-aen="Undo">↶</button>
+      <button class="ib" id="tReset" aria-label="جولة جديدة" data-aen="New round">🧽</button>
+      <button class="ib" id="tSetup" aria-label="إعداد اللعبة" data-aen="Game setup">⚙️</button>
     </div>
     <div class="cmodes" id="tSummary"></div>
     <div class="overlay" id="tSetupO"><div class="cpanel">
-      <h3>✏️ إعداد اللعبة</h3>
-      <div class="crow"><b>اللاعبون</b><div data-k="mode"></div></div>
-      <div class="crow" id="rowLevel"><b>مستوى الذكاء</b><div data-k="level"></div></div>
-      <div class="crow"><b>اللوحة</b><div data-k="variant"></div></div>
-      <div class="crow" id="rowFirst"><b>من يبدأ؟</b><div data-k="first"></div></div>
-      <div class="crow"><b>نوع المباراة</b><div data-k="series"></div></div>
-      <button class="cbtn cgo" id="tGo">ابدأ ✏️</button>
+      <h3 data-en="✏️ Game setup">✏️ إعداد اللعبة</h3>
+      <div class="crow"><b data-en="Players">اللاعبون</b><div data-k="mode"></div></div>
+      <div class="crow" id="rowLevel"><b data-en="Computer level">مستوى الذكاء</b><div data-k="level"></div></div>
+      <div class="crow"><b data-en="Board">اللوحة</b><div data-k="variant"></div></div>
+      <div class="crow" id="rowFirst"><b data-en="Who starts?">من يبدأ؟</b><div data-k="first"></div></div>
+      <div class="crow"><b data-en="Match type">نوع المباراة</b><div data-k="series"></div></div>
+      <button class="cbtn cgo" id="tGo" data-en="Start ✏️">ابدأ ✏️</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
 
   const cv = root.querySelector('#tc');
   let ctx, W, H, dpr;
@@ -51,6 +59,7 @@
   const CHALK = '#F4F1E6', COL = { A: '#FFE680', B: '#FFB3D4' };
   const SETS = { xo_classic: ['X', 'O'], xo_hearts: ['heart', 'star'], xo_sun: ['sun', 'moon'], xo_pets: ['cat', 'bunny'] };
   const SYMNAME = { X: 'X', O: 'O', heart: 'القلب', star: 'النجمة', sun: 'الشمس', moon: 'القمر', cat: 'القطة', bunny: 'الأرنب' };
+  const SYMNAME_EN = { X: 'X', O: 'O', heart: 'Heart', star: 'Star', sun: 'Sun', moon: 'Moon', cat: 'Cat', bunny: 'Bunny' };
   let sym = SETS.xo_classic;
 
   const L3 = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
@@ -61,7 +70,7 @@
   const other = p => p === 'A' ? 'B' : 'A';
   const human = () => cfg.first === 'me' ? 'A' : 'B';
   const aiP = () => other(human());
-  const pname = p => SYMNAME[sym[p === 'A' ? 0 : 1]];
+  const pname = p => App.t(SYMNAME[sym[p === 'A' ? 0 : 1]], SYMNAME_EN[sym[p === 'A' ? 0 : 1]]);
 
   /* =================== المنطق =================== */
   function lineWinner(b, lines) {
@@ -320,17 +329,19 @@
     const go = () => {
       if (tok !== roundToken) return;
       if (seriesDone) { series = { A: 0, B: 0 }; seriesDone = false; }
-      freshState(); strokes = []; drawGrid(); setMsg(statusText()); paintSummary();
+      freshState(); strokes = []; drawGrid(); setMsg(statusText); paintSummary();
       if (cfg.mode === 'ai' && aiP() === 'A') aiTurn(1100);
     };
     if (withErase && strokes.length) { erasing = 1; Sound.erase(); for (let k = 0; k < 60; k++) dust.push({ x: rand(G.x, G.x + G.s), y: rand(G.y, G.y + G.s), vx: rand(-30, 30), vy: rand(20, 80), life: rand(.5, 1.5), r: rand(.8, 2.2) }); setTimeout(go, 560); }
     else go();
   }
   function statusText() {
-    const where = isU() && nextB >= 0 && !subs[nextB] ? ' — في اللوحة المضيئة' : '';
-    if (cfg.mode === 'ai') return turn === human() ? `${App.g('دورك', 'دورك')} يا ${App.profile.name} (${pname(turn)})${where}` : 'الذكاء الاصطناعي يفكّر…';
-    return `دور ${pname(turn)}${where}`;
+    const where = isU() && nextB >= 0 && !subs[nextB] ? App.t(' — في اللوحة المضيئة', ' — in the glowing board') : '';
+    if (cfg.mode === 'ai') return turn === human() ? App.t(`${App.g('دورك', 'دورك')} يا ${App.profile.name} (${pname(turn)})${where}`, `Your turn, ${App.profile.name} (${pname(turn)})${where}`) : App.t('الذكاء الاصطناعي يفكّر…', 'The computer is thinking…');
+    return App.t(`دور ${pname(turn)}${where}`, `${pname(turn)}'s turn${where}`);
   }
+  /* الرسالة دالة تُحسب عند الرسم كي تتبع اللغة الحالية */
+  const mtxt = m => typeof m === 'function' ? m() : m;
   function setMsg(m) { message = m; msgAnim = 0; }
   function play(i) {
     if (over || cells[i]) return false;
@@ -344,11 +355,11 @@
     }
     const w = isU() ? winnerU({ cells, subs, next: nextB }) : winnerSimple(cells);
     if (w) { finish(w); paintSummary(); return true; }
-    turn = other(turn); setMsg(statusText()); paintSummary();
+    turn = other(turn); setMsg(statusText); paintSummary();
     return true;
   }
   function aiTurn(delay = 650) {
-    thinking = true; setMsg(statusText()); const tok = roundToken;
+    thinking = true; setMsg(statusText); const tok = roundToken;
     aiTimer = setTimeout(() => {
       if (over || App.current !== 'chalk' || tok !== roundToken) { thinking = false; return; }
       if (paused) { aiTurn(300); return; }
@@ -360,27 +371,27 @@
     if (w.line) { winLine = w.line; setTimeout(() => { if (over && tok === roundToken) drawWinLine(w.line); }, 450); }
     const winP = w.p === 'draw' ? null : w.p;
     if (cfg.mode === 'ai') {
-      if (!winP) { scores.d++; setMsg('تعادل! 🤝'); setTimeout(() => Sound.tap(), 400); if (cfg.variant === '3' && cfg.level === 'hard') App.achieve('xo_draw'); App.addStars(1); }
+      if (!winP) { scores.d++; setMsg(() => App.t('تعادل! 🤝', 'Draw! 🤝')); setTimeout(() => Sound.tap(), 400); if (cfg.variant === '3' && cfg.level === 'hard') App.achieve('xo_draw'); App.addStars(1); }
       else if (winP === human()) {
-        scores.w++; setMsg(App.g('فزتِ! 🎉', 'فزت! 🎉')); setTimeout(() => Sound.win(), 450);
+        scores.w++; setMsg(() => App.t(App.g('فزتِ! 🎉', 'فزت! 🎉'), 'You won! 🎉')); setTimeout(() => Sound.win(), 450);
         App.addStars(cfg.level === 'hard' ? 5 : cfg.level === 'medium' ? 3 : 1);
         if (scores.w >= 5) App.achieve('xo_win5'); if (isU()) App.achieve('xo_ultimate');
-      } else { scores.l++; setMsg('فاز الذكاء الاصطناعي 🤖'); setTimeout(() => Sound.lose(), 450); }
+      } else { scores.l++; setMsg(() => App.t('فاز الذكاء الاصطناعي 🤖', 'The computer won 🤖')); setTimeout(() => Sound.lose(), 450); }
       store.set('tttScore', scores);
     } else {
-      if (!winP) { pvp.d++; setMsg('تعادل! 🤝'); Sound.tap(); }
-      else { pvp[winP]++; setMsg(`فاز ${pname(winP)}! 🎉`); setTimeout(() => Sound.win(), 450); if (isU()) App.achieve('xo_ultimate'); }
+      if (!winP) { pvp.d++; setMsg(() => App.t('تعادل! 🤝', 'Draw! 🤝')); Sound.tap(); }
+      else { pvp[winP]++; setMsg(() => App.t(`فاز ${pname(winP)}! 🎉`, `${pname(winP)} wins! 🎉`)); setTimeout(() => Sound.win(), 450); if (isU()) App.achieve('xo_ultimate'); }
     }
     if (cfg.series === 'bo5' && winP) {
       series[winP]++;
       if (series[winP] >= 3) {
         seriesDone = true;
-        const champ = cfg.mode === 'ai' ? (winP === human() ? App.profile.name : 'الذكاء الاصطناعي') : pname(winP);
-        setTimeout(() => { if (tok !== roundToken) return; drawTrophy(); setMsg(`🏆 ${champ} ${App.g('بطلة', 'بطل')} السلسلة!`); Sound.win(); }, 1500);
+        const champ = () => cfg.mode === 'ai' ? (winP === human() ? App.profile.name : App.t('الذكاء الاصطناعي', 'The computer')) : pname(winP);
+        setTimeout(() => { if (tok !== roundToken) return; drawTrophy(); setMsg(() => App.t(`🏆 ${champ()} ${App.g('بطلة', 'بطل')} السلسلة!`, `🏆 ${champ()} is the series champion!`)); Sound.win(); }, 1500);
         if (cfg.mode === 'pvp' || winP === human()) { App.achieve('xo_series'); App.addStars(5); }
       }
     }
-    setTimeout(() => { if (over && tok === roundToken && App.current === 'chalk') setMsg(message + '  •  ' + App.g('المسي', 'المس') + ' للعب مجددًا'); }, seriesDone ? 3000 : 1600);
+    setTimeout(() => { if (over && tok === roundToken && App.current === 'chalk') { const prev = message; setMsg(() => mtxt(prev) + '  •  ' + App.t(App.g('المسي', 'المس') + ' للعب مجددًا', 'tap to play again')); } }, seriesDone ? 3000 : 1600);
   }
   function undo() {
     if (!hist.length || thinking || erasing) { Sound.error(); return; }
@@ -392,7 +403,7 @@
     }
     ({ cells, subs, nextB, turn } = { cells: s.cells, subs: s.subs, nextB: s.nextB, turn: s.turn });
     if (cfg.mode === 'ai' && turn !== human()) { const t = hist.pop(); if (t) ({ cells, subs, nextB, turn } = { cells: t.cells, subs: t.subs, nextB: t.nextB, turn: t.turn }); }
-    Sound.erase(); redrawAll(); setMsg(statusText()); paintSummary();
+    Sound.erase(); redrawAll(); setMsg(statusText); paintSummary();
   }
 
   cv.addEventListener('pointerdown', e => {
@@ -406,21 +417,24 @@
 
   /* ---------- الإعداد والملخص ---------- */
   const OPTS = {
-    mode: [['ai', '🤖 ضد الذكاء'], ['pvp', '👭 لاعبان']],
-    level: [['easy', '🐣 سهل'], ['medium', '🦊 متوسط'], ['hard', '🦁 لا يُقهر']],
-    variant: [['3', '3×3'], ['4', '4×4 (أربعة)'], ['u', '🧠 الخارقة']],
-    first: [['me', 'أنا أبدأ'], ['ai', 'الذكاء يبدأ']],
-    series: [['one', 'جولة واحدة'], ['bo5', '🏆 الأفضل من 5']]
+    mode: [['ai', '🤖 ضد الذكاء', '🤖 vs computer'], ['pvp', '👭 لاعبان', '👭 Two players']],
+    level: [['easy', '🐣 سهل', '🐣 Easy'], ['medium', '🦊 متوسط', '🦊 Medium'], ['hard', '🦁 لا يُقهر', '🦁 Unbeatable']],
+    variant: [['3', '3×3', '3×3'], ['4', '4×4 (أربعة)', '4×4 (four)'], ['u', '🧠 الخارقة', '🧠 Ultimate']],
+    first: [['me', 'أنا أبدأ', 'I start'], ['ai', 'الذكاء يبدأ', 'Computer starts']],
+    series: [['one', 'جولة واحدة', 'One round'], ['bo5', '🏆 الأفضل من 5', '🏆 Best of 5']]
   };
+  const optL = o => App.t(o[1], o[2]);
+  const HARD2 = () => App.t('🦁 صعب', '🦁 Hard'), TWO = () => App.t(App.g('👭 لاعبتان', '👬 لاعبان'), App.g('👭 Two players', '👬 Two players'));
+  let setupPaint = null;
   let pick = null;
   function setupPanel() {
     pick = { ...cfg };
-    const paint = () => {
+    const paint = setupPaint = () => {
       root.querySelectorAll('#tSetupO [data-k]').forEach(box => {
         const k = box.dataset.k;
-        let opts = OPTS[k];
-        if (k === 'mode') opts = [['ai', '🤖 ضد الذكاء'], ['pvp', App.g('👭 لاعبتان', '👬 لاعبان')]];
-        if (k === 'level') opts = OPTS.level.map(([v, l]) => [v, v === 'hard' && pick.variant !== '3' ? '🦁 صعب' : l]);
+        let opts = OPTS[k].map(o => [o[0], optL(o)]);
+        if (k === 'mode') opts = [['ai', optL(OPTS.mode[0])], ['pvp', TWO()]];
+        if (k === 'level') opts = OPTS.level.map(o => [o[0], o[0] === 'hard' && pick.variant !== '3' ? HARD2() : optL(o)]);
         box.innerHTML = opts.map(([v, l]) => `<button class="cbtn ${pick[k] === v ? 'on' : ''}" data-v="${v}">${l}</button>`).join('');
         box.querySelectorAll('button').forEach(b => b.onclick = () => { Sound.tap(); pick[k] = b.dataset.v; paint(); });
       });
@@ -436,8 +450,8 @@
     newRound();
   };
   function paintSummary() {
-    const lv = OPTS.level.find(o => o[0] === cfg.level)[1], vr = OPTS.variant.find(o => o[0] === cfg.variant)[1];
-    const parts = [cfg.mode === 'ai' ? (cfg.variant !== '3' && cfg.level === 'hard' ? '🦁 صعب' : lv) : App.g('👭 لاعبتان', '👬 لاعبان'), vr];
+    const lv = optL(OPTS.level.find(o => o[0] === cfg.level)), vr = optL(OPTS.variant.find(o => o[0] === cfg.variant));
+    const parts = [cfg.mode === 'ai' ? (cfg.variant !== '3' && cfg.level === 'hard' ? HARD2() : lv) : TWO(), vr];
     if (cfg.series === 'bo5') parts.push(`🏆 ${series.A} : ${series.B}`);
     root.querySelector('#tSummary').innerHTML = parts.map(p => `<button class="cbtn on" data-setup>${p}</button>`).join('');
     root.querySelectorAll('[data-setup]').forEach(b => b.onclick = () => { Sound.tap(); setupPanel(); });
@@ -449,7 +463,7 @@
 
   /* ---------- الحلقة ---------- */
   function chalkText(c, txt, x, y, size, color) {
-    c.font = `800 ${size}px 'Baloo Bhaijaan 2',system-ui,sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl';
+    c.font = `800 ${size}px 'Baloo Bhaijaan 2',system-ui,sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = App.lang === 'en' ? 'ltr' : 'rtl';
     const tw = c.measureText(txt).width, maxW = W * .88;
     if (tw > maxW) { size = Math.floor(size * maxW / tw); c.font = `800 ${size}px 'Baloo Bhaijaan 2',system-ui,sans-serif`; }
     c.fillStyle = color; c.globalAlpha = .35; c.fillText(txt, x + 1.2, y + 1); c.fillText(txt, x - 1, y - .8);
@@ -463,8 +477,8 @@
     chalkText(c, `✏️ ${pname('A')}  ×  ${pname('B')}`, W / 2, Math.max(84, G.y * .42 + 22), Math.min(32, W / 13), CHALK);
     const sy = G.y - 24, sp = Math.min(120, W * .3);
     const cols = cfg.mode === 'ai'
-      ? [[App.profile.name, scores.w, COL[human()]], ['تعادل', scores.d, CHALK], ['الذكاء', scores.l, COL[aiP()]]]
-      : [[pname('A'), pvp.A, COL.A], ['تعادل', pvp.d, CHALK], [pname('B'), pvp.B, COL.B]];
+      ? [[App.profile.name, scores.w, COL[human()]], [App.t('تعادل', 'Draw'), scores.d, CHALK], [App.t('الذكاء', 'Computer'), scores.l, COL[aiP()]]]
+      : [[pname('A'), pvp.A, COL.A], [App.t('تعادل', 'Draw'), pvp.d, CHALK], [pname('B'), pvp.B, COL.B]];
     cols.forEach(([n, v, col], k) => chalkText(c, `${n}: ${v}`, W / 2 + (1 - k) * sp, sy, 17, col));
     // اللوحة المسموح اللعب فيها في الخارقة
     if (isU() && !over && !erasing) {
@@ -502,15 +516,15 @@
     c.globalAlpha = 1; dust = dust.filter(d => d.life > 0);
     msgAnim = Math.min(1, msgAnim + dt * 3);
     const my = G.y + G.s + Math.min(46, (H - G.y - G.s) * .3);
-    c.globalAlpha = msgAnim; chalkText(c, message, W / 2, my, Math.min(22, W / 18), over ? '#FFFFFF' : CHALK); c.globalAlpha = 1;
+    c.globalAlpha = msgAnim; chalkText(c, mtxt(message), W / 2, my, Math.min(22, W / 18), over ? '#FFFFFF' : CHALK); c.globalAlpha = 1;
     if (cfg.mode === 'ai' && thinking) chalkText(c, '.'.repeat(1 + (t * 3 | 0) % 3), W / 2, my + 24, 22, CHALK);
     root.querySelector('#tUndo').disabled = !hist.length || thinking || !!erasing;
   }
   window.addEventListener('resize', () => { if (App.current === 'chalk') resize(); });
 
   /* ---------- عناصر المتجر ---------- */
-  [['xo_classic', 'إكس وأو', 0], ['xo_hearts', 'قلب ونجمة', 25], ['xo_sun', 'شمس وقمر', 30], ['xo_pets', 'قطة وأرنب', 35]].forEach(([id, name, price]) => App.shopItem({
-    cat: 'xo', id, name, price,
+  [['xo_classic', 'إكس وأو', 0, 'X and O'], ['xo_hearts', 'قلب ونجمة', 25, 'Heart and star'], ['xo_sun', 'شمس وقمر', 30, 'Sun and moon'], ['xo_pets', 'قطة وأرنب', 35, 'Cat and bunny']].forEach(([id, name, price, nameEn]) => App.shopItem({
+    cat: 'xo', id, name, nameEn, price,
     draw(c, s) {
       c.fillStyle = '#2F4A3A'; c.beginPath(); c.roundRect(0, 0, s, s, 14); c.fill();
       const save = strokes; strokes = []; instant = true;
@@ -520,8 +534,16 @@
   }));
 
   App.register({
-    id: 'chalk', title: 'إكس أو', icon2: '✏️', music: 'class',
+    id: 'chalk', title: 'إكس أو', titleEn: 'Tic-Tac-Toe', icon2: '✏️', music: 'class',
     desc: () => App.g('على سبورة الفصل: العبي مع صديقتك أو مع الذكاء', 'على سبورة الفصل: العب مع صديقك أو مع الذكاء'),
+    descEn: () => 'On the class chalkboard: play with a friend or the computer',
+    helpEn: () => [
+      '✏️ Tap a square to draw your symbol in chalk. The first to make a full line wins.',
+      '⚙️ In setup: play the computer (🐣 easy, 🦊 medium, 🦁 unbeatable) or two players on the same device.',
+      '🧩 New boards: 4×4 with four in a row, and 🧠 Ultimate: 9 small boards — the square you play in picks your rival\'s next board!',
+      '↶ Undo takes back the last move, and 🧽 wipes the board for a new round.',
+      '🏆 Play a «best of 5» series, and change the symbols in the shop 🛍️ (heart and star, sun and moon, cat and bunny).'
+    ],
     help: () => [
       App.g('✏️ المسي مربعًا لترسمي رمزك بالطباشير، وأول من يصنع صفًّا كاملًا يفوز.', '✏️ المس مربعًا لترسم رمزك بالطباشير، وأول من يصنع صفًّا كاملًا يفوز.'),
       '⚙️ من الإعداد: اللعب ضد الذكاء (🐣 سهل، 🦊 متوسط، 🦁 لا يُقهر) أو لاعبان على الجهاز نفسه.',
@@ -529,8 +551,10 @@
       '↶ زر التراجع يلغي آخر حركة، و🧽 يمسح السبورة لجولة جديدة.',
       '🏆 العب سلسلة «الأفضل من 5»، وغيّر الرموز من المتجر 🛍️ (قلب ونجمة، شمس وقمر، قطة وأرنب).'
     ],
-    best() { const s = store.get('tttScore', { w: 0, l: 0, d: 0 }); return (s.w + s.l + s.d) ? `🏆 فوز ${s.w} · تعادل ${s.d}` : ''; },
+    best() { const s = store.get('tttScore', { w: 0, l: 0, d: 0 }); return (s.w + s.l + s.d) ? App.t(`🏆 فوز ${s.w} · تعادل ${s.d}`, `🏆 Wins ${s.w} · Draws ${s.d}`) : ''; },
+    onLang() { i18n(); paintSummary(); if (root.querySelector('#tSetupO').classList.contains('on') && setupPaint) setupPaint(); },
     enter() {
+      i18n();
       cfg = { ...cfg, ...store.get('tttCfg', {}) }; if (cfg.mode === 'ai' && store.get('tttMode', null) === 'pvp' && !store.get('tttCfg', null)) cfg.mode = 'pvp';
       scores = store.get('tttScore', { w: 0, l: 0, d: 0 }); sym = SETS[App.equipped('xo')] || SETS.xo_classic;
       series = { A: 0, B: 0 }; seriesDone = false; freshState(); paused = false;
