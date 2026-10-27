@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# بناء ملفات APK لكل النسخ دفعة واحدة:
-#   ① «ألعاب أثير وبشرى»            ← dist/AtheerBushra-<الإصدار>.apk
-#   ② «ألعاب كوتي وريلا وسونى»    ← dist/KutiRilaSony-<الإصدار>.apk
-# الألعاب متطابقة في النسختين؛ تختلف الأسماء والشعار واسم الحزمة ومفتاح التوقيع فقط.
-# الاستخدام: bash atheer/android/build-apk.sh [atheer|kids3]   (بلا وسيط = كل النسخ)
+# بناء التطبيق الموحّد «ألعاب أطفالنا» (أثير وبشرى وكوتي وريلا وسونى) ← dist/OurKidsGames-<الإصدار>.apk
+# الحزمة com.atheer.games ومفتاحها atheer.keystore، فيُثبَّت فوق نسخة «ألعاب أثير وبشرى» القديمة مع بقاء النتائج.
+# الاستخدام: bash atheer/android/build-apk.sh   (يبني التطبيق الموحّد «ألعاب أطفالنا» للأطفال الخمسة)
+#            bash atheer/android/build-apk.sh kids3   (النسخة القديمة لكوتي وريلا وسونى — متوقفة، للطوارئ فقط)
 # يحتاج: aapt2 · javac (JDK 8+) · dalvik-dx · zipalign · apksigner · android.jar
 set -euo pipefail
 
@@ -12,8 +11,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=9
-VERSION_NAME=6.0
+VERSION_CODE=10
+VERSION_NAME=7.0
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
@@ -68,12 +67,12 @@ build() {
   echo "✅ $DIST/$OUTNAME-$VERSION_NAME.apk ($(du -h "$DIST/$OUTNAME-$VERSION_NAME.apk" | cut -f1))"
 }
 
-WHICH="${1:-all}"
+WHICH="${1:-atheer}"
 if [ "$WHICH" = all ] || [ "$WHICH" = atheer ]; then
-  build atheer com.atheer.games AtheerBushra \
+  build atheer com.atheer.games OurKidsGames \
     "${KEYSTORE:-$AND/atheer.keystore}" "${KEYSTORE_PASS:-atheer2024}" atheer ""
 fi
-if [ "$WHICH" = all ] || [ "$WHICH" = kids3 ]; then
+if [ "$WHICH" = kids3 ]; then
   build kids3 com.kutirila.games KutiRilaSony \
     "${KEYSTORE_KIDS3:-$ROOT/editions/kids3/kids3.keystore}" "${KEYSTORE_KIDS3_PASS:-kids3games2024}" kids3 "$ROOT/editions/kids3"
 fi

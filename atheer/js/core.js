@@ -994,6 +994,20 @@ const App = {
       if (!kids.length) kids = [{ id: 'kid1', name: 'بطلي', gender: 'girl', theme: 'girls', av: '⭐', age: null, photo: null }];
       gstore.set('kids', kids);
     }
+    /* دمج النسخ في تطبيق واحد: أضف أطفال النسخة غير الموجودين مرة واحدة فقط (ولا تُرجع طفلًا حذفه الأهل) */
+    const merged = gstore.get('kidsMerged', []);
+    let added = false;
+    (this.EDITION.profiles || []).forEach(p => {
+      if (merged.includes(p.id)) return;
+      merged.push(p.id);
+      if (!kids.some(k => k.id === p.id)) {
+        const gender = p.gender || (p.theme === 'boys' ? 'boy' : 'girl');
+        kids.push({ id: p.id, name: p.name, gender, theme: p.theme || (gender === 'boy' ? 'boys' : 'girls'), av: p.av || '⭐', age: null, photo: null });
+        added = true;
+      }
+    });
+    gstore.set('kidsMerged', merged);
+    if (added) gstore.set('kids', kids);
     kids.forEach(k => { if (k.gender !== 'boy') k.gender = 'girl'; if (k.theme !== 'boys') k.theme = 'girls'; });
     this.PROFILES = kids;
   },
