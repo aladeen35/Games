@@ -394,7 +394,7 @@
     if (!b.fill) { c.fillStyle = 'rgba(255,255,255,.6)'; c.beginPath(); c.roundRect(b.w * .1, 6, b.w * .8, b.h * .12, b.h * .06); c.fill(); }
     if (b.ok) { c.fillStyle = 'rgba(47,179,68,.12)'; c.beginPath(); c.roundRect(4, 4, b.w - 8, b.h - 8, r - 4); c.fill(); }
     if (b.draw) b.draw(c, b.w / 2, b.h / 2, b);
-    if (b.ok) { c.font = `${Math.min(b.w, b.h) * .26}px ${EMOJI_FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('✅', b.w - Math.min(b.w, b.h) * .16, Math.min(b.w, b.h) * .16); }
+    if (b.ok) { const m = Math.min(b.w, b.h); emo(c, '✅', b.w - m * .17, m * .3, m * .26); }
     c.restore();
   }
   const SHADES = {};
@@ -733,7 +733,7 @@
     const st = { round: 0, z: ZLINE0, v: 0, light: 'green', brake: false, phase: 'approach', t: 0, odo: 0, waitT: 0, peds: [], btns: [], lastSay: 0, helped: false };
     const rounds = def.rounds, sp = def.sp || 1, VC = 11 * sp;
     total = rounds.length;
-    const yAt = z => drive.hz + (H - drive.hz) * F / (Math.max(z, -F * .9) + F);
+    const yAt = z => drive.hz + ((st.carY || H) - drive.hz) * F / (Math.max(z, -F * .9) + F);
     const hwAt = z => drive.rb * F / (Math.max(z, -F * .9) + F);
     const lay = () => {
       const bs = clamp(Math.min(stage.w * .3, stage.h * .16), 76, 130);
@@ -796,7 +796,7 @@
           if (st.z < -4 && st.light === 'green') { st.phase = 'passed'; okRound(); }
         } else if (st.phase === 'braking') {
           const stopAt = st.autoB ? .8 : 1.8, dist = Math.max(.3, st.z - stopAt);
-          const dec = st.v * st.v / (2 * dist); st.v = Math.max(0, st.v - Math.max(dec, 3) * dt);
+          const dec = st.v * st.v / (2 * dist); st.v = Math.max(0, st.v - Math.max(dec, .8) * dt);
           if (st.v <= .05 || st.z <= stopAt) { st.v = 0; st.phase = 'stopped'; st.waitT = 0; Sound.thud(); }
         } else if (st.phase === 'stopped') {
           st.waitT += dt;
@@ -840,10 +840,10 @@
             emo(ctx, q.e, px, yAt(zc), hwAt(zc) * .32, { flip: q.dir > 0, rot: Math.sin(T * 10) * .05 });
           }
           // عمود الإشارة على اليمين
-          const sc = F / (Math.max(zl, -F * .5) + F), gy = yAt(zl), px = vx + hwAt(zl) * 1.18, s = clamp(drive.rb * sc * .1, 2, 60);
+          const sc = F / (Math.max(zl, -F * .5) + F), gy = yAt(zl), s = clamp(drive.rb * sc * .1, 2, clamp(stage.h * .036, 16, 30)), px = Math.min(vx + hwAt(zl) * 1.18, W - s * 1.8);
           if (gy < H + 50) {
             ctx.save(); if (st.lshk) ctx.translate(Math.sin(st.lshk * 40) * 5 * st.lshk, 0);
-            trafficLight(ctx, px, gy - s * 7.9 - s * 6, s, LIGHTS.findIndex(l => l.id === st.light), { ground: gy });
+            trafficLight(ctx, px, gy - s * 7.9 - s * 4, s, LIGHTS.findIndex(l => l.id === st.light), { ground: gy });
             ctx.restore();
           }
         }
@@ -1007,7 +1007,6 @@
           const t = (T * .7) % 1, e = ease.inOut(Math.min(1, t * 1.3));
           ctx.save(); ctx.globalAlpha = t > .8 ? (1 - t) / .2 : 1; emo(ctx, '👆', lerp(st.kx, st.ax + st.kh * .5, e), st.ky - st.kh * .25, st.kh * .4); ctx.restore();
         }
-        if (st.step === 'look' && st.look) { text(ctx, st.look < 0 ? '⬅️' : '➡️', kx + st.look * kh * .45, ky - kh * 1.15, kh * .2, '#000', { en: true }); }
         st.btns.forEach(b => { if (!b.hide) card(ctx, b); });
       },
       _s: () => ({ step: st.step, zx: side.zx, zy: (side.roadT + side.roadB) / 2, kx: st.kx, ky: st.ky - st.kh * .5, ax: st.ax, green: st.green, btns: st.btns.map(b => ({ k: b.k, hide: b.hide, x: b.x + b.w / 2, y: b.y + b.h / 2 })) })
@@ -1066,7 +1065,7 @@
       if (st.phase === 'learn') { st.ill = null; }
       else if (st.q) {
         const iw = Math.min(stage.w - 16, 560);
-        const ih = st.q.t === 'sign' ? Math.min(stage.h * .2, 130) : st.q.t === 'light' ? stage.h * .46 : Math.min(stage.h * .5, iw * .8);
+        const ih = st.q.t === 'sign' ? Math.min(stage.h * .26, 170) : st.q.t === 'light' ? stage.h * .46 : Math.min(stage.h * .5, iw * .8);
         st.ill = { x: W / 2 - iw / 2, y: stage.y + 4, w: iw, h: ih };
       }
       layBtns();
@@ -1179,8 +1178,9 @@
             const s = inner.h * .085; trafficLight(ctx, R.x + R.w / 2, inner.y + inner.h * .06, s, LIGHTS.findIndex(l => l.id === q.k), { ground: inner.y + inner.h });
             ctx.restore();
           } else {
-            emo(ctx, '🧒', R.x + R.w * (lang === 'ar' ? .86 : .14), R.y + R.h * .92, R.h * .6);
-            text(ctx, L('أين إشارة ' + SIGNS[q.k].lab + '؟', 'Where is the ' + SIGNS[q.k].en + '?'), R.x + R.w / 2 + (lang === 'ar' ? -1 : 1) * R.w * .06, R.y + R.h / 2, Math.min(R.h * .26, 30), '#1F5A9A', { max: R.w * .7 });
+            emo(ctx, '🧒', R.x + R.w * (lang === 'ar' ? .85 : .15), R.y + R.h * .9, Math.min(R.h * .62, R.w * .26));
+            text(ctx, L('أين إشارة', 'Where is the'), R.x + R.w * (lang === 'ar' ? .4 : .6), R.y + R.h * .34, Math.min(R.h * .2, 26), '#5A7A9A', { max: R.w * .62 });
+            text(ctx, L(SIGNS[q.k].lab + '؟', SIGNS[q.k].en + '?'), R.x + R.w * (lang === 'ar' ? .4 : .6), R.y + R.h * .62, Math.min(R.h * .26, 34), '#1F5A9A', { max: R.w * .64 });
           }
         }
         st.btns.forEach(b => card(ctx, b));

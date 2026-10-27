@@ -408,7 +408,7 @@
       const x = ((i * 97) % 100) / 100 * W, y = ((i * 41) % 100) / 100 * gy * .7, a = S.stars * (.4 + .6 * Math.abs(Math.sin(T * 1.5 + i)));
       c.fillStyle = `rgba(255,248,210,${a})`; star5(c, x, y, 1.5 + (i % 3), i); c.fill();
     }
-    if (S.moon) { const [mx, my, a] = S.moon; c.save(); c.globalAlpha = a; c.shadowColor = '#FFF3B0'; c.shadowBlur = 20; c.fillStyle = '#FFF1B8'; c.beginPath(); c.arc(W * mx, H * my, H * .07, 0, TAU); c.fill(); c.restore(); c.fillStyle = S.sky[0]; c.globalAlpha = a; c.beginPath(); c.arc(W * mx + H * .035, H * my - H * .02, H * .065, 0, TAU); c.fill(); c.globalAlpha = 1; }
+    if (S.moon) { const [mx, my, a] = S.moon, X = W * mx, Y = H * my, R = H * .07; c.save(); c.globalAlpha = a; c.beginPath(); c.rect(0, 0, W, H); c.arc(X + R * .5, Y - R * .3, R * .92, 0, TAU, true); c.clip('evenodd'); c.shadowColor = '#FFF3B0'; c.shadowBlur = 20; c.fillStyle = '#FFF1B8'; c.beginPath(); c.arc(X, Y, R, 0, TAU); c.fill(); c.restore(); }
     if (S.sun) {
       const [sx, sy] = S.sun, X = W * sx, Y = H * sy, R = H * .085;
       const g = c.createRadialGradient(X, Y, R * .3, X, Y, R * 3.2); g.addColorStop(0, S.sunC + 'AA'); g.addColorStop(1, S.sunC + '00'); c.fillStyle = g; c.beginPath(); c.arc(X, Y, R * 3.2, 0, TAU); c.fill();
@@ -477,7 +477,10 @@
   #wudu .scard{position:relative;width:100%;aspect-ratio:4/3;border-radius:30px;background:#fff;padding:7px;box-shadow:0 7px 0 #A8D8E8,0 14px 28px rgba(20,80,110,.18);border:4px solid #D3EEF7}
   #wudu .scard.sq{aspect-ratio:1/1}
   #wudu .scard.wide{aspect-ratio:16/9}
-  #wudu .scard canvas{width:100%;height:100%;display:block;border-radius:22px;touch-action:none}
+  #wudu .ord.c9 .slot,#wudu .ord.c9 .wc{min-height:58px}
+  #wudu .ord.c9 .wc canvas{width:50px;height:30px}
+  #wudu .ord.c9 .wc .ci{font-size:20px}
+  #wudu .scard canvas{position:absolute;inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);display:block;border-radius:22px;touch-action:none}
   #wudu .side{width:min(100%,520px);display:flex;flex-direction:column;gap:9px;align-items:stretch}
   #wudu .hidden{display:none!important}
   #wudu .lbox{position:relative;background:linear-gradient(#FFFFFF,#F5FCFF);border-radius:26px;border:4px solid #CFEAF4;box-shadow:0 6px 0 #9FD3E6,0 12px 22px rgba(20,80,110,.12);padding:10px 14px 12px;text-align:center}
@@ -524,8 +527,8 @@
   #wudu .wc{position:relative;width:100%;min-height:72px;border-radius:18px;background:#fff;border:3px solid #CFE6EF;box-shadow:0 4px 0 #B5D6E3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 3px;gap:1px;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;color:#1F5469}
   #wudu .wc .ci{font-family:${EMOJI_FONT};font-size:24px;line-height:1.1}
   #wudu .wc canvas{width:56px;height:38px}
-  #wudu .wc .cl{font-size:12.5px;font-weight:900;line-height:1.2;text-align:center}
-  #wudu .ord.en .wc .cl{font-family:${EN_FONT};font-size:11.5px}
+  #wudu .wc .wl{font-size:12.5px;font-weight:900;line-height:1.2;text-align:center}
+  #wudu .ord.en .wc .wl{font-family:${EN_FONT};font-size:11.5px}
   #wudu .wc.drag{position:fixed;z-index:50;pointer-events:none;box-shadow:0 12px 24px rgba(20,80,110,.3);border-color:#3BB2E0}
   #wudu .wc.ghost{opacity:.25}
   #wudu .wc.done{background:linear-gradient(#F0FFF6,#DDF8E8);border-color:#7ED9A4;box-shadow:0 4px 0 #5DBF86;cursor:default}
@@ -908,11 +911,11 @@
   function cardHTML(st, i) {
     const en = lang === 'en';
     const pic = def.k === 'orderP' ? `<canvas data-pose="${st.pose}"></canvas>` : `<span class="ci">${st.ic}</span>`;
-    return `<div class="wc" data-i="${i}">${pic}<span class="cl">${esc(en ? st.en : plain(st.ar))}</span></div>`;
+    return `<div class="wc" data-i="${i}">${pic}<span class="wl">${esc(en ? st.en : plain(st.ar))}</span></div>`;
   }
   function buildOrder() {
     const en = lang === 'en';
-    ordEl.classList.toggle('en', en);
+    ordEl.classList.toggle('en', en); ordEl.classList.toggle('c9', ordList.length > 6);
     slotsEl.style.direction = trayEl.style.direction = en ? 'ltr' : 'rtl';
     slotsEl.innerHTML = ordList.map((_, i) => `<div class="slot${i === ordNext ? ' next' : ''}" data-s="${i}"><span class="sn">${num(i + 1)}</span>${i < ordNext ? cardHTML(ordList[i], i).replace('class="wc"', 'class="wc done"') : ''}</div>`).join('');
     const rest = shuffle(ordList.map((s, i) => i).filter(i => i >= ordNext));

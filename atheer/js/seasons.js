@@ -509,7 +509,7 @@
     // عشب
     if (se !== 'winter') for (let i = 0; i < (mini ? 20 : 50); i++) {
       const fx = R() * w, fy = lerp(hz + 10, h, R()), s = 3 + (fy - hz) / (h - hz) * 7;
-      x.strokeStyle = tint(se === 'autumn' ? 'rgba(140,90,20,.4)' : 'rgba(30,110,30,.35)', se, wx); x.lineWidth = 1.6;
+      x.strokeStyle = se === 'autumn' ? 'rgba(140,90,20,.4)' : 'rgba(30,110,30,.35)'; x.lineWidth = 1.6;
       x.beginPath(); x.moveTo(fx - s * .5, fy - s); x.lineTo(fx, fy); x.lineTo(fx + s * .4, fy - s * 1.1); x.stroke();
     }
     if (p.dark) { x.fillStyle = `rgba(25,35,60,${p.dark * .16})`; x.fillRect(0, 0, w, h); }
@@ -1106,7 +1106,7 @@
     const bottom = H - 14, trayTop = bottom - trayH - 4;
     trayGrid(cards.filter(c => !c.done), ccols, 12, W - 12, trayTop, cw, ch, 8);
     trayRect = { y: trayTop - 12 };
-    const areaTop = topY + 4, areaBot = trayTop - 22, aw = Math.min(W - 24, portrait ? 520 : 1100);
+    const areaTop = Math.max(topY, sayBtn.getBoundingClientRect().bottom - (portrait ? 0 : 40)) + 18, areaBot = trayTop - 22, aw = Math.min(W - 24, portrait ? 520 : 1100);
     const fw = (aw - (cols - 1) * gap) / cols, fh = Math.min((areaBot - areaTop - (rows - 1) * gap) / rows, fw * (portrait ? 1.75 : 1.1));
     const totalH = rows * fh + (rows - 1) * gap, y0 = areaTop + (areaBot - areaTop - totalH) / 2, x0 = (W - aw) / 2;
     minis.forEach((m, i) => {

@@ -352,6 +352,7 @@
       const avail = Hd - top - trayH - 24;
       th = clamp(avail / (cap + 3.0), 22, 66);
       Rmax = Math.min(playW * (two ? .21 : .33), th * 3.4, 160);
+      th = Math.min(th, Rmax / 2.7);
       Rmin = Math.max(Rmax * .45, th * 1.5);
       ts = portrait ? .52 : .6;
       let rows;
@@ -561,6 +562,7 @@
   function complete() {
     phase = 'done'; paintBar(); prm.innerHTML = '🎉 ' + (lang === 'en' ? 'Hooray!' : App.g('أحسنتِ!', 'أحسنت!'));
     poles.forEach(p => { p.wig = 1.4; });
+    rings.filter(r => !r.pole).forEach((r, i) => { r.st = 'fly'; r.anim = { t0: T + i * .07, dur: .5, fx: r.x, fy: r.y, tx: r.x, ty: Hd + 120, arc: 50, done: () => { r.st = 'gone'; } }; });
     balls.forEach(b => { b.happy = 1; });
     Sound.win();
     after(.25, () => say('أحسنت!', 'Well done!'));
@@ -907,7 +909,7 @@
     for (const p of poles) drawPoleGroup(c, p);
     drawTray(c);
     // الحلقات في الصينية
-    const tr = rings.filter(r => !r.pole && r.st !== 'drag' && !(r.st === 'fly'));
+    const tr = rings.filter(r => !r.pole && r.st !== 'drag' && r.st !== 'fly' && r.st !== 'gone');
     for (const r of tr) if (r.st === 'tray') { c.fillStyle = 'rgba(90,50,150,.16)'; c.beginPath(); c.ellipse(r.x, r.y + (th / 2 + r.R * KY) * r.sc + 3, r.R * r.sc * .9, r.R * r.sc * KY * .7, 0, 0, TAU); c.fill(); }
     tr.sort((a, b) => a.y - b.y).forEach(r => drawRingObj(c, r));
     for (const b of balls) if (!b.pole && b.st !== 'drag' && b.st !== 'fly') drawBallObj(c, b);
