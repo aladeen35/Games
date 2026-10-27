@@ -53,15 +53,15 @@
   const BY = Object.fromEntries(DUAS.map(d => [d.id, d]));
 
   const LEVELS = [
-    { ic: '🍽️', t: 'الطعام', ids: ['eat', 'done'], ch: 2, q: 4 },
-    { ic: '🌙', t: 'النوم', ids: ['sleep', 'wake'], ch: 2, q: 4 },
-    { ic: '🚪', t: 'البيت', ids: ['out', 'in'], ch: 2, q: 4 },
-    { ic: '🚻', t: 'الخلاء', ids: ['wcin', 'wcout'], ch: 3, q: 4 },
-    { ic: '🤧', t: 'العطاس', ids: ['sneeze', 'hear', 'reply'], ch: 3, q: 5 },
-    { ic: '👕', t: 'اللباس والمذاكرة', ids: ['dress', 'study'], ch: 3, q: 4 },
-    { ic: '🚗', t: 'السفر والمطر', ids: ['car', 'rain'], ch: 3, q: 4 },
-    { ic: '⭐', t: 'مراجعة', ids: ['eat', 'done', 'sleep', 'wake', 'out', 'wcin', 'wcout'], ch: 3, q: 7, review: true },
-    { ic: '🏆', t: 'كل الأدعية', ids: DUAS.map(d => d.id), ch: 3, q: 10, review: true }
+    { ic: '🍽️', t: 'الطعام', en: 'Food', ids: ['eat', 'done'], ch: 2, q: 4 },
+    { ic: '🌙', t: 'النوم', en: 'Sleep', ids: ['sleep', 'wake'], ch: 2, q: 4 },
+    { ic: '🚪', t: 'البيت', en: 'Home', ids: ['out', 'in'], ch: 2, q: 4 },
+    { ic: '🚻', t: 'الخلاء', en: 'Bathroom', ids: ['wcin', 'wcout'], ch: 3, q: 4 },
+    { ic: '🤧', t: 'العطاس', en: 'Sneezing', ids: ['sneeze', 'hear', 'reply'], ch: 3, q: 5 },
+    { ic: '👕', t: 'اللباس والمذاكرة', en: 'Clothes & study', ids: ['dress', 'study'], ch: 3, q: 4 },
+    { ic: '🚗', t: 'السفر والمطر', en: 'Travel & rain', ids: ['car', 'rain'], ch: 3, q: 4 },
+    { ic: '⭐', t: 'مراجعة', en: 'Review', ids: ['eat', 'done', 'sleep', 'wake', 'out', 'wcin', 'wcout'], ch: 3, q: 7, review: true },
+    { ic: '🏆', t: 'كل الأدعية', en: 'All duas', ids: DUAS.map(d => d.id), ch: 3, q: 10, review: true }
   ];
 
   /* ---------- أدوات ---------- */
@@ -548,39 +548,39 @@
   `);
   const root = App.section(ID, `
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🔢</button>
-      <button class="ib bookb" aria-label="تعلّم الأدعية">📖</button>
+      <button class="ib home" aria-label="الرئيسية" data-al="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-al="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-al="Levels">🔢</button>
+      <button class="ib bookb" aria-label="تعلّم الأدعية" data-al="Learn the duas">📖</button>
       <span class="grow"></span>
-      <div class="lang"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
+      <div class="lang" role="group" aria-label="اللغة" data-al="Language"><button data-l="ar">عربي</button><button data-l="en">English</button></div>
     </div>
     <div class="prog"></div>
     <div class="main">
       <div class="stage"><div class="cap"><span class="ci"></span><span class="ct"></span></div><div class="scard"><canvas></canvas></div></div>
       <div class="side">
         <div class="quiz">
-          <div class="ask"><button class="ib snd sayb" aria-label="اسمع">🔊</button><span class="at"></span></div>
+          <div class="ask"><button class="ib snd sayb" aria-label="اسمع" data-al="Listen">🔊</button><span class="at"></span></div>
           <div class="cards" style="display:flex;flex-direction:column;gap:10px;margin-top:8px"></div>
         </div>
         <div class="learn hidden">
           <div class="lbox"><div class="du"></div><div class="mean"></div></div>
           <div class="nav" style="margin-top:12px">
-            <button class="nb prev" aria-label="السابق">▶</button>
-            <button class="ib snd nb play" aria-label="اسمع">🔊</button>
+            <button class="nb prev" aria-label="السابق" data-al="Previous">▶</button>
+            <button class="ib snd nb play" aria-label="اسمع" data-al="Listen">🔊</button>
             <button class="nb go"></button>
           </div>
           <div class="lcount" style="text-align:center;margin-top:8px"></div>
         </div>
       </div>
     </div>
-    <div class="overlay" id="duLv"><div class="panel lvp"><h3>🔢 المستويات</h3>
-      <button class="learnb" data-a="book">📖 تعلّم كل الأدعية</button><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="duLv"><div class="panel lvp"><h3 data-en="🔢 Levels">🔢 المستويات</h3>
+      <button class="learnb" data-a="book" data-en="📖 Learn all the duas">📖 تعلّم كل الأدعية</button><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="duWin"><div class="panel">
       <h3 class="wT"></h3><div style="font-size:54px;line-height:1.1;font-family:${EMOJI_FONT}">🤲</div><div class="stars3 wS"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="من جديد" data-al="Restart">🔄</button><button class="btn alt" data-a="levels" data-en="🔢 Levels">🔢 المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-al="Home">🏠</button>
     </div></div>`);
   const cv = root.querySelector('.scard canvas');
   const progEl = root.querySelector('.prog'), capEl = root.querySelector('.cap');
@@ -658,12 +658,26 @@
     setScene(d); showDua(d);
     prevBtn.style.visibility = li > 0 ? '' : 'hidden';
     const lastOne = li >= list.length - 1;
-    goBtn.textContent = mode === 'intro' ? (lastOne ? 'هيا نختبر! ◀' : 'التالي ◀') : (lastOne ? 'إغلاق ✓' : 'التالي ◀');
+    navText();
     goBtn.classList.remove('glow');
     cntEl.textContent = `${num(li + 1)} / ${num(list.length)}`; cntEl.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
     if (mode === 'book') { const seen = store.get('duasSeen', []); if (!seen.includes(d.id)) { seen.push(d.id); store.set('duasSeen', seen); if (seen.length >= DUAS.length) App.achieve('duas_learn'); } }
     sayCap(d);
     later(lang === 'ar' ? 1.5 : 1.6, () => readDua(d, () => goBtn.classList.add('glow')));
+  }
+  function navText() {
+    const lastOne = li >= list.length - 1, en = App.lang === 'en';
+    prevBtn.textContent = en ? '◀' : '▶';
+    goBtn.textContent = mode === 'intro' ? (lastOne ? App.t('هيا نختبر! ◀', 'Quiz time! ▶') : App.t('التالي ◀', 'Next ▶')) : (lastOne ? App.t('إغلاق ✓', 'Close ✓') : App.t('التالي ◀', 'Next ▶'));
+  }
+  function winText() {
+    root.querySelector('.wT').textContent = App.t('ما شاء الله! ' + App.g('أحسنتِ', 'أحسنتَ'), 'Masha Allah! Well done') + ' 🎉';
+    root.querySelector('.wP').textContent = App.t(App.g('حفظتِ', 'حفظتَ') + ` أدعية «${def.t}»`, `You learned the «${def.en}» duas`) + (mistakes ? '' : App.t(' دون أخطاء! 💯', ' with no mistakes! 💯'));
+  }
+  /** ترجمة نصوص الواجهة الثابتة (data-en للنص، data-al لوصف الزر) */
+  function trUI() {
+    root.querySelectorAll('[data-en]').forEach(e => { if (e.dataset.ar == null) e.dataset.ar = e.textContent; e.textContent = App.t(e.dataset.ar, e.dataset.en); });
+    root.querySelectorAll('[data-al]').forEach(e => { if (e.dataset.aral == null) e.dataset.aral = e.getAttribute('aria-label'); e.setAttribute('aria-label', App.t(e.dataset.aral, e.dataset.al)); });
   }
   goBtn.addEventListener('click', () => {
     Sound.tap();
@@ -739,9 +753,8 @@
     Sound.win(); burst(); burst();
     later(.9, () => {
       if (App.current !== ID) return;
-      root.querySelector('.wT').textContent = 'ما شاء الله! ' + App.g('أحسنتِ', 'أحسنتَ') + ' 🎉';
       root.querySelector('.wS').innerHTML = [1, 2, 3].map(k => `<span class="${k <= stars ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wP').textContent = App.g('حفظتِ', 'حفظتَ') + ` أدعية «${def.t}»` + (mistakes ? '' : ' دون أخطاء! 💯');
+      winText();
       root.querySelector('[data-a="next"]').style.display = lvl < LEVELS.length ? '' : 'none';
       winOv.classList.add('on');
       lang === 'ar' ? App.speak(App.g('أحسنتِ!', 'أحسنتَ!')) : App.speak('Well done!', 'en');
@@ -754,8 +767,8 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = LEVELS.map((L, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked;
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="المستوى ${n}"><span class="n">${num(n)}</span>
-        <span class="e">${L.ic}</span><span class="t">${L.t}</span>
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}"><span class="n">${num(n)}</span>
+        <span class="e">${L.ic}</span><span class="t">${App.t(L.t, L.en)}</span>
         <span class="s">${lock ? '' : [1, 2, 3].map(k => `<i class="${k <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -781,12 +794,16 @@
     lang = l === 'en' ? 'en' : 'ar'; store.set('duasLang', lang);
     root.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
   }
-  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.l === lang) return;
-    Sound.tap(); setLang(b.dataset.l); tasks = []; kara = null;
+  function relang() {
+    tasks = []; kara = null;
     setProg(def.q, pstates);
+    if (lvOv.classList.contains('on')) openLevels();
     if (mode === 'quiz') { if (!answered && !over) ask(); }
     else showLearn();
+  }
+  root.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.l === lang) return;
+    Sound.tap(); setLang(b.dataset.l); relang();
   }));
   window.addEventListener('keydown', e => {
     if (App.current !== ID || $('#sheetWrap').classList.contains('on')) return;
@@ -869,6 +886,15 @@
   App.register({
     id: ID, title: 'أدعيتي الصغيرة', icon2: '🤲', isNew: false, music: 'tubes',
     desc: () => App.g('تعلّمي أدعية اليوم بالصور', 'تعلّم أدعية اليوم بالصور'),
+    titleEn: 'My Little Duas',
+    descEn: () => 'Learn the everyday duas with pictures',
+    helpEn: () => [
+      '🖼️ Look at the scene: when do we say this dua?',
+      '🤲 Choose the right dua from the cards',
+      '📖 The book button shows all the duas and reads them calmly',
+      '🌍 In «English» you hear the dua in Arabic, then its meaning in English',
+      '⭐ No mistakes = 3 stars'
+    ],
     help: () => [
       '🖼️ ' + App.g('انظري', 'انظر') + ' إلى المشهد: متى نقول هذا الدعاء؟',
       '🤲 ' + App.g('اختاري', 'اختر') + ' الدعاء المناسب من البطاقات',
@@ -884,12 +910,18 @@
     },
     enter() {
       paused = false;
-      setLang(store.get('duasLang', 'ar'));
+      trUI(); setLang(App.gameLang(ID));
       layout();
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, LEVELS.length));
       requestAnimationFrame(() => { layout(); render(); });
       startLoop();
+    },
+    onLang(l) {
+      trUI(); navText();
+      if (l !== lang) { setLang(l); relang(); }
+      else if (lvOv.classList.contains('on')) openLevels();
+      if (winOv.classList.contains('on')) winText();
     },
     leave() { stopLoop(); tasks = []; kara = null; winOv.classList.remove('on'); lvOv.classList.remove('on'); },
     pause() { paused = true; },

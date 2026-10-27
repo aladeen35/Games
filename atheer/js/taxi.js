@@ -75,32 +75,32 @@
       <button class="ib" id="tPause" aria-label="إيقاف مؤقت">⏸</button>
       <span class="grow"></span>
       <div class="hearts" id="tHearts"><span>❤️</span><span>❤️</span><span>❤️</span></div>
-      <div class="chip"><small>⭐ نجوم</small><b id="tStars">0</b></div>
-      <div class="chip"><small>المسافة</small><b id="tDist">0</b></div>
+      <div class="chip"><small data-ar="⭐ نجوم" data-en="⭐ Stars">⭐ نجوم</small><b id="tStars">0</b></div>
+      <div class="chip"><small data-ar="المسافة" data-en="Distance">المسافة</small><b id="tDist">0</b></div>
     </div>
     <div class="mis" id="tMis"><span class="em" id="tMisE">🏠</span><div class="mb"><div class="mt" id="tMisT"></div><div class="pb"><i id="tMisP"></i></div></div><div class="tm" id="tMisTm"></div></div>
     <div class="pups" id="tPups"></div>
     <div class="zone" id="tZone"></div>
     <div class="hint" id="tHint"><span id="tHintT"></span></div>
-    <button class="ctl hb" id="tHorn" aria-label="بوق">📯<b>بيب!</b></button>
-    <button class="ctl sb" id="tStop" aria-label="توقف">🛑<b>توقف</b></button>
-    <button class="ctl jb" id="tJump" aria-label="قفز">⬆️<b>قفز</b></button>
+    <button class="ctl hb" id="tHorn" aria-label="بوق">📯<b data-ar="بيب!" data-en="Beep!">بيب!</b></button>
+    <button class="ctl sb" id="tStop" aria-label="توقف">🛑<b data-ar="توقف" data-en="Stop">توقف</b></button>
+    <button class="ctl jb" id="tJump" aria-label="قفز">⬆️<b data-ar="قفز" data-en="Jump">قفز</b></button>
     <div class="overlay" id="tOver"><div class="panel">
       <h3 id="tOverT">انتهت الرحلة!</h3>
-      <div class="big"><span id="tFinal">0</span> م</div>
+      <div class="big"><span id="tFinal">0</span> <span data-ar="م" data-en="m">م</span></div>
       <div class="stats">
-        <div><small>توصيلات</small><b id="tFinD">0</b> 🧍</div>
-        <div><small>نجوم</small><b id="tFinS">0</b> ⭐</div>
+        <div><small data-ar="توصيلات" data-en="Rides">توصيلات</small><b id="tFinD">0</b> 🧍</div>
+        <div><small data-ar="نجوم" data-en="Stars">نجوم</small><b id="tFinS">0</b> ⭐</div>
       </div>
       <p id="tOverP"></p>
       <div class="bestl" id="tBestL"></div>
-      <button class="btn" id="tAgain">🔁 مرة أخرى</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <button class="btn" id="tAgain" data-ar="🔁 مرة أخرى" data-en="🔁 Play again">🔁 مرة أخرى</button>
+      <button class="btn alt home" data-ar="🏠 القائمة" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>
     <div class="overlay" id="tPaused"><div class="panel">
-      <h3>استراحة 🚕</h3><p id="tPauseP"></p>
-      <button class="btn" id="tResume">▶️ متابعة</button>
-      <button class="btn alt home">🏠 القائمة</button>
+      <h3 data-ar="استراحة 🚕" data-en="Break 🚕">استراحة 🚕</h3><p id="tPauseP"></p>
+      <button class="btn" id="tResume" data-ar="▶️ متابعة" data-en="▶️ Continue">▶️ متابعة</button>
+      <button class="btn alt home" data-ar="🏠 القائمة" data-en="🏠 Menu">🏠 القائمة</button>
     </div></div>`);
 
   /* ---------- ثوابت ---------- */
@@ -108,18 +108,41 @@
   const TX = 92;                    // موضع التاكسي من يسار الشاشة (وحدات منطقية)
   const JUMP_V = 790, JUMP2_V = 580, G_HOLD = 1850, G_UP = 2200, G_FALL = 3000;
   const DESTS = [
-    { e: '🏠', n: 'البيت', to: 'إلى البيت' },
-    { e: '🏫', n: 'المدرسة', to: 'إلى المدرسة' },
-    { e: '🏥', n: 'المستشفى', to: 'إلى المستشفى' },
-    { e: '🛒', n: 'السوق', to: 'إلى السوق' },
-    { e: '🏖️', n: 'الشاطئ', to: 'إلى الشاطئ' },
-    { e: '🎡', n: 'مدينة الملاهي', to: 'إلى مدينة الملاهي' }
+    { e: '🏠', n: 'البيت', to: 'إلى البيت', toEn: 'To the house!' },
+    { e: '🏫', n: 'المدرسة', to: 'إلى المدرسة', toEn: 'To the school!' },
+    { e: '🏥', n: 'المستشفى', to: 'إلى المستشفى', toEn: 'To the hospital!' },
+    { e: '🛒', n: 'السوق', to: 'إلى السوق', toEn: 'To the market!' },
+    { e: '🏖️', n: 'الشاطئ', to: 'إلى الشاطئ', toEn: 'To the beach!' },
+    { e: '🎡', n: 'مدينة الملاهي', to: 'إلى مدينة الملاهي', toEn: 'To the fun fair!' }
   ];
   const ZONES = [
-    { n: '🏙️ المدينة', s: 'شوارع وعمارات ملوّنة' },
-    { n: '🏜️ الصحراء', s: 'رمال ونخيل وجِمال' },
-    { n: '🌳 الحديقة', s: 'أشجار وزهور وفراشات' }
+    { n: '🏙️ المدينة', s: 'شوارع وعمارات ملوّنة', nEn: '🏙️ The City', sEn: 'Streets and colorful buildings' },
+    { n: '🏜️ الصحراء', s: 'رمال ونخيل وجِمال', nEn: '🏜️ The Desert', sEn: 'Sand, palm trees and camels' },
+    { n: '🌳 الحديقة', s: 'أشجار وزهور وفراشات', nEn: '🌳 The Park', sEn: 'Trees, flowers and butterflies' }
   ];
+  const isEn = () => App.gameLang(ID) === 'en';
+  const destTo = d => isEn() ? d.toEn : d.to;
+  const mUnit = () => App.t('م', 'm');
+  function relabel() {
+    root.querySelectorAll('[data-ar]').forEach(el => { el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    [['.ib.home', 'الرئيسية', 'Home'], ['.helpbtn', 'مساعدة', 'Help'], ['#tPause', 'إيقاف مؤقت', 'Pause'], ['#tHorn', 'بوق', 'Horn'], ['#tStop', 'توقف', 'Stop'], ['#tJump', 'قفز', 'Jump']]
+      .forEach(([q, a, e]) => root.querySelectorAll(q).forEach(b => b.setAttribute('aria-label', App.t(a, e))));
+  }
+  let hintKey = 'ready', overInfo = null;
+  function hintText() {
+    return hintKey === 'ready' ? App.t(App.g('المسي الشاشة أو اضغطي «قفز» لتنطلقي! 🚕', 'المس الشاشة أو اضغط «قفز» لتنطلق! 🚕'), 'Touch the screen or press «Jump» to go! 🚕')
+      : App.t(App.g('اقفزي فوق العوائق ⬆️ واجمعي النجوم ⭐', 'اقفز فوق العوائق ⬆️ واجمع النجوم ⭐'), 'Jump over the obstacles ⬆️ and collect the stars ⭐');
+  }
+  function fillOver() {
+    if (!overInfo) return;
+    const { d, rec } = overInfo;
+    $('#tOverT').textContent = rec ? App.t('🏆 رقم قياسي جديد!', '🏆 New record!') : App.t('انتهت الرحلة! 🚕', 'The trip is over! 🚕');
+    const msg = deliveries >= 10 ? App.t(App.g('أنتِ أمهر سائقة تاكسي في المدينة! 👑', 'أنت أمهر سائق تاكسي في المدينة! 👑'), 'You are the best taxi driver in town! 👑')
+      : deliveries >= 3 ? App.t('الركّاب سعداء جدًا بك 😊', 'The passengers are very happy with you 😊') : deliveries >= 1 ? App.t(App.g('أحسنتِ! وصّلتِ الركّاب بأمان 💛', 'أحسنت! وصّلت الركّاب بأمان 💛'), 'Well done! You took the passengers safely 💛')
+      : App.t(App.g('توقّفي عند الراكب الذي يلوّح لتوصليه 🙋', 'توقّف عند الراكب الذي يلوّح لتوصله 🙋'), 'Stop for the passenger who is waving to give them a ride 🙋');
+    $('#tOverP').textContent = msg;
+    $('#tBestL').textContent = `🏆 ${App.t('الأفضل', 'Best')}: ${best.d} ${mUnit()} · 🧍 ${best.n}`;
+  }
   const ZONE_LEN = 1000; // متر لكل منطقة
   const SKIN = ['#FFDCC2', '#F6C9A0', '#D9A066', '#A86B3C', '#7A4A26'];
   const CLOTH = ['#FF6FA8', '#5BB8FF', '#7ED957', '#B48CFF', '#FF9F43', '#FF5E5E', '#2EC4B6', '#FFD43B'];
@@ -167,18 +190,18 @@
     paintHearts(); $('#tStars').textContent = 0; $('#tDist').textContent = 0;
     $('#tOver').classList.remove('on'); $('#tPaused').classList.remove('on');
     $('#tMis').classList.remove('on'); $('#tPups').innerHTML = ''; showStop(false);
-    $('#tHintT').textContent = App.g('المسي الشاشة أو اضغطي «قفز» لتنطلقي! 🚕', 'المس الشاشة أو اضغط «قفز» لتنطلق! 🚕');
+    hintKey = 'ready'; $('#tHintT').textContent = hintText();
     $('#tHint').style.opacity = 1;
     state = 'ready'; lastMisKey = '';
   }
   function start() {
-    state = 'play'; honk(); $('#tHintT').textContent = App.g('اقفزي فوق العوائق ⬆️ واجمعي النجوم ⭐', 'اقفز فوق العوائق ⬆️ واجمع النجوم ⭐');
+    state = 'play'; honk(); hintKey = 'play'; $('#tHintT').textContent = hintText();
     setTimeout(() => { if (state === 'play' && distM > 20) $('#tHint').style.opacity = 0; }, 4000);
     banner(0);
   }
   function banner(i) {
     const el = $('#tZone'), z = ZONES[i % 3];
-    el.innerHTML = `${z.n}<small>${z.s}</small>`;
+    el.innerHTML = isEn() ? `${z.nEn}<small>${z.sEn}</small>` : `${z.n}<small>${z.s}</small>`;
     el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
   }
   function paintHearts(lostI) {
@@ -265,8 +288,8 @@
     taxi.happy = 1.6; taxi.squash = .8;
     Sound.pop(); [660, 880, 1100].forEach((f, i) => Sound.tone(f, .12, 'triangle', .1, 0, .05 + i * .07));
     hearts3(taxi.x - 20, 70, 6);
-    addFloat(taxi.x, 110, dest.e + ' ' + dest.to, '#B86A00');
-    App.speak(dest.to);
+    addFloat(taxi.x, 110, dest.e + ' ' + destTo(dest), '#B86A00');
+    if (isEn()) App.speak(dest.toEn, 'en'); else App.speak(dest.to);
   }
   function deliverDone() {
     const r = ride, dest = DESTS[r.dest];
@@ -278,7 +301,7 @@
     Sound.win(); vibrate(25);
     hearts3(taxi.x - 20, 60, 10); confetti(taxi.x - 10, 90);
     addFloat(taxi.x - 10, 120, `+${bonus} ⭐`, '#E89B0C');
-    addFloat(taxi.x + 60, 150, App.g('شكرًا يا بطلة! 💛', 'شكرًا يا بطل! 💛'), '#D9467A');
+    addFloat(taxi.x + 60, 150, App.t(App.g('شكرًا يا بطلة! 💛', 'شكرًا يا بطل! 💛'), 'Thank you, hero! 💛'), '#D9467A');
     App.achieve('taxi_first');
     if (deliveries >= 10) App.achieve('taxi_10');
     ride = null; lastMisKey = '';
@@ -288,7 +311,7 @@
     const r = ride; if (!r) return;
     r.pax.state = 'poof'; r.pax.t = 0;
     Sound.lose(); taxi.sad = 1.6;
-    addFloat(taxi.x, 120, '⏰ انتهى الوقت!', '#E53935');
+    addFloat(taxi.x, 120, App.t('⏰ انتهى الوقت!', "⏰ Time's up!"), '#E53935');
     const dp = props.find(p => p.kind === 'dest' && p.x === r.x); if (dp) dp.fade = 1;
     puffCloud(taxi.x - 20, 70);
     ride = null; lastMisKey = '';
@@ -386,7 +409,7 @@
     k.inv = 1.9; k.hurt = .9; shake = .55; flash = .5; speed *= .55;
     knock(o); Sound.boom(); Sound.error(); vibrate(40);
     k.eyes.forEach(e => { e.vx += rand(-300, 300); e.vy += rand(-300, 300); });
-    addFloat(k.x, 110, '💥 أوه!', '#E53935');
+    addFloat(k.x, 110, App.t('💥 أوه!', '💥 Oops!'), '#E53935');
     if (hearts <= 0) { state = 'crash'; overT = 1.3; k.vy = 520; k.ground = false; Sound.fall(); }
   }
   function knock(o) {
@@ -495,9 +518,9 @@
         if (p.got) continue; p.t += dt;
         if (Math.abs(kcx - p.x) < 64 && Math.abs(kcy - (p.y + Math.sin(p.t * 3) * 6)) < 52) {
           p.got = true;
-          if (p.type === 'magnet') { k.magnet = PUPS.magnet.d; addFloat(p.x, p.y + 40, '🧲 مغناطيس!', '#E53935'); }
-          if (p.type === 'shield') { k.shield = true; addFloat(p.x, p.y + 40, '🛡️ درع!', '#2D8FE0'); }
-          if (p.type === 'nitro') { k.nitro = PUPS.nitro.d; addFloat(p.x, p.y + 40, '🔥 نيترو!', '#FF5A1F'); Sound.whoosh(); shake = .2; }
+          if (p.type === 'magnet') { k.magnet = PUPS.magnet.d; addFloat(p.x, p.y + 40, App.t('🧲 مغناطيس!', '🧲 Magnet!'), '#E53935'); }
+          if (p.type === 'shield') { k.shield = true; addFloat(p.x, p.y + 40, App.t('🛡️ درع!', '🛡️ Shield!'), '#2D8FE0'); }
+          if (p.type === 'nitro') { k.nitro = PUPS.nitro.d; addFloat(p.x, p.y + 40, App.t('🔥 نيترو!', '🔥 Nitro!'), '#FF5A1F'); Sound.whoosh(); shake = .2; }
           Sound.star(); ring(p.x, p.y, '#FFF3B0'); spark(p.x, p.y, '#FFD84D', 10); k.happy = Math.max(k.happy, .8);
           paintPups();
         }
@@ -516,7 +539,7 @@
         }
         if (o.gone || o.hit || o.awake) continue;
         if (o.type === 'puddle') {
-          if (k.ground && k.x + 30 > o.x && k.x - 30 < o.x + o.w) { o.hit = true; splash(k.x + 20); Sound.noise(.4, 600, 2400, .14, 1); speed *= .78; k.wet = 1.4; k.hurt = .35; addFloat(k.x, 100, '💦 سبلاش!', '#2D8FE0'); }
+          if (k.ground && k.x + 30 > o.x && k.x - 30 < o.x + o.w) { o.hit = true; splash(k.x + 20); Sound.noise(.4, 600, 2400, .14, 1); speed *= .78; k.wet = 1.4; k.hurt = .35; addFloat(k.x, 100, App.t('💦 سبلاش!', '💦 Splash!'), '#2D8FE0'); }
           continue;
         }
         if (o.type === 'hole') {
@@ -529,7 +552,7 @@
       // المهمّات
       if (waiting && waiting.pax.state === 'wait' && mode === 'drive' && k.x > waiting.x + 60) {
         waiting.pax.state = 'sad'; waiting = null; Sound.tone(330, .3, 'triangle', .1, -100);
-        addFloat(k.x - 80, 110, App.g('فاتكِ الراكب! 😢', 'فاتك الراكب! 😢'), '#8E5A00');
+        addFloat(k.x - 80, 110, App.t(App.g('فاتكِ الراكب! 😢', 'فاتك الراكب! 😢'), 'You missed the passenger! 😢'), '#8E5A00');
         nextMissionX = k.x + rand(900, 1400);
       }
       if (ride) {
@@ -583,16 +606,16 @@
     if (ride) {
       const d = DESTS[ride.dest], prog = clamp((taxi.x - ride.from) / (ride.x - ride.from), 0, 1), left = Math.max(0, Math.ceil(ride.time));
       key = 'r' + ride.x;
-      if (key !== lastMisKey) { $('#tMisE').textContent = d.e; $('#tMisT').textContent = '🧍 ' + d.to; el.classList.remove('wait'); }
+      if (key !== lastMisKey) { $('#tMisE').textContent = d.e; $('#tMisT').textContent = '🧍 ' + destTo(d); el.classList.remove('wait'); }
       $('#tMisP').style.width = (prog * 100).toFixed(1) + '%';
       const tm = $('#tMisTm'); tm.textContent = '⏱ ' + left; tm.classList.toggle('low', left <= 5);
       const m = Math.max(0, Math.round((ride.x - taxi.x) / 10));
-      $('#tMisT').textContent = `🧍 ${d.to} · ${m} م`;
+      $('#tMisT').textContent = `🧍 ${destTo(d)} · ${m} ${mUnit()}`;
     } else if (waiting && waiting.pax.state === 'wait' && waiting.x - taxi.x < 1100) {
       key = 'w' + waiting.x;
       if (key !== lastMisKey) {
         $('#tMisE').textContent = '🙋'; el.classList.add('wait');
-        $('#tMisT').textContent = App.g('راكب ينتظر! اضغطي «توقف» 🛑', 'راكب ينتظر! اضغط «توقف» 🛑');
+        $('#tMisT').textContent = App.t(App.g('راكب ينتظر! اضغطي «توقف» 🛑', 'راكب ينتظر! اضغط «توقف» 🛑'), 'A passenger is waiting! Press «Stop» 🛑');
         $('#tMisP').style.width = '0%'; $('#tMisTm').textContent = DESTS[waiting.pax.dest].e; $('#tMisTm').classList.remove('low');
       }
     }
@@ -604,12 +627,7 @@
     const d = distM, isBest = d > best.d, isBestN = deliveries > best.n;
     if (isBest || isBestN) { best = { d: Math.max(d, best.d), n: Math.max(deliveries, best.n) }; store.set('taxiBest', best); }
     $('#tFinal').textContent = d; $('#tFinD').textContent = deliveries; $('#tFinS').textContent = starCount;
-    $('#tOverT').textContent = isBest && d > 50 ? '🏆 رقم قياسي جديد!' : 'انتهت الرحلة! 🚕';
-    const msg = deliveries >= 10 ? App.g('أنتِ أمهر سائقة تاكسي في المدينة! 👑', 'أنت أمهر سائق تاكسي في المدينة! 👑')
-      : deliveries >= 3 ? 'الركّاب سعداء جدًا بك 😊' : deliveries >= 1 ? App.g('أحسنتِ! وصّلتِ الركّاب بأمان 💛', 'أحسنت! وصّلت الركّاب بأمان 💛')
-      : App.g('توقّفي عند الراكب الذي يلوّح لتوصليه 🙋', 'توقّف عند الراكب الذي يلوّح لتوصله 🙋');
-    $('#tOverP').textContent = msg;
-    $('#tBestL').textContent = `🏆 الأفضل: ${best.d} م · 🧍 ${best.n}`;
+    overInfo = { d, rec: isBest && d > 50 }; fillOver();
     $('#tMis').classList.remove('on'); lastMisKey = '';
     const reward = deliveries + Math.floor(d / 500);
     setTimeout(() => { if (state !== 'over') return; $('#tOver').classList.add('on'); Sound.lose(); if (reward) App.addStars(reward); }, 300);
@@ -828,7 +846,7 @@
     const sg = c.createLinearGradient(0, -104, 0, -89); sg.addColorStop(0, '#FFFFFF'); sg.addColorStop(1, '#FFE7A3');
     c.fillStyle = sg; c.beginPath(); c.roundRect(-20, -104, 34, 14, 5); c.fill();
     c.strokeStyle = '#C77700'; c.lineWidth = 1.5; c.stroke();
-    c.fillStyle = '#B85A00'; c.font = `900 10px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('تاكسي', -3, -96.5);
+    c.fillStyle = '#B85A00'; c.font = `900 10px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(App.lang === 'en' ? 'TAXI' : 'تاكسي', -3, -96.5);
     c.restore();
   }
 
@@ -1342,7 +1360,7 @@
     if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') { if (keyJump) { keyJump = false; jumpRelease(); } }
   });
   function togglePause() {
-    if (state === 'play') { state = 'pause'; jumpRelease(); $('#tPauseP').textContent = App.g('التاكسي ينتظركِ… 🚕💤', 'التاكسي ينتظرك… 🚕💤'); $('#tPaused').classList.add('on'); }
+    if (state === 'play') { state = 'pause'; jumpRelease(); $('#tPauseP').textContent = App.t(App.g('التاكسي ينتظركِ… 🚕💤', 'التاكسي ينتظرك… 🚕💤'), 'The taxi is waiting for you… 🚕💤'); $('#tPaused').classList.add('on'); }
     else if (state === 'pause') { state = 'play'; last = 0; $('#tPaused').classList.remove('on'); }
   }
   root.querySelector('#tPause').addEventListener('click', () => { Sound.tap(); togglePause(); });
@@ -1356,7 +1374,16 @@
 
   App.register({
     id: ID, title: 'التاكسي المرح', icon2: '🚕', isNew: false, music: 'taxi',
+    titleEn: 'Happy Taxi',
     desc: () => App.g('قودي التاكسي ووصّلي الركّاب!', 'قُد التاكسي ووصّل الركّاب!'),
+    descEn: () => 'Drive the taxi and give the passengers a ride!',
+    helpEn: () => [
+      '⬆️ Touch the screen or press «Jump» to make the taxi jump — press twice for a double jump!',
+      '🚧 Jump over cones, boxes, holes and sleeping cats, and don\'t jump into the birds 🐦',
+      '🙋 If you see a passenger waving, press «Stop» 🛑, then take them where they want to go before the time runs out ⏱',
+      '⭐ Collect the stars: 🧲 the magnet pulls them in, 🛡️ the shield protects you, and 🔥 nitro makes you super fast!',
+      '📯 The horn button wakes up sleeping cats so they move off the road — and you have 3 hearts ❤️'
+    ],
     help: () => [
       App.g('⬆️ المسي الشاشة أو اضغطي «قفز» ليقفز التاكسي — اضغطي مرتين لقفزة مزدوجة!', '⬆️ المس الشاشة أو اضغط «قفز» ليقفز التاكسي — اضغط مرتين لقفزة مزدوجة!'),
       App.g('🚧 اقفزي فوق الأقماع والصناديق والحُفر والقطط النائمة، ولا تقفزي تحت الطيور 🐦', '🚧 اقفز فوق الأقماع والصناديق والحُفر والقطط النائمة، ولا تقفز تحت الطيور 🐦'),
@@ -1364,8 +1391,12 @@
       '⭐ اجمع النجوم، و🧲 المغناطيس يجذبها، و🛡️ الدرع يحميك، و🔥 النيترو يجعلك سريعًا جدًا!',
       '📯 زر البوق يوقظ القطط النائمة فتبتعد عن الطريق — ولديك 3 قلوب ❤️'
     ],
-    best() { const b = store.get('taxiBest', null); return b && (b.d || b.n) ? `🏆 ${b.d || 0} م · 🧍 ${b.n || 0}` : ''; },
-    enter() { resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
+    best() { const b = store.get('taxiBest', null); return b && (b.d || b.n) ? `🏆 ${b.d || 0} ${mUnit()} · 🧍 ${b.n || 0}` : ''; },
+    onLang() {
+      relabel(); $('#tHintT').textContent = hintText(); fillOver(); lastMisKey = '';
+      if (state === 'pause') $('#tPauseP').textContent = App.t(App.g('التاكسي ينتظركِ… 🚕💤', 'التاكسي ينتظرك… 🚕💤'), 'The taxi is waiting for you… 🚕💤');
+    },
+    enter() { relabel(); overInfo = null; resize(); reset(); last = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
     leave() { cancelAnimationFrame(raf); if (state !== 'over') state = 'idle'; holdJump = false; keyJump = false; showStop(false); },
     pause() { if (state === 'play') { state = 'held'; jumpRelease(); } },
     resume() { if (state === 'held') { state = 'play'; last = 0; } },

@@ -352,30 +352,43 @@
   const root = App.section(ID, `
     <canvas class="tc"></canvas>
     <div class="bar">
-      <button class="ib home" aria-label="الرئيسية">🏠</button>
-      <button class="ib helpbtn" aria-label="مساعدة">❓</button>
-      <button class="ib lvbtn" aria-label="المستويات">🗺️</button>
+      <button class="ib home" aria-label="الرئيسية" data-aen="Home">🏠</button>
+      <button class="ib helpbtn" aria-label="مساعدة" data-aen="Help">❓</button>
+      <button class="ib lvbtn" aria-label="المستويات" data-aen="Levels">🗺️</button>
       <span class="grow"></span>
-      <div class="chip"><small>المستوى</small><b class="cLv">1</b></div>
-      <div class="chip"><small>الحركات</small><b class="cMv">0</b></div>
+      <div class="chip"><small data-en="Level">المستوى</small><b class="cLv">1</b></div>
+      <div class="chip"><small data-en="Moves">الحركات</small><b class="cMv">0</b></div>
       <div class="chip"><small>⭐⭐⭐</small><b class="cPar">≤ 0</b></div>
     </div>
     <div class="ctl">
-      <button class="cb" data-c="undo" aria-label="تراجع"><i>↶</i><small>تراجع</small></button>
-      <button class="cb" data-c="restart" aria-label="إعادة"><i>🔄</i><small>إعادة</small></button>
-      <button class="cb" data-c="extra" aria-label="أنبوب إضافي"><i>➕</i><small>أنبوب</small><span class="cnt">1</span></button>
-      <button class="cb" data-c="hint" aria-label="تلميح"><i>💡</i><small>تلميح</small></button>
-      <button class="cb" data-c="sym" aria-label="رموز الألوان"><i>🔣</i><small>رموز</small></button>
+      <button class="cb" data-c="undo" aria-label="تراجع" data-aen="Undo"><i>↶</i><small data-en="Undo">تراجع</small></button>
+      <button class="cb" data-c="restart" aria-label="إعادة" data-aen="Restart"><i>🔄</i><small data-en="Restart">إعادة</small></button>
+      <button class="cb" data-c="extra" aria-label="أنبوب إضافي" data-aen="Extra tube"><i>➕</i><small data-en="Tube">أنبوب</small><span class="cnt">1</span></button>
+      <button class="cb" data-c="hint" aria-label="تلميح" data-aen="Hint"><i>💡</i><small data-en="Hint">تلميح</small></button>
+      <button class="cb" data-c="sym" aria-label="رموز الألوان" data-aen="Color symbols"><i>🔣</i><small data-en="Symbols">رموز</small></button>
     </div>
     <div class="intro"><div><b class="iT"></b><span class="iG"></span></div></div>
     <div class="tip"><span></span></div>
-    <div class="overlay" id="tbLv"><div class="panel lvp"><h3>🧪 مستويات الأنابيب</h3><div class="lvg"></div>
-      <button class="btn alt" data-a="close">✕ إغلاق</button></div></div>
+    <div class="overlay" id="tbLv"><div class="panel lvp"><h3 data-en="🧪 Tube levels">🧪 مستويات الأنابيب</h3><div class="lvg"></div>
+      <button class="btn alt" data-a="close" data-en="✕ Close">✕ إغلاق</button></div></div>
     <div class="overlay" id="tbWin"><div class="panel">
       <h3 class="wT"></h3><div class="stars3 wS"></div><div class="wmv"></div><p class="wP"></p>
-      <button class="btn" data-a="next">التالي ▶️</button><br>
-      <button class="btn alt" data-a="again">🔄</button><button class="btn alt" data-a="levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية">🏠</button>
+      <button class="btn" data-a="next" data-en="Next ▶️">التالي ▶️</button><br>
+      <button class="btn alt" data-a="again" aria-label="إعادة" data-aen="Replay">🔄</button><button class="btn alt" data-a="levels" data-en="🗺️ Levels">🗺️ المستويات</button><button class="btn alt home" aria-label="الرئيسية" data-aen="Home">🏠</button>
     </div></div>`);
+  /* نصوص الواجهة الثابتة: data-en للنص و data-aen للوصف (aria/title) */
+  function i18n() {
+    root.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar == null) el.dataset.ar = el.textContent; el.textContent = App.t(el.dataset.ar, el.dataset.en); });
+    root.querySelectorAll('[data-aen]').forEach(el => {
+      if (el.dataset.aar == null) el.dataset.aar = el.getAttribute('aria-label') || el.title || '';
+      const v = App.t(el.dataset.aar, el.dataset.aen); if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', v); if (el.title) el.title = v;
+    });
+  }
+  let winPaint = null;
+  const introText = () => {
+    root.querySelector('.iT').textContent = App.t(`المستوى ${lvl}`, `Level ${lvl}`);
+    root.querySelector('.iG').textContent = App.t(`🧪 ${L.colors} ألوان · ${App.g('رتّبي', 'رتّب')} كل لون في أنبوب`, `🧪 ${L.colors} colors · Put each color in its own tube`);
+  };
   const cv = root.querySelector('canvas.tc'), bar = root.querySelector('.bar'), ctlEl = root.querySelector('.ctl');
   const lvOv = root.querySelector('#tbLv'), winOv = root.querySelector('#tbWin');
   const introEl = root.querySelector('.intro'), tipEl = root.querySelector('.tip');
@@ -473,8 +486,7 @@
     tv = st.map((_, i) => mkTV(i, i * .05));
     winOv.classList.remove('on'); lvOv.classList.remove('on'); tip('', 0);
     layout(); paintUI();
-    root.querySelector('.iT').textContent = `المستوى ${lvl}`;
-    root.querySelector('.iG').textContent = `🧪 ${L.colors} ألوان · ${App.g('رتّبي', 'رتّب')} كل لون في أنبوب`;
+    introText();
     introEl.classList.remove('on'); void introEl.offsetWidth; introEl.classList.add('on');
     Sound.whoosh();
   }
@@ -515,8 +527,8 @@
     if (!amt) {
       t.shake = 1; tv[sel].shake = .6; Sound.error(); vibrate(30);
       const a = st[i];
-      if (a.length >= CAP) tip(App.g('هذا الأنبوب ممتلئ!', 'هذا الأنبوب ممتلئ!') + ' 🙅', 1.8);
-      else tip(App.g('اسكبي', 'اسكب') + ' على اللون نفسه أو في أنبوب فارغ 💧', 2);
+      if (a.length >= CAP) tip(App.t('هذا الأنبوب ممتلئ!', 'This tube is full!') + ' 🙅', 1.8);
+      else tip(App.t(App.g('اسكبي', 'اسكب') + ' على اللون نفسه أو في أنبوب فارغ 💧', 'Pour onto the same color or into an empty tube 💧'), 2);
       sel = -1; return;
     }
     pour(sel, i, amt);
@@ -558,7 +570,7 @@
     td.bounce = 1; td.agit = 1;
     if (isDone(st[A.d])) completeTube(A.d);
     if (solved(st)) { winSeq(); return; }
-    if (!movesOf(st).length) tip(App.g('لا توجد حركات! جرّبي التراجع ↶', 'لا توجد حركات! جرّب التراجع ↶') + (extraUsed ? '' : ' أو أنبوبًا إضافيًا ➕'), 4);
+    if (!movesOf(st).length) tip(App.t(App.g('لا توجد حركات! جرّبي التراجع ↶', 'لا توجد حركات! جرّب التراجع ↶') + (extraUsed ? '' : ' أو أنبوبًا إضافيًا ➕'), 'No moves left! Try undo ↶' + (extraUsed ? '' : ' or an extra tube ➕')), 4);
   }
   function completeTube(i) {
     const t = tv[i]; t.cork = 0;
@@ -590,15 +602,17 @@
     });
     later(2, () => {
       if (App.current !== ID) return;
-      const titles = [App.g('أحسنتِ!', 'أحسنت!'), App.g('رائعة!', 'رائع!'), App.g('مذهلة!', 'مذهل!'), App.g('عبقرية صغيرة!', 'عبقري صغير!')];
-      root.querySelector('.wT').textContent = titles[s] || titles[0];
-      root.querySelector('.wS').innerHTML = [1, 2, 3].map(q => `<span class="${q <= s ? '' : 'off'}">⭐</span>`).join('');
-      root.querySelector('.wmv').textContent = `${moves} حركة · هدف 3 نجوم ≤ ${star3(L)}`;
-      root.querySelector('.wP').textContent = extraUsed && s === 2 ? 'الأنبوب الإضافي يجعل الحد الأقصى نجمتين ⭐⭐' : s < 3 ? App.g('حاولي بحركات أقل لتحصلي على 3 نجوم', 'حاول بحركات أقل لتحصل على 3 نجوم') : App.g('حللتِه بأقل الحركات! 🧪', 'حللته بأقل الحركات! 🧪');
+      (winPaint = () => {
+        const titles = [App.t(App.g('أحسنتِ!', 'أحسنت!'), 'Well done!'), App.t(App.g('رائعة!', 'رائع!'), 'Great!'), App.t(App.g('مذهلة!', 'مذهل!'), 'Amazing!'), App.t(App.g('عبقرية صغيرة!', 'عبقري صغير!'), 'Little genius!')];
+        root.querySelector('.wT').textContent = titles[s] || titles[0];
+        root.querySelector('.wS').innerHTML = [1, 2, 3].map(q => `<span class="${q <= s ? '' : 'off'}">⭐</span>`).join('');
+        root.querySelector('.wmv').textContent = App.t(`${moves} حركة · هدف 3 نجوم ≤ ${star3(L)}`, `${moves} moves · 3-star goal ≤ ${star3(L)}`);
+        root.querySelector('.wP').textContent = extraUsed && s === 2 ? App.t('الأنبوب الإضافي يجعل الحد الأقصى نجمتين ⭐⭐', 'The extra tube makes the most two stars ⭐⭐') : s < 3 ? App.t(App.g('حاولي بحركات أقل لتحصلي على 3 نجوم', 'حاول بحركات أقل لتحصل على 3 نجوم'), 'Try with fewer moves to get 3 stars') : App.t(App.g('حللتِه بأقل الحركات! 🧪', 'حللته بأقل الحركات! 🧪'), 'You solved it in the fewest moves! 🧪');
+      })();
       root.querySelector('[data-a="next"]').style.display = lvl < NLV ? '' : 'none';
       winOv.classList.add('on');
       if (s > prev) later(.5, () => App.addStars(s - prev));
-      if (lvl === NLV) App.toast(App.g('أنهيتِ كل المستويات! 🏆', 'أنهيت كل المستويات! 🏆'));
+      if (lvl === NLV) App.toast(App.t(App.g('أنهيتِ كل المستويات! 🏆', 'أنهيت كل المستويات! 🏆'), 'You finished all the levels! 🏆'));
     });
   }
   function undo() {
@@ -619,7 +633,7 @@
   }
   function addExtra() {
     if (won || anyOv() || anim) return;
-    if (extraUsed) { Sound.error(); App.toast('الأنبوب الإضافي مرة واحدة لكل مستوى'); return; }
+    if (extraUsed) { Sound.error(); App.toast(App.t('الأنبوب الإضافي مرة واحدة لكل مستوى', 'The extra tube is once per level')); return; }
     extraUsed = true; st.push([]); hist.forEach(h => h.push([]));
     const t = mkTV(st.length - 1, 0); t.enter = 0; t.pop = 1; tv.push(t);
     layout(); t.x = t.hx; t.y = t.hy;
@@ -632,13 +646,13 @@
     if (path && path.length) {
       const [s, d] = path[0]; hint = { s, d, t: 0 }; sel = -1;
       Sound.tone(880, .1, 'sine', .1, 0); Sound.tone(1175, .14, 'sine', .08, 0, .08);
-      tip(App.g('اسكبي من الأنبوب المضيء ⬇️ إلى المتوهّج', 'اسكب من الأنبوب المضيء ⬇️ إلى المتوهّج'), 3);
+      tip(App.t(App.g('اسكبي من الأنبوب المضيء ⬇️ إلى المتوهّج', 'اسكب من الأنبوب المضيء ⬇️ إلى المتوهّج'), 'Pour from the lit tube ⬇️ into the glowing one'), 3);
     } else if (path) { /* محلولة */ }
     else {
       Sound.error();
       const b = extraUsed ? btn('undo') : btn('extra');
       b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
-      tip(extraUsed ? App.g('تراجعي بضع خطوات ↶ ثم حاولي من جديد', 'تراجع بضع خطوات ↶ ثم حاول من جديد') : App.g('أضيفي أنبوبًا فارغًا ➕ أو تراجعي ↶', 'أضف أنبوبًا فارغًا ➕ أو تراجع ↶'), 3.5);
+      tip(extraUsed ? App.t(App.g('تراجعي بضع خطوات ↶ ثم حاولي من جديد', 'تراجع بضع خطوات ↶ ثم حاول من جديد'), 'Undo a few steps ↶ and try again') : App.t(App.g('أضيفي أنبوبًا فارغًا ➕ أو تراجعي ↶', 'أضف أنبوبًا فارغًا ➕ أو تراجع ↶'), 'Add an empty tube ➕ or undo ↶'), 3.5);
     }
   }
   function control(k) {
@@ -655,7 +669,7 @@
     const pr = loadProg(), g = root.querySelector('.lvg');
     g.innerHTML = Array.from({ length: NLV }, (_, i) => {
       const n = i + 1, s = pr.stars[n] || 0, lock = n > pr.unlocked, k = COLS[i % 10];
-      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${k[0]};--d:${k[2]}" data-l="${n}" aria-label="المستوى ${n}">
+      return `<button class="lvb${lock ? ' lock' : ''}${n === lvl ? ' cur' : ''}" style="--c:${k[0]};--d:${k[2]}" data-l="${n}" aria-label="${App.t('المستوى', 'Level')} ${n}">
         ${n}<span class="s">${lock ? '' : [1, 2, 3].map(q => `<i class="${q <= s ? '' : 'off'}">⭐</i>`).join('')}</span></button>`;
     }).join('');
     g.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
@@ -888,8 +902,16 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'أنابيب الألوان', icon2: '🧪', isNew: false, music: 'tubes',
+    id: ID, title: 'أنابيب الألوان', titleEn: 'Color Tubes', icon2: '🧪', isNew: false, music: 'tubes',
     desc: () => App.g('اسكبي الألوان حتى يصير كل أنبوب بلون واحد', 'اسكب الألوان حتى يصير كل أنبوب بلون واحد'),
+    descEn: () => 'Pour the colors until each tube has one color',
+    helpEn: () => [
+      '👆 Tap a tube to lift it, then tap another tube to pour into it',
+      '💧 You can only pour onto the same color or into an empty tube, and each tube holds 4 layers',
+      '🧪 Put each color in one tube so it gets a cork and you win the level',
+      '↶ Unlimited undo, 💡 a hint for a useful move, ➕ one extra tube (it makes the most two stars)',
+      '⭐ Finish the level in few moves to get 3 stars, and 🔣 shows symbols that tell the colors apart'
+    ],
     help: () => [
       '👆 ' + App.g('المسي', 'المس') + ' أنبوبًا لترفعه، ثم ' + App.g('المسي', 'المس') + ' أنبوبًا آخر لتسكب فيه',
       '💧 يمكنك السكب فقط على اللون نفسه أو في أنبوب فارغ، وكل أنبوب يتسع لـ4 طبقات',
@@ -901,9 +923,15 @@
     best() {
       const pr = loadProg(); const ks = Object.keys(pr.stars).map(Number).filter(n => pr.stars[n]);
       if (!ks.length) return '';
-      return `🏆 المستوى ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+      return `🏆 ${App.t('المستوى', 'Level')} ${Math.max(...ks)} · ⭐ ${ks.reduce((a, n) => a + pr.stars[n], 0)}`;
+    },
+    onLang() {
+      i18n(); if (L) introText();
+      if (winOv.classList.contains('on') && winPaint) winPaint();
+      if (lvOv.classList.contains('on')) openLevels();
     },
     enter() {
+      i18n();
       paused = false; sym = !!store.get('tubesSym', false);
       const pr = loadProg();
       startLevel(Math.min(pr.unlocked, NLV));
