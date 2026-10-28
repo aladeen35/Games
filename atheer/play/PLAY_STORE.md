@@ -54,5 +54,7 @@ By Al-Bushra Technology.
 
 **بريد التواصل:** aladeen35@gmail.com
 
+**رابط سياسة الخصوصية:** https://aladeen35.github.io/Games/ourkids/privacy.html
+
 **الفئة:** Education (التعليم) — أو Games › Educational
 **العلامات:** Kids, Educational, Arabic, Learning
