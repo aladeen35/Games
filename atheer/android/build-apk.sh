@@ -16,8 +16,8 @@ if [ -f "$SDK36" ]; then JAVA_JAR="$SDK36"; TARGET_SDK=36; fi
 TARGET_SDK="${TARGET_SDK:-34}"
 BUNDLETOOL="${BUNDLETOOL:-$REPO/android/tools/sdk/bundletool.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=12
-VERSION_NAME=7.2
+VERSION_CODE=13
+VERSION_NAME=7.3
 DIST="$ROOT/dist"
 mkdir -p "$DIST"
 
@@ -50,14 +50,14 @@ build() {
     -R "$OUT/compiled/base.zip" "${OVERLAY[@]}" --auto-add-overlay \
     -A "$OUT/assets" --java "$OUT/gen" \
     --rename-manifest-package "$PKG" \
-    --min-sdk-version 21 --target-sdk-version $TARGET_SDK \
+    --min-sdk-version 24 --target-sdk-version $TARGET_SDK \
     --version-code $VERSION_CODE --version-name $VERSION_NAME --replace-version
 
   echo "④ ترجمة جافا وتوليد classes.dex"
   javac -nowarn -source 8 -target 8 -encoding UTF-8 \
     -bootclasspath "$JAVA_JAR" -classpath "$JAVA_JAR" -d "$OUT/classes" \
     $(find "$AND/java" "$OUT/gen" -name '*.java')
-  java -cp "$DX_JAR" com.android.dx.command.Main --dex --min-sdk-version=21 --output="$OUT/classes.dex" "$OUT/classes"
+  java -cp "$DX_JAR" com.android.dx.command.Main --dex --min-sdk-version=24 --output="$OUT/classes.dex" "$OUT/classes"
   ( cd "$OUT" && zip -q -X base.apk classes.dex )
 
   echo "⑤ محاذاة وتوقيع بمفتاح النسخة"
@@ -79,7 +79,7 @@ build() {
       --manifest "$AND/AndroidManifest.xml" \
       -R "$OUT/compiled/base.zip" "${OVERLAY[@]}" --auto-add-overlay \
       -A "$OUT/assets" --rename-manifest-package "$PKG" \
-      --min-sdk-version 21 --target-sdk-version $TARGET_SDK \
+      --min-sdk-version 24 --target-sdk-version $TARGET_SDK \
       --version-code $VERSION_CODE --version-name $VERSION_NAME --replace-version
     ( cd "$B/mod" && unzip -q ../proto.zip && mv AndroidManifest.xml manifest/ && cp "$OUT/classes.dex" dex/ && zip -q -r -X ../base.zip . )
     rm -f "$DIST/$OUTNAME-$VERSION_NAME.aab"
