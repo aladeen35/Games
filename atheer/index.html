@@ -397,6 +397,12 @@ html[lang=en] .card h2{font-size:17px}
 .stars3 > :nth-child(2){animation-delay:.12s}.stars3 > :nth-child(3){animation-delay:.24s}
 @keyframes starpop{from{transform:scale(0) rotate(-40deg)}}
 .stars3 .off{filter:grayscale(1);opacity:.3}
+
+/* زر «التالي» التلقائي: أكبر قليلًا، وشريط يمتلئ خلال 5 ثوانٍ */
+.btn.autonext,button.autonext{transform:scale(1.18);position:relative;overflow:hidden;margin:6px 10px 10px!important}
+.autonext::after{content:"";position:absolute;inset:auto 0 0 0;height:6px;background:rgba(255,255,255,.85);transform-origin:left;transform:scaleX(0);animation:anFill 5s linear forwards;border-radius:0 0 999px 999px}
+[dir=rtl] .autonext::after{transform-origin:right}
+@keyframes anFill{to{transform:scaleX(1)}}
 </style>
 </head>
 <body>

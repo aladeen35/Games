@@ -56,11 +56,11 @@
   const LV = [
     { k: ['find', 'find', 'find', 'find', 'find'], den: [1, 2, 5], ic: '🔍' },
     { k: ['find', 'find', 'find', 'find', 'find'], den: 'all', dmax: 50, ic: '🔍' },
-    { k: ['count', 'count', 'count', 'count', 'count'], den: [1], tot: [3, 8], ic: '🐷' },
-    { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2], tot: [4, 12], ic: '🐷' },
+    { k: ['count', 'count', 'count', 'count', 'count'], den: [1], tot: [3, 8], ic: '🏺' },
+    { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2], tot: [4, 12], ic: '🏺' },
     { k: ['pay', 'pay', 'pay', 'pay', 'pay'], den: [1, 2], price: [2, 6], ic: '🛒' },
     { k: ['pay', 'pay', 'count', 'pay', 'pay'], den: [1, 2, 5], price: [5, 10], tot: [6, 15], ic: '🛒' },
-    { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2, 5, 10], tot: [10, 25], ic: '🐷' },
+    { k: ['count', 'count', 'count', 'count', 'count'], den: [1, 2, 5, 10], tot: [10, 25], ic: '🏺' },
     { k: ['pay', 'pay', 'pay', 'pay', 'pay'], den: [1, 2, 5, 10, 20], price: [8, 30], ic: '🛒' },
     /* الباقي: chg بعدد «الخطوات» — خطوة ١ للأوراق الصغيرة و١٠ لورقة ١٠٠/٢٠٠ و١٠٠ لورقة ٥٠٠ */
     { k: ['change', 'change', 'change', 'change', 'change'], pay: [5, 10], chg: [1, 5], ic: '🪙' },
@@ -224,7 +224,7 @@
   function chrome() {
     const AL = { home: App.t('الرئيسية', 'Home'), help: App.t('مساعدة', 'Help'), levels: App.t('المستويات', 'Levels'), cur: App.t('العملة', 'Currency'), lang: App.t('اللغة', 'Language'), repeat: App.t('إعادة السؤال', 'Repeat the question'), pay: App.t('ادفع', 'Pay'), listen: App.t('إعادة الصوت', 'Replay sound') };
     root.querySelectorAll('[data-i]').forEach(e => e.setAttribute('aria-label', AL[e.dataset.i]));
-    root.querySelector('.hLv').textContent = '🐷 ' + App.t('المستويات', 'Levels');
+    root.querySelector('.hLv').textContent = '🏺 ' + App.t('المستويات', 'Levels');
     root.querySelector('[data-a="close"]').textContent = '✕ ' + App.t('إغلاق', 'Close');
     root.querySelector('[data-a="next"]').textContent = App.t('التالي', 'Next') + ' ▶️';
     root.querySelector('[data-a="again"]').textContent = '🔄 ' + App.t('مرة أخرى', 'Again');
@@ -471,7 +471,25 @@
   }
 
   /* ---------- الحصّالة ---------- */
+  /* الحصّالة الفخارية (صورة حقيقية) — تحلّ محل الخنزير الوردي في كل مكان */
+  const JAR = new Image();
+  JAR.onload = () => { try { if (App.iconCache) App.iconCache.clear(); if (App.current === 'menu' && App.paintIcons) App.paintIcons(); } catch (e) {} };
+  JAR.src = 'img/money/jar.png';
   function drawPiggy(c, x, y, s, wig, sq, blink, happy) {
+    if (JAR.complete && JAR.naturalWidth) {
+      const h = s * .95, w = h * JAR.naturalWidth / JAR.naturalHeight;
+      c.save(); c.translate(x, y);
+      c.fillStyle = 'rgba(70,45,20,.22)'; c.beginPath(); c.ellipse(0, 0, w * .5, s * .06, 0, 0, TAU); c.fill();
+      c.rotate(Math.sin(wig * 22) * .1 * wig); c.scale(1 + sq * .1, 1 - sq * .1);
+      c.shadowColor = 'rgba(90,55,25,.28)'; c.shadowBlur = s * .06; c.shadowOffsetY = s * .02;
+      c.drawImage(JAR, -w / 2, -h, w, h); c.shadowColor = 'transparent';
+      if (happy) { // لمعة خفيفة عند الفرح
+        const g = c.createRadialGradient(-w * .15, -h * .62, 0, -w * .15, -h * .62, w * .35);
+        g.addColorStop(0, 'rgba(255,255,255,.45)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.fillStyle = g; c.beginPath(); c.ellipse(-w * .15, -h * .62, w * .3, h * .2, -.3, 0, TAU); c.fill();
+      }
+      c.restore(); return;
+    }
     c.save(); c.translate(x, y);
     // ظل
     c.fillStyle = 'rgba(20,70,55,.22)'; c.beginPath(); c.ellipse(0, 0, s * .48, s * .07, 0, 0, TAU); c.fill();
@@ -683,7 +701,7 @@
     const t = R.type;
     let h = '';
     if (t === 'find') h = isAr() ? `🔍 أين ${isCoin(R.v) ? '' : 'ورقة '}<span class="eq"><b>${dg(R.v)}</b></span> ${unitTxt(R.v)}؟` : `🔍 Where is the <span class="eq"><b>${dg(R.v)}</b></span> ${C().en1} ${isCoin(R.v) ? 'coin' : 'note'}?`;
-    else if (t === 'count') h = phase === 'ask' ? (isAr() ? '🐷 كم في الحصّالة؟' : '🐷 How much is inside?') : (isAr() ? `🐷 ${App.g('ضعي', 'ضع')} النقود في الحصّالة` : '🐷 Put the money in the piggy bank');
+    else if (t === 'count') h = phase === 'ask' ? (isAr() ? '🏺 كم في الحصّالة؟' : '🏺 How much is inside?') : (isAr() ? `🏺 ${App.g('ضعي', 'ضع')} النقود في الحصّالة` : '🏺 Put the money in the piggy bank');
     else if (t === 'pay') h = (isAr() ? `🛒 ${App.g('ادفعي', 'ادفع')}` : '🛒 Pay') + ` <span class="eq"><b>${dg(R.P)}</b></span> <small>${unitTxt(R.P)}</small>`;
     else if (t === 'change') {
       const q = phase === 'ask' || phase === 'done' ? `<b>${dg(R.M)}</b><i>−</i><b>${dg(R.P)}</b><i>=</i><b class="q">${phase === 'done' ? dg(R.N) : '?'}</b>` : `<b>${dg(R.M)}</b>`;
@@ -1246,19 +1264,19 @@
 
   /* ---------- التسجيل ---------- */
   App.register({
-    id: ID, title: 'حصّالتي', titleEn: 'My Piggy Bank', icon2: '🐷', isNew: true, music: 'candy',
+    id: ID, title: 'حصّالتي', titleEn: 'My Piggy Bank', icon2: '🏺', isNew: true, music: 'candy',
     desc: () => App.g('تعلّمي النقود واشتري من الدكّان', 'تعلّم النقود واشترِ من الدكّان'),
     descEn: () => 'Learn about money and shop at the little store',
     helpEn: () => [
       '🪙 Pick the currency with the round button: Sudanese pound or Saudi riyal (toy money)',
-      '🐷 Drag the money or tap it and it jumps into the piggy bank, then say how much is inside',
+      '🏺 Drag the money or tap it and it jumps into the piggy bank, then say how much is inside',
       '🛒 At the store put the exact price on the plate, then press «Pay ✓»',
       '🪙 In «Change» pick how much the seller gives back, and in «Saving» collect the price of the toy',
       '🔤 The «عربي / English» button changes the digits and the voice, and 🔊 repeats the question'
     ],
     help: () => [
       '🪙 ' + App.g('اختاري', 'اختر') + ' العملة من الزر الدائري: جنيه سوداني أو ريال سعودي (نقود لعب)',
-      '🐷 ' + App.g('اسحبي', 'اسحب') + ' النقود أو ' + App.g('المسيها', 'المسها') + ' فتقفز إلى الحصّالة، ثم ' + App.g('قولي', 'قل') + ' كم فيها',
+      '🏺 ' + App.g('اسحبي', 'اسحب') + ' النقود أو ' + App.g('المسيها', 'المسها') + ' فتقفز إلى الحصّالة، ثم ' + App.g('قولي', 'قل') + ' كم فيها',
       '🛒 في الدكّان ' + App.g('ضعي', 'ضع') + ' في الصحن ثمن السلعة بالضبط ثم ' + App.g('اضغطي', 'اضغط') + ' «ادفع ✓»',
       '🪙 في «الباقي» ' + App.g('اختاري', 'اختر') + ' كم يعيد لك البائع، وفي «الادّخار» ' + App.g('اجمعي', 'اجمع') + ' ثمن اللعبة',
       '🔤 زر «عربي / English» يغيّر الأرقام والنطق، و🔊 يعيد السؤال'

@@ -1,12 +1,12 @@
 /* ألعاب أثير وبشرى — Service Worker للعمل دون إنترنت */
-const CACHE = 'atheer-games-v11';
+const CACHE = 'atheer-games-v12';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',
   './voice/index.js', './voice/phrases.js', './fonts/baloo-arabic.woff2', './fonts/baloo-latin.woff2', './img/albushra.jpg', './img/splash-logo.webp',
   ...[1, 2, 3, 4, 5, 6, 7].map(n => `./img/photos/p${n}.jpg`),
   ...['sdg_c1.png', 'sdg_2.jpg', 'sdg_5.jpg', 'sdg_10.jpg', 'sdg_20.jpg', 'sdg_50.jpg', 'sdg_100.jpg', 'sdg_200.jpg', 'sdg_500.jpg',
-    'sar_c1.png', 'sar_c2.png', 'sar_5.jpg', 'sar_10.jpg', 'sar_50.jpg', 'sar_100.jpg', 'sar_500.jpg'].map(f => './img/money/' + f),
+    'sar_c1.png', 'sar_c2.png', 'sar_5.jpg', 'sar_10.jpg', 'sar_50.jpg', 'sar_100.jpg', 'sar_500.jpg', 'jar.png'].map(f => './img/money/' + f),
   ...['gsap', 'Flip', 'CustomEase', 'Draggable', 'MotionPathPlugin', 'Physics2DPlugin'].map(n => `./js/vendor/${n}.min.js`),
   ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly', 'letters', 'numbers', 'maze', 'diff', 'taxi', 'cake', 'harakat', 'wordtrain', 'arpuzzle', 'enpuzzle', 'opposites', 'tower', 'penguins', 'numpuzzle', 'balance', 'fractions', 'pattern', 'shadows', 'mothers', 'sudanmap', 'duas', 'studio', 'pegs', 'magicpad', 'rings', 'woodblocks', 'abacus', 'piggybank', 'locks', 'traffic', 'body', 'jobs', 'seasons', 'lifecycle', 'wudu', 'stories'].map(n => `./js/${n}.js`)
 ];

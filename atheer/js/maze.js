@@ -114,8 +114,13 @@
         g[i] |= d[2]; g[ny * C + nx] |= d[3]; k--;
       }
     }
-    M.start = C - 1; M.goal = (R - 1) * C; // من أعلى اليمين إلى أسفل اليسار
+    M.start = C - 1; // تبدأ الشخصية أعلى اليمين
+    /* الهدف دائمًا في «آخر» المتاهة: أبعد طريق مسدود عن البداية.
+       بما أنه طريق مسدود فلا يقع خلفه أي شيء، فكل النجوم يمكن الوصول إليها قبل الهدف. */
     const b0 = bfs(M, [M.start]);
+    let far = (R - 1) * C, fd = -1;
+    for (let i = 0; i < C * R; i++) if (i !== M.start && openCnt(g[i]) === 1 && b0.dist[i] > fd) { fd = b0.dist[i]; far = i; }
+    M.goal = far;
     M.sol = [M.start].concat(pathTo(b0, M.start, M.goal));
     // النجوم في الطرق المسدودة
     const bp = bfs(M, M.sol), cand = [];

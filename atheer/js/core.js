@@ -673,7 +673,7 @@ const App = {
     { id: 'abacus_en', g: 'abacus', i: '🇬🇧', t: 'العدّاد بالإنجليزية', d: 'إكمال مستوى بالإنجليزية', te: "Abacus in English", de: "Complete a level in English" },
     { id: 'abacus_hundred', g: 'abacus', i: '💯', t: 'عرضتُ المئة', d: 'عرض العدد 100', te: "I Showed 100", de: "Show the number 100" },
     { id: 'abacus_all', g: 'abacus', i: '🏆', t: 'بطل عدّاد الخرز', d: 'إكمال كل المستويات', te: "Abacus Champion", de: "Complete every level" },
-    { id: 'piggybank_first', g: 'piggybank', i: '🐷', t: 'حصّالتي الأولى', d: 'إكمال أول مستوى', te: "My First Piggy Bank", de: "Complete the first level" },
+    { id: 'piggybank_first', g: 'piggybank', i: '🏺', t: 'حصّالتي الأولى', d: 'إكمال أول مستوى', te: "My First Piggy Bank", de: "Complete the first level" },
     { id: 'piggybank_shop', g: 'piggybank', i: '🛒', t: 'أول شراء من الدكّان', d: 'الدفع في الدكّان', te: "First Shop Purchase", de: "Pay at the shop" },
     { id: 'piggybank_saver', g: 'piggybank', i: '💰', t: 'جمعتُ ثمن اللعبة', d: 'إكمال مستوى الادّخار', te: "Saved for the Toy", de: "Complete the saving level" },
     { id: 'piggybank_both', g: 'piggybank', i: '💱', t: 'بالجنيه والريال', d: 'اللعب بالعملتين', te: "Pounds and Riyals", de: "Play with both currencies" },
@@ -790,6 +790,32 @@ const App = {
     // في القائمة (دون نافذة مفتوحة): تنزلق الواجهة خارجًا ثم تعود من الجهة الأخرى باللغة الجديدة
     if (this.current === 'menu' && Fx.on && !$('#sheetWrap').classList.contains('on')) Fx.langSwap(l, apply);
     else apply();
+  },
+  /* ---------- «التالي» تلقائيًا ----------
+     عند ظهور لوحة فوز فيها زر «التالي»، يكبر الزر ويمتلئ شريطه خلال 5 ثوانٍ ثم يُضغط تلقائيًا
+     إن لم يضغطه الطفل. أي لمسة على اللوحة تلغي العدّ. */
+  NEXT_RE: /التالي|Next/i,
+  findNext(o) {
+    const bs = [...o.querySelectorAll('button')].filter(b => b.offsetParent && !b.disabled);
+    return bs.find(b => b.dataset.a === 'next' || b.dataset.act === 'next' || b.dataset.c === 'next') || bs.find(b => this.NEXT_RE.test(b.textContent));
+  },
+  autoNext() {
+    if (!window.MutationObserver) return;
+    const arm = o => {
+      clearTimeout(o._anT); if (o._anBtn) o._anBtn.classList.remove('autonext');
+      if (!o.classList.contains('on')) return;
+      setTimeout(() => { // بعد أن ترسم اللعبة محتوى اللوحة
+        if (!o.classList.contains('on')) return;
+        const b = this.findNext(o); if (!b) return;
+        o._anBtn = b; b.classList.remove('autonext'); void b.offsetWidth; b.classList.add('autonext');
+        o._anT = setTimeout(() => { if (o.classList.contains('on') && b.isConnected && b.offsetParent && b.classList.contains('autonext')) b.click(); }, 5000);
+      }, 250);
+    };
+    const cancel = e => { const o = e.currentTarget; if (o._anBtn && !o._anBtn.contains(e.target)) { clearTimeout(o._anT); o._anBtn.classList.remove('autonext'); } };
+    const watch = o => { if (o._anW) return; o._anW = 1; mo.observe(o, { attributes: true, attributeFilter: ['class'] }); o.addEventListener('pointerdown', cancel); if (o.classList.contains('on')) arm(o); };
+    const mo = new MutationObserver(rs => rs.forEach(r => { const o = r.target; const on = o.classList.contains('on'); if (on !== !!o._anOn) { o._anOn = on; arm(o); } }));
+    document.querySelectorAll('.overlay').forEach(watch);
+    new MutationObserver(() => document.querySelectorAll('.overlay').forEach(watch)).observe(document.body, { childList: true, subtree: true });
   },
   applyLang() {
     const l = this.lang, H = document.documentElement;
@@ -1417,6 +1443,7 @@ const App = {
       }));
       document.querySelectorAll('.overlay').forEach(o => { o.dataset.fx = '1'; o._fxOn = o.classList.contains('on'); mo.observe(o, { attributes: true, attributeFilter: ['class'] }); });
     }
+    this.autoNext();
     const start = location.hash.slice(1);
     if (this.games[start]) this.show(start);
     else if (window.Splash && Splash.active) Splash.onEnd(() => Fx.menuIntro());

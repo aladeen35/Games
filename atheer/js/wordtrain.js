@@ -95,8 +95,11 @@
     fs *= Math.min(1.25, size * dpr / Math.max(w, h, 1)); x.font = `${fs}px ${EMOJI_FONT}`; m = x.measureText(e);
     const L = m.actualBoundingBoxLeft || m.width / 2, R = m.actualBoundingBoxRight || m.width / 2;
     const A = m.actualBoundingBoxAscent || fs * .8, D = m.actualBoundingBoxDescent || fs * .2;
-    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
-    x.fillText(e, P / 2 + (L - R) / 2, P / 2 + (A - D) / 2);
+    x.textAlign = 'left'; x.direction = 'ltr'; x.textBaseline = 'alphabetic';
+    { /* توسيط دقيق: القياس بنفس المحاذاة المستخدمة في الرسم */
+      const mm = x.measureText(e), L2 = mm.actualBoundingBoxLeft || 0, R2 = mm.actualBoundingBoxRight || mm.width;
+      const A2 = mm.actualBoundingBoxAscent || A, D2 = mm.actualBoundingBoxDescent || D;
+      x.fillText(e, P / 2 + (L2 - R2) / 2, P / 2 + (A2 - D2) / 2); }
     c.sz = P / dpr; ecache.set(key, c);
     return c;
   }
