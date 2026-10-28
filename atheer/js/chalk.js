@@ -337,7 +337,7 @@
   }
   function statusText() {
     const where = isU() && nextB >= 0 && !subs[nextB] ? App.t(' — في اللوحة المضيئة', ' — in the glowing board') : '';
-    if (cfg.mode === 'ai') return turn === human() ? App.t(`${App.g('دورك', 'دورك')} يا ${App.profile.name} (${pname(turn)})${where}`, `Your turn, ${App.profile.name} (${pname(turn)})${where}`) : App.t('الذكاء الاصطناعي يفكّر…', 'The computer is thinking…');
+    if (cfg.mode === 'ai') return turn === human() ? App.t(`${App.g('دورك', 'دورك')} يا ${App.kidName(App.profile)} (${pname(turn)})${where}`, `Your turn, ${App.kidName(App.profile)} (${pname(turn)})${where}`) : App.t('الذكاء الاصطناعي يفكّر…', 'The computer is thinking…');
     return App.t(`دور ${pname(turn)}${where}`, `${pname(turn)}'s turn${where}`);
   }
   /* الرسالة دالة تُحسب عند الرسم كي تتبع اللغة الحالية */
@@ -386,7 +386,7 @@
       series[winP]++;
       if (series[winP] >= 3) {
         seriesDone = true;
-        const champ = () => cfg.mode === 'ai' ? (winP === human() ? App.profile.name : App.t('الذكاء الاصطناعي', 'The computer')) : pname(winP);
+        const champ = () => cfg.mode === 'ai' ? (winP === human() ? App.kidName(App.profile) : App.t('الذكاء الاصطناعي', 'The computer')) : pname(winP);
         setTimeout(() => { if (tok !== roundToken) return; drawTrophy(); setMsg(() => App.t(`🏆 ${champ()} ${App.g('بطلة', 'بطل')} السلسلة!`, `🏆 ${champ()} is the series champion!`)); Sound.win(); }, 1500);
         if (cfg.mode === 'pvp' || winP === human()) { App.achieve('xo_series'); App.addStars(5); }
       }
@@ -477,7 +477,7 @@
     chalkText(c, `✏️ ${pname('A')}  ×  ${pname('B')}`, W / 2, Math.max(84, G.y * .42 + 22), Math.min(32, W / 13), CHALK);
     const sy = G.y - 24, sp = Math.min(120, W * .3);
     const cols = cfg.mode === 'ai'
-      ? [[App.profile.name, scores.w, COL[human()]], [App.t('تعادل', 'Draw'), scores.d, CHALK], [App.t('الذكاء', 'Computer'), scores.l, COL[aiP()]]]
+      ? [[App.kidName(App.profile), scores.w, COL[human()]], [App.t('تعادل', 'Draw'), scores.d, CHALK], [App.t('الذكاء', 'Computer'), scores.l, COL[aiP()]]]
       : [[pname('A'), pvp.A, COL.A], [App.t('تعادل', 'Draw'), pvp.d, CHALK], [pname('B'), pvp.B, COL.B]];
     cols.forEach(([n, v, col], k) => chalkText(c, `${n}: ${v}`, W / 2 + (1 - k) * sp, sy, 17, col));
     // اللوحة المسموح اللعب فيها في الخارقة

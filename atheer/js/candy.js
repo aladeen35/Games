@@ -1299,7 +1299,7 @@
   /* ---------- التسجيل ---------- */
   App.register({
     id: ID, get title() { return 'حلويات ' + (App.profile ? App.profile.name : ''); }, icon2: '🍬', isNew: false, music: 'candy',
-    get titleEn() { return App.profile ? App.profile.name + '\'s Candy' : 'Candy'; },
+    get titleEn() { return App.profile ? App.kidName(App.profile) + '\'s Candy' : 'Candy'; },
     desc: () => App.g('طابقي ثلاث حلويات أو أكثر', 'طابق ثلاث حلويات أو أكثر'),
     descEn: () => 'Match three or more candies',
     helpEn: () => [

@@ -1019,7 +1019,7 @@
     onLang(l) {
       trUI();
       const lvOn = lvOv.classList.contains('on');
-      if (l !== lang) setLang(l, lvOn);
+      if (l !== lang) setLang(l, false);
       if (lvOn) renderLevels();
       if (winOv.classList.contains('on')) winText();
     },

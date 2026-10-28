@@ -93,7 +93,7 @@ html[data-font="large"] .menu-wrap,html[data-font="large"] .sheet{zoom:1.12}
 .grow{flex:1}
 
 .hero{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
-.hero-txt{display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-txt{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;min-width:0}
 /* ---------- صف الأطفال: صور دائرية كبيرة، والنشط أكبر ---------- */
 .kids{width:100%;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:12px 6px 6px;scrollbar-width:none;touch-action:pan-x pan-y;align-items:flex-start;min-height:132px}
 .kids::-webkit-scrollbar{display:none}
@@ -223,7 +223,7 @@ html.gs .card,html.gs .kav{will-change:transform}
 .foot .brand img{width:96px;height:96px;border-radius:26px;border:4px solid #fff;box-shadow:0 6px 0 var(--t-edge),0 10px 18px rgba(0,0,0,.2)}
 @media (min-width:720px){
   .hero{flex-direction:row;justify-content:center;gap:34px;margin:6px 0 4px}
-  .hero-txt{align-items:flex-start}
+  .hero-txt{align-items:flex-start;width:auto;max-width:calc(100% - 250px)}
   .hello{margin-top:0;font-size:38px}
   .logo{width:210px}
   .cards{grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:20px 16px}
