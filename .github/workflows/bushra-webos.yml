@@ -1,0 +1,37 @@
+# يحزم تطبيق «البشرى» لشاشات webOS (ملف IPK) عند أي تعديل في bushra-webos/ وينشره كإصدار.
+name: Bushra — webOS IPK
+
+on:
+  push:
+    paths: ['bushra-webos/**', '.github/workflows/bushra-webos.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Package IPK
+        run: |
+          npm i -g @webos-tools/cli
+          VERSION=$(node -p "require('./bushra-webos/appinfo.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          mkdir -p dist
+          ares-package bushra-webos -o dist
+          mv dist/*.ipk "dist/AlBushra-webOS-$VERSION.ipk"
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: bushra-webos-v${{ env.VERSION }}-${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: البشرى لشاشات webOS ${{ env.VERSION }} (بناء ${{ github.run_number }})
+          prerelease: ${{ github.ref_name != 'main' }}
+          body: |
+            «البشرى» لشاشات LG و webOS — يُثبَّت بوضع المطوّر (Developer Mode) أو أداة webOS Dev Manager.
+          files: dist/*.ipk

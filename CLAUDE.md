@@ -20,3 +20,8 @@
 - الملفات الشخصية: المفضلة والسجل وسجل الأوقات مفاتيحها `fav@<id>` و`history@<id>` و`log@<id>` في صندوق `user`؛ استعمل `AppStore.allowed()`/`visible()` لا القوائم الخام حتى يُحترم ملف الأطفال.
 - الويب: لا `dir="rtl"` على `<html>` في `web/index.html`، ولا قص بحواف دائرية حول عرض الفيديو — كلاهما يحرّف موضع عنصر الفيديو.
 - أندرويد: `MainActivity.kt` + `TvHome.kt` (tvprovider) + `CastDiscovery.kt`؛ لا تُبنى محليًا هنا، فراجع سجل CI بعد أي تعديل عليها.
+
+## «البشرى» لشاشات webOS (`bushra-webos/`)
+- تطبيق HTML/JS خفيف بلا أطر عمل، **متوافق مع webOS 4** (Chromium 53): لا async/await ولا `?.` ولا `??` ولا spread للكائنات.
+- المعرّف `com.albushra.webos`؛ ارفع `version` في `appinfo.json` مع كل إصدار. يُحزَم IPK في `.github/workflows/bushra-webos.yml` وينشر في Releases.
+
