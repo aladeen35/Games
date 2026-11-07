@@ -14,6 +14,7 @@ import 'screens/onboarding.dart';
 import 'screens/profiles.dart';
 import 'screens/series.dart';
 import 'platform/tv_home.dart';
+import 'drive/drive_mode.dart';
 import 'dart:async';
 import 'data/remote_bus.dart';
 import 'screens/remote_screen.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
   Reminders.onFire = _onReminder;
   Reminders.onOpen = _openChannelById;
   await AppStore.I.init();
+  await DriveMode.init();
   AppStore.onUserData = TvHome.schedule;
   RemoteBus.stream.listen(_onRemote);
   unawaited(startRemote());

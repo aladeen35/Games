@@ -10,10 +10,11 @@ import android.util.Rational
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import com.albushra.bushra.drive.DriveChannel
 
 /**
  * يضيف للمشغل: «صورة داخل صورة»، وروابط الشاشة الرئيسية في Android TV (تابع المشاهدة والمفضلة)،
- * والبحث الصوتي، واكتشاف أجهزة Chromecast على الشبكة.
+ * والبحث الصوتي، واكتشاف أجهزة Chromecast على الشبكة، ووضع القيادة (drive/).
  */
 class MainActivity : FlutterActivity() {
     private var autoPip = false
@@ -73,6 +74,8 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+
+        DriveChannel.register(this, messenger)
 
         MethodChannel(messenger, "bushra/cast").setMethodCallHandler { call, result ->
             when (call.method) {

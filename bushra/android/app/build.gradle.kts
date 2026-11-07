@@ -65,4 +65,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     // صف «تابع المشاهدة» وقناة المفضلة في الشاشة الرئيسية لـ Android TV
     implementation("androidx.tvprovider:tvprovider:1.0.0")
+    // وضع القيادة: مشغل الفيديو في النافذة العائمة (نفس نسخة ExoPlayer التي يستعملها video_player)
+    implementation("androidx.media3:media3-exoplayer:1.9.2")
+    implementation("androidx.media3:media3-exoplayer-hls:1.9.2")
 }

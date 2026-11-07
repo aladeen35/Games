@@ -7,6 +7,18 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- الشاشة الرئيسية في Android TV (تابع المشاهدة وقناة المفضلة) -->
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
+    <!-- وضع القيادة: نوافذ عائمة فوق الخرائط، ومرآة الكاميرا الخلفية، وقفل الصورة حسب سرعة GPS -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.any" android:required="false"/>
+    <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
     <!-- يعمل على الهاتف واللوحي و Android TV / Google TV -->
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
     <uses-feature android:name="android.software.leanback" android:required="false"/>
@@ -47,6 +59,10 @@
                 <data android:scheme="bushra"/>
             </intent-filter>
         </activity>
+        <service
+            android:name=".drive.DriveService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback|camera|location" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>

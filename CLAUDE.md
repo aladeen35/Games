@@ -20,6 +20,7 @@
 - الملفات الشخصية: المفضلة والسجل وسجل الأوقات مفاتيحها `fav@<id>` و`history@<id>` و`log@<id>` في صندوق `user`؛ استعمل `AppStore.allowed()`/`visible()` لا القوائم الخام حتى يُحترم ملف الأطفال.
 - الويب: لا `dir="rtl"` على `<html>` في `web/index.html`، ولا قص بحواف دائرية حول عرض الفيديو — كلاهما يحرّف موضع عنصر الفيديو.
 - أندرويد: `MainActivity.kt` + `TvHome.kt` (tvprovider) + `CastDiscovery.kt`؛ لا تُبنى محليًا هنا، فراجع سجل CI بعد أي تعديل عليها.
+- وضع القيادة (أندرويد فقط): Kotlin في `drive/` (خدمة نوافذ عائمة + ExoPlayer من media3 بنفس نسخة video_player + Camera2 + سرعة GPS) والقناة `bushra/drive`؛ Dart في `lib/drive/drive_mode.dart` و`lib/screens/drive_settings.dart`. اشرط ظهوره بـ`DriveMode.supported` فقط، لا بـ`context.isTv` (شاشات السيارات عريضة فتُحسب تلفازًا).
 
 ## «البشرى» لشاشات webOS (`bushra-webos/`)
 - تطبيق HTML/JS خفيف بلا أطر عمل، **متوافق مع webOS 4** (Chromium 53): لا async/await ولا `?.` ولا `??` ولا spread للكائنات.

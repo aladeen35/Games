@@ -13,6 +13,8 @@ import 'remote_screen.dart';
 import '../data/remote_server.dart';
 import 'profiles.dart';
 import 'smart_alerts.dart';
+import 'drive_settings.dart';
+import '../drive/drive_mode.dart';
 
 /// الإعدادات: مركز تحكم لا صفحة اجتماعية. بطاقات أقسام تفتح صفحاتها.
 class SettingsScreen extends StatelessWidget {
@@ -31,6 +33,8 @@ class SettingsScreen extends StatelessWidget {
       (Icons.volume_up_outlined, 'الصوت والترجمة', 'إعدادات الصوت، المسارات، والترجمة', _Section.audio, p.accent),
       (Icons.palette_outlined, 'المظهر', 'نمط التصميم، الألوان، وحجم النص', _Section.look, p.gold),
       (Icons.shield_outlined, 'الرقابة الأبوية', 'إدارة المحتوى وحماية الأطفال', _Section.parental, p.gold),
+      if (DriveMode.supported)
+        (Icons.directions_car_filled_rounded, 'وضع القيادة', 'القناة فوق الخرائط ومرآة الكاميرا الخلفية في السيارة', _Section.drive, p.accent),
       (Icons.bolt_rounded, 'التنبيهات الذكية', 'تذكير تلقائي بمباريات فرقك وبرامجك', _Section.alerts, p.gold),
       if (PairServer.supported) (Icons.qr_code_2_rounded, 'من جوالك', 'أضف قائمة بمسح رمز QR بدل الكتابة', _Section.pair, p.accent),
       if (RemoteServer.supported) (Icons.settings_remote_rounded, 'الجوال ريموت', 'تحكم بالتطبيق من جوالك واكتب البحث بلوحته', _Section.remote, p.gold),
@@ -72,6 +76,7 @@ class SettingsScreen extends StatelessWidget {
                   _Section.pair => const PairScreen(),
                   _Section.remote => const RemoteScreen(),
                   _Section.quality => const QualityScreen(),
+                  _Section.drive => const DriveSettingsScreen(),
                   _ => _SectionPage(section: x.$4, title: x.$2),
                 })),
                 padding: const EdgeInsets.all(16),
@@ -104,7 +109,7 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-enum _Section { playback, audio, look, parental, network, data, alerts, pair, remote, quality }
+enum _Section { playback, audio, look, parental, network, data, alerts, pair, remote, quality, drive }
 
 /// يفتح قسم إعدادات مباشرة (من «قوائمي» مثلًا).
 void openSettingsSection(BuildContext context, String id) {
@@ -258,7 +263,7 @@ class _SectionPageState extends State<_SectionPage> {
           const SizedBox(height: 10),
           Text('تطبيق الجوال والتلفاز لا يحتاج وسيطًا.', style: t.bodySmall),
         ]);
-      case _Section.alerts || _Section.pair || _Section.remote || _Section.quality:
+      case _Section.alerts || _Section.pair || _Section.remote || _Section.quality || _Section.drive:
         break;
       case _Section.data:
         items.addAll([

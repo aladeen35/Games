@@ -16,6 +16,8 @@ import '../screens/multiview.dart';
 import 'engine.dart';
 import 'session.dart';
 import 'subtitles.dart';
+import '../drive/drive_mode.dart';
+import '../screens/drive_settings.dart';
 
 /// يفتح المشغل. [queue] قائمة القنوات للتنقل بالقناة التالية/السابقة.
 Future<void> openPlayer(BuildContext context, Playable item, {List<Playable>? queue}) async {
@@ -579,6 +581,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _minimizing = true;
     _disposePre();
     PlayerSession.I.minimize(e, item, widget.queue, fill: fill);
+    Navigator.of(context).maybePop();
+  }
+
+  /// ينقل ما يُشاهد إلى نافذة وضع القيادة العائمة ويغلق المشغل.
+  Future<void> _driveMode() async {
+    final pos = item.isLive ? Duration.zero : e.position;
+    final ok = await startDriveFromPlayer(context, item, widget.queue, pos);
+    if (!ok || !mounted) return;
+    e.pause();
     Navigator.of(context).maybePop();
   }
 
@@ -1158,6 +1169,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     setState(() => fill = !fill);
                     if (fill) toast(context, 'ملء الشاشة: قد تُقص أطراف الصورة', icon: Icons.crop_rounded);
                   }),
+              if (DriveMode.supported)
+                _CtrlBtn(icon: Icons.directions_car_filled_rounded, tip: 'وضع القيادة — فوق الخرائط مع الكاميرا', color: BColors.gold, onTap: _driveMode),
               if (plat.supportsPip) _CtrlBtn(icon: Icons.picture_in_picture_alt_rounded, tip: 'صورة داخل صورة', onTap: plat.enterPip),
               _CtrlBtn(icon: fullscreen ? Icons.fullscreen_exit_rounded : Icons.fullscreen_rounded, tip: 'ملء الشاشة', onTap: _toggleFullscreen),
               _CtrlBtn(icon: Icons.more_horiz_rounded, tip: 'المزيد', onTap: _more),
