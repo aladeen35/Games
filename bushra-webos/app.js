@@ -4,7 +4,10 @@
 
 var KEY = { L: 37, U: 38, R: 39, D: 40, OK: 13, BACK: 461, ESC: 27, BS: 8, RED: 403, GREEN: 404, YELLOW: 405, BLUE: 406,
   PLAY: 415, PAUSE: 19, PP: 179, STOP: 413, FF: 417, RW: 412, CHUP: 33, CHDN: 34 };
-var VERSION = '1.0.0';
+var VERSION = '1.1.0';
+// وسيط الإضافة من الجوال (رسائل مشفرة بمفتاح لا يغادر الجوال والشاشة)
+var RELAY = localStorage.getItem('b_relay') || 'https://ntfy.sh/';
+var PAIR_PAGE = localStorage.getItem('b_pairpage') || 'https://aladeen35.github.io/Games/bushra-player/tv-pair.html';
 
 // ———————————— أدوات ————————————
 function $(id) { return document.getElementById(id); }
@@ -50,7 +53,8 @@ var S = {
   sources: ls('sources', []),
   favs: ls('favs', {}),          // id ← نسخة من القناة
   hist: ls('hist', []),          // آخر ما شوهد (الأحدث أولًا)
-  set: Object.assign({ autoLast: true, unified: true }, ls('set', {})),
+  set: Object.assign({ autoLast: true, unified: true, pin: null, locked: [], subSize: 1 }, ls('set', {})),
+  unlocked: false,
   ch: {},                        // مصدر ← قنواته
   view: 'home', stack: [], loading: {}
 };
@@ -60,6 +64,7 @@ function channels(kind) {
   S.sources.forEach(function (s) {
     (S.ch[s.id] || []).forEach(function (c) {
       if (kind && c.k !== kind) return;
+      if (locked(c)) return;
       // قائمة موحّدة: القناة المكررة في أكثر من قائمة تظهر مرة واحدة (والبقية روابط بديلة)
       if (S.set.unified && c.k === 'live' && S.sources.length > 1) {
         var key = norm(c.n);
@@ -70,6 +75,8 @@ function channels(kind) {
   });
   return out;
 }
+// الرقابة الأبوية: المجموعات المقفلة لا تظهر حتى يُدخل الرمز في هذه الجلسة
+function locked(c) { return !!S.set.pin && !S.unlocked && S.set.locked.indexOf(c.g) >= 0; }
 function alternates(c) {
   var key = norm(c.n), out = [];
   if (key.length < 3) return out;
@@ -262,7 +269,7 @@ function go(v, keepStack) {
 }
 function view() { var m = $('main'); m.innerHTML = ''; var v = el('div', 'view'); m.appendChild(v); return v; }
 function render(focusFirst) {
-  var fn = { home: vHome, live: vLive, vod: vCatalog, series: vCatalog, search: vSearch, lists: vLists, show: vShow }[S.view] || vHome;
+  var fn = { home: vHome, live: vLive, vod: vCatalog, series: vCatalog, search: vSearch, lists: vLists, show: vShow, movie: vMovie }[S.view] || vHome;
   fn();
   if (focusFirst !== false) { var f = $('main').querySelector('.f'); if (f) F.set(f); }
 }
@@ -522,6 +529,12 @@ function vSearch() {
 function vLists() {
   var v = view();
   v.appendChild(el('h1', '', 'قوائمي والإعدادات'));
+  if (S.set.pin && !S.unlocked) {
+    v.appendChild(el('p', 'muted', 'إعدادات القوائم محمية بالرمز الأبوي.'));
+    v.appendChild(act(el('span', 'btn gold', '🔒 أدخل الرمز'), function () { askPin(function () { S.unlocked = true; render(); }); }));
+    return;
+  }
+  v.appendChild(act(el('div', 'src', '<span class="n">📱 أضف قائمة من جوالك<br><small class="muted">امسح رمز QR والصق الرابط على الجوال بدل الكتابة بالريموت</small></span><span class="btn gold">عرض الرمز</span>'), pairDlg));
   S.sources.forEach(function (s) {
     var e = el('div', 'src', '<span class="n">' + esc(s.name) + '<br><small class="muted">' + (S.loading[s.id] ? 'جارٍ التحديث…' : (s.count || 0) + ' عنصر' + (s.note ? ' · ' + esc(s.note) : '') + (s.err ? ' · ⚠ ' + esc(s.err) : '')) + '</small></span>');
     e.appendChild(act(el('span', 'btn', '⟳ تحديث'), function () { toast('جارٍ تحديث «' + s.name + '»…'); refresh(s).then(function () { toast('تم التحديث'); render(); }, function (er) { toast('تعذر التحديث: ' + er.message); render(); }); }));
@@ -543,6 +556,15 @@ function vLists() {
     var e = el('div', 'src', '<span class="n">' + x[1] + '</span><span class="btn">' + (S.set[x[0]] ? '✓ مفعّل' : 'متوقف') + '</span>');
     v.appendChild(act(e, function () { S.set[x[0]] = !S.set[x[0]]; save('set', S.set); render(false); F.first($('main')); }));
   });
+  v.appendChild(el('h2', '', 'الرقابة الأبوية'));
+  v.appendChild(act(el('div', 'src', '<span class="n">' + (S.set.pin ? 'الرمز الأبوي مفعّل' : 'تعيين رمز أبوي') + '<br><small class="muted">يقفل المجموعات المختارة ويحمي إعدادات القوائم</small></span><span class="btn">' + (S.set.pin ? 'إلغاء الرمز' : 'تعيين') + '</span>'), function () {
+    if (S.set.pin) { S.set.pin = null; S.set.locked = []; save('set', S.set); toast('أُلغي الرمز الأبوي'); render(false); return; }
+    inputDlg('رمز أبوي جديد (4 أرقام)', '', function (v1) {
+      if (!/^\d{4,6}$/.test(v1)) return toast('الرمز من 4 إلى 6 أرقام');
+      S.set.pin = v1; save('set', S.set); S.unlocked = true; toast('حُفظ الرمز الأبوي'); render(false);
+    }, true);
+  }));
+  if (S.set.pin) v.appendChild(act(el('div', 'src', '<span class="n">المجموعات المقفلة <small class="muted">(' + S.set.locked.length + ')</small></span><span class="btn">اختيار</span>'), lockDlg));
   v.appendChild(act(el('div', 'src', '<span class="n">مسح سجل المشاهدة <small class="muted">(' + S.hist.length + ')</small></span>'), function () { S.hist = []; save('hist', S.hist); toast('مُسح السجل'); render(false); }));
   v.appendChild(el('p', 'muted', 'البشرى ' + VERSION + ' لشاشات webOS — أداة تشغيل فقط ولا يوفّر أي محتوى. بياناتك محفوظة على هذه الشاشة فقط.'));
 }
@@ -566,6 +588,7 @@ function closeLayer() { $('layer').classList.add('hide'); $('layer').innerHTML =
 // يفتح العنصر: مسلسل ← صفحته، غير ذلك ← المشغل
 function open(c, queue) {
   if (c.k === 'series') { S.stack.push(S.view); S.show = c; go('show', true); return; }
+  if (c.k === 'vod' && S.view !== 'movie') { S.stack.push(S.view); S.movie = c; S.movieQ = queue; go('movie', true); return; }
   var q = queue ? queue.filter(function (x) { return x.k !== 'series'; }).map(itemOf) : null;
   play(itemOf(c), q);
 }
@@ -582,6 +605,7 @@ function play(it, queue) {
   start(it);
 }
 function start(it, isAlt) {
+  if (!isAlt && (!P.it || P.it.key !== it.key)) { P.subs = null; P.subOff = 0; drawSub(); }
   P.it = it;
   if (!isAlt) P.tried = {};
   P.tried[it.url] = 1;
@@ -630,6 +654,7 @@ V.addEventListener('playing', function () { $('pspin').classList.add('hide'); $(
 V.addEventListener('waiting', function () { $('pspin').classList.remove('hide'); });
 V.addEventListener('error', fail);
 V.addEventListener('timeupdate', function () {
+  drawSub();
   if (!P.it || P.it.live || !V.duration || !isFinite(V.duration)) return;
   if (Date.now() - P.saveT > 5000) { P.saveT = Date.now(); record(P.it, V.currentTime, V.duration); }
   if (!$('posd').classList.contains('off')) drawBar();
@@ -654,7 +679,7 @@ function osd(show) {
   o.innerHTML = '<div class="ptop"><div class="lg" style="background-image:url(\'' + esc(it.logo) + '\')"></div><div style="flex:1"><div class="t">' + (P.i >= 0 && it.live ? '<span class="muted">' + (P.i + 1) + '</span> ' : '') + esc(it.title) +
     (it.live ? ' <span class="badge" style="position:static">مباشر</span>' : '') + (c && isFav(c.id) ? ' <span style="color:#F7C04F">★</span>' : '') + '</div><div class="s" id="psub">' + esc(it.sub || '') + '</div></div><div class="t" style="font-weight:400">' + hhmm(new Date()) + '</div></div>' +
     '<div class="pbot">' + (it.live ? '<div id="pnext"></div>' : '<div class="times" id="ptime"></div><div class="track"><i id="pbar"></i></div>') +
-    '<div class="keys"><span><b style="background:#FF5F6D"></b>المفضلة</span><span><b style="background:#58D68D"></b>القنوات</span><span><b style="background:#F7C04F"></b>الصوت</span><span><b style="background:#3D7BFF"></b>مؤقت النوم' + (P.sleep ? ' (' + P.sleep + ' د)' : '') + '</span>' +
+    '<div class="keys"><span><b style="background:#FF5F6D"></b>المفضلة</span><span><b style="background:#58D68D"></b>القنوات</span><span><b style="background:#F7C04F"></b>الصوت</span><span><b style="background:#3D7BFF"></b>الخيارات' + (P.sleep ? ' (مؤقت ' + P.sleep + ' د)' : '') + '</span>' +
     (it.live ? '<span>CH± أو ▲▼ للتنقل · ◀ قائمة القنوات</span>' : '<span>◀ ▶ تقديم وتأخير · OK إيقاف/تشغيل</span>') + '</div></div>';
   o.classList.remove('off');
   if (!it.live) drawBar();
@@ -736,7 +761,7 @@ function digit(d) {
 function playerKey(k) {
   var listOpen = !$('plist').classList.contains('hide');
   if (listOpen) {
-    if (k === KEY.BACK || k === KEY.ESC || k === KEY.BS || k === KEY.GREEN || k === KEY.R) { toggleList(); return; }
+    if (k === KEY.BACK || k === KEY.ESC || k === KEY.BS || k === KEY.GREEN || k === KEY.BLUE || k === KEY.R) { $('plist').classList.add('hide'); F.cur = null; return; }
     if (k === KEY.U) F.move('U'); else if (k === KEY.D) F.move('D'); else if (k === KEY.OK && F.cur) F.cur._act();
     return;
   }
@@ -765,8 +790,202 @@ function playerKey(k) {
     case KEY.RED: { var c = P.it.chId && byId(P.it.chId); if (c) { toggleFav(c); osd(true); } return; }
     case KEY.GREEN: return toggleList();
     case KEY.YELLOW: return cycleAudio();
-    case KEY.BLUE: return cycleSleep();
+    case KEY.BLUE: case 457: return optionsPanel();
   }
+}
+
+
+// ———————————— صفحة الفيلم ————————————
+function vMovie() {
+  var c = S.movie, v = view(), src = srcOf(c.s), h = histOf(c.id);
+  var hd = el('div', 'hero');
+  hd.style.height = '34rem';
+  function draw(info) {
+    info = info || {};
+    var img = info.cover_big || info.movie_image || c.l || '';
+    var back = (info.backdrop_path && info.backdrop_path[0]) || img;
+    var meta = [];
+    if (info.releasedate) meta.push(String(info.releasedate).slice(0, 4));
+    if (+info.rating) meta.push('★ ' + (+info.rating).toFixed(1));
+    if (+info.duration_secs) meta.push(Math.round(info.duration_secs / 60) + ' دقيقة');
+    meta.push(info.genre || c.g);
+    hd.innerHTML = '<div class="bg" style="background-image:url(\'' + esc(back) + '\')"></div>' +
+      '<div class="poster" style="background-image:url(\'' + esc(img) + '\')"></div><div class="txt"><div class="eye">فيلم</div><div class="t">' + esc(c.n) + '</div>' +
+      '<div class="s" style="color:#F7C04F">' + esc(meta.join('  ·  ')) + '</div>' +
+      (info.plot ? '<div class="s">' + esc(String(info.plot).slice(0, 320)) + '</div>' : '') +
+      (info.cast ? '<div class="s muted">بطولة: ' + esc(String(info.cast).slice(0, 120)) + '</div>' : '') + '</div>';
+    var txt = hd.querySelector('.txt');
+    var q = S.movieQ ? S.movieQ.filter(function (x) { return x.k === 'vod'; }).map(itemOf) : null;
+    txt.appendChild(act(el('span', 'btn gold', h && resumable(h) ? '▶ أكمل · متبقٍ ' + Math.max(1, Math.round((h.len - h.pos) / 60)) + ' د' : '▶ تشغيل'), function () { play(itemOf(c), q); }));
+    if (h && resumable(h)) txt.appendChild(act(el('span', 'btn', '↺ من البداية'), function () { h.pos = 0; save('hist', S.hist); play(itemOf(c), q); }));
+    txt.appendChild(act(el('span', 'btn', isFav(c.id) ? '★ في المفضلة' : '☆ المفضلة'), function () { toggleFav(c); render(); }));
+    F.first(hd);
+  }
+  v.appendChild(hd);
+  draw(null);
+  var same = channels('vod').filter(function (x) { return x.g === c.g && x.id !== c.id; });
+  row(v, 'مشابهة', same.slice(0, 24), function (x) { return posterCard(x, same); });
+  if (src && src.type === 'xtream' && c.x) {
+    getJSON(xtUrl(src, 'get_vod_info', '&vod_id=' + c.x)).then(function (j) { if (S.view === 'movie' && S.movie === c && j && j.info) draw(j.info); }).catch(function () {});
+  }
+}
+
+// ———————————— حوارات ————————————
+function inputDlg(title, value, ok, secret) {
+  var L = $('layer');
+  L.innerHTML = '';
+  var d = el('div', 'dlg', '<h1>' + esc(title) + '</h1>');
+  var inp = el('input', 'inp' + (secret ? '' : ' ltr'));
+  inp.value = value || '';
+  if (secret) { inp.type = 'password'; inp.setAttribute('inputmode', 'numeric'); inp.style.textAlign = 'center'; inp.style.letterSpacing = '1rem'; }
+  d.appendChild(act(inp, function () { inp.focus(); }));
+  d.appendChild(act(el('span', 'btn gold', 'تأكيد'), function () { var v = inp.value.trim(); closeLayer(); ok(v); }));
+  d.appendChild(act(el('span', 'btn', 'إلغاء'), closeLayer));
+  L.appendChild(d);
+  L.classList.remove('hide');
+  F.set(inp);
+  setTimeout(function () { inp.focus(); }, 50);
+}
+function askPin(ok) {
+  inputDlg('أدخل الرمز الأبوي', '', function (v) { if (v === S.set.pin) ok(); else toast('الرمز غير صحيح'); }, true);
+}
+function lockDlg() {
+  var L = $('layer'), all = [];
+  S.sources.forEach(function (s) { (S.ch[s.id] || []).forEach(function (c) { if (all.indexOf(c.g) < 0) all.push(c.g); }); });
+  all.sort();
+  L.innerHTML = '';
+  var d = el('div', 'dlg', '<h1>المجموعات المقفلة</h1>');
+  d.style.cssText = 'max-height:80vh;overflow-y:auto;width:60rem';
+  all.forEach(function (g) {
+    var on = S.set.locked.indexOf(g) >= 0;
+    var e = el('div', 'li', '<span class="n">' + esc(g) + '</span><span>' + (on ? '🔒' : '') + '</span>');
+    d.appendChild(act(e, function () {
+      var i = S.set.locked.indexOf(g);
+      if (i >= 0) S.set.locked.splice(i, 1); else S.set.locked.push(g);
+      save('set', S.set);
+      e.lastChild.textContent = i >= 0 ? '' : '🔒';
+    }));
+  });
+  d.appendChild(act(el('span', 'btn gold', 'تم'), function () { closeLayer(); render(false); }));
+  L.appendChild(d);
+  L.classList.remove('hide');
+  F.first(d);
+}
+
+// ———————————— الإضافة من الجوال برمز QR ————————————
+// الشاشة لا تفتح خادمًا؛ فيرسل الجوال البيانات عبر وسيط رسائل، مشفرة بمفتاح عشوائي لمرة واحدة
+// يصل للجوال داخل الرمز (بعد #) ولا يمر بالوسيط أبدًا.
+var pairT;
+function rand(n) { var a = new Uint8Array(n); crypto.getRandomValues(a); return a; }
+function b64url(bytes) { var s = ''; for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function pairDlg(note) {
+  var topic = 'bushra-' + b64url(rand(15)).replace(/[-_]/g, 'x'), key = rand(240);
+  var url = PAIR_PAGE + '#t=' + topic + '&k=' + b64url(key) + (localStorage.getItem('b_relay') ? '&r=' + enc(RELAY) : '');
+  var qr = qrcode(0, 'L'); qr.addData(url); qr.make();
+  var L = $('layer');
+  L.innerHTML = '';
+  var d = el('div', 'dlg');
+  d.style.cssText = 'display:flex;gap:3rem;align-items:center;max-width:90rem';
+  d.innerHTML = '<div style="background:#fff;padding:1.2rem;border-radius:1.2rem;width:30rem;height:30rem;flex-shrink:0">' + qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }) + '</div>' +
+    '<div><h1>أضف قائمة من جوالك</h1><p style="font-size:1.35rem;line-height:2">١. امسح الرمز بكاميرا الجوال<br>٢. الصق رابط القائمة أو بيانات حساب المزود<br>٣. اضغط «أرسل إلى الشاشة» — تظهر القنوات هنا</p>' +
+    '<p class="muted" id="pst" style="font-size:1.2rem">' + esc(typeof note === 'string' ? note : '⏳ بانتظار الجوال…') + '</p></div>';
+  d.querySelector('svg').setAttribute('style', 'width:100%;height:100%');
+  d.lastChild.appendChild(act(el('span', 'btn', 'إغلاق'), function () { clearInterval(pairT); closeLayer(); }));
+  L.appendChild(d);
+  L.classList.remove('hide');
+  F.first(d);
+  var since = Math.floor(Date.now() / 1000) - 5, busy = false;
+  clearInterval(pairT);
+  pairT = setInterval(function () {
+    if (L.classList.contains('hide')) { clearInterval(pairT); return; }
+    if (busy) return;
+    busy = true;
+    getText(RELAY + topic + '/json?poll=1&since=' + since).then(function (t) {
+      busy = false;
+      t.split('\n').forEach(function (line) {
+        if (!line.trim()) return;
+        var m; try { m = JSON.parse(line); } catch (e) { return; }
+        if (m.event !== 'message' || !m.message) return;
+        since = m.time + 1;
+        var bin = atob(m.message.replace(/-/g, '+').replace(/_/g, '/')), out = '';
+        for (var i = 0; i < bin.length && i < key.length; i++) out += String.fromCharCode(bin.charCodeAt(i) ^ key[i]);
+        var o; try { o = JSON.parse(decodeURIComponent(escape(out))); } catch (e) { return; }
+        $('pst').textContent = '✓ وصل من الجوال — جارٍ اختبار المصدر…';
+        clearInterval(pairT);
+        addSource(o).then(function (l) { closeLayer(); toast('أُضيفت القائمة: ' + l.length + ' عنصر'); go('home'); }, function (er) {
+          pairDlg('✗ تعذرت الإضافة: ' + (er.message || 'تحقق من الرابط') + ' — امسح الرمز الجديد وأعد الإرسال');
+        });
+      });
+    }, function () { busy = false; });
+  }, 3000);
+}
+
+// ———————————— خيارات المشغل: الترجمة والصوت والجودة والمؤقت والمعلومات ————————————
+function parseSubs(t) {
+  var cues = [];
+  String(t).replace(/\r/g, '').split(/\n\s*\n/).forEach(function (b) {
+    var m = /(?:(\d+):)?(\d+):(\d+)[,.](\d+)\s*-->\s*(?:(\d+):)?(\d+):(\d+)[,.](\d+)/.exec(b);
+    if (!m) return;
+    function sec(h, mi, se, ms) { return (+h || 0) * 3600 + (+mi) * 60 + (+se) + (+ms) / 1000; }
+    var lines = b.split('\n'), i = 0;
+    while (i < lines.length && lines[i].indexOf('-->') < 0) i++;
+    var text = lines.slice(i + 1).join('<br>').replace(/<(?!br>)[^>]+>/g, '');
+    if (text) cues.push({ a: sec(m[1], m[2], m[3], m[4]), b: sec(m[5], m[6], m[7], m[8]), t: text });
+  });
+  return cues;
+}
+function drawSub() {
+  var box = $('psub2');
+  if (!box) { box = el('div', ''); box.id = 'psub2'; box.style.cssText = 'position:absolute;left:5%;right:5%;bottom:9%;text-align:center;pointer-events:none'; $('player').appendChild(box); }
+  if (!P.subs) { box.innerHTML = ''; return; }
+  var t = V.currentTime - (P.subOff || 0), cur = '';
+  for (var i = 0; i < P.subs.length; i++) { var c = P.subs[i]; if (t >= c.a && t <= c.b) { cur = c.t; break; } }
+  box.innerHTML = cur ? '<span style="background:#000B;padding:.3rem 1rem;border-radius:.6rem;line-height:1.6;font-size:' + (2.2 * S.set.subSize) + 'rem">' + cur + '</span>' : '';
+}
+function optionsPanel() {
+  var pl = $('plist');
+  pl.innerHTML = '';
+  function head(t) { pl.appendChild(el('h2', '', t)); }
+  function item(label, on, fn) { var e = el('div', 'li', '<span class="n">' + label + '</span>' + (on ? '<span style="color:#2EE6D6">✓</span>' : '')); pl.appendChild(act(e, fn)); return e; }
+  head('الترجمة');
+  item('بدون ترجمة', !P.subs, function () { P.subs = null; drawSub(); optionsPanel(); });
+  item('ترجمة من رابط (SRT / VTT)…', !!P.subs, function () {
+    inputDlg('رابط ملف الترجمة', 'https://', function (u) {
+      if (!/^https?:\/\//.test(u)) return;
+      toast('جارٍ تحميل الترجمة…');
+      getText(u).then(function (t) { var c = parseSubs(t); if (!c.length) throw 0; P.subs = c; P.subOff = 0; toast('حُمّلت الترجمة: ' + c.length + ' سطرًا'); }).catch(function () { toast('تعذر تحميل الترجمة'); });
+    });
+  });
+  if (P.subs) {
+    item('تأخير الترجمة ‎−0.5 ث (الحالي ' + (P.subOff || 0).toFixed(1) + ')', false, function () { P.subOff = (P.subOff || 0) - 0.5; optionsPanel(); });
+    item('تقديم الترجمة ‎+0.5 ث', false, function () { P.subOff = (P.subOff || 0) + 0.5; optionsPanel(); });
+  }
+  item('حجم الترجمة: ' + Math.round(S.set.subSize * 100) + '%', false, function () { S.set.subSize = S.set.subSize >= 1.6 ? 0.8 : Math.round((S.set.subSize + 0.2) * 10) / 10; save('set', S.set); drawSub(); optionsPanel(); });
+  head('الصوت');
+  item('تبديل مسار الصوت (الزر الأصفر)', false, cycleAudio);
+  head('الجودة');
+  if (P.hls && P.hls.levels && P.hls.levels.length > 1) {
+    item('تلقائي', P.hls.autoLevelEnabled, function () { P.hls.currentLevel = -1; optionsPanel(); });
+    P.hls.levels.forEach(function (l, i) { item((l.height || '?') + 'p · ' + (l.bitrate / 1e6).toFixed(1) + ' Mbps', !P.hls.autoLevelEnabled && P.hls.currentLevel === i, function () { P.hls.currentLevel = i; optionsPanel(); }); });
+  } else item('تلقائي — حسب سرعة الاتصال', true, function () {});
+  head('مؤقت النوم');
+  item(P.sleep ? 'يتوقف بعد ' + P.sleep + ' دقيقة (اضغط للتغيير)' : 'متوقف (اضغط للتفعيل)', !!P.sleep, function () { cycleSleep(); optionsPanel(); });
+  head('معلومات البث');
+  var lv = P.hls && P.hls.levels && P.hls.levels[P.hls.currentLevel];
+  var buf = V.buffered.length ? Math.max(0, V.buffered.end(V.buffered.length - 1) - V.currentTime) : 0;
+  var host = (P.it.url.match(/^https?:\/\/([^/:]+)/) || [])[1] || '—';
+  var info = el('div', 'muted', [
+    'الدقة: ' + (V.videoWidth ? V.videoWidth + '×' + V.videoHeight : 'غير معروفة بعد'),
+    'المشغل: ' + (P.hls ? 'hls.js' : 'مشغل الشاشة'),
+    lv ? 'معدل البيانات: ' + (lv.bitrate / 1e6).toFixed(2) + ' Mbps' : '',
+    'المخزّن مسبقًا: ' + buf.toFixed(0) + ' ث',
+    'المصدر: ' + esc(host)
+  ].filter(Boolean).join('<br>'));
+  info.style.cssText = 'font-size:1.2rem;line-height:2;padding:0 1rem';
+  pl.appendChild(info);
+  pl.classList.remove('hide');
+  F.cur = null;
+  F.first(pl);
 }
 
 // ———————————— لوحة المفاتيح والريموت ————————————
@@ -813,6 +1032,7 @@ function boot() {
       if (!l || !l.length || !s.at || Date.now() - s.at > 86400000) return refresh(s).catch(function () {});
     });
   })).then(function () {
+    var bt = $('boot'); bt.style.opacity = 0; setTimeout(function () { bt.parentNode && bt.parentNode.removeChild(bt); }, 500);
     if (!S.sources.length) { go('lists'); return; }
     go('home');
     var last = ls('last', null);
