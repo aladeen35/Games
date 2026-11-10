@@ -8,7 +8,7 @@ const CORE = [
   ...['sdg_c1.png', 'sdg_2.jpg', 'sdg_5.jpg', 'sdg_10.jpg', 'sdg_20.jpg', 'sdg_50.jpg', 'sdg_100.jpg', 'sdg_200.jpg', 'sdg_500.jpg',
     'sar_c1.png', 'sar_c2.png', 'sar_5.jpg', 'sar_10.jpg', 'sar_50.jpg', 'sar_100.jpg', 'sar_500.jpg', 'jar.png'].map(f => './img/money/' + f),
   ...['gsap', 'Flip', 'CustomEase', 'Draggable', 'MotionPathPlugin', 'Physics2DPlugin'].map(n => `./js/vendor/${n}.min.js`),
-  ...['edition', 'core', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly', 'letters', 'numbers', 'maze', 'diff', 'taxi', 'cake', 'harakat', 'wordtrain', 'arpuzzle', 'enpuzzle', 'opposites', 'tower', 'penguins', 'numpuzzle', 'balance', 'fractions', 'pattern', 'shadows', 'mothers', 'sudanmap', 'duas', 'studio', 'pegs', 'magicpad', 'rings', 'woodblocks', 'abacus', 'piggybank', 'locks', 'traffic', 'body', 'jobs', 'seasons', 'lifecycle', 'wudu', 'stories'].map(n => `./js/${n}.js`)
+  ...['edition', 'core', 'fx', 'home', 'mascot', 'jump', 'cosmos', 'chalk', 'blocks', 'bubbles', 'balls', 'shapes', 'candy', 'memory', 'tubes', 'snake', 'slide', 'butterfly', 'letters', 'numbers', 'maze', 'diff', 'taxi', 'cake', 'harakat', 'wordtrain', 'arpuzzle', 'enpuzzle', 'opposites', 'tower', 'penguins', 'numpuzzle', 'balance', 'fractions', 'pattern', 'shadows', 'mothers', 'sudanmap', 'duas', 'studio', 'pegs', 'magicpad', 'rings', 'woodblocks', 'abacus', 'piggybank', 'locks', 'traffic', 'body', 'jobs', 'seasons', 'lifecycle', 'wudu', 'stories'].map(n => `./js/${n}.js`)
 ];
 
 self.addEventListener('install', e => {

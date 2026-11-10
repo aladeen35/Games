@@ -479,6 +479,7 @@ const Fx = {
   },
   /** ستارة دائرية بلون اللعبة تخرج من البطاقة، ثم تُفتح اللعبة تحتها */
   curtain(card, color, icon, done) {
+    if (window.FX && FX.heroOpen(card, color, icon, done)) return; // js/fx.js: الأيقونة تكبر حتى تملأ الشاشة
     const c = $('#curtain');
     if (!this.on || !c || !card) { done(); return; }
     const r = card.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
@@ -510,6 +511,7 @@ const Fx = {
   /** ظهور نافذة لعبة (overlay) ولوحتها ونجومها */
   overlayIn(o) {
     if (!this.on) return;
+    if (window.FX && FX.overlayIn(o)) return; // js/fx.js: لحظة الفوز (نجوم تطير + قصاصات)
     const p = o.querySelector('.panel'), st = o.querySelectorAll('.stars3 > *');
     gsap.killTweensOf([o, p, ...st].filter(Boolean));
     const tl = gsap.timeline();
@@ -759,6 +761,14 @@ const App = {
     if (!a) { const P = ['#FF6F91', '#3D9BFF', '#1FB37A', '#FF9A1F', '#8E44E0', '#14B3A0']; let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; a = P[h % P.length]; }
     return { a, ad: this.shade(a, -.25), al: this.shade(a, .78) };
   },
+  /** قسم اللعبة (المجهولة ← «أخرى») */
+  catOf(id) { const c = this.CAT_OF[id]; return this.CATS.find(x => x.id === c) || this.CATS[this.CATS.length - 1]; },
+  /** رموز لون القسم المشتقة من لونه الأساسي: أساسي، غامق، فاتح، خلفية باهتة، تدرّج (الضوء من أعلى اليسار)، ظل ملوّن */
+  secVars(c) {
+    const d = this.shade(c, -.24), l = this.shade(c, .34), n = parseInt(c.slice(1), 16);
+    return { '--sec': c, '--sec-d': d, '--sec-l': l, '--sec-t': this.shade(c, .86), '--sec-g': `linear-gradient(165deg,${l} 0%,${c} 58%,${d} 135%)`, '--sec-sh': `rgba(${n >> 16},${n >> 8 & 255},${n & 255},.4)` };
+  },
+  secStyle(c) { const v = this.secVars(c); return Object.keys(v).map(k => k + ':' + v[k]).join(';'); },
   /** ترتيب اللعبة داخل قسمها كما في CAT_OF */
   catRank(id) { const i = Object.keys(this.CAT_OF).indexOf(id); return i < 0 ? 1e9 : i; },
   iconCache: new Map(),
@@ -862,13 +872,13 @@ const App = {
     if (!n) return;
     store.set('stars', Math.max(0, this.stars() + n));
     this.paintStars();
-    if (n > 0) { this.toast(`+${n} ⭐${why ? ' ' + why : ''}`, 'star'); Sound.coin(); }
+    if (n > 0) { if (!(window.FX && FX.starsEarned(n, why))) this.toast(`+${n} ⭐${why ? ' ' + why : ''}`, 'star'); Sound.coin(); }
   },
   achieve(id) {
     const a = this.ACH.find(x => x.id === id); if (!a) return;
     const got = store.get('ach', []); if (got.includes(id)) return;
     got.push(id); store.set('ach', got);
-    setTimeout(() => { this.toast(this.t(`🏆 إنجاز جديد: ${a.t}`, `🏆 New achievement: ${a.te || a.t}`), 'ach'); Sound.win(); this.addStars(10); }, 300);
+    setTimeout(() => { if (!(window.FX && FX.medal(a))) this.toast(this.t(`🏆 إنجاز جديد: ${a.t}`, `🏆 New achievement: ${a.te || a.t}`), 'ach'); Sound.win(); this.addStars(10); }, 300);
   },
   hasAch(id) { return store.get('ach', []).includes(id); },
   toast(text, kind) {
@@ -909,12 +919,17 @@ const App = {
   /* ---------- التنقّل ---------- */
   show(id) {
     const prev = this.games[this.current];
+    const fxBack = id === 'menu' && prev && window.FX ? FX.heroBack(this.current) : null; // js/fx.js: اللعبة تنكمش إلى بطاقتها
     if (prev && prev.leave) prev.leave();
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
     this.current = id;
-    if (!this.noFade) Fx.screenIn($('#' + id));
+    if (!this.noFade && !fxBack) Fx.screenIn($('#' + id));
     const g = this.games[id];
+    if (window.Home) Home.onShow(id);
     if (g) {
+      // لون قسم اللعبة للعناصر المشتركة (.bar/.btn/.panel/.hint)؛ ألوان اللعبة الخاصة في CSS تبقى الغالبة
+      const sc = $('#' + id);
+      if (sc && !sc.dataset.cat) { const c = this.catOf(id), v = this.secVars(c.c); sc.dataset.cat = c.id; Object.keys(v).forEach(k => sc.style.setProperty(k, v[k])); sc.style.setProperty('--acc', this.accent(id).a); }
       const played = store.get('played', []);
       if (!played.includes(id)) { played.push(id); store.set('played', played); if (played.length >= this.order.length) this.achieve('all_games'); }
       Music.play(g.music || 'menu');
@@ -923,14 +938,15 @@ const App = {
     } else {
       Music.play('menu');
       this.renderMenu();
-      if (prev && Fx.on) { Fx.cardsIn(); gsap.from('#logo, #kids .kid.on .kav', { scale: .8, duration: .5, ease: 'back.out(2)' }); }
+      if (fxBack) fxBack();
+      else if (prev && Fx.on) { Fx.cardsIn(); gsap.from('#logo, #kids .kid.on .kav', { scale: .8, duration: .5, ease: 'back.out(2)' }); }
     }
     try { history.replaceState(null, '', id === 'menu' ? location.pathname : '#' + id); } catch (e) {}
   },
   /** فتح لعبة من بطاقتها: ستارة بلون اللعبة ثم الانتقال */
   openGame(id, card) {
     if (this.opening) return;
-    if (!Fx.on || !card) { this.show(id); return; }
+    if (!Fx.on || !card || (window.FX && FX.ok && !FX.heavy)) { this.show(id); return; }
     this.opening = true;
     const icon = [...this.iconCache.entries()].find(([k]) => k.startsWith(id + '|'));
     Fx.curtain(card, this.accent(id).a, icon && icon[1], () => {
@@ -1002,9 +1018,11 @@ const App = {
       <div class="row"><span class="lbl">👤 ${T(this.g('اللاعبة', 'اللاعب'), 'Player')}</span><div class="kchips">${this.PROFILES.map(k => `<button class="kchip ${k.id === P.id ? 'on' : ''}" data-kid="${k.id}"><span class="mini">${this.kidFace(k)}</span>${this.esc(this.kidName(k))}</button>`).join('')}</div>
         <div style="display:flex;gap:6px;width:100%;justify-content:center;flex-wrap:wrap"><button class="tbtn alt sm" id="sEdit">✏️ ${T('تعديل ' + nm, 'Edit ' + nm)}</button><button class="tbtn alt sm" id="sAdd">➕ ${T('طفل جديد', 'New child')}</button></div></div>
       <div class="row"><span class="lbl">🎨 ${T('الثيم', 'Theme')}</span>${seg('theme', [['girls', T('👑 بناتي', '👑 Girly')], ['boys', T('🚀 ولادي', '🚀 Boyish')]], th)}</div>
+      <div class="row"><span class="lbl">🌤️ ${T('الخلفية', 'Background')}</span>${seg('sky', [['auto', T('تلقائي', 'Auto')], ['day', T('☀️ نهار', '☀️ Day')], ['night', T('🌙 ليل', '🌙 Night')]], gstore.get('sky', 'auto'))}</div>
       <div class="row"><span class="lbl">🔊 ${T('المؤثرات', 'Sound effects')}</span>${seg('sfx', [on, off], gstore.get('sfx', true))}</div>
       <div class="row"><span class="lbl">🎵 ${T('الموسيقى', 'Music')}</span>${seg('music', [on, off], gstore.get('music', true))}</div>
       <div class="row"><span class="lbl">📳 ${T('الاهتزاز', 'Vibration')}</span>${seg('vib', [on, off], gstore.get('vib', true))}</div>
+      <div class="row"><span class="lbl">🍃 ${T('حركات أقل', 'Less motion')}</span>${seg('lessmo', [on, off], gstore.get('lessmo', false))}</div>
       <div class="row"><span class="lbl">🎙️ ${T('أصوات التطبيق', 'App voices')}</span><button class="tbtn alt sm" id="sStudio">🎙️ ${T('سجّل الأصوات', 'Record voices')}</button><button class="tbtn alt sm" id="sTts">🗣️ ${T('صوت الجهاز', 'Device voice')}</button></div>
       <div class="row"><span class="lbl">🔠 ${T('حجم الخط', 'Text size')}</span>${seg('font', [['normal', T('عادي', 'Normal')], ['large', T('كبير', 'Large')]], gstore.get('font', 'normal'))}</div>
       <div class="row"><span class="lbl">🗑️ ${T('بيانات ' + nm, nm + "'s data")}</span><button class="tbtn alt" id="sReset" style="font-size:14px;padding:6px 14px">${T('مسح النتائج', 'Clear scores')}</button></div>
@@ -1020,7 +1038,7 @@ const App = {
       if (k === 'lang') { if (v !== this.lang) this.setLang(v); }
       else if (k === 'theme') { P.theme = v; this.saveKids(); store.set('theme', v); this.applyTheme(); }
       else if (k === 'font') { gstore.set('font', v); document.documentElement.dataset.font = v; }
-      else { gstore.set(k, v); if (k === 'music') { if (v) { const g = this.games[this.current]; Music.play(g ? g.music : 'menu'); } else Music.stop(); } }
+      else { gstore.set(k, v); if (k === 'sky' && window.Home) Home.refresh(); if (k === 'music') { if (v) { const g = this.games[this.current]; Music.play(g ? g.music : 'menu'); } else Music.stop(); } }
       this.settings();
     }));
     let armed = false;
@@ -1132,7 +1150,7 @@ const App = {
   switchKid(id, from) {
     if (!this.profile || id === this.profile.id) return;
     gstore.set('kidsTip', true);
-    const flip = Fx.on && window.Flip;
+    const flip = Fx.on && window.Flip, oldTheme = this.theme;
     const st = flip ? Flip.getState('#kids .kav, #kids b') : null;
     Fx.finishIntro();
     this.setProfile(id);
@@ -1143,7 +1161,7 @@ const App = {
     if (av) {
       gsap.fromTo(av, { rotation: -14 }, { rotation: 0, duration: .9, ease: 'elastic.out(1.1,0.35)' });
       const r = av.getBoundingClientRect();
-      gsap.fromTo('#ripple', { x: r.left + r.width / 2, y: r.top + r.height / 2, scale: .2, autoAlpha: .95 }, { scale: 9, autoAlpha: 0, duration: .9, ease: 'power2.out' });
+      if (!(window.FX && FX.kidWave(av, oldTheme))) gsap.fromTo('#ripple', { x: r.left + r.width / 2, y: r.top + r.height / 2, scale: .2, autoAlpha: .95 }, { scale: 9, autoAlpha: 0, duration: .9, ease: 'power2.out' });
       Fx.burst(r.left + r.width / 2, r.top + r.height / 2, 6, this.profile.gender === 'boy' ? ['⭐', '🚀', '✨'] : ['⭐', '💖', '✨']);
     }
     gsap.fromTo('#hello', { y: -14, scale: .85, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .5, ease: 'back.out(2)' });
@@ -1372,13 +1390,13 @@ const App = {
     const played = store.get('played', []);
     const catIds = this.CATS.map(c => c.id);
     const groups = this.CATS.map(c => ({ ...c, ids: this.order.filter(id => (catIds.includes(this.CAT_OF[id]) ? this.CAT_OF[id] : 'more') === c.id).sort((x, y) => this.catRank(x) - this.catRank(y)) })).filter(g => g.ids.length);
-    const cv = c => `--c:${c.c};--cd:${this.shade(c.c, -.22)};--cl:${this.shade(c.c, .3)}`;
+    const cv = c => this.secStyle(c.c);
     const card = id => {
       const g = this.games[id], A = this.accent(id); let best = '', desc = '';
       try { best = g.best ? g.best() || '' : ''; } catch (e) {}
       try { desc = this.gDesc(g); } catch (e) {}
       return `<button class="card" data-go="${id}" style="--a:${A.a};--ad:${A.ad};--al:${A.al}">${g.isNew && !played.includes(id) ? `<span class="newtag">${this.t('جديدة', 'New')}</span>` : ''}
-        <div class="ic"><canvas width="240" height="240" data-ic="${id}"></canvas></div>
+        <div class="ic"><canvas width="240" height="240" data-ic="${id}"></canvas><i class="shn"></i></div>
         <h2>${this.gTitle(g)}</h2><p>${desc}</p><div class="best">${best}</div></button>`;
     };
     const en = this.lang === 'en';
@@ -1393,6 +1411,7 @@ const App = {
     $('#cards').querySelectorAll('[data-go]').forEach(b => b.onclick = () => { Sound.tap(); this.openGame(b.dataset.go, b); });
     $('#mAchN').textContent = store.get('ach', []).length || '';
     this.paintStars(); this.paintGift();
+    if (window.Home) Home.afterRender();
   },
 
   boot() {
