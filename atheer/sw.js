@@ -1,5 +1,5 @@
 /* ألعاب أثير وبشرى — Service Worker للعمل دون إنترنت */
-const CACHE = 'atheer-games-v13';
+const CACHE = 'atheer-games-v14';
 const CORE = [
   './', './index.html', './manifest.json', './logo.jpg',
   './icon-192.png', './icon-512.png', './icon-maskable.png',

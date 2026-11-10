@@ -170,10 +170,10 @@
   }));
 
   App.css(`
-  .mc{position:relative;width:var(--ms,112px);pointer-events:none;-webkit-tap-highlight-color:transparent;visibility:hidden;transform-origin:50% 100%}
+  .pgMascot{position:relative;width:var(--ms,112px);pointer-events:none;-webkit-tap-highlight-color:transparent;visibility:hidden;transform-origin:50% 100%}
   .mc-fig{display:block;width:100%;aspect-ratio:${VB_W}/${VB_H};pointer-events:auto;cursor:pointer;touch-action:manipulation;border-radius:46% 46% 40% 40%;
     filter:drop-shadow(0 3px 0 rgba(255,255,255,.55))}
-  .mc.nohit .mc-fig{pointer-events:none;cursor:default}
+  .pgMascot.nohit .mc-fig{pointer-events:none;cursor:default}
   .mc-fig svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
   .mc-bub{position:absolute;bottom:calc(100% - 4px);left:50%;width:max-content;max-width:min(236px,72vw);padding:6px 14px 7px;border-radius:20px;background:#fff;color:#24346E;
     font:900 16px/1.35 var(--font);text-align:center;border:3px solid #BFD0FF;box-shadow:0 4px 0 #9DB2EE,0 8px 16px rgba(30,50,120,.2);visibility:hidden;pointer-events:none;
@@ -184,17 +184,17 @@
   .mc-bub.side-r::after{right:100%;margin-right:-9px;border:3px solid #BFD0FF;border-top:0;border-right:0;transform:rotate(45deg);border-radius:0 0 0 5px}
   .mc-bub.side-l::after{left:100%;margin-left:-9px;transform:rotate(-45deg)}
   #mascotLayer{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
-  #mascotLayer .mc{position:absolute;left:0;top:0;will-change:transform}
+  #mascotLayer .pgMascot{position:absolute;left:0;top:0;will-change:transform}
   /* مكانه الافتراضي في الشاشة الرئيسية: واقف أمام طرف الشعار (جوال) / بعد التحية (شاشات عريضة) */
   #mascotHome.mc-auto{position:relative;width:0;height:0;flex:0 0 auto;margin-top:-8px;z-index:3;pointer-events:none}
-  #mascotHome.mc-auto .mc{position:absolute;bottom:-4px;inset-inline-start:calc(min(23vw,100px) - 30px);--ms:clamp(96px,27vw,116px)}
+  #mascotHome.mc-auto .pgMascot{position:absolute;bottom:-4px;inset-inline-start:calc(min(23vw,100px) - 30px);--ms:clamp(96px,27vw,116px)}
   @media (min-width:720px){
     #mascotHome.mc-auto{order:5;width:150px;height:174px;margin-top:0;align-self:center}
-    #mascotHome.mc-auto .mc{position:relative;bottom:auto;inset-inline-start:auto;--ms:150px}
+    #mascotHome.mc-auto .pgMascot{position:relative;bottom:auto;inset-inline-start:auto;--ms:150px}
     html.mc-home .hero-txt{max-width:calc(100% - 434px)}
   }
-  #mascotSpot>.mc{position:absolute;left:50%;bottom:-6px;margin-left:calc(var(--ms) / -2);--ms:86px}
-  @media (min-width:720px){#mascotSpot>.mc{--ms:104px}}
+  #mascotSpot>.pgMascot{position:absolute;left:50%;bottom:-6px;margin-left:calc(var(--ms) / -2);--ms:86px}
+  @media (min-width:720px){#mascotSpot>.pgMascot{--ms:104px}}
   html.mc-off #mascotHome,html.mc-off #mascotLayer{display:none}
   `);
 
@@ -217,7 +217,7 @@
   function build() {
     if (ready) return true;
     try {
-      root = document.createElement('div'); root.className = 'mc'; root.id = 'mascot';
+      root = document.createElement('div'); root.className = 'pgMascot'; root.id = 'mascot';
       root.innerHTML = `<div class="mc-bub" role="status"><span></span></div><div class="mc-fig">${figure('m', outfitId)}</div>`;
       bub = root.firstChild; bubTxt = bub.firstChild; fig = root.lastChild;
       layer = document.createElement('div'); layer.id = 'mascotLayer'; layer.setAttribute('aria-hidden', 'true');
