@@ -108,8 +108,6 @@
     <ellipse cx="100" cy="162" rx="58" ry="58" fill="url(#mcB${uid})"/>
     <ellipse cx="100" cy="171" rx="41" ry="44" fill="url(#mcW${uid})"/>
     <g class="m-acc-body">${part(o, 'body', uid)}</g>
-    <g class="m-flipL"><path d="M55 124 C40 124 25 150 23 172 C22 185 34 189 42 179 C52 165 61 146 61 133 C61 127 59 124 55 124Z" fill="url(#mcF${uid})"/><path d="M33 150 Q27 164 28 174" stroke="#7088E6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></g>
-    <g class="m-flipR"><g transform="matrix(-1 0 0 1 200 0)"><path d="M55 124 C40 124 25 150 23 172 C22 185 34 189 42 179 C52 165 61 146 61 133 C61 127 59 124 55 124Z" fill="url(#mcF${uid})"/><path d="M33 150 Q27 164 28 174" stroke="#7088E6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></g></g>
     <g class="m-head">
       <path class="m-tuft" d="M95 28 Q88 10 101 6 Q98 15 103 20 Q106 12 114 12 Q108 20 109 29Z" fill="#3349A0"${o.hat ? hid : ''}/>
       <circle cx="100" cy="86" r="62" fill="url(#mcH${uid})"/>
@@ -131,6 +129,8 @@
       <ellipse cx="72" cy="44" rx="20" ry="9" transform="rotate(-30 72 44)" fill="#fff" opacity=".16"/>
       <g class="m-acc-head">${part(o, 'head', uid)}</g>
     </g>
+    <g class="m-flipL"><path d="M55 124 C40 124 25 150 23 172 C22 185 34 189 42 179 C52 165 61 146 61 133 C61 127 59 124 55 124Z" fill="url(#mcF${uid})"/><path d="M33 150 Q27 164 28 174" stroke="#7088E6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></g>
+    <g class="m-flipR"><g transform="matrix(-1 0 0 1 200 0)"><path d="M55 124 C40 124 25 150 23 172 C22 185 34 189 42 179 C52 165 61 146 61 133 C61 127 59 124 55 124Z" fill="url(#mcF${uid})"/><path d="M33 150 Q27 164 28 174" stroke="#7088E6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></g></g>
     <g class="m-acc-neck">${part(o, 'neck', uid)}</g>
   </g></g>
 </g>
@@ -323,6 +323,7 @@
       .to([P.eyeL, P.eyeR], { scaleX: 1, scaleY: 1, ...v }, 0)
       .to([...P.zs, ...P.dots, ...P.stars, ...P.hearts], { autoAlpha: 0, duration: Math.min(d, .15) }, 0)
       .set(P.open, { autoAlpha: 1 }, 0).set([P.happy, P.sleepy], { autoAlpha: 0 }, 0);
+    if (!d) tl.progress(1).kill(); // فورًا، لا في الإطار التالي
     return tl;
   }
   const face = (tl, name, t) => tl.set(P.open, { autoAlpha: name === 'open' ? 1 : 0 }, t).set(P.happy, { autoAlpha: name === 'happy' ? 1 : 0 }, t).set(P.sleepy, { autoAlpha: name === 'sleepy' ? 1 : 0 }, t);
@@ -361,6 +362,7 @@
     },
     hop(tl) { face(tl, 'happy', 0); tl.to([P.flipL], { rotation: 60, duration: .2 }, .1).to([P.flipR], { rotation: -60, duration: .2 }, .1); tl.addLabel('pose', .3); hopIn(tl, 0, 36); hopIn(tl, .62, 22, .18); },
     spin(tl) {
+      if (reduce) { ACTS.hop(tl); return; }
       face(tl, 'happy', 0);
       tl.to(P.flipL, { rotation: 95, duration: .2 }, 0).to(P.flipR, { rotation: -95, duration: .2 }, 0).addLabel('pose', .2);
       hopIn(tl, 0, 30, .34);
@@ -408,7 +410,7 @@
         .to(P.mouth, { scaleY: 1, duration: .15 }, .1).addLabel('pose', .32);
       const t0 = hopIn(tl, 0, lv >= 3 ? 46 : 34, .3);
       starBurst(tl, .3);
-      if (lv >= 3) tl.to(P.all, { scaleX: -1, duration: .16, ease: 'sine.inOut' }, .12).to(P.all, { scaleX: 1, duration: .16, ease: 'sine.inOut' }, .28);
+      if (lv >= 3 && !reduce) tl.to(P.all, { scaleX: -1, duration: .16, ease: 'sine.inOut' }, .12).to(P.all, { scaleX: 1, duration: .16, ease: 'sine.inOut' }, .28);
       const d = G.timeline({ repeat: o.loop ? -1 : (lv >= 3 ? 3 : lv >= 2 ? 2 : 0), defaults: { ease: 'sine.inOut' } }), b = .3;
       [-1, 1].forEach((s, i) => {
         const t = i * b * 2;
@@ -507,6 +509,7 @@
     const sub = G.timeline(); ACTS[name](sub, o);
     if (reduce) {
       sub.pause(); sub.seek(sub.labels.pose != null ? 'pose' : 0, false);
+      G.set(P.all, { y: 0 }); G.set(P.sq, { scaleX: 1, scaleY: 1 }); G.set(P.shadow, { scaleX: 1, opacity: .2 }); // وضعية ثابتة على الأرض
       act = sub; act._held = true;
       if (!o.loop && name !== 'sleep') G.delayedCall(o.hold || 1.8, () => { if (act === sub) idle(); });
       return sub;
@@ -894,6 +897,8 @@
       const ang = Math.atan2(ty - sy, tx - sx) * 180 / Math.PI;       // اتجاه الهدف (0 = يمين، 90 = أسفل)
       const base = side < 0 ? 112 : 68;                                // اتجاه الزعنفة وهي مرتخية
       let rot = ang - base; while (rot > 180) rot -= 360; while (rot < -180) rot += 360;
+      // الزعنفة ترتفع 40° على الأقل كي تُقرأ الإشارة، ولا تلتفّ خلف الجسم
+      rot = side > 0 ? clampN(rot, -150, -40) : clampN(rot, 40, 150);
       const d = Math.hypot(tx - sx, ty - sy) || 1;
       play('point', { side, rot, hold, ex: (tx - sx) / d * 5.5, ey: (ty - sy) / d * 4.5 });
     },
