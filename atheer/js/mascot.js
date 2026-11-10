@@ -190,6 +190,8 @@
     #mascotHome.mc-auto .mc{position:relative;bottom:auto;inset-inline-start:auto;--ms:150px}
     html.mc-home .hero-txt{max-width:calc(100% - 434px)}
   }
+  #mascotSpot>.mc{position:absolute;left:50%;bottom:-6px;margin-left:calc(var(--ms) / -2);--ms:86px}
+  @media (min-width:720px){#mascotSpot>.mc{--ms:104px}}
   html.mc-off #mascotHome,html.mc-off #mascotLayer{display:none}
   `);
 
@@ -554,6 +556,8 @@
      ------------------------------------------------------------------ */
   function homeMount() {
     if (customMount && customMount.isConnected) return customMount;
+    const spot = document.getElementById('mascotSpot'); // مكان محجوز له بجانب التحية (index.html)
+    if (spot) return spot;
     let m = document.getElementById('mascotHome');
     if (!m) {
       const hero = document.querySelector('#menu .hero'); if (!hero) return null;

@@ -160,7 +160,7 @@ window.Home = (function () {
     /* ---------- تشغيل/إيقاف حسب الحالة ---------- */
     sync() {
       if (!this.sky) return;
-      const on = window.App && App.current === 'menu' && !document.hidden;
+      const on = typeof App !== 'undefined' && App.current === 'menu' && !document.hidden;
       this.active = !!on;
       this.sky.classList.toggle('paused', !on);
       this.sky.classList.toggle('par', !!on && !this.reduce);
@@ -263,7 +263,7 @@ window.Home = (function () {
       const now = performance.now();
       if (now - this.lastScroll > 120) this.vel = 0;
       // أثناء التمرير السريع أو حركة الدخول: ننتظر حتى يهدأ
-      if (this.vel > 1.1 || now < this.quietUntil || (window.Fx && Fx.intro)) { this.flushSoon(); return; }
+      if (this.vel > 1.1 || now < this.quietUntil || (typeof Fx !== 'undefined' && Fx.intro)) { this.flushSoon(); return; }
       const els = [...this.pending].filter(el => el.isConnected); this.pending.clear();
       els.forEach(el => this.shown.add(el.parentNode.dataset.go));
       if (this.reduce || !this.active || !window.gsap || !els.length) return;
