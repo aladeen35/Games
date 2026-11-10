@@ -180,6 +180,9 @@
     white-space:normal;transform-origin:50% 100%;z-index:2}
   .mc-bub::after{content:'';position:absolute;top:100%;left:calc(50% + var(--tx,0px));margin-left:-8px;width:16px;height:16px;background:#fff;border:3px solid #BFD0FF;border-top:0;border-left:0;
     transform:translateY(-9px) rotate(45deg);border-radius:0 0 5px 0}
+  .mc-bub.side-r::after,.mc-bub.side-l::after{top:50%;margin-top:-8px!important;left:auto;margin:0;transform:none}
+  .mc-bub.side-r::after{right:100%;margin-right:-9px;border:3px solid #BFD0FF;border-top:0;border-right:0;transform:rotate(45deg);border-radius:0 0 0 5px}
+  .mc-bub.side-l::after{left:100%;margin-left:-9px;transform:rotate(-45deg)}
   #mascotLayer{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
   #mascotLayer .mc{position:absolute;left:0;top:0;will-change:transform}
   /* مكانه الافتراضي في الشاشة الرئيسية: واقف أمام طرف الشعار (جوال) / بعد التحية (شاشات عريضة) */
@@ -309,7 +312,7 @@
      الحركات
      ------------------------------------------------------------------ */
   function neutral(tl, d) {
-    const v = { duration: d, ease: 'power2.out', overwrite: true };
+    const v = { duration: d, ease: 'power2.out' };
     tl.to(P.all, { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, ...v }, 0)
       .to(P.sq, { scaleX: 1, scaleY: 1, ...v }, 0)
       .to(P.head, { rotation: 0, x: 0, y: 0, ...v }, 0)
@@ -318,7 +321,7 @@
       .to(P.cheeks, { scale: 1, ...v }, 0)
       .to(P.shadow, { scaleX: 1, opacity: .2, ...v }, 0)
       .to([P.eyeL, P.eyeR], { scaleX: 1, scaleY: 1, ...v }, 0)
-      .to([...P.zs, ...P.dots, ...P.stars, ...P.hearts], { autoAlpha: 0, duration: Math.min(d, .15), overwrite: true }, 0)
+      .to([...P.zs, ...P.dots, ...P.stars, ...P.hearts], { autoAlpha: 0, duration: Math.min(d, .15) }, 0)
       .set(P.open, { autoAlpha: 1 }, 0).set([P.happy, P.sleepy], { autoAlpha: 0 }, 0);
     return tl;
   }
@@ -484,11 +487,14 @@
     }
   };
   const clampN = (v, a, b) => Math.max(a, Math.min(b, v));
+  /** إيقاف كل حركات أجزاء الجسم (عدا التنفّس) قبل حركة جديدة */
+  const rig = () => [P.all, P.sq, P.head, P.eyes, P.eyeL, P.eyeR, P.flipL, P.flipR, P.footL, P.footR, P.browL, P.browR, P.mouth, P.shadow, P.open, P.happy, P.sleepy, ...P.cheeks, ...P.zs, ...P.dots, ...P.stars, ...P.hearts];
+  const calm = () => G.killTweensOf(rig());
 
   function stopAct() {
     if (act) { act.kill(); act = null; }
     busy = false; sleeping = false;
-    if (ready) neutral(G.timeline(), 0);
+    if (ready) { calm(); neutral(G.timeline(), 0); }
   }
   /** تشغيل حركة. مع تقليل الحركة: وضعية ثابتة لفترة ثم عودة */
   function play(name, o) {
@@ -496,9 +502,10 @@
     o = o || {};
     if (act) { act.kill(); act = null; }
     sleeping = name === 'sleep'; busy = true;
+    calm();
+    if (reduce) neutral(G.timeline(), 0);
     const sub = G.timeline(); ACTS[name](sub, o);
     if (reduce) {
-      neutral(G.timeline(), 0);
       sub.pause(); sub.seek(sub.labels.pose != null ? 'pose' : 0, false);
       act = sub; act._held = true;
       if (!o.loop && name !== 'sleep') G.delayedCall(o.hold || 1.8, () => { if (act === sub) idle(); });
@@ -514,29 +521,60 @@
     if (act) { act.kill(); act = null; }
     busy = false; sleeping = false;
     if (mode === 'float' && floatKind === 'win' && winOv && visible) { play('cheer', { level: 2, loop: true }); return; }
-    neutral(G.timeline(), reduce ? 0 : .35);
+    calm(); neutral(G.timeline(), reduce ? 0 : .35);
   }
 
   /* ------------------------------------------------------------------
      فقاعة الكلام
      ------------------------------------------------------------------ */
+  /* عناصر لا تغطيها الفقاعة (مفتاح اللغة، الشريط العلوي، صف الأطفال، الشعار) */
+  const AVOID = '#mLang, .topbar, #kids, #logo, .panel';
+  const hit = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
   function bubble(text, hold) {
     if (!ready || !visible) return;
     if (bubCall) { bubCall.kill(); bubCall = null; }
     bubTxt.textContent = text;
     bub.dir = App.lang === 'en' ? 'ltr' : 'rtl';
     G.killTweensOf(bub);
-    G.set(bub, { x: 0, scale: 1 });
-    // قراءة واحدة للقياسات كي تبقى الفقاعة داخل الشاشة ولا تصعد فوقها
-    const r = root.getBoundingClientRect(), bw = bub.offsetWidth, bh = bub.offsetHeight, W = innerWidth;
-    if (r.top - bh < 2) { G.set(bub, { autoAlpha: 0 }); return; }
-    const c = r.left + r.width / 2, sc = r.width / (root.offsetWidth || r.width) || 1;
+    bub.classList.remove('side-l', 'side-r'); bub.style.maxWidth = '';
+    G.set(bub, { x: 0, y: 0, xPercent: -50, scale: 1, transformOrigin: '50% 100%' });
+    // كل القراءات أولًا ثم الكتابة: فوق البطريق إن كان المكان خاليًا، وإلا بجانبه
+    const r = root.getBoundingClientRect(), W = innerWidth, sc = r.width / (root.offsetWidth || r.width) || 1;
+    const avoid = [...document.querySelectorAll(AVOID)].filter(e => e.offsetParent && !root.contains(e) && !(winOv && winOv.contains(e) && mode !== 'float')).map(e => e.getBoundingClientRect());
+    let bw = bub.offsetWidth * sc, bh = bub.offsetHeight * sc;
+    const c = r.left + r.width / 2;
     let shift = 0;
     if (c - bw / 2 < 8) shift = 8 - (c - bw / 2); else if (c + bw / 2 > W - 8) shift = (W - 8) - (c + bw / 2);
-    shift /= sc;
-    bub.style.setProperty('--tx', clampN(-shift, -bw / 2 + 22, bw / 2 - 22) + 'px');
-    if (reduce) G.set(bub, { x: shift, autoAlpha: 1 });
-    else G.fromTo(bub, { x: shift, scale: .4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .38, ease: 'back.out(2)' });
+    const top = r.top - bh + 4 * sc, above = { left: c - bw / 2 + shift, right: c + bw / 2 + shift, top, bottom: top + bh };
+    if (top >= 2 && !avoid.some(a => hit(above, a))) {
+      shift /= sc;
+      bub.style.setProperty('--tx', clampN(-shift, -bw / sc / 2 + 22, bw / sc / 2 - 22) + 'px');
+      show(shift, 0);
+    } else {
+      // بجانب الرأس، في الجهة الأوسع
+      // الجهة الأوسع، مع تفضيل الجهة التي لا تغطي التحية إن اتسعت للفقاعة
+      const room = { l: r.left - 6, r: W - r.right - 6 }, he = document.getElementById('hello'), hr = he && he.offsetParent ? he.getBoundingClientRect() : null;
+      let right = room.r >= room.l;
+      if (hr) { const helloRight = hr.left + hr.width / 2 > c; if (helloRight === right && (helloRight ? room.l : room.r) + r.width * .1 >= 150) right = !right; }
+      const sp = (right ? room.r : room.l) + r.width * .1;
+      if (sp < 110) { G.set(bub, { autoAlpha: 0 }); return; }
+      bub.style.maxWidth = Math.min(236, sp) / sc + 'px';
+      bw = bub.offsetWidth; bh = bub.offsetHeight;
+      bub.classList.add(right ? 'side-r' : 'side-l');
+      const w = root.offsetWidth, H = w * RATIO, x = right ? w * .9 : -bw + w * .1;
+      G.set(bub, { xPercent: 0, transformOrigin: right ? '0% 60%' : '100% 60%' });
+      // الفقاعة عند مستوى الرأس، وتنزل قليلًا إن اصطدمت بشيء
+      let y = H * .42 + bh / 2;
+      const box = () => ({ left: r.left + x * sc, right: r.left + (x + bw) * sc, top: r.top + (y - bh) * sc, bottom: r.top + y * sc });
+      for (let k = 0; k < 8 && avoid.some(a => hit(box(), a)); k++) y += 10;
+      show(x, y, true);
+    }
+    function show(x, y, side) {
+      if (side) G.set(bub, { left: 0, xPercent: 0 });
+      else G.set(bub, { clearProps: 'left' });
+      if (reduce) G.set(bub, { x, y, autoAlpha: 1 });
+      else G.fromTo(bub, { x, y, scale: .4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .38, ease: 'back.out(2)' });
+    }
     bubCall = G.delayedCall(hold || clampN(1.4 + text.length * .07, 2, 4.5), hideBubble);
   }
   function hideBubble() {
@@ -922,7 +960,7 @@
     obj[name] = function () { const r = orig.apply(this, arguments); try { after.apply(this, arguments); } catch (e) { console.warn('Mascot', e); } return r; };
   };
   wrap(App, 'renderMenu', sync);
-  wrap(App, 'show', () => { if (mode === 'float') { clearFloat(); if (ready) { stopAct(); hideBubble(); G.killTweensOf(root); G.set(root, { autoAlpha: 0 }); mode = 'none'; setVisible(false); } } lastEnc = performance.now() - 8000; errT = 0; sync(); });
+  wrap(App, 'show', () => { if (mode === 'float') { clearFloat(); if (ready) { stopAct(); hideBubble(); G.killTweensOf(root); G.set(root, { autoAlpha: 0 }); mode = 'none'; setVisible(false); } } lastEnc = performance.now() - 20000; errT = 0; sync(); });
   wrap(App, 'shopSheet', () => { if (enabled && ready) applyOutfit(savedOutfit(), true); });
   wrap(App, 'speak', text => { if (!ownSpeak && typeof text === 'string' && /حاول|جرّب|try again/i.test(text)) auto('try'); });
   wrap(Sound, 'error', () => auto('err'));

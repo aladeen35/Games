@@ -263,7 +263,7 @@ html.gs .chip b,html.gs #mStarsN{display:inline-block}
   /** العدّاد الهدف: عدّاد القائمة إن كان ظاهرًا، وإلا كبسولة مؤقتة أعلى الشاشة */
   function counter() {
     const real = D.getElementById('mStars');
-    if (App.current === 'menu' && !sheetOn() && real && real.offsetParent) return { el: real, num: D.getElementById('mStarsN'), real: true };
+    if (App.current === 'menu' && !sheetOn() && real && real.offsetParent && real.getBoundingClientRect().bottom > 0) return { el: real, num: D.getElementById('mStarsN'), real: true };
     if (!pill.el) {
       pill.el = D.createElement('div'); pill.el.className = 'fxpill'; pill.el.dataset.noroll = '1';
       pill.el.innerHTML = '<i>⭐</i><b></b><small></small>'; pill.b = pill.el.children[1]; pill.s = pill.el.children[2];
@@ -316,9 +316,10 @@ html.gs .chip b,html.gs #mStarsN{display:inline-block}
     const win = D.querySelector('.screen.on .overlay.on .stars3');
     const hinted = srcHint && performance.now() - srcHintT < 600 ? srcHint : null;
     const from = hinted || win || D.getElementById('dStar') || null;
+    pill.sum = (pill.shown ? pill.sum || 0 : 0) + n;
     const C = counter();
     write(C.num, cnt.v);
-    if (!C.real && pill.s) pill.s.textContent = '+' + n + (why ? ' ' + why : '');
+    if (!C.real && pill.s) pill.s.textContent = '+' + pill.sum + (why ? ' ' + why : '');
     const k = Math.max(1, Math.min(n, FX.low ? 3 : 6)), step = Math.ceil(n / k);
     fly(from, k, {
       delay: win && !hinted ? 1.35 : .2,   // بعد أن تستقر نجوم لوحة الفوز في أماكنها
