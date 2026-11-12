@@ -194,7 +194,7 @@ export function step(rug, dt) {
     if (wet > 0.1 && rug.soap[i] > 0.05 && rug.chem[i]) {
       rug.dwell[i] += dt;
       const c = CHEMS[CHEM_IDS[rug.chem[i] - 1]];
-      if (rug.dwell[i] > c.dwellMax) rug.stress[i] = Math.min(1, rug.stress[i] + dt * 0.006 * rug.soap[i]);
+      if (rug.dwell[i] > c.dwellMax) rug.stress[i] = Math.min(1, rug.stress[i] + dt * 0.0025 * rug.soap[i] * (c.ph > 8 ? 1.5 : 1));
       if (c.ph > mat.maxPH) { // chemistry too alkaline for this fibre
         const ex = (c.ph - mat.maxPH) * rug.soap[i];
         rug.stress[i] = Math.min(1, rug.stress[i] + ex * dt * 0.004);

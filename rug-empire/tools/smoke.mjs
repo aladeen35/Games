@@ -15,7 +15,8 @@ const click = async (sel) => { await page.locator(sel).first().click(); await pa
 await page.goto(url); await page.waitForSelector('.menu .btn'); await shot('01-lang');
 await click(`.menu .btn >> nth=${process.env.LANGBTN || 0}`); await shot('02-menu');
 await click('.menu .btn'); await page.waitForSelector('.modal .btn'); await shot('03-intro'); await click('.modal .btn'); await shot('04-hub');
-await click('.card.order'); await shot('05-order'); await click('.modal .row .btn >> nth=2');
+console.log('job:', await page.locator('.card.order small').first().textContent());
+await click('.card.order'); await shot('05-order'); console.log('material:', await page.locator('.modal .rl b').nth(1).textContent()); await click('.modal .row .btn >> nth=2');
 await page.waitForSelector('.toolbar'); await page.waitForTimeout(600); await shot('06-clean-start');
 const box = await page.evaluate(() => { const c = document.querySelector('#gl').getBoundingClientRect(); return { w: c.width, h: c.height }; });
 // sweep the rug area in rows with the given tool
@@ -37,8 +38,11 @@ await click('.icon-btn.go'); await shot('11-finish'); await click('.method');
 await page.waitForSelector('.result', { timeout: 20000 }); await page.waitForTimeout(400); await shot('12-result');
 console.log('score:', await page.locator('.ring b').textContent(), '| cats:', (await page.locator('.cat b').allTextContents()).join(' '));
 await click('.result .btn'); await shot('13-pay');
-if (await page.locator('.pay .btn.ghost').count()) await click('.pay .btn.ghost');
-await click('.pay .btn:not(.ghost)'); await shot('14-receipt'); await click('.pay .btn'); await page.waitForSelector('.hub'); await shot('15-hub-after');
+if (await page.locator('.pay').count()) { // a damaged or failed rug pays nothing and skips the cash screen
+  if (await page.locator('.pay .btn.ghost').count()) await click('.pay .btn.ghost');
+  await click('.pay .btn:not(.ghost)'); await shot('14-receipt'); await click('.pay .btn');
+}
+await page.waitForSelector('.hub'); await shot('15-hub-after');
 for (const [i, tab] of ['shop', 'market', 'business'].entries()) { await click(`.tabs button >> nth=${i + 1}`); await shot('16-' + tab); }
 await click('.hub-btns .icon-btn'); await shot('17-showroom');
 if (await page.locator('.gcard').count()) { await click('.gcard'); await page.waitForTimeout(800); await shot('18-show3d');

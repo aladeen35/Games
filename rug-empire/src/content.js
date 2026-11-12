@@ -25,7 +25,7 @@ export const STAINS = {
 // id order matters: index is stored per cell (1-based).
 export const CHEM_IDS = ['shampoo', 'alkaline', 'enzyme', 'solvent', 'oxy', 'acid'];
 export const CHEMS = {
-  shampoo: { ph: 7, soil: 1.0, foam: 1.0, dwellOpt: 4, dwellMax: 200, price: 3000, unlock: 0,
+  shampoo: { ph: 7, soil: 1.0, foam: 1.0, dwellOpt: 4, dwellMax: 1200, price: 3000, unlock: 0,
     compat: { tea: 0.25, grease: 0.35, juice: 0.3, ink: 0.05, henna: 0.05, protein: 0.3, old: 0.15 } },
   alkaline: { ph: 11, soil: 1.35, foam: 0.7, dwellOpt: 6, dwellMax: 45, price: 4500, unlock: 0,
     compat: { tea: 0.3, grease: 0.9, juice: 0.25, ink: 0.15, henna: 0.05, protein: 0.35, old: 0.4 } },

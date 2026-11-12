@@ -86,3 +86,11 @@ describe('cleaning simulation', () => {
     expect(s.failed).toContain('nochem'); expect(s.instr).toBe(0);
   });
 });
+
+describe('fairness', () => {
+  it('a slow beginner leaving neutral shampoo on for ten minutes does not ruin a synthetic rug', () => {
+    const rug = createRug(spec()); sweep(rug, TOOLS.bucket, 1); sweep(rug, TOOLS.chem, 1, { chem: 'shampoo' });
+    for (let k = 0; k < 600 * 30; k++) step(rug, 1 / 30);
+    expect(measure(rug).stress).toBeLessThan(0.01);
+  });
+});

@@ -25,7 +25,7 @@
       soil: 1,
       foam: 1,
       dwellOpt: 4,
-      dwellMax: 200,
+      dwellMax: 1200,
       price: 3e3,
       unlock: 0,
       compat: { tea: 0.25, grease: 0.35, juice: 0.3, ink: 0.05, henna: 0.05, protein: 0.3, old: 0.15 }
@@ -932,7 +932,7 @@
       if (wet > 0.1 && rug.soap[i] > 0.05 && rug.chem[i]) {
         rug.dwell[i] += dt;
         const c = CHEMS[CHEM_IDS[rug.chem[i] - 1]];
-        if (rug.dwell[i] > c.dwellMax) rug.stress[i] = Math.min(1, rug.stress[i] + dt * 6e-3 * rug.soap[i]);
+        if (rug.dwell[i] > c.dwellMax) rug.stress[i] = Math.min(1, rug.stress[i] + dt * 25e-4 * rug.soap[i] * (c.ph > 8 ? 1.5 : 1));
         if (c.ph > mat.maxPH) {
           const ex = (c.ph - mat.maxPH) * rug.soap[i];
           rug.stress[i] = Math.min(1, rug.stress[i] + ex * dt * 4e-3);
