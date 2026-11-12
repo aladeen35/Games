@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إمبراطورية السجاد</string>
+    <string name="back_again_to_exit">اضغط رجوع مرة أخرى للخروج</string>
+    <string name="saved_to_downloads">تم الحفظ في التنزيلات: %1$s</string>
+    <string name="save_failed">تعذّر حفظ الملف</string>
+    <string name="share_title">مشاركة</string>
+</resources>

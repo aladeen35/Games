@@ -1,0 +1,80 @@
+name: Rug Empire APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'rug-empire/**'
+      - '.github/workflows/rug-empire-apk.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rug-empire-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build web game (if it has a build step)
+        working-directory: rug-empire
+        run: |
+          if [ -f package.json ]; then
+            if [ -f package-lock.json ]; then npm ci; else npm install; fi
+            npm test
+            npm run i18n:check
+            npm run build --if-present
+          fi
+
+      - name: Locate Android SDK tools
+        run: |
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          BT="$(ls -d "$SDK"/build-tools/*/ | sort -V | tail -n1)"; BT="${BT%/}"
+          if [ -f "$SDK/platforms/android-34/android.jar" ]; then
+            JAR="$SDK/platforms/android-34/android.jar"
+          else
+            JAR="$(ls "$SDK"/platforms/android-*/android.jar | sort -V | tail -n1)"
+          fi
+          test -x "$BT/aapt2" && test -f "$JAR"
+          echo "ANDROID_SDK=$SDK"  >> "$GITHUB_ENV"
+          echo "BUILD_TOOLS=$BT"   >> "$GITHUB_ENV"
+          echo "ANDROID_JAR=$JAR"  >> "$GITHUB_ENV"
+          echo "build-tools: $BT"; echo "android.jar: $JAR"
+
+      - name: Build signed APK
+        run: bash rug-empire/android/build-apk.sh
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: RugEmpire-apk
+          path: rug-empire/dist/RugEmpire-*.apk
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Summary
+        run: |
+          {
+            echo "### Rug Empire APK"
+            echo ""
+            echo "Download **RugEmpire-apk** from the *Artifacts* section at the bottom of this run page (zip containing the APK)."
+            echo ""
+            echo '```'
+            ls -l rug-empire/dist/
+            sha256sum rug-empire/dist/RugEmpire-*.apk
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
