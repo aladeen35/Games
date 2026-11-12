@@ -1,5 +1,5 @@
 // One cleaning job from first touch to payment: tools, live warnings, drying, score, cash, time-lapse.
-import { TOOLS, SLOTS, CHEMS, CHEM_IDS, ECON, ARCHETYPES, NAMES, STAIN_IDS } from './content.js';
+import { TOOLS, SLOTS, CHEMS, CHEM_IDS, ECON, ARCHETYPES, NAMES, STAIN_IDS, BRAND_DEFAULT } from './content.js';
 import { createRug, applyTool, step, measure, cleanliness, dryingHours, dryStep, scoreJob, mixConflict, RES } from './sim.js';
 import { env as envOf, settleJob, bookPayment, tx, has, skill, chemAvailable, dateOf, seasonOf, hijri } from './state.js';
 import { rugCanvas, noteCanvas, logoCanvas } from './patterns.js';
@@ -374,7 +374,7 @@ export function playTimelapse(spec, rec, onClose) {
     sc.setView('top'); sc.setRug(tl.rug, rugCanvas(spec)); sc.resize();
   };
   tl.restart = restart; restart();
-  sc.setMark(logoCanvas(s.brand, 128, L.ui === 'en' ? 'en' : 'ar'));
+  sc.setMark(logoCanvas((s && s.brand) || BRAND_DEFAULT, 128, L.ui === 'en' ? 'en' : 'ar')); // showroom can open from the menu with no save loaded
   const canRec = !!(window.MediaRecorder && sc.renderer.domElement.captureStream);
   $('#ui').replaceChildren(h('div.tl-ui', h('div.tl-bar', bar(0, 'clean')),
     h('div.tl-ctl',
