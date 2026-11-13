@@ -7,3 +7,9 @@
 - **عند أي تحديث: ابنِ النسختين معًا دائمًا** بالأمر `bash atheer/android/build-apk.sh` وأرسل ملفي APK الاثنين للمستخدم. لكل نسخة توقيع مختلف، ولا تغيّر المفاتيح وإلا لن تُثبَّت التحديثات فوق النسخ القديمة.
 - ارفع `versionCode`/`VERSION_NAME` في `atheer/android/build-apk.sh` مع كل إصدار جديد.
 - أي تعديل على الألعاب يكون في `atheer/js/*.js` المشتركة، لا داخل مجلد نسخة.
+
+## منصة نِبراس التعليمية (`nibras/`)
+- تطبيق مستقل (`com.nibras.learn`) غير مرتبط بنسختي أثير؛ تعديله لا يستلزم بناء نسختي أثير.
+- البناء: `bash nibras/android/build-apk.sh` ← `nibras/dist/Nibras-<الإصدار>.apk`. ارفع `VERSION_CODE`/`VERSION_NAME` مع كل إصدار، ولا تغيّر `nibras/android/nibras.keystore`.
+- المحتوى في `nibras/js/content.js` منفصل عن محرّك الألعاب `nibras/js/games.js`. كل المحتوى نموذجي توضيحي ولا يوصف بأنه معتمد من الوزارة.
+- الهوية: كحلي `#142B4A`، تركواز `#19B8B0`، ذهبي `#FFC857`؛ ملفات الشعار في `nibras/brand/`.

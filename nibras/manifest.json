@@ -1,0 +1,19 @@
+{
+  "name": "نِبراس | NIBRAS",
+  "short_name": "نِبراس",
+  "description": "نتعلّم باللعب.. ونكتشف المستقبل — ألعاب تعليمية من الروضة إلى المرحلة المتوسطة",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["education", "kids"],
+  "background_color": "#FFFBF4",
+  "theme_color": "#142B4A",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
