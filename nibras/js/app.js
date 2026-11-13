@@ -26,7 +26,7 @@ N.App = {
     $('#pSay').onclick = () => this.sayAct();
     $('#pHint').onclick = () => { if (this.run && this.run.ctrl && !this.run.doneAct) { this.run.ctrl.hint(); N.Sound.tap(); } };
     $('#pRetry').onclick = () => { if (this.run && !this.run.doneAct) this.renderAct(true); };
-    if (!N.DB.data.kids.length) this.startOnboard(!N.DB.data.settings.lang ? 0 : 1); else this.home();
+    if (!N.DB.data.kids.length || !N.DB.data.settings.welcomed) this.startOnboard(); else this.home();
   },
   show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
@@ -37,62 +37,55 @@ N.App = {
     if ($('#sheetWrap').classList.contains('on')) { this.closeSheet(); return 'ok'; }
     if (this.cur === 'play') { this.leavePlay(); return 'ok'; }
     if (this.cur === 'result' || this.cur === 'path') { this.home(); return 'ok'; }
-    if (this.cur === 'onboard' && this.ob.step > 0 && (this.ob.step > 1 || !N.DB.data.kids.length)) { this.ob.step--; this.renderOb(); return 'ok'; }
-    if (this.cur === 'onboard' && N.DB.data.kids.length) { this.home(); return 'ok'; }
+    if (this.cur === 'onboard' && this.ob.step > 0) { this.ob.step--; this.renderOb(); return 'ok'; }
     return 'exit';
   },
 
-  /* ============================ التسجيل ============================ */
-  startOnboard(step, adding) {
-    this.ob = { step, name: '', av: N.AVATARS[0].e, stage: null, grade: null, adding: !!adding };
-    this.show('onboard'); this.renderOb();
+  /* ============================ شاشات الترحيب (بلا حسابات) ============================
+     لا تسجيل ولا أسماء: يُنشأ ملف محلي مجهول تلقائيًا ويُغيَّر الصف من الرئيسية بلمسة. */
+  startOnboard() { this.ob = { step: 0 }; this.show('onboard'); this.renderOb(); },
+  enter() {
+    const d = N.DB.data;
+    if (!d.kids.length) N.Kids.add('', N.AVATARS[0].e, 'g1');
+    d.settings.welcomed = true; N.DB.save(); N.applySettings(); this.vg = null; N.confetti(); this.home();
   },
   renderOb() {
-    const o = this.ob, W = $('#obWrap');
-    const dots = `<div class="steps">${[0, 1, 2, 3].map(i => `<i class="${i <= o.step ? 'on' : ''}"></i>`).join('')}</div>`;
-    const backBtn = (o.step > 1 || (o.step === 1 && (!N.DB.data.kids.length || o.adding))) ? `<button class="ib" id="obBack">${N.lang === 'ar' ? '→' : '←'}</button>` : '';
+    const o = this.ob, W = $('#obWrap'), last = 2;
+    const dots = `<div class="steps">${[0, 1, 2].map(i => `<i class="${i === o.step ? 'on' : ''}"></i>`).join('')}</div>`;
+    const lang = `<div class="seg" style="align-self:center">${[['ar', 'العربية'], ['en', 'English']].map(l => `<button data-l="${l[0]}" class="${N.lang === l[0] ? 'on' : ''}">${l[1]}</button>`).join('')}</div>`;
     let h = '';
     if (o.step === 0) {
-      h = `<div class="brand">${N.Vis.logo('color', 120)}<h1>نِبراس · NIBRAS</h1>
+      h = `${lang}<div class="brand" style="margin-top:20px">${N.Vis.logo('color', 140)}<h1>نِبراس · NIBRAS</h1>
         <div class="tag">نتعلّم باللعب.. ونكتشف المستقبل</div><div class="tag ltr">Learn Through Play. Discover the Future.</div></div>
-        ${dots}<div class="card"><h3 style="text-align:center;margin-bottom:12px">اختر اللغة · Choose language</h3>
-        <div class="grid2"><button class="choice" data-l="ar"><span class="big">ع</span>العربية</button><button class="choice" data-l="en"><span class="big">A</span>English</button></div></div>`;
+        <p style="text-align:center;font-size:1.1rem;font-weight:700">${T('welcomeSub')}</p>`;
     } else if (o.step === 1) {
-      h = `<div class="row">${backBtn}<div class="grow"></div>${dots}<div class="grow"></div></div>
-        <div class="brand">${N.Vis.logo('color', 70)}<h2>${T('welcome')}</h2><div class="tag">${T('tagline')}</div></div>
-        <div class="card"><h3 style="margin-bottom:10px">${T('childName')}</h3>
-        <input class="field" id="obName" maxlength="20" placeholder="${T('namePh')}" value="${esc(o.name)}" autocomplete="off">
-        <p class="small muted">🔒 ${T('nameNote')}</p>
-        <h3 style="margin:10px 0">${T('chooseAvatar')}</h3>
-        <div class="avatars">${N.AVATARS.filter(a => !a.p).map(a => `<button class="${a.e === o.av ? 'on' : ''}" data-av="${a.e}">${a.e}</button>`).join('')}</div></div>
-        <button class="btn block" id="obNext" ${o.name.trim() ? '' : 'disabled'}>${T('next')}</button>`;
-    } else if (o.step === 2) {
-      h = `<div class="row">${backBtn}<div class="grow"></div>${dots}<div class="grow"></div></div>
-        <h2 style="text-align:center">${T('chooseStage')}</h2>
-        <div style="display:flex;flex-direction:column;gap:12px">${C.stages.map(s => `<button class="choice" data-st="${s.id}" style="justify-content:flex-start;padding:14px 18px"><span class="big">${s.e}</span>${N.tn(s.name)}</button>`).join('')}</div>`;
+      h = `<div style="text-align:center;font-size:4.5rem;margin-top:20px">🎮</div><h2 style="text-align:center">${T('w2t')}</h2>
+        <div class="card"><ul class="learned">
+          <li><span class="e">🔤</span><span>${T('w2a')}</span></li>
+          <li><span class="e">⭐</span><span>${T('w2b')}</span></li>
+          <li><span class="e">💡</span><span>${T('w2c')}</span></li></ul></div>`;
     } else {
-      const gs = C.grades.filter(g => g.stage === o.stage);
-      h = `<div class="row">${backBtn}<div class="grow"></div>${dots}<div class="grow"></div></div>
-        <h2 style="text-align:center">${T('chooseGrade')}</h2>
-        <div class="grid2">${gs.map(g => { const n = lessonsOf(g.id).length; return `<button class="choice ${o.grade === g.id ? 'on' : ''}" data-g="${g.id}" style="flex-direction:column;gap:2px">${N.tn(g.name)}<small class="muted" style="font-size:.75rem">${n ? n + ' ' + T('lesson') : T('comingSoon')}</small></button>`; }).join('')}</div>
-        <div class="pill" style="align-self:center">📚 ${T('curVer')}: ${C.version}</div>
-        <button class="btn block ok" id="obGo" ${o.grade ? '' : 'disabled'}>${T('start')} 🚀</button>
-        <p class="disclaimer">${T('protoNote')}</p>`;
+      h = `<div style="text-align:center;font-size:4.5rem;margin-top:20px">🗺️</div><h2 style="text-align:center">${T('w3t')}</h2>
+        <div class="card"><ul class="learned">${C.worlds.map(w => `<li><span class="e">${w.e}</span><span><b>${N.tn(w.name)}</b><br><small class="muted">${C.grades.filter(g => g.world === w.id).map(g => N.tn(g.name)).join(' · ')}</small></span></li>`).join('')}</ul></div>
+        <p class="small muted" style="text-align:center">🔒 ${T('w3a')}</p>`;
     }
-    W.innerHTML = h;
-    const bb = $('#obBack'); if (bb) bb.onclick = () => { if (o.step === 1) { if (o.adding) this.home(); else { o.step = 0; this.renderOb(); } } else { o.step--; this.renderOb(); } };
-    W.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { N.DB.data.settings.lang = b.dataset.l; N.DB.save(); N.applySettings(); o.step = 1; this.renderOb(); });
-    const nm = $('#obName'); if (nm) nm.oninput = () => { o.name = nm.value; $('#obNext').disabled = !nm.value.trim(); };
-    W.querySelectorAll('[data-av]').forEach(b => b.onclick = () => { o.av = b.dataset.av; o.name = nm.value; N.Sound.tap(); this.renderOb(); });
-    const nx = $('#obNext'); if (nx) nx.onclick = () => { o.step = 2; this.renderOb(); };
-    W.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { o.stage = b.dataset.st; o.grade = null; o.step = 3; this.renderOb(); });
-    W.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { o.grade = b.dataset.g; this.renderOb(); });
-    const go = $('#obGo'); if (go) go.onclick = () => { N.Kids.add(o.name, o.av, o.grade); N.applySettings(); this.vg = null; N.confetti(); this.home(); };
+    W.innerHTML = `${h}${dots}
+      <button class="btn block ${o.step === last ? 'ok' : ''}" id="obNext">${o.step === last ? T('startLearning') + ' 🚀' : T('next')}</button>
+      ${o.step < last ? `<button class="btn ghost block" id="obSkip">${T('skip')}</button>` : ''}`;
+    W.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { N.DB.data.settings.lang = b.dataset.l; N.DB.save(); N.applySettings(); this.renderOb(); });
+    $('#obNext').onclick = () => { N.Sound.tap(); if (o.step === last) this.enter(); else { o.step++; this.renderOb(); } };
+    const sk = $('#obSkip'); if (sk) sk.onclick = () => this.enter();
+  },
+  gradeSheet() {
+    const k = kid();
+    this.sheet(`<div class="sh"><span style="font-size:1.6rem">🎒</span><h3>${T('chooseGrade')}</h3><button class="ib" data-close>✕</button></div>
+      ${C.stages.map(st => `<h3 style="margin:10px 0 6px">${st.e} ${N.tn(st.name)}</h3><div class="grid2">${C.grades.filter(g => g.stage === st.id).map(g => { const n = lessonsOf(g.id).length; return `<button class="choice ${g.id === k.grade ? 'on' : ''}" data-g="${g.id}" style="flex-direction:column;gap:0">${N.tn(g.name)}<small class="muted" style="font-size:.72rem">${n ? n + ' ' + T('lessonsN') : T('comingSoon')}</small></button>`; }).join('')}</div>`).join('')}`);
+    $('#sheet').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { k.grade = b.dataset.g; N.DB.save(); this.vg = null; this.closeSheet(); this.home(); });
   },
 
   /* ============================ الرئيسية ============================ */
   home() {
-    if (!kid()) return this.startOnboard(1);
+    if (!kid()) return this.enter();
     N.applySettings();
     if (N.Time.over()) return this.rest();
     const k = kid(), p = prog(), vg = this.vg || k.grade, g = C.gradeById[vg];
@@ -103,13 +96,13 @@ N.App = {
     const W = $('#homeWrap');
     W.innerHTML = `
       <div class="topbar">
-        <button class="who" id="hWho"><span class="av">${k.av}</span><span>${esc(k.name)}<small>${gradeName(k.grade)}</small></span></button>
+        <button class="who" id="hWho"><span class="av">${k.av}</span><span>${gradeName(k.grade)} ▾<small>${T('changeGrade')}</small></span></button>
         <div class="grow"></div>
         <span class="xp">✨ ${k.xp}</span>
         <button class="ib" id="hSet" aria-label="${T('settings')}">⚙️</button>
         <button class="ib" id="hPar" aria-label="${T('parent')}">👪</button>
       </div>
-      <h2>${T('hello', { n: esc(k.name) })} 👋</h2>
+      <h2>${k.name ? T('hello', { n: esc(k.name) }) : T('helloAnon')} 👋</h2>
       ${vg !== k.grade ? `<button class="pill" id="hMine" style="align-self:flex-start;background:var(--orange-l)">👀 ${gradeName(vg)} — ${N.lang === 'ar' ? 'العودة إلى صفي' : 'Back to my grade'} ✕</button>` : ''}
       ${vg === k.grade ? (next ? `<div class="hero"><span class="e">${subjOf(next.subject).e}</span><div class="grow"><small style="opacity:.85">${T('continueLearning')} · ${N.tn(subjOf(next.subject).name)}</small><h2 dir="${next.lang === 'en' ? 'ltr' : 'rtl'}">${esc(next.title)}</h2><p>${esc(next.unit)}</p><button class="btn" id="hGo">${T('go')} ▶</button></div></div>`
         : `<div class="hero"><span class="e">🏆</span><div class="grow"><h2>${T('allDone')}</h2></div></div>`) : ''}
@@ -132,7 +125,7 @@ N.App = {
       </div>
       <p class="disclaimer">${N.Vis.logo('mono', 26)}<br>${T('curriculum')}: ${C.version} — ${T('protoNote')}</p>`;
     this.show('home');
-    $('#hWho').onclick = () => this.kidsSheet();
+    $('#hWho').onclick = () => this.gradeSheet();
     $('#hSet').onclick = () => this.settingsSheet();
     $('#hPar').onclick = () => this.gate(() => this.parentSheet());
     const mine = $('#hMine'); if (mine) mine.onclick = () => { this.vg = null; this.home(); };
@@ -392,7 +385,7 @@ N.App = {
   worldSheet(wid) {
     const w = C.worldById[wid], gs = C.grades.filter(g => g.world === wid);
     this.sheet(`<div class="sh"><span style="font-size:2rem">${w.e}</span><h3>${N.tn(w.name)}</h3><button class="ib" data-close>✕</button></div>
-      <div style="display:flex;flex-direction:column;gap:10px">${gs.map(g => { const n = lessonsOf(g.id).length; return `<button class="choice" data-g="${g.id}" style="justify-content:space-between">${N.tn(g.name)}<small class="muted">${n ? n + ' ' + T('lesson') : T('comingSoon')}</small></button>`; }).join('')}</div>`);
+      <div style="display:flex;flex-direction:column;gap:10px">${gs.map(g => { const n = lessonsOf(g.id).length; return `<button class="choice" data-g="${g.id}" style="justify-content:space-between">${N.tn(g.name)}<small class="muted">${n ? n + ' ' + T('lessonsN') : T('comingSoon')}</small></button>`; }).join('')}</div>`);
     $('#sheet').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { this.vg = b.dataset.g === kid().grade ? null : b.dataset.g; this.closeSheet(); this.home(); });
   },
   settingsSheet() {
@@ -405,14 +398,6 @@ N.App = {
       <div class="setrow"><span class="lbl">◐ ${T('contrast')}</span>${this.seg('contrast', s.contrast, [[true, T('on')], [false, T('off')]])}</div>
       <div class="setrow"><span class="lbl">🐢 ${T('motion')}</span>${this.seg('motion', s.motion, [[true, T('on')], [false, T('off')]])}</div>`);
     this.bindSeg((k, v) => { s[k] = v === 'true' ? true : v === 'false' ? false : v; N.DB.save(); N.applySettings(); this.settingsSheet(); if (this.cur === 'home') this.home(); });
-  },
-  kidsSheet() {
-    const d = N.DB.data;
-    this.sheet(`<div class="sh"><h3>${T('switchChild')}</h3><button class="ib" data-close>✕</button></div>
-      ${d.kids.map(k => `<button class="kid ${k.id === d.cur ? 'on' : ''}" data-k="${k.id}"><span class="av">${k.av}</span><span class="grow"><b>${esc(k.name)}</b><br><small class="muted">${gradeName(k.grade)} · ✨ ${k.xp}</small></span></button>`).join('')}
-      <button class="btn ghost block" id="kAdd">➕ ${T('addChild')}</button>`);
-    $('#sheet').querySelectorAll('[data-k]').forEach(b => b.onclick = () => { N.Kids.select(b.dataset.k); this.vg = null; this.closeSheet(); this.home(); });
-    $('#kAdd').onclick = () => this.gate(() => { this.closeSheet(); this.startOnboard(1, true); });
   },
   badgesSheet() {
     const p = prog();
@@ -448,17 +433,13 @@ N.App = {
     const support = skills.filter(x => x.st === 'support' || x.st === 'review');
     const stageG = C.grades.filter(g => true);
     this.sheet(`<div class="sh"><span style="font-size:1.6rem">👪</span><h3>${T('parent')}</h3><button class="ib" data-close>✕</button></div>
-      <h3 style="margin-bottom:6px">${T('children')}</h3>
-      ${d.kids.map(x => `<button class="kid ${x.id === k.id ? 'on' : ''}" data-pk="${x.id}"><span class="av">${x.av}</span><span class="grow"><b>${esc(x.name)}</b><br><small class="muted">${gradeName(x.grade)}</small></span></button>`).join('')}
-      <button class="btn ghost block" id="pAdd">➕ ${T('addChild')}</button>
-      <div class="card" style="margin-top:12px"><h3>${T('profileOf', { n: esc(k.name) })}</h3>
+      <div class="card"><h3>${T('report')}</h3>
         <div class="stat"><div><b>${Object.keys(p.lessons).length}</b><small>${T('lessonsDone')}</small></div><div><b>${Object.values(p.lessons).reduce((s, x) => s + x.stars, 0)}</b><small>${T('starsTotal')}</small></div><div><b>${N.Time.minutes(k)}</b><small>${T('minutesToday')}</small></div></div>
         <div class="setrow"><span class="lbl">${T('changeGrade')}</span><select class="field" id="pGrade" style="max-width:200px;min-height:44px;font-size:1rem">${stageG.map(g => `<option value="${g.id}" ${g.id === k.grade ? 'selected' : ''}>${N.tn(g.name)}</option>`).join('')}</select></div>
         <h3 style="margin:10px 0 4px">⚠️ ${T('needSupport')}</h3>
         ${support.length ? support.map(x => `<div class="sk"><span class="nm">${esc(N.skillName(x.id))}</span>${N.Mastery.badge(x.st)}</div>`).join('') : `<p class="small muted">—</p>`}
-        <h3 style="margin:10px 0 4px">📊 ${T('report')}</h3>
+        <h3 style="margin:10px 0 4px">📊 ${N.lang === 'ar' ? 'كل المهارات' : 'All skills'}</h3>
         ${skills.length ? skills.map(x => `<div class="sk"><span class="nm">${esc(N.skillName(x.id))}<small>${Math.round(x.s.score * 100)}% · ${x.s.sessions}×</small></span>${N.Mastery.badge(x.st)}</div>`).join('') : `<p class="small muted">${T('noSkills')}</p>`}
-        <button class="btn ghost block" id="pDel" style="margin-top:10px;color:var(--err)">🗑️ ${T('delChild')}</button>
       </div>
       <div class="card" style="margin-top:12px">
         <div class="setrow"><span class="lbl">⏰ ${T('timeLimit')}</span>${this.seg('limit', par.limit, [[0, T('unlimited')], [15, '15' + T('min')], [30, '30' + T('min')], [45, '45' + T('min')], [60, '60' + T('min')]])}</div>
@@ -468,11 +449,8 @@ N.App = {
       <p class="small muted" style="margin-top:12px">🔒 ${T('privacy')}</p>
       <button class="btn ghost block" id="pWipe" style="color:var(--err)">⚠️ ${T('delAll')}</button>`);
     const S = $('#sheet');
-    S.querySelectorAll('[data-pk]').forEach(b => b.onclick = () => this.parentSheet(b.dataset.pk));
-    $('#pAdd').onclick = () => { this.closeSheet(); this.startOnboard(1, true); };
     $('#pGrade').onchange = e => { k.grade = e.target.value; N.DB.save(); N.applySettings(); this.vg = null; N.toast('✓ ' + gradeName(k.grade)); };
-    $('#pDel').onclick = () => { if (confirm(T('confirmDel'))) { N.Kids.remove(k.id); this.closeSheet(); this.home(); } };
-    $('#pWipe').onclick = () => { if (confirm(T('confirmDel'))) { N.DB.wipe(); this.closeSheet(); N.applySettings(); this.startOnboard(0); } };
+    $('#pWipe').onclick = () => { if (confirm(T('confirmDel'))) { N.DB.wipe(); this.closeSheet(); N.applySettings(); this.startOnboard(); } };
     this.bindSeg((key, v) => { par[key] = v === 'true' ? true : v === 'false' ? false : +v; N.DB.save(); this.parentSheet(k.id); });
     this.onSheetClose = () => this.home();
   },
