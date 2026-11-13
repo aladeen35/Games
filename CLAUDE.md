@@ -24,4 +24,4 @@
 ## «البشرى» لشاشات webOS (`bushra-webos/`)
 - تطبيق HTML/JS خفيف بلا أطر عمل، **متوافق مع webOS 4** (Chromium 53): لا async/await ولا `?.` ولا `??` ولا spread للكائنات.
 - المعرّف `com.albushra.webos`؛ ارفع `version` في `appinfo.json` مع كل إصدار. يُحزَم IPK في `.github/workflows/bushra-webos.yml` وينشر في Releases.
-
+- نسخة المتصفح لشاشات webOS Hub (بلا وضع مطوّر): انسخ ملفات `bushra-webos/` إلى `bushra-player/tv/` في `gh-pages`. عند نشر نسخة Flutter إلى `bushra-player/` لا تحذف المجلد `tv/` منها.
