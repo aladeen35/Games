@@ -10,8 +10,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=3
-VERSION_NAME=0.3
+VERSION_CODE=4
+VERSION_NAME=0.4
 PKG=com.nibras.learn
 KS="${KEYSTORE:-$AND/nibras.keystore}"
 KS_PASS="${KEYSTORE_PASS:-nibras2026}"
@@ -19,6 +19,10 @@ ALIAS=nibras
 DIST="$ROOT/dist"; OUT="$AND/build"
 mkdir -p "$DIST"; rm -rf "$OUT"; mkdir -p "$OUT/compiled" "$OUT/gen" "$OUT/classes" "$OUT/assets"
 
+# خط ثمانية لا يُرفع إلى المستودع العام (شرط الترخيص)؛ ضعه محليًا في nibras/fonts/ قبل البناء
+if [ ! -f "$ROOT/fonts/thmanyah-serif-text-bold.otf" ]; then
+  echo "❌ ضع ملف الخط thmanyah-serif-text-bold.otf (من الموقع الرسمي لثمانية) في $ROOT/fonts/ ثم أعد البناء"; exit 1
+fi
 echo "① نسخ ملفات التطبيق"
 for item in index.html manifest.json sw.js icon-192.png icon-512.png icon-maskable.png fonts js; do cp -r "$ROOT/$item" "$OUT/assets/"; done
 
