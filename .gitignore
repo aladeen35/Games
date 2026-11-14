@@ -1,1 +1,6 @@
 android/build/
+nibras/android/build/
+
+# خط ثمانية: الترخيص يمنع استضافته أو مشاركته علنًا؛ يُضمَّن في APK فقط. ضع الملف محليًا في nibras/fonts/
+nibras/fonts/thmanyah-*.otf
+nibras/dist/*.apk
