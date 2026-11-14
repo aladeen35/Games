@@ -4,7 +4,7 @@
    يقرأ nibras/research/curriculum-*.json (صيغة research/SCHEMA.md)، يتحقق من
    كل نشاط حسب نوعه ويستبعد غير الصالح، ويكتب js/curriculum-data.js الذي
    يحمّله التطبيق. الترتيب يتبع فهرس الكتاب (الوحدة ثم الدرس).
-   الاستخدام: node nibras/tools/import-research.mjs
+   الاستخدام: node nibras/tools/import-research.mjs   (أضف --check للتحقق فقط دون كتابة الملف)
    ===================================================================== */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -89,6 +89,13 @@ function checkAct(a) {
 }
 
 const out = { version: null, sources: {}, structure: {}, lessons: [] };
+/* ملفات أنشطة إضافية research/acts-*.json: { "lessons": { "<معرّف الدرس>": [أنشطة] } }
+   تُكمل دروس الفهرس التي لا أنشطة لها (المعرّف: grade-subject-u<الوحدة>-l<الدرس>) */
+const overlay = {};
+for (const f of (fs.existsSync(RES) ? fs.readdirSync(RES) : []).filter(f => /^acts-.*\.json$/.test(f)).sort()) {
+  try { const o = JSON.parse(fs.readFileSync(path.join(RES, f), 'utf8')); Object.assign(overlay, o.lessons || {}); log.overlayFiles = (log.overlayFiles || 0) + 1; }
+  catch (e) { console.error('✗ JSON غير صالح:', f, e.message); process.exitCode = 1; }
+}
 const files = fs.existsSync(RES) ? fs.readdirSync(RES).filter(f => /^curriculum-.*\.json$/.test(f)).sort() : [];
 for (const f of files) {
   let data;
@@ -107,7 +114,7 @@ for (const f of files) {
         const unitNo = u.unit_no || ui + 1, lessonNo = l.lesson_no || li + 1;
         const id = `${g.grade}-${sb.subject}-u${unitNo}-l${lessonNo}`;
         const acts = [];
-        (l.acts || []).forEach((a, ai) => { const err = checkAct(a); if (err) log.dropped.push(`${id} act${ai + 1}: ${err}`); else acts.push(a); });
+        ((l.acts && l.acts.length) ? l.acts : (overlay[id] || [])).forEach((a, ai) => { const err = checkAct(a); if (err) log.dropped.push(`${id} act${ai + 1}: ${err}`); else acts.push(a); });
         if (acts.length && !acts.some(a => a.apply)) acts[acts.length - 1].apply = true;
         const isl = sb.subject === 'isl';
         /* بعض الوكلاء يميّزون الموضوعات غير المأخوذة من فهرس ببادئة؛ نحوّلها إلى علَم */
@@ -133,7 +140,7 @@ for (const f of files) {
 }
 out.lessons.sort((a, b) => GRADES.indexOf(a.grade) - GRADES.indexOf(b.grade) || SUBJECTS.indexOf(a.subject) - SUBJECTS.indexOf(b.subject) || a.unitNo - b.unitNo || a.lessonNo - b.lessonNo);
 out.version = 'curriculum-' + new Date().toISOString().slice(0, 10);
-fs.writeFileSync(OUT, `/* مُولَّد آليًا بواسطة tools/import-research.mjs من research/curriculum-*.json — لا تعدّله يدويًا */\nwindow.NIBRAS_CUR = ${JSON.stringify(out)};\n`);
-console.log(`ملفات: ${log.files} · دروس: ${log.lessons} (قيد الإعداد ${log.soon}) · أنشطة: ${log.acts} · مستبعد: ${log.dropped.length}`);
+if (!process.argv.includes('--check')) fs.writeFileSync(OUT, `/* مُولَّد آليًا بواسطة tools/import-research.mjs من research/curriculum-*.json — لا تعدّله يدويًا */\nwindow.NIBRAS_CUR = ${JSON.stringify(out)};\n`);
+console.log(`ملفات: ${log.files} (+${log.overlayFiles || 0} ملف أنشطة) · دروس: ${log.lessons} (قيد الإعداد ${log.soon}) · أنشطة: ${log.acts} · مستبعد: ${log.dropped.length}`);
 console.table(log.byGrade);
 if (log.dropped.length) console.log('مستبعد:\n  ' + log.dropped.join('\n  '));
