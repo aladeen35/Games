@@ -50,29 +50,26 @@ N.App = {
     d.settings.welcomed = true; N.DB.save(); N.applySettings(); this.vg = null; N.confetti(); this.home();
   },
   renderOb() {
-    const o = this.ob, W = $('#obWrap'), last = 2;
-    const dots = `<div class="steps">${[0, 1, 2].map(i => `<i class="${i === o.step ? 'on' : ''}"></i>`).join('')}</div>`;
-    const lang = `<div class="seg" style="align-self:center">${[['ar', 'العربية'], ['en', 'English']].map(l => `<button data-l="${l[0]}" class="${N.lang === l[0] ? 'on' : ''}">${l[1]}</button>`).join('')}</div>`;
-    let h = '';
-    if (o.step === 0) {
-      h = `${lang}<div class="brand" style="margin-top:20px">${N.Vis.logo('color', 140)}<h1>نِبراس · NIBRAS</h1>
-        <div class="tag">نتعلّم باللعب.. ونكتشف المستقبل</div><div class="tag ltr">Learn Through Play. Discover the Future.</div></div>
-        <p style="text-align:center;font-size:1.1rem;font-weight:700">${T('welcomeSub')}</p>`;
-    } else if (o.step === 1) {
-      h = `<div style="text-align:center;font-size:4.5rem;margin-top:20px">🎮</div><h2 style="text-align:center">${T('w2t')}</h2>
-        <div class="card"><ul class="learned">
-          <li><span class="e">🔤</span><span>${T('w2a')}</span></li>
-          <li><span class="e">⭐</span><span>${T('w2b')}</span></li>
-          <li><span class="e">💡</span><span>${T('w2c')}</span></li></ul></div>`;
-    } else {
-      h = `<div style="text-align:center;font-size:4.5rem;margin-top:20px">🗺️</div><h2 style="text-align:center">${T('w3t')}</h2>
-        <div class="card"><ul class="learned">${C.worlds.map(w => `<li><span class="e">${w.e}</span><span><b>${N.tn(w.name)}</b><br><small class="muted">${C.grades.filter(g => g.world === w.id).map(g => N.tn(g.name)).join(' · ')}</small></span></li>`).join('')}</ul></div>
-        <p class="small muted" style="text-align:center">🔒 ${T('w3a')}</p>`;
-    }
-    W.innerHTML = `${h}${dots}
-      <button class="btn block ${o.step === last ? 'ok' : ''}" id="obNext">${o.step === last ? T('startLearning') + ' 🚀' : T('next')}</button>
-      ${o.step < last ? `<button class="btn ghost block" id="obSkip">${T('skip')}</button>` : ''}`;
-    W.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { N.DB.data.settings.lang = b.dataset.l; N.DB.save(); N.applySettings(); this.renderOb(); });
+    const o = this.ob, last = 2, S = $('#onboard');
+    const sl = [
+      { illu: N.Vis.logo('color', 130), fl: ['⭐', '📖', '✨'], h: 'نِبراس · NIBRAS', p: `${T('tagline')}<br>${T('welcomeSub')}` },
+      { illu: '<span class="big">🎮</span>', fl: ['🔤', '🧩', '⭐'], h: T('w2t'), list: [['🔤', T('w2a')], ['⭐', T('w2b')], ['💡', T('w2c')]] },
+      { illu: '<span class="big">🗺️</span>', fl: ['🌳', '🏙️', '🧪'], h: T('w3t'), list: C.worlds.map(w => [w.e, N.tn(w.name)]), p: '🔒 ' + T('w3a') }
+    ][o.step];
+    const pos = [['12%', '14%'], ['8%', '72%'], ['78%', '20%']];
+    S.innerHTML = `<div class="wtop">
+        <div class="langsw">${[['ar', 'ع'], ['en', 'EN']].map(l => `<button data-l="${l[0]}" class="${N.lang === l[0] ? 'on' : ''}">${l[1]}</button>`).join('')}</div>
+        <div class="illu">${sl.illu}${sl.fl.map((f, i) => `<span class="fl" style="top:${pos[i][0]};left:${pos[i][1]};animation-delay:${i * .6}s">${f}</span>`).join('')}</div>
+      </div>
+      <div class="wbot">
+        <h1>${sl.h}</h1>
+        ${sl.list ? `<div class="wlist">${sl.list.map(x => `<div><span class="e">${x[0]}</span><span>${x[1]}</span></div>`).join('')}</div>` : ''}
+        ${sl.p ? `<p>${sl.p}</p>` : ''}
+        <div class="dots">${[0, 1, 2].map(i => `<i class="${i === o.step ? 'on' : ''}"></i>`).join('')}</div>
+        <button class="btn ${o.step === last ? 'coral' : ''}" id="obNext">${o.step === last ? T('startLearning') : T('next')} ${N.lang === 'ar' ? '←' : '→'}</button>
+        ${o.step < last ? `<button class="wskip" id="obSkip">${T('skip')}</button>` : ''}
+      </div>`;
+    S.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { N.DB.data.settings.lang = b.dataset.l; N.DB.save(); N.applySettings(); this.renderOb(); });
     $('#obNext').onclick = () => { N.Sound.tap(); if (o.step === last) this.enter(); else { o.step++; this.renderOb(); } };
     const sk = $('#obSkip'); if (sk) sk.onclick = () => this.enter();
   },
@@ -83,63 +80,99 @@ N.App = {
     $('#sheet').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { k.grade = b.dataset.g; N.DB.save(); this.vg = null; this.closeSheet(); this.home(); });
   },
 
-  /* ============================ الرئيسية ============================ */
+  /* ============================ الرئيسية (تبويبات: تعلّم · مراجعة · إنجازاتي) ============================ */
+  tab: 'learn',
+  hdr(left, title, sub, right, extra) {
+    return `<div class="hdr"><div class="in"><div class="hbar">${left || '<span style="width:44px"></span>'}<div class="t">${title}${sub ? `<small>${sub}</small>` : ''}</div>${right || '<span style="width:44px"></span>'}</div>${extra || ''}</div></div>`;
+  },
+  row(o) {
+    return `<button class="li" ${o.attr || ''}><span class="av" style="background:${o.bg || 'var(--tq-l)'}">${o.e}${o.cnt ? `<span class="cnt">${o.cnt}</span>` : ''}</span>
+      <span class="tx"><b ${o.dir ? `dir="${o.dir}"` : ''}>${o.t}</b>${o.s ? `<small>${o.s}</small>` : ''}${o.bar != null ? `<span class="mini"><i style="width:${o.bar}%;background:${o.barc || 'var(--tq)'}"></i></span>` : ''}</span>
+      ${o.end != null ? `<span class="end">${o.end}</span>` : ''}${o.chev === false ? '' : `<span class="chev">${N.lang === 'ar' ? '‹' : '›'}</span>`}</button>`;
+  },
   home() {
     if (!kid()) return this.enter();
     N.applySettings();
     if (N.Time.over()) return this.rest();
     const k = kid(), p = prog(), vg = this.vg || k.grade, g = C.gradeById[vg];
-    const subs = C.stageSubjects[g.stage];
-    const next = this.nextLesson(k.grade);
-    const due = N.Mastery.due(p).length + p.wrong.length;
-    const dailyDone = p.daily === today();
-    const W = $('#homeWrap');
-    W.innerHTML = `
-      <div class="topbar">
-        <button class="who" id="hWho"><span class="av">${k.av}</span><span>${gradeName(k.grade)} ▾<small>${T('changeGrade')}</small></span></button>
-        <div class="grow"></div>
-        <span class="xp">✨ ${k.xp}</span>
-        <button class="ib" id="hSet" aria-label="${T('settings')}">⚙️</button>
-        <button class="ib" id="hPar" aria-label="${T('parent')}">👪</button>
-      </div>
-      <h2>${k.name ? T('hello', { n: esc(k.name) }) : T('helloAnon')} 👋</h2>
-      ${vg !== k.grade ? `<button class="pill" id="hMine" style="align-self:flex-start;background:var(--orange-l)">👀 ${gradeName(vg)} — ${N.lang === 'ar' ? 'العودة إلى صفي' : 'Back to my grade'} ✕</button>` : ''}
-      ${vg === k.grade ? (next ? `<div class="hero"><span class="e">${subjOf(next.subject).e}</span><div class="grow"><small style="opacity:.85">${T('continueLearning')} · ${N.tn(subjOf(next.subject).name)}</small><h2 dir="${next.lang === 'en' ? 'ltr' : 'rtl'}">${esc(next.title)}</h2><p>${esc(next.unit)}</p><button class="btn" id="hGo">${T('go')} ▶</button></div></div>`
-        : `<div class="hero"><span class="e">🏆</span><div class="grow"><h2>${T('allDone')}</h2></div></div>`) : ''}
-      <div class="tiles">
-        <button class="tile daily" id="hDaily"><span class="e">🎯</span><b>${T('dailyChallenge')}</b><small>${dailyDone ? T('dailyDone') : T('dailySub')}</small></button>
-        <button class="tile" id="hRev"><span class="e">🔁</span><b>${T('smartReview')}</b><small>${due ? T('reviewSub', { n: due }) : T('reviewNone')}</small>${due ? `<span class="ib" style="position:absolute;top:8px;left:8px;width:28px;height:28px;flex-basis:28px;font-size:.8rem;background:var(--orange);color:#fff">${due}</span>` : ''}</button>
-      </div>
-      <div class="sec"><h3>${T('subjects')} · ${gradeName(vg)}</h3></div>
-      <div class="tiles">${subs.map(s => {
-        const ls = lessonsOf(vg, s), d = ls.filter(l => p.lessons[l.id]).length, S = subjOf(s);
-        return `<button class="tile" data-s="${s}" style="border-color:${S.color}40"><span class="e">${S.e}</span><b>${N.tn(S.name)}</b>
-          <small>${ls.length ? T('lessonsCount', { d, n: ls.length }) : (S.note ? N.tn(S.note) : T('comingSoon'))}</small>
-          ${ls.length ? `<div class="bar"><i style="width:${Math.round(100 * d / ls.length)}%;background:${S.color}"></i></div>` : ''}</button>`;
-      }).join('')}</div>
-      <div class="sec"><h3>${T('worlds')}</h3></div>
-      <div class="worldbar">${C.worlds.map(w => { const gs = C.grades.filter(g => g.world === w.id); return `<button class="wb ${gs.some(x => x.id === vg) ? 'on' : ''}" data-w="${w.id}"><span class="e">${w.e}</span><b>${N.tn(w.name)}</b><small>${gs.map(x => N.tn(x.name)).join(' · ')}</small></button>`; }).join('')}</div>
-      <div class="tiles">
-        <button class="tile" id="hBadge"><span class="e">🏅</span><b>${T('achievements')}</b><small>${p.badges.length} / ${N.BADGES.length} ${T('badges')}</small></button>
-        <button class="tile" id="hShop"><span class="e">🛍️</span><b>${T('shop')}</b><small>${T('shopSub')}</small></button>
-      </div>
-      <p class="disclaimer">${N.Vis.logo('mono', 26)}<br>${T('curriculum')}: ${C.version} — ${T('protoNote')}</p>`;
+    const next = this.nextLesson(k.grade), dueSk = N.Mastery.due(p), due = dueSk.length + p.wrong.length;
+    const tab = this.tab, S = $('#home');
+    const tabs = `<div class="tabs">${[['learn', T('tabLearn')], ['review', T('tabReview') + (due ? ` (${due})` : '')], ['me', T('tabMe')]].map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${t[1]}</button>`).join('')}</div>`;
+    const head = this.hdr(`<button class="hi" id="hSet" aria-label="${T('settings')}">⚙️</button>`,
+      `<h2>نِبراس</h2>`, `<button id="hGrade" style="color:#AFC0D8">🎒 ${gradeName(k.grade)} ▾</button>`,
+      `<button class="hi" id="hPar" aria-label="${T('parent')}">👪</button>`, tabs);
+    let body = '', fab = '';
+    if (tab === 'learn') {
+      const subs = C.stageSubjects[g.stage];
+      const worlds = this.allWorlds ? C.worlds : C.worlds.slice(0, 3);
+      body = `
+        ${vg !== k.grade ? `<div class="list">${this.row({ e: '👀', bg: 'var(--orange-l)', t: `${T('browsing')}: ${gradeName(vg)}`, s: T('backMine'), attr: 'id="hMine"' })}</div>` : ''}
+        ${vg === k.grade ? `<div class="sec"><div class="grow"><h3>${T('continueLearning')}</h3><small>${T('continueSub')}</small></div></div>
+        <div class="list">${next ? this.row({ e: subjOf(next.subject).e, bg: subjOf(next.subject).color + '22', t: esc(next.title), dir: next.lang === 'en' ? 'ltr' : 'rtl', s: `${N.tn(subjOf(next.subject).name)} · ${esc(next.unit)}`, end: '▶', attr: 'id="hGo"' })
+          : this.row({ e: '🏆', bg: '#FFF4D6', t: T('allDone'), chev: false })}</div>` : ''}
+        <div class="sec"><div class="grow"><h3>${T('subjects')}</h3><small>${gradeName(vg)}</small></div><button class="act" id="hGrade2" aria-label="${T('changeGrade')}">🎚️</button></div>
+        <div class="list">${subs.map(s => {
+          const ls = lessonsOf(vg, s), d = ls.filter(l => p.lessons[l.id]).length, SB = subjOf(s);
+          const stars = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
+          return this.row({ e: SB.e, bg: SB.color + '22', t: N.tn(SB.name), s: ls.length ? T('lessonsCount', { d, n: ls.length }) : (SB.note ? N.tn(SB.note) : T('comingSoon')),
+            bar: ls.length ? Math.round(100 * d / ls.length) : null, barc: SB.color, end: ls.length ? `⭐ ${stars}<small>${d}/${ls.length}</small>` : '', attr: `data-s="${s}"` });
+        }).join('')}</div>
+        <div class="sec"><div class="grow"><h3>${T('worlds')}</h3><small>${T('worldsSub')}</small></div></div>
+        <div class="list">${worlds.map(w => { const gs = C.grades.filter(x => x.world === w.id), n = C.lessons.filter(l => gs.some(x => x.id === l.grade)).length;
+          return this.row({ e: w.e, bg: w.bg + '26', t: N.tn(w.name), s: gs.map(x => N.tn(x.name)).join(' · '), end: n ? `<small>${n} ${T('lessonsN')}</small>` : '', attr: `data-w="${w.id}"`, cnt: gs.some(x => x.id === k.grade) ? '●' : '' }); }).join('')}</div>
+        <button class="more" id="hMore">${this.allWorlds ? T('seeLess') : T('seeMore')} ${N.lang === 'ar' ? '‹' : '›'}</button>`;
+      if (next && vg === k.grade) fab = `<button class="fab" id="hFab" aria-label="${T('continueLearning')}">▶</button>`;
+    } else if (tab === 'review') {
+      const dailyDone = p.daily === today();
+      const all = Object.keys(p.skills);
+      body = `<div class="sec"><div class="grow"><h3>${T('challenges')}</h3><small>${T('challengesSub')}</small></div></div>
+        <div class="list">
+          ${this.row({ e: '🎯', bg: 'var(--orange-l)', t: T('dailyChallenge'), s: dailyDone ? T('dailyDone') : T('dailySub'), end: dailyDone ? '✓' : '+15 ✨', attr: 'id="hDaily"' })}
+          ${this.row({ e: '🔁', bg: 'var(--tq-l)', t: T('smartReview'), s: due ? T('reviewSub', { n: due }) : T('reviewNone'), cnt: due || '', attr: 'id="hRev"' })}
+        </div>
+        <div class="sec"><div class="grow"><h3>${T('dueSkills')}</h3><small>${T('spacedSub')}</small></div></div>
+        <div class="list">${dueSk.length ? dueSk.map(id => { const l = N.skillLesson(id), st = N.Mastery.state(p.skills[id]);
+          return this.row({ e: l ? subjOf(l.subject).e : '📘', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: l ? esc(l.title) : '', end: `<span style="color:${N.Mastery.COLORS[st]}">● ${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
+          : this.row({ e: '🎉', bg: 'var(--ok-l)', t: T('noneDue'), chev: false })}</div>
+        <div class="sec"><div class="grow"><h3>${T('mySkills')}</h3><small>${all.length} ${N.lang === 'ar' ? 'مهارة' : 'skills'}</small></div></div>
+        <div class="list">${all.length ? all.map(id => { const l = N.skillLesson(id), st = N.Mastery.state(p.skills[id]);
+          return this.row({ e: l ? subjOf(l.subject).e : '📘', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: `${Math.round(p.skills[id].score * 100)}%`, bar: Math.round(p.skills[id].score * 100), barc: N.Mastery.COLORS[st], end: `<span style="color:${N.Mastery.COLORS[st]}">${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
+          : this.row({ e: '🌱', bg: 'var(--tq-l)', t: T('noSkills'), chev: false })}</div>`;
+      fab = `<button class="fab" id="hFab" style="background:var(--coral);box-shadow:0 10px 24px rgba(242,84,91,.45)" aria-label="${T('smartReview')}">🔁</button>`;
+    } else {
+      const lessons = Object.keys(p.lessons).length, starsT = Object.values(p.lessons).reduce((s, x) => s + x.stars, 0);
+      body = `<div class="list">${this.row({ e: k.av, bg: 'var(--tq-l)', t: gradeName(k.grade), s: `<bdi>✨ ${k.xp}</bdi> · <bdi>🪙 ${k.coins}</bdi>`, end: `<small>${T('changeAvatar')}</small>`, attr: 'id="hShop"' })}</div>
+        <div class="stat"><div><b>${lessons}</b><small>${T('lessonsDone')}</small></div><div><b>${starsT}</b><small>${T('starsTotal')}</small></div><div><b>${p.badges.length}/${N.BADGES.length}</b><small>${T('badges')}</small></div></div>
+        <div class="sec"><div class="grow"><h3>${T('badges')}</h3></div></div>
+        <div class="list">${N.BADGES.map(b => `<div class="badge ${p.badges.includes(b.id) ? '' : 'lock'}"><span class="bi">${b.e}</span><div class="grow"><b>${N.tn(b.name)}</b><small>${N.tn(b.d)}</small></div>${p.badges.includes(b.id) ? '✅' : '🔒'}</div>`).join('')}</div>
+        <div class="sec"><div class="grow"><h3>${T('settings')}</h3></div></div>
+        <div class="list">
+          ${this.row({ e: '🛍️', bg: '#FFF4D6', t: T('shop'), s: T('shopSub'), attr: 'id="hShop2"' })}
+          ${this.row({ e: '⚙️', bg: 'var(--bg)', t: T('a11y'), s: `${T('fontSize')} · ${T('readAloud')} · ${T('lang')}`, attr: 'id="hSet2"' })}
+          ${this.row({ e: '👪', bg: 'var(--bg)', t: T('parent'), s: `${T('report')} · ${T('timeLimit')}`, attr: 'id="hPar2"' })}
+        </div>
+        <p class="disclaimer">${N.Vis.logo('mono', 26)}<br>${T('curriculum')}: ${C.version} — ${T('protoNote')}</p>`;
+    }
+    S.innerHTML = `${head}<div class="panel"><div class="in">${body}</div></div>${fab}`;
     this.show('home');
-    $('#hWho').onclick = () => this.gradeSheet();
-    $('#hSet').onclick = () => this.settingsSheet();
-    $('#hPar').onclick = () => this.gate(() => this.parentSheet());
-    const mine = $('#hMine'); if (mine) mine.onclick = () => { this.vg = null; this.home(); };
-    const go = $('#hGo'); if (go) go.onclick = () => this.intro(next);
-    $('#hDaily').onclick = () => this.startDaily();
-    $('#hRev').onclick = () => this.startReview();
-    $('#hBadge').onclick = () => this.badgesSheet();
-    $('#hShop').onclick = () => this.shopSheet();
-    W.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
-      const s = b.dataset.s, S = subjOf(s);
-      if (!lessonsOf(vg, s).length) { N.toast(S.note ? N.tn(S.note) : T('comingSoon')); return; }
+    const on = (id, f) => { const e = $('#' + id); if (e) e.onclick = f; };
+    S.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { this.tab = b.dataset.tab; N.Sound.tap(); this.home(); });
+    on('hSet', () => this.settingsSheet()); on('hSet2', () => this.settingsSheet());
+    on('hPar', () => this.gate(() => this.parentSheet())); on('hPar2', () => this.gate(() => this.parentSheet()));
+    on('hGrade', () => this.gradeSheet()); on('hGrade2', () => this.gradeSheet());
+    on('hMine', () => { this.vg = null; this.home(); });
+    on('hGo', () => this.intro(next));
+    on('hDaily', () => this.startDaily()); on('hRev', () => this.startReview());
+    on('hShop', () => this.shopSheet()); on('hShop2', () => this.shopSheet());
+    on('hMore', () => { this.allWorlds = !this.allWorlds; this.home(); });
+    on('hFab', () => tab === 'review' ? this.startReview() : this.intro(next));
+    S.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
+      const s = b.dataset.s, SB = subjOf(s);
+      if (!lessonsOf(vg, s).length) { N.toast(SB.note ? N.tn(SB.note) : T('comingSoon')); return; }
       this.openPath(vg, s);
     });
-    W.querySelectorAll('[data-w]').forEach(b => b.onclick = () => this.worldSheet(b.dataset.w));
+    S.querySelectorAll('[data-w]').forEach(b => b.onclick = () => this.worldSheet(b.dataset.w));
+    S.querySelectorAll('[data-l]').forEach(b => b.onclick = () => this.intro(C.lessonById[b.dataset.l]));
   },
   nextLesson(grade) {
     const p = prog(), subs = C.stageSubjects[C.gradeById[grade].stage];
@@ -160,30 +193,30 @@ N.App = {
     if (N.Time.over()) return this.rest();
     const { grade, subject } = this.path, p = prog();
     const ls = lessonsOf(grade, subject), S = subjOf(subject), w = C.worldById[C.gradeById[grade].world];
-    const W = Math.min(innerWidth, 520), pts = [], flags = [];
-    let y = 70, lastUnit = null, curIdx = ls.findIndex(l => !p.lessons[l.id] && this.unlocked(l));
+    const W = Math.min(innerWidth - 36, 520), pts = [], flags = [];
+    let y = 30, lastUnit = null, curIdx = ls.findIndex(l => !p.lessons[l.id] && this.unlocked(l));
     ls.forEach((l, i) => {
-      if (l.unit !== lastUnit) { flags.push({ y: y - 10, t: l.unit }); y += 50; lastUnit = l.unit; }
-      pts.push({ x: W * [0.5, 0.72, 0.5, 0.28][i % 4], y: y + 50, l, i }); y += 190;
+      if (l.unit !== lastUnit) { flags.push({ y, t: l.unit }); y += 60; lastUnit = l.unit; }
+      pts.push({ x: W * [0.5, 0.74, 0.5, 0.26][i % 4], y: y + 50, l, i }); y += 180;
     });
-    const H = y + 40;
-    const trail = pts.slice(1).map((q, i) => { const a = pts[i]; const done = p.lessons[a.l.id] && p.lessons[q.l.id]; return `<line x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}" stroke="${done ? '#7BE08F' : 'rgba(255,255,255,.55)'}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${done ? '' : '2 16'}"/>`; }).join('');
-    const sec = $('#path'); sec.style.setProperty('--pbg', w.bg);
-    sec.innerHTML = `<div class="phead"><button class="ib" id="pBack">${N.lang === 'ar' ? '→' : '←'}</button><div><h2>${S.e} ${N.tn(S.name)}</h2><small>${w.e} ${N.tn(w.name)} · ${gradeName(grade)}</small></div></div>
-      ${ls.length ? `<div class="pmap" style="height:${H}px;width:${W}px"><svg class="trail" viewBox="0 0 ${W} ${H}">${trail}</svg>
+    const H = y + 20, d = ls.filter(l => p.lessons[l.id]).length, starsT = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
+    const trail = pts.slice(1).map((q, i) => { const a = pts[i]; const done = p.lessons[a.l.id] && p.lessons[q.l.id]; return `<line x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}" stroke="${done ? '#19B8B0' : '#C7CDDD'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${done ? '' : '1 14'}"/>`; }).join('');
+    const sec = $('#path');
+    sec.innerHTML = this.hdr(`<button class="hi" id="pBack">${N.lang === 'ar' ? '→' : '←'}</button>`, `<h2>${S.e} ${N.tn(S.name)}</h2>`, `${w.e} ${N.tn(w.name)} · ${gradeName(grade)}`, '',
+        ls.length ? `<div class="row" style="justify-content:center;gap:8px"><span class="chipg">📘 ${T('lessonsCount', { d, n: ls.length })}</span><span class="chipg">⭐ ${starsT} / ${ls.length * 3}</span></div>` : '')
+      + `<div class="panel"><div class="in">${ls.length ? `<div class="pmap" style="height:${H}px;width:${W}px"><svg class="trail" viewBox="0 0 ${W} ${H}">${trail}</svg>
       ${flags.map(f => `<div class="unitflag" style="top:${f.y}px">📘 ${esc(f.t)}</div>`).join('')}
       ${pts.map(q => {
         const r = p.lessons[q.l.id], un = this.unlocked(q.l), st = N.Mastery.state(p.skills[q.l.skill[0]]);
         const cls = r ? 'done' : (q.i === curIdx ? 'cur' : 'open');
         return `<button class="node ${un ? cls : ''}" data-i="${q.i}" style="left:${q.x}px;top:${q.y}px">${un ? (r ? '✓' : q.i + 1) : '🔒'}${st !== 'none' ? `<span class="ms" style="background:${N.Mastery.COLORS[st]}" title="${T('m_' + st)}"></span>` : ''}</button>
-          <div class="nlabel" style="left:${q.x}px;top:${q.y + 56}px" dir="${q.l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(q.l.title)}<small>${r ? '⭐'.repeat(r.stars) + '☆'.repeat(3 - r.stars) : (un ? '' : '🔒')} ${st !== 'none' ? '· ' + T('m_' + st) : ''}</small></div>`;
-      }).join('')}</div>` : `<div class="empty">${T('noContent').replace('\n', '<br>')}</div>`}`;
+          <div class="nlabel" style="left:${q.x}px;top:${q.y + 52}px" dir="${q.l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(q.l.title)}<small>${r ? '⭐'.repeat(r.stars) + '☆'.repeat(3 - r.stars) : (un ? '' : '🔒')} ${st !== 'none' ? '· ' + T('m_' + st) : ''}</small></div>`;
+      }).join('')}</div>` : `<div class="empty">${T('noContent').replace('\n', '<br>')}</div>`}</div></div>`;
     this.show('path');
     $('#pBack').onclick = () => this.home();
     sec.querySelectorAll('.node').forEach(b => b.onclick = () => this.intro(ls[+b.dataset.i]));
     const cur = sec.querySelector('.node.cur'); if (cur) setTimeout(() => cur.scrollIntoView({ block: 'center', behavior: 'smooth' }), 80);
   },
-
   /* ============================ بطاقة الدرس ============================ */
   intro(l) {
     const p = prog(), r = p.lessons[l.id], un = this.unlocked(l), st = N.Mastery.state(p.skills[l.skill[0]]), S = subjOf(l.subject);
@@ -349,18 +382,19 @@ N.App = {
     const next = l ? (() => { const ls = lessonsOf(l.grade, l.subject); return ls[ls.indexOf(l) + 1]; })() : null;
     const st = l ? N.Mastery.state(p.skills[l.skill[0]]) : null;
     const star = (on, n, d) => `<div class="rstar ${on ? 'on' : ''}"><span class="s">⭐</span><b>${n}</b><small>${d}</small></div>`;
-    $('#resWrap').innerHTML = `
-      <h1 class="rtitle" style="margin-top:10px">${kg ? T('kgPraise') : titles[nStars]}</h1>
-      <p class="muted" style="text-align:center;margin:0" dir="${l && l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(l ? l.title : R.title)}</p>
-      <div class="rstars">${star(stars.u, T('starU'), T('starUd'))}${star(stars.i, T('starI'), T('starId'))}${star(stars.a, T('starA'), T('starAd'))}</div>
-      <div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap"><span class="xp">✨ ${T('xpGain', { n: xp })}</span>${st ? N.Mastery.badge(st) : ''}</div>
-      <div class="card"><h3 style="margin-bottom:8px">📘 ${T('learned')}</h3><ul class="learned">${learned.map(x => `<li><span class="e">${x.e || '•'}</span><span>${esc(x.t)}</span></li>`).join('')}</ul></div>
-      ${wrong.length ? `<div class="card"><h3 style="margin-bottom:8px">🔁 ${T('toReview')}</h3><ul class="learned">${wrong.map(r => `<li><span class="e">💡</span><span>${esc(r.ref.act.q)}${r.ref.act.ex ? '<br><small class="muted">' + esc(r.ref.act.ex) + '</small>' : ''}</span></li>`).join('')}</ul></div>` : ''}
-      <div style="display:flex;flex-direction:column;gap:10px">
-        ${next && this.unlocked(next) ? `<button class="btn ok block" id="rNext">▶ ${T('nextLesson')}: ${esc(next.title)}</button>` : ''}
+    $('#result').innerHTML = this.hdr(`<button class="hi" id="rX">✕</button>`, `<h2 dir="${l && l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(l ? l.title : R.title)}</h2>`, T('result'), '',
+      `<h1 style="text-align:center;font-size:1.7rem;color:#fff">${kg ? T('kgPraise') : titles[nStars]}</h1>
+       <div class="rstars">${star(stars.u, T('starU'), T('starUd'))}${star(stars.i, T('starI'), T('starId'))}${star(stars.a, T('starA'), T('starAd'))}</div>
+       <div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap"><span class="xp">✨ ${T('xpGain', { n: xp })}</span>${st ? N.Mastery.badge(st) : ''}</div>`)
+      + `<div class="panel"><div class="in">
+      <div class="sec"><div class="grow"><h3>📘 ${T('learned')}</h3></div></div>
+      <div class="list"><ul class="learned">${learned.map(x => `<li><span class="e">${x.e || '•'}</span><span>${esc(x.t)}</span></li>`).join('')}</ul></div>
+      ${wrong.length ? `<div class="sec"><div class="grow"><h3>🔁 ${T('toReview')}</h3></div></div><div class="list"><ul class="learned">${wrong.map(r => `<li><span class="e" style="background:var(--orange-l)">💡</span><span>${esc(r.ref.act.q)}${r.ref.act.ex ? '<br><small class="muted">' + esc(r.ref.act.ex) + '</small>' : ''}</span></li>`).join('')}</ul></div>` : ''}
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">
+        ${next && this.unlocked(next) ? `<button class="btn block" id="rNext">▶ ${T('nextLesson')}: ${esc(next.title)}</button>` : ''}
         ${l ? `<button class="btn ghost block" id="rAgain">🔁 ${T('replay')}</button>` : ''}
         <div class="grid2">${l ? `<button class="btn ghost" id="rMap">🗺️ ${T('toMap')}</button>` : ''}<button class="btn ghost" id="rHome" ${l ? '' : 'style="grid-column:span 2"'}>🏠 ${T('home')}</button></div>
-      </div>`;
+      </div></div></div>`;
     this.show('result'); this.run = null;
     N.Sound.win(); if (nStars) N.confetti();
     [stars.u, stars.i, stars.a].forEach((on, i) => { if (on) setTimeout(() => N.Sound.star(i), 400 + i * 250); });
@@ -371,6 +405,7 @@ N.App = {
     const ra = $('#rAgain'); if (ra) ra.onclick = () => this.startLesson(l);
     const rm = $('#rMap'); if (rm) rm.onclick = () => this.openPath(l.grade, l.subject);
     $('#rHome').onclick = () => this.home();
+    $('#rX').onclick = () => l ? this.openPath(l.grade, l.subject) : this.home();
   },
 
   /* ============================ النوافذ ============================ */
