@@ -151,6 +151,17 @@ N.Sound = {
     o.connect(g).connect(c.destination); o.start(t); o.stop(t + dur + .03);
   },
   tap() { this.tone(660, .06, 'sine', .08); },
+  noise(dur, f1, f2, vol = .12, q = 3, delay = 0) {   // نقرة ضجيج مرشّحة (من أثير)
+    const c = this.ac(); if (!c) return;
+    const t = c.currentTime + delay, len = Math.ceil(c.sampleRate * dur), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const s = c.createBufferSource(); s.buffer = buf; const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = q;
+    bp.frequency.setValueAtTime(f1, t); bp.frequency.linearRampToValueAtTime(f2, t + dur);
+    const g = c.createGain(); g.gain.setValueAtTime(vol, t); g.gain.linearRampToValueAtTime(0, t + dur);
+    s.connect(bp).connect(g).connect(c.destination); s.start(t); s.stop(t + dur + .02);
+  },
+  pop() { this.tone(700 + Math.random() * 200, .09, 'sine', .14, 500); this.noise(.05, 2000, 3000, .06, 2); },
+  match(level) { const f = 330 * Math.pow(1.12, Math.min(level, 8)); this.tone(f, .16, 'sine', .14, f * .5); this.tone(f * 1.5, .2, 'triangle', .06, 0, .04); [880, 1175, 1568].forEach((x, i) => this.tone(x, .12, 'sine', .07, 0, .08 + i * .05)); },
   ok() { [660, 880, 1175].forEach((f, i) => this.tone(f, .14, 'triangle', .12, 0, i * .07)); },
   soft() { this.tone(330, .16, 'sine', .08, -60); },   // صوت هادئ غير مُحبِط عند الخطأ
   place() { this.tone(520, .07, 'sine', .08, 120); },
