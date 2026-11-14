@@ -8,10 +8,16 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="preload" href="fonts/thmanyah-serif-text-bold.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="fonts/brygada1918-bold.woff2" as="font" type="font/woff2" crossorigin>
 <title>نِبراس</title>
 <style>
-/* خط «ثمانية» (Thmanyah Serif Text Bold) — يُستخدم كما هو دون أي تعديل، بتصريح صاحب المشروع. انظر fonts/THMANYAH-LICENSE.txt */
-@font-face{font-family:'Thmanyah';src:url('fonts/thmanyah-serif-text-bold.otf') format('opentype');font-weight:100 900;font-style:normal;font-display:swap}
+/* الخطوط: «ثمانية» (Thmanyah Serif Text Bold) للعربية — يُضمَّن كما هو دون تعديل؛
+   و«Brygada 1918» Bold (رخصة SIL OFL) للإنجليزية والأرقام، وهو الأقرب شكلًا إلى حروف ثمانية اللاتينية.
+   الأوجه تحت اسم عائلة واحد، ويختار المتصفح الوجه حسب نطاق الحرف. */
+@font-face{font-family:'Nibras';src:url('fonts/thmanyah-serif-text-bold.otf') format('opentype');font-weight:100 900;font-style:normal;font-display:swap;
+  unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:'Nibras';src:url('fonts/brygada1918-bold.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-2193,U+2212,U+2215}
 
 /* =====================================================================
    هوية نِبراس — واجهة مستوحاة من المرجع: رؤوس كحلية بمنحنى S تنساب إلى
@@ -19,7 +25,7 @@
    زر عائم، وشريط إجراءات كحلي سفلي بأزرار ملونة. الألوان من هوية العلامة.
    ===================================================================== */
 :root{
-  --font:'Thmanyah',system-ui,'Segoe UI',Tahoma,sans-serif;
+  --font:'Nibras','Thmanyah',system-ui,'Segoe UI',Tahoma,sans-serif;
   --navy:#142B4A;--navy2:#21406A;--navy3:#0C1D35;
   --tq:#19B8B0;--tq-d:#10918A;--tq-l:#DDF5F3;
   --gold:#FFC857;--gold-d:#D99A12;
