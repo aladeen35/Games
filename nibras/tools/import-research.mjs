@@ -41,12 +41,22 @@ function checkAct(a) {
       if (!a.pairs.every(p => Array.isArray(p) && p.length === 2 && optOk(p[0]) && optOk(p[1]))) return 'bad pair';
       if (new Set(a.pairs.map(p => key(p[0]))).size !== a.pairs.length || new Set(a.pairs.map(p => key(p[1]))).size !== a.pairs.length) return 'pair sides not unique';
       a.pairs = a.pairs.map(p => p.map(normOpt));
+      /* إن حمل الطرفان النص نفسه صارت المطابقة بلا معنى: نُبقي الصورة وحدها في الطرف الآخر */
+      a.pairs = a.pairs.map(([x, y]) => {
+        const tx = typeof x === 'string' ? x : x.t, ty = typeof y === 'string' ? y : y.t;
+        if (tx && ty && tx.trim() === ty.trim()) { if (typeof y === 'object' && y.e) y = { e: y.e }; else if (typeof x === 'object' && x.e) x = { e: x.e }; }
+        return [x, y];
+      });
+      if (new Set(a.pairs.map(p => key(p[1]))).size !== a.pairs.length) return 'pair sides not unique after cleanup';
       return null;
     case 'order':
       if (!['letters', 'words', 'nums', 'steps'].includes(a.mode)) a.mode = 'steps';
       if (!Array.isArray(a.items) || a.items.length < 2 || a.items.length > 6) return 'order needs 2–6 items';
       a.items = a.items.map(x => String(x));
       if (new Set(a.items).size < 2) return 'order items identical';
+      /* ترتيب حروف كلمة دون أن يُعرف الهدف: ننطق الكلمة ونُظهر زر «استمع» */
+      if (a.mode === 'letters' && !a.say && !a.vis) { a.say = a.items.join(''); a.listen = true; }
+      if (a.mode === 'words' && !a.say && !a.vis && a.items.length > 3) { a.say = a.items.join(' '); }
       return null;
     case 'ws': {
       if (!Array.isArray(a.words) || a.words.length < 2 || a.words.length > 7) return 'ws needs 2–7 words';
