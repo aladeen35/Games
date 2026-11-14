@@ -1,0 +1,1412 @@
+[
+ {
+  "id": "g3-ar-u3-l3",
+  "grade": "g3",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "وطني",
+  "lesson": "بطلة من بلادي",
+  "pages": "53-57",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-ar-u4-l3",
+  "grade": "g3",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "من حكم الحيوان",
+  "lesson": "الفأر والقط",
+  "pages": "75-77",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-ar-u4-l5",
+  "grade": "g3",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "من حكم الحيوان",
+  "lesson": "النمل",
+  "pages": "81-84",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-ar-u5-l2",
+  "grade": "g3",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "صحتي",
+  "lesson": "الحواس الخمس",
+  "pages": "89-91",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-ar-u5-l3",
+  "grade": "g3",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "صحتي",
+  "lesson": "الدواء في الغذاء",
+  "pages": "92-95",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l1",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "الضرب في 1 وفي صفر",
+  "pages": "17-18",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l2",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "جدول الضرب للعدد 7",
+  "pages": "19-21",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l3",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "جدول الضرب للعدد 8",
+  "pages": "22-27",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l5",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "الضرب في 10 ومضاعفاتها",
+  "pages": "28-31",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l6",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "الضرب في مئة",
+  "pages": "32",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l7",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "ضرب الأعداد التي آحادها أو عشراتها أصفار",
+  "pages": "33-34",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l8",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "توزيع الضرب على الجمع",
+  "pages": "35-37",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l9",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "ضرب عدد من رقمين في عدد من رقم واحد",
+  "pages": "38-39",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l10",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "ضرب عدد من رقمين في عدد من رقمين",
+  "pages": "40-41",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u2-l11",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الضرب",
+  "lesson": "ضرب عدد مكون من رقمين في عدد مكون من ثلاثة أرقام",
+  "pages": "42-44",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l1",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على 7 بدون باقٍ",
+  "pages": "46",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l2",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على 7 بباقٍ",
+  "pages": "47-48",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l3",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على 7 خارج جدول الضرب",
+  "pages": "49-55",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l4",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "مسائل لفظية",
+  "pages": "56-57",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l5",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على العدد 8 بدون باقٍ",
+  "pages": "58",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l6",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على 8 بباقٍ",
+  "pages": "59-60",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l7",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على 8 خارج جدول الضرب",
+  "pages": "61-62",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l8",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "مسائل لفظية",
+  "pages": "63",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l9",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على العدد 9 بدون باقٍ",
+  "pages": "64",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l10",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على العدد 9 بباقٍ",
+  "pages": "65",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l11",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "القسمة على العدد 9 خارج جدول الضرب",
+  "pages": "66",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l12",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "مسائل لفظية",
+  "pages": "67",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l13",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "علاقة الضرب والجمع والطرح",
+  "pages": "68",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l14",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "علاقة القسمة بالجمع والطرح",
+  "pages": "69",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l15",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "مسائل لفظية",
+  "pages": "70-71",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u3-l16",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القسمة",
+  "lesson": "مع الناس في قريتي",
+  "pages": "72-73",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l1",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "كسور الوحدة",
+  "pages": "75-76",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l2",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "الكسور الدالة على أكثر من جزء",
+  "pages": "77-79",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l3",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "الكسور كأجزاء من مجموعة",
+  "pages": "80-82",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l4",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "الكسور المتكافئة",
+  "pages": "83-85",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l5",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "اختصار الكسور",
+  "pages": "86-87",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l6",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "مقارنة الكسور",
+  "pages": "88-92",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u4-l7",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الكسور",
+  "lesson": "جمع الكسور متساوية المقامات",
+  "pages": "93-95",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u5-l1",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القياس",
+  "lesson": "الطول",
+  "pages": "97-98",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u5-l2",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القياس",
+  "lesson": "قياس الوقت - الساعة",
+  "pages": "99-103",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u5-l3",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "القياس",
+  "lesson": "أجزاء الساعة",
+  "pages": "104-105",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u6-l1",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الهندسة",
+  "lesson": "النقطة والقطعة المستقيمة",
+  "pages": "107-108",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u6-l2",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الهندسة",
+  "lesson": "قياس طول القطعة المستقيمة",
+  "pages": "109-110",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u6-l3",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الهندسة",
+  "lesson": "المثلث",
+  "pages": "111",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-math-u6-l4",
+  "grade": "g3",
+  "subject": "math",
+  "book": "الرياضيات - الصف الثالث (المرحلة الابتدائية)",
+  "unit": "الهندسة",
+  "lesson": "المستطيل والمربع",
+  "pages": "112-114",
+  "source_url": "https://www.alktab24.com/books/كتاب-الرياضيات-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l5",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاسة السمع",
+  "pages": "9",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l6",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاسة البصر",
+  "pages": "10-11",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l7",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاسة الشم",
+  "pages": "12",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l8",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاسة الذوق",
+  "pages": "13-14",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l9",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاسة اللمس",
+  "pages": "15-16",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l10",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "صحة الجلد والشعر والأظافر",
+  "pages": "17-18",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l11",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "أعضاء جسم الإنسان الداخلية (1)",
+  "pages": "19-20",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l12",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "أعضاء جسم الإنسان الداخلية (2)",
+  "pages": "21-22",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l13",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "المحافظة على الصحة (1)",
+  "pages": "23-24",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l14",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "المحافظة على الصحة (2)",
+  "pages": "25-27",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l15",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "المحافظة على الصحة (3)",
+  "pages": "28-29",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l16",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "النباتات",
+  "pages": "30-31",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l17",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "أجزاء النبات",
+  "pages": "32-33",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l18",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "الحيوانات",
+  "pages": "34-36",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l19",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاجات الكائنات الحية",
+  "pages": "37-38",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l20",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاجة الكائنات الحية للماء",
+  "pages": "39",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l21",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاجة الكائنات الحية للهواء",
+  "pages": "40-42",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l22",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "حاجة الكائنات الحية للغذاء",
+  "pages": "43-45",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l23",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "النمو في الكائنات الحية",
+  "pages": "46-48",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u1-l24",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "عالم الأحياء",
+  "lesson": "الكائنات الحية الدقيقة",
+  "pages": "49-52",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u2-l1",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "المادة",
+  "lesson": "المادة",
+  "pages": "54",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u2-l2",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "المادة",
+  "lesson": "المواد الطبيعية وغير الطبيعية",
+  "pages": "55",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u2-l3",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "المادة",
+  "lesson": "خواص المواد واستخداماتها",
+  "pages": "56-57",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u3-l1",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "القوى والمغنطيس",
+  "lesson": "القوى",
+  "pages": "59-62",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u3-l2",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "القوى والمغنطيس",
+  "lesson": "المغنطيس",
+  "pages": "63-65",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l1",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الطاقة",
+  "pages": "67-69",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l2",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الضوء",
+  "pages": "70",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l3",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "مسار الضوء",
+  "pages": "71-72",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l4",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "نفاذ الضوء",
+  "pages": "73-74",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l5",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الظل",
+  "pages": "75-76",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l6",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "خواص الظل",
+  "pages": "77-79",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l7",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "المرآة",
+  "pages": "80-82",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l8",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "العدسات",
+  "pages": "83-85",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l9",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الكهرباء",
+  "pages": "86-88",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l10",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الموصلات والعوازل",
+  "pages": "89",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-sci-u4-l11",
+  "grade": "g3",
+  "subject": "sci",
+  "book": "العلوم الطبيعية - الصف الثالث",
+  "unit": "الطاقة",
+  "lesson": "الكهرباء وطريقة استخدامها",
+  "pages": "90-92",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الثالث-اساسي/"
+ },
+ {
+  "id": "g3-soc-u1-l5",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "البيئة من حولنا",
+  "lesson": "الفصول الأربعة",
+  "pages": "32-37",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u1-l6",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "البيئة من حولنا",
+  "lesson": "الاتجاهات الأصلية والفرعية",
+  "pages": "38-45",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u1-l7",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "البيئة من حولنا",
+  "lesson": "الخريطة وعناصرها",
+  "pages": "46-52",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l1",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "فصلي (1)",
+  "pages": "54-55",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l2",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "فصلي (2)",
+  "pages": "56-60",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l3",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "مدرستي (1)",
+  "pages": "61-63",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l4",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "مدرستي (2)",
+  "pages": "64",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l5",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "مدرستي وجيرانها",
+  "pages": "65-66",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l6",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "تطبيقات",
+  "pages": "67-72",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u2-l7",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي المدرسية",
+  "lesson": "الزيارات الخيالية",
+  "pages": "73-74",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l1",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "مفهوم الأسرة",
+  "pages": "76-79",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l2",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "دور الفرد في الأسرة",
+  "pages": "80-85",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l3",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "العلاقات في أسرتي",
+  "pages": "86-96",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l4",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "بيت أسرتي",
+  "pages": "97-105",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l5",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "مكان السكن",
+  "pages": "106-109",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l6",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "مكونات الحي",
+  "pages": "110-121",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g3-soc-u3-l7",
+  "grade": "g3",
+  "subject": "soc",
+  "book": "الجغرافيا - الصف الثالث (التعليم الأساسي)",
+  "unit": "بيئتي الأسرية",
+  "lesson": "حركة المرور المحلية",
+  "pages": "122",
+  "source_url": "https://www.alktab24.com/books/كتاب-الجغرافيا-الثالث-اساسي-السودان/"
+ },
+ {
+  "id": "g4-ar-u1-l1",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "قيم وآداب",
+  "lesson": "ابتهالات",
+  "pages": "6-8",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u2-l4",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "البيئة",
+  "lesson": "التينة الحمقاء",
+  "pages": "38-40",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u2-l5",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "البيئة",
+  "lesson": "تلوث الماء والهواء",
+  "pages": "41-44",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u3-l3",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "عظماء من بلادي",
+  "lesson": "عبد القادر أوكير",
+  "pages": "54-56",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u3-l5",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "عظماء من بلادي",
+  "lesson": "خليل فرح (المغني الثائر)",
+  "pages": "60-62",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u4-l1",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "من قصص الحيوان",
+  "lesson": "لغة الحيوان",
+  "pages": "64-66",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-ar-u4-l2",
+  "grade": "g4",
+  "subject": "ar",
+  "book": "اللغة العربية - الصف الرابع (المرحلة الابتدائية)",
+  "unit": "من قصص الحيوان",
+  "lesson": "من وفاء الحيوان",
+  "pages": "67-72",
+  "source_url": "https://www.alktab24.com/books/كتاب-اللغة-العربية-الرابع-اساسي/"
+ },
+ {
+  "id": "g4-soc-u1-l5",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "وطننا السودان",
+  "lesson": "ممالك النوبة المسيحية",
+  "pages": "14-16",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u1-l6",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "وطننا السودان",
+  "lesson": "حضارة المدن الحجرية في دارفور",
+  "pages": "17-21",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u2-l1",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "دولتنا الإسلامية",
+  "lesson": "الخلفاء الراشدون",
+  "pages": "22-23",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u2-l2",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "دولتنا الإسلامية",
+  "lesson": "خلافة سيدنا أبي بكر الصديق 11-13هـ",
+  "pages": "24-25",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u2-l3",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "دولتنا الإسلامية",
+  "lesson": "خلافة سيدنا عمر بن الخطاب 13-23هـ",
+  "pages": "26-27",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u2-l4",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "دولتنا الإسلامية",
+  "lesson": "خلافة سيدنا عثمان بن عفان 24-35هـ",
+  "pages": "28-29",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u2-l5",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "دولتنا الإسلامية",
+  "lesson": "خلافة سيدنا علي بن أبي طالب 35-40هـ",
+  "pages": "30-31",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l1",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "موقع إفريقيا وساكنوها",
+  "pages": "32-36",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l2",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "نماذج من حضارات إفريقيا القديمة",
+  "pages": "37-39",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l3",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "دخول المسيحية إلى إفريقيا",
+  "pages": "40-42",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l4",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "انتشار الإسلام في إفريقيا",
+  "pages": "43-44",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l5",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "دخول الإسلام إلى السودان",
+  "pages": "45-47",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u3-l6",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "قارتنا إفريقيا",
+  "lesson": "علاقة السودان بإفريقيا",
+  "pages": "48-52",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u4-l1",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "نحن سودانيون",
+  "lesson": "خصائص الإنسان السوداني",
+  "pages": "53-58",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u4-l2",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "نحن سودانيون",
+  "lesson": "خصائص المجتمع السوداني",
+  "pages": "59-63",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g4-soc-u4-l3",
+  "grade": "g4",
+  "subject": "soc",
+  "book": "التاريخ والتربية الوطنية - الصف الرابع",
+  "unit": "نحن سودانيون",
+  "lesson": "مميزات الأرض السودانية",
+  "pages": "64-68",
+  "source_url": "https://www.alktab24.com/books/كتاب-التاريخ-الرابع-اساسي-السودان/"
+ },
+ {
+  "id": "g5-sci-u2-l2",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "تصنيف النباتات",
+  "lesson": "النباتات الوعائية",
+  "pages": "16",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u2-l3",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "تصنيف النباتات",
+  "lesson": "النباتات البذرية",
+  "pages": "17",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u2-l4",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "تصنيف النباتات",
+  "lesson": "النباتات الزهرية",
+  "pages": "18-20",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u3-l1",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "تصنيف الحيوانات",
+  "lesson": "الحيوانات",
+  "pages": "22",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u3-l3",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "تصنيف الحيوانات",
+  "lesson": "الحيوانات غير الفقارية",
+  "pages": "26-28",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u4-l1",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الماء",
+  "lesson": "وجود الماء",
+  "pages": "30",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u4-l2",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الماء",
+  "lesson": "مصادر الماء",
+  "pages": "31",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u4-l3",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الماء",
+  "lesson": "استخدام الماء",
+  "pages": "32",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u4-l4",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الماء",
+  "lesson": "خواص الماء",
+  "pages": "33-35",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u4-l5",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الماء",
+  "lesson": "دورة الماء في الطبيعة",
+  "pages": "36-38",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u5-l1",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الحركة والقوى",
+  "lesson": "الحركة",
+  "pages": "40-41",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u5-l2",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الحركة والقوى",
+  "lesson": "القوى",
+  "pages": "42-44",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u6-l1",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الكهرباء",
+  "lesson": "الكهرباء الساكنة",
+  "pages": "47-50",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u6-l2",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الكهرباء",
+  "lesson": "البرق والصواعق",
+  "pages": "51",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u6-l3",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الكهرباء",
+  "lesson": "استخدامات الكهرباء الساكنة",
+  "pages": "52",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u6-l4",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الكهرباء",
+  "lesson": "الكهرباء التيارية",
+  "pages": "53",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u6-l5",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "الكهرباء",
+  "lesson": "الدوائر الكهربائية المفتوحة والمغلقة",
+  "pages": "54-56",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u7-l1",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "المغناطيس",
+  "lesson": "المغناطيس الطبيعي",
+  "pages": "59",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u7-l2",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "المغناطيس",
+  "lesson": "المغناطيس والمواد المغناطيسية",
+  "pages": "60-61",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ },
+ {
+  "id": "g5-sci-u7-l3",
+  "grade": "g5",
+  "subject": "sci",
+  "book": "العلوم - الصف الخامس",
+  "unit": "المغناطيس",
+  "lesson": "خصائص المغناطيس",
+  "pages": "62-64",
+  "source_url": "https://www.alktab24.com/books/كتاب-العلوم-الطبيعية-الخامس-اساسي/"
+ }
+]
