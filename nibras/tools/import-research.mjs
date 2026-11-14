@@ -107,12 +107,14 @@ for (const f of files) {
   (data.sources || []).forEach(s => { const id = tag + ':' + s.id; srcs[s.id] = id; out.sources[id] = { title: s.title, url: s.url, official: !!s.official }; });
   for (const g of data.grades || []) {
     if (!GRADES.includes(g.grade)) { log.dropped.push(`${f}: unknown grade ${g.grade}`); continue; }
+    const bookIdx = {};   // صف واحد قد يضم كتابين للمادة نفسها (مثل التاريخ والجغرافيا): نميّز الثاني بـ @b2
     for (const sb of g.subjects || []) {
       if (!SUBJECTS.includes(sb.subject)) { log.dropped.push(`${f}: unknown subject ${sb.subject}`); continue; }
       const book = sb.book || {};
+      { const k = sb.subject + ':' + (book.title || ''); if (!bookIdx[k]) bookIdx[k] = Object.keys(bookIdx).filter(x => x.startsWith(sb.subject + ':')).length + 1; }
       (sb.units || []).forEach((u, ui) => (u.lessons || []).forEach((l, li) => {
         const unitNo = u.unit_no || ui + 1, lessonNo = l.lesson_no || li + 1;
-        const id = `${g.grade}-${sb.subject}-u${unitNo}-l${lessonNo}`;
+        const bi = bookIdx[sb.subject + ':' + (sb.book && sb.book.title || '')], id = `${g.grade}-${sb.subject}-u${unitNo}-l${lessonNo}` + (bi > 1 ? '@b' + bi : '');
         const acts = [];
         ((l.acts && l.acts.length) ? l.acts : (overlay[id] || [])).forEach((a, ai) => { const err = checkAct(a); if (err) log.dropped.push(`${id} act${ai + 1}: ${err}`); else acts.push(a); });
         if (acts.length && !acts.some(a => a.apply)) acts[acts.length - 1].apply = true;
@@ -138,6 +140,8 @@ for (const f of files) {
     }
   }
 }
+{ const seen = new Set(), dup = out.lessons.filter(l => seen.has(l.id) || !seen.add(l.id)).map(l => l.id);
+  if (dup.length) { console.error('✗ معرّفات دروس مكررة:', dup.join(', ')); process.exitCode = 1; } }
 out.lessons.sort((a, b) => GRADES.indexOf(a.grade) - GRADES.indexOf(b.grade) || SUBJECTS.indexOf(a.subject) - SUBJECTS.indexOf(b.subject) || a.unitNo - b.unitNo || a.lessonNo - b.lessonNo);
 out.version = 'curriculum-' + new Date().toISOString().slice(0, 10);
 if (!process.argv.includes('--check')) fs.writeFileSync(OUT, `/* مُولَّد آليًا بواسطة tools/import-research.mjs من research/curriculum-*.json — لا تعدّله يدويًا */\nwindow.NIBRAS_CUR = ${JSON.stringify(out)};\n`);
