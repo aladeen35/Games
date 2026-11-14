@@ -133,9 +133,9 @@ N.App = {
           : this.row({ e: '🏆', bg: '#FFF4D6', t: T('allDone'), chev: false })}</div>` : ''}
         <div class="sec"><div class="grow"><h3>${T('subjects')}</h3><small>${gradeName(vg)}</small></div><button class="act" id="hGrade2" aria-label="${T('changeGrade')}">${N.ic('sliders', { size: 22, color: '#142B4A' })}</button></div>
         <div class="list">${subs.map(s => {
-          const ls = lessonsOf(vg, s), d = ls.filter(l => p.lessons[l.id]).length, SB = subjOf(s);
+          const all = lessonsOf(vg, s), ls = all.filter(l => !l.soon), d = ls.filter(l => p.lessons[l.id]).length, SB = subjOf(s);
           const stars = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
-          return this.row({ ic: SB.ic, icc: SB.color, bg: SB.color + '1F', t: N.tn(SB.name), s: ls.length ? T('lessonsCount', { d, n: ls.length }) : (SB.note ? N.tn(SB.note) : T('comingSoon')),
+          return this.row({ ic: SB.ic, icc: SB.color, bg: SB.color + '1F', t: N.tn(SB.name), s: ls.length ? T('lessonsCount', { d, n: ls.length }) : all.length ? T('tocOnly', { n: all.length }) : (SB.note ? N.tn(SB.note) : T('comingSoon')),
             bar: ls.length ? Math.round(100 * d / ls.length) : null, barc: SB.color, end: ls.length ? `⭐ ${stars}<small>${d}/${ls.length}</small>` : '', attr: `data-s="${s}"` });
         }).join('')}</div>
         <div class="sec"><div class="grow"><h3>${T('worlds')}</h3><small>${T('worldsSub')}</small></div></div>
@@ -204,7 +204,8 @@ N.App = {
   },
   unlocked(l) {
     if (N.DB.data.parent.unlockAll) return true;
-    const ls = lessonsOf(l.grade, l.subject), i = ls.indexOf(l), p = prog();
+    if (l.soon) return false;   // درس من الفهرس بلا أنشطة بعد
+    const ls = lessonsOf(l.grade, l.subject).filter(x => !x.soon), i = ls.indexOf(l), p = prog();
     return i <= 0 || !!p.lessons[ls[i - 1].id] || !!p.lessons[l.id];
   },
 
@@ -230,14 +231,25 @@ N.App = {
       ${pts.map(q => {
         const r = p.lessons[q.l.id], un = this.unlocked(q.l), st = N.Mastery.state(p.skills[q.l.skill[0]]);
         const cls = r ? 'done' : (q.i === curIdx ? 'cur' : 'open');
-        return `<button class="node ${un ? cls : ''}" data-i="${q.i}" style="left:${q.x}px;top:${q.y}px">${un ? (r ? '✓' : q.i + 1) : N.ic('lock', { size: 32, color: '#9AA3B8' })}${st !== 'none' ? `<span class="ms" style="background:${N.Mastery.COLORS[st]}" title="${T('m_' + st)}"></span>` : ''}</button>
-          <div class="nlabel" style="left:${q.x}px;top:${q.y + 52}px" dir="${q.l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(q.l.title)}<small>${r ? '⭐'.repeat(r.stars) + '☆'.repeat(3 - r.stars) : (un ? '' : '🔒')} ${st !== 'none' ? '· ' + T('m_' + st) : ''}</small></div>`;
+        return `<button class="node ${q.l.soon ? 'soon' : un ? cls : ''}" data-i="${q.i}" style="left:${q.x}px;top:${q.y}px">${q.l.soon ? N.ic('hourglass', { size: 30, color: '#B4BBCB' }) : un ? (r ? '✓' : q.i + 1) : N.ic('lock', { size: 32, color: '#9AA3B8' })}${st !== 'none' ? `<span class="ms" style="background:${N.Mastery.COLORS[st]}" title="${T('m_' + st)}"></span>` : ''}</button>
+          <div class="nlabel" style="left:${q.x}px;top:${q.y + 52}px" dir="${q.l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(q.l.title)}<small>${q.l.soon ? T('comingSoon') : r ? '⭐'.repeat(r.stars) + '☆'.repeat(3 - r.stars) : (un ? '' : '🔒')} ${st !== 'none' ? '· ' + T('m_' + st) : ''}</small></div>`;
       }).join('')}</div>` : `<div class="empty">${T('noContent').replace('\n', '<br>')}</div>`}</div></div>`;
     this.show('path');
     $('#pBack').onclick = () => this.home();
     sec.querySelectorAll('.node').forEach(b => b.onclick = () => this.intro(ls[+b.dataset.i]));
     const cur = sec.querySelector('.node.cur'); if (cur) setTimeout(() => cur.scrollIntoView({ block: 'center', behavior: 'smooth' }), 80);
   },
+  /* مصدر الدرس ودرجة التحقق منه — شفافية للمعلم وولي الأمر */
+  sourceInfo(l) {
+    const src = l.source, ref = src && src.ref && C.sources[src.ref];
+    let badge;
+    if (src && src.verified) badge = `<span class="pill" style="background:var(--ok-l);color:#14603B">✓ ${T('srcVerified')}</span>`;
+    else if (l.status === 'curriculum_draft') badge = `<span class="pill" style="background:var(--orange-l);color:#8A4B00">${T(l.topicOnly ? 'srcTopic' : 'srcUnverified')}</span>`;
+    else badge = `<span class="pill">${T('srcProto')}</span>`;
+    const book = src && src.book ? `<span class="pill">${N.ic('book', { size: 16, color: '#19B8B0' })} ${esc(src.book)}${src.edition ? ' · ' + esc(src.edition) : ''}${src.pages ? ' · ' + T('page') + ' ' + esc(src.pages) : ''}</span>` : '';
+    return `<div class="chips" style="margin-bottom:10px">${badge}${book}${ref && ref.title ? `<span class="pill small">${esc(ref.title)}</span>` : ''}</div>`;
+  },
+
   /* ============================ بطاقة الدرس ============================ */
   intro(l) {
     const p = prog(), r = p.lessons[l.id], un = this.unlocked(l), st = N.Mastery.state(p.skills[l.skill[0]]), S = subjOf(l.subject);
@@ -246,8 +258,9 @@ N.App = {
       <div class="chips" style="margin-bottom:10px"><span class="pill">${T('unit')}: ${esc(l.unit)}</span><span class="pill">${gradeName(l.grade)}</span>${N.Mastery.badge(st)}${r ? `<span class="pill">${'⭐'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}</span>` : ''}</div>
       <div class="fb ex on" style="margin-bottom:10px"><span class="i">${N.ic('target', { size: 26, color: '#F28C28' })}</span><div><b>${T('goal')}</b><br><span dir="${dir}">${esc(l.outcome)}</span></div></div>
       ${l.example ? `<div class="fb good on" style="margin-bottom:10px"><span class="i">${l.example.e}</span><div><b>${T('example')}</b><br><span dir="${dir}">${esc(l.example.t)}</span></div></div>` : ''}
-      <p class="small muted">${l.acts.length} ${N.lang === 'ar' ? 'أنشطة' : 'activities'} · ${esc(l.skill[1])}</p>
-      ${un ? `<button class="btn block ${r ? 'ghost' : 'ok'}" id="iGo">${r ? N.ic('rotate-ccw', { size: 20, color: '#142B4A' }) + ' ' + T('replayLesson') : N.ic('play', { size: 20, color: '#fff' }) + ' ' + T('startLesson')}</button>` : `<div class="fb hint on">🔒 ${T('locked')}</div>`}`);
+      ${this.sourceInfo(l)}
+      ${l.soon ? '' : `<p class="small muted">${l.acts.length} ${N.lang === 'ar' ? 'أنشطة' : 'activities'} · ${esc(l.skill[1])}</p>`}
+      ${l.soon ? `<div class="fb hint on">${N.ic('hourglass', { size: 22, color: '#D99A12' })} ${T(l.subject === 'isl' ? 'islPending' : 'soonLesson')}</div>` : un ? `<button class="btn block ${r ? 'ghost' : 'ok'}" id="iGo">${r ? N.ic('rotate-ccw', { size: 20, color: '#142B4A' }) + ' ' + T('replayLesson') : N.ic('play', { size: 20, color: '#fff' }) + ' ' + T('startLesson')}</button>` : `<div class="fb hint on">🔒 ${T('locked')}</div>`}`);
     if (l.example) N.speak(l.example.t, l.lang);
     const go = $('#iGo'); if (go) go.onclick = () => { this.closeSheet(); this.startLesson(l); };
   },
@@ -261,7 +274,7 @@ N.App = {
     const k = kid(), g = C.gradeById[k.grade];
     let pool = C.lessons.filter(l => l.grade === k.grade);
     if (!pool.length) pool = C.lessons.filter(l => C.gradeById[l.grade].stage === g.stage);
-    let items = []; pool.forEach(l => l.acts.forEach((a, i) => { if (a.type === 'choose' || a.type === 'match') items.push({ act: a, lesson: l, i }); }));
+    let items = []; pool.filter(l => !l.soon).forEach(l => l.acts.forEach((a, i) => { if (a.type === 'choose' || a.type === 'match') items.push({ act: a, lesson: l, i }); }));
     let seed = [...(today() + k.id)].reduce((s, c) => (s * 31 + c.charCodeAt(0)) >>> 0, 7);
     const rnd = () => (seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296;
     items = items.map(x => [rnd(), x]).sort((a, b) => a[0] - b[0]).slice(0, 3).map(x => x[1]);

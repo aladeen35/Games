@@ -20,12 +20,55 @@ N.Vis = {
       <rect x="37" y="116" width="26" height="6" rx="3" fill="${tq}"/>
     </svg>`;
   },
+  /* أشكال «قطعة لعبة» منقولة من لعبة الأشكال في تطبيق أثير (shapes.js: geoFill + bake):
+     نفس الهندسة (مركز 40,40 ونصف قطر 36)، تدرّج شعاعي فاتح→أساسي→داكن، طبقة جانبية
+     داكنة تعطي سُمكًا، لمعة بيضاوية ونقطة بريق، وزوايا مستديرة بخط بنفس اللون. */
+  SHAPES: (() => {
+    const R = 36, cx = 40, cy = 40, f = n => (+n).toFixed(1);
+    const reg = (n, r, a0, dy = 0) => 'M' + Array.from({ length: n }, (_, i) => f(cx + Math.cos(a0 + i * 2 * Math.PI / n) * r) + ' ' + f(cy + dy + Math.sin(a0 + i * 2 * Math.PI / n) * r)).join(' L') + ' Z';
+    const pts = a => 'M' + a.map(p => f(cx + p[0] * R) + ' ' + f(cy + p[1] * R)).join(' L') + ' Z';
+    const star = 'M' + Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, r = (i % 2 ? .44 : .92) * R; return f(cx + Math.cos(a) * r) + ' ' + f(cy + .06 * R + Math.sin(a) * r); }).join(' L') + ' Z';
+    const P = { // [أساسي، داكن، فاتح] من لوحة ألوان أثير
+      cyan: ['#3EC1D3', '#1C8798', '#B6F0F7'], orange: ['#FF8F45', '#D2600F', '#FFD7B8'], blue: ['#4D8BFF', '#2457C8', '#C9DCFF'],
+      purple: ['#A77BFF', '#6A3FD1', '#E2D3FF'], yellow: ['#FFC93C', '#E39B0B', '#FFF0B0'], red: ['#FF6B6B', '#D63447', '#FFB4B4'],
+      green: ['#7ED957', '#3F9E2A', '#D3F7C2'], pink: ['#FF7EB9', '#D63D86', '#FFD3E7']
+    };
+    return {
+      circle: { d: `M${cx} ${f(cy - .9 * R)} A${f(.9 * R)} ${f(.9 * R)} 0 1 1 ${cx} ${f(cy + .9 * R)} A${f(.9 * R)} ${f(.9 * R)} 0 1 1 ${cx} ${f(cy - .9 * R)} Z`, p: P.cyan },
+      square: { d: pts([[-.78, -.78], [.78, -.78], [.78, .78], [-.78, .78]]), p: P.orange, round: 9 },
+      rectangle: { d: pts([[-.95, -.54], [.95, -.54], [.95, .54], [-.95, .54]]), p: P.blue, round: 8 },
+      triangle: { d: pts([[0, -.8], [.86, .7], [-.86, .7]]), p: P.purple, round: 9 },
+      star: { d: star, p: P.yellow, round: 5 },
+      heart: { d: `M${cx} ${f(cy + .86 * R)} C${f(cx - 1.32 * R)} ${f(cy - .02 * R)} ${f(cx - .62 * R)} ${f(cy - 1.08 * R)} ${cx} ${f(cy - .48 * R)} C${f(cx + .62 * R)} ${f(cy - 1.08 * R)} ${f(cx + 1.32 * R)} ${f(cy - .02 * R)} ${cx} ${f(cy + .86 * R)} Z`, p: P.red },
+      oval: { d: `M${f(cx - .95 * R)} ${cy} A${f(.95 * R)} ${f(.6 * R)} 0 1 1 ${f(cx + .95 * R)} ${cy} A${f(.95 * R)} ${f(.6 * R)} 0 1 1 ${f(cx - .95 * R)} ${cy} Z`, p: P.green },
+      hexagon: { d: reg(6, .86 * R, -Math.PI / 2), p: P.pink, round: 6 },
+      diamond: { d: pts([[0, -.92], [.62, 0], [0, .92], [-.62, 0]]), p: P.cyan, round: 6 },
+      pentagon: { d: reg(5, .86 * R, -Math.PI / 2, .07 * R), p: P.orange, round: 7 }
+    };
+  })(),
+  _sid: 0,
+  _shade(hex, amt) { // amt سالب للتغميق وموجب للتفتيح
+    const n = parseInt(hex.slice(1), 16), t = amt < 0 ? 0 : 255, a = Math.abs(amt);
+    const ch = k => Math.round(((n >> k) & 255) + (t - ((n >> k) & 255)) * a);
+    return '#' + [16, 8, 0].map(k => ch(k).toString(16).padStart(2, '0')).join('');
+  },
   shape(name, color) {
-    const c = color || { circle: '#19B8B0', square: '#F28C28', triangle: '#5B6BD6' }[name];
-    if (name === 'circle') return `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="32" fill="${c}"/></svg>`;
-    if (name === 'square') return `<svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="60" rx="4" fill="${c}"/></svg>`;
-    if (name === 'triangle') return `<svg viewBox="0 0 80 80"><path d="M40 8 L74 70 H6 Z" fill="${c}" stroke-linejoin="round"/></svg>`;
-    return '';
+    if (name === 'rhombus') name = 'diamond';
+    if (name === 'rect') name = 'rectangle';
+    const S = this.SHAPES[name]; if (!S) return '';
+    const [base, dark, light] = color && /^#[0-9a-f]{6}$/i.test(color) ? [color, this._shade(color, -.3), this._shade(color, .6)] : S.p;
+    const id = 'shp' + (++this._sid), sw = S.round || 0;
+    const body = `d="${S.d}" stroke-linejoin="round" stroke-width="${sw}"`;
+    return `<svg viewBox="-4 -4 88 92" class="shape-svg" aria-hidden="true"><defs>
+      <radialGradient id="${id}r" cx=".38" cy=".3" r=".75"><stop offset="0" stop-color="${light}"/><stop offset=".45" stop-color="${base}"/><stop offset="1" stop-color="${dark}"/></radialGradient>
+      <radialGradient id="${id}g" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <clipPath id="${id}c"><path d="${S.d}"/></clipPath></defs>
+      <path ${body} transform="translate(0 5)" fill="${dark}" stroke="${dark}"/>
+      <path ${body} transform="translate(0 5)" fill="#000" stroke="#000" opacity=".18"/>
+      <path ${body} fill="url(#${id}r)" stroke="${base}"/>
+      <g clip-path="url(#${id}c)"><ellipse cx="32" cy="26" rx="17" ry="9.5" fill="url(#${id}g)" transform="rotate(-28.6 32 26)"/>
+      <ellipse cx="28.5" cy="23.5" rx="3.6" ry="2.4" fill="#fff" opacity=".9" transform="rotate(-28.6 28.5 23.5)"/></g>
+    </svg>`;
   },
   frac(n, d) {
     const r = 70, cx = 80, cy = 80; let s = '';

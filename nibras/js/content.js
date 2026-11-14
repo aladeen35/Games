@@ -10,6 +10,13 @@
    match   : مطابقة (q, pairs:[[يمين, يسار], ...])
    order   : ترتيب (q, items بالترتيب الصحيح, mode: letters|words|nums|steps, vis?)
    ws      : بحث عن الكلمات (q, words:[{w, e, m}], size, dirs: hv|hvd, show: pic|word|both)
+   memory  : لعبة الذاكرة (q, pairs:[[a, b], ...]) — games2.js
+   sort    : التصنيف في سلال (q, bins:[...], items:[{t, e, bin}]) — games2.js
+   pop     : فقاعات؛ المس الصحيح فقط (q, items:[{t, e, ok}]) — games2.js
+   الأشكال المرسومة: circle square rectangle triangle star heart oval hexagon diamond pentagon
+   ---------------------------------------------------------------------
+   دروس المنهج الفعلية تأتي من research/ عبر tools/import-research.mjs ← js/curriculum-data.js،
+   وتحلّ محل الدروس النموذجية أدناه للصف والمادة اللذين تغطيهما.
    ---------------------------------------------------------------------
    ⚠️ كل المحتوى هنا نموذجي توضيحي (status: 'prototype_only') وليس نصوصًا من الكتب
    المدرسية. يجب ربط كل درس برقم الكتاب وإصداره والوحدة والصفحة ومراجعته قبل اعتماده.
@@ -359,6 +366,16 @@ N.C = {
     trees: { cap: 'أشجار المانجو التي زرعتها مدرسة (بيانات توضيحية)', head: ['الشهر', 'عدد الأشجار'], rows: [['يناير', 12], ['فبراير', 18], ['مارس', 9], ['أبريل', 15]] }
   }
 };
+
+/* دمج بحث المنهج (js/curriculum-data.js المولَّد من research/): حيث توجد دروس من البحث لصف ومادة
+   تحلّ محل الدروس النموذجية لذلك الصف والمادة، وتُرتَّب حسب فهرس الكتاب. */
+if (window.NIBRAS_CUR && Array.isArray(NIBRAS_CUR.lessons) && NIBRAS_CUR.lessons.length) {
+  const covered = new Set(NIBRAS_CUR.lessons.filter(l => !l.soon).map(l => l.grade + '/' + l.subject));
+  N.C.lessons = N.C.lessons.filter(l => !covered.has(l.grade + '/' + l.subject)).concat(NIBRAS_CUR.lessons);
+  N.C.sources = NIBRAS_CUR.sources || {};
+  N.C.version = NIBRAS_CUR.version || N.C.version;
+}
+N.C.sources = N.C.sources || {};
 
 /* فهارس مساعدة */
 N.C.lessonById = {};
