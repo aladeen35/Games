@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
         if (l.endsWith(".png"))  return "image/png";
         if (l.endsWith(".jpg") || l.endsWith(".jpeg")) return "image/jpeg";
         if (l.endsWith(".woff2")) return "font/woff2";
+        if (l.endsWith(".otf")) return "font/otf";
         if (l.endsWith(".svg")) return "image/svg+xml";
         return "application/octet-stream";
     }
