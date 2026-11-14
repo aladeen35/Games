@@ -10,8 +10,8 @@ REPO="$(cd "$ROOT/.." && pwd)"
 AND="$ROOT/android"
 ANDROID_JAR="${ANDROID_JAR:-/usr/lib/android-sdk/platforms/android-23/android.jar}"
 DX_JAR="${DX_JAR:-$REPO/android/tools/dalvik-dx.jar}"
-VERSION_CODE=4
-VERSION_NAME=0.4
+VERSION_CODE=5
+VERSION_NAME=0.5
 PKG=com.nibras.learn
 KS="${KEYSTORE:-$AND/nibras.keystore}"
 KS_PASS="${KEYSTORE_PASS:-nibras2026}"
@@ -24,7 +24,7 @@ if [ ! -f "$ROOT/fonts/thmanyah-serif-text-bold.otf" ]; then
   echo "❌ ضع ملف الخط thmanyah-serif-text-bold.otf (من الموقع الرسمي لثمانية) في $ROOT/fonts/ ثم أعد البناء"; exit 1
 fi
 echo "① نسخ ملفات التطبيق"
-for item in index.html manifest.json sw.js icon-192.png icon-512.png icon-maskable.png fonts js; do cp -r "$ROOT/$item" "$OUT/assets/"; done
+for item in index.html manifest.json sw.js icon-192.png icon-512.png icon-maskable.png fonts js vendor; do cp -r "$ROOT/$item" "$OUT/assets/"; done
 
 echo "② ترجمة الموارد وربط الحزمة"
 aapt2 compile --dir "$AND/res" -o "$OUT/compiled/res.zip"
