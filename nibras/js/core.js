@@ -90,13 +90,13 @@ N.skillLesson = id => N.C.lessons.find(l => l.skill[0] === id);
 
 /* ---------------- الشارات ---------------- */
 N.BADGES = [
-  { id: 'letters', e: '🔤', name: { ar: 'مستكشف الحروف', en: 'Letter Explorer' }, d: { ar: 'أكمل 3 دروس في اللغة العربية', en: 'Finish 3 Arabic lessons' }, ok: p => N.countDone(p, l => l.subject === 'ar') >= 3 },
-  { id: 'numbers', e: '🔢', name: { ar: 'صديق الأعداد', en: 'Friend of Numbers' }, d: { ar: 'أكمل 3 دروس في الرياضيات', en: 'Finish 3 maths lessons' }, ok: p => N.countDone(p, l => l.subject === 'math') >= 3 },
-  { id: 'reader', e: '📚', name: { ar: 'القارئ المتميز', en: 'Star Reader' }, d: { ar: 'احصل على 3 نجوم في 3 دروس', en: 'Get 3 stars in 3 lessons' }, ok: p => Object.values(p.lessons).filter(x => x.stars >= 3).length >= 3 },
-  { id: 'scientist', e: '🔬', name: { ar: 'العالِم الصغير', en: 'Little Scientist' }, d: { ar: 'أكمل درسين في العلوم', en: 'Finish 2 science lessons' }, ok: p => N.countDone(p, l => l.subject === 'sci') >= 2 },
-  { id: 'maps', e: '🗺️', name: { ar: 'خبير الخرائط', en: 'Map Expert' }, d: { ar: 'أكمل درسًا في التاريخ والجغرافيا', en: 'Finish a geography lesson' }, ok: p => N.countDone(p, l => l.subject === 'soc') >= 1 },
-  { id: 'review', e: '🔁', name: { ar: 'بطل المراجعة', en: 'Review Hero' }, d: { ar: 'أكمل 3 جلسات مراجعة', en: 'Complete 3 review sessions' }, ok: p => p.reviews >= 3 },
-  { id: 'week', e: '📅', name: { ar: 'مثابر الأسبوع', en: 'Steady Learner' }, d: { ar: 'تعلّم في 5 أيام مختلفة خلال أسبوع', en: 'Learn on 5 different days in a week' },
+  { id: 'letters', ic: 'alphabet-blocks', e: '🔤', name: { ar: 'مستكشف الحروف', en: 'Letter Explorer' }, d: { ar: 'أكمل 3 دروس في اللغة العربية', en: 'Finish 3 Arabic lessons' }, ok: p => N.countDone(p, l => l.subject === 'ar') >= 3 },
+  { id: 'numbers', ic: 'abacus', e: '🔢', name: { ar: 'صديق الأعداد', en: 'Friend of Numbers' }, d: { ar: 'أكمل 3 دروس في الرياضيات', en: 'Finish 3 maths lessons' }, ok: p => N.countDone(p, l => l.subject === 'math') >= 3 },
+  { id: 'reader', ic: 'book-open-star', e: '📚', name: { ar: 'القارئ المتميز', en: 'Star Reader' }, d: { ar: 'احصل على 3 نجوم في 3 دروس', en: 'Get 3 stars in 3 lessons' }, ok: p => Object.values(p.lessons).filter(x => x.stars >= 3).length >= 3 },
+  { id: 'scientist', ic: 'microscope', e: '🔬', name: { ar: 'العالِم الصغير', en: 'Little Scientist' }, d: { ar: 'أكمل درسين في العلوم', en: 'Finish 2 science lessons' }, ok: p => N.countDone(p, l => l.subject === 'sci') >= 2 },
+  { id: 'maps', ic: 'map', e: '🗺️', name: { ar: 'خبير الخرائط', en: 'Map Expert' }, d: { ar: 'أكمل درسًا في التاريخ والجغرافيا', en: 'Finish a geography lesson' }, ok: p => N.countDone(p, l => l.subject === 'soc') >= 1 },
+  { id: 'review', ic: 'sync', e: '🔁', name: { ar: 'بطل المراجعة', en: 'Review Hero' }, d: { ar: 'أكمل 3 جلسات مراجعة', en: 'Complete 3 review sessions' }, ok: p => p.reviews >= 3 },
+  { id: 'week', ic: 'calendar', e: '📅', name: { ar: 'مثابر الأسبوع', en: 'Steady Learner' }, d: { ar: 'تعلّم في 5 أيام مختلفة خلال أسبوع', en: 'Learn on 5 different days in a week' },
     ok: p => p.days.filter(d => Date.now() - new Date(d).getTime() < 7 * DAY).length >= 5 }
 ];
 N.countDone = (p, f) => Object.keys(p.lessons).filter(id => N.C.lessonById[id] && f(N.C.lessonById[id])).length;
@@ -114,11 +114,16 @@ N.AVATARS = [
 ];
 
 /* ---------------- الإعدادات المرئية ---------------- */
+/* تقليل الحركة: من إعداد التطبيق أو من إعداد الهاتف (prefers-reduced-motion) */
+N.motionReduced = function () {
+  try { if (N.DB.data && N.DB.data.settings.motion) return true; return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) { return false; }
+};
+try { matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => N.applySettings()); } catch (e) {}
 N.applySettings = function () {
   const s = N.DB.data.settings, H = document.documentElement;
   N.lang = s.lang || 'ar';
   H.lang = N.lang; H.dir = N.lang === 'ar' ? 'rtl' : 'ltr';
-  H.dataset.font = s.font; H.dataset.contrast = s.contrast ? 'high' : ''; H.dataset.motion = s.motion ? 'reduce' : '';
+  H.dataset.font = s.font; H.dataset.contrast = s.contrast ? 'high' : ''; H.dataset.motion = N.motionReduced() ? 'reduce' : '';
   const kid = N.Kids.cur; H.dataset.stage = kid ? N.Kids.stage(kid) : 'pri';
   document.title = N.t('appName');
 };
@@ -176,7 +181,7 @@ N.toast = function (text) {
   $('#toasts').appendChild(t); setTimeout(() => t.remove(), 2900);
 };
 N.confetti = function (n = 90) {
-  if (N.DB.data.settings.motion) return;
+  if (N.motionReduced()) return;
   const cv = $('#fx'), dpr = Math.min(devicePixelRatio || 1, 2);
   cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
   const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

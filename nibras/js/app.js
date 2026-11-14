@@ -23,15 +23,34 @@ N.App = {
     document.addEventListener('visibilitychange', () => { if (document.hidden) N.DB.flush(); });
     $('#sheetWrap').addEventListener('click', e => { if (e.target.id === 'sheetWrap') this.closeSheet(); });
     $('#pClose').onclick = () => this.leavePlay();
+    $('#pSay').innerHTML = N.ic('volume', { size: 26, color: '#fff' });
+    $('#pHint').innerHTML = N.ic('lightbulb', { size: 26, color: '#fff' });
+    $('#pRetry').innerHTML = N.ic('rotate-ccw', { size: 26, color: '#fff' });
     $('#pSay').onclick = () => this.sayAct();
     $('#pHint').onclick = () => { if (this.run && this.run.ctrl && !this.run.doneAct) { this.run.ctrl.hint(); N.Sound.tap(); } };
     $('#pRetry').onclick = () => { if (this.run && !this.run.doneAct) this.renderAct(true); };
     if (!N.DB.data.kids.length || !N.DB.data.settings.welcomed) this.startOnboard(); else this.home();
   },
   show(id) {
+    const changed = this.cur !== id;
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
     this.cur = id; const s = $('#' + id); if (s) s.scrollTop = 0;
     document.querySelectorAll('.meaning').forEach(m => m.remove());
+    if (!s) return;
+    /* انتقال الشاشة: صعود خفيف مع ظهور (transform + opacity فقط). عند تقليل الحركة: ظهور فقط */
+    const rm = N.motionReduced();
+    if (changed && s.animate) s.animate(rm ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: 'translateY(18px) scale(.985)' }, { opacity: 1, transform: 'none' }],
+      { duration: rm ? 150 : 340, easing: 'cubic-bezier(.16,1,.3,1)' });
+    /* دخول متدرّج لعناصر القائمة */
+    let i = 0;
+    s.querySelectorAll('.panel .in > *, .panel .list > .li, .panel .list > .badge, .wbot > *').forEach(el => { el.style.setProperty('--i', Math.min(i++, 14)); el.classList.add('stg'); });
+    /* مؤشر التبويب المنزلق */
+    const ind = s.querySelector('.tabs .ind');
+    if (ind) {
+      const sign = document.documentElement.dir === 'rtl' ? -1 : 1, at = k => `translateX(${sign * k * 100}%)`;
+      ind.style.transform = at(+ind.dataset.from);
+      requestAnimationFrame(() => requestAnimationFrame(() => { ind.style.transform = at(+ind.dataset.to); }));
+    }
   },
   back() {
     if ($('#sheetWrap').classList.contains('on')) { this.closeSheet(); return 'ok'; }
@@ -52,14 +71,14 @@ N.App = {
   renderOb() {
     const o = this.ob, last = 2, S = $('#onboard');
     const sl = [
-      { illu: N.Vis.logo('color', 130), fl: ['⭐', '📖', '✨'], h: 'نِبراس · NIBRAS', p: `${T('tagline')}<br>${T('welcomeSub')}` },
-      { illu: '<span class="big">🎮</span>', fl: ['🔤', '🧩', '⭐'], h: T('w2t'), list: [['🔤', T('w2a')], ['⭐', T('w2b')], ['💡', T('w2c')]] },
-      { illu: '<span class="big">🗺️</span>', fl: ['🌳', '🏙️', '🧪'], h: T('w3t'), list: C.worlds.map(w => [w.e, N.tn(w.name)]), p: '🔒 ' + T('w3a') }
+      { illu: N.Vis.logo('color', 130), fl: ['star', 'book-open', 'sparkles'], h: 'نِبراس · NIBRAS', p: `${T('tagline')}<br>${T('welcomeSub')}` },
+      { illu: N.ic('gamepad', { size: 128, color: '#19B8B0', auto: true }), fl: ['alphabet-blocks', 'star', 'trophy'], h: T('w2t'), list: [['🔤', T('w2a')], ['⭐', T('w2b')], ['💡', T('w2c')]] },
+      { illu: N.ic('map', { size: 128, color: '#F5A04A', auto: true }), fl: ['sprout', 'castle', 'flask'], h: T('w3t'), list: C.worlds.map(w => [w.e, N.tn(w.name)]), p: '🔒 ' + T('w3a') }
     ][o.step];
     const pos = [['12%', '14%'], ['8%', '72%'], ['78%', '20%']];
     S.innerHTML = `<div class="wtop">
         <div class="langsw">${[['ar', 'ع'], ['en', 'EN']].map(l => `<button data-l="${l[0]}" class="${N.lang === l[0] ? 'on' : ''}">${l[1]}</button>`).join('')}</div>
-        <div class="illu">${sl.illu}${sl.fl.map((f, i) => `<span class="fl" style="top:${pos[i][0]};left:${pos[i][1]};animation-delay:${i * .6}s">${f}</span>`).join('')}</div>
+        <div class="illu">${sl.illu}${sl.fl.map((f, i) => `<span class="fl" style="top:${pos[i][0]};left:${pos[i][1]};animation-delay:${i * .6}s">${N.ic(f, { size: 38, color: ['#FFC857', '#19B8B0', '#F2545B'][i] })}</span>`).join('')}</div>
       </div>
       <div class="wbot">
         <h1>${sl.h}</h1>
@@ -75,7 +94,7 @@ N.App = {
   },
   gradeSheet() {
     const k = kid();
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">🎒</span><h3>${T('chooseGrade')}</h3><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh">${N.ic('backpack', { size: 30, color: '#19B8B0' })}<h3>${T('chooseGrade')}</h3><button class="ib" data-close>✕</button></div>
       ${C.stages.map(st => `<h3 style="margin:10px 0 6px">${st.e} ${N.tn(st.name)}</h3><div class="grid2">${C.grades.filter(g => g.stage === st.id).map(g => { const n = lessonsOf(g.id).length; return `<button class="choice ${g.id === k.grade ? 'on' : ''}" data-g="${g.id}" style="flex-direction:column;gap:0">${N.tn(g.name)}<small class="muted" style="font-size:.72rem">${n ? n + ' ' + T('lessonsN') : T('comingSoon')}</small></button>`; }).join('')}</div>`).join('')}`);
     $('#sheet').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { k.grade = b.dataset.g; N.DB.save(); this.vg = null; this.closeSheet(); this.home(); });
   },
@@ -86,7 +105,7 @@ N.App = {
     return `<div class="hdr"><div class="in"><div class="hbar">${left || '<span style="width:44px"></span>'}<div class="t">${title}${sub ? `<small>${sub}</small>` : ''}</div>${right || '<span style="width:44px"></span>'}</div>${extra || ''}</div></div>`;
   },
   row(o) {
-    return `<button class="li" ${o.attr || ''}><span class="av" style="background:${o.bg || 'var(--tq-l)'}">${o.e}${o.cnt ? `<span class="cnt">${o.cnt}</span>` : ''}</span>
+    return `<button class="li" ${o.attr || ''}><span class="av" style="background-color:${o.bg || 'var(--tq-l)'}">${o.ic ? N.ic(o.ic, { size: 30, color: o.icc || 'var(--tq)' }) : o.e}${o.cnt ? `<span class="cnt">${o.cnt}</span>` : ''}</span>
       <span class="tx"><b ${o.dir ? `dir="${o.dir}"` : ''}>${o.t}</b>${o.s ? `<small>${o.s}</small>` : ''}${o.bar != null ? `<span class="mini"><i style="width:${o.bar}%;background:${o.barc || 'var(--tq)'}"></i></span>` : ''}</span>
       ${o.end != null ? `<span class="end">${o.end}</span>` : ''}${o.chev === false ? '' : `<span class="chev">${N.lang === 'ar' ? '‹' : '›'}</span>`}</button>`;
   },
@@ -97,10 +116,12 @@ N.App = {
     const k = kid(), p = prog(), vg = this.vg || k.grade, g = C.gradeById[vg];
     const next = this.nextLesson(k.grade), dueSk = N.Mastery.due(p), due = dueSk.length + p.wrong.length;
     const tab = this.tab, S = $('#home');
-    const tabs = `<div class="tabs">${[['learn', T('tabLearn')], ['review', T('tabReview') + (due ? ` (${due})` : '')], ['me', T('tabMe')]].map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${t[1]}</button>`).join('')}</div>`;
-    const head = this.hdr(`<button class="hi" id="hSet" aria-label="${T('settings')}">⚙️</button>`,
-      `<h2>نِبراس</h2>`, `<button id="hGrade" style="color:#AFC0D8">🎒 ${gradeName(k.grade)} ▾</button>`,
-      `<button class="hi" id="hPar" aria-label="${T('parent')}">👪</button>`, tabs);
+    const TABS = [['learn', T('tabLearn'), 'book-open'], ['review', T('tabReview') + (due ? ` (${due})` : ''), 'repeat'], ['me', T('tabMe'), 'trophy']];
+    const ti = TABS.findIndex(t => t[0] === tab), pi = this.prevTab != null ? this.prevTab : ti; this.prevTab = ti;
+    const tabs = `<div class="tabs"><span class="ind" data-from="${pi}" data-to="${ti}"></span>${TABS.map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${N.ic(t[2], { size: 20, color: tab === t[0] ? '#FFC857' : '#8FA3C0' })}<span>${t[1]}</span></button>`).join('')}</div>`;
+    const head = this.hdr(`<button class="hi" id="hSet" aria-label="${T('settings')}">${N.ic('settings', { size: 24, color: '#7FE3DD' })}</button>`,
+      `<h2>نِبراس</h2>`, `<button id="hGrade" class="gradebtn">${N.ic('backpack', { size: 16, color: '#FFC857' })} ${gradeName(k.grade)} ▾</button>`,
+      `<button class="hi" id="hPar" aria-label="${T('parent')}">${N.ic('users', { size: 24, color: '#7FE3DD' })}</button>`, tabs);
     let body = '', fab = '';
     if (tab === 'learn') {
       const subs = C.stageSubjects[g.stage];
@@ -108,48 +129,48 @@ N.App = {
       body = `
         ${vg !== k.grade ? `<div class="list">${this.row({ e: '👀', bg: 'var(--orange-l)', t: `${T('browsing')}: ${gradeName(vg)}`, s: T('backMine'), attr: 'id="hMine"' })}</div>` : ''}
         ${vg === k.grade ? `<div class="sec"><div class="grow"><h3>${T('continueLearning')}</h3><small>${T('continueSub')}</small></div></div>
-        <div class="list">${next ? this.row({ e: subjOf(next.subject).e, bg: subjOf(next.subject).color + '22', t: esc(next.title), dir: next.lang === 'en' ? 'ltr' : 'rtl', s: `${N.tn(subjOf(next.subject).name)} · ${esc(next.unit)}`, end: '▶', attr: 'id="hGo"' })
+        <div class="list">${next ? this.row({ ic: subjOf(next.subject).ic, icc: subjOf(next.subject).color, bg: subjOf(next.subject).color + '1F', t: esc(next.title), dir: next.lang === 'en' ? 'ltr' : 'rtl', s: `${N.tn(subjOf(next.subject).name)} · ${esc(next.unit)}`, end: '▶', attr: 'id="hGo"' })
           : this.row({ e: '🏆', bg: '#FFF4D6', t: T('allDone'), chev: false })}</div>` : ''}
-        <div class="sec"><div class="grow"><h3>${T('subjects')}</h3><small>${gradeName(vg)}</small></div><button class="act" id="hGrade2" aria-label="${T('changeGrade')}">🎚️</button></div>
+        <div class="sec"><div class="grow"><h3>${T('subjects')}</h3><small>${gradeName(vg)}</small></div><button class="act" id="hGrade2" aria-label="${T('changeGrade')}">${N.ic('sliders', { size: 22, color: '#142B4A' })}</button></div>
         <div class="list">${subs.map(s => {
           const ls = lessonsOf(vg, s), d = ls.filter(l => p.lessons[l.id]).length, SB = subjOf(s);
           const stars = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
-          return this.row({ e: SB.e, bg: SB.color + '22', t: N.tn(SB.name), s: ls.length ? T('lessonsCount', { d, n: ls.length }) : (SB.note ? N.tn(SB.note) : T('comingSoon')),
+          return this.row({ ic: SB.ic, icc: SB.color, bg: SB.color + '1F', t: N.tn(SB.name), s: ls.length ? T('lessonsCount', { d, n: ls.length }) : (SB.note ? N.tn(SB.note) : T('comingSoon')),
             bar: ls.length ? Math.round(100 * d / ls.length) : null, barc: SB.color, end: ls.length ? `⭐ ${stars}<small>${d}/${ls.length}</small>` : '', attr: `data-s="${s}"` });
         }).join('')}</div>
         <div class="sec"><div class="grow"><h3>${T('worlds')}</h3><small>${T('worldsSub')}</small></div></div>
         <div class="list">${worlds.map(w => { const gs = C.grades.filter(x => x.world === w.id), n = C.lessons.filter(l => gs.some(x => x.id === l.grade)).length;
-          return this.row({ e: w.e, bg: w.bg + '26', t: N.tn(w.name), s: gs.map(x => N.tn(x.name)).join(' · '), end: n ? `<small>${n} ${T('lessonsN')}</small>` : '', attr: `data-w="${w.id}"`, cnt: gs.some(x => x.id === k.grade) ? '●' : '' }); }).join('')}</div>
+          return this.row({ ic: w.ic, icc: w.bg, bg: w.bg + '1F', t: N.tn(w.name), s: gs.map(x => N.tn(x.name)).join(' · '), end: n ? `<small>${n} ${T('lessonsN')}</small>` : '', attr: `data-w="${w.id}"`, cnt: gs.some(x => x.id === k.grade) ? '●' : '' }); }).join('')}</div>
         <button class="more" id="hMore">${this.allWorlds ? T('seeLess') : T('seeMore')} ${N.lang === 'ar' ? '‹' : '›'}</button>`;
-      if (next && vg === k.grade) fab = `<button class="fab" id="hFab" aria-label="${T('continueLearning')}">▶</button>`;
+      if (next && vg === k.grade) fab = `<button class="fab" id="hFab" aria-label="${T('continueLearning')}">${N.ic('play', { size: 30, color: '#fff' })}</button>`;
     } else if (tab === 'review') {
       const dailyDone = p.daily === today();
       const all = Object.keys(p.skills);
       body = `<div class="sec"><div class="grow"><h3>${T('challenges')}</h3><small>${T('challengesSub')}</small></div></div>
         <div class="list">
-          ${this.row({ e: '🎯', bg: 'var(--orange-l)', t: T('dailyChallenge'), s: dailyDone ? T('dailyDone') : T('dailySub'), end: dailyDone ? '✓' : '+15 ✨', attr: 'id="hDaily"' })}
-          ${this.row({ e: '🔁', bg: 'var(--tq-l)', t: T('smartReview'), s: due ? T('reviewSub', { n: due }) : T('reviewNone'), cnt: due || '', attr: 'id="hRev"' })}
+          ${this.row({ ic: 'target', icc: '#F28C28', bg: 'var(--orange-l)', t: T('dailyChallenge'), s: dailyDone ? T('dailyDone') : T('dailySub'), end: dailyDone ? '✓' : '+15 ✨', attr: 'id="hDaily"' })}
+          ${this.row({ ic: 'sync', icc: '#19B8B0', bg: 'var(--tq-l)', t: T('smartReview'), s: due ? T('reviewSub', { n: due }) : T('reviewNone'), cnt: due || '', attr: 'id="hRev"' })}
         </div>
         <div class="sec"><div class="grow"><h3>${T('dueSkills')}</h3><small>${T('spacedSub')}</small></div></div>
         <div class="list">${dueSk.length ? dueSk.map(id => { const l = N.skillLesson(id), st = N.Mastery.state(p.skills[id]);
-          return this.row({ e: l ? subjOf(l.subject).e : '📘', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: l ? esc(l.title) : '', end: `<span style="color:${N.Mastery.COLORS[st]}">● ${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
+          return this.row({ ic: l ? subjOf(l.subject).ic : 'book', icc: l ? subjOf(l.subject).color : '#19B8B0', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: l ? esc(l.title) : '', end: `<span style="color:${N.Mastery.COLORS[st]}">● ${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
           : this.row({ e: '🎉', bg: 'var(--ok-l)', t: T('noneDue'), chev: false })}</div>
         <div class="sec"><div class="grow"><h3>${T('mySkills')}</h3><small>${all.length} ${N.lang === 'ar' ? 'مهارة' : 'skills'}</small></div></div>
         <div class="list">${all.length ? all.map(id => { const l = N.skillLesson(id), st = N.Mastery.state(p.skills[id]);
-          return this.row({ e: l ? subjOf(l.subject).e : '📘', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: `${Math.round(p.skills[id].score * 100)}%`, bar: Math.round(p.skills[id].score * 100), barc: N.Mastery.COLORS[st], end: `<span style="color:${N.Mastery.COLORS[st]}">${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
+          return this.row({ ic: l ? subjOf(l.subject).ic : 'book', icc: l ? subjOf(l.subject).color : '#19B8B0', bg: N.Mastery.COLORS[st] + '22', t: esc(N.skillName(id)), s: `${Math.round(p.skills[id].score * 100)}%`, bar: Math.round(p.skills[id].score * 100), barc: N.Mastery.COLORS[st], end: `<span style="color:${N.Mastery.COLORS[st]}">${T('m_' + st)}</span>`, attr: l ? `data-l="${l.id}"` : '' }); }).join('')
           : this.row({ e: '🌱', bg: 'var(--tq-l)', t: T('noSkills'), chev: false })}</div>`;
-      fab = `<button class="fab" id="hFab" style="background:var(--coral);box-shadow:0 10px 24px rgba(242,84,91,.45)" aria-label="${T('smartReview')}">🔁</button>`;
+      fab = `<button class="fab coral" id="hFab" aria-label="${T('smartReview')}">${N.ic('sync', { size: 30, color: '#fff' })}</button>`;
     } else {
       const lessons = Object.keys(p.lessons).length, starsT = Object.values(p.lessons).reduce((s, x) => s + x.stars, 0);
       body = `<div class="list">${this.row({ e: k.av, bg: 'var(--tq-l)', t: gradeName(k.grade), s: `<bdi>✨ ${k.xp}</bdi> · <bdi>🪙 ${k.coins}</bdi>`, end: `<small>${T('changeAvatar')}</small>`, attr: 'id="hShop"' })}</div>
         <div class="stat"><div><b>${lessons}</b><small>${T('lessonsDone')}</small></div><div><b>${starsT}</b><small>${T('starsTotal')}</small></div><div><b>${p.badges.length}/${N.BADGES.length}</b><small>${T('badges')}</small></div></div>
         <div class="sec"><div class="grow"><h3>${T('badges')}</h3></div></div>
-        <div class="list">${N.BADGES.map(b => `<div class="badge ${p.badges.includes(b.id) ? '' : 'lock'}"><span class="bi">${b.e}</span><div class="grow"><b>${N.tn(b.name)}</b><small>${N.tn(b.d)}</small></div>${p.badges.includes(b.id) ? '✅' : '🔒'}</div>`).join('')}</div>
+        <div class="list">${N.BADGES.map(b => `<div class="badge ${p.badges.includes(b.id) ? '' : 'lock'}"><span class="bi">${N.ic(b.ic, { size: 30, color: p.badges.includes(b.id) ? '#19B8B0' : '#9AA3B8' })}</span><div class="grow"><b>${N.tn(b.name)}</b><small>${N.tn(b.d)}</small></div>${p.badges.includes(b.id) ? '✅' : '🔒'}</div>`).join('')}</div>
         <div class="sec"><div class="grow"><h3>${T('settings')}</h3></div></div>
         <div class="list">
-          ${this.row({ e: '🛍️', bg: '#FFF4D6', t: T('shop'), s: T('shopSub'), attr: 'id="hShop2"' })}
-          ${this.row({ e: '⚙️', bg: 'var(--bg)', t: T('a11y'), s: `${T('fontSize')} · ${T('readAloud')} · ${T('lang')}`, attr: 'id="hSet2"' })}
-          ${this.row({ e: '👪', bg: 'var(--bg)', t: T('parent'), s: `${T('report')} · ${T('timeLimit')}`, attr: 'id="hPar2"' })}
+          ${this.row({ ic: 'shopping-bag', icc: '#E0A000', bg: '#FFF4D6', t: T('shop'), s: T('shopSub'), attr: 'id="hShop2"' })}
+          ${this.row({ ic: 'settings', icc: '#142B4A', bg: 'var(--bg)', t: T('a11y'), s: `${T('fontSize')} · ${T('readAloud')} · ${T('lang')}`, attr: 'id="hSet2"' })}
+          ${this.row({ ic: 'users', icc: '#142B4A', bg: 'var(--bg)', t: T('parent'), s: `${T('report')} · ${T('timeLimit')}`, attr: 'id="hPar2"' })}
         </div>
         <p class="disclaimer">${N.Vis.logo('mono', 26)}<br>${T('curriculum')}: ${C.version} — ${T('protoNote')}</p>`;
     }
@@ -202,14 +223,14 @@ N.App = {
     const H = y + 20, d = ls.filter(l => p.lessons[l.id]).length, starsT = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
     const trail = pts.slice(1).map((q, i) => { const a = pts[i]; const done = p.lessons[a.l.id] && p.lessons[q.l.id]; return `<line x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}" stroke="${done ? '#19B8B0' : '#C7CDDD'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${done ? '' : '1 14'}"/>`; }).join('');
     const sec = $('#path');
-    sec.innerHTML = this.hdr(`<button class="hi" id="pBack">${N.lang === 'ar' ? '→' : '←'}</button>`, `<h2>${S.e} ${N.tn(S.name)}</h2>`, `${w.e} ${N.tn(w.name)} · ${gradeName(grade)}`, '',
-        ls.length ? `<div class="row" style="justify-content:center;gap:8px"><span class="chipg">📘 ${T('lessonsCount', { d, n: ls.length })}</span><span class="chipg">⭐ ${starsT} / ${ls.length * 3}</span></div>` : '')
+    sec.innerHTML = this.hdr(`<button class="hi" id="pBack">${N.ic(N.lang === 'ar' ? 'arrow-right' : 'arrow-left', { size: 22, color: '#7FE3DD' })}</button>`, `<h2 class="ttl">${N.ic(S.ic, { size: 26, color: '#FFC857' })} ${N.tn(S.name)}</h2>`, `${N.tn(w.name)} · ${gradeName(grade)}`, '',
+        ls.length ? `<div class="row" style="justify-content:center;gap:8px"><span class="chipg">${N.ic('book-open', { size: 16, color: '#7FE3DD' })} ${T('lessonsCount', { d, n: ls.length })}</span><span class="chipg">${N.ic('star', { size: 16, color: '#FFC857' })} ${starsT} / ${ls.length * 3}</span></div>` : '')
       + `<div class="panel"><div class="in">${ls.length ? `<div class="pmap" style="height:${H}px;width:${W}px"><svg class="trail" viewBox="0 0 ${W} ${H}">${trail}</svg>
-      ${flags.map(f => `<div class="unitflag" style="top:${f.y}px">📘 ${esc(f.t)}</div>`).join('')}
+      ${flags.map(f => `<div class="unitflag" style="top:${f.y}px">${N.ic('book-marked', { size: 16, color: '#FFC857' })} ${esc(f.t)}</div>`).join('')}
       ${pts.map(q => {
         const r = p.lessons[q.l.id], un = this.unlocked(q.l), st = N.Mastery.state(p.skills[q.l.skill[0]]);
         const cls = r ? 'done' : (q.i === curIdx ? 'cur' : 'open');
-        return `<button class="node ${un ? cls : ''}" data-i="${q.i}" style="left:${q.x}px;top:${q.y}px">${un ? (r ? '✓' : q.i + 1) : '🔒'}${st !== 'none' ? `<span class="ms" style="background:${N.Mastery.COLORS[st]}" title="${T('m_' + st)}"></span>` : ''}</button>
+        return `<button class="node ${un ? cls : ''}" data-i="${q.i}" style="left:${q.x}px;top:${q.y}px">${un ? (r ? '✓' : q.i + 1) : N.ic('lock', { size: 32, color: '#9AA3B8' })}${st !== 'none' ? `<span class="ms" style="background:${N.Mastery.COLORS[st]}" title="${T('m_' + st)}"></span>` : ''}</button>
           <div class="nlabel" style="left:${q.x}px;top:${q.y + 52}px" dir="${q.l.lang === 'en' ? 'ltr' : 'rtl'}">${esc(q.l.title)}<small>${r ? '⭐'.repeat(r.stars) + '☆'.repeat(3 - r.stars) : (un ? '' : '🔒')} ${st !== 'none' ? '· ' + T('m_' + st) : ''}</small></div>`;
       }).join('')}</div>` : `<div class="empty">${T('noContent').replace('\n', '<br>')}</div>`}</div></div>`;
     this.show('path');
@@ -221,12 +242,12 @@ N.App = {
   intro(l) {
     const p = prog(), r = p.lessons[l.id], un = this.unlocked(l), st = N.Mastery.state(p.skills[l.skill[0]]), S = subjOf(l.subject);
     const dir = l.lang === 'en' ? 'ltr' : 'rtl';
-    this.sheet(`<div class="sh"><span style="font-size:2rem">${S.e}</span><h3 dir="${dir}">${esc(l.title)}</h3><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh"><span class="av" style="background-color:${S.color}1F">${N.ic(S.ic, { size: 30, color: S.color })}</span><h3 dir="${dir}">${esc(l.title)}</h3><button class="ib" data-close>✕</button></div>
       <div class="chips" style="margin-bottom:10px"><span class="pill">${T('unit')}: ${esc(l.unit)}</span><span class="pill">${gradeName(l.grade)}</span>${N.Mastery.badge(st)}${r ? `<span class="pill">${'⭐'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}</span>` : ''}</div>
-      <div class="fb ex on" style="margin-bottom:10px"><span class="i">🎯</span><div><b>${T('goal')}</b><br><span dir="${dir}">${esc(l.outcome)}</span></div></div>
+      <div class="fb ex on" style="margin-bottom:10px"><span class="i">${N.ic('target', { size: 26, color: '#F28C28' })}</span><div><b>${T('goal')}</b><br><span dir="${dir}">${esc(l.outcome)}</span></div></div>
       ${l.example ? `<div class="fb good on" style="margin-bottom:10px"><span class="i">${l.example.e}</span><div><b>${T('example')}</b><br><span dir="${dir}">${esc(l.example.t)}</span></div></div>` : ''}
       <p class="small muted">${l.acts.length} ${N.lang === 'ar' ? 'أنشطة' : 'activities'} · ${esc(l.skill[1])}</p>
-      ${un ? `<button class="btn block ${r ? 'ghost' : 'ok'}" id="iGo">${r ? '🔁 ' + T('replayLesson') : '▶ ' + T('startLesson')}</button>` : `<div class="fb hint on">🔒 ${T('locked')}</div>`}`);
+      ${un ? `<button class="btn block ${r ? 'ghost' : 'ok'}" id="iGo">${r ? N.ic('rotate-ccw', { size: 20, color: '#142B4A' }) + ' ' + T('replayLesson') : N.ic('play', { size: 20, color: '#fff' }) + ' ' + T('startLesson')}</button>` : `<div class="fb hint on">🔒 ${T('locked')}</div>`}`);
     if (l.example) N.speak(l.example.t, l.lang);
     const go = $('#iGo'); if (go) go.onclick = () => { this.closeSheet(); this.startLesson(l); };
   },
@@ -278,6 +299,9 @@ N.App = {
       ${a.vis ? `<div class="vis">${N.Vis.render(a.vis, lang)}</div>` : ''}
       <div class="game"></div><div class="fb" id="fb"></div>`;
     const bs = $('#bigSay'); if (bs) bs.onclick = () => this.sayAct();
+    /* انتقال بين الأنشطة: النشاط الجديد ينزلق من جهة القراءة */
+    if (st.animate) { const rm = N.motionReduced(), dx = (document.documentElement.dir === 'rtl' ? -1 : 1) * 28;
+      st.animate(rm ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: `translateX(${dx}px)` }, { opacity: 1, transform: 'none' }], { duration: rm ? 150 : 320, easing: 'cubic-bezier(.16,1,.3,1)' }); }
     const fb = $('#fb');
     const api = {
       el: st.querySelector('.game'), lang, kg: it.lesson.grade === 'kg',
@@ -410,10 +434,16 @@ N.App = {
 
   /* ============================ النوافذ ============================ */
   sheet(html) {
+    $('#sheetWrap').classList.remove('out');
     $('#sheet').innerHTML = html; $('#sheetWrap').classList.add('on');
     $('#sheet').querySelectorAll('[data-close]').forEach(b => b.onclick = () => this.closeSheet());
   },
-  closeSheet() { $('#sheetWrap').classList.remove('on'); },
+  closeSheet() {
+    const w = $('#sheetWrap'); if (!w.classList.contains('on') || w.classList.contains('out')) return;
+    /* الخروج أسرع من الدخول (ease-in قصير) ثم الإخفاء */
+    w.classList.add('out');
+    setTimeout(() => { w.classList.remove('on', 'out'); }, N.motionReduced() ? 10 : 190);
+  },
   seg(name, cur, opts) { return `<div class="seg" data-seg="${name}">${opts.map(o => `<button data-v="${o[0]}" class="${String(cur) === String(o[0]) ? 'on' : ''}">${o[1]}</button>`).join('')}</div>`; },
   bindSeg(fn) { $('#sheet').querySelectorAll('[data-seg]').forEach(s => s.querySelectorAll('button').forEach(b => b.onclick = () => fn(s.dataset.seg, b.dataset.v))); },
 
@@ -425,24 +455,24 @@ N.App = {
   },
   settingsSheet() {
     const s = N.DB.data.settings;
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">⚙️</span><h3>${T('settings')} · ${T('a11y')}</h3><button class="ib" data-close>✕</button></div>
-      <div class="setrow"><span class="lbl">🌐 ${T('lang')}</span>${this.seg('lang', s.lang, [['ar', 'العربية'], ['en', 'English']])}</div>
-      <div class="setrow"><span class="lbl">🔠 ${T('fontSize')}</span>${this.seg('font', s.font, [['n', T('fN')], ['l', T('fL')], ['xl', T('fXL')]])}</div>
-      <div class="setrow"><span class="lbl">🗣️ ${T('readAloud')}</span>${this.seg('read', s.read, [['auto', N.lang === 'ar' ? 'تلقائي' : 'Auto'], ['on', T('on')], ['off', T('off')]])}</div>
-      <div class="setrow"><span class="lbl">🔔 ${T('sfx')}</span>${this.seg('sfx', s.sfx, [[true, T('on')], [false, T('off')]])}</div>
-      <div class="setrow"><span class="lbl">◐ ${T('contrast')}</span>${this.seg('contrast', s.contrast, [[true, T('on')], [false, T('off')]])}</div>
-      <div class="setrow"><span class="lbl">🐢 ${T('motion')}</span>${this.seg('motion', s.motion, [[true, T('on')], [false, T('off')]])}</div>`);
+    this.sheet(`<div class="sh">${N.ic('settings', { size: 30, color: '#142B4A' })}<h3>${T('settings')} · ${T('a11y')}</h3><button class="ib" data-close>✕</button></div>
+      <div class="setrow"><span class="lbl">${N.ic('languages', { size: 22, color: '#19B8B0' })} ${T('lang')}</span>${this.seg('lang', s.lang, [['ar', 'العربية'], ['en', 'English']])}</div>
+      <div class="setrow"><span class="lbl">${N.ic('type', { size: 22, color: '#19B8B0' })} ${T('fontSize')}</span>${this.seg('font', s.font, [['n', T('fN')], ['l', T('fL')], ['xl', T('fXL')]])}</div>
+      <div class="setrow"><span class="lbl">${N.ic('speech', { size: 22, color: '#19B8B0' })} ${T('readAloud')}</span>${this.seg('read', s.read, [['auto', N.lang === 'ar' ? 'تلقائي' : 'Auto'], ['on', T('on')], ['off', T('off')]])}</div>
+      <div class="setrow"><span class="lbl">${N.ic('bell', { size: 22, color: '#19B8B0' })} ${T('sfx')}</span>${this.seg('sfx', s.sfx, [[true, T('on')], [false, T('off')]])}</div>
+      <div class="setrow"><span class="lbl">${N.ic('eye', { size: 22, color: '#19B8B0' })} ${T('contrast')}</span>${this.seg('contrast', s.contrast, [[true, T('on')], [false, T('off')]])}</div>
+      <div class="setrow"><span class="lbl">${N.ic('sliders', { size: 22, color: '#19B8B0' })} ${T('motion')}</span>${this.seg('motion', s.motion, [[true, T('on')], [false, T('off')]])}</div>`);
     this.bindSeg((k, v) => { s[k] = v === 'true' ? true : v === 'false' ? false : v; N.DB.save(); N.applySettings(); this.settingsSheet(); if (this.cur === 'home') this.home(); });
   },
   badgesSheet() {
     const p = prog();
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">🏅</span><h3>${T('achievements')}</h3><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh">${N.ic('trophy', { size: 30, color: '#E0A000' })}<h3>${T('achievements')}</h3><button class="ib" data-close>✕</button></div>
       <div class="stat"><div><b>${Object.keys(p.lessons).length}</b><small>${T('lessonsDone')}</small></div><div><b>${Object.values(p.lessons).reduce((s, x) => s + x.stars, 0)}</b><small>${T('starsTotal')}</small></div><div><b>${kid().xp}</b><small>XP</small></div></div>
-      ${N.BADGES.map(b => `<div class="badge ${p.badges.includes(b.id) ? '' : 'lock'}"><span class="bi">${b.e}</span><div class="grow"><b>${N.tn(b.name)}</b><small>${N.tn(b.d)}</small></div>${p.badges.includes(b.id) ? '✅' : '🔒'}</div>`).join('')}`);
+      ${N.BADGES.map(b => `<div class="badge ${p.badges.includes(b.id) ? '' : 'lock'}"><span class="bi">${N.ic(b.ic, { size: 30, color: p.badges.includes(b.id) ? '#19B8B0' : '#9AA3B8' })}</span><div class="grow"><b>${N.tn(b.name)}</b><small>${N.tn(b.d)}</small></div>${p.badges.includes(b.id) ? '✅' : '🔒'}</div>`).join('')}`);
   },
   shopSheet() {
     const k = kid();
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">🛍️</span><h3>${T('shop')}</h3><span class="xp">🪙 ${k.coins}</span><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh">${N.ic('shopping-bag', { size: 30, color: '#E0A000' })}<h3>${T('shop')}</h3><span class="xp">🪙 ${k.coins}</span><button class="ib" data-close>✕</button></div>
       <p class="small muted">${T('shopSub')}</p>
       <div class="avatars">${N.AVATARS.map(a => { const own = !a.p || k.owned.includes(a.e); return `<button class="${a.e === k.av ? 'on' : ''}" data-a="${a.e}" data-p="${a.p}">${a.e}${own ? '' : `<span class="lockp">🪙${a.p}</span>`}</button>`; }).join('')}</div>`);
     $('#sheet').querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
@@ -455,7 +485,7 @@ N.App = {
   /* ---------------- منطقة ولي الأمر ---------------- */
   gate(ok) {
     const a = 3 + Math.floor(Math.random() * 7), b = 6 + Math.floor(Math.random() * 4);
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">👪</span><h3>${T('parentGate')}</h3><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh">${N.ic('users', { size: 30, color: '#142B4A' })}<h3>${T('parentGate')}</h3><button class="ib" data-close>✕</button></div>
       <p style="font-weight:800;font-size:1.3rem;text-align:center">${T('gateQ', { a, b })}</p>
       <input class="field" id="gA" inputmode="numeric" autocomplete="off" style="text-align:center">
       <button class="btn block" id="gGo" style="margin-top:12px">${T('next')}</button>`);
@@ -467,7 +497,7 @@ N.App = {
     const skills = Object.keys(p.skills).map(id => ({ id, st: N.Mastery.state(p.skills[id]), s: p.skills[id] }));
     const support = skills.filter(x => x.st === 'support' || x.st === 'review');
     const stageG = C.grades.filter(g => true);
-    this.sheet(`<div class="sh"><span style="font-size:1.6rem">👪</span><h3>${T('parent')}</h3><button class="ib" data-close>✕</button></div>
+    this.sheet(`<div class="sh">${N.ic('users', { size: 30, color: '#142B4A' })}<h3>${T('parent')}</h3><button class="ib" data-close>✕</button></div>
       <div class="card"><h3>${T('report')}</h3>
         <div class="stat"><div><b>${Object.keys(p.lessons).length}</b><small>${T('lessonsDone')}</small></div><div><b>${Object.values(p.lessons).reduce((s, x) => s + x.stars, 0)}</b><small>${T('starsTotal')}</small></div><div><b>${N.Time.minutes(k)}</b><small>${T('minutesToday')}</small></div></div>
         <div class="setrow"><span class="lbl">${T('changeGrade')}</span><select class="field" id="pGrade" style="max-width:200px;min-height:44px;font-size:1rem">${stageG.map(g => `<option value="${g.id}" ${g.id === k.grade ? 'selected' : ''}>${N.tn(g.name)}</option>`).join('')}</select></div>
@@ -477,9 +507,9 @@ N.App = {
         ${skills.length ? skills.map(x => `<div class="sk"><span class="nm">${esc(N.skillName(x.id))}<small>${Math.round(x.s.score * 100)}% · ${x.s.sessions}×</small></span>${N.Mastery.badge(x.st)}</div>`).join('') : `<p class="small muted">${T('noSkills')}</p>`}
       </div>
       <div class="card" style="margin-top:12px">
-        <div class="setrow"><span class="lbl">⏰ ${T('timeLimit')}</span>${this.seg('limit', par.limit, [[0, T('unlimited')], [15, '15' + T('min')], [30, '30' + T('min')], [45, '45' + T('min')], [60, '60' + T('min')]])}</div>
-        <div class="setrow"><span class="lbl">🔓 ${T('unlockAll')}</span>${this.seg('unlockAll', par.unlockAll, [[true, T('on')], [false, T('off')]])}</div>
-        <div class="setrow"><span class="lbl">⏱️ ${T('allowTimer')}<small>${T('allowTimerSub')}</small></span>${this.seg('allowTimer', par.allowTimer, [[true, T('on')], [false, T('off')]])}</div>
+        <div class="setrow"><span class="lbl">${N.ic('timer', { size: 22, color: '#19B8B0' })} ${T('timeLimit')}</span>${this.seg('limit', par.limit, [[0, T('unlimited')], [15, '15' + T('min')], [30, '30' + T('min')], [45, '45' + T('min')], [60, '60' + T('min')]])}</div>
+        <div class="setrow"><span class="lbl">${N.ic('lock-open', { size: 22, color: '#19B8B0' })} ${T('unlockAll')}</span>${this.seg('unlockAll', par.unlockAll, [[true, T('on')], [false, T('off')]])}</div>
+        <div class="setrow"><span class="lbl">${N.ic('hourglass', { size: 22, color: '#19B8B0' })} ${T('allowTimer')}<small>${T('allowTimerSub')}</small></span>${this.seg('allowTimer', par.allowTimer, [[true, T('on')], [false, T('off')]])}</div>
       </div>
       <p class="small muted" style="margin-top:12px">🔒 ${T('privacy')}</p>
       <button class="btn ghost block" id="pWipe" style="color:var(--err)">⚠️ ${T('delAll')}</button>`);

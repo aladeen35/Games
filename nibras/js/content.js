@@ -41,22 +41,22 @@ N.C = {
     { id: 'm3', stage: 'mid', name: { ar: 'الثالث المتوسط', en: 'Middle 3' }, world: 'w5' }
   ],
   worlds: [
-    { id: 'w1', name: { ar: 'حديقة الاكتشاف', en: 'Discovery Garden' }, e: '🌳', bg: '#58B868' },
-    { id: 'w2', name: { ar: 'قرية الحروف والأعداد', en: 'Letters & Numbers Village' }, e: '🏡', bg: '#1BBFAF' },
-    { id: 'w3', name: { ar: 'مدينة المعرفة', en: 'City of Knowledge' }, e: '🏙️', bg: '#3E8ED0' },
-    { id: 'w4', name: { ar: 'مملكة العلوم والمهارات', en: 'Kingdom of Science & Skills' }, e: '🏰', bg: '#7B68C8' },
-    { id: 'w5', name: { ar: 'مختبر العقول', en: 'Minds Lab' }, e: '🧪', bg: '#2C3E66' }
+    { id: 'w1', ic: 'sprout', name: { ar: 'حديقة الاكتشاف', en: 'Discovery Garden' }, e: '🌳', bg: '#58B868' },
+    { id: 'w2', ic: 'alphabet-blocks', name: { ar: 'قرية الحروف والأعداد', en: 'Letters & Numbers Village' }, e: '🏡', bg: '#1BBFAF' },
+    { id: 'w3', ic: 'building', name: { ar: 'مدينة المعرفة', en: 'City of Knowledge' }, e: '🏙️', bg: '#3E8ED0' },
+    { id: 'w4', ic: 'castle', name: { ar: 'مملكة العلوم والمهارات', en: 'Kingdom of Science & Skills' }, e: '🏰', bg: '#7B68C8' },
+    { id: 'w5', ic: 'flask', name: { ar: 'مختبر العقول', en: 'Minds Lab' }, e: '🧪', bg: '#2C3E66' }
   ],
   subjects: {
-    ar:   { name: { ar: 'اللغة العربية', en: 'Arabic' }, e: '📖', color: '#12A5A0' },
-    math: { name: { ar: 'الرياضيات', en: 'Mathematics' }, e: '🔢', color: '#F28C28' },
-    sci:  { name: { ar: 'العلوم', en: 'Science' }, e: '🔬', color: '#2FA84F' },
-    en:   { name: { ar: 'اللغة الإنجليزية', en: 'English' }, e: '🔤', color: '#5B6BD6' },
-    soc:  { name: { ar: 'التاريخ والجغرافيا', en: 'History & Geography' }, e: '🗺️', color: '#B7793E' },
-    art:  { name: { ar: 'الأشكال والألوان', en: 'Shapes & Colours' }, e: '🎨', color: '#D9608F' },
-    isl:  { name: { ar: 'التربية الإسلامية', en: 'Islamic Studies' }, e: '🕌', color: '#3A8F6B',
+    ar:   { ic: 'book', name: { ar: 'اللغة العربية', en: 'Arabic' }, e: '📖', color: '#12A5A0' },
+    math: { ic: 'calculator', name: { ar: 'الرياضيات', en: 'Mathematics' }, e: '🔢', color: '#F28C28' },
+    sci:  { ic: 'microscope', name: { ar: 'العلوم', en: 'Science' }, e: '🔬', color: '#2FA84F' },
+    en:   { ic: 'languages', name: { ar: 'اللغة الإنجليزية', en: 'English' }, e: '🔤', color: '#5B6BD6' },
+    soc:  { ic: 'globe', name: { ar: 'التاريخ والجغرافيا', en: 'History & Geography' }, e: '🗺️', color: '#B7793E' },
+    art:  { ic: 'palette', name: { ar: 'الأشكال والألوان', en: 'Shapes & Colours' }, e: '🎨', color: '#D9608F' },
+    isl:  { ic: 'lantern', name: { ar: 'التربية الإسلامية', en: 'Islamic Studies' }, e: '🕌', color: '#3A8F6B',
             note: { ar: 'يُضاف بعد مراجعة النصوص من مختصين', en: 'Added after specialist review of texts' } },
-    comp: { name: { ar: 'الحاسوب', en: 'Computer' }, e: '💻', color: '#4A6FA5' }
+    comp: { ic: 'monitor', name: { ar: 'الحاسوب', en: 'Computer' }, e: '💻', color: '#4A6FA5' }
   },
   /* المواد التي تظهر لكل مرحلة (تُضبط من لوحة الإدارة مستقبلًا حسب المقرر الفعلي) */
   stageSubjects: {
