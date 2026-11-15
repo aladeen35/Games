@@ -1,0 +1,126 @@
+[
+ {
+  "grade": "m2",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الثاني المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "كان وأخواتها",
+   "الفاعل ونائب الفاعل"
+  ]
+ },
+ {
+  "grade": "m2",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الثاني المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "النسبة والتناسب",
+   "المعادلات الخطية"
+  ]
+ },
+ {
+  "grade": "m2",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الثاني المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "البناء الضوئي",
+   "فصل المخاليط"
+  ]
+ },
+ {
+  "grade": "m2",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الثاني المتوسط",
+  "need": 11,
+  "existing_titles": [
+   "Past simple"
+  ]
+ },
+ {
+  "grade": "m2",
+  "subject": "soc",
+  "subject_name": "التاريخ والجغرافيا",
+  "grade_name": "الثاني المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "سلطنة الفونج والمهدية",
+   "مناخ السودان"
+  ]
+ },
+ {
+  "grade": "m2",
+  "subject": "comp",
+  "subject_name": "الحاسوب",
+  "grade_name": "الثاني المتوسط",
+  "need": 12,
+  "existing_titles": []
+ },
+ {
+  "grade": "m3",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الثالث المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "إن وأخواتها",
+   "المفعول المطلق"
+  ]
+ },
+ {
+  "grade": "m3",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الثالث المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "نظرية فيثاغورس",
+   "المقادير الجبرية"
+  ]
+ },
+ {
+  "grade": "m3",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الثالث المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "الكهرباء وقانون أوم",
+   "التغيرات الكيميائية والفيزيائية"
+  ]
+ },
+ {
+  "grade": "m3",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الثالث المتوسط",
+  "need": 11,
+  "existing_titles": [
+   "Passive and first conditional"
+  ]
+ },
+ {
+  "grade": "m3",
+  "subject": "soc",
+  "subject_name": "التاريخ والجغرافيا",
+  "grade_name": "الثالث المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "الاستقلال",
+   "نهر النيل وروافده"
+  ]
+ },
+ {
+  "grade": "m3",
+  "subject": "comp",
+  "subject_name": "الحاسوب",
+  "grade_name": "الثالث المتوسط",
+  "need": 12,
+  "existing_titles": []
+ }
+]

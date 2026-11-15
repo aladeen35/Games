@@ -126,7 +126,7 @@ for (const f of files) {
         if (u.title && /وحدة مقترحة/.test(u.title)) u.title = null;
         const lesson = {
           id, grade: g.grade, subject: sb.subject, unit: u.title || (sb.subject === 'en' ? 'Topics' : 'موضوعات عامة'), unitNo, lessonNo,
-          title: l.title || l.skill || `الدرس ${lessonNo}`, topicOnly: topicOnly || !l.verified, outcome: l.outcome || l.title || '', skill: [id, l.skill || l.title || id],
+          title: (l.title && /^Lesson \d+$/i.test(l.title.trim()) && u.title ? `${u.title} · ${l.title.trim().replace(/^Lesson\s*/i, '')}` : l.title) || l.skill || `الدرس ${lessonNo}`, bookNo: /^extra/.test(data.stage || '') ? 99 : (bi || 1), topicOnly: topicOnly || !l.verified, outcome: l.outcome || l.title || '', skill: [id, l.skill || l.title || id],
           lang: l.lang || (sb.subject === 'en' ? 'en' : 'ar'),
           acts: isl ? [] : acts, soon: isl || !acts.length,
           source: { book: book.title || null, edition: book.edition || null, pages: l.pages || null, ref: srcs[l.source] || srcs[book.source] || null, verified: !!(l.verified && sb.toc_verified !== false) },
@@ -142,7 +142,7 @@ for (const f of files) {
 }
 { const seen = new Set(), dup = out.lessons.filter(l => seen.has(l.id) || !seen.add(l.id)).map(l => l.id);
   if (dup.length) { console.error('✗ معرّفات دروس مكررة:', dup.join(', ')); process.exitCode = 1; } }
-out.lessons.sort((a, b) => GRADES.indexOf(a.grade) - GRADES.indexOf(b.grade) || SUBJECTS.indexOf(a.subject) - SUBJECTS.indexOf(b.subject) || a.unitNo - b.unitNo || a.lessonNo - b.lessonNo);
+out.lessons.sort((a, b) => GRADES.indexOf(a.grade) - GRADES.indexOf(b.grade) || SUBJECTS.indexOf(a.subject) - SUBJECTS.indexOf(b.subject) || (a.bookNo || 1) - (b.bookNo || 1) || a.unitNo - b.unitNo || a.lessonNo - b.lessonNo);
 out.version = 'curriculum-' + new Date().toISOString().slice(0, 10);
 if (!process.argv.includes('--check')) fs.writeFileSync(OUT, `/* مُولَّد آليًا بواسطة tools/import-research.mjs من research/curriculum-*.json — لا تعدّله يدويًا */\nwindow.NIBRAS_CUR = ${JSON.stringify(out)};\n`);
 console.log(`ملفات: ${log.files} (+${log.overlayFiles || 0} ملف أنشطة) · دروس: ${log.lessons} (قيد الإعداد ${log.soon}) · أنشطة: ${log.acts} · مستبعد: ${log.dropped.length}`);

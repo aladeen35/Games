@@ -126,3 +126,41 @@ N.Vis = {
   }
 };
 N.normOpt = o => typeof o === 'string' ? { t: o } : o;
+
+/* =====================================================================
+   طابع المادة في شجرة الدروس: نقشة خلفية خاصة بكل مادة + أيقونات زخرفية
+   النقشة بلاط SVG شفاف بلون المادة (140×140)، والأيقونات تطفو بجانب المسار.
+   ===================================================================== */
+N.Theme = {
+  MOTIFS: {
+    ar: ['book-open', 'type', 'speech', 'book'], math: ['calculator', 'abacus', 'target', 'timer'],
+    sci: ['microscope', 'flask', 'sprout', 'lightbulb'], en: ['languages', 'alphabet-blocks', 'speech', 'volume'],
+    soc: ['globe', 'map', 'castle', 'building'], art: ['palette', 'sparkles', 'star', 'gift'],
+    isl: ['lantern', 'book-marked', 'calendar', 'star'], comp: ['monitor', 'gamepad', 'lightbulb', 'settings']
+  },
+  pattern(subject, c) {
+    const o = (v) => `fill="${c}" fill-opacity="${v}"`, so = (v, w = 2) => `fill="none" stroke="${c}" stroke-opacity="${v}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
+    const T = (x, y, s, ch, r = 0, f = 'serif') => `<text x="${x}" y="${y}" font-size="${s}" font-family="${f}" font-weight="700" ${o(.13)} transform="rotate(${r} ${x} ${y})" text-anchor="middle">${ch}</text>`;
+    let g = '';
+    switch (subject) {
+      case 'ar': g = T(28, 40, 30, 'ب', -12) + T(100, 34, 26, 'ض', 10) + T(64, 92, 34, 'ع', -6) + T(24, 124, 24, 'ن', 14) + T(112, 118, 28, 'م', -10); break;
+      case 'math': g = [20, 40, 60, 80, 100, 120].map(v => `<path d="M${v} 0V140M0 ${v}H140" ${so(.06, 1)}/>`).join('') +
+        `<path d="M22 22h14M29 15v14" ${so(.2, 3)}/><path d="M98 30h14" ${so(.2, 3)}/><path d="M60 92l10 10M70 92l-10 10" ${so(.2, 3)}/><path d="M108 104h12M114 98v0M114 110v0" ${so(.22, 3.4)}/><path d="M24 112h14M24 118h14" ${so(.2, 3)}/>`; break;
+      case 'sci': g = `<g transform="translate(36 38)"><ellipse rx="22" ry="8" ${so(.16)}/><ellipse rx="22" ry="8" transform="rotate(60)" ${so(.16)}/><ellipse rx="22" ry="8" transform="rotate(-60)" ${so(.16)}/><circle r="3.5" ${o(.25)}/></g>` +
+        `<path d="M86 96l10-6 10 6v12l-10 6-10-6z M106 96l10-6 10 6v12l-10 6-10-6z" ${so(.14)}/><circle cx="104" cy="32" r="6" ${so(.14)}/><circle cx="116" cy="46" r="3.5" ${so(.14)}/><circle cx="30" cy="110" r="8" ${so(.12)}/>`; break;
+      case 'en': g = T(26, 42, 30, 'A', -10, 'sans-serif') + T(102, 36, 26, 'b', 12, 'sans-serif') + T(66, 94, 32, 'C', -4, 'sans-serif') + T(24, 126, 22, 'e', 10, 'sans-serif') + T(114, 122, 28, 'K', -12, 'sans-serif'); break;
+      case 'soc': g = `<path d="M20 70c0-30 40-44 60-30s46 6 50 30-30 50-60 46S20 100 20 70z" ${so(.1)}/><path d="M38 70c0-18 26-28 40-18s30 4 32 18-20 32-40 30-32-12-32-30z" ${so(.12)}/><path d="M56 70c0-8 12-12 20-8s14 2 14 8-8 14-18 13-16-5-16-13z" ${so(.14)}/>` +
+        `<g transform="translate(116 24)"><path d="M0-11 3-3 11 0 3 3 0 11-3 3-11 0-3-3z" ${o(.2)}/></g>`; break;
+      case 'art': g = `<path d="M30 30c10-12 30-6 28 8s-22 20-30 10-8-10 2-18z" ${o(.12)}/><circle cx="104" cy="40" r="10" fill="#FFC857" fill-opacity=".18"/><circle cx="96" cy="104" r="14" ${o(.1)}/><path d="M20 110q20-24 44-6t40-12" ${so(.16, 4)}/><circle cx="60" cy="70" r="4" fill="#F2545B" fill-opacity=".18"/>`; break;
+      case 'isl': { const star = (x, y, r) => `<g transform="translate(${x} ${y})"><rect x="${-r}" y="${-r}" width="${2 * r}" height="${2 * r}" ${so(.14, 1.6)}/><rect x="${-r}" y="${-r}" width="${2 * r}" height="${2 * r}" transform="rotate(45)" ${so(.14, 1.6)}/><circle r="${r * .38}" ${so(.12, 1.4)}/></g>`;
+        g = star(70, 70, 26) + star(0, 0, 18) + star(140, 0, 18) + star(0, 140, 18) + star(140, 140, 18); break; }
+      case 'comp': g = `<path d="M10 30H50V70H90V30H130M30 140V100H70V120M110 140V96H140M0 96H20" ${so(.13)}/>` + [[50, 30], [90, 70], [130, 30], [30, 100], [70, 120], [110, 96], [20, 96]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.5" ${o(.2)}/>`).join(''); break;
+      default: g = `<circle cx="70" cy="70" r="20" ${so(.1)}/>`;
+    }
+    return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140">${g}</svg>`)}")`;
+  },
+  vars(subject, color) {
+    const V = N.Vis;
+    return `--sc:${color};--sc-d:${V._shade(color, -.28)};--sc-l:${V._shade(color, .35)};--sc-t:${V._shade(color, .88)};--pat:${this.pattern(subject, color)}`;
+  }
+};

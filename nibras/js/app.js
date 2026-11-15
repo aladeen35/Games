@@ -222,11 +222,16 @@ N.App = {
       pts.push({ x: W * [0.5, 0.74, 0.5, 0.26][i % 4], y: y + 50, l, i }); y += 180;
     });
     const H = y + 20, playN = ls.filter(l => !l.soon).length, d = ls.filter(l => p.lessons[l.id]).length, starsT = ls.reduce((a, l) => a + (p.lessons[l.id] ? p.lessons[l.id].stars : 0), 0);
-    const trail = pts.slice(1).map((q, i) => { const a = pts[i]; const done = p.lessons[a.l.id] && p.lessons[q.l.id]; return `<line x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}" stroke="${done ? '#19B8B0' : '#C7CDDD'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${done ? '' : '1 14'}"/>`; }).join('');
+    const trail = pts.slice(1).map((q, i) => { const a = pts[i]; const done = p.lessons[a.l.id] && p.lessons[q.l.id]; return `<line x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}" stroke="${done ? S.color : '#C7CDDD'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${done ? '' : '1 14'}"/>`; }).join('');
     const sec = $('#path');
-    sec.innerHTML = this.hdr(`<button class="hi" id="pBack">${N.ic(N.lang === 'ar' ? 'arrow-right' : 'arrow-left', { size: 22, color: '#7FE3DD' })}</button>`, `<h2 class="ttl">${N.ic(S.ic, { size: 26, color: '#FFC857' })} ${N.tn(S.name)}</h2>`, `${N.tn(w.name)} · ${gradeName(grade)}`, '',
+    sec.setAttribute('style', N.Theme.vars(subject, S.color)); sec.dataset.subj = subject;
+    /* أيقونات زخرفية بطابع المادة على الجانب المقابل لكل عقدة */
+    const motifs = N.Theme.MOTIFS[subject] || N.Theme.MOTIFS.ar;
+    const decor = pts.map((q, i) => { const side = q.x / W > .6 ? .14 : q.x / W < .4 ? .86 : (i % 2 ? .12 : .88);
+      return `<span class="decor" style="left:${Math.round(W * side) - 24}px;top:${q.y - 34}px;animation-delay:${(i % 5) * .7}s">${N.ic(motifs[i % motifs.length], { size: 48, color: S.color })}</span>`; }).join('');
+    sec.innerHTML = this.hdr(`<button class="hi" id="pBack">${N.ic(N.lang === 'ar' ? 'arrow-right' : 'arrow-left', { size: 22, color: '#7FE3DD' })}</button>`, `<h2 class="ttl">${N.ic(S.ic, { size: 26, color: '#FFC857' })} ${N.tn(S.name)}</h2>`, `${N.tn(w.name)} · ${gradeName(grade)}`, `<span class="subj-hero">${N.ic(S.ic, { size: 92, color: S.color })}</span>`,
         ls.length ? `<div class="row" style="justify-content:center;gap:8px"><span class="chipg">${N.ic('book-open', { size: 16, color: '#7FE3DD' })} ${T('lessonsCount', { d, n: playN })}${playN < ls.length ? ' · ' + T('inToc', { n: ls.length }) : ''}</span><span class="chipg">${N.ic('star', { size: 16, color: '#FFC857' })} ${starsT} / ${playN * 3}</span></div>` : '')
-      + `<div class="panel"><div class="in">${ls.length ? `<div class="pmap" style="height:${H}px;width:${W}px"><svg class="trail" viewBox="0 0 ${W} ${H}">${trail}</svg>
+      + `<div class="panel"><div class="in">${ls.length ? `<div class="pmap" style="height:${H}px;width:${W}px"><svg class="trail" viewBox="0 0 ${W} ${H}">${trail}</svg>${decor}
       ${flags.map(f => `<div class="unitflag" style="top:${f.y}px">${N.ic('book-marked', { size: 16, color: '#FFC857' })} ${esc(f.t)}</div>`).join('')}
       ${pts.map(q => {
         const r = p.lessons[q.l.id], un = this.unlocked(q.l), st = N.Mastery.state(p.skills[q.l.skill[0]]);

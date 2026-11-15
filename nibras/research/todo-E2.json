@@ -1,0 +1,141 @@
+[
+ {
+  "grade": "g3",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الصف الثالث",
+  "need": 3,
+  "existing_titles": [
+   "حب الوالدين",
+   "العيش الشريف",
+   "العودة إلى المدرسة",
+   "بطلة من بلادي",
+   "خلية النحل",
+   "الفأر والقط",
+   "النمل",
+   "الحواس الخمس",
+   "الدواء في الغذاء"
+  ]
+ },
+ {
+  "grade": "g4",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الصف الرابع",
+  "need": 12,
+  "existing_titles": [
+   "الضرب: مجموعات متساوية",
+   "الكسور: الجزء من الكل"
+  ]
+ },
+ {
+  "grade": "g4",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الصف الرابع",
+  "need": 12,
+  "existing_titles": [
+   "ماذا تأكل الحيوانات؟"
+  ]
+ },
+ {
+  "grade": "g6",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الصف السادس",
+  "need": 12,
+  "existing_titles": []
+ },
+ {
+  "grade": "g6",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الصف السادس",
+  "need": 9,
+  "existing_titles": [
+   "مفهوم المجموعة",
+   "طرق التعبير عن المجموعة",
+   "طرق التعبير عن المجموعة"
+  ]
+ },
+ {
+  "grade": "g6",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الصف السادس",
+  "need": 12,
+  "existing_titles": [
+   "دورة الماء: السبب والنتيجة"
+  ]
+ },
+ {
+  "grade": "g6",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الصف السادس",
+  "need": 12,
+  "existing_titles": []
+ },
+ {
+  "grade": "m1",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الأول المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "الجملة الاسمية والفعلية",
+   "أقسام الكلام"
+  ]
+ },
+ {
+  "grade": "m1",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الأول المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "الأعداد الصحيحة",
+   "حل المعادلات البسيطة"
+  ]
+ },
+ {
+  "grade": "m1",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الأول المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "حالات المادة وتغيراتها",
+   "الخلية"
+  ]
+ },
+ {
+  "grade": "m1",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الأول المتوسط",
+  "need": 11,
+  "existing_titles": [
+   "Present simple vs continuous"
+  ]
+ },
+ {
+  "grade": "m1",
+  "subject": "soc",
+  "subject_name": "التاريخ والجغرافيا",
+  "grade_name": "الأول المتوسط",
+  "need": 10,
+  "existing_titles": [
+   "جغرافية السودان",
+   "ممالك قديمة: كوش"
+  ]
+ },
+ {
+  "grade": "m1",
+  "subject": "comp",
+  "subject_name": "الحاسوب",
+  "grade_name": "الأول المتوسط",
+  "need": 12,
+  "existing_titles": []
+ }
+]

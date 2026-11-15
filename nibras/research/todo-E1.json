@@ -1,0 +1,164 @@
+[
+ {
+  "grade": "kg",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الروضة",
+  "need": 8,
+  "existing_titles": [
+   "الحروف أ ب ت",
+   "الحروف ث ج ح خ",
+   "الحروف د ذ ر ز",
+   "مفردات: حيوانات بيئتنا"
+  ]
+ },
+ {
+  "grade": "kg",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الروضة",
+  "need": 8,
+  "existing_titles": [
+   "العد من 1 إلى 5",
+   "العد من 6 إلى 10",
+   "الأشكال الهندسية",
+   "أكثر وأقل، كبير وصغير"
+  ]
+ },
+ {
+  "grade": "kg",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الروضة",
+  "need": 8,
+  "existing_titles": [
+   "حواسي الخمس",
+   "نباتات وحيوانات",
+   "الماء والنظافة",
+   "الطقس: حر ومطر"
+  ]
+ },
+ {
+  "grade": "kg",
+  "subject": "art",
+  "subject_name": "الأشكال والألوان",
+  "grade_name": "الروضة",
+  "need": 10,
+  "existing_titles": [
+   "الألوان",
+   "الأنماط"
+  ]
+ },
+ {
+  "grade": "g1",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الصف الأول",
+  "need": 8,
+  "existing_titles": [
+   "الحروف وأصواتها",
+   "الحركات: الفتحة والضمة والكسرة",
+   "حروف المد",
+   "من الكلمة إلى الجملة"
+  ]
+ },
+ {
+  "grade": "g1",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الصف الأول",
+  "need": 8,
+  "existing_titles": [
+   "الأعداد حتى 20",
+   "المقارنة والترتيب",
+   "الجمع في حدود 10",
+   "الطرح في حدود 10"
+  ]
+ },
+ {
+  "grade": "g1",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الصف الأول",
+  "need": 12,
+  "existing_titles": [
+   "حواسي الخمس"
+  ]
+ },
+ {
+  "grade": "g1",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الصف الأول",
+  "need": 8,
+  "existing_titles": [
+   "Letters A to F",
+   "Colours",
+   "Animals",
+   "Numbers 1 to 10"
+  ]
+ },
+ {
+  "grade": "g1",
+  "subject": "soc",
+  "subject_name": "التاريخ والجغرافيا",
+  "grade_name": "الصف الأول",
+  "need": 12,
+  "existing_titles": []
+ },
+ {
+  "grade": "g2",
+  "subject": "ar",
+  "subject_name": "اللغة العربية",
+  "grade_name": "الصف الثاني",
+  "need": 8,
+  "existing_titles": [
+   "التنوين",
+   "اللام الشمسية والقمرية",
+   "المذكر والمؤنث",
+   "ترتيب كلمات الجملة"
+  ]
+ },
+ {
+  "grade": "g2",
+  "subject": "math",
+  "subject_name": "الرياضيات",
+  "grade_name": "الصف الثاني",
+  "need": 8,
+  "existing_titles": [
+   "الأعداد حتى 100 (آحاد وعشرات)",
+   "الجمع والطرح",
+   "مدخل إلى الضرب (جمع متكرر)",
+   "الأعداد الزوجية والفردية"
+  ]
+ },
+ {
+  "grade": "g2",
+  "subject": "sci",
+  "subject_name": "العلوم",
+  "grade_name": "الصف الثاني",
+  "need": 12,
+  "existing_titles": []
+ },
+ {
+  "grade": "g2",
+  "subject": "en",
+  "subject_name": "اللغة الإنجليزية",
+  "grade_name": "الصف الثاني",
+  "need": 8,
+  "existing_titles": [
+   "Greetings",
+   "My family",
+   "Fruits",
+   "Days of the week"
+  ]
+ },
+ {
+  "grade": "g2",
+  "subject": "soc",
+  "subject_name": "التاريخ والجغرافيا",
+  "grade_name": "الصف الثاني",
+  "need": 12,
+  "existing_titles": []
+ }
+]
