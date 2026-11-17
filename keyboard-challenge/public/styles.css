@@ -254,6 +254,14 @@ kbd { font-family: var(--font); font-size: 0.85em; padding: 1px 8px; border-radi
 .hud-stat .lbl { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
 .hud-stat .val { font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .hud-stat.timer .val { color: var(--sand); }
+.hud-stat.rank .val { color: var(--muted); }
+.hud-stat.rank .val.lead { color: var(--green); }
+.track-gap {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2; white-space: nowrap;
+  font-size: 0.8rem; font-weight: 800; padding: 1px 12px; border-radius: 999px;
+  background: rgba(9, 24, 43, 0.75); color: var(--sand);
+}
+.track-gap:empty { display: none; }
 .hud-stat .val.low { color: var(--wrong-text); }
 .timebar { height: 6px; border-radius: 99px; background: var(--card); overflow: hidden; }
 .timebar span { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--brick), var(--sand), var(--green)); transform-origin: right; transition: transform 0.25s linear; }
@@ -275,9 +283,10 @@ kbd { font-family: var(--font); font-size: 0.85em; padding: 1px 8px; border-radi
 .lane { position: relative; height: 72px; padding: 16px 8px 0 54px; border-bottom: 2px dashed rgba(9, 24, 43, 0.25); }
 .lane:last-child { border-bottom: 0; }
 .lane-inner { position: relative; height: 100%; }
-.runner { --x: 1; position: absolute; bottom: 2px; left: calc(var(--x) * (100% - var(--runner-w))); width: var(--runner-w); display: grid; justify-items: center; transition: left 0.25s linear; }
+.runner { --step: 0.4s; position: absolute; bottom: 2px; left: 0; width: var(--runner-w); display: grid; justify-items: center; will-change: transform; }
 .runner-tag {
-  position: absolute; bottom: calc(100% - 4px); left: calc(var(--x) * 100%); transform: translateX(calc(var(--x) * -100%));
+  /* يبقى الاسم داخل المضمار: مثبت يمينًا عند البداية ويسارًا عند النهاية (--tx من الكود) */
+  position: absolute; bottom: calc(100% - 4px); left: calc(var(--tx, 0.5) * 100%); transform: translateX(calc(var(--tx, 0.5) * -100%));
   white-space: nowrap; font-size: 0.76rem; font-weight: 800; line-height: 1.35; padding: 0 8px; border-radius: 8px;
   background: rgba(9, 24, 43, 0.9); color: var(--text); display: flex; gap: 6px; max-width: 190px; overflow: hidden;
 }
@@ -288,13 +297,25 @@ kbd { font-family: var(--font); font-size: 0.85em; padding: 1px 8px; border-radi
 .runner-body { --body-h: 56px; width: 100%; height: var(--body-h); display: grid; place-items: end center; }
 .runner-body img, .runner-body svg { height: var(--body-h); width: auto; max-width: none; }
 .runner-shadow { width: 70%; height: 6px; border-radius: 50%; background: rgba(9, 24, 43, 0.35); margin-top: -2px; }
-.runner.moving:not(.me) .runner-body { animation: run-bob 0.32s ease-in-out infinite alternate; }
-.runner.done:not(.me) .runner-body { animation: win-hop 0.6s ease-in-out 3; }
+/* إيقاع الحركة يتبع السرعة الفعلية (--step من الكود)، ويتوقف عند الوقوف */
+.runner.moving .runner-body:has(> svg) { animation: run-bob var(--step) ease-in-out infinite alternate; }
+.runner .runner-body .sprite.pose-run, .runner .runner-body .sprite.pose-near { animation-duration: var(--step); }
+.runner.still .runner-body, .runner.still .sprite, .runner.still .bot-svg .leg-a, .runner.still .bot-svg .leg-b { animation-play-state: paused; }
+.runner.done:not(.me) .runner-body:has(> svg) { animation: win-hop 0.6s ease-in-out 3; }
 @keyframes run-bob { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-5px) rotate(2deg); } }
 @keyframes win-hop { 50% { transform: translateY(-12px) scale(1.06); } }
 .bot-svg .leg-a, .bot-svg .leg-b { transform-origin: 32px 46px; }
-.runner.moving .bot-svg .leg-a { animation: leg 0.32s ease-in-out infinite alternate; }
-.runner.moving .bot-svg .leg-b { animation: leg 0.32s ease-in-out infinite alternate-reverse; }
+.runner.moving .bot-svg .leg-a { animation: leg var(--step) ease-in-out infinite alternate; }
+.runner.moving .bot-svg .leg-b { animation: leg var(--step) ease-in-out infinite alternate-reverse; }
+/* غبار خلف المتسابق السريع */
+.runner-shadow { position: relative; }
+.runner-shadow::before, .runner-shadow::after {
+  content: ''; position: absolute; bottom: 2px; right: -6px; width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(239, 196, 119, 0.55); opacity: 0; pointer-events: none;
+}
+.runner.fast .runner-shadow::before { animation: dust var(--step) ease-out infinite; }
+.runner.fast .runner-shadow::after { animation: dust var(--step) ease-out infinite; animation-delay: calc(var(--step) / 2); right: -2px; }
+@keyframes dust { 0% { opacity: 0.8; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(14px, -10px) scale(1.6); } }
 @keyframes leg { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
 .lanes.compact .lane { height: 56px; padding-top: 14px; }
 .lanes.compact .runner-body { --body-h: 40px; }
@@ -545,6 +566,7 @@ body.kb-open .screen-game .hud-meta, body.kb-open .screen-game .text-source { di
 body.kb-open .screen-game .hud-stat { min-width: 58px; padding: 0 6px; }
 body.kb-open .screen-game .hud-stat .val { font-size: 1.05rem; }
 body.kb-open .screen-game .hud-stat .lbl { font-size: 0.66rem; }
+body.kb-open .track-gap { display: none; }
 body.kb-open .screen-game .icon-btn { width: 38px; height: 38px; }
 body.kb-open .screen-game .timebar { height: 4px; }
 body.kb-open .lanes .lane { height: 38px; padding-top: 11px; }

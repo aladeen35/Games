@@ -86,6 +86,15 @@ export const sfx = {
     tone({ freq: 1175, to: 1568, type: 'triangle', dur: 0.4, vol: 0.12, delay: 0.26 });
     tone({ freq: 392, type: 'sine', dur: 0.6, vol: 0.05, delay: 0.26 });
   },
+  /** تجاوزت منافسًا: بليب صاعد قصير */
+  overtake() {
+    tone({ freq: 660, to: 1320, type: 'triangle', dur: 0.16, vol: 0.09 });
+  },
+  /** تجاوزك منافس: نغمتان هابطتان */
+  overtaken() {
+    tone({ freq: 520, to: 390, type: 'triangle', dur: 0.14, vol: 0.07 });
+    tone({ freq: 390, to: 300, type: 'triangle', dur: 0.16, vol: 0.06, delay: 0.12 });
+  },
   /** انتهاء الوقت */
   timeout() {
     tone({ freq: 440, to: 220, type: 'triangle', dur: 0.4, vol: 0.09 });

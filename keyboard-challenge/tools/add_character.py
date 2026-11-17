@@ -2,7 +2,8 @@
 """إضافة شخصية جديدة للعبة من 5 صور شفافة (PNG/WebP).
 
 الاستخدام:
-  python3 tools/add_character.py <id> "<الاسم>" --run a.png --error b.png --near c.png --won d.png --lost e.png [--gender f]
+  python3 tools/add_character.py <id> "<الاسم>" --run a.png --error b.png --near c.png --won d.png --lost e.png [--gender f] [--no-badge]
+  صورة واحدة فقط؟ مررها لكل الوضعيات الخمس. خلفية ملونة؟ أزلها أولًا بـ tools/cutout.py
 
 ينتج في public/characters/<id>/:
   <pose>.webp       الصورة الكاملة (بالشارة) للمدرب وشاشة النتيجة
@@ -35,6 +36,7 @@ def main():
     p.add_argument('id')
     p.add_argument('name')
     p.add_argument('--gender', default='m', choices=['m', 'f'])
+    p.add_argument('--no-badge', action='store_true', help='الصور بلا شارة سفلية: لا تُقص للمضمار')
     for pose in POSES:
         p.add_argument(f'--{pose}', nargs='+', required=True)
     args = p.parse_args()
@@ -42,16 +44,21 @@ def main():
     out = os.path.join(ROOT, args.id)
     os.makedirs(out, exist_ok=True)
     entry = {'id': args.id, 'name': args.name, 'gender': args.gender, 'poses': {}, 'lane': {}, 'thumb': f'{args.id}/thumb.webp'}
+    written = {}  # مسار المصدر → (full, lane) لتجنب تكرار الصورة نفسها بين الوضعيات
     for pose in POSES:
         fulls, lanes = [], []
         for i, src in enumerate(getattr(args, pose)[:3], start=1):
+            key = os.path.abspath(src)
+            if key in written and i == 1:
+                fulls.append(written[key][0]); lanes.append(written[key][1]); continue
             im = trim(Image.open(src).convert('RGBA'))
             suffix = '' if i == 1 else f'-{i}'
             fit_h(im, FULL_H).save(os.path.join(out, f'{pose}{suffix}.webp'), quality=82, method=6)
-            body = trim(im.crop((0, 0, im.width, round(im.height * BADGE_CUT))))
+            body = im if args.no_badge else trim(im.crop((0, 0, im.width, round(im.height * BADGE_CUT))))
             fit_h(body, LANE_H).save(os.path.join(out, f'lane-{pose}{suffix}.webp'), quality=82, method=6)
             fulls.append(f'{args.id}/{pose}{suffix}.webp')
             lanes.append(f'{args.id}/lane-{pose}{suffix}.webp')
+            if i == 1: written[key] = (fulls[-1], lanes[-1])
             if pose == 'run' and i == 1:
                 head = body.crop((0, 0, body.width, min(body.height, body.width)))
                 s = max(head.size)

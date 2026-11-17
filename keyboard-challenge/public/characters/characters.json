@@ -79,6 +79,166 @@
         ]
       },
       "thumb": "jinan/thumb.webp"
+    },
+    {
+      "id": "salma",
+      "name": "سلمى",
+      "gender": "f",
+      "poses": {
+        "run": [
+          "salma/run.webp"
+        ],
+        "error": [
+          "salma/run.webp"
+        ],
+        "near": [
+          "salma/run.webp"
+        ],
+        "won": [
+          "salma/run.webp"
+        ],
+        "lost": [
+          "salma/run.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "salma/lane-run.webp"
+        ],
+        "error": [
+          "salma/lane-run.webp"
+        ],
+        "near": [
+          "salma/lane-run.webp"
+        ],
+        "won": [
+          "salma/lane-run.webp"
+        ],
+        "lost": [
+          "salma/lane-run.webp"
+        ]
+      },
+      "thumb": "salma/thumb.webp"
+    },
+    {
+      "id": "alhaj",
+      "name": "الحاج",
+      "gender": "m",
+      "poses": {
+        "run": [
+          "alhaj/run.webp"
+        ],
+        "error": [
+          "alhaj/run.webp"
+        ],
+        "near": [
+          "alhaj/run.webp"
+        ],
+        "won": [
+          "alhaj/run.webp"
+        ],
+        "lost": [
+          "alhaj/run.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "alhaj/lane-run.webp"
+        ],
+        "error": [
+          "alhaj/lane-run.webp"
+        ],
+        "near": [
+          "alhaj/lane-run.webp"
+        ],
+        "won": [
+          "alhaj/lane-run.webp"
+        ],
+        "lost": [
+          "alhaj/lane-run.webp"
+        ]
+      },
+      "thumb": "alhaj/thumb.webp"
+    },
+    {
+      "id": "wadalbalad",
+      "name": "ود البلد",
+      "gender": "m",
+      "poses": {
+        "run": [
+          "wadalbalad/run.webp"
+        ],
+        "error": [
+          "wadalbalad/run.webp"
+        ],
+        "near": [
+          "wadalbalad/run.webp"
+        ],
+        "won": [
+          "wadalbalad/run.webp"
+        ],
+        "lost": [
+          "wadalbalad/run.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "wadalbalad/lane-run.webp"
+        ],
+        "error": [
+          "wadalbalad/lane-run.webp"
+        ],
+        "near": [
+          "wadalbalad/lane-run.webp"
+        ],
+        "won": [
+          "wadalbalad/lane-run.webp"
+        ],
+        "lost": [
+          "wadalbalad/lane-run.webp"
+        ]
+      },
+      "thumb": "wadalbalad/thumb.webp"
+    },
+    {
+      "id": "bitalnil",
+      "name": "بت النيل",
+      "gender": "f",
+      "poses": {
+        "run": [
+          "bitalnil/run.webp"
+        ],
+        "error": [
+          "bitalnil/run.webp"
+        ],
+        "near": [
+          "bitalnil/run.webp"
+        ],
+        "won": [
+          "bitalnil/run.webp"
+        ],
+        "lost": [
+          "bitalnil/run.webp"
+        ]
+      },
+      "lane": {
+        "run": [
+          "bitalnil/lane-run.webp"
+        ],
+        "error": [
+          "bitalnil/lane-run.webp"
+        ],
+        "near": [
+          "bitalnil/lane-run.webp"
+        ],
+        "won": [
+          "bitalnil/lane-run.webp"
+        ],
+        "lost": [
+          "bitalnil/lane-run.webp"
+        ]
+      },
+      "thumb": "bitalnil/thumb.webp"
     }
   ]
 }

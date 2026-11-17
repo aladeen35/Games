@@ -7,6 +7,7 @@ import { CATEGORIES, KINDS, MIX, getText, allTextIds, textCount, categoryMeta, k
 import { api, isApp, hasServer, getServerUrl, setServerUrl } from './api.js';
 import { sfx, unlockAudio, isSoundOn, setSound } from './audio.js';
 import { buildKeyboard, highlightNext, flashKey } from './keyboard.js';
+import { BotTypist, botTargetCps, botProfile, PaceMeter, Follower, rankRacers, PERSONALITIES } from './shared/race-sim.js';
 import { Sprite, loadCharacters, characters, characterById, isCharacterId, DEFAULT_CHARACTER } from './sprite.js';
 import { bt } from './bt.js';
 
@@ -21,7 +22,7 @@ const el = {
   charCards: $('charCards'), catCards: $('catCards'), kindCards: $('kindCards'), levelChips: $('levelChips'), levelHint: $('levelHint'),
   setupTitle: $('setupTitle'), setupGo: $('setupGo'),
   quitBtn: $('quitBtn'), hudCat: $('hudCat'), hudKind: $('hudKind'), timer: $('timer'), wpm: $('wpm'), accuracy: $('accuracy'),
-  timebar: $('timebar'), lanes: $('lanes'), coachBubble: $('coachBubble'),
+  timebar: $('timebar'), lanes: $('lanes'), coachBubble: $('coachBubble'), rank: $('rank'), gap: $('gap'),
   textTitle: $('textTitle'), textProgress: $('textProgress'), phraseWrap: $('phraseWrap'), phrase: $('phrase'), textSource: $('textSource'),
   textCard: $('textCard'), input: $('input'), currentChar: $('currentChar'), statusLine: $('statusLine'), vkb: $('vkb'),
   countdown: $('countdown'), countdownNum: $('countdownNum'),
@@ -43,10 +44,12 @@ const el = {
 };
 
 const BOTS = [
-  { id: 'bot1', name: 'ود البلد', color: '#5BD6A7' },
-  { id: 'bot2', name: 'بت النيل', color: '#E58A74' },
-  { id: 'bot3', name: 'حاج السرعة', color: '#8CC4EE' },
+  { id: 'bot1', name: 'ود البلد', color: '#5BD6A7', personality: 'closer' },
+  { id: 'bot2', name: 'بت النيل', color: '#E58A74', personality: 'starter' },
+  { id: 'bot3', name: 'حاج السرعة', color: '#8CC4EE', personality: 'steady' },
 ];
+// نسبة أخطاء المنافسين الآليين لكل مستوى
+const BOT_ERROR_RATE = { easy: 0.045, medium: 0.03, rocket: 0.018 };
 const PLAYER_COLORS = ['#EFC477', '#5BD6A7', '#E58A74', '#8CC4EE', '#C9A7F2', '#F2A7C8', '#A7E0F2', '#F2D7A7'];
 const COACH_LINES = {
   run: ['يلا يا بطل!', 'واصل!', 'كدا تمام!', 'أصابعك ذهب!'],
@@ -54,6 +57,8 @@ const COACH_LINES = {
   near: ['قربت! شد حيلك', 'النهاية قدامك!', 'آخر شوية!'],
   won: ['أسرع زول!'],
   lost: ['المرة الجاية!'],
+  overtake: ['تجاوزته! 🔥', 'كدا الكلام!', 'في المقدمة!'],
+  overtaken: ['سبقك! الحقه', 'ركّز وارجع!', 'لا تخليه يبعد!'],
 };
 
 // ───────────── التخزين المحلي ─────────────
@@ -332,7 +337,7 @@ function racers() {
       id: `u${p.userId}`, name: p.isMe ? `${p.displayName} (أنت)` : p.displayName, isMe: p.isMe,
       progress: p.isMe ? (r.status === 'finished' ? 1 : me) : p.progress / 100,
       color: PLAYER_COLORS[i % PLAYER_COLORS.length], moving: running && !p.finished && p.active, inactive: !p.active, done: p.finished,
-      character: p.isMe ? myChar() : p.character, place: p.place,
+      character: p.isMe ? myChar() : p.character, place: p.place, finishedAt: p.finished ? (p.place ?? 0) : null, remote: !p.isMe,
     }));
   }
   if (r.mode === 'bt') {
@@ -340,19 +345,24 @@ function racers() {
       id: `b${p.id}`, name: p.isMe ? `${p.name} (أنت)` : p.name, isMe: p.isMe,
       progress: p.isMe ? (r.status === 'finished' ? 1 : me) : p.progress,
       color: PLAYER_COLORS[i % PLAYER_COLORS.length], moving: running && !p.finished, done: p.finished,
-      character: p.isMe ? myChar() : p.character, place: p.place,
+      character: p.isMe ? myChar() : p.character, place: p.place, finishedAt: p.finished ? (p.place ?? 0) : null, remote: !p.isMe,
     }));
   }
   return [
-    { id: 'me', name: `${nick()} (أنت)`, progress: me, isMe: true, moving: running, done: r.status === 'finished', character: myChar() },
+    {
+      id: 'me', name: `${nick()} (أنت)`, progress: me, isMe: true, moving: running, done: r.status === 'finished', character: myChar(),
+      finishedAt: r.result?.completed ? r.result.elapsedMs : null,
+    },
     ...r.bots.map((b) => ({
-      id: b.id, name: b.name, color: b.color, progress: b.progress, moving: running && b.progress < 1 && !b.paused, done: b.progress >= 1,
-      character: b.character, place: b.finishAt != null ? 1 + r.bots.filter((o) => o.finishAt != null && o.finishAt < b.finishAt).length + (r.result?.completed && r.result.elapsedMs < b.finishAt ? 1 : 0) : null,
+      id: b.id, name: b.name, color: b.color, progress: b.sim.progress, character: b.character,
+      moving: running && b.sim.state === 'typing' && b.sim.finishedAt == null, done: b.sim.finishedAt != null,
+      state: b.sim.state, finishedAt: b.sim.finishedAt,
+      place: b.sim.finishedAt != null ? 1 + r.bots.filter((o) => o.sim.finishedAt != null && o.sim.finishedAt < b.sim.finishedAt).length + (r.result?.completed && r.result.elapsedMs < b.sim.finishedAt ? 1 : 0) : null,
     })),
   ];
 }
 
-function renderLanes() {
+function renderLanes(dt = 1 / 60, now = performance.now()) {
   const list = racers();
   const seen = new Set();
   el.lanes.classList.toggle('compact', list.length > 4);
@@ -369,6 +379,7 @@ function renderLanes() {
       inner.className = 'lane-inner';
       const runner = document.createElement('div');
       runner.className = 'runner';
+      runner.style.transform = 'translate3d(0, 0, 0)';
       const tag = document.createElement('span');
       tag.className = 'runner-tag';
       const name = document.createElement('span');
@@ -392,20 +403,97 @@ function renderLanes() {
       runner.append(tag, body, shadow);
       inner.append(runner);
       li.append(inner);
-      node = { li, runner, name, pct, isMe: !!r.isMe, charKey, sprite };
+      node = {
+        li, runner, inner, name, pct, isMe: !!r.isMe, charKey, sprite,
+        follower: new Follower(0), lastObs: -1, lastName: '', lastPct: '', lastStep: 0, px: -1,
+      };
       laneNodes.set(r.id, node);
     }
     if (el.lanes.children[i] !== node.li) el.lanes.insertBefore(node.li, el.lanes.children[i] ?? null);
-    node.name.textContent = r.name;
-    node.pct.textContent = `${Math.round(r.progress * 100)}%`;
-    node.runner.style.setProperty('--x', trackPosition(r.progress).toFixed(4));
+    if (node.lastName !== r.name) { node.name.textContent = r.name; node.lastName = r.name; }
+    const pctText = `${Math.round(r.progress * 100)}%`;
+    if (node.lastPct !== pctText) { node.pct.textContent = pctText; node.lastPct = pctText; }
     node.runner.classList.toggle('me', !!r.isMe);
     node.runner.classList.toggle('moving', !!r.moving);
     node.runner.classList.toggle('done', !!r.done);
     node.runner.classList.toggle('inactive', !!r.inactive);
     if (node.sprite && !r.isMe) node.sprite.set(otherPose(r));
+    moveRunner(node, r, dt, now);
   });
   for (const [id, node] of laneNodes) if (!seen.has(id)) { node.sprite?.destroy(); node.li.remove(); laneNodes.delete(id); }
+  updateRank(list, now);
+}
+
+let laneWidth = 0;
+let runnerWidth = 0;
+function measureLanes() {
+  const first = laneNodes.values().next().value;
+  if (!first) return;
+  laneWidth = first.inner.clientWidth;
+  runnerWidth = first.runner.offsetWidth || 50;
+}
+
+/** يحرّك شخصية في المضمار بسلاسة: نابض يلاحق الهدف، وتخمين لموضع لاعبي الشبكة بين التحديثات. */
+function moveRunner(node, r, dt, now) {
+  const f = node.follower;
+  let target = r.progress;
+  if (r.remote) {
+    if (r.progress !== node.lastObs) { f.observe(r.progress, now); node.lastObs = r.progress; }
+    target = r.done ? 1 : f.predicted(now);
+  }
+  if (!laneWidth) measureLanes();
+  const x = f.update(target, dt, r.isMe ? 11 : 8);
+  const px = Math.round(trackPosition(x) * (laneWidth - runnerWidth) * 10) / 10;
+  if (px !== node.px) {
+    node.px = px;
+    node.runner.style.transform = `translate3d(${px}px, 0, 0)`;
+    const tx = trackPosition(x);
+    if (Math.abs(tx - (node.tx ?? -1)) > 0.01) { node.tx = tx; node.runner.style.setProperty('--tx', tx.toFixed(2)); }
+  }
+  // إيقاع الحركة من السرعة الفعلية: حروف/ثانية → مدة خطوة
+  const chars = S.race?.tracker.chars.length || 100;
+  const cps = Math.abs(f.v) * chars;
+  const still = cps < 0.25 && !r.done;
+  node.runner.classList.toggle('still', still);
+  node.runner.classList.toggle('fast', cps > 3.5);
+  const step = clamp(0.62 - 0.06 * cps, 0.22, 0.62);
+  if (Math.abs(step - node.lastStep) > 0.02) { node.lastStep = step; node.runner.style.setProperty('--step', `${step.toFixed(2)}s`); }
+}
+
+// ───────────── الترتيب الحي والتجاوز ─────────────
+let rankState = { place: 0, since: 0, shown: 0 };
+function updateRank(list, now) {
+  const r = S.race;
+  if (!r || list.length < 2) { el.rank.textContent = '—'; el.gap.textContent = ''; return; }
+  const ranked = rankRacers(list);
+  const idx = ranked.findIndex((x) => x.isMe);
+  const place = idx + 1;
+  if (place !== rankState.place) { rankState.place = place; rankState.since = now; }
+  // تثبيت قصير حتى لا يرتجف الترتيب عند التعادل
+  if (place !== rankState.shown && now - rankState.since > 350) {
+    const was = rankState.shown;
+    rankState.shown = place;
+    el.rank.textContent = `${place}/${ranked.length}`;
+    el.rank.classList.toggle('lead', place === 1);
+    if (r.status === 'running' && was) {
+      if (place < was) { sfx.overtake(); el.coachBubble.textContent = pick(COACH_LINES.overtake); }
+      else { sfx.overtaken(); el.coachBubble.textContent = pick(COACH_LINES.overtaken); }
+      coachPose = '';
+    }
+  }
+  const me = ranked[idx];
+  const leader = ranked[0];
+  const next = idx > 0 ? ranked[idx - 1] : ranked[1];
+  const gap = idx === 0 ? me.progress - next.progress : leader.progress - me.progress;
+  const pts = Math.round(gap * 100);
+  el.gap.textContent = idx === 0 ? (pts > 0 ? `متقدم بـ ${pts}%` : 'تعادل!') : (pts > 0 ? `خلف المتصدر بـ ${pts}%` : 'على الخط!');
+}
+
+function resetRank() {
+  rankState = { place: 0, since: 0, shown: 0 };
+  el.rank.textContent = '—';
+  el.rank.classList.remove('lead');
+  el.gap.textContent = '';
 }
 
 /** وضعية المنافسين في المضمار. */
@@ -413,21 +501,26 @@ function otherPose(r) {
   if (r.done) return r.place === 1 ? 'won' : 'lost';
   const st = S.race?.status;
   if (st === 'timeout' || st === 'finished') return r.progress >= 1 ? 'won' : 'lost';
-  if (!r.moving) return 'run';
+  if (r.state === 'fixing') return 'error';
   return r.progress >= 0.8 ? 'near' : 'run';
 }
 
 function clearLanes() {
   laneNodes.forEach((n) => { n.sprite?.destroy(); n.li.remove(); });
   laneNodes.clear();
+  laneWidth = 0;
+  resetRank();
   meLaneSprite?.destroy();
   meLaneSprite = null;
 }
 
-/** المنافسون الآليون الأوائل يأخذون الشخصيات الأخرى، والباقون رسومات بسيطة. */
+/** المنافسون الآليون يأخذون شخصيات مختلفة عن اللاعب، بترتيب عشوائي في كل سباق. */
+let botPicks = [];
+function shuffleBotCharacters() {
+  botPicks = characters().filter((c) => c.id !== myChar()).sort(() => Math.random() - 0.5);
+}
 function botCharacter(i) {
-  const others = characters().filter((c) => c.id !== myChar());
-  const c = others[i];
+  const c = botPicks[i];
   return c ? { character: c.id, name: c.name } : {};
 }
 
@@ -454,9 +547,15 @@ function beginRace({ mode, textId, difficulty, delayMs = COUNTDOWN_MS, round = n
     startPerf: performance.now() + delayMs,
     elapsed: 0,
     lastErrorAt: -1e9,
-    bots: mode === 'solo' ? BOTS.map((b, i) => ({
-      ...b, ...botCharacter(i), chars: 0, progress: 0, finishAt: null, paused: false, pauseLeft: 0,
-      cps: botCharsPerSecond(difficulty), delay: 0.35 + Math.random() * 0.9,
+    profile: botProfile(DIFFICULTIES[difficulty]),
+    pace: new PaceMeter(8000),
+    playerCps: 0,
+    bots: mode === 'solo' ? (shuffleBotCharacters(), BOTS).map((b, i) => ({
+      ...b, ...botCharacter(i),
+      sim: new BotTypist({
+        text: text.text, cps: botCharsPerSecond(difficulty), errorRate: BOT_ERROR_RATE[difficulty] ?? 0.03,
+        startDelayMs: 250 + Math.random() * 700,
+      }),
     })) : [],
     roundReq: null,
     result: null,
@@ -601,7 +700,7 @@ function frame(now) {
 
   if (r.status === 'running') {
     r.elapsed = now - r.startPerf;
-    if (r.mode === 'solo') stepBots(dt);
+    if (r.mode === 'solo') stepBots();
     if (r.mode === 'bt') btTick(now);
     if (r.elapsed >= r.seconds * 1000) {
       r.elapsed = r.seconds * 1000;
@@ -609,7 +708,7 @@ function frame(now) {
       return;
     }
     renderClock();
-    renderLanes();
+    renderLanes(dt, now);
     renderPose();
     rafId = requestAnimationFrame(frame);
   }
@@ -633,17 +732,18 @@ function goRunning(now) {
   renderPose();
 }
 
-function stepBots(dt) {
+/** يحرّك المنافسين الآليين حتى زمن السباق الحالي، وكل منافس يتبع إيقاع اللاعب حسب شخصيته. */
+function stepBots() {
   const r = S.race;
-  const t = r.elapsed / 1000;
-  const len = r.tracker.chars.length;
+  const myProgress = r.tracker.progress;
+  r.playerCps = r.pace.cps(r.elapsed);
   for (const b of r.bots) {
-    if (b.progress >= 1 || t < b.delay) continue;
-    if (b.paused) { b.pauseLeft -= dt; if (b.pauseLeft <= 0) b.paused = false; continue; }
-    if (Math.random() < dt * 0.35) { b.paused = true; b.pauseLeft = 0.25 + Math.random() * 0.5; continue; }
-    b.chars += dt * b.cps * (0.8 + Math.random() * 0.4) * 1.08;
-    b.progress = clamp(b.chars / len, 0, 1);
-    if (b.progress >= 1 && b.finishAt == null) b.finishAt = r.elapsed;
+    if (b.sim.finishedAt != null) continue;
+    b.sim.setTargetCps(botTargetCps({
+      playerCps: r.playerCps, botProgress: b.sim.progress, playerProgress: myProgress,
+      personality: b.personality, profile: r.profile, baseCps: r.profile.baseCps,
+    }));
+    b.sim.advanceTo(r.elapsed);
   }
 }
 
@@ -679,8 +779,8 @@ function onInput() {
       if (!reducedMotion()) { el.input.classList.remove('shake'); void el.input.offsetWidth; el.input.classList.add('shake'); }
     } else sfx.correct();
   }
+  r.pace.record(performance.now() - r.startPerf, t.prefix);
   renderTyping();
-  renderLanes();
   renderPose();
   if (t.done) finishRace();
 }
@@ -689,7 +789,7 @@ function place() {
   const r = S.race;
   const elapsed = r.result.elapsedMs;
   if (r.mode === 'solo') {
-    return { place: 1 + r.bots.filter((b) => b.finishAt != null && b.finishAt <= elapsed).length, total: r.bots.length + 1 };
+    return { place: 1 + r.bots.filter((b) => b.sim.finishedAt != null && b.sim.finishedAt <= elapsed).length, total: r.bots.length + 1 };
   }
   return { place: null, total: null };
 }
@@ -702,6 +802,7 @@ function finishRace() {
   const elapsedMs = Math.round(r.elapsed);
   r.result = { wpm: computeWpm(r.tracker.chars.length, elapsedMs), accuracy: r.tracker.accuracy, elapsedMs, completed: true };
   Object.assign(r.result, place());
+  renderLanes(0.016, performance.now());
   el.input.blur();
   showResult();
   if (r.mode === 'solo') saveSolo();
@@ -1553,7 +1654,7 @@ function bind() {
 
   window.visualViewport?.addEventListener('resize', fitViewport);
   window.visualViewport?.addEventListener('scroll', fitViewport);
-  window.addEventListener('resize', fitViewport);
+  window.addEventListener('resize', () => { fitViewport(); laneWidth = 0; });
   window.addEventListener('orientationchange', () => { fullHeight = 0; setTimeout(fitViewport, 300); });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) { ping(); if (S.room) schedulePoll(0); } });
 }

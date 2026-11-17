@@ -11,16 +11,19 @@ export const DIFFICULTIES = {
     id: 'easy', label: 'هادي', icon: '🐢',
     hint: 'منافسون على راحتهم ووقت واسع',
     expectedWpm: 22, botRange: [0.65, 0.78], slack: 2.1,
+    follow: 0.78, capWpm: 38,   // المنافسون يتبعون إيقاع اللاعب حتى هذا الحد
   },
   medium: {
     id: 'medium', label: 'معتدل', icon: '🏃',
     hint: 'توازن بين السرعة والدقة',
     expectedWpm: 32, botRange: [0.78, 0.94], slack: 1.7,
+    follow: 0.92, capWpm: 65,
   },
   rocket: {
     id: 'rocket', label: 'صاروخ', icon: '🚀',
     hint: 'منافسون سريعون ووقت ضيق',
     expectedWpm: 42, botRange: [0.92, 1.08], slack: 1.4,
+    follow: 1.02, capWpm: 120,
   },
 };
 
